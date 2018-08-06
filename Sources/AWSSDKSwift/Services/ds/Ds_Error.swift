@@ -14,6 +14,8 @@ public enum DsError: AWSErrorType {
     case snapshotLimitExceededException(message: String?)
     case insufficientPermissionsException(message: String?)
     case authenticationFailedException(message: String?)
+    case userDoesNotExistException(message: String?)
+    case invalidPasswordException(message: String?)
     case entityAlreadyExistsException(message: String?)
     case invalidNextTokenException(message: String?)
     case ipRouteLimitExceededException(message: String?)
@@ -48,6 +50,10 @@ extension DsError {
             self = .insufficientPermissionsException(message: message)
         case "AuthenticationFailedException":
             self = .authenticationFailedException(message: message)
+        case "UserDoesNotExistException":
+            self = .userDoesNotExistException(message: message)
+        case "InvalidPasswordException":
+            self = .invalidPasswordException(message: message)
         case "EntityAlreadyExistsException":
             self = .entityAlreadyExistsException(message: message)
         case "InvalidNextTokenException":

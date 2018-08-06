@@ -6,6 +6,7 @@ import AWSSDKSwiftCore
 public enum IamError: AWSErrorType {
     case noSuchEntityException(message: String?)
     case invalidInputException(message: String?)
+    case policyNotAttachableException(message: String?)
     case serviceFailureException(message: String?)
     case limitExceededException(message: String?)
     case entityAlreadyExistsException(message: String?)
@@ -20,7 +21,6 @@ public enum IamError: AWSErrorType {
     case invalidPublicKeyException(message: String?)
     case duplicateSSHPublicKeyException(message: String?)
     case unrecognizedPublicKeyEncodingException(message: String?)
-    case policyNotAttachableException(message: String?)
     case policyEvaluationException(message: String?)
     case invalidCertificateException(message: String?)
     case duplicateCertificateException(message: String?)
@@ -42,6 +42,8 @@ extension IamError {
             self = .noSuchEntityException(message: message)
         case "InvalidInputException":
             self = .invalidInputException(message: message)
+        case "PolicyNotAttachableException":
+            self = .policyNotAttachableException(message: message)
         case "ServiceFailureException":
             self = .serviceFailureException(message: message)
         case "LimitExceededException":
@@ -70,8 +72,6 @@ extension IamError {
             self = .duplicateSSHPublicKeyException(message: message)
         case "UnrecognizedPublicKeyEncodingException":
             self = .unrecognizedPublicKeyEncodingException(message: message)
-        case "PolicyNotAttachableException":
-            self = .policyNotAttachableException(message: message)
         case "PolicyEvaluationException":
             self = .policyEvaluationException(message: message)
         case "InvalidCertificateException":

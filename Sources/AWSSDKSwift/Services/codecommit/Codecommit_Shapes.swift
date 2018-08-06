@@ -182,6 +182,13 @@ extension Codecommit {
         }
     }
 
+    public enum FileModeTypeEnum: String, CustomStringConvertible, Codable {
+        case executable = "EXECUTABLE"
+        case normal = "NORMAL"
+        case symlink = "SYMLINK"
+        public var description: String { return self.rawValue }
+    }
+
     public struct PullRequestTarget: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "destinationReference", required: false, type: .string), 
@@ -280,7 +287,7 @@ extension Codecommit {
             AWSShapeMember(label: "treeId", required: false, type: .string), 
             AWSShapeMember(label: "additionalData", required: false, type: .string)
         ]
-        /// The parent list for the specified commit.
+        /// A list of parent commits for the specified commit. Each parent commit ID is the full commit ID.
         public let parents: [String]?
         /// The full SHA of the specified commit. 
         public let commitId: String?
@@ -768,6 +775,32 @@ extension Codecommit {
         }
     }
 
+    public struct PutFileOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "blobId", required: true, type: .string), 
+            AWSShapeMember(label: "treeId", required: true, type: .string), 
+            AWSShapeMember(label: "commitId", required: true, type: .string)
+        ]
+        /// The ID of the blob, which is its SHA-1 pointer.
+        public let blobId: String
+        /// Tree information for the commit that contains this file change.
+        public let treeId: String
+        /// The full SHA of the commit that contains this file change.
+        public let commitId: String
+
+        public init(blobId: String, treeId: String, commitId: String) {
+            self.blobId = blobId
+            self.treeId = treeId
+            self.commitId = commitId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blobId = "blobId"
+            case treeId = "treeId"
+            case commitId = "commitId"
+        }
+    }
+
     public struct CreatePullRequestInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
@@ -1155,7 +1188,7 @@ extension Codecommit {
         ]
         /// The name of the user who made the specified commit.
         public let name: String?
-        /// The date when the specified commit was pushed to the repository.
+        /// The date when the specified commit was commited, in timestamp format with GMT offset.
         public let date: String?
         /// The email address associated with the user who made the commit, if any.
         public let email: String?
@@ -1379,6 +1412,62 @@ extension Codecommit {
         }
     }
 
+    public struct PutFileInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branchName", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "parentCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "fileContent", required: true, type: .blob), 
+            AWSShapeMember(label: "email", required: false, type: .string), 
+            AWSShapeMember(label: "fileMode", required: false, type: .enum), 
+            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
+            AWSShapeMember(label: "filePath", required: true, type: .string)
+        ]
+        /// The name of the branch where you want to add or update the file.
+        public let branchName: String
+        /// The name of the person adding or updating the file. While optional, adding a name is strongly encouraged in order to provide a more useful commit history for your repository.
+        public let name: String?
+        /// The full commit ID of the head commit in the branch where you want to add or update the file. If the commit ID does not match the ID of the head commit at the time of the operation, an error will occur, and the file will not be added or updated.
+        public let parentCommitId: String?
+        /// The name of the repository where you want to add or update the file.
+        public let repositoryName: String
+        /// The content of the file, in binary object format. 
+        public let fileContent: Data
+        /// An email address for the person adding or updating the file.
+        public let email: String?
+        /// The file mode permissions of the blob. Valid file mode permissions are listed below.
+        public let fileMode: FileModeTypeEnum?
+        /// A message about why this file was added or updated. While optional, adding a message is strongly encouraged in order to provide a more useful commit history for your repository.
+        public let commitMessage: String?
+        /// The name of the file you want to add or update, including the relative path to the file in the repository.  If the path does not currently exist in the repository, the path will be created as part of adding the file. 
+        public let filePath: String
+
+        public init(branchName: String, name: String? = nil, parentCommitId: String? = nil, repositoryName: String, fileContent: Data, email: String? = nil, fileMode: FileModeTypeEnum? = nil, commitMessage: String? = nil, filePath: String) {
+            self.branchName = branchName
+            self.name = name
+            self.parentCommitId = parentCommitId
+            self.repositoryName = repositoryName
+            self.fileContent = fileContent
+            self.email = email
+            self.fileMode = fileMode
+            self.commitMessage = commitMessage
+            self.filePath = filePath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branchName = "branchName"
+            case name = "name"
+            case parentCommitId = "parentCommitId"
+            case repositoryName = "repositoryName"
+            case fileContent = "fileContent"
+            case email = "email"
+            case fileMode = "fileMode"
+            case commitMessage = "commitMessage"
+            case filePath = "filePath"
+        }
+    }
+
     public struct RepositoryTrigger: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "destinationArn", required: true, type: .string), 
@@ -1554,27 +1643,6 @@ extension Codecommit {
         public var description: String { return self.rawValue }
     }
 
-    public struct RepositoryNameIdPair: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
-        /// The ID associated with the repository.
-        public let repositoryId: String?
-        /// The name associated with the repository.
-        public let repositoryName: String?
-
-        public init(repositoryId: String? = nil, repositoryName: String? = nil) {
-            self.repositoryId = repositoryId
-            self.repositoryName = repositoryName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryId = "repositoryId"
-            case repositoryName = "repositoryName"
-        }
-    }
-
     public struct PostCommentForPullRequestInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "content", required: true, type: .string), 
@@ -1619,6 +1687,35 @@ extension Codecommit {
             case beforeCommitId = "beforeCommitId"
             case clientRequestToken = "clientRequestToken"
         }
+    }
+
+    public struct RepositoryNameIdPair: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string)
+        ]
+        /// The ID associated with the repository.
+        public let repositoryId: String?
+        /// The name associated with the repository.
+        public let repositoryName: String?
+
+        public init(repositoryId: String? = nil, repositoryName: String? = nil) {
+            self.repositoryId = repositoryId
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryId = "repositoryId"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public enum RepositoryTriggerEventEnum: String, CustomStringConvertible, Codable {
+        case all = "all"
+        case updatereference = "updateReference"
+        case createreference = "createReference"
+        case deletereference = "deleteReference"
+        public var description: String { return self.rawValue }
     }
 
     public struct PullRequestEvent: AWSShape {
@@ -1667,21 +1764,13 @@ extension Codecommit {
         }
     }
 
-    public enum RepositoryTriggerEventEnum: String, CustomStringConvertible, Codable {
-        case all = "all"
-        case updatereference = "updateReference"
-        case createreference = "createReference"
-        case deletereference = "deleteReference"
-        public var description: String { return self.rawValue }
-    }
-
     public struct GetDifferencesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "afterCommitSpecifier", required: true, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "beforeCommitSpecifier", required: false, type: .string), 
-            AWSShapeMember(label: "beforePath", required: false, type: .string), 
             AWSShapeMember(label: "afterPath", required: false, type: .string), 
+            AWSShapeMember(label: "beforePath", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
@@ -1691,21 +1780,21 @@ extension Codecommit {
         public let repositoryName: String
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, the full commit ID. Optional. If not specified, all changes prior to the afterCommitSpecifier value will be shown. If you do not use beforeCommitSpecifier in your request, consider limiting the results with maxResults.
         public let beforeCommitSpecifier: String?
-        /// The file path in which to check for differences. Limits the results to this path. Can also be used to specify the previous name of a directory or folder. If beforePath and afterPath are not specified, differences will be shown for all paths.
-        public let beforePath: String?
         /// The file path in which to check differences. Limits the results to this path. Can also be used to specify the changed name of a directory or folder, if it has changed. If not specified, differences will be shown for all paths.
         public let afterPath: String?
+        /// The file path in which to check for differences. Limits the results to this path. Can also be used to specify the previous name of a directory or folder. If beforePath and afterPath are not specified, differences will be shown for all paths.
+        public let beforePath: String?
         /// An enumeration token that when provided in a request, returns the next batch of the results.
         public let nextToken: String?
         /// A non-negative integer used to limit the number of returned results.
         public let maxResults: Int32?
 
-        public init(afterCommitSpecifier: String, repositoryName: String, beforeCommitSpecifier: String? = nil, beforePath: String? = nil, afterPath: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(afterCommitSpecifier: String, repositoryName: String, beforeCommitSpecifier: String? = nil, afterPath: String? = nil, beforePath: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.afterCommitSpecifier = afterCommitSpecifier
             self.repositoryName = repositoryName
             self.beforeCommitSpecifier = beforeCommitSpecifier
-            self.beforePath = beforePath
             self.afterPath = afterPath
+            self.beforePath = beforePath
             self.nextToken = nextToken
             self.maxResults = maxResults
         }
@@ -1714,8 +1803,8 @@ extension Codecommit {
             case afterCommitSpecifier = "afterCommitSpecifier"
             case repositoryName = "repositoryName"
             case beforeCommitSpecifier = "beforeCommitSpecifier"
-            case beforePath = "beforePath"
             case afterPath = "afterPath"
+            case beforePath = "beforePath"
             case nextToken = "NextToken"
             case maxResults = "MaxResults"
         }
@@ -2128,22 +2217,6 @@ extension Codecommit {
         }
     }
 
-    public struct GetBlobOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "content", required: true, type: .blob)
-        ]
-        /// The content of the blob, usually a file.
-        public let content: Data
-
-        public init(content: Data) {
-            self.content = content
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case content = "content"
-        }
-    }
-
     public struct GetCommentsForPullRequestInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -2185,27 +2258,6 @@ extension Codecommit {
         }
     }
 
-    public struct UpdatePullRequestTitleInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "title", required: true, type: .string)
-        ]
-        /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
-        public let pullRequestId: String
-        /// The updated title of the pull request. This will replace the existing title.
-        public let title: String
-
-        public init(pullRequestId: String, title: String) {
-            self.pullRequestId = pullRequestId
-            self.title = title
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pullRequestId = "pullRequestId"
-            case title = "title"
-        }
-    }
-
     public struct GetBlobInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "blobId", required: true, type: .string), 
@@ -2224,6 +2276,27 @@ extension Codecommit {
         private enum CodingKeys: String, CodingKey {
             case blobId = "blobId"
             case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct UpdatePullRequestTitleInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
+            AWSShapeMember(label: "title", required: true, type: .string)
+        ]
+        /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
+        public let pullRequestId: String
+        /// The updated title of the pull request. This will replace the existing title.
+        public let title: String
+
+        public init(pullRequestId: String, title: String) {
+            self.pullRequestId = pullRequestId
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pullRequestId = "pullRequestId"
+            case title = "title"
         }
     }
 
@@ -2266,6 +2339,22 @@ extension Codecommit {
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case pullRequestId = "pullRequestId"
+        }
+    }
+
+    public struct GetBlobOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "content", required: true, type: .blob)
+        ]
+        /// The content of the blob, usually a file.
+        public let content: Data
+
+        public init(content: Data) {
+            self.content = content
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
         }
     }
 

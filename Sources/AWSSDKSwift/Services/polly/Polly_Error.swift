@@ -8,16 +8,22 @@ public enum PollyError: AWSErrorType {
     case serviceFailureException(message: String?)
     case invalidNextTokenException(message: String?)
     case textLengthExceededException(message: String?)
+    case invalidS3BucketException(message: String?)
+    case invalidS3KeyException(message: String?)
     case invalidSampleRateException(message: String?)
+    case invalidSnsTopicArnException(message: String?)
     case invalidSsmlException(message: String?)
     case marksNotSupportedForFormatException(message: String?)
     case ssmlMarksNotSupportedForTextTypeException(message: String?)
+    case languageNotSupportedException(message: String?)
     case invalidLexiconException(message: String?)
     case unsupportedPlsAlphabetException(message: String?)
     case unsupportedPlsLanguageException(message: String?)
     case lexiconSizeExceededException(message: String?)
     case maxLexemeLengthExceededException(message: String?)
     case maxLexiconsNumberExceededException(message: String?)
+    case invalidTaskIdException(message: String?)
+    case synthesisTaskNotFoundException(message: String?)
 }
 
 extension PollyError {
@@ -35,14 +41,22 @@ extension PollyError {
             self = .invalidNextTokenException(message: message)
         case "TextLengthExceededException":
             self = .textLengthExceededException(message: message)
+        case "InvalidS3BucketException":
+            self = .invalidS3BucketException(message: message)
+        case "InvalidS3KeyException":
+            self = .invalidS3KeyException(message: message)
         case "InvalidSampleRateException":
             self = .invalidSampleRateException(message: message)
+        case "InvalidSnsTopicArnException":
+            self = .invalidSnsTopicArnException(message: message)
         case "InvalidSsmlException":
             self = .invalidSsmlException(message: message)
         case "MarksNotSupportedForFormatException":
             self = .marksNotSupportedForFormatException(message: message)
         case "SsmlMarksNotSupportedForTextTypeException":
             self = .ssmlMarksNotSupportedForTextTypeException(message: message)
+        case "LanguageNotSupportedException":
+            self = .languageNotSupportedException(message: message)
         case "InvalidLexiconException":
             self = .invalidLexiconException(message: message)
         case "UnsupportedPlsAlphabetException":
@@ -55,6 +69,10 @@ extension PollyError {
             self = .maxLexemeLengthExceededException(message: message)
         case "MaxLexiconsNumberExceededException":
             self = .maxLexiconsNumberExceededException(message: message)
+        case "InvalidTaskIdException":
+            self = .invalidTaskIdException(message: message)
+        case "SynthesisTaskNotFoundException":
+            self = .synthesisTaskNotFoundException(message: message)
         default:
             return nil
         }

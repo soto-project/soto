@@ -180,6 +180,11 @@ public struct CognitoIdp {
         return try client.send(operation: "AdminUpdateDeviceStatus", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  This method takes a user pool ID, and returns the signing certificate.
+    public func getSigningCertificate(_ input: GetSigningCertificateRequest) throws -> GetSigningCertificateResponse {
+        return try client.send(operation: "GetSigningCertificate", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Gets the UI Customization information for a particular app client's app UI, if there is something set. If nothing is set for the particular client, but there is an existing pool level customization (app clientId will be ALL), then that is returned. If nothing is present, then an empty shape is returned.
     public func getUICustomization(_ input: GetUICustomizationRequest) throws -> GetUICustomizationResponse {
         return try client.send(operation: "GetUICustomization", path: "/", httpMethod: "POST", input: input)
@@ -215,7 +220,7 @@ public struct CognitoIdp {
         return try client.send(operation: "UpdateDeviceStatus", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Use this API to register a user's entered TOTP code and mark the user's software token MFA status as "verified" if successful,
+    ///  Use this API to register a user's entered TOTP code and mark the user's software token MFA status as "verified" if successful. The request takes an access token or a session string, but not both.
     public func verifySoftwareToken(_ input: VerifySoftwareTokenRequest) throws -> VerifySoftwareTokenResponse {
         return try client.send(operation: "VerifySoftwareToken", path: "/", httpMethod: "POST", input: input)
     }

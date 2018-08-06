@@ -29,6 +29,16 @@ public struct Es {
         return try client.send(operation: "ListElasticsearchInstanceTypes", path: "/2015-01-01/es/instanceTypes/{ElasticsearchVersion}", httpMethod: "GET", input: input)
     }
 
+    ///  Lists available reserved Elasticsearch instance offerings.
+    public func describeReservedElasticsearchInstanceOfferings(_ input: DescribeReservedElasticsearchInstanceOfferingsRequest) throws -> DescribeReservedElasticsearchInstanceOfferingsResponse {
+        return try client.send(operation: "DescribeReservedElasticsearchInstanceOfferings", path: "/2015-01-01/es/reservedInstanceOfferings", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns information about reserved Elasticsearch instances for this account.
+    public func describeReservedElasticsearchInstances(_ input: DescribeReservedElasticsearchInstancesRequest) throws -> DescribeReservedElasticsearchInstancesResponse {
+        return try client.send(operation: "DescribeReservedElasticsearchInstances", path: "/2015-01-01/es/reservedInstances", httpMethod: "GET", input: input)
+    }
+
     ///  Returns the name of all Elasticsearch domains owned by the current user's account. 
     public func listDomainNames() throws -> ListDomainNamesResponse {
         return try client.send(operation: "ListDomainNames", path: "/2015-01-01/domain", httpMethod: "GET")
@@ -77,6 +87,11 @@ public struct Es {
     ///  Removes the specified set of tags from the specified Elasticsearch domain.
     public func removeTags(_ input: RemoveTagsRequest) throws {
         _ = try client.send(operation: "RemoveTags", path: "/2015-01-01/tags-removal", httpMethod: "POST", input: input)
+    }
+
+    ///  Allows you to purchase reserved Elasticsearch instances.
+    public func purchaseReservedElasticsearchInstanceOffering(_ input: PurchaseReservedElasticsearchInstanceOfferingRequest) throws -> PurchaseReservedElasticsearchInstanceOfferingResponse {
+        return try client.send(operation: "PurchaseReservedElasticsearchInstanceOffering", path: "/2015-01-01/es/purchaseReservedInstanceOffering", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new Elasticsearch domain. For more information, see Creating Elasticsearch Domains in the Amazon Elasticsearch Service Developer Guide.

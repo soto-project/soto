@@ -130,6 +130,11 @@ public struct WafRegional {
         return try client.send(operation: "AssociateWebACL", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Permanently deletes an IAM policy from the specified RuleGroup. The user making the request must be the owner of the RuleGroup.
+    public func deletePermissionPolicy(_ input: DeletePermissionPolicyRequest) throws -> DeletePermissionPolicyResponse {
+        return try client.send(operation: "DeletePermissionPolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Inserts or deletes SizeConstraint objects (filters) in a SizeConstraintSet. For each SizeConstraint object, you specify the following values:    Whether to insert or delete the object from the array. If you want to change a SizeConstraintSetUpdate object, you delete the existing object and add a new one.   The part of a web request that you want AWS WAF to evaluate, such as the length of a query string or the length of the User-Agent header.   Whether to perform any transformations on the request, such as converting it to lowercase, before checking its length. Note that transformations of the request body are not supported because the AWS resource forwards only the first 8192 bytes of your request to AWS WAF.   A ComparisonOperator used for evaluating the selected part of the request against the specified Size, such as equals, greater than, less than, and so on.   The length, in bytes, that you want AWS WAF to watch for in selected part of the request. The length is computed after applying the transformation.   For example, you can add a SizeConstraintSetUpdate object that matches web requests in which the length of the User-Agent header is greater than 100 bytes. You can then configure AWS WAF to block those requests. To create and configure a SizeConstraintSet, perform the following steps:   Create a SizeConstraintSet. For more information, see CreateSizeConstraintSet.   Use GetChangeToken to get the change token that you provide in the ChangeToken parameter of an UpdateSizeConstraintSet request.   Submit an UpdateSizeConstraintSet request to specify the part of the request that you want AWS WAF to inspect (for example, the header or the URI) and the value that you want AWS WAF to watch for.   For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
     public func updateSizeConstraintSet(_ input: UpdateSizeConstraintSetRequest) throws -> UpdateSizeConstraintSetResponse {
         return try client.send(operation: "UpdateSizeConstraintSet", path: "/", httpMethod: "POST", input: input)
@@ -168,6 +173,11 @@ public struct WafRegional {
     ///  Returns the XssMatchSet that is specified by XssMatchSetId.
     public func getXssMatchSet(_ input: GetXssMatchSetRequest) throws -> GetXssMatchSetResponse {
         return try client.send(operation: "GetXssMatchSet", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the IAM policy attached to the RuleGroup.
+    public func getPermissionPolicy(_ input: GetPermissionPolicyRequest) throws -> GetPermissionPolicyResponse {
+        return try client.send(operation: "GetPermissionPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the WebACL that is specified by WebACLId.
@@ -363,6 +373,11 @@ public struct WafRegional {
     ///  Returns an array of GeoMatchSetSummary objects in the response.
     public func listGeoMatchSets(_ input: ListGeoMatchSetsRequest) throws -> ListGeoMatchSetsResponse {
         return try client.send(operation: "ListGeoMatchSets", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Attaches a IAM policy to the specified resource. The only supported use for this action is to share a RuleGroup across accounts. The PutPermissionPolicy is subject to the following restrictions:   You can attach only one policy with each PutPermissionPolicy request.   The policy must include an Effect, Action and Principal.     Effect must specify Allow.   The Action in the policy must be waf:UpdateWebACL and waf-regional:UpdateWebACL. Any extra or wildcard actions in the policy will be rejected.   The policy cannot include a Resource parameter.   The ARN in the request must be a valid WAF RuleGroup ARN and the RuleGroup must exist in the same region.   The user making the request must be the owner of the RuleGroup.   Your policy must be composed using IAM Policy version 2012-10-17.   For more information, see IAM Policies.  An example of a valid policy parameter is shown in the Examples section below.
+    public func putPermissionPolicy(_ input: PutPermissionPolicyRequest) throws -> PutPermissionPolicyResponse {
+        return try client.send(operation: "PutPermissionPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Permanently deletes a SqlInjectionMatchSet. You can't delete a SqlInjectionMatchSet if it's still used in any Rules or if it still contains any SqlInjectionMatchTuple objects. If you just want to remove a SqlInjectionMatchSet from a Rule, use UpdateRule. To permanently delete a SqlInjectionMatchSet from AWS WAF, perform the following steps:   Update the SqlInjectionMatchSet to remove filters, if any. For more information, see UpdateSqlInjectionMatchSet.   Use GetChangeToken to get the change token that you provide in the ChangeToken parameter of a DeleteSqlInjectionMatchSet request.   Submit a DeleteSqlInjectionMatchSet request.  

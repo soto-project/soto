@@ -14,9 +14,13 @@ public enum EmailError: AWSErrorType {
     case accountSendingPausedException(message: String?)
     case trackingOptionsAlreadyExistsException(message: String?)
     case invalidTrackingOptionsException(message: String?)
+    case customVerificationEmailTemplateDoesNotExistException(message: String?)
+    case fromEmailAddressNotVerifiedException(message: String?)
+    case customVerificationEmailInvalidContentException(message: String?)
     case alreadyExistsException(message: String?)
     case invalidTemplateException(message: String?)
     case limitExceededException(message: String?)
+    case customVerificationEmailTemplateAlreadyExistsException(message: String?)
     case invalidSnsTopicException(message: String?)
     case invalidS3ConfigurationException(message: String?)
     case invalidLambdaFunctionException(message: String?)
@@ -25,6 +29,7 @@ public enum EmailError: AWSErrorType {
     case invalidConfigurationSetException(message: String?)
     case cannotDeleteException(message: String?)
     case trackingOptionsDoesNotExistException(message: String?)
+    case productionAccessNotGrantedException(message: String?)
     case invalidRenderingParameterException(message: String?)
     case missingRenderingAttributeException(message: String?)
     case eventDestinationDoesNotExistException(message: String?)
@@ -61,12 +66,20 @@ extension EmailError {
             self = .trackingOptionsAlreadyExistsException(message: message)
         case "InvalidTrackingOptionsException":
             self = .invalidTrackingOptionsException(message: message)
+        case "CustomVerificationEmailTemplateDoesNotExistException":
+            self = .customVerificationEmailTemplateDoesNotExistException(message: message)
+        case "FromEmailAddressNotVerifiedException":
+            self = .fromEmailAddressNotVerifiedException(message: message)
+        case "CustomVerificationEmailInvalidContentException":
+            self = .customVerificationEmailInvalidContentException(message: message)
         case "AlreadyExistsException":
             self = .alreadyExistsException(message: message)
         case "InvalidTemplateException":
             self = .invalidTemplateException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "CustomVerificationEmailTemplateAlreadyExistsException":
+            self = .customVerificationEmailTemplateAlreadyExistsException(message: message)
         case "InvalidSnsTopicException":
             self = .invalidSnsTopicException(message: message)
         case "InvalidS3ConfigurationException":
@@ -83,6 +96,8 @@ extension EmailError {
             self = .cannotDeleteException(message: message)
         case "TrackingOptionsDoesNotExistException":
             self = .trackingOptionsDoesNotExistException(message: message)
+        case "ProductionAccessNotGrantedException":
+            self = .productionAccessNotGrantedException(message: message)
         case "InvalidRenderingParameterException":
             self = .invalidRenderingParameterException(message: message)
         case "MissingRenderingAttributeException":

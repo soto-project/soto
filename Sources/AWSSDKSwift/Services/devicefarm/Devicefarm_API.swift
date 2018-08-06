@@ -25,9 +25,24 @@ public struct Devicefarm {
         )
     }
 
+    ///  Gets information about unique device types.
+    public func listDevices(_ input: ListDevicesRequest) throws -> ListDevicesResult {
+        return try client.send(operation: "ListDevices", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about the private device instances associated with one or more AWS accounts.
+    public func listDeviceInstances(_ input: ListDeviceInstancesRequest) throws -> ListDeviceInstancesResult {
+        return try client.send(operation: "ListDeviceInstances", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Gets information about a test.
     public func getTest(_ input: GetTestRequest) throws -> GetTestResult {
         return try client.send(operation: "GetTest", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
+    public func deleteVPCEConfiguration(_ input: DeleteVPCEConfigurationRequest) throws -> DeleteVPCEConfigurationResult {
+        return try client.send(operation: "DeleteVPCEConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Specifies and starts a remote access session.
@@ -55,14 +70,14 @@ public struct Devicefarm {
         return try client.send(operation: "CreateDevicePool", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets information about device pools.
-    public func listDevicePools(_ input: ListDevicePoolsRequest) throws -> ListDevicePoolsResult {
-        return try client.send(operation: "ListDevicePools", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Gets information about a unique device type.
     public func getDevice(_ input: GetDeviceRequest) throws -> GetDeviceResult {
         return try client.send(operation: "GetDevice", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about device pools.
+    public func listDevicePools(_ input: ListDevicePoolsRequest) throws -> ListDevicePoolsResult {
+        return try client.send(operation: "ListDevicePools", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a network profile.
@@ -80,9 +95,9 @@ public struct Devicefarm {
         return try client.send(operation: "GetSuite", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of all currently running remote access sessions.
-    public func listRemoteAccessSessions(_ input: ListRemoteAccessSessionsRequest) throws -> ListRemoteAccessSessionsResult {
-        return try client.send(operation: "ListRemoteAccessSessions", path: "/", httpMethod: "POST", input: input)
+    ///  Creates a profile that can be applied to one or more private fleet device instances.
+    public func createInstanceProfile(_ input: CreateInstanceProfileRequest) throws -> CreateInstanceProfileResult {
+        return try client.send(operation: "CreateInstanceProfile", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS account. The list is paginated and ordered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
@@ -90,9 +105,19 @@ public struct Devicefarm {
         return try client.send(operation: "ListOfferingTransactions", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns a list of all currently running remote access sessions.
+    public func listRemoteAccessSessions(_ input: ListRemoteAccessSessionsRequest) throws -> ListRemoteAccessSessionsResult {
+        return try client.send(operation: "ListRemoteAccessSessions", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Schedules a run.
     public func scheduleRun(_ input: ScheduleRunRequest) throws -> ScheduleRunResult {
         return try client.send(operation: "ScheduleRun", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates information about an existing private device instance.
+    public func updateDeviceInstance(_ input: UpdateDeviceInstanceRequest) throws -> UpdateDeviceInstanceResult {
+        return try client.send(operation: "UpdateDeviceInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an upload given the upload ARN.
@@ -180,7 +205,7 @@ public struct Devicefarm {
         return try client.send(operation: "GetJob", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets information about suites.
+    ///  Gets information about test suites for a given job.
     public func listSuites(_ input: ListSuitesRequest) throws -> ListSuitesResult {
         return try client.send(operation: "ListSuites", path: "/", httpMethod: "POST", input: input)
     }
@@ -190,9 +215,19 @@ public struct Devicefarm {
         return try client.send(operation: "ListSamples", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets information about jobs.
+    ///  Returns information about all Amazon Virtual Private Cloud (VPC) endpoint configurations in the AWS account.
+    public func listVPCEConfigurations(_ input: ListVPCEConfigurationsRequest) throws -> ListVPCEConfigurationsResult {
+        return try client.send(operation: "ListVPCEConfigurations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about jobs for a given test run.
     public func listJobs(_ input: ListJobsRequest) throws -> ListJobsResult {
         return try client.send(operation: "ListJobs", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about all the instance profiles in an AWS account.
+    public func listInstanceProfiles(_ input: ListInstanceProfilesRequest) throws -> ListInstanceProfilesResult {
+        return try client.send(operation: "ListInstanceProfiles", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a network profile.
@@ -200,14 +235,24 @@ public struct Devicefarm {
         return try client.send(operation: "CreateNetworkProfile", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets information about tests.
+    ///  Gets information about tests in a given test suite.
     public func listTests(_ input: ListTestsRequest) throws -> ListTestsResult {
         return try client.send(operation: "ListTests", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about the specified instance profile.
+    public func getInstanceProfile(_ input: GetInstanceProfileRequest) throws -> GetInstanceProfileResult {
+        return try client.send(operation: "GetInstanceProfile", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the current status and future status of all offerings purchased by an AWS account. The response indicates how many offerings are currently available and the offerings that will be available in the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
     public func getOfferingStatus(_ input: GetOfferingStatusRequest) throws -> GetOfferingStatusResult {
         return try client.send(operation: "GetOfferingStatus", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates information about an existing Amazon Virtual Private Cloud (VPC) endpoint configuration.
+    public func updateVPCEConfiguration(_ input: UpdateVPCEConfigurationRequest) throws -> UpdateVPCEConfigurationResult {
+        return try client.send(operation: "UpdateVPCEConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about a run.
@@ -225,14 +270,14 @@ public struct Devicefarm {
         return try client.send(operation: "DeleteRun", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Initiates a stop request for the current test run. AWS Device Farm will immediately stop the run on devices where tests have not started executing, and you will not be billed for these devices. On devices where tests have started executing, Setup Suite and Teardown Suite tests will run to completion before stopping execution on those devices. You will be billed for Setup, Teardown, and any tests that were in progress or already completed.
-    public func stopRun(_ input: StopRunRequest) throws -> StopRunResult {
-        return try client.send(operation: "StopRun", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased quantity for an offering, unless the renewal was overridden. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
     public func purchaseOffering(_ input: PurchaseOfferingRequest) throws -> PurchaseOfferingResult {
         return try client.send(operation: "PurchaseOffering", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Initiates a stop request for the current test run. AWS Device Farm will immediately stop the run on devices where tests have not started executing, and you will not be billed for these devices. On devices where tests have started executing, Setup Suite and Teardown Suite tests will run to completion before stopping execution on those devices. You will be billed for Setup, Teardown, and any tests that were in progress or already completed.
+    public func stopRun(_ input: StopRunRequest) throws -> StopRunResult {
+        return try client.send(operation: "StopRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the number of unmetered iOS and/or unmetered Android devices that have been purchased by the account.
@@ -240,9 +285,24 @@ public struct Devicefarm {
         return try client.send(operation: "GetAccountSettings", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a configuration record in Device Farm for your Amazon Virtual Private Cloud (VPC) endpoint.
+    public func createVPCEConfiguration(_ input: CreateVPCEConfigurationRequest) throws -> CreateVPCEConfigurationResult {
+        return try client.send(operation: "CreateVPCEConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Gets information about runs, given an AWS Device Farm project ARN.
     public func listRuns(_ input: ListRunsRequest) throws -> ListRunsResult {
         return try client.send(operation: "ListRuns", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a profile that can be applied to one or more private device instances.
+    public func deleteInstanceProfile(_ input: DeleteInstanceProfileRequest) throws -> DeleteInstanceProfileResult {
+        return try client.send(operation: "DeleteInstanceProfile", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a network profile.
+    public func deleteNetworkProfile(_ input: DeleteNetworkProfileRequest) throws -> DeleteNetworkProfileResult {
+        return try client.send(operation: "DeleteNetworkProfile", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about artifacts.
@@ -250,9 +310,14 @@ public struct Devicefarm {
         return try client.send(operation: "ListArtifacts", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a network profile.
-    public func deleteNetworkProfile(_ input: DeleteNetworkProfileRequest) throws -> DeleteNetworkProfileResult {
-        return try client.send(operation: "DeleteNetworkProfile", path: "/", httpMethod: "POST", input: input)
+    ///  Updates information about an existing private device instance profile.
+    public func updateInstanceProfile(_ input: UpdateInstanceProfileRequest) throws -> UpdateInstanceProfileResult {
+        return try client.send(operation: "UpdateInstanceProfile", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about a device instance belonging to a private device fleet.
+    public func getDeviceInstance(_ input: GetDeviceInstanceRequest) throws -> GetDeviceInstanceResult {
+        return try client.send(operation: "GetDeviceInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about a device pool.
@@ -265,9 +330,9 @@ public struct Devicefarm {
         return try client.send(operation: "GetUpload", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets information about unique device types.
-    public func listDevices(_ input: ListDevicesRequest) throws -> ListDevicesResult {
-        return try client.send(operation: "ListDevices", path: "/", httpMethod: "POST", input: input)
+    ///  Returns information about the configuration settings for your Amazon Virtual Private Cloud (VPC) endpoint.
+    public func getVPCEConfiguration(_ input: GetVPCEConfigurationRequest) throws -> GetVPCEConfigurationResult {
+        return try client.send(operation: "GetVPCEConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
 

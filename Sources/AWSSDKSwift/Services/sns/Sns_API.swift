@@ -29,7 +29,7 @@ public struct Sns {
         return try client.send(operation: "ListPhoneNumbersOptedOut", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of the subscriptions to a specific topic. Each call returns a limited list of subscriptions, up to 100. If there are more subscriptions, a NextToken is also returned. Use the NextToken parameter in a new ListSubscriptionsByTopic call to get further results.
+    ///  Returns a list of the subscriptions to a specific topic. Each call returns a limited list of subscriptions, up to 100. If there are more subscriptions, a NextToken is also returned. Use the NextToken parameter in a new ListSubscriptionsByTopic call to get further results. This action is throttled at 30 transactions per second (TPS).
     public func listSubscriptionsByTopic(_ input: ListSubscriptionsByTopicInput) throws -> ListSubscriptionsByTopicResponse {
         return try client.send(operation: "ListSubscriptionsByTopic", path: "/", httpMethod: "POST", input: input)
     }
@@ -44,12 +44,12 @@ public struct Sns {
         _ = try client.send(operation: "AddPermission", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Allows a subscription owner to set an attribute of the topic to a new value.
+    ///  Allows a subscription owner to set an attribute of the subscription to a new value.
     public func setSubscriptionAttributes(_ input: SetSubscriptionAttributesInput) throws {
         _ = try client.send(operation: "SetSubscriptionAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a subscription. If the subscription requires authentication for deletion, only the owner of the subscription or the topic's owner can unsubscribe, and an AWS signature is required. If the Unsubscribe call does not require authentication and the requester is not the subscription owner, a final cancellation message is delivered to the endpoint, so that the endpoint owner can easily resubscribe to the topic if the Unsubscribe request was unintended.
+    ///  Deletes a subscription. If the subscription requires authentication for deletion, only the owner of the subscription or the topic's owner can unsubscribe, and an AWS signature is required. If the Unsubscribe call does not require authentication and the requester is not the subscription owner, a final cancellation message is delivered to the endpoint, so that the endpoint owner can easily resubscribe to the topic if the Unsubscribe request was unintended. This action is throttled at 100 transactions per second (TPS).
     public func unsubscribe(_ input: UnsubscribeInput) throws {
         _ = try client.send(operation: "Unsubscribe", path: "/", httpMethod: "POST", input: input)
     }
@@ -74,7 +74,7 @@ public struct Sns {
         return try client.send(operation: "OptInPhoneNumber", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the platform application objects for the supported push notification services, such as APNS and GCM. The results for ListPlatformApplications are paginated and return a limited list of applications, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListPlatformApplications using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null. For more information, see Using Amazon SNS Mobile Push Notifications. 
+    ///  Lists the platform application objects for the supported push notification services, such as APNS and GCM. The results for ListPlatformApplications are paginated and return a limited list of applications, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListPlatformApplications using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null. For more information, see Using Amazon SNS Mobile Push Notifications.  This action is throttled at 15 transactions per second (TPS).
     public func listPlatformApplications(_ input: ListPlatformApplicationsInput) throws -> ListPlatformApplicationsResponse {
         return try client.send(operation: "ListPlatformApplications", path: "/", httpMethod: "POST", input: input)
     }
@@ -124,17 +124,17 @@ public struct Sns {
         return try client.send(operation: "GetSMSAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the endpoints and endpoint attributes for devices in a supported push notification service, such as GCM and APNS. The results for ListEndpointsByPlatformApplication are paginated and return a limited list of endpoints, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListEndpointsByPlatformApplication again using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null. For more information, see Using Amazon SNS Mobile Push Notifications. 
+    ///  Lists the endpoints and endpoint attributes for devices in a supported push notification service, such as GCM and APNS. The results for ListEndpointsByPlatformApplication are paginated and return a limited list of endpoints, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListEndpointsByPlatformApplication again using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null. For more information, see Using Amazon SNS Mobile Push Notifications.  This action is throttled at 30 transactions per second (TPS).
     public func listEndpointsByPlatformApplication(_ input: ListEndpointsByPlatformApplicationInput) throws -> ListEndpointsByPlatformApplicationResponse {
         return try client.send(operation: "ListEndpointsByPlatformApplication", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Prepares to subscribe an endpoint by sending the endpoint a confirmation message. To actually create a subscription, the endpoint owner must call the ConfirmSubscription action with the token from the confirmation message. Confirmation tokens are valid for three days.
+    ///  Prepares to subscribe an endpoint by sending the endpoint a confirmation message. To actually create a subscription, the endpoint owner must call the ConfirmSubscription action with the token from the confirmation message. Confirmation tokens are valid for three days. This action is throttled at 100 transactions per second (TPS).
     public func subscribe(_ input: SubscribeInput) throws -> SubscribeResponse {
         return try client.send(operation: "Subscribe", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sends a message to all of a topic's subscribed endpoints. When a messageId is returned, the message has been saved and Amazon SNS will attempt to deliver it to the topic's subscribers shortly. The format of the outgoing message to each subscribed endpoint depends on the notification protocol. To use the Publish action for sending a message to a mobile endpoint, such as an app on a Kindle device or mobile phone, you must specify the EndpointArn for the TargetArn parameter. The EndpointArn is returned when making a call with the CreatePlatformEndpoint action.  For more information about formatting messages, see Send Custom Platform-Specific Payloads in Messages to Mobile Devices. 
+    ///  Sends a message to an Amazon SNS topic or sends a text message (SMS message) directly to a phone number.  If you send a message to a topic, Amazon SNS delivers the message to each endpoint that is subscribed to the topic. The format of the message depends on the notification protocol for each subscribed endpoint. When a messageId is returned, the message has been saved and Amazon SNS will attempt to deliver it shortly. To use the Publish action for sending a message to a mobile endpoint, such as an app on a Kindle device or mobile phone, you must specify the EndpointArn for the TargetArn parameter. The EndpointArn is returned when making a call with the CreatePlatformEndpoint action.  For more information about formatting messages, see Send Custom Platform-Specific Payloads in Messages to Mobile Devices. 
     public func publish(_ input: PublishInput) throws -> PublishResponse {
         return try client.send(operation: "Publish", path: "/", httpMethod: "POST", input: input)
     }
@@ -149,7 +149,7 @@ public struct Sns {
         _ = try client.send(operation: "DeletePlatformApplication", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of the requester's topics. Each call returns a limited list of topics, up to 100. If there are more topics, a NextToken is also returned. Use the NextToken parameter in a new ListTopics call to get further results.
+    ///  Returns a list of the requester's topics. Each call returns a limited list of topics, up to 100. If there are more topics, a NextToken is also returned. Use the NextToken parameter in a new ListTopics call to get further results. This action is throttled at 30 transactions per second (TPS).
     public func listTopics(_ input: ListTopicsInput) throws -> ListTopicsResponse {
         return try client.send(operation: "ListTopics", path: "/", httpMethod: "POST", input: input)
     }
@@ -159,7 +159,7 @@ public struct Sns {
         return try client.send(operation: "SetSMSAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of the requester's subscriptions. Each call returns a limited list of subscriptions, up to 100. If there are more subscriptions, a NextToken is also returned. Use the NextToken parameter in a new ListSubscriptions call to get further results.
+    ///  Returns a list of the requester's subscriptions. Each call returns a limited list of subscriptions, up to 100. If there are more subscriptions, a NextToken is also returned. Use the NextToken parameter in a new ListSubscriptions call to get further results. This action is throttled at 30 transactions per second (TPS).
     public func listSubscriptions(_ input: ListSubscriptionsInput) throws -> ListSubscriptionsResponse {
         return try client.send(operation: "ListSubscriptions", path: "/", httpMethod: "POST", input: input)
     }

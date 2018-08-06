@@ -8,9 +8,9 @@ public enum EsError: AWSErrorType {
     case internalException(message: String?)
     case resourceNotFoundException(message: String?)
     case validationException(message: String?)
+    case disabledOperationException(message: String?)
     case limitExceededException(message: String?)
     case invalidTypeException(message: String?)
-    case disabledOperationException(message: String?)
     case resourceAlreadyExistsException(message: String?)
 }
 
@@ -29,12 +29,12 @@ extension EsError {
             self = .resourceNotFoundException(message: message)
         case "ValidationException":
             self = .validationException(message: message)
+        case "DisabledOperationException":
+            self = .disabledOperationException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "InvalidTypeException":
             self = .invalidTypeException(message: message)
-        case "DisabledOperationException":
-            self = .disabledOperationException(message: message)
         case "ResourceAlreadyExistsException":
             self = .resourceAlreadyExistsException(message: message)
         default:

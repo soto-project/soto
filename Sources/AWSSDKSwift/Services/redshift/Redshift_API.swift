@@ -79,6 +79,16 @@ public struct Redshift {
         return try client.send(operation: "DescribeSnapshotCopyGrants", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns an array of ClusterDbRevision objects.
+    public func describeClusterDbRevisions(_ input: DescribeClusterDbRevisionsMessage) throws -> ClusterDbRevisionsMessage {
+        return try client.send(operation: "DescribeClusterDbRevisions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Exchanges a DC1 Reserved Node for a DC2 Reserved Node with no changes to the configuration (term, payment type, or number of nodes) and no additional costs. 
+    public func acceptReservedNodeExchange(_ input: AcceptReservedNodeExchangeInputMessage) throws -> AcceptReservedNodeExchangeOutputMessage {
+        return try client.send(operation: "AcceptReservedNodeExchange", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Modifies an existing Amazon Redshift event notification subscription.
     public func modifyEventSubscription(_ input: ModifyEventSubscriptionMessage) throws -> ModifyEventSubscriptionResult {
         return try client.send(operation: "ModifyEventSubscription", path: "/", httpMethod: "POST", input: input)
@@ -109,7 +119,7 @@ public struct Redshift {
         return try client.send(operation: "CreateClusterSecurityGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds one or more tags to a specified resource. A resource can have up to 10 tags. If you try to create more than 10 tags for a resource, you will receive an error and the attempt will fail. If you specify a key that already exists for the resource, the value for that key will be updated with the new value.
+    ///  Adds one or more tags to a specified resource. A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, you will receive an error and the attempt will fail. If you specify a key that already exists for the resource, the value for that key will be updated with the new value.
     public func createTags(_ input: CreateTagsMessage) throws {
         _ = try client.send(operation: "CreateTags", path: "/", httpMethod: "POST", input: input)
     }
@@ -219,7 +229,7 @@ public struct Redshift {
         _ = try client.send(operation: "DeleteClusterSecurityGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new cluster. To create the cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet group name. The cluster subnet group identifies the subnets of your VPC that Amazon Redshift uses when creating the cluster. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide.
+    ///  Creates a new cluster. To create a cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet group name. The cluster subnet group identifies the subnets of your VPC that Amazon Redshift uses when creating the cluster. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide.
     public func createCluster(_ input: CreateClusterMessage) throws -> CreateClusterResult {
         return try client.send(operation: "CreateCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -254,11 +264,6 @@ public struct Redshift {
         return try client.send(operation: "CreateHsmConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about the specified HSM client certificate. If no certificate ID is specified, returns information about all the HSM certificates owned by your AWS customer account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all HSM client certificates that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all HSM client certificates that have any combination of those values are returned. If both tag keys and values are omitted from the request, HSM client certificates are returned regardless of whether they have tag keys or values associated with them.
-    public func describeHsmClientCertificates(_ input: DescribeHsmClientCertificatesMessage) throws -> HsmClientCertificateMessage {
-        return try client.send(operation: "DescribeHsmClientCertificates", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Creates a new Amazon Redshift subnet group. You must provide a list of one or more subnets in your existing Amazon Virtual Private Cloud (Amazon VPC) when creating Amazon Redshift subnet group.  For information about subnet groups, go to Amazon Redshift Cluster Subnet Groups in the Amazon Redshift Cluster Management Guide.
     public func createClusterSubnetGroup(_ input: CreateClusterSubnetGroupMessage) throws -> CreateClusterSubnetGroupResult {
         return try client.send(operation: "CreateClusterSubnetGroup", path: "/", httpMethod: "POST", input: input)
@@ -277,6 +282,11 @@ public struct Redshift {
     ///  Enables the automatic copy of snapshots from one region to another region for a specified cluster.
     public func enableSnapshotCopy(_ input: EnableSnapshotCopyMessage) throws -> EnableSnapshotCopyResult {
         return try client.send(operation: "EnableSnapshotCopy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about the specified HSM client certificate. If no certificate ID is specified, returns information about all the HSM certificates owned by your AWS customer account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all HSM client certificates that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all HSM client certificates that have any combination of those values are returned. If both tag keys and values are omitted from the request, HSM client certificates are returned regardless of whether they have tag keys or values associated with them.
+    public func describeHsmClientCertificates(_ input: DescribeHsmClientCertificatesMessage) throws -> HsmClientCertificateMessage {
+        return try client.send(operation: "DescribeHsmClientCertificates", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes whether information, such as queries and connection attempts, is being logged for the specified Amazon Redshift cluster.
@@ -309,6 +319,16 @@ public struct Redshift {
         return try client.send(operation: "DescribeClusterVersions", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Modifies the database revision of a cluster. The database revision is a unique revision of the database running in a cluster.
+    public func modifyClusterDbRevision(_ input: ModifyClusterDbRevisionMessage) throws -> ModifyClusterDbRevisionResult {
+        return try client.send(operation: "ModifyClusterDbRevision", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns an array of DC2 ReservedNodeOfferings that matches the payment type, term, and usage price of the given DC1 reserved node.
+    public func getReservedNodeExchangeOfferings(_ input: GetReservedNodeExchangeOfferingsInputMessage) throws -> GetReservedNodeExchangeOfferingsOutputMessage {
+        return try client.send(operation: "GetReservedNodeExchangeOfferings", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes an Amazon Redshift event notification subscription.
     public func deleteEventSubscription(_ input: DeleteEventSubscriptionMessage) throws {
         _ = try client.send(operation: "DeleteEventSubscription", path: "/", httpMethod: "POST", input: input)
@@ -317,6 +337,11 @@ public struct Redshift {
     ///  Modifies the number of days to retain automated snapshots in the destination region after they are copied from the source region.
     public func modifySnapshotCopyRetentionPeriod(_ input: ModifySnapshotCopyRetentionPeriodMessage) throws -> ModifySnapshotCopyRetentionPeriodResult {
         return try client.send(operation: "ModifySnapshotCopyRetentionPeriod", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of all the available maintenance tracks.
+    public func describeClusterTracks(_ input: DescribeClusterTracksMessage) throws -> TrackListMessage {
+        return try client.send(operation: "DescribeClusterTracks", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Copies the specified automated cluster snapshot to a new manual cluster snapshot. The source must be an automated snapshot and it must be in the available state. When you delete a cluster, Amazon Redshift deletes any automated snapshots of the cluster. Also, when the retention period of the snapshot expires, Amazon Redshift automatically deletes it. If you want to keep an automated snapshot for a longer period, you can make a manual copy of the snapshot. Manual snapshots are retained until you delete them.  For more information about working with snapshots, go to Amazon Redshift Snapshots in the Amazon Redshift Cluster Management Guide.

@@ -6,12 +6,12 @@ import AWSSDKSwiftCore
 public enum ComprehendError: AWSErrorType {
     case invalidRequestException(message: String?)
     case textSizeLimitExceededException(message: String?)
-    case internalServerException(message: String?)
     case unsupportedLanguageException(message: String?)
     case batchSizeLimitExceededException(message: String?)
+    case internalServerException(message: String?)
+    case jobNotFoundException(message: String?)
     case tooManyRequestsException(message: String?)
     case invalidFilterException(message: String?)
-    case jobNotFoundException(message: String?)
 }
 
 extension ComprehendError {
@@ -25,18 +25,18 @@ extension ComprehendError {
             self = .invalidRequestException(message: message)
         case "TextSizeLimitExceededException":
             self = .textSizeLimitExceededException(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
         case "UnsupportedLanguageException":
             self = .unsupportedLanguageException(message: message)
         case "BatchSizeLimitExceededException":
             self = .batchSizeLimitExceededException(message: message)
+        case "InternalServerException":
+            self = .internalServerException(message: message)
+        case "JobNotFoundException":
+            self = .jobNotFoundException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
         case "InvalidFilterException":
             self = .invalidFilterException(message: message)
-        case "JobNotFoundException":
-            self = .jobNotFoundException(message: message)
         default:
             return nil
         }

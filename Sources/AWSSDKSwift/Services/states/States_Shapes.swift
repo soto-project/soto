@@ -1167,30 +1167,30 @@ extension States {
 
     public struct GetExecutionHistoryInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "reverseOrder", required: false, type: .boolean), 
             AWSShapeMember(label: "executionArn", required: true, type: .string)
         ]
-        /// If a nextToken is returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        public let nextToken: String?
         /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 100. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int32?
+        /// If a nextToken is returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
+        public let nextToken: String?
         /// Lists events in descending order of their timeStamp.
         public let reverseOrder: Bool?
         /// The Amazon Resource Name (ARN) of the execution.
         public let executionArn: String
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, reverseOrder: Bool? = nil, executionArn: String) {
-            self.nextToken = nextToken
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, reverseOrder: Bool? = nil, executionArn: String) {
             self.maxResults = maxResults
+            self.nextToken = nextToken
             self.reverseOrder = reverseOrder
             self.executionArn = executionArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
             case maxResults = "maxResults"
+            case nextToken = "nextToken"
             case reverseOrder = "reverseOrder"
             case executionArn = "executionArn"
         }

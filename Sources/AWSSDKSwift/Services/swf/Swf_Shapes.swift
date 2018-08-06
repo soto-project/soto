@@ -1916,32 +1916,32 @@ extension Swf {
 
     public struct TimerStartedEventAttributes: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "timerId", required: true, type: .string), 
+            AWSShapeMember(label: "control", required: false, type: .string), 
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeMember(label: "startToFireTimeout", required: true, type: .string), 
-            AWSShapeMember(label: "control", required: false, type: .string)
+            AWSShapeMember(label: "timerId", required: true, type: .string)
         ]
-        /// The unique ID of the timer that was started.
-        public let timerId: String
+        /// Data attached to the event that can be used by the decider in subsequent workflow tasks.
+        public let control: String?
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the StartTimer decision for this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
         /// The duration of time after which the timer fires. The duration is specified in seconds, an integer greater than or equal to 0.
         public let startToFireTimeout: String
-        /// Data attached to the event that can be used by the decider in subsequent workflow tasks.
-        public let control: String?
+        /// The unique ID of the timer that was started.
+        public let timerId: String
 
-        public init(timerId: String, decisionTaskCompletedEventId: Int64, startToFireTimeout: String, control: String? = nil) {
-            self.timerId = timerId
+        public init(control: String? = nil, decisionTaskCompletedEventId: Int64, startToFireTimeout: String, timerId: String) {
+            self.control = control
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.startToFireTimeout = startToFireTimeout
-            self.control = control
+            self.timerId = timerId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timerId = "timerId"
+            case control = "control"
             case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
             case startToFireTimeout = "startToFireTimeout"
-            case control = "control"
+            case timerId = "timerId"
         }
     }
 

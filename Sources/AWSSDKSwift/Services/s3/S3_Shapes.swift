@@ -146,8 +146,8 @@ extension S3 {
             AWSShapeMember(label: "NoncurrentVersionExpiration", required: false, type: .structure), 
             AWSShapeMember(label: "Transition", required: false, type: .structure), 
             AWSShapeMember(label: "NoncurrentVersionTransition", required: false, type: .structure), 
-            AWSShapeMember(label: "Expiration", required: false, type: .structure), 
-            AWSShapeMember(label: "Prefix", required: true, type: .string)
+            AWSShapeMember(label: "Prefix", required: true, type: .string), 
+            AWSShapeMember(label: "Expiration", required: false, type: .structure)
         ]
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public let id: String?
@@ -157,19 +157,19 @@ extension S3 {
         public let noncurrentVersionExpiration: NoncurrentVersionExpiration?
         public let transition: Transition?
         public let noncurrentVersionTransition: NoncurrentVersionTransition?
-        public let expiration: LifecycleExpiration?
         /// Prefix identifying one or more objects to which the rule applies.
         public let prefix: String
+        public let expiration: LifecycleExpiration?
 
-        public init(id: String? = nil, status: ExpirationStatus, abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, transition: Transition? = nil, noncurrentVersionTransition: NoncurrentVersionTransition? = nil, expiration: LifecycleExpiration? = nil, prefix: String) {
+        public init(id: String? = nil, status: ExpirationStatus, abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, transition: Transition? = nil, noncurrentVersionTransition: NoncurrentVersionTransition? = nil, prefix: String, expiration: LifecycleExpiration? = nil) {
             self.id = id
             self.status = status
             self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
             self.noncurrentVersionExpiration = noncurrentVersionExpiration
             self.transition = transition
             self.noncurrentVersionTransition = noncurrentVersionTransition
-            self.expiration = expiration
             self.prefix = prefix
+            self.expiration = expiration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -179,8 +179,8 @@ extension S3 {
             case noncurrentVersionExpiration = "NoncurrentVersionExpiration"
             case transition = "Transition"
             case noncurrentVersionTransition = "NoncurrentVersionTransition"
-            case expiration = "Expiration"
             case prefix = "Prefix"
+            case expiration = "Expiration"
         }
     }
 
@@ -265,18 +265,19 @@ extension S3 {
         }
     }
 
-    public struct GetBucketPolicyRequest: AWSShape {
+    public struct JSONOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+            AWSShapeMember(label: "RecordDelimiter", required: false, type: .string)
         ]
-        public let bucket: String
+        /// The value used to separate individual records in the output.
+        public let recordDelimiter: String?
 
-        public init(bucket: String) {
-            self.bucket = bucket
+        public init(recordDelimiter: String? = nil) {
+            self.recordDelimiter = recordDelimiter
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
+            case recordDelimiter = "RecordDelimiter"
         }
     }
 
@@ -296,6 +297,21 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case eTag = "ETag"
             case lastModified = "LastModified"
+        }
+    }
+
+    public struct GetBucketPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
         }
     }
 
@@ -558,6 +574,32 @@ extension S3 {
         }
     }
 
+    public struct Stats: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BytesProcessed", required: false, type: .long), 
+            AWSShapeMember(label: "BytesScanned", required: false, type: .long), 
+            AWSShapeMember(label: "BytesReturned", required: false, type: .long)
+        ]
+        /// Total number of uncompressed object bytes processed.
+        public let bytesProcessed: Int64?
+        /// Total number of object bytes scanned.
+        public let bytesScanned: Int64?
+        /// Total number of bytes of records payload data returned.
+        public let bytesReturned: Int64?
+
+        public init(bytesProcessed: Int64? = nil, bytesScanned: Int64? = nil, bytesReturned: Int64? = nil) {
+            self.bytesProcessed = bytesProcessed
+            self.bytesScanned = bytesScanned
+            self.bytesReturned = bytesReturned
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytesProcessed = "BytesProcessed"
+            case bytesScanned = "BytesScanned"
+            case bytesReturned = "BytesReturned"
+        }
+    }
+
     public struct OutputLocation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3", required: false, type: .structure)
@@ -816,42 +858,47 @@ extension S3 {
 
     public struct CSVInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldDelimiter", required: false, type: .string), 
-            AWSShapeMember(label: "FileHeaderInfo", required: false, type: .enum), 
             AWSShapeMember(label: "QuoteEscapeCharacter", required: false, type: .string), 
-            AWSShapeMember(label: "Comments", required: false, type: .string), 
+            AWSShapeMember(label: "FileHeaderInfo", required: false, type: .enum), 
+            AWSShapeMember(label: "FieldDelimiter", required: false, type: .string), 
+            AWSShapeMember(label: "AllowQuotedRecordDelimiter", required: false, type: .boolean), 
             AWSShapeMember(label: "RecordDelimiter", required: false, type: .string), 
-            AWSShapeMember(label: "QuoteCharacter", required: false, type: .string)
+            AWSShapeMember(label: "QuoteCharacter", required: false, type: .string), 
+            AWSShapeMember(label: "Comments", required: false, type: .string)
         ]
-        /// Value used to separate individual fields in a record.
-        public let fieldDelimiter: String?
-        /// Describes the first line of input. Valid values: None, Ignore, Use.
-        public let fileHeaderInfo: FileHeaderInfo?
         /// Single character used for escaping the quote character inside an already escaped value.
         public let quoteEscapeCharacter: String?
-        /// Single character used to indicate a row should be ignored when present at the start of a row.
-        public let comments: String?
+        /// Describes the first line of input. Valid values: None, Ignore, Use.
+        public let fileHeaderInfo: FileHeaderInfo?
+        /// Value used to separate individual fields in a record.
+        public let fieldDelimiter: String?
+        /// Specifies that CSV field values may contain quoted record delimiters and such records should be allowed. Default value is FALSE. Setting this value to TRUE may lower performance.
+        public let allowQuotedRecordDelimiter: Bool?
         /// Value used to separate individual records.
         public let recordDelimiter: String?
         /// Value used for escaping where the field delimiter is part of the value.
         public let quoteCharacter: String?
+        /// Single character used to indicate a row should be ignored when present at the start of a row.
+        public let comments: String?
 
-        public init(fieldDelimiter: String? = nil, fileHeaderInfo: FileHeaderInfo? = nil, quoteEscapeCharacter: String? = nil, comments: String? = nil, recordDelimiter: String? = nil, quoteCharacter: String? = nil) {
-            self.fieldDelimiter = fieldDelimiter
-            self.fileHeaderInfo = fileHeaderInfo
+        public init(quoteEscapeCharacter: String? = nil, fileHeaderInfo: FileHeaderInfo? = nil, fieldDelimiter: String? = nil, allowQuotedRecordDelimiter: Bool? = nil, recordDelimiter: String? = nil, quoteCharacter: String? = nil, comments: String? = nil) {
             self.quoteEscapeCharacter = quoteEscapeCharacter
-            self.comments = comments
+            self.fileHeaderInfo = fileHeaderInfo
+            self.fieldDelimiter = fieldDelimiter
+            self.allowQuotedRecordDelimiter = allowQuotedRecordDelimiter
             self.recordDelimiter = recordDelimiter
             self.quoteCharacter = quoteCharacter
+            self.comments = comments
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fieldDelimiter = "FieldDelimiter"
-            case fileHeaderInfo = "FileHeaderInfo"
             case quoteEscapeCharacter = "QuoteEscapeCharacter"
-            case comments = "Comments"
+            case fileHeaderInfo = "FileHeaderInfo"
+            case fieldDelimiter = "FieldDelimiter"
+            case allowQuotedRecordDelimiter = "AllowQuotedRecordDelimiter"
             case recordDelimiter = "RecordDelimiter"
             case quoteCharacter = "QuoteCharacter"
+            case comments = "Comments"
         }
     }
 
@@ -1118,6 +1165,32 @@ extension S3 {
             case tagging = "Tagging"
             case key = "Key"
             case versionId = "versionId"
+        }
+    }
+
+    public struct Progress: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BytesProcessed", required: false, type: .long), 
+            AWSShapeMember(label: "BytesScanned", required: false, type: .long), 
+            AWSShapeMember(label: "BytesReturned", required: false, type: .long)
+        ]
+        /// Current number of uncompressed object bytes processed.
+        public let bytesProcessed: Int64?
+        /// Current number of object bytes scanned.
+        public let bytesScanned: Int64?
+        /// Current number of bytes of records payload data returned.
+        public let bytesReturned: Int64?
+
+        public init(bytesProcessed: Int64? = nil, bytesScanned: Int64? = nil, bytesReturned: Int64? = nil) {
+            self.bytesProcessed = bytesProcessed
+            self.bytesScanned = bytesScanned
+            self.bytesReturned = bytesReturned
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytesProcessed = "BytesProcessed"
+            case bytesScanned = "BytesScanned"
+            case bytesReturned = "BytesReturned"
         }
     }
 
@@ -1491,6 +1564,22 @@ extension S3 {
         }
     }
 
+    public struct JSONInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+        /// The type of JSON. Valid values: Document, Lines.
+        public let `type`: JSONType?
+
+        public init(type: JSONType? = nil) {
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+        }
+    }
+
     public struct ReplicationConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Role", required: true, type: .string), 
@@ -1817,27 +1906,27 @@ extension S3 {
     public struct TopicConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TopicArn", location: .body(locationName: "Topic"), required: true, type: .string), 
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
             AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list), 
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// Amazon SNS topic ARN to which Amazon S3 will publish a message when it detects events of specified type.
         public let topicArn: String
-        public let filter: NotificationConfigurationFilter?
         public let events: [Event]
+        public let filter: NotificationConfigurationFilter?
         public let id: String?
 
-        public init(topicArn: String, filter: NotificationConfigurationFilter? = nil, events: [Event], id: String? = nil) {
+        public init(topicArn: String, events: [Event], filter: NotificationConfigurationFilter? = nil, id: String? = nil) {
             self.topicArn = topicArn
-            self.filter = filter
             self.events = events
+            self.filter = filter
             self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
             case topicArn = "Topic"
-            case filter = "Filter"
             case events = "Event"
+            case filter = "Filter"
             case id = "Id"
         }
     }
@@ -2156,7 +2245,7 @@ extension S3 {
         public let delimiter: String?
         /// Encoding type used by Amazon S3 to encode object keys in the response.
         public let encodingType: EncodingType?
-        /// KeyCount is the number of keys returned with this request. KeyCount will always be less than equals to MaxKeys field. Say you ask for 50 keys, your result will include less than equals 50 keys
+        /// KeyCount is the number of keys returned with this request. KeyCount will always be less than equals to MaxKeys field. Say you ask for 50 keys, your result will include less than equals 50 keys 
         public let keyCount: Int32?
 
         public init(maxKeys: Int32? = nil, startAfter: String? = nil, isTruncated: Bool? = nil, continuationToken: String? = nil, name: String? = nil, prefix: String? = nil, nextContinuationToken: String? = nil, commonPrefixes: [CommonPrefix]? = nil, contents: [Object]? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, keyCount: Int32? = nil) {
@@ -2426,7 +2515,7 @@ extension S3 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxKeys", required: false, type: .integer), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "VersionIdMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Versions", location: .body(locationName: "Version"), required: false, type: .list), 
             AWSShapeMember(label: "NextVersionIdMarker", required: false, type: .string), 
             AWSShapeMember(label: "CommonPrefixes", required: false, type: .list), 
             AWSShapeMember(label: "Delimiter", required: false, type: .string), 
@@ -2436,12 +2525,12 @@ extension S3 {
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "DeleteMarkers", location: .body(locationName: "DeleteMarker"), required: false, type: .list), 
             AWSShapeMember(label: "NextKeyMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Versions", location: .body(locationName: "Version"), required: false, type: .list)
+            AWSShapeMember(label: "VersionIdMarker", required: false, type: .string)
         ]
         public let maxKeys: Int32?
         /// A flag that indicates whether or not Amazon S3 returned all of the results that satisfied the search criteria. If your results were truncated, you can make a follow-up paginated request using the NextKeyMarker and NextVersionIdMarker response parameters as a starting place in another request to return the rest of the results.
         public let isTruncated: Bool?
-        public let versionIdMarker: String?
+        public let versions: [ObjectVersion]?
         /// Use this value for the next version id marker parameter in a subsequent request.
         public let nextVersionIdMarker: String?
         public let commonPrefixes: [CommonPrefix]?
@@ -2455,12 +2544,12 @@ extension S3 {
         public let deleteMarkers: [DeleteMarkerEntry]?
         /// Use this value for the key marker request parameter in a subsequent request.
         public let nextKeyMarker: String?
-        public let versions: [ObjectVersion]?
+        public let versionIdMarker: String?
 
-        public init(maxKeys: Int32? = nil, isTruncated: Bool? = nil, versionIdMarker: String? = nil, nextVersionIdMarker: String? = nil, commonPrefixes: [CommonPrefix]? = nil, delimiter: String? = nil, keyMarker: String? = nil, encodingType: EncodingType? = nil, name: String? = nil, prefix: String? = nil, deleteMarkers: [DeleteMarkerEntry]? = nil, nextKeyMarker: String? = nil, versions: [ObjectVersion]? = nil) {
+        public init(maxKeys: Int32? = nil, isTruncated: Bool? = nil, versions: [ObjectVersion]? = nil, nextVersionIdMarker: String? = nil, commonPrefixes: [CommonPrefix]? = nil, delimiter: String? = nil, keyMarker: String? = nil, encodingType: EncodingType? = nil, name: String? = nil, prefix: String? = nil, deleteMarkers: [DeleteMarkerEntry]? = nil, nextKeyMarker: String? = nil, versionIdMarker: String? = nil) {
             self.maxKeys = maxKeys
             self.isTruncated = isTruncated
-            self.versionIdMarker = versionIdMarker
+            self.versions = versions
             self.nextVersionIdMarker = nextVersionIdMarker
             self.commonPrefixes = commonPrefixes
             self.delimiter = delimiter
@@ -2470,13 +2559,13 @@ extension S3 {
             self.prefix = prefix
             self.deleteMarkers = deleteMarkers
             self.nextKeyMarker = nextKeyMarker
-            self.versions = versions
+            self.versionIdMarker = versionIdMarker
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxKeys = "MaxKeys"
             case isTruncated = "IsTruncated"
-            case versionIdMarker = "VersionIdMarker"
+            case versions = "Version"
             case nextVersionIdMarker = "NextVersionIdMarker"
             case commonPrefixes = "CommonPrefixes"
             case delimiter = "Delimiter"
@@ -2486,7 +2575,7 @@ extension S3 {
             case prefix = "Prefix"
             case deleteMarkers = "DeleteMarker"
             case nextKeyMarker = "NextKeyMarker"
-            case versions = "Version"
+            case versionIdMarker = "VersionIdMarker"
         }
     }
 
@@ -2539,17 +2628,27 @@ extension S3 {
 
     public struct InputSerialization: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CSV", required: false, type: .structure)
+            AWSShapeMember(label: "CSV", required: false, type: .structure), 
+            AWSShapeMember(label: "CompressionType", required: false, type: .enum), 
+            AWSShapeMember(label: "JSON", required: false, type: .structure)
         ]
         /// Describes the serialization of a CSV-encoded object.
         public let csv: CSVInput?
+        /// Specifies object's compression format. Valid values: NONE, GZIP, BZIP2. Default Value: NONE.
+        public let compressionType: CompressionType?
+        /// Specifies JSON as object's input serialization format.
+        public let json: JSONInput?
 
-        public init(csv: CSVInput? = nil) {
+        public init(csv: CSVInput? = nil, compressionType: CompressionType? = nil, json: JSONInput? = nil) {
             self.csv = csv
+            self.compressionType = compressionType
+            self.json = json
         }
 
         private enum CodingKeys: String, CodingKey {
             case csv = "CSV"
+            case compressionType = "CompressionType"
+            case json = "JSON"
         }
     }
 
@@ -2683,18 +2782,18 @@ extension S3 {
     public struct ListMultipartUploadsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "UploadIdMarker", location: .querystring(locationName: "upload-id-marker"), required: false, type: .string), 
             AWSShapeMember(label: "Prefix", location: .querystring(locationName: "prefix"), required: false, type: .string), 
+            AWSShapeMember(label: "UploadIdMarker", location: .querystring(locationName: "upload-id-marker"), required: false, type: .string), 
             AWSShapeMember(label: "MaxUploads", location: .querystring(locationName: "max-uploads"), required: false, type: .integer), 
             AWSShapeMember(label: "Delimiter", location: .querystring(locationName: "delimiter"), required: false, type: .string), 
             AWSShapeMember(label: "EncodingType", location: .querystring(locationName: "encoding-type"), required: false, type: .enum), 
             AWSShapeMember(label: "KeyMarker", location: .querystring(locationName: "key-marker"), required: false, type: .string)
         ]
         public let bucket: String
-        /// Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored.
-        public let uploadIdMarker: String?
         /// Lists in-progress uploads only for those keys that begin with the specified prefix.
         public let prefix: String?
+        /// Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored.
+        public let uploadIdMarker: String?
         /// Sets the maximum number of multipart uploads, from 1 to 1,000, to return in the response body. 1,000 is the maximum number of uploads that can be returned in a response.
         public let maxUploads: Int32?
         /// Character you use to group keys.
@@ -2703,10 +2802,10 @@ extension S3 {
         /// Together with upload-id-marker, this parameter specifies the multipart upload after which listing should begin.
         public let keyMarker: String?
 
-        public init(bucket: String, uploadIdMarker: String? = nil, prefix: String? = nil, maxUploads: Int32? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, keyMarker: String? = nil) {
+        public init(bucket: String, prefix: String? = nil, uploadIdMarker: String? = nil, maxUploads: Int32? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, keyMarker: String? = nil) {
             self.bucket = bucket
-            self.uploadIdMarker = uploadIdMarker
             self.prefix = prefix
+            self.uploadIdMarker = uploadIdMarker
             self.maxUploads = maxUploads
             self.delimiter = delimiter
             self.encodingType = encodingType
@@ -2715,8 +2814,8 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
-            case uploadIdMarker = "upload-id-marker"
             case prefix = "prefix"
+            case uploadIdMarker = "upload-id-marker"
             case maxUploads = "max-uploads"
             case delimiter = "delimiter"
             case encodingType = "encoding-type"
@@ -2787,6 +2886,7 @@ extension S3 {
         case standard = "STANDARD"
         case reducedRedundancy = "REDUCED_REDUNDANCY"
         case standardIa = "STANDARD_IA"
+        case onezoneIa = "ONEZONE_IA"
         public var description: String { return self.rawValue }
     }
 
@@ -3485,8 +3585,8 @@ extension S3 {
             AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "MaxParts", required: false, type: .integer), 
-            AWSShapeMember(label: "NextPartNumberMarker", required: false, type: .integer), 
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
+            AWSShapeMember(label: "NextPartNumberMarker", required: false, type: .integer)
         ]
         /// Part number after which listing begins.
         public let partNumberMarker: Int32?
@@ -3510,11 +3610,11 @@ extension S3 {
         public let key: String?
         /// Maximum number of parts that were allowed in the response.
         public let maxParts: Int32?
+        public let requestCharged: RequestCharged?
         /// When a list is truncated, this element specifies the last part in the list, as well as the value to use for the part-number-marker request parameter in a subsequent request.
         public let nextPartNumberMarker: Int32?
-        public let requestCharged: RequestCharged?
 
-        public init(partNumberMarker: Int32? = nil, bucket: String? = nil, isTruncated: Bool? = nil, abortDate: TimeStamp? = nil, uploadId: String? = nil, owner: Owner? = nil, parts: [Part]? = nil, initiator: Initiator? = nil, abortRuleId: String? = nil, storageClass: StorageClass? = nil, key: String? = nil, maxParts: Int32? = nil, nextPartNumberMarker: Int32? = nil, requestCharged: RequestCharged? = nil) {
+        public init(partNumberMarker: Int32? = nil, bucket: String? = nil, isTruncated: Bool? = nil, abortDate: TimeStamp? = nil, uploadId: String? = nil, owner: Owner? = nil, parts: [Part]? = nil, initiator: Initiator? = nil, abortRuleId: String? = nil, storageClass: StorageClass? = nil, key: String? = nil, maxParts: Int32? = nil, requestCharged: RequestCharged? = nil, nextPartNumberMarker: Int32? = nil) {
             self.partNumberMarker = partNumberMarker
             self.bucket = bucket
             self.isTruncated = isTruncated
@@ -3527,8 +3627,8 @@ extension S3 {
             self.storageClass = storageClass
             self.key = key
             self.maxParts = maxParts
-            self.nextPartNumberMarker = nextPartNumberMarker
             self.requestCharged = requestCharged
+            self.nextPartNumberMarker = nextPartNumberMarker
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3544,8 +3644,8 @@ extension S3 {
             case storageClass = "StorageClass"
             case key = "Key"
             case maxParts = "MaxParts"
-            case nextPartNumberMarker = "NextPartNumberMarker"
             case requestCharged = "x-amz-request-charged"
+            case nextPartNumberMarker = "NextPartNumberMarker"
         }
     }
 
@@ -3974,16 +4074,16 @@ extension S3 {
     public struct LoggingEnabled: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetGrants", required: false, type: .structure), 
-            AWSShapeMember(label: "TargetPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "TargetBucket", required: false, type: .string)
+            AWSShapeMember(label: "TargetPrefix", required: true, type: .string), 
+            AWSShapeMember(label: "TargetBucket", required: true, type: .string)
         ]
         public let targetGrants: TargetGrants?
         /// This element lets you specify a prefix for the keys that the log files will be stored under.
-        public let targetPrefix: String?
+        public let targetPrefix: String
         /// Specifies the bucket where you want Amazon S3 to store server access logs. You can have your logs delivered to any bucket that you own, including the same bucket that is being logged. You can also configure multiple buckets to deliver their logs to the same target bucket. In this case you should choose a different TargetPrefix for each source bucket so that the delivered log files can be distinguished by key.
-        public let targetBucket: String?
+        public let targetBucket: String
 
-        public init(targetGrants: TargetGrants? = nil, targetPrefix: String? = nil, targetBucket: String? = nil) {
+        public init(targetGrants: TargetGrants? = nil, targetPrefix: String, targetBucket: String) {
             self.targetGrants = targetGrants
             self.targetPrefix = targetPrefix
             self.targetBucket = targetBucket
@@ -4053,6 +4153,10 @@ extension S3 {
         }
     }
 
+    public struct EndEvent: AWSShape {
+
+    }
+
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: true, type: .string), 
@@ -4086,6 +4190,22 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case grant = "Grant"
+        }
+    }
+
+    public struct RecordsEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Payload", required: false, type: .blob)
+        ]
+        /// The byte array of partial, one or more result records.
+        public let payload: Data?
+
+        public init(payload: Data? = nil) {
+            self.payload = payload
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case payload = "Payload"
         }
     }
 
@@ -4302,6 +4422,10 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case tier = "Tier"
         }
+    }
+
+    public struct ContinuationEvent: AWSShape {
+
     }
 
     public struct PutBucketNotificationRequest: AWSShape {
@@ -4740,6 +4864,22 @@ extension S3 {
         }
     }
 
+    public struct ProgressEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Details", required: false, type: .structure)
+        ]
+        /// The Progress event details.
+        public let details: Progress?
+
+        public init(details: Progress? = nil) {
+            self.details = details
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "Details"
+        }
+    }
+
     public struct GetObjectTorrentOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Body"
@@ -5070,6 +5210,8 @@ extension S3 {
         case standard = "STANDARD"
         case reducedRedundancy = "REDUCED_REDUNDANCY"
         case glacier = "GLACIER"
+        case standardIa = "STANDARD_IA"
+        case onezoneIa = "ONEZONE_IA"
         public var description: String { return self.rawValue }
     }
 
@@ -5181,28 +5323,28 @@ extension S3 {
 
     public struct QueueConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "QueueArn", location: .body(locationName: "Queue"), required: true, type: .string), 
             AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list), 
+            AWSShapeMember(label: "QueueArn", location: .body(locationName: "Queue"), required: true, type: .string), 
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        public let filter: NotificationConfigurationFilter?
+        public let events: [Event]
         /// Amazon SQS queue ARN to which Amazon S3 will publish a message when it detects events of specified type.
         public let queueArn: String
-        public let events: [Event]
+        public let filter: NotificationConfigurationFilter?
         public let id: String?
 
-        public init(filter: NotificationConfigurationFilter? = nil, queueArn: String, events: [Event], id: String? = nil) {
-            self.filter = filter
-            self.queueArn = queueArn
+        public init(events: [Event], queueArn: String, filter: NotificationConfigurationFilter? = nil, id: String? = nil) {
             self.events = events
+            self.queueArn = queueArn
+            self.filter = filter
             self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter = "Filter"
-            case queueArn = "Queue"
             case events = "Event"
+            case queueArn = "Queue"
+            case filter = "Filter"
             case id = "Id"
         }
     }
@@ -5219,6 +5361,22 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case tagSet = "TagSet"
+        }
+    }
+
+    public struct RequestProgress: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
+        ]
+        /// Specifies whether periodic QueryProgress frames should be sent. Valid values: TRUE, FALSE. Default value: FALSE.
+        public let enabled: Bool?
+
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
         }
     }
 
@@ -5601,27 +5759,27 @@ extension S3 {
     public struct LambdaFunctionConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LambdaFunctionArn", location: .body(locationName: "CloudFunction"), required: true, type: .string), 
-            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list), 
             AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// Lambda cloud function ARN that Amazon S3 can invoke when it detects events of the specified type.
         public let lambdaFunctionArn: String
-        public let events: [Event]
         public let filter: NotificationConfigurationFilter?
+        public let events: [Event]
         public let id: String?
 
-        public init(lambdaFunctionArn: String, events: [Event], filter: NotificationConfigurationFilter? = nil, id: String? = nil) {
+        public init(lambdaFunctionArn: String, filter: NotificationConfigurationFilter? = nil, events: [Event], id: String? = nil) {
             self.lambdaFunctionArn = lambdaFunctionArn
-            self.events = events
             self.filter = filter
+            self.events = events
             self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
             case lambdaFunctionArn = "CloudFunction"
-            case events = "Event"
             case filter = "Filter"
+            case events = "Event"
             case id = "Id"
         }
     }
@@ -5683,17 +5841,22 @@ extension S3 {
 
     public struct OutputSerialization: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CSV", required: false, type: .structure)
+            AWSShapeMember(label: "CSV", required: false, type: .structure), 
+            AWSShapeMember(label: "JSON", required: false, type: .structure)
         ]
         /// Describes the serialization of CSV-encoded Select results.
         public let csv: CSVOutput?
+        /// Specifies JSON as request's output serialization format.
+        public let json: JSONOutput?
 
-        public init(csv: CSVOutput? = nil) {
+        public init(csv: CSVOutput? = nil, json: JSONOutput? = nil) {
             self.csv = csv
+            self.json = json
         }
 
         private enum CodingKeys: String, CodingKey {
             case csv = "CSV"
+            case json = "JSON"
         }
     }
 
@@ -5734,27 +5897,27 @@ extension S3 {
     public struct Error: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VersionId", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Code", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string)
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         public let versionId: String?
-        public let key: String?
         public let code: String?
         public let message: String?
+        public let key: String?
 
-        public init(versionId: String? = nil, key: String? = nil, code: String? = nil, message: String? = nil) {
+        public init(versionId: String? = nil, code: String? = nil, message: String? = nil, key: String? = nil) {
             self.versionId = versionId
-            self.key = key
             self.code = code
             self.message = message
+            self.key = key
         }
 
         private enum CodingKeys: String, CodingKey {
             case versionId = "VersionId"
-            case key = "Key"
             case code = "Code"
             case message = "Message"
+            case key = "Key"
         }
     }
 
@@ -5935,8 +6098,8 @@ extension S3 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tagging", required: false, type: .structure), 
             AWSShapeMember(label: "Encryption", required: false, type: .structure), 
-            AWSShapeMember(label: "Prefix", required: true, type: .string), 
             AWSShapeMember(label: "AccessControlList", required: false, type: .structure), 
+            AWSShapeMember(label: "Prefix", required: true, type: .string), 
             AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
             AWSShapeMember(label: "BucketName", required: true, type: .string), 
             AWSShapeMember(label: "CannedACL", required: false, type: .enum), 
@@ -5945,10 +6108,10 @@ extension S3 {
         /// The tag-set that is applied to the restore results.
         public let tagging: Tagging?
         public let encryption: Encryption?
-        /// The prefix that is prepended to the restore results for this request.
-        public let prefix: String
         /// A list of grants that control access to the staged results.
         public let accessControlList: Grants?
+        /// The prefix that is prepended to the restore results for this request.
+        public let prefix: String
         /// The class of storage used to store the restore results.
         public let storageClass: StorageClass?
         /// The name of the bucket where the restore results will be placed.
@@ -5958,11 +6121,11 @@ extension S3 {
         /// A list of metadata to store with the restore results in S3.
         public let userMetadata: UserMetadata?
 
-        public init(tagging: Tagging? = nil, encryption: Encryption? = nil, prefix: String, accessControlList: Grants? = nil, storageClass: StorageClass? = nil, bucketName: String, cannedACL: ObjectCannedACL? = nil, userMetadata: UserMetadata? = nil) {
+        public init(tagging: Tagging? = nil, encryption: Encryption? = nil, accessControlList: Grants? = nil, prefix: String, storageClass: StorageClass? = nil, bucketName: String, cannedACL: ObjectCannedACL? = nil, userMetadata: UserMetadata? = nil) {
             self.tagging = tagging
             self.encryption = encryption
-            self.prefix = prefix
             self.accessControlList = accessControlList
+            self.prefix = prefix
             self.storageClass = storageClass
             self.bucketName = bucketName
             self.cannedACL = cannedACL
@@ -5972,8 +6135,8 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case tagging = "Tagging"
             case encryption = "Encryption"
-            case prefix = "Prefix"
             case accessControlList = "AccessControlList"
+            case prefix = "Prefix"
             case storageClass = "StorageClass"
             case bucketName = "BucketName"
             case cannedACL = "CannedACL"
@@ -6142,6 +6305,7 @@ extension S3 {
     public enum TransitionStorageClass: String, CustomStringConvertible, Codable {
         case glacier = "GLACIER"
         case standardIa = "STANDARD_IA"
+        case onezoneIa = "ONEZONE_IA"
         public var description: String { return self.rawValue }
     }
 
@@ -6274,6 +6438,67 @@ extension S3 {
         }
     }
 
+    public struct SelectObjectContentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "OutputSerialization", required: true, type: .structure), 
+            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
+            AWSShapeMember(label: "Expression", required: true, type: .string), 
+            AWSShapeMember(label: "ExpressionType", required: true, type: .enum), 
+            AWSShapeMember(label: "RequestProgress", required: false, type: .structure), 
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
+            AWSShapeMember(label: "InputSerialization", required: true, type: .structure)
+        ]
+        /// The S3 Bucket.
+        public let bucket: String
+        /// Describes the format of the data that you want Amazon S3 to return in response.
+        public let outputSerialization: OutputSerialization
+        /// The SSE Customer Key. For more information, go to  Server-Side Encryption (Using Customer-Provided Encryption Keys. 
+        public let sSECustomerKey: String?
+        /// The expression that is used to query the object.
+        public let expression: String
+        /// The type of the provided expression (e.g., SQL).
+        public let expressionType: ExpressionType
+        /// Specifies if periodic request progress information should be enabled.
+        public let requestProgress: RequestProgress?
+        /// The SSE Customer Key MD5. For more information, go to  Server-Side Encryption (Using Customer-Provided Encryption Keys. 
+        public let sSECustomerKeyMD5: String?
+        /// The Object Key.
+        public let key: String
+        /// The SSE Algorithm used to encrypt the object. For more information, go to  Server-Side Encryption (Using Customer-Provided Encryption Keys. 
+        public let sSECustomerAlgorithm: String?
+        /// Describes the format of the data in the object that is being queried.
+        public let inputSerialization: InputSerialization
+
+        public init(bucket: String, outputSerialization: OutputSerialization, sSECustomerKey: String? = nil, expression: String, expressionType: ExpressionType, requestProgress: RequestProgress? = nil, sSECustomerKeyMD5: String? = nil, key: String, sSECustomerAlgorithm: String? = nil, inputSerialization: InputSerialization) {
+            self.bucket = bucket
+            self.outputSerialization = outputSerialization
+            self.sSECustomerKey = sSECustomerKey
+            self.expression = expression
+            self.expressionType = expressionType
+            self.requestProgress = requestProgress
+            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.key = key
+            self.sSECustomerAlgorithm = sSECustomerAlgorithm
+            self.inputSerialization = inputSerialization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case outputSerialization = "OutputSerialization"
+            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
+            case expression = "Expression"
+            case expressionType = "ExpressionType"
+            case requestProgress = "RequestProgress"
+            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case key = "Key"
+            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
+            case inputSerialization = "InputSerialization"
+        }
+    }
+
     public struct SseKmsEncryptedObjects: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: true, type: .enum)
@@ -6309,6 +6534,12 @@ extension S3 {
             case bucket = "Bucket"
             case id = "id"
         }
+    }
+
+    public enum JSONType: String, CustomStringConvertible, Codable {
+        case document = "DOCUMENT"
+        case lines = "LINES"
+        public var description: String { return self.rawValue }
     }
 
     public struct LifecycleConfiguration: AWSShape {
@@ -6480,6 +6711,22 @@ extension S3 {
         }
     }
 
+    public struct StatsEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Details", required: false, type: .structure)
+        ]
+        /// The Stats event details.
+        public let details: Stats?
+
+        public init(details: Stats? = nil) {
+            self.details = details
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "Details"
+        }
+    }
+
     public struct Grantee: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ID", required: false, type: .string), 
@@ -6514,6 +6761,13 @@ extension S3 {
             case displayName = "DisplayName"
             case uri = "URI"
         }
+    }
+
+    public enum CompressionType: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case gzip = "GZIP"
+        case bzip2 = "BZIP2"
+        public var description: String { return self.rawValue }
     }
 
     public struct QueueConfigurationDeprecated: AWSShape {

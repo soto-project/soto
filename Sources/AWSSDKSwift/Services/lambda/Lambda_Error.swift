@@ -10,6 +10,8 @@ public enum LambdaError: AWSErrorType {
     case invalidParameterValueException(message: String?)
     case policyLengthExceededException(message: String?)
     case tooManyRequestsException(message: String?)
+    case preconditionFailedException(message: String?)
+    case resourceInUseException(message: String?)
     case invalidRequestContentException(message: String?)
     case invalidRuntimeException(message: String?)
     case requestTooLargeException(message: String?)
@@ -48,6 +50,10 @@ extension LambdaError {
             self = .policyLengthExceededException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
+        case "PreconditionFailedException":
+            self = .preconditionFailedException(message: message)
+        case "ResourceInUseException":
+            self = .resourceInUseException(message: message)
         case "InvalidRequestContentException":
             self = .invalidRequestContentException(message: message)
         case "InvalidRuntimeException":

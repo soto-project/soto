@@ -17,6 +17,7 @@ public enum WafError: AWSErrorType {
     case wAFDisallowedNameException(message: String?)
     case wAFSubscriptionNotFoundException(message: String?)
     case wAFInvalidRegexPatternException(message: String?)
+    case wAFInvalidPermissionPolicyException(message: String?)
 }
 
 extension WafError {
@@ -52,6 +53,8 @@ extension WafError {
             self = .wAFSubscriptionNotFoundException(message: message)
         case "WAFInvalidRegexPatternException":
             self = .wAFInvalidRegexPatternException(message: message)
+        case "WAFInvalidPermissionPolicyException":
+            self = .wAFInvalidPermissionPolicyException(message: message)
         default:
             return nil
         }

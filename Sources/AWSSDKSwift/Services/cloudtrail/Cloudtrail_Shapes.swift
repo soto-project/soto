@@ -355,8 +355,8 @@ extension Cloudtrail {
 
     public struct Trail: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "LogFileValidationEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SnsTopicARN", required: false, type: .string), 
             AWSShapeMember(label: "HomeRegion", required: false, type: .string), 
             AWSShapeMember(label: "TrailARN", required: false, type: .string), 
             AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
@@ -368,12 +368,12 @@ extension Cloudtrail {
             AWSShapeMember(label: "SnsTopicName", required: false, type: .string), 
             AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "HasCustomEventSelectors", required: false, type: .boolean), 
-            AWSShapeMember(label: "SnsTopicARN", required: false, type: .string)
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
         ]
-        /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the format:  arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012 
-        public let kmsKeyId: String?
         /// Specifies whether log file validation is enabled.
         public let logFileValidationEnabled: Bool?
+        /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send notifications when log files are delivered. The format of a topic ARN is:  arn:aws:sns:us-east-1:123456789012:MyTopic 
+        public let snsTopicARN: String?
         /// The region in which the trail was created.
         public let homeRegion: String?
         /// Specifies the ARN of the trail. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
@@ -396,12 +396,12 @@ extension Cloudtrail {
         public let cloudWatchLogsRoleArn: String?
         /// Specifies if the trail has custom event selectors.
         public let hasCustomEventSelectors: Bool?
-        /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send notifications when log files are delivered. The format of a topic ARN is:  arn:aws:sns:us-east-1:123456789012:MyTopic 
-        public let snsTopicARN: String?
+        /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the format:  arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012 
+        public let kmsKeyId: String?
 
-        public init(kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, homeRegion: String? = nil, trailARN: String? = nil, includeGlobalServiceEvents: Bool? = nil, s3KeyPrefix: String? = nil, isMultiRegionTrail: Bool? = nil, name: String? = nil, cloudWatchLogsLogGroupArn: String? = nil, s3BucketName: String? = nil, snsTopicName: String? = nil, cloudWatchLogsRoleArn: String? = nil, hasCustomEventSelectors: Bool? = nil, snsTopicARN: String? = nil) {
-            self.kmsKeyId = kmsKeyId
+        public init(logFileValidationEnabled: Bool? = nil, snsTopicARN: String? = nil, homeRegion: String? = nil, trailARN: String? = nil, includeGlobalServiceEvents: Bool? = nil, s3KeyPrefix: String? = nil, isMultiRegionTrail: Bool? = nil, name: String? = nil, cloudWatchLogsLogGroupArn: String? = nil, s3BucketName: String? = nil, snsTopicName: String? = nil, cloudWatchLogsRoleArn: String? = nil, hasCustomEventSelectors: Bool? = nil, kmsKeyId: String? = nil) {
             self.logFileValidationEnabled = logFileValidationEnabled
+            self.snsTopicARN = snsTopicARN
             self.homeRegion = homeRegion
             self.trailARN = trailARN
             self.includeGlobalServiceEvents = includeGlobalServiceEvents
@@ -413,12 +413,12 @@ extension Cloudtrail {
             self.snsTopicName = snsTopicName
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
             self.hasCustomEventSelectors = hasCustomEventSelectors
-            self.snsTopicARN = snsTopicARN
+            self.kmsKeyId = kmsKeyId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyId = "KmsKeyId"
             case logFileValidationEnabled = "LogFileValidationEnabled"
+            case snsTopicARN = "SnsTopicARN"
             case homeRegion = "HomeRegion"
             case trailARN = "TrailARN"
             case includeGlobalServiceEvents = "IncludeGlobalServiceEvents"
@@ -430,7 +430,7 @@ extension Cloudtrail {
             case snsTopicName = "SnsTopicName"
             case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
             case hasCustomEventSelectors = "HasCustomEventSelectors"
-            case snsTopicARN = "SnsTopicARN"
+            case kmsKeyId = "KmsKeyId"
         }
     }
 
@@ -555,8 +555,8 @@ extension Cloudtrail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSource", required: false, type: .string), 
             AWSShapeMember(label: "EventTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Username", required: false, type: .string), 
             AWSShapeMember(label: "EventId", required: false, type: .string), 
+            AWSShapeMember(label: "Username", required: false, type: .string), 
             AWSShapeMember(label: "EventName", required: false, type: .string), 
             AWSShapeMember(label: "Resources", required: false, type: .list), 
             AWSShapeMember(label: "CloudTrailEvent", required: false, type: .string)
@@ -565,10 +565,10 @@ extension Cloudtrail {
         public let eventSource: String?
         /// The date and time of the event returned.
         public let eventTime: TimeStamp?
-        /// A user name or role name of the requester that called the API in the event returned.
-        public let username: String?
         /// The CloudTrail ID of the event returned.
         public let eventId: String?
+        /// A user name or role name of the requester that called the API in the event returned.
+        public let username: String?
         /// The name of the event returned.
         public let eventName: String?
         /// A list of resources referenced by the event returned.
@@ -576,11 +576,11 @@ extension Cloudtrail {
         /// A JSON string that contains a representation of the event returned.
         public let cloudTrailEvent: String?
 
-        public init(eventSource: String? = nil, eventTime: TimeStamp? = nil, username: String? = nil, eventId: String? = nil, eventName: String? = nil, resources: [Resource]? = nil, cloudTrailEvent: String? = nil) {
+        public init(eventSource: String? = nil, eventTime: TimeStamp? = nil, eventId: String? = nil, username: String? = nil, eventName: String? = nil, resources: [Resource]? = nil, cloudTrailEvent: String? = nil) {
             self.eventSource = eventSource
             self.eventTime = eventTime
-            self.username = username
             self.eventId = eventId
+            self.username = username
             self.eventName = eventName
             self.resources = resources
             self.cloudTrailEvent = cloudTrailEvent
@@ -589,8 +589,8 @@ extension Cloudtrail {
         private enum CodingKeys: String, CodingKey {
             case eventSource = "EventSource"
             case eventTime = "EventTime"
-            case username = "Username"
             case eventId = "EventId"
+            case username = "Username"
             case eventName = "EventName"
             case resources = "Resources"
             case cloudTrailEvent = "CloudTrailEvent"

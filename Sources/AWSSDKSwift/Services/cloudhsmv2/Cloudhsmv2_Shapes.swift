@@ -24,29 +24,29 @@ extension Cloudhsmv2 {
     public struct Cluster: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StateMessage", required: false, type: .string), 
-            AWSShapeMember(label: "BackupPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "HsmType", required: false, type: .string), 
             AWSShapeMember(label: "SecurityGroup", required: false, type: .string), 
+            AWSShapeMember(label: "SourceBackupId", required: false, type: .string), 
             AWSShapeMember(label: "Certificates", required: false, type: .structure), 
-            AWSShapeMember(label: "Hsms", required: false, type: .list), 
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "SubnetMapping", required: false, type: .map), 
             AWSShapeMember(label: "VpcId", required: false, type: .string), 
             AWSShapeMember(label: "PreCoPassword", required: false, type: .string), 
             AWSShapeMember(label: "CreateTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "HsmType", required: false, type: .string), 
             AWSShapeMember(label: "ClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "SourceBackupId", required: false, type: .string)
+            AWSShapeMember(label: "BackupPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "Hsms", required: false, type: .list)
         ]
         /// A description of the cluster's state.
         public let stateMessage: String?
-        /// The cluster's backup policy.
-        public let backupPolicy: BackupPolicy?
+        /// The type of HSM that the cluster contains.
+        public let hsmType: String?
         /// The identifier (ID) of the cluster's security group.
         public let securityGroup: String?
+        /// The identifier (ID) of the backup used to create the cluster. This value exists only when the cluster was created from a backup.
+        public let sourceBackupId: String?
         /// Contains one or more certificates or a certificate signing request (CSR).
         public let certificates: Certificates?
-        /// Contains information about the HSMs in the cluster.
-        public let hsms: [Hsm]?
         /// The cluster's state.
         public let state: ClusterState?
         /// A map of the cluster's subnets and their corresponding Availability Zones.
@@ -57,43 +57,43 @@ extension Cloudhsmv2 {
         public let preCoPassword: String?
         /// The date and time when the cluster was created.
         public let createTimestamp: TimeStamp?
-        /// The type of HSM that the cluster contains.
-        public let hsmType: String?
         /// The cluster's identifier (ID).
         public let clusterId: String?
-        /// The identifier (ID) of the backup used to create the cluster. This value exists only when the cluster was created from a backup.
-        public let sourceBackupId: String?
+        /// The cluster's backup policy.
+        public let backupPolicy: BackupPolicy?
+        /// Contains information about the HSMs in the cluster.
+        public let hsms: [Hsm]?
 
-        public init(stateMessage: String? = nil, backupPolicy: BackupPolicy? = nil, securityGroup: String? = nil, certificates: Certificates? = nil, hsms: [Hsm]? = nil, state: ClusterState? = nil, subnetMapping: [String: String]? = nil, vpcId: String? = nil, preCoPassword: String? = nil, createTimestamp: TimeStamp? = nil, hsmType: String? = nil, clusterId: String? = nil, sourceBackupId: String? = nil) {
+        public init(stateMessage: String? = nil, hsmType: String? = nil, securityGroup: String? = nil, sourceBackupId: String? = nil, certificates: Certificates? = nil, state: ClusterState? = nil, subnetMapping: [String: String]? = nil, vpcId: String? = nil, preCoPassword: String? = nil, createTimestamp: TimeStamp? = nil, clusterId: String? = nil, backupPolicy: BackupPolicy? = nil, hsms: [Hsm]? = nil) {
             self.stateMessage = stateMessage
-            self.backupPolicy = backupPolicy
+            self.hsmType = hsmType
             self.securityGroup = securityGroup
+            self.sourceBackupId = sourceBackupId
             self.certificates = certificates
-            self.hsms = hsms
             self.state = state
             self.subnetMapping = subnetMapping
             self.vpcId = vpcId
             self.preCoPassword = preCoPassword
             self.createTimestamp = createTimestamp
-            self.hsmType = hsmType
             self.clusterId = clusterId
-            self.sourceBackupId = sourceBackupId
+            self.backupPolicy = backupPolicy
+            self.hsms = hsms
         }
 
         private enum CodingKeys: String, CodingKey {
             case stateMessage = "StateMessage"
-            case backupPolicy = "BackupPolicy"
+            case hsmType = "HsmType"
             case securityGroup = "SecurityGroup"
+            case sourceBackupId = "SourceBackupId"
             case certificates = "Certificates"
-            case hsms = "Hsms"
             case state = "State"
             case subnetMapping = "SubnetMapping"
             case vpcId = "VpcId"
             case preCoPassword = "PreCoPassword"
             case createTimestamp = "CreateTimestamp"
-            case hsmType = "HsmType"
             case clusterId = "ClusterId"
-            case sourceBackupId = "SourceBackupId"
+            case backupPolicy = "BackupPolicy"
+            case hsms = "Hsms"
         }
     }
 
@@ -123,6 +123,25 @@ extension Cloudhsmv2 {
         case ready = "READY"
         case deleted = "DELETED"
         public var description: String { return self.rawValue }
+    }
+
+    public struct CopyBackupToRegionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationRegion", required: true, type: .string), 
+            AWSShapeMember(label: "BackupId", required: true, type: .string)
+        ]
+        public let destinationRegion: String
+        public let backupId: String
+
+        public init(destinationRegion: String, backupId: String) {
+            self.destinationRegion = destinationRegion
+            self.backupId = backupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationRegion = "DestinationRegion"
+            case backupId = "BackupId"
+        }
     }
 
     public struct ListTagsResponse: AWSShape {
@@ -260,6 +279,21 @@ extension Cloudhsmv2 {
         public var description: String { return self.rawValue }
     }
 
+    public struct CopyBackupToRegionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationBackup", required: false, type: .structure)
+        ]
+        public let destinationBackup: DestinationBackup?
+
+        public init(destinationBackup: DestinationBackup? = nil) {
+            self.destinationBackup = destinationBackup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationBackup = "DestinationBackup"
+        }
+    }
+
     public struct DeleteHsmRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HsmId", required: false, type: .string), 
@@ -314,6 +348,33 @@ extension Cloudhsmv2 {
             case subnetIds = "SubnetIds"
             case hsmType = "HsmType"
             case sourceBackupId = "SourceBackupId"
+        }
+    }
+
+    public struct DestinationBackup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SourceCluster", required: false, type: .string), 
+            AWSShapeMember(label: "SourceBackup", required: false, type: .string), 
+            AWSShapeMember(label: "SourceRegion", required: false, type: .string)
+        ]
+        public let createTimestamp: TimeStamp?
+        public let sourceCluster: String?
+        public let sourceBackup: String?
+        public let sourceRegion: String?
+
+        public init(createTimestamp: TimeStamp? = nil, sourceCluster: String? = nil, sourceBackup: String? = nil, sourceRegion: String? = nil) {
+            self.createTimestamp = createTimestamp
+            self.sourceCluster = sourceCluster
+            self.sourceBackup = sourceBackup
+            self.sourceRegion = sourceRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTimestamp = "CreateTimestamp"
+            case sourceCluster = "SourceCluster"
+            case sourceBackup = "SourceBackup"
+            case sourceRegion = "SourceRegion"
         }
     }
 
@@ -377,27 +438,31 @@ extension Cloudhsmv2 {
 
     public struct DescribeBackupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "Filters", required: false, type: .map), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortAscending", required: false, type: .boolean)
         ]
-        /// The NextToken value that you received in the previous response. Use this value to get more backups.
-        public let nextToken: String?
-        /// One or more filters to limit the items returned in the response. Use the backupIds filter to return only the specified backups. Specify backups by their backup identifier (ID). Use the clusterIds filter to return only the backups for the specified clusters. Specify clusters by their cluster identifier (ID). Use the states filter to return only backups that match the specified state.
-        public let filters: [String: [String]]?
         /// The maximum number of backups to return in the response. When there are more backups than the number you specify, the response contains a NextToken value.
         public let maxResults: Int32?
+        /// One or more filters to limit the items returned in the response. Use the backupIds filter to return only the specified backups. Specify backups by their backup identifier (ID). Use the clusterIds filter to return only the backups for the specified clusters. Specify clusters by their cluster identifier (ID). Use the states filter to return only backups that match the specified state.
+        public let filters: [String: [String]]?
+        /// The NextToken value that you received in the previous response. Use this value to get more backups.
+        public let nextToken: String?
+        public let sortAscending: Bool?
 
-        public init(nextToken: String? = nil, filters: [String: [String]]? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.filters = filters
+        public init(maxResults: Int32? = nil, filters: [String: [String]]? = nil, nextToken: String? = nil, sortAscending: Bool? = nil) {
             self.maxResults = maxResults
+            self.filters = filters
+            self.nextToken = nextToken
+            self.sortAscending = sortAscending
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case filters = "Filters"
             case maxResults = "MaxResults"
+            case filters = "Filters"
+            case nextToken = "NextToken"
+            case sortAscending = "SortAscending"
         }
     }
 
@@ -454,31 +519,47 @@ extension Cloudhsmv2 {
 
     public struct Backup: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceBackup", required: false, type: .string), 
+            AWSShapeMember(label: "SourceCluster", required: false, type: .string), 
+            AWSShapeMember(label: "CopyTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "BackupId", required: true, type: .string), 
+            AWSShapeMember(label: "SourceRegion", required: false, type: .string), 
             AWSShapeMember(label: "CreateTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "BackupState", required: false, type: .enum), 
-            AWSShapeMember(label: "BackupId", required: true, type: .string), 
             AWSShapeMember(label: "ClusterId", required: false, type: .string)
         ]
+        public let sourceBackup: String?
+        public let sourceCluster: String?
+        public let copyTimestamp: TimeStamp?
+        /// The identifier (ID) of the backup.
+        public let backupId: String
+        public let sourceRegion: String?
         /// The date and time when the backup was created.
         public let createTimestamp: TimeStamp?
         /// The state of the backup.
         public let backupState: BackupState?
-        /// The identifier (ID) of the backup.
-        public let backupId: String
         /// The identifier (ID) of the cluster that was backed up.
         public let clusterId: String?
 
-        public init(createTimestamp: TimeStamp? = nil, backupState: BackupState? = nil, backupId: String, clusterId: String? = nil) {
+        public init(sourceBackup: String? = nil, sourceCluster: String? = nil, copyTimestamp: TimeStamp? = nil, backupId: String, sourceRegion: String? = nil, createTimestamp: TimeStamp? = nil, backupState: BackupState? = nil, clusterId: String? = nil) {
+            self.sourceBackup = sourceBackup
+            self.sourceCluster = sourceCluster
+            self.copyTimestamp = copyTimestamp
+            self.backupId = backupId
+            self.sourceRegion = sourceRegion
             self.createTimestamp = createTimestamp
             self.backupState = backupState
-            self.backupId = backupId
             self.clusterId = clusterId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case sourceBackup = "SourceBackup"
+            case sourceCluster = "SourceCluster"
+            case copyTimestamp = "CopyTimestamp"
+            case backupId = "BackupId"
+            case sourceRegion = "SourceRegion"
             case createTimestamp = "CreateTimestamp"
             case backupState = "BackupState"
-            case backupId = "BackupId"
             case clusterId = "ClusterId"
         }
     }

@@ -5,6 +5,22 @@ import AWSSDKSwiftCore
 
 extension Es {
 
+    public struct DescribeElasticsearchDomainsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainNames", required: true, type: .list)
+        ]
+        /// The Elasticsearch domains for which you want information.
+        public let domainNames: [String]
+
+        public init(domainNames: [String]) {
+            self.domainNames = domainNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainNames = "DomainNames"
+        }
+    }
+
     public struct InstanceCountLimits: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MinimumInstanceCount", required: false, type: .integer), 
@@ -45,22 +61,6 @@ extension Es {
         }
     }
 
-    public struct DescribeElasticsearchDomainsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainNames", required: true, type: .list)
-        ]
-        /// The Elasticsearch domains for which you want information.
-        public let domainNames: [String]
-
-        public init(domainNames: [String]) {
-            self.domainNames = domainNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainNames = "DomainNames"
-        }
-    }
-
     public struct DescribeElasticsearchDomainRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
@@ -95,6 +95,27 @@ extension Es {
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case tagList = "TagList"
+        }
+    }
+
+    public struct CognitoOptionsStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
+        ]
+        /// Specifies the Cognito options for the specified Elasticsearch domain.
+        public let options: CognitoOptions
+        /// Specifies the status of the Cognito options for the specified Elasticsearch domain.
+        public let status: OptionStatus
+
+        public init(options: CognitoOptions, status: OptionStatus) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
         }
     }
 
@@ -171,6 +192,82 @@ extension Es {
         }
     }
 
+    public struct ReservedElasticsearchInstance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedElasticsearchInstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "RecurringCharges", required: false, type: .list), 
+            AWSShapeMember(label: "ElasticsearchInstanceType", required: false, type: .enum), 
+            AWSShapeMember(label: "ReservationName", required: false, type: .string), 
+            AWSShapeMember(label: "UsagePrice", required: false, type: .double), 
+            AWSShapeMember(label: "State", required: false, type: .string), 
+            AWSShapeMember(label: "PaymentOption", required: false, type: .enum), 
+            AWSShapeMember(label: "ElasticsearchInstanceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ReservedElasticsearchInstanceOfferingId", required: false, type: .string), 
+            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "FixedPrice", required: false, type: .double)
+        ]
+        /// The unique identifier for the reservation.
+        public let reservedElasticsearchInstanceId: String?
+        /// The charge to your account regardless of whether you are creating any domains using the instance offering.
+        public let recurringCharges: [RecurringCharge]?
+        /// The Elasticsearch instance type offered by the reserved instance offering.
+        public let elasticsearchInstanceType: ESPartitionInstanceType?
+        /// The customer-specified identifier to track this reservation.
+        public let reservationName: String?
+        /// The rate you are charged for each hour for the domain that is using this reserved instance.
+        public let usagePrice: Double?
+        /// The state of the reserved Elasticsearch instance.
+        public let state: String?
+        /// The payment option as defined in the reserved Elasticsearch instance offering.
+        public let paymentOption: ReservedElasticsearchInstancePaymentOption?
+        /// The number of Elasticsearch instances that have been reserved.
+        public let elasticsearchInstanceCount: Int32?
+        /// The time the reservation started.
+        public let startTime: TimeStamp?
+        /// The offering identifier.
+        public let reservedElasticsearchInstanceOfferingId: String?
+        /// The currency code for the reserved Elasticsearch instance offering.
+        public let currencyCode: String?
+        /// The duration, in seconds, for which the Elasticsearch instance is reserved.
+        public let duration: Int32?
+        /// The upfront fixed charge you will paid to purchase the specific reserved Elasticsearch instance offering. 
+        public let fixedPrice: Double?
+
+        public init(reservedElasticsearchInstanceId: String? = nil, recurringCharges: [RecurringCharge]? = nil, elasticsearchInstanceType: ESPartitionInstanceType? = nil, reservationName: String? = nil, usagePrice: Double? = nil, state: String? = nil, paymentOption: ReservedElasticsearchInstancePaymentOption? = nil, elasticsearchInstanceCount: Int32? = nil, startTime: TimeStamp? = nil, reservedElasticsearchInstanceOfferingId: String? = nil, currencyCode: String? = nil, duration: Int32? = nil, fixedPrice: Double? = nil) {
+            self.reservedElasticsearchInstanceId = reservedElasticsearchInstanceId
+            self.recurringCharges = recurringCharges
+            self.elasticsearchInstanceType = elasticsearchInstanceType
+            self.reservationName = reservationName
+            self.usagePrice = usagePrice
+            self.state = state
+            self.paymentOption = paymentOption
+            self.elasticsearchInstanceCount = elasticsearchInstanceCount
+            self.startTime = startTime
+            self.reservedElasticsearchInstanceOfferingId = reservedElasticsearchInstanceOfferingId
+            self.currencyCode = currencyCode
+            self.duration = duration
+            self.fixedPrice = fixedPrice
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedElasticsearchInstanceId = "ReservedElasticsearchInstanceId"
+            case recurringCharges = "RecurringCharges"
+            case elasticsearchInstanceType = "ElasticsearchInstanceType"
+            case reservationName = "ReservationName"
+            case usagePrice = "UsagePrice"
+            case state = "State"
+            case paymentOption = "PaymentOption"
+            case elasticsearchInstanceCount = "ElasticsearchInstanceCount"
+            case startTime = "StartTime"
+            case reservedElasticsearchInstanceOfferingId = "ReservedElasticsearchInstanceOfferingId"
+            case currencyCode = "CurrencyCode"
+            case duration = "Duration"
+            case fixedPrice = "FixedPrice"
+        }
+    }
+
     public struct DescribeElasticsearchInstanceTypeLimitsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LimitsByRole", required: false, type: .map)
@@ -183,6 +280,83 @@ extension Es {
 
         private enum CodingKeys: String, CodingKey {
             case limitsByRole = "LimitsByRole"
+        }
+    }
+
+    public struct DescribeReservedElasticsearchInstancesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedElasticsearchInstanceId", location: .querystring(locationName: "reservationId"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// The reserved instance identifier filter value. Use this parameter to show only the reservation that matches the specified reserved Elasticsearch instance ID.
+        public let reservedElasticsearchInstanceId: String?
+        /// NextToken should be sent in case if earlier API call produced result containing NextToken. It is used for pagination.
+        public let nextToken: String?
+        /// Set this value to limit the number of results returned. If not specified, defaults to 100.
+        public let maxResults: Int32?
+
+        public init(reservedElasticsearchInstanceId: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.reservedElasticsearchInstanceId = reservedElasticsearchInstanceId
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedElasticsearchInstanceId = "reservationId"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct ReservedElasticsearchInstanceOffering: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticsearchInstanceType", required: false, type: .enum), 
+            AWSShapeMember(label: "RecurringCharges", required: false, type: .list), 
+            AWSShapeMember(label: "UsagePrice", required: false, type: .double), 
+            AWSShapeMember(label: "PaymentOption", required: false, type: .enum), 
+            AWSShapeMember(label: "ReservedElasticsearchInstanceOfferingId", required: false, type: .string), 
+            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "FixedPrice", required: false, type: .double)
+        ]
+        /// The Elasticsearch instance type offered by the reserved instance offering.
+        public let elasticsearchInstanceType: ESPartitionInstanceType?
+        /// The charge to your account regardless of whether you are creating any domains using the instance offering.
+        public let recurringCharges: [RecurringCharge]?
+        /// The rate you are charged for each hour the domain that is using the offering is running.
+        public let usagePrice: Double?
+        /// Payment option for the reserved Elasticsearch instance offering
+        public let paymentOption: ReservedElasticsearchInstancePaymentOption?
+        /// The Elasticsearch reserved instance offering identifier.
+        public let reservedElasticsearchInstanceOfferingId: String?
+        /// The currency code for the reserved Elasticsearch instance offering.
+        public let currencyCode: String?
+        /// The duration, in seconds, for which the offering will reserve the Elasticsearch instance.
+        public let duration: Int32?
+        /// The upfront fixed charge you will pay to purchase the specific reserved Elasticsearch instance offering. 
+        public let fixedPrice: Double?
+
+        public init(elasticsearchInstanceType: ESPartitionInstanceType? = nil, recurringCharges: [RecurringCharge]? = nil, usagePrice: Double? = nil, paymentOption: ReservedElasticsearchInstancePaymentOption? = nil, reservedElasticsearchInstanceOfferingId: String? = nil, currencyCode: String? = nil, duration: Int32? = nil, fixedPrice: Double? = nil) {
+            self.elasticsearchInstanceType = elasticsearchInstanceType
+            self.recurringCharges = recurringCharges
+            self.usagePrice = usagePrice
+            self.paymentOption = paymentOption
+            self.reservedElasticsearchInstanceOfferingId = reservedElasticsearchInstanceOfferingId
+            self.currencyCode = currencyCode
+            self.duration = duration
+            self.fixedPrice = fixedPrice
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case elasticsearchInstanceType = "ElasticsearchInstanceType"
+            case recurringCharges = "RecurringCharges"
+            case usagePrice = "UsagePrice"
+            case paymentOption = "PaymentOption"
+            case reservedElasticsearchInstanceOfferingId = "ReservedElasticsearchInstanceOfferingId"
+            case currencyCode = "CurrencyCode"
+            case duration = "Duration"
+            case fixedPrice = "FixedPrice"
         }
     }
 
@@ -283,6 +457,7 @@ extension Es {
     public enum LogType: String, CustomStringConvertible, Codable {
         case indexSlowLogs = "INDEX_SLOW_LOGS"
         case searchSlowLogs = "SEARCH_SLOW_LOGS"
+        case esApplicationLogs = "ES_APPLICATION_LOGS"
         public var description: String { return self.rawValue }
     }
 
@@ -304,6 +479,27 @@ extension Es {
         private enum CodingKeys: String, CodingKey {
             case limitName = "LimitName"
             case limitValues = "LimitValues"
+        }
+    }
+
+    public struct RecurringCharge: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecurringChargeAmount", required: false, type: .double), 
+            AWSShapeMember(label: "RecurringChargeFrequency", required: false, type: .string)
+        ]
+        /// The monetary amount of the recurring charge.
+        public let recurringChargeAmount: Double?
+        /// The frequency of the recurring charge.
+        public let recurringChargeFrequency: String?
+
+        public init(recurringChargeAmount: Double? = nil, recurringChargeFrequency: String? = nil) {
+            self.recurringChargeAmount = recurringChargeAmount
+            self.recurringChargeFrequency = recurringChargeFrequency
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recurringChargeAmount = "RecurringChargeAmount"
+            case recurringChargeFrequency = "RecurringChargeFrequency"
         }
     }
 
@@ -347,21 +543,6 @@ extension Es {
         }
     }
 
-    public struct InstanceLimits: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceCountLimits", required: false, type: .structure)
-        ]
-        public let instanceCountLimits: InstanceCountLimits?
-
-        public init(instanceCountLimits: InstanceCountLimits? = nil) {
-            self.instanceCountLimits = instanceCountLimits
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceCountLimits = "InstanceCountLimits"
-        }
-    }
-
     public struct AdvancedOptionsStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Options", required: true, type: .map), 
@@ -380,6 +561,21 @@ extension Es {
         private enum CodingKeys: String, CodingKey {
             case options = "Options"
             case status = "Status"
+        }
+    }
+
+    public struct InstanceLimits: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceCountLimits", required: false, type: .structure)
+        ]
+        public let instanceCountLimits: InstanceCountLimits?
+
+        public init(instanceCountLimits: InstanceCountLimits? = nil) {
+            self.instanceCountLimits = instanceCountLimits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceCountLimits = "InstanceCountLimits"
         }
     }
 
@@ -417,24 +613,30 @@ extension Es {
     public struct ElasticsearchDomainConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "EncryptionAtRestOptions", required: false, type: .structure), 
             AWSShapeMember(label: "ElasticsearchClusterConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "EBSOptions", required: false, type: .structure), 
             AWSShapeMember(label: "VPCOptions", required: false, type: .structure), 
             AWSShapeMember(label: "LogPublishingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "EBSOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "CognitoOptions", required: false, type: .structure), 
             AWSShapeMember(label: "ElasticsearchVersion", required: false, type: .structure), 
             AWSShapeMember(label: "AccessPolicies", required: false, type: .structure), 
             AWSShapeMember(label: "AdvancedOptions", required: false, type: .structure)
         ]
         /// Specifies the SnapshotOptions for the Elasticsearch domain.
         public let snapshotOptions: SnapshotOptionsStatus?
+        /// Specifies the EncryptionAtRestOptions for the Elasticsearch domain.
+        public let encryptionAtRestOptions: EncryptionAtRestOptionsStatus?
         /// Specifies the ElasticsearchClusterConfig for the Elasticsearch domain.
         public let elasticsearchClusterConfig: ElasticsearchClusterConfigStatus?
-        /// Specifies the EBSOptions for the Elasticsearch domain.
-        public let eBSOptions: EBSOptionsStatus?
         /// The VPCOptions for the specified domain. For more information, see VPC Endpoints for Amazon Elasticsearch Service Domains.
         public let vPCOptions: VPCDerivedInfoStatus?
         /// Log publishing options for the given domain.
         public let logPublishingOptions: LogPublishingOptionsStatus?
+        /// Specifies the EBSOptions for the Elasticsearch domain.
+        public let eBSOptions: EBSOptionsStatus?
+        /// The CognitoOptions for the specified domain. For more information, see Amazon Cognito Authentication for Kibana.
+        public let cognitoOptions: CognitoOptionsStatus?
         /// String of format X.Y to specify version for the Elasticsearch domain.
         public let elasticsearchVersion: ElasticsearchVersionStatus?
         /// IAM access policy as a JSON-formatted string.
@@ -442,12 +644,14 @@ extension Es {
         /// Specifies the AdvancedOptions for the domain. See Configuring Advanced Options for more information.
         public let advancedOptions: AdvancedOptionsStatus?
 
-        public init(snapshotOptions: SnapshotOptionsStatus? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfigStatus? = nil, eBSOptions: EBSOptionsStatus? = nil, vPCOptions: VPCDerivedInfoStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, elasticsearchVersion: ElasticsearchVersionStatus? = nil, accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil) {
+        public init(snapshotOptions: SnapshotOptionsStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfigStatus? = nil, vPCOptions: VPCDerivedInfoStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, eBSOptions: EBSOptionsStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, elasticsearchVersion: ElasticsearchVersionStatus? = nil, accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil) {
             self.snapshotOptions = snapshotOptions
+            self.encryptionAtRestOptions = encryptionAtRestOptions
             self.elasticsearchClusterConfig = elasticsearchClusterConfig
-            self.eBSOptions = eBSOptions
             self.vPCOptions = vPCOptions
             self.logPublishingOptions = logPublishingOptions
+            self.eBSOptions = eBSOptions
+            self.cognitoOptions = cognitoOptions
             self.elasticsearchVersion = elasticsearchVersion
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
@@ -455,13 +659,36 @@ extension Es {
 
         private enum CodingKeys: String, CodingKey {
             case snapshotOptions = "SnapshotOptions"
+            case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
-            case eBSOptions = "EBSOptions"
             case vPCOptions = "VPCOptions"
             case logPublishingOptions = "LogPublishingOptions"
+            case eBSOptions = "EBSOptions"
+            case cognitoOptions = "CognitoOptions"
             case elasticsearchVersion = "ElasticsearchVersion"
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
+        }
+    }
+
+    public struct DescribeReservedElasticsearchInstanceOfferingsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedElasticsearchInstanceOfferings", required: false, type: .list)
+        ]
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let nextToken: String?
+        /// List of reserved Elasticsearch instance offerings
+        public let reservedElasticsearchInstanceOfferings: [ReservedElasticsearchInstanceOffering]?
+
+        public init(nextToken: String? = nil, reservedElasticsearchInstanceOfferings: [ReservedElasticsearchInstanceOffering]? = nil) {
+            self.nextToken = nextToken
+            self.reservedElasticsearchInstanceOfferings = reservedElasticsearchInstanceOfferings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case reservedElasticsearchInstanceOfferings = "ReservedElasticsearchInstanceOfferings"
         }
     }
 
@@ -573,30 +800,34 @@ extension Es {
 
     public struct ElasticsearchDomainStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainId", required: true, type: .string), 
+            AWSShapeMember(label: "Endpoints", required: false, type: .map), 
             AWSShapeMember(label: "VPCOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "ElasticsearchVersion", required: false, type: .string), 
+            AWSShapeMember(label: "CognitoOptions", required: false, type: .structure), 
             AWSShapeMember(label: "Processing", required: false, type: .boolean), 
+            AWSShapeMember(label: "ElasticsearchVersion", required: false, type: .string), 
             AWSShapeMember(label: "Created", required: false, type: .boolean), 
             AWSShapeMember(label: "ARN", required: true, type: .string), 
             AWSShapeMember(label: "EBSOptions", required: false, type: .structure), 
             AWSShapeMember(label: "ElasticsearchClusterConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "SnapshotOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "EncryptionAtRestOptions", required: false, type: .structure), 
             AWSShapeMember(label: "LogPublishingOptions", required: false, type: .map), 
+            AWSShapeMember(label: "SnapshotOptions", required: false, type: .structure), 
             AWSShapeMember(label: "AccessPolicies", required: false, type: .string), 
             AWSShapeMember(label: "AdvancedOptions", required: false, type: .map), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "Endpoint", required: false, type: .string), 
             AWSShapeMember(label: "Deleted", required: false, type: .boolean), 
-            AWSShapeMember(label: "Endpoints", required: false, type: .map)
+            AWSShapeMember(label: "DomainId", required: true, type: .string)
         ]
-        /// The unique identifier for the specified Elasticsearch domain.
-        public let domainId: String
+        /// Map containing the Elasticsearch domain endpoints used to submit index and search requests. Example key, value: 'vpc','vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.us-east-1.es.amazonaws.com'.
+        public let endpoints: [String: String]?
         /// The VPCOptions for the specified domain. For more information, see VPC Endpoints for Amazon Elasticsearch Service Domains.
         public let vPCOptions: VPCDerivedInfo?
-        public let elasticsearchVersion: String?
+        /// The CognitoOptions for the specified domain. For more information, see Amazon Cognito Authentication for Kibana.
+        public let cognitoOptions: CognitoOptions?
         /// The status of the Elasticsearch domain configuration. True if Amazon Elasticsearch Service is processing configuration changes. False if the configuration is active.
         public let processing: Bool?
+        public let elasticsearchVersion: String?
         /// The domain creation status. True if the creation of an Elasticsearch domain is complete. False if domain creation is still in progress.
         public let created: Bool?
         /// The Amazon resource name (ARN) of an Elasticsearch domain. See Identifiers for IAM Entities in Using AWS Identity and Access Management for more information.
@@ -605,10 +836,12 @@ extension Es {
         public let eBSOptions: EBSOptions?
         /// The type and number of instances in the domain cluster.
         public let elasticsearchClusterConfig: ElasticsearchClusterConfig
-        /// Specifies the status of the SnapshotOptions
-        public let snapshotOptions: SnapshotOptions?
+        ///  Specifies the status of the EncryptionAtRestOptions.
+        public let encryptionAtRestOptions: EncryptionAtRestOptions?
         /// Log publishing options for the given domain.
         public let logPublishingOptions: [LogType: LogPublishingOption]?
+        /// Specifies the status of the SnapshotOptions
+        public let snapshotOptions: SnapshotOptions?
         ///  IAM access policy as a JSON-formatted string.
         public let accessPolicies: String?
         /// Specifies the status of the AdvancedOptions
@@ -619,76 +852,101 @@ extension Es {
         public let endpoint: String?
         /// The domain deletion status. True if a delete request has been received for the domain but resource cleanup is still in progress. False if the domain has not been deleted. Once domain deletion is complete, the status of the domain is no longer returned.
         public let deleted: Bool?
-        /// Map containing the Elasticsearch domain endpoints used to submit index and search requests. Example key, value: 'vpc','vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.us-east-1.es.amazonaws.com'.
-        public let endpoints: [String: String]?
+        /// The unique identifier for the specified Elasticsearch domain.
+        public let domainId: String
 
-        public init(domainId: String, vPCOptions: VPCDerivedInfo? = nil, elasticsearchVersion: String? = nil, processing: Bool? = nil, created: Bool? = nil, arn: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig, snapshotOptions: SnapshotOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, domainName: String, endpoint: String? = nil, deleted: Bool? = nil, endpoints: [String: String]? = nil) {
-            self.domainId = domainId
+        public init(endpoints: [String: String]? = nil, vPCOptions: VPCDerivedInfo? = nil, cognitoOptions: CognitoOptions? = nil, processing: Bool? = nil, elasticsearchVersion: String? = nil, created: Bool? = nil, arn: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, snapshotOptions: SnapshotOptions? = nil, accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, domainName: String, endpoint: String? = nil, deleted: Bool? = nil, domainId: String) {
+            self.endpoints = endpoints
             self.vPCOptions = vPCOptions
-            self.elasticsearchVersion = elasticsearchVersion
+            self.cognitoOptions = cognitoOptions
             self.processing = processing
+            self.elasticsearchVersion = elasticsearchVersion
             self.created = created
             self.arn = arn
             self.eBSOptions = eBSOptions
             self.elasticsearchClusterConfig = elasticsearchClusterConfig
-            self.snapshotOptions = snapshotOptions
+            self.encryptionAtRestOptions = encryptionAtRestOptions
             self.logPublishingOptions = logPublishingOptions
+            self.snapshotOptions = snapshotOptions
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.domainName = domainName
             self.endpoint = endpoint
             self.deleted = deleted
-            self.endpoints = endpoints
+            self.domainId = domainId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainId = "DomainId"
+            case endpoints = "Endpoints"
             case vPCOptions = "VPCOptions"
-            case elasticsearchVersion = "ElasticsearchVersion"
+            case cognitoOptions = "CognitoOptions"
             case processing = "Processing"
+            case elasticsearchVersion = "ElasticsearchVersion"
             case created = "Created"
             case arn = "ARN"
             case eBSOptions = "EBSOptions"
             case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
-            case snapshotOptions = "SnapshotOptions"
+            case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case logPublishingOptions = "LogPublishingOptions"
+            case snapshotOptions = "SnapshotOptions"
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
             case domainName = "DomainName"
             case endpoint = "Endpoint"
             case deleted = "Deleted"
-            case endpoints = "Endpoints"
+            case domainId = "DomainId"
         }
     }
 
     public struct ListElasticsearchInstanceTypesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "ElasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion"), required: true, type: .string), 
             AWSShapeMember(label: "DomainName", location: .querystring(locationName: "domainName"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "ElasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion"), required: true, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
         ]
-        ///  Set this value to limit the number of results returned. Value provided must be greater than 30 else it wont be honored. 
-        public let maxResults: Int32?
+        /// Version of Elasticsearch for which list of supported elasticsearch instance types are needed. 
+        public let elasticsearchVersion: String
         /// DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for list of available Elasticsearch instance types when modifying existing domain. 
         public let domainName: String?
         /// NextToken should be sent in case if earlier API call produced result containing NextToken. It is used for pagination. 
         public let nextToken: String?
-        /// Version of Elasticsearch for which list of supported elasticsearch instance types are needed. 
-        public let elasticsearchVersion: String
+        ///  Set this value to limit the number of results returned. Value provided must be greater than 30 else it wont be honored. 
+        public let maxResults: Int32?
 
-        public init(maxResults: Int32? = nil, domainName: String? = nil, nextToken: String? = nil, elasticsearchVersion: String) {
-            self.maxResults = maxResults
+        public init(elasticsearchVersion: String, domainName: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.elasticsearchVersion = elasticsearchVersion
             self.domainName = domainName
             self.nextToken = nextToken
-            self.elasticsearchVersion = elasticsearchVersion
+            self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
+            case elasticsearchVersion = "ElasticsearchVersion"
             case domainName = "domainName"
             case nextToken = "nextToken"
-            case elasticsearchVersion = "ElasticsearchVersion"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct EncryptionAtRestOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
+        ]
+        /// Specifies the option to enable Encryption At Rest.
+        public let enabled: Bool?
+        ///  Specifies the KMS Key ID for Encryption At Rest options.
+        public let kmsKeyId: String?
+
+        public init(enabled: Bool? = nil, kmsKeyId: String? = nil) {
+            self.enabled = enabled
+            self.kmsKeyId = kmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case kmsKeyId = "KmsKeyId"
         }
     }
 
@@ -699,6 +957,7 @@ extension Es {
             AWSShapeMember(label: "EBSOptions", required: false, type: .structure), 
             AWSShapeMember(label: "VPCOptions", required: false, type: .structure), 
             AWSShapeMember(label: "LogPublishingOptions", required: false, type: .map), 
+            AWSShapeMember(label: "CognitoOptions", required: false, type: .structure), 
             AWSShapeMember(label: "AdvancedOptions", required: false, type: .map), 
             AWSShapeMember(label: "AccessPolicies", required: false, type: .string), 
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
@@ -713,6 +972,8 @@ extension Es {
         public let vPCOptions: VPCOptions?
         /// Map of LogType and LogPublishingOption, each containing options to publish a given type of Elasticsearch log.
         public let logPublishingOptions: [LogType: LogPublishingOption]?
+        /// Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see Amazon Cognito Authentication for Kibana.
+        public let cognitoOptions: CognitoOptions?
         /// Modifies the advanced option to allow references to indices in an HTTP request body. Must be false when configuring access to individual sub-resources. By default, the value is true. See Configuration Advanced Options for more information.
         public let advancedOptions: [String: String]?
         /// IAM access policy as a JSON-formatted string.
@@ -720,12 +981,13 @@ extension Es {
         /// The name of the Elasticsearch domain that you are updating. 
         public let domainName: String
 
-        public init(snapshotOptions: SnapshotOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, eBSOptions: EBSOptions? = nil, vPCOptions: VPCOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, advancedOptions: [String: String]? = nil, accessPolicies: String? = nil, domainName: String) {
+        public init(snapshotOptions: SnapshotOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, eBSOptions: EBSOptions? = nil, vPCOptions: VPCOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, cognitoOptions: CognitoOptions? = nil, advancedOptions: [String: String]? = nil, accessPolicies: String? = nil, domainName: String) {
             self.snapshotOptions = snapshotOptions
             self.elasticsearchClusterConfig = elasticsearchClusterConfig
             self.eBSOptions = eBSOptions
             self.vPCOptions = vPCOptions
             self.logPublishingOptions = logPublishingOptions
+            self.cognitoOptions = cognitoOptions
             self.advancedOptions = advancedOptions
             self.accessPolicies = accessPolicies
             self.domainName = domainName
@@ -737,25 +999,10 @@ extension Es {
             case eBSOptions = "EBSOptions"
             case vPCOptions = "VPCOptions"
             case logPublishingOptions = "LogPublishingOptions"
+            case cognitoOptions = "CognitoOptions"
             case advancedOptions = "AdvancedOptions"
             case accessPolicies = "AccessPolicies"
             case domainName = "DomainName"
-        }
-    }
-
-    public struct CreateElasticsearchDomainResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainStatus", required: false, type: .structure)
-        ]
-        /// The status of the newly created Elasticsearch domain. 
-        public let domainStatus: ElasticsearchDomainStatus?
-
-        public init(domainStatus: ElasticsearchDomainStatus? = nil) {
-            self.domainStatus = domainStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainStatus = "DomainStatus"
         }
     }
 
@@ -777,6 +1024,22 @@ extension Es {
         private enum CodingKeys: String, CodingKey {
             case options = "Options"
             case status = "Status"
+        }
+    }
+
+    public struct CreateElasticsearchDomainResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainStatus", required: false, type: .structure)
+        ]
+        /// The status of the newly created Elasticsearch domain. 
+        public let domainStatus: ElasticsearchDomainStatus?
+
+        public init(domainStatus: ElasticsearchDomainStatus? = nil) {
+            self.domainStatus = domainStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainStatus = "DomainStatus"
         }
     }
 
@@ -866,6 +1129,32 @@ extension Es {
         public var description: String { return self.rawValue }
     }
 
+    public struct DescribeReservedElasticsearchInstanceOfferingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedElasticsearchInstanceOfferingId", location: .querystring(locationName: "offeringId"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// The offering identifier filter value. Use this parameter to show only the available offering that matches the specified reservation identifier.
+        public let reservedElasticsearchInstanceOfferingId: String?
+        /// NextToken should be sent in case if earlier API call produced result containing NextToken. It is used for pagination.
+        public let nextToken: String?
+        /// Set this value to limit the number of results returned. If not specified, defaults to 100.
+        public let maxResults: Int32?
+
+        public init(reservedElasticsearchInstanceOfferingId: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.reservedElasticsearchInstanceOfferingId = reservedElasticsearchInstanceOfferingId
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedElasticsearchInstanceOfferingId = "offeringId"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+        }
+    }
+
     public struct SnapshotOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutomatedSnapshotStartHour", required: false, type: .integer)
@@ -945,6 +1234,13 @@ extension Es {
         }
     }
 
+    public enum ReservedElasticsearchInstancePaymentOption: String, CustomStringConvertible, Codable {
+        case allUpfront = "ALL_UPFRONT"
+        case partialUpfront = "PARTIAL_UPFRONT"
+        case noUpfront = "NO_UPFRONT"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListElasticsearchVersionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
@@ -962,27 +1258,6 @@ extension Es {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case maxResults = "maxResults"
-        }
-    }
-
-    public struct SnapshotOptionsStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Options", required: true, type: .structure), 
-            AWSShapeMember(label: "Status", required: true, type: .structure)
-        ]
-        /// Specifies the daily snapshot options specified for the Elasticsearch domain.
-        public let options: SnapshotOptions
-        /// Specifies the status of a daily automated snapshot.
-        public let status: OptionStatus
-
-        public init(options: SnapshotOptions, status: OptionStatus) {
-            self.options = options
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case options = "Options"
-            case status = "Status"
         }
     }
 
@@ -1007,6 +1282,48 @@ extension Es {
         }
     }
 
+    public struct SnapshotOptionsStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
+        ]
+        /// Specifies the daily snapshot options specified for the Elasticsearch domain.
+        public let options: SnapshotOptions
+        /// Specifies the status of a daily automated snapshot.
+        public let status: OptionStatus
+
+        public init(options: SnapshotOptions, status: OptionStatus) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
+        }
+    }
+
+    public struct EncryptionAtRestOptionsStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
+        ]
+        ///  Specifies the Encryption At Rest options for the specified Elasticsearch domain.
+        public let options: EncryptionAtRestOptions
+        ///  Specifies the status of the Encryption At Rest options for the specified Elasticsearch domain.
+        public let status: OptionStatus
+
+        public init(options: EncryptionAtRestOptions, status: OptionStatus) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
+        }
+    }
+
     public struct DescribeElasticsearchDomainsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainStatusList", required: true, type: .list)
@@ -1020,6 +1337,37 @@ extension Es {
 
         private enum CodingKeys: String, CodingKey {
             case domainStatusList = "DomainStatusList"
+        }
+    }
+
+    public struct CognitoOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: false, type: .string)
+        ]
+        /// Specifies the option to enable Cognito for Kibana authentication.
+        public let enabled: Bool?
+        /// Specifies the role ARN that provides Elasticsearch permissions for accessing Cognito resources.
+        public let roleArn: String?
+        /// Specifies the Cognito identity pool ID for Kibana authentication.
+        public let identityPoolId: String?
+        /// Specifies the Cognito user pool ID for Kibana authentication.
+        public let userPoolId: String?
+
+        public init(enabled: Bool? = nil, roleArn: String? = nil, identityPoolId: String? = nil, userPoolId: String? = nil) {
+            self.enabled = enabled
+            self.roleArn = roleArn
+            self.identityPoolId = identityPoolId
+            self.userPoolId = userPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case roleArn = "RoleArn"
+            case identityPoolId = "IdentityPoolId"
+            case userPoolId = "UserPoolId"
         }
     }
 
@@ -1039,6 +1387,27 @@ extension Es {
         }
     }
 
+    public struct DescribeReservedElasticsearchInstancesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedElasticsearchInstances", required: false, type: .list)
+        ]
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let nextToken: String?
+        /// List of reserved Elasticsearch instances.
+        public let reservedElasticsearchInstances: [ReservedElasticsearchInstance]?
+
+        public init(nextToken: String? = nil, reservedElasticsearchInstances: [ReservedElasticsearchInstance]? = nil) {
+            self.nextToken = nextToken
+            self.reservedElasticsearchInstances = reservedElasticsearchInstances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case reservedElasticsearchInstances = "ReservedElasticsearchInstances"
+        }
+    }
+
     public struct DeleteElasticsearchDomainRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
@@ -1052,27 +1421,6 @@ extension Es {
 
         private enum CodingKeys: String, CodingKey {
             case domainName = "DomainName"
-        }
-    }
-
-    public struct VPCDerivedInfoStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Options", required: true, type: .structure), 
-            AWSShapeMember(label: "Status", required: true, type: .structure)
-        ]
-        ///  Specifies the VPC options for the specified Elasticsearch domain.
-        public let options: VPCDerivedInfo
-        ///  Specifies the status of the VPC options for the specified Elasticsearch domain.
-        public let status: OptionStatus
-
-        public init(options: VPCDerivedInfo, status: OptionStatus) {
-            self.options = options
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case options = "Options"
-            case status = "Status"
         }
     }
 
@@ -1101,13 +1449,36 @@ extension Es {
         }
     }
 
+    public struct VPCDerivedInfoStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
+        ]
+        ///  Specifies the VPC options for the specified Elasticsearch domain.
+        public let options: VPCDerivedInfo
+        ///  Specifies the status of the VPC options for the specified Elasticsearch domain.
+        public let status: OptionStatus
+
+        public init(options: VPCDerivedInfo, status: OptionStatus) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
+        }
+    }
+
     public struct CreateElasticsearchDomainRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "EncryptionAtRestOptions", required: false, type: .structure), 
             AWSShapeMember(label: "ElasticsearchClusterConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "EBSOptions", required: false, type: .structure), 
             AWSShapeMember(label: "VPCOptions", required: false, type: .structure), 
             AWSShapeMember(label: "LogPublishingOptions", required: false, type: .map), 
+            AWSShapeMember(label: "EBSOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "CognitoOptions", required: false, type: .structure), 
             AWSShapeMember(label: "ElasticsearchVersion", required: false, type: .string), 
             AWSShapeMember(label: "AccessPolicies", required: false, type: .string), 
             AWSShapeMember(label: "AdvancedOptions", required: false, type: .map), 
@@ -1115,14 +1486,18 @@ extension Es {
         ]
         /// Option to set time, in UTC format, of the daily automated snapshot. Default value is 0 hours. 
         public let snapshotOptions: SnapshotOptions?
+        /// Specifies the Encryption At Rest Options.
+        public let encryptionAtRestOptions: EncryptionAtRestOptions?
         /// Configuration options for an Elasticsearch domain. Specifies the instance type and number of instances in the domain cluster. 
         public let elasticsearchClusterConfig: ElasticsearchClusterConfig?
-        /// Options to enable, disable and specify the type and size of EBS storage volumes. 
-        public let eBSOptions: EBSOptions?
         /// Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
         public let vPCOptions: VPCOptions?
         /// Map of LogType and LogPublishingOption, each containing options to publish a given type of Elasticsearch log.
         public let logPublishingOptions: [LogType: LogPublishingOption]?
+        /// Options to enable, disable and specify the type and size of EBS storage volumes. 
+        public let eBSOptions: EBSOptions?
+        /// Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see Amazon Cognito Authentication for Kibana.
+        public let cognitoOptions: CognitoOptions?
         /// String of format X.Y to specify version for the Elasticsearch domain eg. "1.5" or "2.3". For more information, see Creating Elasticsearch Domains in the Amazon Elasticsearch Service Developer Guide.
         public let elasticsearchVersion: String?
         ///  IAM access policy as a JSON-formatted string.
@@ -1132,12 +1507,14 @@ extension Es {
         /// The name of the Elasticsearch domain that you are creating. Domain names are unique across the domains owned by an account within an AWS region. Domain names must start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
         public let domainName: String
 
-        public init(snapshotOptions: SnapshotOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, eBSOptions: EBSOptions? = nil, vPCOptions: VPCOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, elasticsearchVersion: String? = nil, accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, domainName: String) {
+        public init(snapshotOptions: SnapshotOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, vPCOptions: VPCOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, eBSOptions: EBSOptions? = nil, cognitoOptions: CognitoOptions? = nil, elasticsearchVersion: String? = nil, accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, domainName: String) {
             self.snapshotOptions = snapshotOptions
+            self.encryptionAtRestOptions = encryptionAtRestOptions
             self.elasticsearchClusterConfig = elasticsearchClusterConfig
-            self.eBSOptions = eBSOptions
             self.vPCOptions = vPCOptions
             self.logPublishingOptions = logPublishingOptions
+            self.eBSOptions = eBSOptions
+            self.cognitoOptions = cognitoOptions
             self.elasticsearchVersion = elasticsearchVersion
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
@@ -1146,10 +1523,12 @@ extension Es {
 
         private enum CodingKeys: String, CodingKey {
             case snapshotOptions = "SnapshotOptions"
+            case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
-            case eBSOptions = "EBSOptions"
             case vPCOptions = "VPCOptions"
             case logPublishingOptions = "LogPublishingOptions"
+            case eBSOptions = "EBSOptions"
+            case cognitoOptions = "CognitoOptions"
             case elasticsearchVersion = "ElasticsearchVersion"
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
@@ -1223,6 +1602,53 @@ extension Es {
         case processing = "Processing"
         case active = "Active"
         public var description: String { return self.rawValue }
+    }
+
+    public struct PurchaseReservedElasticsearchInstanceOfferingResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservationName", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedElasticsearchInstanceId", required: false, type: .string)
+        ]
+        /// The customer-specified identifier used to track this reservation.
+        public let reservationName: String?
+        /// Details of the reserved Elasticsearch instance which was purchased.
+        public let reservedElasticsearchInstanceId: String?
+
+        public init(reservationName: String? = nil, reservedElasticsearchInstanceId: String? = nil) {
+            self.reservationName = reservationName
+            self.reservedElasticsearchInstanceId = reservedElasticsearchInstanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservationName = "ReservationName"
+            case reservedElasticsearchInstanceId = "ReservedElasticsearchInstanceId"
+        }
+    }
+
+    public struct PurchaseReservedElasticsearchInstanceOfferingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedElasticsearchInstanceOfferingId", required: true, type: .string), 
+            AWSShapeMember(label: "ReservationName", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceCount", required: false, type: .integer)
+        ]
+        /// The ID of the reserved Elasticsearch instance offering to purchase.
+        public let reservedElasticsearchInstanceOfferingId: String
+        /// A customer-specified identifier to track this reservation.
+        public let reservationName: String
+        /// The number of Elasticsearch instances to reserve.
+        public let instanceCount: Int32?
+
+        public init(reservedElasticsearchInstanceOfferingId: String, reservationName: String, instanceCount: Int32? = nil) {
+            self.reservedElasticsearchInstanceOfferingId = reservedElasticsearchInstanceOfferingId
+            self.reservationName = reservationName
+            self.instanceCount = instanceCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedElasticsearchInstanceOfferingId = "ReservedElasticsearchInstanceOfferingId"
+            case reservationName = "ReservationName"
+            case instanceCount = "InstanceCount"
+        }
     }
 
 }

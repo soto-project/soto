@@ -41,12 +41,6 @@ extension Shield {
         }
     }
 
-    public enum SubResourceType: String, CustomStringConvertible, Codable {
-        case ip = "IP"
-        case url = "URL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Protection: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
@@ -73,8 +67,52 @@ extension Shield {
         }
     }
 
-    public struct DeleteSubscriptionRequest: AWSShape {
+    public struct DisassociateDRTLogBucketRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogBucket", required: true, type: .string)
+        ]
+        /// The Amazon S3 bucket that contains your flow logs.
+        public let logBucket: String
 
+        public init(logBucket: String) {
+            self.logBucket = logBucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logBucket = "LogBucket"
+        }
+    }
+
+    public struct AssociateDRTRoleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the role the DRT will use to access your AWS account. Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy managed policy to this role. For more information see Attaching and Detaching IAM Policies.
+        public let roleArn: String
+
+        public init(roleArn: String) {
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct DescribeEmergencyContactSettingsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmergencyContactList", required: false, type: .list)
+        ]
+        /// A list of email addresses that the DRT can use to contact you during a suspected attack.
+        public let emergencyContactList: [EmergencyContact]?
+
+        public init(emergencyContactList: [EmergencyContact]? = nil) {
+            self.emergencyContactList = emergencyContactList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emergencyContactList = "EmergencyContactList"
+        }
     }
 
     public struct AttackSummary: AWSShape {
@@ -116,21 +154,36 @@ extension Shield {
     public struct Subscription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TimeCommitmentInSeconds", required: false, type: .long)
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Limits", required: false, type: .list), 
+            AWSShapeMember(label: "TimeCommitmentInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "AutoRenew", required: false, type: .enum)
         ]
         /// The start time of the subscription, in Unix time in seconds. For more information see timestamp.
         public let startTime: TimeStamp?
+        /// The date and time your subscription will end.
+        public let endTime: TimeStamp?
+        /// Specifies how many protections of a given type you can create.
+        public let limits: [Limit]?
         /// The length, in seconds, of the AWS Shield Advanced subscription for the account.
         public let timeCommitmentInSeconds: Int64?
+        /// If ENABLED, the subscription will be automatically renewed at the end of the existing subscription period. When you initally create a subscription, AutoRenew is set to ENABLED. You can change this by submitting an UpdateSubscription request. If the UpdateSubscription request does not included a value for AutoRenew, the existing value for AutoRenew remains unchanged.
+        public let autoRenew: AutoRenew?
 
-        public init(startTime: TimeStamp? = nil, timeCommitmentInSeconds: Int64? = nil) {
+        public init(startTime: TimeStamp? = nil, endTime: TimeStamp? = nil, limits: [Limit]? = nil, timeCommitmentInSeconds: Int64? = nil, autoRenew: AutoRenew? = nil) {
             self.startTime = startTime
+            self.endTime = endTime
+            self.limits = limits
             self.timeCommitmentInSeconds = timeCommitmentInSeconds
+            self.autoRenew = autoRenew
         }
 
         private enum CodingKeys: String, CodingKey {
             case startTime = "StartTime"
+            case endTime = "EndTime"
+            case limits = "Limits"
             case timeCommitmentInSeconds = "TimeCommitmentInSeconds"
+            case autoRenew = "AutoRenew"
         }
     }
 
@@ -228,19 +281,24 @@ extension Shield {
         }
     }
 
-    public struct DescribeAttackResponse: AWSShape {
+    public struct DescribeDRTAccessResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attack", required: false, type: .structure)
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "LogBucketList", required: false, type: .list)
         ]
-        /// The attack that is described.
-        public let attack: AttackDetail?
+        /// The Amazon Resource Name (ARN) of the role the DRT used to access your AWS account.
+        public let roleArn: String?
+        /// The list of Amazon S3 buckets accessed by the DRT.
+        public let logBucketList: [String]?
 
-        public init(attack: AttackDetail? = nil) {
-            self.attack = attack
+        public init(roleArn: String? = nil, logBucketList: [String]? = nil) {
+            self.roleArn = roleArn
+            self.logBucketList = logBucketList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attack = "Attack"
+            case roleArn = "RoleArn"
+            case logBucketList = "LogBucketList"
         }
     }
 
@@ -262,47 +320,6 @@ extension Shield {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case protections = "Protections"
-        }
-    }
-
-    public struct SummarizedCounter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Unit", required: false, type: .string), 
-            AWSShapeMember(label: "Average", required: false, type: .double), 
-            AWSShapeMember(label: "N", required: false, type: .integer), 
-            AWSShapeMember(label: "Max", required: false, type: .double), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Sum", required: false, type: .double)
-        ]
-        /// The unit of the counters.
-        public let unit: String?
-        /// The average value of the counter for a specified time period.
-        public let average: Double?
-        /// The number of counters for a specified time period.
-        public let n: Int32?
-        /// The maximum value of the counter for a specified time period.
-        public let max: Double?
-        /// The counter name.
-        public let name: String?
-        /// The total of counter values for a specified time period.
-        public let sum: Double?
-
-        public init(unit: String? = nil, average: Double? = nil, n: Int32? = nil, max: Double? = nil, name: String? = nil, sum: Double? = nil) {
-            self.unit = unit
-            self.average = average
-            self.n = n
-            self.max = max
-            self.name = name
-            self.sum = sum
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case unit = "Unit"
-            case average = "Average"
-            case n = "N"
-            case max = "Max"
-            case name = "Name"
-            case sum = "Sum"
         }
     }
 
@@ -348,42 +365,6 @@ extension Shield {
         }
     }
 
-    public struct GetSubscriptionStateRequest: AWSShape {
-
-    }
-
-    public struct DescribeAttackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttackId", required: true, type: .string)
-        ]
-        /// The unique identifier (ID) for the attack that to be described.
-        public let attackId: String
-
-        public init(attackId: String) {
-            self.attackId = attackId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attackId = "AttackId"
-        }
-    }
-
-    public struct DescribeProtectionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Protection", required: false, type: .structure)
-        ]
-        /// The Protection object that is described.
-        public let protection: Protection?
-
-        public init(protection: Protection? = nil) {
-            self.protection = protection
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case protection = "Protection"
-        }
-    }
-
     public struct DescribeProtectionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProtectionId", required: true, type: .string)
@@ -416,8 +397,10 @@ extension Shield {
         }
     }
 
-    public struct DeleteSubscriptionResponse: AWSShape {
-
+    public enum AutoRenew: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
     }
 
     public struct TimeRange: AWSShape {
@@ -442,6 +425,26 @@ extension Shield {
     }
 
     public struct CreateSubscriptionResponse: AWSShape {
+
+    }
+
+    public struct UpdateEmergencyContactSettingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmergencyContactList", required: false, type: .list)
+        ]
+        /// A list of email addresses that the DRT can use to contact you during a suspected attack.
+        public let emergencyContactList: [EmergencyContact]?
+
+        public init(emergencyContactList: [EmergencyContact]? = nil) {
+            self.emergencyContactList = emergencyContactList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emergencyContactList = "EmergencyContactList"
+        }
+    }
+
+    public struct AssociateDRTRoleResponse: AWSShape {
 
     }
 
@@ -482,20 +485,12 @@ extension Shield {
         }
     }
 
-    public struct Mitigation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MitigationName", required: false, type: .string)
-        ]
-        /// The name of the mitigation taken for this attack.
-        public let mitigationName: String?
+    public struct DisassociateDRTRoleResponse: AWSShape {
 
-        public init(mitigationName: String? = nil) {
-            self.mitigationName = mitigationName
-        }
+    }
 
-        private enum CodingKeys: String, CodingKey {
-            case mitigationName = "MitigationName"
-        }
+    public struct DisassociateDRTLogBucketResponse: AWSShape {
+
     }
 
     public struct DescribeSubscriptionResponse: AWSShape {
@@ -511,6 +506,281 @@ extension Shield {
 
         private enum CodingKeys: String, CodingKey {
             case subscription = "Subscription"
+        }
+    }
+
+    public struct AssociateDRTLogBucketRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogBucket", required: true, type: .string)
+        ]
+        /// The Amazon S3 bucket that contains your flow logs.
+        public let logBucket: String
+
+        public init(logBucket: String) {
+            self.logBucket = logBucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logBucket = "LogBucket"
+        }
+    }
+
+    public struct AttackVectorDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VectorType", required: true, type: .string)
+        ]
+        /// The attack type. Valid values:   UDP_TRAFFIC   UDP_FRAGMENT   GENERIC_UDP_REFLECTION   DNS_REFLECTION   NTP_REFLECTION   CHARGEN_REFLECTION   SSDP_REFLECTION   PORT_MAPPER   RIP_REFLECTION   SNMP_REFLECTION   MSSQL_REFLECTION   NET_BIOS_REFLECTION   SYN_FLOOD   ACK_FLOOD   REQUEST_FLOOD  
+        public let vectorType: String
+
+        public init(vectorType: String) {
+            self.vectorType = vectorType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vectorType = "VectorType"
+        }
+    }
+
+    public enum AttackPropertyIdentifier: String, CustomStringConvertible, Codable {
+        case destinationUrl = "DESTINATION_URL"
+        case referrer = "REFERRER"
+        case sourceAsn = "SOURCE_ASN"
+        case sourceCountry = "SOURCE_COUNTRY"
+        case sourceIpAddress = "SOURCE_IP_ADDRESS"
+        case sourceUserAgent = "SOURCE_USER_AGENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Unit: String, CustomStringConvertible, Codable {
+        case bits = "BITS"
+        case bytes = "BYTES"
+        case packets = "PACKETS"
+        case requests = "REQUESTS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListProtectionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// The ListProtectionsRequest.NextToken value from a previous call to ListProtections. Pass null if this is the first call.
+        public let nextToken: String?
+        /// The maximum number of Protection objects to be returned. If this is left blank the first 20 results will be returned.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct DescribeSubscriptionRequest: AWSShape {
+
+    }
+
+    public struct UpdateSubscriptionResponse: AWSShape {
+
+    }
+
+    public struct DescribeEmergencyContactSettingsRequest: AWSShape {
+
+    }
+
+    public struct DeleteProtectionResponse: AWSShape {
+
+    }
+
+    public enum SubResourceType: String, CustomStringConvertible, Codable {
+        case ip = "IP"
+        case url = "URL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeDRTAccessRequest: AWSShape {
+
+    }
+
+    public struct EmergencyContact: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailAddress", required: true, type: .string)
+        ]
+        /// An email address that the DRT can use to contact you during a suspected attack.
+        public let emailAddress: String
+
+        public init(emailAddress: String) {
+            self.emailAddress = emailAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailAddress = "EmailAddress"
+        }
+    }
+
+    public struct UpdateEmergencyContactSettingsResponse: AWSShape {
+
+    }
+
+    public struct DeleteSubscriptionRequest: AWSShape {
+
+    }
+
+    public struct UpdateSubscriptionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoRenew", required: false, type: .enum)
+        ]
+        /// When you initally create a subscription, AutoRenew is set to ENABLED. If ENABLED, the subscription will be automatically renewed at the end of the existing subscription period. You can change this by submitting an UpdateSubscription request. If the UpdateSubscription request does not included a value for AutoRenew, the existing value for AutoRenew remains unchanged.
+        public let autoRenew: AutoRenew?
+
+        public init(autoRenew: AutoRenew? = nil) {
+            self.autoRenew = autoRenew
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoRenew = "AutoRenew"
+        }
+    }
+
+    public struct DescribeAttackResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attack", required: false, type: .structure)
+        ]
+        /// The attack that is described.
+        public let attack: AttackDetail?
+
+        public init(attack: AttackDetail? = nil) {
+            self.attack = attack
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attack = "Attack"
+        }
+    }
+
+    public struct SummarizedCounter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Unit", required: false, type: .string), 
+            AWSShapeMember(label: "Average", required: false, type: .double), 
+            AWSShapeMember(label: "N", required: false, type: .integer), 
+            AWSShapeMember(label: "Max", required: false, type: .double), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Sum", required: false, type: .double)
+        ]
+        /// The unit of the counters.
+        public let unit: String?
+        /// The average value of the counter for a specified time period.
+        public let average: Double?
+        /// The number of counters for a specified time period.
+        public let n: Int32?
+        /// The maximum value of the counter for a specified time period.
+        public let max: Double?
+        /// The counter name.
+        public let name: String?
+        /// The total of counter values for a specified time period.
+        public let sum: Double?
+
+        public init(unit: String? = nil, average: Double? = nil, n: Int32? = nil, max: Double? = nil, name: String? = nil, sum: Double? = nil) {
+            self.unit = unit
+            self.average = average
+            self.n = n
+            self.max = max
+            self.name = name
+            self.sum = sum
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unit = "Unit"
+            case average = "Average"
+            case n = "N"
+            case max = "Max"
+            case name = "Name"
+            case sum = "Sum"
+        }
+    }
+
+    public struct GetSubscriptionStateRequest: AWSShape {
+
+    }
+
+    public struct DescribeAttackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttackId", required: true, type: .string)
+        ]
+        /// The unique identifier (ID) for the attack that to be described.
+        public let attackId: String
+
+        public init(attackId: String) {
+            self.attackId = attackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attackId = "AttackId"
+        }
+    }
+
+    public struct DescribeProtectionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Protection", required: false, type: .structure)
+        ]
+        /// The Protection object that is described.
+        public let protection: Protection?
+
+        public init(protection: Protection? = nil) {
+            self.protection = protection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protection = "Protection"
+        }
+    }
+
+    public struct DeleteSubscriptionResponse: AWSShape {
+
+    }
+
+    public struct Limit: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Max", required: false, type: .long), 
+            AWSShapeMember(label: "Type", required: false, type: .string)
+        ]
+        /// The maximum number of protections that can be created for the specified Type.
+        public let max: Int64?
+        /// The type of protection.
+        public let `type`: String?
+
+        public init(max: Int64? = nil, type: String? = nil) {
+            self.max = max
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case `type` = "Type"
+        }
+    }
+
+    public struct DisassociateDRTRoleRequest: AWSShape {
+
+    }
+
+    public struct Mitigation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MitigationName", required: false, type: .string)
+        ]
+        /// The name of the mitigation taken for this attack.
+        public let mitigationName: String?
+
+        public init(mitigationName: String? = nil) {
+            self.mitigationName = mitigationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mitigationName = "MitigationName"
         }
     }
 
@@ -554,38 +824,8 @@ extension Shield {
         }
     }
 
-    public struct AttackVectorDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VectorType", required: true, type: .string)
-        ]
-        /// The attack type. Valid values:   UDP_TRAFFIC   UDP_FRAGMENT   GENERIC_UDP_REFLECTION   DNS_REFLECTION   NTP_REFLECTION   CHARGEN_REFLECTION   SSDP_REFLECTION   PORT_MAPPER   RIP_REFLECTION   SNMP_REFLECTION   MSSQL_REFLECTION   NET_BIOS_REFLECTION   SYN_FLOOD   ACK_FLOOD   REQUEST_FLOOD  
-        public let vectorType: String
+    public struct AssociateDRTLogBucketResponse: AWSShape {
 
-        public init(vectorType: String) {
-            self.vectorType = vectorType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vectorType = "VectorType"
-        }
-    }
-
-    public enum AttackPropertyIdentifier: String, CustomStringConvertible, Codable {
-        case destinationUrl = "DESTINATION_URL"
-        case referrer = "REFERRER"
-        case sourceAsn = "SOURCE_ASN"
-        case sourceCountry = "SOURCE_COUNTRY"
-        case sourceIpAddress = "SOURCE_IP_ADDRESS"
-        case sourceUserAgent = "SOURCE_USER_AGENT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Unit: String, CustomStringConvertible, Codable {
-        case bits = "BITS"
-        case bytes = "BYTES"
-        case packets = "PACKETS"
-        case requests = "REQUESTS"
-        public var description: String { return self.rawValue }
     }
 
     public struct SubResourceSummary: AWSShape {
@@ -619,39 +859,10 @@ extension Shield {
         }
     }
 
-    public struct ListProtectionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The ListProtectionsRequest.NextToken value from a previous call to ListProtections. Pass null if this is the first call.
-        public let nextToken: String?
-        /// The maximum number of Protection objects to be returned. If this is left blank the first 20 results will be returned.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-        }
-    }
-
     public enum SubscriptionState: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeSubscriptionRequest: AWSShape {
-
-    }
-
-    public struct DeleteProtectionResponse: AWSShape {
-
     }
 
 }

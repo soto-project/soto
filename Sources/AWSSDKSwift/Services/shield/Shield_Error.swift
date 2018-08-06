@@ -7,12 +7,15 @@ public enum ShieldError: AWSErrorType {
     case internalErrorException(message: String?)
     case resourceAlreadyExistsException(message: String?)
     case invalidParameterException(message: String?)
-    case invalidOperationException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case invalidResourceException(message: String?)
-    case limitsExceededException(message: String?)
     case optimisticLockException(message: String?)
+    case resourceNotFoundException(message: String?)
+    case invalidOperationException(message: String?)
     case lockedSubscriptionException(message: String?)
+    case invalidPaginationTokenException(message: String?)
+    case noAssociatedRoleException(message: String?)
+    case limitsExceededException(message: String?)
+    case accessDeniedForDependencyException(message: String?)
+    case invalidResourceException(message: String?)
 }
 
 extension ShieldError {
@@ -28,18 +31,24 @@ extension ShieldError {
             self = .resourceAlreadyExistsException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
-        case "InvalidOperationException":
-            self = .invalidOperationException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "InvalidResourceException":
-            self = .invalidResourceException(message: message)
-        case "LimitsExceededException":
-            self = .limitsExceededException(message: message)
         case "OptimisticLockException":
             self = .optimisticLockException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
+        case "InvalidOperationException":
+            self = .invalidOperationException(message: message)
         case "LockedSubscriptionException":
             self = .lockedSubscriptionException(message: message)
+        case "InvalidPaginationTokenException":
+            self = .invalidPaginationTokenException(message: message)
+        case "NoAssociatedRoleException":
+            self = .noAssociatedRoleException(message: message)
+        case "LimitsExceededException":
+            self = .limitsExceededException(message: message)
+        case "AccessDeniedForDependencyException":
+            self = .accessDeniedForDependencyException(message: message)
+        case "InvalidResourceException":
+            self = .invalidResourceException(message: message)
         default:
             return nil
         }

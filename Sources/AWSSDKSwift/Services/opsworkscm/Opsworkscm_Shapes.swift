@@ -427,59 +427,59 @@ extension Opsworkscm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LogUrl", required: false, type: .string), 
             AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string)
+            AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
         /// The Amazon S3 URL of the event's log file.
         public let logUrl: String?
         /// The time when the event occurred. 
         public let createdAt: TimeStamp?
-        /// A human-readable informational or status message.
-        public let message: String?
         /// The name of the server on or for which the event occurred. 
         public let serverName: String?
+        /// A human-readable informational or status message.
+        public let message: String?
 
-        public init(logUrl: String? = nil, createdAt: TimeStamp? = nil, message: String? = nil, serverName: String? = nil) {
+        public init(logUrl: String? = nil, createdAt: TimeStamp? = nil, serverName: String? = nil, message: String? = nil) {
             self.logUrl = logUrl
             self.createdAt = createdAt
-            self.message = message
             self.serverName = serverName
+            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case logUrl = "LogUrl"
             case createdAt = "CreatedAt"
-            case message = "Message"
             case serverName = "ServerName"
+            case message = "Message"
         }
     }
 
     public struct DescribeBackupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerName", required: false, type: .string), 
             AWSShapeMember(label: "BackupId", required: false, type: .string), 
+            AWSShapeMember(label: "ServerName", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
-        /// Returns backups for the server with the specified ServerName. 
-        public let serverName: String?
         /// Describes a single backup. 
         public let backupId: String?
+        /// Returns backups for the server with the specified ServerName. 
+        public let serverName: String?
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeBackups again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur.
         public let nextToken: String?
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. 
         public let maxResults: Int32?
 
-        public init(serverName: String? = nil, backupId: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.serverName = serverName
+        public init(backupId: String? = nil, serverName: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.backupId = backupId
+            self.serverName = serverName
             self.nextToken = nextToken
             self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serverName = "ServerName"
             case backupId = "BackupId"
+            case serverName = "ServerName"
             case nextToken = "NextToken"
             case maxResults = "MaxResults"
         }
@@ -843,31 +843,31 @@ extension Opsworkscm {
 
     public struct RestoreServerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerName", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
             AWSShapeMember(label: "BackupId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "ServerName", required: true, type: .string), 
             AWSShapeMember(label: "KeyPair", required: false, type: .string)
         ]
-        ///  The name of the server that you want to restore. 
-        public let serverName: String
-        ///  The type of the instance to create. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, m4.large. Valid values are t2.medium, m4.large, and m4.2xlarge. If you do not specify this parameter, RestoreServer uses the instance type from the specified backup. 
-        public let instanceType: String?
         ///  The ID of the backup that you want to use to restore a server. 
         public let backupId: String
+        ///  The type of the instance to create. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, m4.large. Valid values are t2.medium, m4.large, and m4.2xlarge. If you do not specify this parameter, RestoreServer uses the instance type from the specified backup. 
+        public let instanceType: String?
+        ///  The name of the server that you want to restore. 
+        public let serverName: String
         ///  The name of the key pair to set on the new EC2 instance. This can be helpful if the administrator no longer has the SSH key. 
         public let keyPair: String?
 
-        public init(serverName: String, instanceType: String? = nil, backupId: String, keyPair: String? = nil) {
-            self.serverName = serverName
-            self.instanceType = instanceType
+        public init(backupId: String, instanceType: String? = nil, serverName: String, keyPair: String? = nil) {
             self.backupId = backupId
+            self.instanceType = instanceType
+            self.serverName = serverName
             self.keyPair = keyPair
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serverName = "ServerName"
-            case instanceType = "InstanceType"
             case backupId = "BackupId"
+            case instanceType = "InstanceType"
+            case serverName = "ServerName"
             case keyPair = "KeyPair"
         }
     }

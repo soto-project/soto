@@ -32,7 +32,7 @@ extension Servicecatalog {
             AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
-        /// The account ID associated with the share to delete.
+        /// The AWS account ID.
         public let accountId: String
         /// The portfolio identifier.
         public let portfolioId: String
@@ -52,13 +52,20 @@ extension Servicecatalog {
         }
     }
 
+    public enum ChangeAction: String, CustomStringConvertible, Codable {
+        case add = "ADD"
+        case modify = "MODIFY"
+        case remove = "REMOVE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DisassociatePrincipalFromPortfolioInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PrincipalARN", required: true, type: .string), 
             AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
-        /// The ARN representing the principal (IAM user, role, or group).
+        /// The ARN of the principal (IAM user, role, or group).
         public let principalARN: String
         /// The portfolio identifier.
         public let portfolioId: String
@@ -93,7 +100,7 @@ extension Servicecatalog {
         ]
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The identifier of the portfolio for the delete request.
+        /// The portfolio identifier.
         public let id: String
 
         public init(acceptLanguage: String? = nil, id: String) {
@@ -114,13 +121,13 @@ extension Servicecatalog {
             AWSShapeMember(label: "UsageInstructions", required: false, type: .list), 
             AWSShapeMember(label: "ProvisioningArtifactParameters", required: false, type: .list)
         ]
-        /// List of TagOptions associated with the provisioned provisioning parameters.
+        /// Information about the TagOptions associated with the resource.
         public let tagOptions: [TagOptionSummary]?
-        /// The list of constraint summaries that apply to provisioning this product.
+        /// Information about the constraints used to provision the product.
         public let constraintSummaries: [ConstraintSummary]?
         /// Any additional metadata specifically related to the provisioning of the product. For example, see the Version field of the CloudFormation template.
         public let usageInstructions: [UsageInstruction]?
-        /// The list of parameters used to successfully provision the product. Each parameter includes a list of allowable values and additional metadata about each parameter.
+        /// Information about the parameters used to provision the product.
         public let provisioningArtifactParameters: [ProvisioningArtifactParameter]?
 
         public init(tagOptions: [TagOptionSummary]? = nil, constraintSummaries: [ConstraintSummary]? = nil, usageInstructions: [UsageInstruction]? = nil, provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil) {
@@ -159,34 +166,70 @@ extension Servicecatalog {
         }
     }
 
-    public struct ProvisioningArtifactProperties: AWSShape {
+    public struct CreateProvisionedProductPlanOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Info", required: true, type: .map)
+            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionProductId", required: false, type: .string), 
+            AWSShapeMember(label: "PlanId", required: false, type: .string), 
+            AWSShapeMember(label: "PlanName", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductName", required: false, type: .string)
         ]
-        /// The text description of the provisioning artifact properties.
-        public let description: String?
-        /// The type of the provisioning artifact properties. The following provisioning artifact property types are used by AWS Marketplace products:  MARKETPLACE_AMI - AMI products.  MARKETPLACE_CAR - CAR (Cluster and AWS Resources) products.
-        public let `type`: ProvisioningArtifactType?
-        /// The name assigned to the provisioning artifact properties.
-        public let name: String?
-        /// Additional information about the provisioning artifact properties. When using this element in a request, you must specify LoadTemplateFromURL. For more information, see CreateProvisioningArtifact.
-        public let info: [String: String]
+        /// The identifier of the provisioning artifact.
+        public let provisioningArtifactId: String?
+        /// The product identifier.
+        public let provisionProductId: String?
+        /// The plan identifier.
+        public let planId: String?
+        /// The name of the plan.
+        public let planName: String?
+        /// The user-friendly name of the provisioned product.
+        public let provisionedProductName: String?
 
-        public init(description: String? = nil, type: ProvisioningArtifactType? = nil, name: String? = nil, info: [String: String]) {
-            self.description = description
-            self.`type` = `type`
-            self.name = name
-            self.info = info
+        public init(provisioningArtifactId: String? = nil, provisionProductId: String? = nil, planId: String? = nil, planName: String? = nil, provisionedProductName: String? = nil) {
+            self.provisioningArtifactId = provisioningArtifactId
+            self.provisionProductId = provisionProductId
+            self.planId = planId
+            self.planName = planName
+            self.provisionedProductName = provisionedProductName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description = "Description"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case provisionProductId = "ProvisionProductId"
+            case planId = "PlanId"
+            case planName = "PlanName"
+            case provisionedProductName = "ProvisionedProductName"
+        }
+    }
+
+    public struct ProvisioningArtifactProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Info", required: true, type: .map), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// The URL of the CloudFormation template in Amazon S3. Specify the URL in JSON format as follows:  "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..." 
+        public let info: [String: String]
+        /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - AWS CloudFormation template    MARKETPLACE_AMI - AWS Marketplace AMI    MARKETPLACE_CAR - AWS Marketplace Clusters and AWS Resources  
+        public let `type`: ProvisioningArtifactType?
+        /// The name of the provisioning artifact (for example, v1 v2beta). No spaces are allowed.
+        public let name: String?
+        /// The description of the provisioning artifact, including how it differs from the previous provisioning artifact.
+        public let description: String?
+
+        public init(info: [String: String], type: ProvisioningArtifactType? = nil, name: String? = nil, description: String? = nil) {
+            self.info = info
+            self.`type` = `type`
+            self.name = name
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case info = "Info"
             case `type` = "Type"
             case name = "Name"
-            case info = "Info"
+            case description = "Description"
         }
     }
 
@@ -197,13 +240,13 @@ extension Servicecatalog {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "ProductViewDetail", required: false, type: .structure)
         ]
-        /// List of TagOptions associated with the product.
+        /// Information about the TagOptions associated with the product.
         public let tagOptions: [TagOptionDetail]?
-        /// A list of provisioning artifact summaries for the product.
+        /// Information about the provisioning artifacts (also known as versions) for the specified product.
         public let provisioningArtifactSummaries: [ProvisioningArtifactSummary]?
-        /// Tags associated with the product.
+        /// Information about the tags associated with the product.
         public let tags: [Tag]?
-        /// Detailed product view information.
+        /// Information about the product view.
         public let productViewDetail: ProductViewDetail?
 
         public init(tagOptions: [TagOptionDetail]? = nil, provisioningArtifactSummaries: [ProvisioningArtifactSummary]? = nil, tags: [Tag]? = nil, productViewDetail: ProductViewDetail? = nil) {
@@ -221,14 +264,20 @@ extension Servicecatalog {
         }
     }
 
+    public enum PortfolioShareType: String, CustomStringConvertible, Codable {
+        case imported = "IMPORTED"
+        case awsServicecatalog = "AWS_SERVICECATALOG"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListPortfolioAccessOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "AccountIds", required: false, type: .list)
         ]
-        /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
-        /// List of account IDs associated with access to the portfolio.
+        /// Information about the AWS accounts with access to the portfolio.
         public let accountIds: [String]?
 
         public init(nextPageToken: String? = nil, accountIds: [String]? = nil) {
@@ -249,13 +298,13 @@ extension Servicecatalog {
             AWSShapeMember(label: "ResourceType", required: false, type: .string), 
             AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
-        /// Identifier of the TagOption.
+        /// The TagOption identifier.
         public let tagOptionId: String
-        /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
+        /// The maximum number of items to return with this call.
         public let pageSize: Int32?
-        /// Resource type.
+        /// The resource type.    Portfolio     Product   
         public let resourceType: String?
-        /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
         public init(tagOptionId: String, pageSize: Int32? = nil, resourceType: String? = nil, pageToken: String? = nil) {
@@ -284,11 +333,11 @@ extension Servicecatalog {
             AWSShapeMember(label: "ProductViewDetail", required: false, type: .structure), 
             AWSShapeMember(label: "ProvisioningArtifactDetail", required: false, type: .structure)
         ]
-        /// Tags successfully associated with the new product.
+        /// Information about the tags associated with the product.
         public let tags: [Tag]?
-        /// The resulting detailed product view information.
+        /// Information about the product view.
         public let productViewDetail: ProductViewDetail?
-        /// The resulting detailed provisioning artifact information.
+        /// Information about the provisioning artifact.
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?
 
         public init(tags: [Tag]? = nil, productViewDetail: ProductViewDetail? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil) {
@@ -301,6 +350,32 @@ extension Servicecatalog {
             case tags = "Tags"
             case productViewDetail = "ProductViewDetail"
             case provisioningArtifactDetail = "ProvisioningArtifactDetail"
+        }
+    }
+
+    public struct DeleteProvisionedProductPlanInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IgnoreErrors", required: false, type: .boolean), 
+            AWSShapeMember(label: "PlanId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
+        ]
+        /// If set to true, AWS Service Catalog stops managing the specified provisioned product even if it cannot delete the underlying resources.
+        public let ignoreErrors: Bool?
+        /// The plan identifier.
+        public let planId: String
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+
+        public init(ignoreErrors: Bool? = nil, planId: String, acceptLanguage: String? = nil) {
+            self.ignoreErrors = ignoreErrors
+            self.planId = planId
+            self.acceptLanguage = acceptLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ignoreErrors = "IgnoreErrors"
+            case planId = "PlanId"
+            case acceptLanguage = "AcceptLanguage"
         }
     }
 
@@ -329,7 +404,7 @@ extension Servicecatalog {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagOptionDetail", required: false, type: .structure)
         ]
-        /// The resulting detailed TagOption information.
+        /// Information about the TagOption.
         public let tagOptionDetail: TagOptionDetail?
 
         public init(tagOptionDetail: TagOptionDetail? = nil) {
@@ -341,13 +416,20 @@ extension Servicecatalog {
         }
     }
 
+    public enum RequiresRecreation: String, CustomStringConvertible, Codable {
+        case never = "NEVER"
+        case conditionally = "CONDITIONALLY"
+        case always = "ALWAYS"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreatePortfolioShareInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
             AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
-        /// The account ID with which to share the portfolio.
+        /// The AWS account ID.
         public let accountId: String
         /// The portfolio identifier.
         public let portfolioId: String
@@ -393,9 +475,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "ProvisionedProducts", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
-        /// A list of ProvisionedProduct detail objects.
+        /// Information about the provisioned products.
         public let provisionedProducts: [ProvisionedProductDetail]?
-        /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
 
         public init(provisionedProducts: [ProvisionedProductDetail]? = nil, nextPageToken: String? = nil) {
@@ -418,11 +500,11 @@ extension Servicecatalog {
         ]
         /// The identifier of the constraint.
         public let constraintId: String?
-        /// The type of the constraint.
+        /// The type of constraint.    LAUNCH     NOTIFICATION     TEMPLATE   
         public let `type`: String?
         /// The owner of the constraint.
         public let owner: String?
-        /// The text description of the constraint.
+        /// The description of the constraint.
         public let description: String?
 
         public init(constraintId: String? = nil, type: String? = nil, owner: String? = nil, description: String? = nil) {
@@ -445,9 +527,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "ProductViewSummary", required: false, type: .structure), 
             AWSShapeMember(label: "ProvisioningArtifacts", required: false, type: .list)
         ]
-        /// The summary metadata about the specified product.
+        /// Summary information about the product.
         public let productViewSummary: ProductViewSummary?
-        /// A list of provisioning artifact objects for the specified product. The ProvisioningArtifacts represent the ways in which the specified product can be provisioned.
+        /// Information about the provisioning artifacts for the product.
         public let provisioningArtifacts: [ProvisioningArtifact]?
 
         public init(productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
@@ -466,35 +548,14 @@ extension Servicecatalog {
         public var description: String { return self.rawValue }
     }
 
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .string), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
-        ]
-        /// The desired value for this key.
-        public let value: String
-        /// The ProvisioningArtifactParameter.TagKey parameter from DescribeProvisioningParameters.
-        public let key: String
-
-        public init(value: String, key: String) {
-            self.value = value
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
-        }
-    }
-
     public struct UpdatePortfolioOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PortfolioDetail", required: false, type: .structure), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
-        /// The resulting detailed portfolio information.
+        /// Information about the portfolio.
         public let portfolioDetail: PortfolioDetail?
-        /// Tags associated with the portfolio.
+        /// Information about the tags associated with the portfolio.
         public let tags: [Tag]?
 
         public init(portfolioDetail: PortfolioDetail? = nil, tags: [Tag]? = nil) {
@@ -508,6 +569,27 @@ extension Servicecatalog {
         }
     }
 
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
+        ]
+        /// The value for this key.
+        public let value: String
+        /// The tag key.
+        public let key: String
+
+        public init(value: String, key: String) {
+            self.value = value
+            self.key = key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
+        }
+    }
+
     public struct DescribeProductInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
@@ -515,7 +597,7 @@ extension Servicecatalog {
         ]
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The ProductId of the product to describe.
+        /// The product identifier.
         public let id: String
 
         public init(acceptLanguage: String? = nil, id: String) {
@@ -534,9 +616,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "RecordDetails", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
-        /// A list of record detail objects, listed in reverse chronological order.
+        /// The records, in reverse chronological order.
         public let recordDetails: [RecordDetail]?
-        /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
 
         public init(recordDetails: [RecordDetail]? = nil, nextPageToken: String? = nil) {
@@ -557,13 +639,13 @@ extension Servicecatalog {
             AWSShapeMember(label: "AccessLevelFilter", required: false, type: .structure), 
             AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
-        /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
+        /// The maximum number of items to return with this call.
         public let pageSize: Int32?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The access level for obtaining results. If left unspecified, User level access is used.
+        /// The access level to use to obtain results. The default is User.
         public let accessLevelFilter: AccessLevelFilter?
-        /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
         public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, pageToken: String? = nil) {
@@ -590,17 +672,17 @@ extension Servicecatalog {
             AWSShapeMember(label: "DisplayName", required: true, type: .string), 
             AWSShapeMember(label: "IdempotencyToken", required: true, type: .string)
         ]
-        /// The text description of the portfolio.
+        /// The description of the portfolio.
         public let description: String?
         /// The name of the portfolio provider.
         public let providerName: String
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// Tags to associate with the new portfolio.
+        /// One or more tags.
         public let tags: [Tag]?
         /// The name to use for display purposes.
         public let displayName: String
-        /// A token to disambiguate duplicate requests. You can use the same input in multiple requests, provided that you also specify a different idempotency token for each request.
+        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String
 
         public init(description: String? = nil, providerName: String, acceptLanguage: String? = nil, tags: [Tag]? = nil, displayName: String, idempotencyToken: String) {
@@ -627,9 +709,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Values", required: false, type: .list)
         ]
-        /// The TagOptionSummary key.
+        /// The TagOption key.
         public let key: String?
-        /// The TagOptionSummary value.
+        /// The TagOption value.
         public let values: [String]?
 
         public init(key: String? = nil, values: [String]? = nil) {
@@ -648,9 +730,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string)
         ]
-        /// The filter value for Key.
+        /// The filter value.
         public let value: String?
-        /// The filter key.
+        /// The filter key.    product - Filter results based on the specified product identifier.    provisionedproduct - Filter results based on the provisioned product identifier.  
         public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
@@ -670,11 +752,11 @@ extension Servicecatalog {
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
-        /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
+        /// The maximum number of items to return with this call.
         public let pageSize: Int32?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
         public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, pageToken: String? = nil) {
@@ -690,9 +772,30 @@ extension Servicecatalog {
         }
     }
 
-    public enum CopyOption: String, CustomStringConvertible, Codable {
-        case copytags = "CopyTags"
-        public var description: String { return self.rawValue }
+    public struct ResourceChangeDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Target", required: false, type: .structure), 
+            AWSShapeMember(label: "Evaluation", required: false, type: .enum), 
+            AWSShapeMember(label: "CausingEntity", required: false, type: .string)
+        ]
+        /// Information about the resource attribute to be modified.
+        public let target: ResourceTargetDefinition?
+        /// For static evaluations, the value of the resource attribute will change and the new value is known. For dynamic evaluations, the value might change, and any new value will be determined when the plan is updated.
+        public let evaluation: EvaluationType?
+        /// The ID of the entity that caused the change.
+        public let causingEntity: String?
+
+        public init(target: ResourceTargetDefinition? = nil, evaluation: EvaluationType? = nil, causingEntity: String? = nil) {
+            self.target = target
+            self.evaluation = evaluation
+            self.causingEntity = causingEntity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case target = "Target"
+            case evaluation = "Evaluation"
+            case causingEntity = "CausingEntity"
+        }
     }
 
     public struct AcceptPortfolioShareOutput: AWSShape {
@@ -704,9 +807,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "LaunchPathSummaries", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
-        /// List of launch path information summaries for the specified PageToken.
+        /// Information about the launch path.
         public let launchPathSummaries: [LaunchPathSummary]?
-        /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
 
         public init(launchPathSummaries: [LaunchPathSummary]? = nil, nextPageToken: String? = nil) {
@@ -725,9 +828,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "ConstraintDetails", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
-        /// List of detailed constraint information objects.
+        /// Information about the constraints.
         public let constraintDetails: [ConstraintDetail]?
-        /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
 
         public init(constraintDetails: [ConstraintDetail]? = nil, nextPageToken: String? = nil) {
@@ -746,9 +849,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "ProductViewDetail", required: false, type: .structure)
         ]
-        /// Tags associated with the product.
+        /// Information about the tags associated with the product.
         public let tags: [Tag]?
-        /// The resulting detailed product view information.
+        /// Information about the product view.
         public let productViewDetail: ProductViewDetail?
 
         public init(tags: [Tag]? = nil, productViewDetail: ProductViewDetail? = nil) {
@@ -762,6 +865,11 @@ extension Servicecatalog {
         }
     }
 
+    public enum CopyOption: String, CustomStringConvertible, Codable {
+        case copytags = "CopyTags"
+        public var description: String { return self.rawValue }
+    }
+
     public struct SearchProductsAsAdminInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SortBy", required: false, type: .enum), 
@@ -773,9 +881,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
             AWSShapeMember(label: "Filters", required: false, type: .map)
         ]
-        /// The sort field specifier. If no value is specified, results are not sorted.
+        /// The sort field. If no value is specified, the results are not sorted.
         public let sortBy: ProductViewSortBy?
-        /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
+        /// The maximum number of items to return with this call.
         public let pageSize: Int32?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -783,11 +891,11 @@ extension Servicecatalog {
         public let productSource: ProductSource?
         /// The portfolio identifier.
         public let portfolioId: String?
-        /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
-        /// The sort order specifier. If no value is specified, results are not sorted.
+        /// The sort order. If no value is specified, the results are not sorted.
         public let sortOrder: SortOrder?
-        /// The list of filters with which to limit search results. If no search filters are specified, the output is all the products to which the administrator has access.
+        /// The search filters. If no search filters are specified, the output includes all products to which the administrator has access.
         public let filters: [ProductViewFilterBy: [String]]?
 
         public init(sortBy: ProductViewSortBy? = nil, pageSize: Int32? = nil, acceptLanguage: String? = nil, productSource: ProductSource? = nil, portfolioId: String? = nil, pageToken: String? = nil, sortOrder: SortOrder? = nil, filters: [ProductViewFilterBy: [String]]? = nil) {
@@ -825,23 +933,23 @@ extension Servicecatalog {
             AWSShapeMember(label: "ProductId", required: true, type: .string), 
             AWSShapeMember(label: "ProvisionedProductName", required: true, type: .string)
         ]
-        /// The provisioning artifact identifier for this product. This is sometimes referred to as the product version.
+        /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
         public let notificationArns: [String]?
-        /// A list of tags to use as provisioning options.
+        /// One or more tags.
         public let tags: [Tag]?
-        /// An idempotency token that uniquely identifies the provisioning request. 
+        /// An idempotency token that uniquely identifies the provisioning request.
         public let provisionToken: String
-        /// The identifier of the path for this product's provisioning. This value is optional if the product has a default path, and is required if there is more than one path for the specified product.
+        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths.
         public let pathId: String?
         /// Parameters specified by the administrator that are required for provisioning the product.
         public let provisioningParameters: [ProvisioningParameter]?
         /// The product identifier.
         public let productId: String
-        /// A user-friendly name to identify the ProvisionedProduct object. This value must be unique for the AWS account and cannot be updated after the product is provisioned.
+        /// A user-friendly name for the provisioned product. This value must be unique for the AWS account and cannot be updated after the product is provisioned.
         public let provisionedProductName: String
 
         public init(provisioningArtifactId: String, acceptLanguage: String? = nil, notificationArns: [String]? = nil, tags: [Tag]? = nil, provisionToken: String, pathId: String? = nil, provisioningParameters: [ProvisioningParameter]? = nil, productId: String, provisionedProductName: String) {
@@ -875,11 +983,11 @@ extension Servicecatalog {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "UsePreviousValue", required: false, type: .boolean)
         ]
-        /// The value to use for updating the product provisioning. Any constraints on this value can be found in the ProvisioningArtifactParameter parameter for Key.
+        /// The parameter value.
         public let value: String?
-        /// The ProvisioningArtifactParameter.ParameterKey parameter from DescribeProvisioningParameters.
+        /// The parameter key.
         public let key: String?
-        /// If true, uses the currently set value for Key, ignoring UpdateProvisioningParameter.Value.
+        /// If set to true, Value is ignored and the previous parameter value is kept.
         public let usePreviousValue: Bool?
 
         public init(value: String? = nil, key: String? = nil, usePreviousValue: Bool? = nil) {
@@ -900,6 +1008,7 @@ extension Servicecatalog {
         case underChange = "UNDER_CHANGE"
         case tainted = "TAINTED"
         case error = "ERROR"
+        case planInProgress = "PLAN_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -917,15 +1026,15 @@ extension Servicecatalog {
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
-        /// The constraint parameters. Expected values vary depending on which Type is specified. For more information, see the Examples section. For Type LAUNCH, the RoleArn property is required.  For Type NOTIFICATION, the NotificationArns property is required. For Type TEMPLATE, the Rules property is required.
+        /// The constraint parameters, in JSON format. The syntax depends on the constraint type as follows:  LAUNCH  Specify the RoleArn property as follows: \"RoleArn\" : \"arn:aws:iam::123456789012:role/LaunchRole\"  NOTIFICATION  Specify the NotificationArns property as follows: \"NotificationArns\" : [\"arn:aws:sns:us-east-1:123456789012:Topic\"]  TEMPLATE  Specify the Rules property. For more information, see Template Constraint Rules.  
         public let parameters: String
-        /// A token to disambiguate duplicate requests. You can use the same input in multiple requests, provided that you also specify a different idempotency token for each request.
+        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String
-        /// The type of the constraint. Case-sensitive valid values are: LAUNCH, NOTIFICATION, or TEMPLATE. 
+        /// The type of constraint.    LAUNCH     NOTIFICATION     TEMPLATE   
         public let `type`: String
         /// The product identifier.
         public let productId: String
-        /// The text description of the constraint.
+        /// The description of the constraint.
         public let description: String?
 
         public init(acceptLanguage: String? = nil, portfolioId: String, parameters: String, idempotencyToken: String, type: String, productId: String, description: String? = nil) {
@@ -962,13 +1071,13 @@ extension Servicecatalog {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// List of constraints on the portfolio-product relationship.
+        /// The constraints on the portfolio-product relationship.
         public let constraintSummaries: [ConstraintSummary]?
-        /// List of tags used by this launch path.
+        /// The tags associated with this product path.
         public let tags: [Tag]?
-        /// Corresponds to the name of the portfolio to which the user was assigned.
+        /// The name of the portfolio to which the user was assigned.
         public let name: String?
-        /// The unique identifier of the product path.
+        /// The identifier of the product path.
         public let id: String?
 
         public init(constraintSummaries: [ConstraintSummary]? = nil, tags: [Tag]? = nil, name: String? = nil, id: String? = nil) {
@@ -996,35 +1105,35 @@ extension Servicecatalog {
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "UpdateToken", required: true, type: .string), 
             AWSShapeMember(label: "ProvisionedProductId", required: false, type: .string), 
-            AWSShapeMember(label: "PathId", required: false, type: .string), 
             AWSShapeMember(label: "ProvisioningParameters", required: false, type: .list), 
+            AWSShapeMember(label: "PathId", required: false, type: .string), 
             AWSShapeMember(label: "ProductId", required: false, type: .string), 
             AWSShapeMember(label: "ProvisionedProductName", required: false, type: .string)
         ]
-        /// The provisioning artifact identifier for this product. This is sometimes referred to as the product version.
+        /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The idempotency token that uniquely identifies the provisioning update request.
         public let updateToken: String
-        /// The identifier of the ProvisionedProduct object to update. Specify either ProvisionedProductName or ProvisionedProductId, but not both.
+        /// The identifier of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
         public let provisionedProductId: String?
-        /// The identifier of the path to use in the updated ProvisionedProduct object. This value is optional if the product has a default path, and is required if there is more than one path for the specified product.
-        public let pathId: String?
-        /// A list of ProvisioningParameter objects used to update the ProvisionedProduct object.
+        /// The new parameters.
         public let provisioningParameters: [UpdateProvisioningParameter]?
-        /// The identifier of the ProvisionedProduct object.
+        /// The new path identifier. This value is optional if the product has a default path, and required if the product has more than one path.
+        public let pathId: String?
+        /// The identifier of the provisioned product.
         public let productId: String?
-        /// The updated name of the ProvisionedProduct object. Specify either ProvisionedProductName or ProvisionedProductId, but not both.
+        /// The updated name of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
         public let provisionedProductName: String?
 
-        public init(provisioningArtifactId: String? = nil, acceptLanguage: String? = nil, updateToken: String, provisionedProductId: String? = nil, pathId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, productId: String? = nil, provisionedProductName: String? = nil) {
+        public init(provisioningArtifactId: String? = nil, acceptLanguage: String? = nil, updateToken: String, provisionedProductId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, pathId: String? = nil, productId: String? = nil, provisionedProductName: String? = nil) {
             self.provisioningArtifactId = provisioningArtifactId
             self.acceptLanguage = acceptLanguage
             self.updateToken = updateToken
             self.provisionedProductId = provisionedProductId
-            self.pathId = pathId
             self.provisioningParameters = provisioningParameters
+            self.pathId = pathId
             self.productId = productId
             self.provisionedProductName = provisionedProductName
         }
@@ -1034,8 +1143,8 @@ extension Servicecatalog {
             case acceptLanguage = "AcceptLanguage"
             case updateToken = "UpdateToken"
             case provisionedProductId = "ProvisionedProductId"
-            case pathId = "PathId"
             case provisioningParameters = "ProvisioningParameters"
+            case pathId = "PathId"
             case productId = "ProductId"
             case provisionedProductName = "ProvisionedProductName"
         }
@@ -1060,15 +1169,15 @@ extension Servicecatalog {
         ]
         /// The parameter type.
         public let parameterType: String?
-        /// The text description of the parameter.
+        /// The description of the parameter.
         public let description: String?
-        /// The list of constraints that the administrator has put on the parameter.
+        /// Constraints that the administrator has put on a parameter.
         public let parameterConstraints: ParameterConstraints?
-        /// The default value for this parameter.
+        /// The default value.
         public let defaultValue: String?
         /// If this value is true, the value for this parameter is obfuscated from view when the parameter is retrieved. This parameter is used to hide sensitive information.
         public let isNoEcho: Bool?
-        /// The parameter key. 
+        /// The parameter key.
         public let parameterKey: String?
 
         public init(parameterType: String? = nil, description: String? = nil, parameterConstraints: ParameterConstraints? = nil, defaultValue: String? = nil, isNoEcho: Bool? = nil, parameterKey: String? = nil) {
@@ -1097,7 +1206,7 @@ extension Servicecatalog {
         ]
         /// The IAM principals (users or roles) associated with the portfolio.
         public let principals: [Principal]?
-        /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
 
         public init(principals: [Principal]? = nil, nextPageToken: String? = nil) {
@@ -1118,13 +1227,13 @@ extension Servicecatalog {
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
+        /// The maximum number of items to return with this call.
         public let pageSize: Int32?
-        /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The record identifier of the ProvisionedProduct object for which to retrieve output information. This is the RecordDetail.RecordId obtained from the request operation's response.
+        /// The record identifier of the provisioned product. This identifier is returned by the request operation.
         public let id: String
 
         public init(pageSize: Int32? = nil, pageToken: String? = nil, acceptLanguage: String? = nil, id: String) {
@@ -1147,9 +1256,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "PortfolioDetails", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
-        /// List of detailed portfolio information objects.
+        /// Information about the portfolios.
         public let portfolioDetails: [PortfolioDetail]?
-        /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
 
         public init(portfolioDetails: [PortfolioDetail]? = nil, nextPageToken: String? = nil) {
@@ -1169,11 +1278,11 @@ extension Servicecatalog {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "ConstraintParameters", required: false, type: .string)
         ]
-        /// The resulting detailed constraint information.
+        /// Information about the constraint.
         public let constraintDetail: ConstraintDetail?
         /// The status of the current request.
         public let status: Status?
-        /// The resulting constraint parameters.
+        /// The constraint parameters.
         public let constraintParameters: String?
 
         public init(constraintDetail: ConstraintDetail? = nil, status: Status? = nil, constraintParameters: String? = nil) {
@@ -1196,13 +1305,13 @@ extension Servicecatalog {
             AWSShapeMember(label: "ProductViewSummary", required: false, type: .structure), 
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp)
         ]
-        /// Current status of the product.  AVAILABLE - Product is available for use.  CREATING - Creation of product started, not ready for use.  FAILED - Action on product failed.
+        /// The status of the product.    AVAILABLE - The product is ready for use.    CREATING - Product creation has started; the product is not ready for use.    FAILED - An action failed.  
         public let status: Status?
-        /// The ARN associated with the product.
+        /// The ARN of the product.
         public let productARN: String?
-        /// The summary metadata about the specified product view.
+        /// Summary information about the product view.
         public let productViewSummary: ProductViewSummary?
-        /// The UTC timestamp of the creation time.
+        /// The UTC time stamp of the creation time.
         public let createdTime: TimeStamp?
 
         public init(status: Status? = nil, productARN: String? = nil, productViewSummary: ProductViewSummary? = nil, createdTime: TimeStamp? = nil) {
@@ -1227,11 +1336,11 @@ extension Servicecatalog {
             AWSShapeMember(label: "Verbose", required: false, type: .boolean), 
             AWSShapeMember(label: "ProductId", required: true, type: .string)
         ]
-        /// The identifier of the provisioning artifact. This is sometimes referred to as the product version.
+        /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// Enable a verbose level of details for the provisioning artifact.
+        /// Indicates whether a verbose level of detail is enabled.
         public let verbose: Bool?
         /// The product identifier.
         public let productId: String
@@ -1260,11 +1369,11 @@ extension Servicecatalog {
         ]
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The parameters to use when creating the new provisioning artifact.
+        /// The configuration for the provisioning artifact.
         public let parameters: ProvisioningArtifactProperties
         /// The product identifier.
         public let productId: String
-        /// A token to disambiguate duplicate requests. You can use the same input in multiple requests, provided that you also specify a different idempotency token for each request.
+        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String
 
         public init(acceptLanguage: String? = nil, parameters: ProvisioningArtifactProperties, productId: String, idempotencyToken: String) {
@@ -1288,11 +1397,11 @@ extension Servicecatalog {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "ConstraintParameters", required: false, type: .string)
         ]
-        /// The resulting detailed constraint information.
+        /// Information about the constraint.
         public let constraintDetail: ConstraintDetail?
         /// The status of the current request.
         public let status: Status?
-        /// The resulting updated constraint parameters.
+        /// The constraint parameters.
         public let constraintParameters: String?
 
         public init(constraintDetail: ConstraintDetail? = nil, status: Status? = nil, constraintParameters: String? = nil) {
@@ -1315,17 +1424,74 @@ extension Servicecatalog {
         public var description: String { return self.rawValue }
     }
 
+    public struct DescribeProvisionedProductPlanInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PlanId", required: true, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string)
+        ]
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The plan identifier.
+        public let planId: String
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+
+        public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, planId: String, pageToken: String? = nil) {
+            self.pageSize = pageSize
+            self.acceptLanguage = acceptLanguage
+            self.planId = planId
+            self.pageToken = pageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case acceptLanguage = "AcceptLanguage"
+            case planId = "PlanId"
+            case pageToken = "PageToken"
+        }
+    }
+
+    public struct DescribeProvisionedProductPlanOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisionedProductPlanDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceChanges", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
+        ]
+        /// Information about the plan.
+        public let provisionedProductPlanDetails: ProvisionedProductPlanDetails?
+        /// Information about the resource changes that will occur when the plan is executed.
+        public let resourceChanges: [ResourceChange]?
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+
+        public init(provisionedProductPlanDetails: ProvisionedProductPlanDetails? = nil, resourceChanges: [ResourceChange]? = nil, nextPageToken: String? = nil) {
+            self.provisionedProductPlanDetails = provisionedProductPlanDetails
+            self.resourceChanges = resourceChanges
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisionedProductPlanDetails = "ProvisionedProductPlanDetails"
+            case resourceChanges = "ResourceChanges"
+            case nextPageToken = "NextPageToken"
+        }
+    }
+
     public struct DescribeRecordOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RecordDetail", required: false, type: .structure), 
             AWSShapeMember(label: "RecordOutputs", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
-        /// Detailed record information for the specified product. 
+        /// Information about the product.
         public let recordDetail: RecordDetail?
-        /// A list of outputs for the specified Product object created as the result of a request. For example, a CloudFormation-backed product that creates an S3 bucket would have an output for the S3 bucket URL.
+        /// Information about the product created as the result of a request. For example, the output for a CloudFormation-backed product that creates an S3 bucket would include the S3 bucket URL.
         public let recordOutputs: [RecordOutput]?
-        /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
 
         public init(recordDetail: RecordDetail? = nil, recordOutputs: [RecordOutput]? = nil, nextPageToken: String? = nil) {
@@ -1341,11 +1507,34 @@ extension Servicecatalog {
         }
     }
 
+    public enum Replacement: String, CustomStringConvertible, Codable {
+        case `true` = "TRUE"
+        case `false` = "FALSE"
+        case conditional = "CONDITIONAL"
+        public var description: String { return self.rawValue }
+    }
+
     public struct UpdateProvisionedProductOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
         ]
-        /// The detailed result of the UpdateProvisionedProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object that the request is modifying, and a list of any errors that the request encountered.
+        /// Information about the result of the request.
+        public let recordDetail: RecordDetail?
+
+        public init(recordDetail: RecordDetail? = nil) {
+            self.recordDetail = recordDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordDetail = "RecordDetail"
+        }
+    }
+
+    public struct TerminateProvisionedProductOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
+        ]
+        /// Information about the result of this request.
         public let recordDetail: RecordDetail?
 
         public init(recordDetail: RecordDetail? = nil) {
@@ -1362,9 +1551,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "ProvisioningArtifactDetails", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
-        /// List of detailed provisioning artifact information objects.
+        /// Information about the provisioning artifacts.
         public let provisioningArtifactDetails: [ProvisioningArtifactDetail]?
-        /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
 
         public init(provisioningArtifactDetails: [ProvisioningArtifactDetail]? = nil, nextPageToken: String? = nil) {
@@ -1378,30 +1567,14 @@ extension Servicecatalog {
         }
     }
 
-    public struct TerminateProvisionedProductOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
-        ]
-        /// The detailed result of the TerminateProvisionedProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object that the request is modifying, and a list of any errors that the request encountered.
-        public let recordDetail: RecordDetail?
-
-        public init(recordDetail: RecordDetail? = nil) {
-            self.recordDetail = recordDetail
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recordDetail = "RecordDetail"
-        }
-    }
-
     public struct ProvisioningParameter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string)
         ]
-        /// The value to use for provisioning. Any constraints on this value can be found in ProvisioningArtifactParameter for Key.
+        /// The parameter value.
         public let value: String?
-        /// The ProvisioningArtifactParameter.ParameterKey parameter from DescribeProvisioningParameters.
+        /// The parameter key.
         public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
@@ -1425,7 +1598,7 @@ extension Servicecatalog {
         public let outputValue: String?
         /// The output key.
         public let outputKey: String?
-        /// The text description of the output.
+        /// The description of the output.
         public let description: String?
 
         public init(outputValue: String? = nil, outputKey: String? = nil, description: String? = nil) {
@@ -1448,13 +1621,13 @@ extension Servicecatalog {
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// The text description of the artifact.
+        /// The description of the provisioning artifact.
         public let description: String?
-        /// The name of the artifact.
+        /// The name of the provisioning artifact.
         public let name: String?
-        /// The UTC timestamp of the creation time.
+        /// The UTC time stamp of the creation time.
         public let createdTime: TimeStamp?
-        /// The identifier for the artifact. This is sometimes referred to as the product version.
+        /// The identifier of the provisioning artifact.
         public let id: String?
 
         public init(description: String? = nil, name: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil) {
@@ -1474,17 +1647,68 @@ extension Servicecatalog {
 
     public struct DescribeProvisionedProductOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProvisionedProductDetail", required: false, type: .structure)
+            AWSShapeMember(label: "ProvisionedProductDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "CloudWatchDashboards", required: false, type: .list)
         ]
-        /// Detailed provisioned product information.
+        /// Information about the provisioned product.
         public let provisionedProductDetail: ProvisionedProductDetail?
+        /// Any CloudWatch dashboards that were created when provisioning the product.
+        public let cloudWatchDashboards: [CloudWatchDashboard]?
 
-        public init(provisionedProductDetail: ProvisionedProductDetail? = nil) {
+        public init(provisionedProductDetail: ProvisionedProductDetail? = nil, cloudWatchDashboards: [CloudWatchDashboard]? = nil) {
             self.provisionedProductDetail = provisionedProductDetail
+            self.cloudWatchDashboards = cloudWatchDashboards
         }
 
         private enum CodingKeys: String, CodingKey {
             case provisionedProductDetail = "ProvisionedProductDetail"
+            case cloudWatchDashboards = "CloudWatchDashboards"
+        }
+    }
+
+    public struct SearchProvisionedProductsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SortBy", required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "AccessLevelFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "Filters", required: false, type: .map)
+        ]
+        /// The sort field. If no value is specified, the results are not sorted. The valid values are arn, id, name, and lastRecordId.
+        public let sortBy: String?
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The access level to use to obtain results. The default is User.
+        public let accessLevelFilter: AccessLevelFilter?
+        /// The sort order. If no value is specified, the results are not sorted.
+        public let sortOrder: SortOrder?
+        /// The search filters. When the key is SearchQuery, the searchable fields are arn, createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId, provisioningArtifact, type, status, tags, userArn, and userArnSession. Example: "SearchQuery":["status:AVAILABLE"] 
+        public let filters: [ProvisionedProductViewFilterBy: [String]]?
+
+        public init(sortBy: String? = nil, pageSize: Int32? = nil, acceptLanguage: String? = nil, pageToken: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, sortOrder: SortOrder? = nil, filters: [ProvisionedProductViewFilterBy: [String]]? = nil) {
+            self.sortBy = sortBy
+            self.pageSize = pageSize
+            self.acceptLanguage = acceptLanguage
+            self.pageToken = pageToken
+            self.accessLevelFilter = accessLevelFilter
+            self.sortOrder = sortOrder
+            self.filters = filters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case pageSize = "PageSize"
+            case acceptLanguage = "AcceptLanguage"
+            case pageToken = "PageToken"
+            case accessLevelFilter = "AccessLevelFilter"
+            case sortOrder = "SortOrder"
+            case filters = "Filters"
         }
     }
 
@@ -1496,13 +1720,13 @@ extension Servicecatalog {
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// The provisioning artifact metadata. This data is used with products created by AWS Marketplace.
+        /// The metadata for the provisioning artifact. This is used with AWS Marketplace products.
         public let provisioningArtifactMetadata: [String: String]?
         /// The description of the provisioning artifact.
         public let description: String?
         /// The name of the provisioning artifact.
         public let name: String?
-        /// The UTC timestamp of the creation time.
+        /// The UTC time stamp of the creation time.
         public let createdTime: TimeStamp?
         /// The identifier of the provisioning artifact.
         public let id: String?
@@ -1524,6 +1748,10 @@ extension Servicecatalog {
         }
     }
 
+    public struct DeleteTagOptionOutput: AWSShape {
+
+    }
+
     public struct AssociateProductWithPortfolioOutput: AWSShape {
 
     }
@@ -1535,13 +1763,13 @@ extension Servicecatalog {
             AWSShapeMember(label: "ProductId", required: true, type: .string), 
             AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
-        /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
+        /// The maximum number of items to return with this call.
         public let pageSize: Int32?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The product identifier. Identifies the product for which to retrieve LaunchPathSummaries information.
+        /// The product identifier.
         public let productId: String
-        /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
         public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, productId: String, pageToken: String? = nil) {
@@ -1565,11 +1793,11 @@ extension Servicecatalog {
             AWSShapeMember(label: "ProductViewSummaries", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
-        /// A list of the product view aggregation value objects.
+        /// The product view aggregations.
         public let productViewAggregations: [String: [ProductViewAggregationValue]]?
-        /// A list of the product view summary objects.
+        /// Information about the product views.
         public let productViewSummaries: [ProductViewSummary]?
-        /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
 
         public init(productViewAggregations: [String: [ProductViewAggregationValue]]? = nil, productViewSummaries: [ProductViewSummary]? = nil, nextPageToken: String? = nil) {
@@ -1591,11 +1819,11 @@ extension Servicecatalog {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Active", required: false, type: .boolean)
         ]
-        /// The ListTagOptionsFilters value.
+        /// The TagOption value.
         public let value: String?
-        /// The ListTagOptionsFilters key.
+        /// The TagOption key.
         public let key: String?
-        /// The ListTagOptionsFilters active state.
+        /// The active state.
         public let active: Bool?
 
         public init(value: String? = nil, key: String? = nil, active: Bool? = nil) {
@@ -1615,11 +1843,62 @@ extension Servicecatalog {
 
     }
 
+    public enum ResourceAttribute: String, CustomStringConvertible, Codable {
+        case properties = "PROPERTIES"
+        case metadata = "METADATA"
+        case creationpolicy = "CREATIONPOLICY"
+        case updatepolicy = "UPDATEPOLICY"
+        case deletionpolicy = "DELETIONPOLICY"
+        case tags = "TAGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ProvisionedProductPlanSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionProductId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionProductName", required: false, type: .string), 
+            AWSShapeMember(label: "PlanId", required: false, type: .string), 
+            AWSShapeMember(label: "PlanName", required: false, type: .string), 
+            AWSShapeMember(label: "PlanType", required: false, type: .enum)
+        ]
+        /// The identifier of the provisioning artifact.
+        public let provisioningArtifactId: String?
+        /// The product identifier.
+        public let provisionProductId: String?
+        /// The user-friendly name of the provisioned product.
+        public let provisionProductName: String?
+        /// The plan identifier.
+        public let planId: String?
+        /// The name of the plan.
+        public let planName: String?
+        /// The plan type.
+        public let planType: ProvisionedProductPlanType?
+
+        public init(provisioningArtifactId: String? = nil, provisionProductId: String? = nil, provisionProductName: String? = nil, planId: String? = nil, planName: String? = nil, planType: ProvisionedProductPlanType? = nil) {
+            self.provisioningArtifactId = provisioningArtifactId
+            self.provisionProductId = provisionProductId
+            self.provisionProductName = provisionProductName
+            self.planId = planId
+            self.planName = planName
+            self.planType = planType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case provisionProductId = "ProvisionProductId"
+            case provisionProductName = "ProvisionProductName"
+            case planId = "PlanId"
+            case planName = "PlanName"
+            case planType = "PlanType"
+        }
+    }
+
     public struct DescribeTagOptionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The identifier of the TagOption.
+        /// The TagOption identifier.
         public let id: String
 
         public init(id: String) {
@@ -1635,6 +1914,22 @@ extension Servicecatalog {
 
     }
 
+    public struct ExecuteProvisionedProductPlanOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
+        ]
+        /// Information about the result of provisioning the product.
+        public let recordDetail: RecordDetail?
+
+        public init(recordDetail: RecordDetail? = nil) {
+            self.recordDetail = recordDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordDetail = "RecordDetail"
+        }
+    }
+
     public struct DeleteConstraintInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
@@ -1642,7 +1937,7 @@ extension Servicecatalog {
         ]
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The identifier of the constraint to delete.
+        /// The identifier of the constraint.
         public let id: String
 
         public init(acceptLanguage: String? = nil, id: String) {
@@ -1660,7 +1955,7 @@ extension Servicecatalog {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CopyProductToken", required: false, type: .string)
         ]
-        /// A unique token to pass to DescribeCopyProductStatus to track the progress of the operation.
+        /// The token to use to track the progress of the operation.
         public let copyProductToken: String?
 
         public init(copyProductToken: String? = nil) {
@@ -1679,7 +1974,7 @@ extension Servicecatalog {
         ]
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The ProductViewId of the product to describe.
+        /// The product view identifier.
         public let id: String
 
         public init(acceptLanguage: String? = nil, id: String) {
@@ -1699,7 +1994,7 @@ extension Servicecatalog {
             AWSShapeMember(label: "ProductId", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
-        /// The identifier of the provisioning artifact for the delete request. This is sometimes referred to as the product version.
+        /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String
         /// The product identifier.
         public let productId: String
@@ -1719,6 +2014,27 @@ extension Servicecatalog {
         }
     }
 
+    public struct ListProvisionedProductPlansOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisionedProductPlans", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
+        ]
+        /// Information about the plans.
+        public let provisionedProductPlans: [ProvisionedProductPlanSummary]?
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+
+        public init(provisionedProductPlans: [ProvisionedProductPlanSummary]? = nil, nextPageToken: String? = nil) {
+            self.provisionedProductPlans = provisionedProductPlans
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisionedProductPlans = "ProvisionedProductPlans"
+            case nextPageToken = "NextPageToken"
+        }
+    }
+
     public struct ParameterConstraints: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AllowedValues", required: false, type: .list)
@@ -1735,6 +2051,37 @@ extension Servicecatalog {
         }
     }
 
+    public struct ResourceTargetDefinition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequiresRecreation", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Attribute", required: false, type: .enum)
+        ]
+        /// If the attribute is Properties, indicates whether a change to this property causes the resource to be re-created.
+        public let requiresRecreation: RequiresRecreation?
+        /// If the attribute is Properties, the value is the name of the property. Otherwise, the value is null.
+        public let name: String?
+        /// The attribute to be changed.
+        public let attribute: ResourceAttribute?
+
+        public init(requiresRecreation: RequiresRecreation? = nil, name: String? = nil, attribute: ResourceAttribute? = nil) {
+            self.requiresRecreation = requiresRecreation
+            self.name = name
+            self.attribute = attribute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requiresRecreation = "RequiresRecreation"
+            case name = "Name"
+            case attribute = "Attribute"
+        }
+    }
+
+    public enum ProvisionedProductPlanType: String, CustomStringConvertible, Codable {
+        case cloudformation = "CLOUDFORMATION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ProductSource: String, CustomStringConvertible, Codable {
         case account = "ACCOUNT"
         public var description: String { return self.rawValue }
@@ -1747,13 +2094,13 @@ extension Servicecatalog {
             AWSShapeMember(label: "ProductId", required: true, type: .string), 
             AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
-        /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
+        /// The maximum number of items to return with this call.
         public let pageSize: Int32?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier.
         public let productId: String
-        /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
         public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, productId: String, pageToken: String? = nil) {
@@ -1786,11 +2133,11 @@ extension Servicecatalog {
         public let providerName: String?
         /// The ARN assigned to the portfolio.
         public let arn: String?
-        /// The text description of the portfolio.
+        /// The description of the portfolio.
         public let description: String?
-        /// The UTC timestamp of the creation time.
+        /// The UTC time stamp of the creation time.
         public let createdTime: TimeStamp?
-        /// The identifier for the portfolio.
+        /// The portfolio identifier.
         public let id: String?
 
         public init(displayName: String? = nil, providerName: String? = nil, arn: String? = nil, description: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil) {
@@ -1816,7 +2163,7 @@ extension Servicecatalog {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagOptionDetail", required: false, type: .structure)
         ]
-        /// The resulting detailed TagOption information.
+        /// Information about the TagOption.
         public let tagOptionDetail: TagOptionDetail?
 
         public init(tagOptionDetail: TagOptionDetail? = nil) {
@@ -1835,13 +2182,13 @@ extension Servicecatalog {
             AWSShapeMember(label: "ProductId", required: true, type: .string), 
             AWSShapeMember(label: "PathId", required: false, type: .string)
         ]
-        /// The provisioning artifact identifier for this product. This is sometimes referred to as the product version.
+        /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier.
         public let productId: String
-        /// The identifier of the path for this product's provisioning. This value is optional if the product has a default path, and is required if there is more than one path for the specified product.
+        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths.
         public let pathId: String?
 
         public init(provisioningArtifactId: String, acceptLanguage: String? = nil, productId: String, pathId: String? = nil) {
@@ -1864,9 +2211,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "ProductViewDetails", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
-        /// List of detailed product view information objects.
+        /// Information about the product views.
         public let productViewDetails: [ProductViewDetail]?
-        /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
 
         public init(productViewDetails: [ProductViewDetail]? = nil, nextPageToken: String? = nil) {
@@ -1909,15 +2256,15 @@ extension Servicecatalog {
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// Description of the resource.
+        /// The description of the resource.
         public let description: String?
-        /// ARN of the resource.
+        /// The ARN of the resource.
         public let arn: String?
-        /// Name of the resource.
+        /// The name of the resource.
         public let name: String?
-        /// Creation time of the resource.
+        /// The creation time of the resource.
         public let createdTime: TimeStamp?
-        /// Identifier of the resource.
+        /// The identifier of the resource.
         public let id: String?
 
         public init(description: String? = nil, arn: String? = nil, name: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil) {
@@ -1937,29 +2284,76 @@ extension Servicecatalog {
         }
     }
 
+    public struct DeleteTagOptionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string)
+        ]
+        /// The TagOption identifier.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
     public struct ListAcceptedPortfolioSharesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PortfolioShareType", required: false, type: .enum), 
             AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
-        /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
+        /// The maximum number of items to return with this call.
         public let pageSize: Int32?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
+        /// The type of shared portfolios to list. The default is to list imported portfolios.    AWS_SERVICECATALOG - List default portfolios    IMPORTED - List imported portfolios  
+        public let portfolioShareType: PortfolioShareType?
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
-        public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, pageToken: String? = nil) {
+        public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, portfolioShareType: PortfolioShareType? = nil, pageToken: String? = nil) {
             self.pageSize = pageSize
             self.acceptLanguage = acceptLanguage
+            self.portfolioShareType = portfolioShareType
             self.pageToken = pageToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case pageSize = "PageSize"
             case acceptLanguage = "AcceptLanguage"
+            case portfolioShareType = "PortfolioShareType"
             case pageToken = "PageToken"
+        }
+    }
+
+    public struct ExecuteProvisionedProductPlanInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlanId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string)
+        ]
+        /// The plan identifier.
+        public let planId: String
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
+        public let idempotencyToken: String
+
+        public init(planId: String, acceptLanguage: String? = nil, idempotencyToken: String) {
+            self.planId = planId
+            self.acceptLanguage = acceptLanguage
+            self.idempotencyToken = idempotencyToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case planId = "PlanId"
+            case acceptLanguage = "AcceptLanguage"
+            case idempotencyToken = "IdempotencyToken"
         }
     }
 
@@ -1972,17 +2366,17 @@ extension Servicecatalog {
             AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
             AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
-        /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
+        /// The maximum number of items to return with this call.
         public let pageSize: Int32?
-        /// The sort field specifier. If no value is specified, results are not sorted.
+        /// The sort field. If no value is specified, the results are not sorted.
         public let sortBy: ProductViewSortBy?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The list of filters with which to limit search results. If no search filters are specified, the output is all the products to which the calling user has access. 
+        /// The search filters. If no search filters are specified, the output includes all products to which the caller has access.
         public let filters: [ProductViewFilterBy: [String]]?
-        /// The sort order specifier. If no value is specified, results are not sorted.
+        /// The sort order. If no value is specified, the results are not sorted.
         public let sortOrder: SortOrder?
-        /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
         public init(pageSize: Int32? = nil, sortBy: ProductViewSortBy? = nil, acceptLanguage: String? = nil, filters: [ProductViewFilterBy: [String]]? = nil, sortOrder: SortOrder? = nil, pageToken: String? = nil) {
@@ -2011,7 +2405,7 @@ extension Servicecatalog {
         ]
         /// The numeric value of the error.
         public let code: String?
-        /// The text description of the error.
+        /// The description of the error.
         public let description: String?
 
         public init(code: String? = nil, description: String? = nil) {
@@ -2031,11 +2425,11 @@ extension Servicecatalog {
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The updated text description of the constraint.
+        /// The updated description of the constraint.
         public let description: String?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The identifier of the constraint to update.
+        /// The identifier of the constraint.
         public let id: String
 
         public init(description: String? = nil, acceptLanguage: String? = nil, id: String) {
@@ -2063,23 +2457,23 @@ extension Servicecatalog {
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// The current status of the ProvisionedProduct.  AVAILABLE - Stable state, ready to perform any operation. The most recent action request succeeded and completed.  UNDER_CHANGE - Transitive state, operations performed may or may not have valid results. Wait for an AVAILABLE status before performing operations.  TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.   ERROR - Something unexpected happened such that the provisioned product exists but the stack is not running. For example, CloudFormation received an invalid parameter value and could not launch the stack.
+        /// The current status of the provisioned product.    AVAILABLE - Stable state, ready to perform any operation. The most recent operation succeeded and completed.    UNDER_CHANGE - Transitive state, operations performed might not have valid results. Wait for an AVAILABLE status before performing operations.    TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.    ERROR - An unexpected error occurred, the provisioned product exists but the stack is not running. For example, CloudFormation received a parameter value that was not valid and could not launch the stack.  
         public let status: ProvisionedProductStatus?
-        /// The ARN associated with the ProvisionedProduct object.
+        /// The ARN of the provisioned product.
         public let arn: String?
-        /// The record identifier of the last request performed on this ProvisionedProduct object.
+        /// The record identifier of the last request performed on this provisioned product.
         public let lastRecordId: String?
-        /// The user-friendly name of the ProvisionedProduct object.
+        /// The user-friendly name of the provisioned product.
         public let name: String?
-        /// A token to disambiguate duplicate requests. You can use the same input in multiple requests, provided that you also specify a different idempotency token for each request.
+        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String?
-        /// The type of the ProvisionedProduct object.
+        /// The type of provisioned product. The supported value is CFN_STACK.
         public let `type`: String?
-        /// The current status message of the ProvisionedProduct.
+        /// The current status message of the provisioned product.
         public let statusMessage: String?
-        /// The UTC timestamp of the creation time.
+        /// The UTC time stamp of the creation time.
         public let createdTime: TimeStamp?
-        /// The identifier of the ProvisionedProduct object.
+        /// The identifier of the provisioned product.
         public let id: String?
 
         public init(status: ProvisionedProductStatus? = nil, arn: String? = nil, lastRecordId: String? = nil, name: String? = nil, idempotencyToken: String? = nil, type: String? = nil, statusMessage: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil) {
@@ -2107,11 +2501,97 @@ extension Servicecatalog {
         }
     }
 
+    public struct ProvisionedProductPlanDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
+            AWSShapeMember(label: "UpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NotificationArns", required: false, type: .list), 
+            AWSShapeMember(label: "PlanType", required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "PathId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionProductId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningParameters", required: false, type: .list), 
+            AWSShapeMember(label: "PlanId", required: false, type: .string), 
+            AWSShapeMember(label: "ProductId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "PlanName", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ProvisionProductName", required: false, type: .string), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
+        ]
+        /// The identifier of the provisioning artifact.
+        public let provisioningArtifactId: String?
+        /// The time when the plan was last updated.
+        public let updatedTime: TimeStamp?
+        /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
+        public let notificationArns: [String]?
+        /// The plan type.
+        public let planType: ProvisionedProductPlanType?
+        /// One or more tags.
+        public let tags: [Tag]?
+        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths.
+        public let pathId: String?
+        /// The product identifier.
+        public let provisionProductId: String?
+        /// Parameters specified by the administrator that are required for provisioning the product.
+        public let provisioningParameters: [UpdateProvisioningParameter]?
+        /// The plan identifier.
+        public let planId: String?
+        /// The product identifier.
+        public let productId: String?
+        /// The UTC time stamp of the creation time.
+        public let createdTime: TimeStamp?
+        /// The name of the plan.
+        public let planName: String?
+        /// The status.
+        public let status: ProvisionedProductPlanStatus?
+        /// The user-friendly name of the provisioned product.
+        public let provisionProductName: String?
+        /// The status message.
+        public let statusMessage: String?
+
+        public init(provisioningArtifactId: String? = nil, updatedTime: TimeStamp? = nil, notificationArns: [String]? = nil, planType: ProvisionedProductPlanType? = nil, tags: [Tag]? = nil, pathId: String? = nil, provisionProductId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, planId: String? = nil, productId: String? = nil, createdTime: TimeStamp? = nil, planName: String? = nil, status: ProvisionedProductPlanStatus? = nil, provisionProductName: String? = nil, statusMessage: String? = nil) {
+            self.provisioningArtifactId = provisioningArtifactId
+            self.updatedTime = updatedTime
+            self.notificationArns = notificationArns
+            self.planType = planType
+            self.tags = tags
+            self.pathId = pathId
+            self.provisionProductId = provisionProductId
+            self.provisioningParameters = provisioningParameters
+            self.planId = planId
+            self.productId = productId
+            self.createdTime = createdTime
+            self.planName = planName
+            self.status = status
+            self.provisionProductName = provisionProductName
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case updatedTime = "UpdatedTime"
+            case notificationArns = "NotificationArns"
+            case planType = "PlanType"
+            case tags = "Tags"
+            case pathId = "PathId"
+            case provisionProductId = "ProvisionProductId"
+            case provisioningParameters = "ProvisioningParameters"
+            case planId = "PlanId"
+            case productId = "ProductId"
+            case createdTime = "CreatedTime"
+            case planName = "PlanName"
+            case status = "Status"
+            case provisionProductName = "ProvisionProductName"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
     public struct ProvisionProductOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
         ]
-        /// The detailed result of the ProvisionProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object of the request, and a list of any errors that the request encountered. 
+        /// Information about the result of provisioning the product.
         public let recordDetail: RecordDetail?
 
         public init(recordDetail: RecordDetail? = nil) {
@@ -2130,7 +2610,7 @@ extension Servicecatalog {
         ]
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The identifier of the product for the delete request.
+        /// The product identifier.
         public let id: String
 
         public init(acceptLanguage: String? = nil, id: String) {
@@ -2149,9 +2629,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "ResourceDetails", required: false, type: .list), 
             AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
-        /// The resulting detailed resource information.
+        /// Information about the resources.
         public let resourceDetails: [ResourceDetail]?
-        /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
         public init(resourceDetails: [ResourceDetail]? = nil, pageToken: String? = nil) {
@@ -2186,6 +2666,52 @@ extension Servicecatalog {
         }
     }
 
+    public struct ResourceChange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Details", required: false, type: .list), 
+            AWSShapeMember(label: "Action", required: false, type: .enum), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
+            AWSShapeMember(label: "PhysicalResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "Replacement", required: false, type: .enum), 
+            AWSShapeMember(label: "LogicalResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "Scope", required: false, type: .list)
+        ]
+        /// Information about the resource changes.
+        public let details: [ResourceChangeDetail]?
+        /// The change action.
+        public let action: ChangeAction?
+        /// The type of resource.
+        public let resourceType: String?
+        /// The ID of the resource, if it was already created.
+        public let physicalResourceId: String?
+        /// If the change type is Modify, indicates whether the existing resource is deleted and replaced with a new one.
+        public let replacement: Replacement?
+        /// The ID of the resource, as defined in the CloudFormation template.
+        public let logicalResourceId: String?
+        /// The change scope.
+        public let scope: [ResourceAttribute]?
+
+        public init(details: [ResourceChangeDetail]? = nil, action: ChangeAction? = nil, resourceType: String? = nil, physicalResourceId: String? = nil, replacement: Replacement? = nil, logicalResourceId: String? = nil, scope: [ResourceAttribute]? = nil) {
+            self.details = details
+            self.action = action
+            self.resourceType = resourceType
+            self.physicalResourceId = physicalResourceId
+            self.replacement = replacement
+            self.logicalResourceId = logicalResourceId
+            self.scope = scope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "Details"
+            case action = "Action"
+            case resourceType = "ResourceType"
+            case physicalResourceId = "PhysicalResourceId"
+            case replacement = "Replacement"
+            case logicalResourceId = "LogicalResourceId"
+            case scope = "Scope"
+        }
+    }
+
     public struct ListRecordHistoryInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
@@ -2194,15 +2720,15 @@ extension Servicecatalog {
             AWSShapeMember(label: "SearchFilter", required: false, type: .structure), 
             AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
-        /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
+        /// The maximum number of items to return with this call.
         public let pageSize: Int32?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The access level for obtaining results. If left unspecified, User level access is used.
+        /// The access level to use to obtain results. The default is User.
         public let accessLevelFilter: AccessLevelFilter?
-        /// The filter to limit search results. 
+        /// The search filter to scope the results.
         public let searchFilter: ListRecordHistorySearchFilter?
-        /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
         public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, searchFilter: ListRecordHistorySearchFilter? = nil, pageToken: String? = nil) {
@@ -2231,7 +2757,7 @@ extension Servicecatalog {
         ]
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The identifier of the source portfolio to use with this association.
+        /// The identifier of the source portfolio.
         public let sourcePortfolioId: String?
         /// The portfolio identifier.
         public let portfolioId: String
@@ -2253,6 +2779,11 @@ extension Servicecatalog {
         }
     }
 
+    public enum ProvisionedProductViewFilterBy: String, CustomStringConvertible, Codable {
+        case searchquery = "SearchQuery"
+        public var description: String { return self.rawValue }
+    }
+
     public struct UpdateProductInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: true, type: .string), 
@@ -2267,9 +2798,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "SupportDescription", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        /// The identifier of the product for the update request.
+        /// The product identifier.
         public let id: String
-        /// Tags to remove from the existing list of tags associated with the product.
+        /// The tags to remove from the product.
         public let removeTags: [String]?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -2279,7 +2810,7 @@ extension Servicecatalog {
         public let name: String?
         /// The updated distributor of the product.
         public let distributor: String?
-        /// Tags to add to the existing list of tags associated with the product.
+        /// The tags to add to the product.
         public let addTags: [Tag]?
         /// The updated support URL for the product.
         public let supportUrl: String?
@@ -2287,7 +2818,7 @@ extension Servicecatalog {
         public let owner: String?
         /// The updated support description for the product.
         public let supportDescription: String?
-        /// The updated text description of the product.
+        /// The updated description of the product.
         public let description: String?
 
         public init(id: String, removeTags: [String]? = nil, acceptLanguage: String? = nil, supportEmail: String? = nil, name: String? = nil, distributor: String? = nil, addTags: [Tag]? = nil, supportUrl: String? = nil, owner: String? = nil, supportDescription: String? = nil, description: String? = nil) {
@@ -2341,15 +2872,15 @@ extension Servicecatalog {
             AWSShapeMember(label: "ProvisionedProductId", required: false, type: .string), 
             AWSShapeMember(label: "ProvisionedProductName", required: false, type: .string)
         ]
-        /// If set to true, AWS Service Catalog stops managing the specified ProvisionedProduct object even if it cannot delete the underlying resources.
+        /// If set to true, AWS Service Catalog stops managing the specified provisioned product even if it cannot delete the underlying resources.
         public let ignoreErrors: Bool?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// An idempotency token that uniquely identifies the termination request. This token is only valid during the termination process. After the ProvisionedProduct object is terminated, further requests to terminate the same ProvisionedProduct object always return ResourceNotFound regardless of the value of TerminateToken.
+        /// An idempotency token that uniquely identifies the termination request. This token is only valid during the termination process. After the provisioned product is terminated, subsequent requests to terminate the same provisioned product always return ResourceNotFound.
         public let terminateToken: String
-        /// The identifier of the ProvisionedProduct object to terminate. Specify either ProvisionedProductName or ProvisionedProductId, but not both.
+        /// The identifier of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
         public let provisionedProductId: String?
-        /// The name of the ProvisionedProduct object to terminate. Specify either ProvisionedProductName or ProvisionedProductId, but not both.
+        /// The name of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
         public let provisionedProductName: String?
 
         public init(ignoreErrors: Bool? = nil, acceptLanguage: String? = nil, terminateToken: String, provisionedProductId: String? = nil, provisionedProductName: String? = nil) {
@@ -2375,44 +2906,53 @@ extension Servicecatalog {
         public var description: String { return self.rawValue }
     }
 
-    public struct RejectPortfolioShareOutput: AWSShape {
+    public struct DeleteProvisionedProductPlanOutput: AWSShape {
 
     }
 
     public struct UpdateProvisioningArtifactInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "ProductId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
+            AWSShapeMember(label: "Active", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// The identifier of the provisioning artifact for the update request. This is sometimes referred to as the product version.
+        /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String
+        /// The updated description of the provisioning artifact.
+        public let description: String?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier.
         public let productId: String
+        /// Indicates whether the product version is active.
+        public let active: Bool?
         /// The updated name of the provisioning artifact.
         public let name: String?
-        /// The updated text description of the provisioning artifact.
-        public let description: String?
 
-        public init(provisioningArtifactId: String, acceptLanguage: String? = nil, productId: String, name: String? = nil, description: String? = nil) {
+        public init(provisioningArtifactId: String, description: String? = nil, acceptLanguage: String? = nil, productId: String, active: Bool? = nil, name: String? = nil) {
             self.provisioningArtifactId = provisioningArtifactId
+            self.description = description
             self.acceptLanguage = acceptLanguage
             self.productId = productId
+            self.active = active
             self.name = name
-            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
             case provisioningArtifactId = "ProvisioningArtifactId"
+            case description = "Description"
             case acceptLanguage = "AcceptLanguage"
             case productId = "ProductId"
+            case active = "Active"
             case name = "Name"
-            case description = "Description"
         }
+    }
+
+    public struct RejectPortfolioShareOutput: AWSShape {
+
     }
 
     public struct CreatePortfolioOutput: AWSShape {
@@ -2420,9 +2960,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "PortfolioDetail", required: false, type: .structure), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
-        /// The resulting detailed portfolio information.
+        /// Information about the portfolio.
         public let portfolioDetail: PortfolioDetail?
-        /// Tags successfully associated with the new portfolio.
+        /// Information about the tags associated with the portfolio.
         public let tags: [Tag]?
 
         public init(portfolioDetail: PortfolioDetail? = nil, tags: [Tag]? = nil) {
@@ -2442,11 +2982,11 @@ extension Servicecatalog {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "TagOptions", required: false, type: .list)
         ]
-        /// Detailed portfolio information.
+        /// Information about the portfolio.
         public let portfolioDetail: PortfolioDetail?
-        /// Tags associated with the portfolio.
+        /// Information about the tags associated with the portfolio.
         public let tags: [Tag]?
-        /// TagOptions associated with the portfolio.
+        /// Information about the TagOptions associated with the portfolio.
         public let tagOptions: [TagOptionDetail]?
 
         public init(portfolioDetail: PortfolioDetail? = nil, tags: [Tag]? = nil, tagOptions: [TagOptionDetail]? = nil) {
@@ -2474,9 +3014,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .enum)
         ]
-        /// Specifies the user to which the access level applies. A value of Self is currently supported.
+        /// The user to which the access level applies. The only supported value is Self.
         public let value: String?
-        /// Specifies the access level.  Account allows results at the account level.   Role allows results based on the federated role of the specified user.  User allows results limited to the specified user. 
+        /// The access level.    Account - Filter results based on the account.    Role - Filter results based on the federated role of the specified user.    User - Filter results based on the specified user.  
         public let key: AccessLevelFilterKey?
 
         public init(value: String? = nil, key: AccessLevelFilterKey? = nil) {
@@ -2497,13 +3037,13 @@ extension Servicecatalog {
             AWSShapeMember(label: "Active", required: false, type: .boolean), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// The TagOptionDetail key.
+        /// The TagOption key.
         public let key: String?
-        /// The TagOptionDetail value.
+        /// The TagOption value.
         public let value: String?
-        /// The TagOptionDetail active state.
+        /// The TagOption active state.
         public let active: Bool?
-        /// The TagOptionDetail identifier.
+        /// The TagOption identifier.
         public let id: String?
 
         public init(key: String? = nil, value: String? = nil, active: Bool? = nil, id: String? = nil) {
@@ -2526,9 +3066,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "Type", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        /// The type of the constraint. 
+        /// The type of constraint.    LAUNCH     NOTIFICATION     TEMPLATE   
         public let `type`: String?
-        /// The text description of the constraint.
+        /// The description of the constraint.
         public let description: String?
 
         public init(type: String? = nil, description: String? = nil) {
@@ -2539,6 +3079,92 @@ extension Servicecatalog {
         private enum CodingKeys: String, CodingKey {
             case `type` = "Type"
             case description = "Description"
+        }
+    }
+
+    public struct ProvisionedProductAttribute: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "LastRecordId", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "ProductId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "UserArnSession", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
+            AWSShapeMember(label: "UserArn", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "PhysicalId", required: false, type: .string)
+        ]
+        /// The identifier of the provisioning artifact.
+        public let provisioningArtifactId: String?
+        /// The ARN of the provisioned product.
+        public let arn: String?
+        /// The record identifier of the last request performed on this provisioned product.
+        public let lastRecordId: String?
+        /// One or more tags.
+        public let tags: [Tag]?
+        /// The product identifier.
+        public let productId: String?
+        /// The UTC time stamp of the creation time.
+        public let createdTime: TimeStamp?
+        /// The identifier of the provisioned product.
+        public let id: String?
+        /// The current status of the provisioned product.    AVAILABLE - Stable state, ready to perform any operation. The most recent operation succeeded and completed.    UNDER_CHANGE - Transitive state, operations performed might not have valid results. Wait for an AVAILABLE status before performing operations.    TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.    ERROR - An unexpected error occurred, the provisioned product exists but the stack is not running. For example, CloudFormation received a parameter value that was not valid and could not launch the stack.  
+        public let status: ProvisionedProductStatus?
+        /// The ARN of the IAM user in the session. This ARN might contain a session ID.
+        public let userArnSession: String?
+        /// The user-friendly name of the provisioned product.
+        public let name: String?
+        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
+        public let idempotencyToken: String?
+        /// The Amazon Resource Name (ARN) of the IAM user.
+        public let userArn: String?
+        /// The type of provisioned product. The supported value is CFN_STACK.
+        public let `type`: String?
+        /// The current status message of the provisioned product.
+        public let statusMessage: String?
+        /// The assigned identifier for the resource, such as an EC2 instance ID or an S3 bucket name.
+        public let physicalId: String?
+
+        public init(provisioningArtifactId: String? = nil, arn: String? = nil, lastRecordId: String? = nil, tags: [Tag]? = nil, productId: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil, status: ProvisionedProductStatus? = nil, userArnSession: String? = nil, name: String? = nil, idempotencyToken: String? = nil, userArn: String? = nil, type: String? = nil, statusMessage: String? = nil, physicalId: String? = nil) {
+            self.provisioningArtifactId = provisioningArtifactId
+            self.arn = arn
+            self.lastRecordId = lastRecordId
+            self.tags = tags
+            self.productId = productId
+            self.createdTime = createdTime
+            self.id = id
+            self.status = status
+            self.userArnSession = userArnSession
+            self.name = name
+            self.idempotencyToken = idempotencyToken
+            self.userArn = userArn
+            self.`type` = `type`
+            self.statusMessage = statusMessage
+            self.physicalId = physicalId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case arn = "Arn"
+            case lastRecordId = "LastRecordId"
+            case tags = "Tags"
+            case productId = "ProductId"
+            case createdTime = "CreatedTime"
+            case id = "Id"
+            case status = "Status"
+            case userArnSession = "UserArnSession"
+            case name = "Name"
+            case idempotencyToken = "IdempotencyToken"
+            case userArn = "UserArn"
+            case `type` = "Type"
+            case statusMessage = "StatusMessage"
+            case physicalId = "PhysicalId"
         }
     }
 
@@ -2556,7 +3182,7 @@ extension Servicecatalog {
             AWSShapeMember(label: "SupportDescription", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
-        /// A value of false indicates that the product does not have a default path, while a value of true indicates that it does. If it's false, call ListLaunchPaths to disambiguate between paths. If true, ListLaunchPaths is not required, and the output of the ProductViewSummary operation can be used directly with DescribeProvisioningParameters.
+        /// Indicates whether the product has a default path. If the product does not have a default path, call ListLaunchPaths to disambiguate between paths. Otherwise, ListLaunchPaths is not required, and the output of ProductViewSummary can be used directly with DescribeProvisioningParameters.
         public let hasDefaultPath: Bool?
         /// Short description of the product.
         public let shortDescription: String?
@@ -2625,9 +3251,9 @@ extension Servicecatalog {
         ]
         /// The status of the current request.
         public let status: Status?
-        /// The resulting detailed provisioning artifact information.
+        /// Information about the provisioning artifact.
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?
-        /// Additional information about the provisioning artifact update request.
+        /// The URL of the CloudFormation template in Amazon S3.
         public let info: [String: String]?
 
         public init(status: Status? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, info: [String: String]? = nil) {
@@ -2669,9 +3295,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "TagOptionDetails", required: false, type: .list), 
             AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
-        /// The resulting detailed TagOption information.
+        /// Information about the TagOptions.
         public let tagOptionDetails: [TagOptionDetail]?
-        /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
         public init(tagOptionDetails: [TagOptionDetail]? = nil, pageToken: String? = nil) {
@@ -2690,7 +3316,7 @@ extension Servicecatalog {
             AWSShapeMember(label: "CopyProductToken", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
-        /// The token returned from the call to CopyProduct that initiated the operation.
+        /// The token for the copy product operation. This token is returned by CopyProduct.
         public let copyProductToken: String
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -2706,17 +3332,39 @@ extension Servicecatalog {
         }
     }
 
+    public enum EvaluationType: String, CustomStringConvertible, Codable {
+        case `static` = "STATIC"
+        case dynamic = "DYNAMIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CloudWatchDashboard: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The name of the CloudWatch dashboard.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
     public struct DescribeConstraintOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConstraintDetail", required: false, type: .structure), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "ConstraintParameters", required: false, type: .string)
         ]
-        /// Detailed constraint information.
+        /// Information about the constraint.
         public let constraintDetail: ConstraintDetail?
         /// The status of the current request.
         public let status: Status?
-        /// The current parameters associated with the specified constraint.
+        /// The constraint parameters.
         public let constraintParameters: String?
 
         public init(constraintDetail: ConstraintDetail? = nil, status: Status? = nil, constraintParameters: String? = nil) {
@@ -2744,9 +3392,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "PrincipalARN", required: false, type: .string), 
             AWSShapeMember(label: "PrincipalType", required: false, type: .enum)
         ]
-        /// The ARN representing the principal (IAM user, role, or group).
+        /// The ARN of the principal (IAM user, role, or group).
         public let principalARN: String?
-        /// The principal type. Must be IAM 
+        /// The principal type. The supported value is IAM.
         public let principalType: PrincipalType?
 
         public init(principalARN: String? = nil, principalType: PrincipalType? = nil) {
@@ -2766,11 +3414,11 @@ extension Servicecatalog {
             AWSShapeMember(label: "Filters", required: false, type: .structure), 
             AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
-        /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
+        /// The maximum number of items to return with this call.
         public let pageSize: Int32?
-        /// The list of filters with which to limit search results. If no search filters are specified, the output is all TagOptions. 
+        /// The search filters. If no search filters are specified, the output includes all TagOptions.
         public let filters: ListTagOptionsFilters?
-        /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
         public init(pageSize: Int32? = nil, filters: ListTagOptionsFilters? = nil, pageToken: String? = nil) {
@@ -2790,7 +3438,7 @@ extension Servicecatalog {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagOptionDetail", required: false, type: .structure)
         ]
-        /// The resulting detailed TagOption information.
+        /// Information about the TagOption.
         public let tagOptionDetail: TagOptionDetail?
 
         public init(tagOptionDetail: TagOptionDetail? = nil) {
@@ -2804,24 +3452,28 @@ extension Servicecatalog {
 
     public struct ProvisioningArtifactDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Active", required: false, type: .boolean), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// The text description of the provisioning artifact.
+        /// Indicates whether the product version is active.
+        public let active: Bool?
+        /// The description of the provisioning artifact.
         public let description: String?
-        /// The type of the provisioning artifact. The following provisioning artifact types are used by AWS Marketplace products:  MARKETPLACE_AMI - AMI products.  MARKETPLACE_CAR - CAR (Cluster and AWS Resources) products.
+        /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - AWS CloudFormation template    MARKETPLACE_AMI - AWS Marketplace AMI    MARKETPLACE_CAR - AWS Marketplace Clusters and AWS Resources  
         public let `type`: ProvisioningArtifactType?
-        /// The name assigned to the provisioning artifact.
+        /// The name of the provisioning artifact.
         public let name: String?
-        /// The UTC timestamp of the creation time.
+        /// The UTC time stamp of the creation time.
         public let createdTime: TimeStamp?
-        /// The identifier of the provisioning artifact. This is sometimes referred to as the product version.
+        /// The identifier of the provisioning artifact.
         public let id: String?
 
-        public init(description: String? = nil, type: ProvisioningArtifactType? = nil, name: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil) {
+        public init(active: Bool? = nil, description: String? = nil, type: ProvisioningArtifactType? = nil, name: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil) {
+            self.active = active
             self.description = description
             self.`type` = `type`
             self.name = name
@@ -2830,6 +3482,7 @@ extension Servicecatalog {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case active = "Active"
             case description = "Description"
             case `type` = "Type"
             case name = "Name"
@@ -2850,7 +3503,7 @@ extension Servicecatalog {
             AWSShapeMember(label: "ProductId", required: false, type: .string), 
             AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
-        /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
+        /// The maximum number of items to return with this call.
         public let pageSize: Int32?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -2858,7 +3511,7 @@ extension Servicecatalog {
         public let portfolioId: String
         /// The product identifier.
         public let productId: String?
-        /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
         public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, portfolioId: String, productId: String? = nil, pageToken: String? = nil) {
@@ -2913,9 +3566,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "PortfolioDetails", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
-        /// List of detailed portfolio information objects.
+        /// Information about the portfolios.
         public let portfolioDetails: [PortfolioDetail]?
-        /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
 
         public init(portfolioDetails: [PortfolioDetail]? = nil, nextPageToken: String? = nil) {
@@ -2936,13 +3589,13 @@ extension Servicecatalog {
             AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
             AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
-        /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
+        /// The maximum number of items to return with this call.
         public let pageSize: Int32?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
-        /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
         public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, portfolioId: String, pageToken: String? = nil) {
@@ -2965,33 +3618,33 @@ extension Servicecatalog {
             AWSShapeMember(label: "TargetProductId", required: false, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "TargetProductName", required: false, type: .string), 
+            AWSShapeMember(label: "SourceProductArn", required: true, type: .string), 
             AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
             AWSShapeMember(label: "SourceProvisioningArtifactIdentifiers", required: false, type: .list), 
-            AWSShapeMember(label: "SourceProductArn", required: true, type: .string), 
             AWSShapeMember(label: "CopyOptions", required: false, type: .list)
         ]
-        /// The ID of the target product. By default, a new product is created.
+        /// The identifier of the target product. By default, a new product is created.
         public let targetProductId: String?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// A name for the target product. The default is the name of the source product.
         public let targetProductName: String?
-        ///  A token to disambiguate duplicate requests. You can use the same input in multiple requests, provided that you also specify a different idempotency token for each request. 
-        public let idempotencyToken: String
-        /// The IDs of the product versions to copy. By default, all provisioning artifacts are copied.
-        public let sourceProvisioningArtifactIdentifiers: [[ProvisioningArtifactPropertyName: String]]?
         /// The Amazon Resource Name (ARN) of the source product.
         public let sourceProductArn: String
+        ///  A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request. 
+        public let idempotencyToken: String
+        /// The identifiers of the provisioning artifacts (also known as versions) of the product to copy. By default, all provisioning artifacts are copied.
+        public let sourceProvisioningArtifactIdentifiers: [[ProvisioningArtifactPropertyName: String]]?
         /// The copy options. If the value is CopyTags, the tags from the source product are copied to the target product.
         public let copyOptions: [CopyOption]?
 
-        public init(targetProductId: String? = nil, acceptLanguage: String? = nil, targetProductName: String? = nil, idempotencyToken: String, sourceProvisioningArtifactIdentifiers: [[ProvisioningArtifactPropertyName: String]]? = nil, sourceProductArn: String, copyOptions: [CopyOption]? = nil) {
+        public init(targetProductId: String? = nil, acceptLanguage: String? = nil, targetProductName: String? = nil, sourceProductArn: String, idempotencyToken: String, sourceProvisioningArtifactIdentifiers: [[ProvisioningArtifactPropertyName: String]]? = nil, copyOptions: [CopyOption]? = nil) {
             self.targetProductId = targetProductId
             self.acceptLanguage = acceptLanguage
             self.targetProductName = targetProductName
+            self.sourceProductArn = sourceProductArn
             self.idempotencyToken = idempotencyToken
             self.sourceProvisioningArtifactIdentifiers = sourceProvisioningArtifactIdentifiers
-            self.sourceProductArn = sourceProductArn
             self.copyOptions = copyOptions
         }
 
@@ -2999,9 +3652,9 @@ extension Servicecatalog {
             case targetProductId = "TargetProductId"
             case acceptLanguage = "AcceptLanguage"
             case targetProductName = "TargetProductName"
+            case sourceProductArn = "SourceProductArn"
             case idempotencyToken = "IdempotencyToken"
             case sourceProvisioningArtifactIdentifiers = "SourceProvisioningArtifactIdentifiers"
-            case sourceProductArn = "SourceProductArn"
             case copyOptions = "CopyOptions"
         }
     }
@@ -3014,6 +3667,68 @@ extension Servicecatalog {
 
     }
 
+    public struct ListProvisionedProductPlansInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "ProvisionProductId", required: false, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "AccessLevelFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string)
+        ]
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+        /// The product identifier.
+        public let provisionProductId: String?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The access level to use to obtain results. The default is User.
+        public let accessLevelFilter: AccessLevelFilter?
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+
+        public init(pageSize: Int32? = nil, provisionProductId: String? = nil, acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, pageToken: String? = nil) {
+            self.pageSize = pageSize
+            self.provisionProductId = provisionProductId
+            self.acceptLanguage = acceptLanguage
+            self.accessLevelFilter = accessLevelFilter
+            self.pageToken = pageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case provisionProductId = "ProvisionProductId"
+            case acceptLanguage = "AcceptLanguage"
+            case accessLevelFilter = "AccessLevelFilter"
+            case pageToken = "PageToken"
+        }
+    }
+
+    public struct SearchProvisionedProductsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TotalResultsCount", required: false, type: .integer), 
+            AWSShapeMember(label: "ProvisionedProducts", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
+        ]
+        /// The number of provisioned products found.
+        public let totalResultsCount: Int32?
+        /// Information about the provisioned products.
+        public let provisionedProducts: [ProvisionedProductAttribute]?
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+
+        public init(totalResultsCount: Int32? = nil, provisionedProducts: [ProvisionedProductAttribute]? = nil, nextPageToken: String? = nil) {
+            self.totalResultsCount = totalResultsCount
+            self.provisionedProducts = provisionedProducts
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case totalResultsCount = "TotalResultsCount"
+            case provisionedProducts = "ProvisionedProducts"
+            case nextPageToken = "NextPageToken"
+        }
+    }
+
     public struct DescribeCopyProductStatusOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CopyProductStatus", required: false, type: .enum), 
@@ -3024,7 +3739,7 @@ extension Servicecatalog {
         public let copyProductStatus: CopyProductStatus?
         /// The status message.
         public let statusDetail: String?
-        /// The ID of the copied product.
+        /// The identifier of the copied product.
         public let targetProductId: String?
 
         public init(copyProductStatus: CopyProductStatus? = nil, statusDetail: String? = nil, targetProductId: String? = nil) {
@@ -3045,9 +3760,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "ProductViewSummary", required: false, type: .structure), 
             AWSShapeMember(label: "ProvisioningArtifacts", required: false, type: .list)
         ]
-        /// The summary metadata about the specified product.
+        /// Summary information about the product view.
         public let productViewSummary: ProductViewSummary?
-        /// A list of provisioning artifact objects for the specified product. The ProvisioningArtifacts parameter represent the ways the specified product can be provisioned.
+        /// Information about the provisioning artifacts for the specified product.
         public let provisioningArtifacts: [ProvisioningArtifact]?
 
         public init(productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
@@ -3065,7 +3780,7 @@ extension Servicecatalog {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
             AWSShapeMember(label: "UpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ProvisionedProductName", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductType", required: false, type: .string), 
             AWSShapeMember(label: "PathId", required: false, type: .string), 
             AWSShapeMember(label: "ProductId", required: false, type: .string), 
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
@@ -3074,40 +3789,40 @@ extension Servicecatalog {
             AWSShapeMember(label: "ProvisionedProductId", required: false, type: .string), 
             AWSShapeMember(label: "RecordType", required: false, type: .string), 
             AWSShapeMember(label: "RecordId", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisionedProductType", required: false, type: .string), 
-            AWSShapeMember(label: "RecordTags", required: false, type: .list)
+            AWSShapeMember(label: "RecordTags", required: false, type: .list), 
+            AWSShapeMember(label: "ProvisionedProductName", required: false, type: .string)
         ]
-        /// The provisioning artifact identifier for this product. This is sometimes referred to as the product version.
+        /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String?
-        /// The time when the record for the ProvisionedProduct object was last updated.
+        /// The time when the record was last updated.
         public let updatedTime: TimeStamp?
-        /// The user-friendly name of the ProvisionedProduct object.
-        public let provisionedProductName: String?
-        /// The identifier of the path for this product's provisioning.
+        /// The type of provisioned product. The supported value is CFN_STACK.
+        public let provisionedProductType: String?
+        /// The path identifier.
         public let pathId: String?
         /// The product identifier.
         public let productId: String?
-        /// The UTC timestamp of the creation time.
+        /// The UTC time stamp of the creation time.
         public let createdTime: TimeStamp?
-        /// A list of errors that occurred while processing the request.
+        /// The errors that occurred.
         public let recordErrors: [RecordError]?
-        /// The status of the ProvisionedProduct object.  CREATED - Request created but the operation has not yet started.  IN_PROGRESS - The requested operation is in-progress.  IN_PROGRESS_IN_ERROR - The provisioned product is under change but the requested operation failed and some remediation is occurring. For example, a rollback.  SUCCEEDED - The requested operation has successfully completed.  FAILED - The requested operation has completed but has failed. Investigate using the error messages returned.
+        /// The status of the provisioned product.    CREATED - The request was created but the operation has not started.    IN_PROGRESS - The requested operation is in progress.    IN_PROGRESS_IN_ERROR - The provisioned product is under change but the requested operation failed and some remediation is occurring. For example, a rollback.    SUCCEEDED - The requested operation has successfully completed.    FAILED - The requested operation has unsuccessfully completed. Investigate using the error messages returned.  
         public let status: RecordStatus?
-        /// The identifier of the ProvisionedProduct object.
+        /// The identifier of the provisioned product.
         public let provisionedProductId: String?
-        /// The record type for this record.
+        /// The record type.    PROVISION_PRODUCT     UPDATE_PROVISIONED_PRODUCT     TERMINATE_PROVISIONED_PRODUCT   
         public let recordType: String?
-        /// The identifier of the ProvisionedProduct object record.
+        /// The identifier of the record.
         public let recordId: String?
-        /// The type of the ProvisionedProduct object.
-        public let provisionedProductType: String?
-        /// List of tags associated with this record.
+        /// One or more tags.
         public let recordTags: [RecordTag]?
+        /// The user-friendly name of the provisioned product.
+        public let provisionedProductName: String?
 
-        public init(provisioningArtifactId: String? = nil, updatedTime: TimeStamp? = nil, provisionedProductName: String? = nil, pathId: String? = nil, productId: String? = nil, createdTime: TimeStamp? = nil, recordErrors: [RecordError]? = nil, status: RecordStatus? = nil, provisionedProductId: String? = nil, recordType: String? = nil, recordId: String? = nil, provisionedProductType: String? = nil, recordTags: [RecordTag]? = nil) {
+        public init(provisioningArtifactId: String? = nil, updatedTime: TimeStamp? = nil, provisionedProductType: String? = nil, pathId: String? = nil, productId: String? = nil, createdTime: TimeStamp? = nil, recordErrors: [RecordError]? = nil, status: RecordStatus? = nil, provisionedProductId: String? = nil, recordType: String? = nil, recordId: String? = nil, recordTags: [RecordTag]? = nil, provisionedProductName: String? = nil) {
             self.provisioningArtifactId = provisioningArtifactId
             self.updatedTime = updatedTime
-            self.provisionedProductName = provisionedProductName
+            self.provisionedProductType = provisionedProductType
             self.pathId = pathId
             self.productId = productId
             self.createdTime = createdTime
@@ -3116,14 +3831,14 @@ extension Servicecatalog {
             self.provisionedProductId = provisionedProductId
             self.recordType = recordType
             self.recordId = recordId
-            self.provisionedProductType = provisionedProductType
             self.recordTags = recordTags
+            self.provisionedProductName = provisionedProductName
         }
 
         private enum CodingKeys: String, CodingKey {
             case provisioningArtifactId = "ProvisioningArtifactId"
             case updatedTime = "UpdatedTime"
-            case provisionedProductName = "ProvisionedProductName"
+            case provisionedProductType = "ProvisionedProductType"
             case pathId = "PathId"
             case productId = "ProductId"
             case createdTime = "CreatedTime"
@@ -3132,8 +3847,8 @@ extension Servicecatalog {
             case provisionedProductId = "ProvisionedProductId"
             case recordType = "RecordType"
             case recordId = "RecordId"
-            case provisionedProductType = "ProvisionedProductType"
             case recordTags = "RecordTags"
+            case provisionedProductName = "ProvisionedProductName"
         }
     }
 
@@ -3145,9 +3860,9 @@ extension Servicecatalog {
         ]
         /// The status of the current request.
         public let status: Status?
-        /// Detailed provisioning artifact information.
+        /// Information about the provisioning artifact.
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?
-        /// Additional information about the provisioning artifact.
+        /// The URL of the CloudFormation template in Amazon S3.
         public let info: [String: String]?
 
         public init(status: Status? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, info: [String: String]? = nil) {
@@ -3163,14 +3878,80 @@ extension Servicecatalog {
         }
     }
 
+    public struct CreateProvisionedProductPlanInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationArns", required: false, type: .list), 
+            AWSShapeMember(label: "PlanType", required: true, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "PathId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningParameters", required: false, type: .list), 
+            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
+            AWSShapeMember(label: "PlanName", required: true, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductName", required: true, type: .string)
+        ]
+        /// The identifier of the provisioning artifact.
+        public let provisioningArtifactId: String
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
+        public let notificationArns: [String]?
+        /// The plan type.
+        public let planType: ProvisionedProductPlanType
+        /// One or more tags.
+        public let tags: [Tag]?
+        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths.
+        public let pathId: String?
+        /// Parameters specified by the administrator that are required for provisioning the product.
+        public let provisioningParameters: [UpdateProvisioningParameter]?
+        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
+        public let idempotencyToken: String
+        /// The name of the plan.
+        public let planName: String
+        /// The product identifier.
+        public let productId: String
+        /// A user-friendly name for the provisioned product. This value must be unique for the AWS account and cannot be updated after the product is provisioned.
+        public let provisionedProductName: String
+
+        public init(provisioningArtifactId: String, acceptLanguage: String? = nil, notificationArns: [String]? = nil, planType: ProvisionedProductPlanType, tags: [Tag]? = nil, pathId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, idempotencyToken: String, planName: String, productId: String, provisionedProductName: String) {
+            self.provisioningArtifactId = provisioningArtifactId
+            self.acceptLanguage = acceptLanguage
+            self.notificationArns = notificationArns
+            self.planType = planType
+            self.tags = tags
+            self.pathId = pathId
+            self.provisioningParameters = provisioningParameters
+            self.idempotencyToken = idempotencyToken
+            self.planName = planName
+            self.productId = productId
+            self.provisionedProductName = provisionedProductName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case acceptLanguage = "AcceptLanguage"
+            case notificationArns = "NotificationArns"
+            case planType = "PlanType"
+            case tags = "Tags"
+            case pathId = "PathId"
+            case provisioningParameters = "ProvisioningParameters"
+            case idempotencyToken = "IdempotencyToken"
+            case planName = "PlanName"
+            case productId = "ProductId"
+            case provisionedProductName = "ProvisionedProductName"
+        }
+    }
+
     public struct DisassociateTagOptionFromResourceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "TagOptionId", required: true, type: .string)
         ]
-        /// Identifier of the resource from which to disassociate the TagOption.
+        /// The resource identifier.
         public let resourceId: String
-        /// Identifier of the TagOption to disassociate from the resource.
+        /// The TagOption identifier.
         public let tagOptionId: String
 
         public init(resourceId: String, tagOptionId: String) {
@@ -3203,6 +3984,16 @@ extension Servicecatalog {
             case resourceId = "ResourceId"
             case tagOptionId = "TagOptionId"
         }
+    }
+
+    public enum ProvisionedProductPlanStatus: String, CustomStringConvertible, Codable {
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createSuccess = "CREATE_SUCCESS"
+        case createFailed = "CREATE_FAILED"
+        case executeInProgress = "EXECUTE_IN_PROGRESS"
+        case executeSuccess = "EXECUTE_SUCCESS"
+        case executeFailed = "EXECUTE_FAILED"
+        public var description: String { return self.rawValue }
     }
 
     public struct DisassociateTagOptionFromResourceOutput: AWSShape {
@@ -3256,9 +4047,9 @@ extension Servicecatalog {
             AWSShapeMember(label: "PortfolioDetails", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
-        /// List of detailed portfolio information objects.
+        /// Information about the portfolios.
         public let portfolioDetails: [PortfolioDetail]?
-        /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
 
         public init(portfolioDetails: [PortfolioDetail]? = nil, nextPageToken: String? = nil) {
@@ -3277,32 +4068,32 @@ extension Servicecatalog {
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "RemoveTags", required: false, type: .list), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
             AWSShapeMember(label: "AddTags", required: false, type: .list), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
             AWSShapeMember(label: "ProviderName", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        /// The identifier of the portfolio for the update request.
+        /// The portfolio identifier.
         public let id: String
-        /// Tags to remove from the existing list of tags associated with the portfolio.
+        /// The tags to remove.
         public let removeTags: [String]?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
+        /// The tags to add.
+        public let addTags: [Tag]?
         /// The name to use for display purposes.
         public let displayName: String?
-        /// Tags to add to the existing list of tags associated with the portfolio.
-        public let addTags: [Tag]?
         /// The updated name of the portfolio provider.
         public let providerName: String?
-        /// The updated text description of the portfolio.
+        /// The updated description of the portfolio.
         public let description: String?
 
-        public init(id: String, removeTags: [String]? = nil, acceptLanguage: String? = nil, displayName: String? = nil, addTags: [Tag]? = nil, providerName: String? = nil, description: String? = nil) {
+        public init(id: String, removeTags: [String]? = nil, acceptLanguage: String? = nil, addTags: [Tag]? = nil, displayName: String? = nil, providerName: String? = nil, description: String? = nil) {
             self.id = id
             self.removeTags = removeTags
             self.acceptLanguage = acceptLanguage
-            self.displayName = displayName
             self.addTags = addTags
+            self.displayName = displayName
             self.providerName = providerName
             self.description = description
         }
@@ -3311,8 +4102,8 @@ extension Servicecatalog {
             case id = "Id"
             case removeTags = "RemoveTags"
             case acceptLanguage = "AcceptLanguage"
-            case displayName = "DisplayName"
             case addTags = "AddTags"
+            case displayName = "DisplayName"
             case providerName = "ProviderName"
             case description = "Description"
         }
@@ -3329,11 +4120,11 @@ extension Servicecatalog {
             AWSShapeMember(label: "PrincipalType", required: true, type: .enum), 
             AWSShapeMember(label: "PortfolioId", required: true, type: .string)
         ]
-        /// The ARN representing the principal (IAM user, role, or group).
+        /// The ARN of the principal (IAM user, role, or group).
         public let principalARN: String
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The principal type. Must be IAM 
+        /// The principal type. The supported value is IAM.
         public let principalType: PrincipalType
         /// The portfolio identifier.
         public let portfolioId: String
@@ -3353,14 +4144,14 @@ extension Servicecatalog {
         }
     }
 
-    public struct DescribeProductAsAdminInput: AWSShape {
+    public struct DescribePortfolioInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The identifier of the product for which to retrieve information.
+        /// The portfolio identifier.
         public let id: String
 
         public init(acceptLanguage: String? = nil, id: String) {
@@ -3374,14 +4165,14 @@ extension Servicecatalog {
         }
     }
 
-    public struct DescribePortfolioInput: AWSShape {
+    public struct DescribeProductAsAdminInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The identifier of the portfolio for which to retrieve information.
+        /// The product identifier.
         public let id: String
 
         public init(acceptLanguage: String? = nil, id: String) {
@@ -3412,27 +4203,27 @@ extension Servicecatalog {
         ]
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// Contact email for product support.
+        /// The contact email for product support.
         public let supportEmail: String?
         /// The name of the product.
         public let name: String
         /// The distributor of the product.
         public let distributor: String?
-        /// A token to disambiguate duplicate requests. You can use the same input in multiple requests, provided that you also specify a different idempotency token for each request.
+        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String
-        /// The type of the product to create.
+        /// The type of product.
         public let productType: ProductType
-        /// Tags to associate with the new product.
+        /// One or more tags.
         public let tags: [Tag]?
-        /// Parameters for the provisioning artifact.
+        /// The configuration of the provisioning artifact.
         public let provisioningArtifactParameters: ProvisioningArtifactProperties
-        /// Contact URL for product support.
+        /// The contact URL for product support.
         public let supportUrl: String?
         /// The owner of the product.
         public let owner: String
-        /// Support information about the product.
+        /// The support information about the product.
         public let supportDescription: String?
-        /// The text description of the product.
+        /// The description of the product.
         public let description: String?
 
         public init(acceptLanguage: String? = nil, supportEmail: String? = nil, name: String, distributor: String? = nil, idempotencyToken: String, productType: ProductType, tags: [Tag]? = nil, provisioningArtifactParameters: ProvisioningArtifactProperties, supportUrl: String? = nil, owner: String, supportDescription: String? = nil, description: String? = nil) {
@@ -3474,9 +4265,9 @@ extension Servicecatalog {
         ]
         /// The status of the current request.
         public let status: Status?
-        /// The resulting detailed provisioning artifact information.
+        /// Information about the provisioning artifact.
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?
-        /// Additional information about the creation request for the provisioning artifact.
+        /// The URL of the CloudFormation template in Amazon S3, in JSON format.
         public let info: [String: String]?
 
         public init(status: Status? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, info: [String: String]? = nil) {
@@ -3523,7 +4314,7 @@ extension Servicecatalog {
         public let value: String?
         /// The updated active state.
         public let active: Bool?
-        /// The identifier of the constraint to update.
+        /// The TagOption identifier.
         public let id: String
 
         public init(value: String? = nil, active: Bool? = nil, id: String) {

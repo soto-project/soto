@@ -4,9 +4,11 @@ import AWSSDKSwiftCore
 
 /// Error enum for Config
 public enum ConfigError: AWSErrorType {
-    case noSuchDeliveryChannelException(message: String?)
     case invalidParameterValueException(message: String?)
     case invalidNextTokenException(message: String?)
+    case invalidLimitException(message: String?)
+    case noSuchDeliveryChannelException(message: String?)
+    case validationException(message: String?)
     case maxNumberOfDeliveryChannelsExceededException(message: String?)
     case noAvailableConfigurationRecorderException(message: String?)
     case invalidDeliveryChannelNameException(message: String?)
@@ -14,13 +16,13 @@ public enum ConfigError: AWSErrorType {
     case invalidS3KeyPrefixException(message: String?)
     case invalidSNSTopicARNException(message: String?)
     case insufficientDeliveryPolicyException(message: String?)
+    case noSuchConfigurationAggregatorException(message: String?)
     case noSuchConfigRuleException(message: String?)
     case lastDeliveryChannelDeleteFailedException(message: String?)
-    case noRunningConfigurationRecorderException(message: String?)
-    case validationException(message: String?)
     case invalidTimeRangeException(message: String?)
-    case invalidLimitException(message: String?)
     case resourceNotDiscoveredException(message: String?)
+    case noRunningConfigurationRecorderException(message: String?)
+    case noSuchRetentionConfigurationException(message: String?)
     case maxNumberOfConfigurationRecordersExceededException(message: String?)
     case invalidConfigurationRecorderNameException(message: String?)
     case invalidRoleException(message: String?)
@@ -31,7 +33,11 @@ public enum ConfigError: AWSErrorType {
     case insufficientPermissionsException(message: String?)
     case noAvailableDeliveryChannelException(message: String?)
     case invalidResultTokenException(message: String?)
+    case maxNumberOfRetentionConfigurationsExceededException(message: String?)
     case limitExceededException(message: String?)
+    case organizationAccessDeniedException(message: String?)
+    case noAvailableOrganizationException(message: String?)
+    case organizationAllFeaturesNotEnabledException(message: String?)
 }
 
 extension ConfigError {
@@ -41,12 +47,16 @@ extension ConfigError {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "NoSuchDeliveryChannelException":
-            self = .noSuchDeliveryChannelException(message: message)
         case "InvalidParameterValueException":
             self = .invalidParameterValueException(message: message)
         case "InvalidNextTokenException":
             self = .invalidNextTokenException(message: message)
+        case "InvalidLimitException":
+            self = .invalidLimitException(message: message)
+        case "NoSuchDeliveryChannelException":
+            self = .noSuchDeliveryChannelException(message: message)
+        case "ValidationException":
+            self = .validationException(message: message)
         case "MaxNumberOfDeliveryChannelsExceededException":
             self = .maxNumberOfDeliveryChannelsExceededException(message: message)
         case "NoAvailableConfigurationRecorderException":
@@ -61,20 +71,20 @@ extension ConfigError {
             self = .invalidSNSTopicARNException(message: message)
         case "InsufficientDeliveryPolicyException":
             self = .insufficientDeliveryPolicyException(message: message)
+        case "NoSuchConfigurationAggregatorException":
+            self = .noSuchConfigurationAggregatorException(message: message)
         case "NoSuchConfigRuleException":
             self = .noSuchConfigRuleException(message: message)
         case "LastDeliveryChannelDeleteFailedException":
             self = .lastDeliveryChannelDeleteFailedException(message: message)
-        case "NoRunningConfigurationRecorderException":
-            self = .noRunningConfigurationRecorderException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
         case "InvalidTimeRangeException":
             self = .invalidTimeRangeException(message: message)
-        case "InvalidLimitException":
-            self = .invalidLimitException(message: message)
         case "ResourceNotDiscoveredException":
             self = .resourceNotDiscoveredException(message: message)
+        case "NoRunningConfigurationRecorderException":
+            self = .noRunningConfigurationRecorderException(message: message)
+        case "NoSuchRetentionConfigurationException":
+            self = .noSuchRetentionConfigurationException(message: message)
         case "MaxNumberOfConfigurationRecordersExceededException":
             self = .maxNumberOfConfigurationRecordersExceededException(message: message)
         case "InvalidConfigurationRecorderNameException":
@@ -95,8 +105,16 @@ extension ConfigError {
             self = .noAvailableDeliveryChannelException(message: message)
         case "InvalidResultTokenException":
             self = .invalidResultTokenException(message: message)
+        case "MaxNumberOfRetentionConfigurationsExceededException":
+            self = .maxNumberOfRetentionConfigurationsExceededException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "OrganizationAccessDeniedException":
+            self = .organizationAccessDeniedException(message: message)
+        case "NoAvailableOrganizationException":
+            self = .noAvailableOrganizationException(message: message)
+        case "OrganizationAllFeaturesNotEnabledException":
+            self = .organizationAllFeaturesNotEnabledException(message: message)
         default:
             return nil
         }

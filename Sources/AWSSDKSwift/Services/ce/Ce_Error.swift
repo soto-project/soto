@@ -5,6 +5,10 @@ import AWSSDKSwiftCore
 /// Error enum for Ce
 public enum CeError: AWSErrorType {
     case limitExceededException(message: String?)
+    case billExpirationException(message: String?)
+    case dataUnavailableException(message: String?)
+    case invalidNextTokenException(message: String?)
+    case requestChangedException(message: String?)
 }
 
 extension CeError {
@@ -16,6 +20,14 @@ extension CeError {
         switch errorCode {
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "BillExpirationException":
+            self = .billExpirationException(message: message)
+        case "DataUnavailableException":
+            self = .dataUnavailableException(message: message)
+        case "InvalidNextTokenException":
+            self = .invalidNextTokenException(message: message)
+        case "RequestChangedException":
+            self = .requestChangedException(message: message)
         default:
             return nil
         }

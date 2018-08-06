@@ -78,7 +78,7 @@ extension Opsworks {
             AWSShapeMember(label: "StackId", required: true, type: .string), 
             AWSShapeMember(label: "RdsDbInstanceArns", required: false, type: .list)
         ]
-        /// The stack ID that the instances are registered with. The operation returns descriptions of all registered Amazon RDS instances.
+        /// The ID of the stack with which the instances are registered. The operation returns descriptions of all registered Amazon RDS instances.
         public let stackId: String
         /// An array containing the ARNs of the instances to be described.
         public let rdsDbInstanceArns: [String]?
@@ -122,6 +122,7 @@ extension Opsworks {
         ]
         /// The layer short name.
         public let shortname: String?
+        /// The Amazon Resource Number (ARN) of a layer.
         public let arn: String?
         /// An array of Package objects that describe the layer's packages.
         public let packages: [String]?
@@ -332,7 +333,7 @@ extension Opsworks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EcsClusterArn", required: true, type: .string)
         ]
-        /// The cluster's ARN.
+        /// The cluster's Amazon Resource Number (ARN).
         public let ecsClusterArn: String
 
         public init(ecsClusterArn: String) {
@@ -597,6 +598,7 @@ extension Opsworks {
         ]
         /// For container instances, the instance's ARN.
         public let ecsContainerInstanceArn: String?
+        /// The instance's Amazon Resource Number (ARN).
         public let arn: String?
         /// The instance host name.
         public let hostname: String?
@@ -907,106 +909,111 @@ extension Opsworks {
     public struct InstancesCount: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Pending", required: false, type: .integer), 
-            AWSShapeMember(label: "Stopping", required: false, type: .integer), 
             AWSShapeMember(label: "Booting", required: false, type: .integer), 
+            AWSShapeMember(label: "Stopping", required: false, type: .integer), 
             AWSShapeMember(label: "Online", required: false, type: .integer), 
-            AWSShapeMember(label: "RunningSetup", required: false, type: .integer), 
-            AWSShapeMember(label: "Terminated", required: false, type: .integer), 
             AWSShapeMember(label: "SetupFailed", required: false, type: .integer), 
+            AWSShapeMember(label: "Terminated", required: false, type: .integer), 
+            AWSShapeMember(label: "RunningSetup", required: false, type: .integer), 
             AWSShapeMember(label: "Assigning", required: false, type: .integer), 
             AWSShapeMember(label: "ConnectionLost", required: false, type: .integer), 
             AWSShapeMember(label: "Terminating", required: false, type: .integer), 
-            AWSShapeMember(label: "ShuttingDown", required: false, type: .integer), 
-            AWSShapeMember(label: "Registering", required: false, type: .integer), 
             AWSShapeMember(label: "Rebooting", required: false, type: .integer), 
-            AWSShapeMember(label: "Unassigning", required: false, type: .integer), 
+            AWSShapeMember(label: "Registering", required: false, type: .integer), 
+            AWSShapeMember(label: "ShuttingDown", required: false, type: .integer), 
             AWSShapeMember(label: "Stopped", required: false, type: .integer), 
+            AWSShapeMember(label: "Unassigning", required: false, type: .integer), 
+            AWSShapeMember(label: "StopFailed", required: false, type: .integer), 
             AWSShapeMember(label: "StartFailed", required: false, type: .integer), 
             AWSShapeMember(label: "Registered", required: false, type: .integer), 
-            AWSShapeMember(label: "Deregistering", required: false, type: .integer), 
-            AWSShapeMember(label: "Requested", required: false, type: .integer)
+            AWSShapeMember(label: "Requested", required: false, type: .integer), 
+            AWSShapeMember(label: "Deregistering", required: false, type: .integer)
         ]
         /// The number of instances with pending status.
         public let pending: Int32?
-        /// The number of instances with stopping status.
-        public let stopping: Int32?
         /// The number of instances with booting status.
         public let booting: Int32?
+        /// The number of instances with stopping status.
+        public let stopping: Int32?
         /// The number of instances with online status.
         public let online: Int32?
-        /// The number of instances with running_setup status.
-        public let runningSetup: Int32?
-        /// The number of instances with terminated status.
-        public let terminated: Int32?
         /// The number of instances with setup_failed status.
         public let setupFailed: Int32?
+        /// The number of instances with terminated status.
+        public let terminated: Int32?
+        /// The number of instances with running_setup status.
+        public let runningSetup: Int32?
         /// The number of instances in the Assigning state.
         public let assigning: Int32?
         /// The number of instances with connection_lost status.
         public let connectionLost: Int32?
         /// The number of instances with terminating status.
         public let terminating: Int32?
-        /// The number of instances with shutting_down status.
-        public let shuttingDown: Int32?
-        /// The number of instances in the Registering state.
-        public let registering: Int32?
         /// The number of instances with rebooting status.
         public let rebooting: Int32?
-        /// The number of instances in the Unassigning state.
-        public let unassigning: Int32?
+        /// The number of instances in the Registering state.
+        public let registering: Int32?
+        /// The number of instances with shutting_down status.
+        public let shuttingDown: Int32?
         /// The number of instances with stopped status.
         public let stopped: Int32?
+        /// The number of instances in the Unassigning state.
+        public let unassigning: Int32?
+        /// The number of instances with stop_failed status.
+        public let stopFailed: Int32?
         /// The number of instances with start_failed status.
         public let startFailed: Int32?
         /// The number of instances in the Registered state.
         public let registered: Int32?
-        /// The number of instances in the Deregistering state.
-        public let deregistering: Int32?
         /// The number of instances with requested status.
         public let requested: Int32?
+        /// The number of instances in the Deregistering state.
+        public let deregistering: Int32?
 
-        public init(pending: Int32? = nil, stopping: Int32? = nil, booting: Int32? = nil, online: Int32? = nil, runningSetup: Int32? = nil, terminated: Int32? = nil, setupFailed: Int32? = nil, assigning: Int32? = nil, connectionLost: Int32? = nil, terminating: Int32? = nil, shuttingDown: Int32? = nil, registering: Int32? = nil, rebooting: Int32? = nil, unassigning: Int32? = nil, stopped: Int32? = nil, startFailed: Int32? = nil, registered: Int32? = nil, deregistering: Int32? = nil, requested: Int32? = nil) {
+        public init(pending: Int32? = nil, booting: Int32? = nil, stopping: Int32? = nil, online: Int32? = nil, setupFailed: Int32? = nil, terminated: Int32? = nil, runningSetup: Int32? = nil, assigning: Int32? = nil, connectionLost: Int32? = nil, terminating: Int32? = nil, rebooting: Int32? = nil, registering: Int32? = nil, shuttingDown: Int32? = nil, stopped: Int32? = nil, unassigning: Int32? = nil, stopFailed: Int32? = nil, startFailed: Int32? = nil, registered: Int32? = nil, requested: Int32? = nil, deregistering: Int32? = nil) {
             self.pending = pending
-            self.stopping = stopping
             self.booting = booting
+            self.stopping = stopping
             self.online = online
-            self.runningSetup = runningSetup
-            self.terminated = terminated
             self.setupFailed = setupFailed
+            self.terminated = terminated
+            self.runningSetup = runningSetup
             self.assigning = assigning
             self.connectionLost = connectionLost
             self.terminating = terminating
-            self.shuttingDown = shuttingDown
-            self.registering = registering
             self.rebooting = rebooting
-            self.unassigning = unassigning
+            self.registering = registering
+            self.shuttingDown = shuttingDown
             self.stopped = stopped
+            self.unassigning = unassigning
+            self.stopFailed = stopFailed
             self.startFailed = startFailed
             self.registered = registered
-            self.deregistering = deregistering
             self.requested = requested
+            self.deregistering = deregistering
         }
 
         private enum CodingKeys: String, CodingKey {
             case pending = "Pending"
-            case stopping = "Stopping"
             case booting = "Booting"
+            case stopping = "Stopping"
             case online = "Online"
-            case runningSetup = "RunningSetup"
-            case terminated = "Terminated"
             case setupFailed = "SetupFailed"
+            case terminated = "Terminated"
+            case runningSetup = "RunningSetup"
             case assigning = "Assigning"
             case connectionLost = "ConnectionLost"
             case terminating = "Terminating"
-            case shuttingDown = "ShuttingDown"
-            case registering = "Registering"
             case rebooting = "Rebooting"
-            case unassigning = "Unassigning"
+            case registering = "Registering"
+            case shuttingDown = "ShuttingDown"
             case stopped = "Stopped"
+            case unassigning = "Unassigning"
+            case stopFailed = "StopFailed"
             case startFailed = "StartFailed"
             case registered = "Registered"
-            case deregistering = "Deregistering"
             case requested = "Requested"
+            case deregistering = "Deregistering"
         }
     }
 
@@ -1146,7 +1153,7 @@ extension Opsworks {
         public let instanceId: String
         /// The instance type, such as t2.micro. For a list of supported instance types, open the stack in the console, choose Instances, and choose + Instance. The Size list contains the currently supported types. For more information, see Instance Families and Types. The parameter values that you use to specify the various types are in the API Name column of the Available Instance Types table.
         public let instanceType: String?
-        /// The instance's operating system, which must be set to one of the following. You cannot update an instance that is using a custom AMI.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   For more information on the supported operating systems, see AWS OpsWorks Stacks Operating Systems. The default option is the current Amazon Linux version. If you set this parameter to Custom, you must use the AmiId parameter to specify the custom AMI that you want to use. For more information on the supported operating systems, see Operating Systems. For more information on how to use custom AMIs with OpsWorks, see Using Custom AMIs.  You can specify a different Linux operating system for the updated stack, but you cannot change from Linux to Windows or Windows to Linux. 
+        /// The instance's operating system, which must be set to one of the following. You cannot update an instance that is using a custom AMI.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   For more information about supported operating systems, see AWS OpsWorks Stacks Operating Systems. The default option is the current Amazon Linux version. If you set this parameter to Custom, you must use the AmiId parameter to specify the custom AMI that you want to use. For more information about supported operating systems, see Operating Systems. For more information about how to use custom AMIs with OpsWorks, see Using Custom AMIs.  You can specify a different Linux operating system for the updated stack, but you cannot change from Linux to Windows or Windows to Linux. 
         public let os: String?
         /// The instance's Amazon EC2 key name.
         public let sshKeyName: String?
@@ -1300,30 +1307,30 @@ extension Opsworks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DownScaling", required: false, type: .structure), 
             AWSShapeMember(label: "Enable", required: false, type: .boolean), 
-            AWSShapeMember(label: "UpScaling", required: false, type: .structure), 
-            AWSShapeMember(label: "LayerId", required: false, type: .string)
+            AWSShapeMember(label: "LayerId", required: false, type: .string), 
+            AWSShapeMember(label: "UpScaling", required: false, type: .structure)
         ]
         /// An AutoScalingThresholds object that describes the downscaling configuration, which defines how and when AWS OpsWorks Stacks reduces the number of instances.
         public let downScaling: AutoScalingThresholds?
         /// Whether load-based auto scaling is enabled for the layer.
         public let enable: Bool?
-        /// An AutoScalingThresholds object that describes the upscaling configuration, which defines how and when AWS OpsWorks Stacks increases the number of instances.
-        public let upScaling: AutoScalingThresholds?
         /// The layer ID.
         public let layerId: String?
+        /// An AutoScalingThresholds object that describes the upscaling configuration, which defines how and when AWS OpsWorks Stacks increases the number of instances.
+        public let upScaling: AutoScalingThresholds?
 
-        public init(downScaling: AutoScalingThresholds? = nil, enable: Bool? = nil, upScaling: AutoScalingThresholds? = nil, layerId: String? = nil) {
+        public init(downScaling: AutoScalingThresholds? = nil, enable: Bool? = nil, layerId: String? = nil, upScaling: AutoScalingThresholds? = nil) {
             self.downScaling = downScaling
             self.enable = enable
-            self.upScaling = upScaling
             self.layerId = layerId
+            self.upScaling = upScaling
         }
 
         private enum CodingKeys: String, CodingKey {
             case downScaling = "DownScaling"
             case enable = "Enable"
-            case upScaling = "UpScaling"
             case layerId = "LayerId"
+            case upScaling = "UpScaling"
         }
     }
 
@@ -1688,7 +1695,7 @@ extension Opsworks {
         public let rootDeviceType: RootDeviceType?
         /// For load-based or time-based instances, the type. Windows stacks can use only time-based instances.
         public let autoScalingType: AutoScalingType?
-        /// The instance's operating system, which must be set to one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom.   For more information on the supported operating systems, see AWS OpsWorks Stacks Operating Systems. The default option is the current Amazon Linux version. If you set this parameter to Custom, you must use the CreateInstance action's AmiId parameter to specify the custom AMI that you want to use. Block device mappings are not supported if the value is Custom. For more information on the supported operating systems, see Operating SystemsFor more information on how to use custom AMIs with AWS OpsWorks Stacks, see Using Custom AMIs.
+        /// The instance's operating system, which must be set to one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom.   For more information about the supported operating systems, see AWS OpsWorks Stacks Operating Systems. The default option is the current Amazon Linux version. If you set this parameter to Custom, you must use the CreateInstance action's AmiId parameter to specify the custom AMI that you want to use. Block device mappings are not supported if the value is Custom. For more information about supported operating systems, see Operating SystemsFor more information about how to use custom AMIs with AWS OpsWorks Stacks, see Using Custom AMIs.
         public let os: String?
         /// The instance's Amazon EC2 key-pair name.
         public let sshKeyName: String?
@@ -1830,6 +1837,27 @@ extension Opsworks {
         }
     }
 
+    public struct OperatingSystemConfigurationManager: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// The name of the configuration manager, which is Chef.
+        public let name: String?
+        /// The versions of the configuration manager that are supported by an operating system.
+        public let version: String?
+
+        public init(name: String? = nil, version: String? = nil) {
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case version = "Version"
+        }
+    }
+
     public struct CreateUserProfileResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IamUserArn", required: false, type: .string)
@@ -1871,7 +1899,7 @@ extension Opsworks {
             AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure), 
             AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean)
         ]
-        /// The stack's operating system, which must be set to one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7     Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information on how to use custom AMIs with OpsWorks, see Using Custom AMIs.   The default option is the parent stack's operating system. For more information on the supported operating systems, see AWS OpsWorks Stacks Operating Systems.  You can specify a different Linux operating system for the cloned stack, but you cannot change from Linux to Windows or Windows to Linux. 
+        /// The stack's operating system, which must be set to one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7     Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information about how to use custom AMIs with OpsWorks, see Using Custom AMIs.   The default option is the parent stack's operating system. For more information about supported operating systems, see AWS OpsWorks Stacks Operating Systems.  You can specify a different Linux operating system for the cloned stack, but you cannot change from Linux to Windows or Windows to Linux. 
         public let defaultOs: String?
         /// Whether to clone the source stack's permissions.
         public let clonePermissions: Bool?
@@ -1887,7 +1915,7 @@ extension Opsworks {
         public let region: String?
         /// The source stack ID.
         public let sourceStackId: String
-        /// A string that contains user-defined, custom JSON. It is used to override the corresponding default stack configuration JSON values. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information on custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes 
+        /// A string that contains user-defined, custom JSON. It is used to override the corresponding default stack configuration JSON values. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes 
         public let customJson: String?
         /// Whether to use custom cookbooks.
         public let useCustomCookbooks: Bool?
@@ -1896,7 +1924,7 @@ extension Opsworks {
         public let defaultSshKeyName: String?
         /// The default AWS OpsWorks Stacks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version, you must edit the stack configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the stack's instances.   The default setting is LATEST. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify an agent version when you create or update an instance, which overrides the stack's default setting. 
         public let agentVersion: String?
-        /// The ID of the VPC that the cloned stack is to be launched into. It must be in the specified region. All instances are launched into this VPC, and you cannot change the ID later.   If your account supports EC2 Classic, the default value is no VPC.   If your account does not support EC2 Classic, the default value is the default VPC for the specified region.   If the VPC ID corresponds to a default VPC and you have specified either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, AWS OpsWorks Stacks infers the value of the other parameter. If you specify neither parameter, AWS OpsWorks Stacks sets these parameters to the first valid Availability Zone for the specified region and the corresponding default VPC subnet ID, respectively.  If you specify a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is in the specified region.   You must specify a value for DefaultSubnetId.   For more information on how to use AWS OpsWorks Stacks with a VPC, see Running a Stack in a VPC. For more information on default VPC and EC2 Classic, see Supported Platforms. 
+        /// The ID of the VPC that the cloned stack is to be launched into. It must be in the specified region. All instances are launched into this VPC, and you cannot change the ID later.   If your account supports EC2 Classic, the default value is no VPC.   If your account does not support EC2 Classic, the default value is the default VPC for the specified region.   If the VPC ID corresponds to a default VPC and you have specified either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, AWS OpsWorks Stacks infers the value of the other parameter. If you specify neither parameter, AWS OpsWorks Stacks sets these parameters to the first valid Availability Zone for the specified region and the corresponding default VPC subnet ID, respectively.  If you specify a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is in the specified region.   You must specify a value for DefaultSubnetId.   For more information about how to use AWS OpsWorks Stacks with a VPC, see Running a Stack in a VPC. For more information about default VPC and EC2 Classic, see Supported Platforms. 
         public let vpcId: String?
         /// The cloned stack name.
         public let name: String?
@@ -2014,11 +2042,11 @@ extension Opsworks {
             AWSShapeMember(label: "DeploymentIds", required: false, type: .list), 
             AWSShapeMember(label: "AppId", required: false, type: .string)
         ]
-        /// The stack ID. If you include this parameter, DescribeDeployments returns a description of the commands associated with the specified stack.
+        /// The stack ID. If you include this parameter, the command returns a description of the commands associated with the specified stack.
         public let stackId: String?
-        /// An array of deployment IDs to be described. If you include this parameter, DescribeDeployments returns a description of the specified deployments. Otherwise, it returns a description of every deployment.
+        /// An array of deployment IDs to be described. If you include this parameter, the command returns a description of the specified deployments. Otherwise, it returns a description of every deployment.
         public let deploymentIds: [String]?
-        /// The app ID. If you include this parameter, DescribeDeployments returns a description of the commands associated with the specified app.
+        /// The app ID. If you include this parameter, the command returns a description of the commands associated with the specified app.
         public let appId: String?
 
         public init(stackId: String? = nil, deploymentIds: [String]? = nil, appId: String? = nil) {
@@ -2258,41 +2286,46 @@ extension Opsworks {
 
     public struct VolumeConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NumberOfDisks", required: true, type: .integer), 
             AWSShapeMember(label: "VolumeType", required: false, type: .string), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
             AWSShapeMember(label: "MountPoint", required: true, type: .string), 
             AWSShapeMember(label: "Size", required: true, type: .integer), 
+            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "NumberOfDisks", required: true, type: .integer), 
+            AWSShapeMember(label: "Iops", required: false, type: .integer), 
             AWSShapeMember(label: "RaidLevel", required: false, type: .integer)
         ]
-        /// The number of disks in the volume.
-        public let numberOfDisks: Int32
-        /// The volume type:    standard - Magnetic    io1 - Provisioned IOPS (SSD)    gp2 - General Purpose (SSD)  
+        /// The volume type. For more information, see  Amazon EBS Volume Types.    standard - Magnetic. Magnetic volumes must have a minimum size of 1 GiB and a maximum size of 1024 GiB.    io1 - Provisioned IOPS (SSD). PIOPS volumes must have a minimum size of 4 GiB and a maximum size of 16384 GiB.    gp2 - General Purpose (SSD). General purpose volumes must have a minimum size of 1 GiB and a maximum size of 16384 GiB.    st1 - Throughput Optimized hard disk drive (HDD). Throughput optimized HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.    sc1 - Cold HDD. Cold HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.  
         public let volumeType: String?
-        /// For PIOPS volumes, the IOPS per disk.
-        public let iops: Int32?
         /// The volume mount point. For example "/dev/sdh".
         public let mountPoint: String
         /// The volume size.
         public let size: Int32
+        /// Specifies whether an Amazon EBS volume is encrypted. For more information, see Amazon EBS Encryption.
+        public let encrypted: Bool?
+        /// The number of disks in the volume.
+        public let numberOfDisks: Int32
+        /// For PIOPS volumes, the IOPS per disk.
+        public let iops: Int32?
         /// The volume RAID level.
         public let raidLevel: Int32?
 
-        public init(numberOfDisks: Int32, volumeType: String? = nil, iops: Int32? = nil, mountPoint: String, size: Int32, raidLevel: Int32? = nil) {
-            self.numberOfDisks = numberOfDisks
+        public init(volumeType: String? = nil, mountPoint: String, size: Int32, encrypted: Bool? = nil, numberOfDisks: Int32, iops: Int32? = nil, raidLevel: Int32? = nil) {
             self.volumeType = volumeType
-            self.iops = iops
             self.mountPoint = mountPoint
             self.size = size
+            self.encrypted = encrypted
+            self.numberOfDisks = numberOfDisks
+            self.iops = iops
             self.raidLevel = raidLevel
         }
 
         private enum CodingKeys: String, CodingKey {
-            case numberOfDisks = "NumberOfDisks"
             case volumeType = "VolumeType"
-            case iops = "Iops"
             case mountPoint = "MountPoint"
             case size = "Size"
+            case encrypted = "Encrypted"
+            case numberOfDisks = "NumberOfDisks"
+            case iops = "Iops"
             case raidLevel = "RaidLevel"
         }
     }
@@ -2333,30 +2366,30 @@ extension Opsworks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DownScaling", required: false, type: .structure), 
             AWSShapeMember(label: "Enable", required: false, type: .boolean), 
-            AWSShapeMember(label: "UpScaling", required: false, type: .structure), 
-            AWSShapeMember(label: "LayerId", required: true, type: .string)
+            AWSShapeMember(label: "LayerId", required: true, type: .string), 
+            AWSShapeMember(label: "UpScaling", required: false, type: .structure)
         ]
         /// An AutoScalingThresholds object with the downscaling threshold configuration. If the load falls below these thresholds for a specified amount of time, AWS OpsWorks Stacks stops a specified number of instances.
         public let downScaling: AutoScalingThresholds?
         /// Enables load-based auto scaling for the layer.
         public let enable: Bool?
-        /// An AutoScalingThresholds object with the upscaling threshold configuration. If the load exceeds these thresholds for a specified amount of time, AWS OpsWorks Stacks starts a specified number of instances.
-        public let upScaling: AutoScalingThresholds?
         /// The layer ID.
         public let layerId: String
+        /// An AutoScalingThresholds object with the upscaling threshold configuration. If the load exceeds these thresholds for a specified amount of time, AWS OpsWorks Stacks starts a specified number of instances.
+        public let upScaling: AutoScalingThresholds?
 
-        public init(downScaling: AutoScalingThresholds? = nil, enable: Bool? = nil, upScaling: AutoScalingThresholds? = nil, layerId: String) {
+        public init(downScaling: AutoScalingThresholds? = nil, enable: Bool? = nil, layerId: String, upScaling: AutoScalingThresholds? = nil) {
             self.downScaling = downScaling
             self.enable = enable
-            self.upScaling = upScaling
             self.layerId = layerId
+            self.upScaling = upScaling
         }
 
         private enum CodingKeys: String, CodingKey {
             case downScaling = "DownScaling"
             case enable = "Enable"
-            case upScaling = "UpScaling"
             case layerId = "LayerId"
+            case upScaling = "UpScaling"
         }
     }
 
@@ -2471,17 +2504,22 @@ extension Opsworks {
 
     public struct StopInstanceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", required: true, type: .string)
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "Force", required: false, type: .boolean)
         ]
         /// The instance ID.
         public let instanceId: String
+        /// Specifies whether to force an instance to stop.
+        public let force: Bool?
 
-        public init(instanceId: String) {
+        public init(instanceId: String, force: Bool? = nil) {
             self.instanceId = instanceId
+            self.force = force
         }
 
         private enum CodingKeys: String, CodingKey {
             case instanceId = "InstanceId"
+            case force = "Force"
         }
     }
 
@@ -2689,21 +2727,21 @@ extension Opsworks {
     public struct RegisterInstanceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceIdentity", required: false, type: .structure), 
-            AWSShapeMember(label: "Hostname", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: true, type: .string), 
             AWSShapeMember(label: "PrivateIp", required: false, type: .string), 
+            AWSShapeMember(label: "Hostname", required: false, type: .string), 
             AWSShapeMember(label: "RsaPublicKeyFingerprint", required: false, type: .string), 
             AWSShapeMember(label: "PublicIp", required: false, type: .string), 
             AWSShapeMember(label: "RsaPublicKey", required: false, type: .string)
         ]
         /// An InstanceIdentity object that contains the instance's identity.
         public let instanceIdentity: InstanceIdentity?
-        /// The instance's hostname.
-        public let hostname: String?
         /// The ID of the stack that the instance is to be registered with.
         public let stackId: String
         /// The instance's private IP address.
         public let privateIp: String?
+        /// The instance's hostname.
+        public let hostname: String?
         /// The instances public RSA key fingerprint.
         public let rsaPublicKeyFingerprint: String?
         /// The instance's public IP address.
@@ -2711,11 +2749,11 @@ extension Opsworks {
         /// The instances public RSA key. This key is used to encrypt communication between the instance and the service.
         public let rsaPublicKey: String?
 
-        public init(instanceIdentity: InstanceIdentity? = nil, hostname: String? = nil, stackId: String, privateIp: String? = nil, rsaPublicKeyFingerprint: String? = nil, publicIp: String? = nil, rsaPublicKey: String? = nil) {
+        public init(instanceIdentity: InstanceIdentity? = nil, stackId: String, privateIp: String? = nil, hostname: String? = nil, rsaPublicKeyFingerprint: String? = nil, publicIp: String? = nil, rsaPublicKey: String? = nil) {
             self.instanceIdentity = instanceIdentity
-            self.hostname = hostname
             self.stackId = stackId
             self.privateIp = privateIp
+            self.hostname = hostname
             self.rsaPublicKeyFingerprint = rsaPublicKeyFingerprint
             self.publicIp = publicIp
             self.rsaPublicKey = rsaPublicKey
@@ -2723,9 +2761,9 @@ extension Opsworks {
 
         private enum CodingKeys: String, CodingKey {
             case instanceIdentity = "InstanceIdentity"
-            case hostname = "Hostname"
             case stackId = "StackId"
             case privateIp = "PrivateIp"
+            case hostname = "Hostname"
             case rsaPublicKeyFingerprint = "RsaPublicKeyFingerprint"
             case publicIp = "PublicIp"
             case rsaPublicKey = "RsaPublicKey"
@@ -3344,7 +3382,7 @@ extension Opsworks {
             AWSShapeMember(label: "StackId", required: true, type: .string), 
             AWSShapeMember(label: "AllowSudo", required: false, type: .boolean)
         ]
-        /// The user's permission level, which must be set to one of the following strings. You cannot set your own permissions level.    deny     show     deploy     manage     iam_only    For more information on the permissions associated with these levels, see Managing User Permissions.
+        /// The user's permission level, which must be set to one of the following strings. You cannot set your own permissions level.    deny     show     deploy     manage     iam_only    For more information about the permissions associated with these levels, see Managing User Permissions.
         public let level: String?
         /// The user's IAM ARN. This can also be a federated user's ARN.
         public let iamUserArn: String
@@ -3560,7 +3598,7 @@ extension Opsworks {
             AWSShapeMember(label: "HostnameTheme", required: false, type: .string), 
             AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean)
         ]
-        /// The stack's default operating system, which is installed on every instance unless you specify a different operating system when you create the instance. You can specify one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information, see  Using Custom AMIs.   The default option is the current Amazon Linux version. For more information on the supported operating systems, see AWS OpsWorks Stacks Operating Systems.
+        /// The stack's default operating system, which is installed on every instance unless you specify a different operating system when you create the instance. You can specify one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information, see  Using Custom AMIs.   The default option is the current Amazon Linux version. For more information about supported operating systems, see AWS OpsWorks Stacks Operating Systems.
         public let defaultOs: String?
         /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create a New Stack.
         public let chefConfiguration: ChefConfiguration?
@@ -3570,10 +3608,10 @@ extension Opsworks {
         public let defaultRootDeviceType: RootDeviceType?
         /// The Amazon Resource Name (ARN) of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
         public let defaultInstanceProfileArn: String
-        /// The stack's AWS region, such as "ap-south-1". For more information about Amazon regions, see Regions and Endpoints.
+        /// The stack's AWS region, such as ap-south-1. For more information about Amazon regions, see Regions and Endpoints.  In the AWS CLI, this API maps to the --stack-region parameter. If the --stack-region parameter and the AWS CLI common parameter --region are set to the same value, the stack uses a regional endpoint. If the --stack-region parameter is not set, but the AWS CLI --region parameter is, this also results in a stack with a regional endpoint. However, if the --region parameter is set to us-east-1, and the --stack-region parameter is set to one of the following, then the stack uses a legacy or classic region: us-west-1, us-west-2, sa-east-1, eu-central-1, eu-west-1, ap-northeast-1, ap-southeast-1, ap-southeast-2. In this case, the actual API endpoint of the stack is in us-east-1. Only the preceding regions are supported as classic regions in the us-east-1 API endpoint. Because it is a best practice to choose the regional endpoint that is closest to where you manage AWS, we recommend that you use regional endpoints for new stacks. The AWS CLI common --region parameter always specifies a regional API endpoint; it cannot be used to specify a classic AWS OpsWorks Stacks region. 
         public let region: String
         public let customCookbooksSource: Source?
-        /// A string that contains user-defined, custom JSON. It can be used to override the corresponding default stack configuration attribute values or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information on custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
+        /// A string that contains user-defined, custom JSON. It can be used to override the corresponding default stack configuration attribute values or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
         public let customJson: String?
         /// Whether the stack uses custom cookbooks.
         public let useCustomCookbooks: Bool?
@@ -3583,13 +3621,13 @@ extension Opsworks {
         public let agentVersion: String?
         /// The stack name.
         public let name: String
-        /// The ID of the VPC that the stack is to be launched into. The VPC must be in the stack's region. All instances are launched into this VPC. You cannot change the ID later.   If your account supports EC2-Classic, the default value is no VPC.   If your account does not support EC2-Classic, the default value is the default VPC for the specified region.   If the VPC ID corresponds to a default VPC and you have specified either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, AWS OpsWorks Stacks infers the value of the other parameter. If you specify neither parameter, AWS OpsWorks Stacks sets these parameters to the first valid Availability Zone for the specified region and the corresponding default VPC subnet ID, respectively. If you specify a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is in the specified region.   You must specify a value for DefaultSubnetId.   For more information on how to use AWS OpsWorks Stacks with a VPC, see Running a Stack in a VPC. For more information on default VPC and EC2-Classic, see Supported Platforms. 
+        /// The ID of the VPC that the stack is to be launched into. The VPC must be in the stack's region. All instances are launched into this VPC. You cannot change the ID later.   If your account supports EC2-Classic, the default value is no VPC.   If your account does not support EC2-Classic, the default value is the default VPC for the specified region.   If the VPC ID corresponds to a default VPC and you have specified either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, AWS OpsWorks Stacks infers the value of the other parameter. If you specify neither parameter, AWS OpsWorks Stacks sets these parameters to the first valid Availability Zone for the specified region and the corresponding default VPC subnet ID, respectively. If you specify a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is in the specified region.   You must specify a value for DefaultSubnetId.   For more information about how to use AWS OpsWorks Stacks with a VPC, see Running a Stack in a VPC. For more information about default VPC and EC2-Classic, see Supported Platforms. 
         public let vpcId: String?
         /// One or more user-defined key-value pairs to be added to the stack attributes.
         public let attributes: [StackAttributesKeys: String]?
         /// The stack's default VPC subnet ID. This parameter is required if you specify a value for the VpcId parameter. All instances are launched into this subnet unless you specify otherwise when you create the instance. If you also specify a value for DefaultAvailabilityZone, the subnet must be in that zone. For information on default values and when this parameter is required, see the VpcId parameter description. 
         public let defaultSubnetId: String?
-        /// The configuration manager. When you create a stack we recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 11.4.
+        /// The configuration manager. When you create a stack we recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 12.
         public let configurationManager: StackConfigurationManager?
         /// The stack's default Availability Zone, which must be in the specified region. For more information, see Regions and Endpoints. If you also specify a value for DefaultSubnetId, the subnet must be in the same zone. For more information, see the VpcId parameter description. 
         public let defaultAvailabilityZone: String?
@@ -3769,7 +3807,7 @@ extension Opsworks {
             AWSShapeMember(label: "LayerId", required: true, type: .string), 
             AWSShapeMember(label: "ElasticLoadBalancerName", required: true, type: .string)
         ]
-        /// The ID of the layer that the Elastic Load Balancing instance is to be attached to.
+        /// The ID of the layer to which the Elastic Load Balancing instance is to be attached.
         public let layerId: String
         /// The Elastic Load Balancing instance's name.
         public let elasticLoadBalancerName: String
@@ -3909,6 +3947,7 @@ extension Opsworks {
     public struct Volume: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Device", required: false, type: .string), 
+            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
             AWSShapeMember(label: "VolumeId", required: false, type: .string), 
             AWSShapeMember(label: "Region", required: false, type: .string), 
             AWSShapeMember(label: "Ec2VolumeId", required: false, type: .string), 
@@ -3924,6 +3963,8 @@ extension Opsworks {
         ]
         /// The device name.
         public let device: String?
+        /// Specifies whether an Amazon EBS volume is encrypted. For more information, see Amazon EBS Encryption.
+        public let encrypted: Bool?
         /// The volume ID.
         public let volumeId: String?
         /// The AWS region. For more information about AWS regions, see Regions and Endpoints.
@@ -3938,7 +3979,7 @@ extension Opsworks {
         public let raidArrayId: String?
         /// The value returned by DescribeVolumes.
         public let status: String?
-        /// The volume type, standard or PIOPS.
+        /// The volume type. For more information, see  Amazon EBS Volume Types.    standard - Magnetic. Magnetic volumes must have a minimum size of 1 GiB and a maximum size of 1024 GiB.    io1 - Provisioned IOPS (SSD). PIOPS volumes must have a minimum size of 4 GiB and a maximum size of 16384 GiB.    gp2 - General Purpose (SSD). General purpose volumes must have a minimum size of 1 GiB and a maximum size of 16384 GiB.    st1 - Throughput Optimized hard disk drive (HDD). Throughput optimized HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.    sc1 - Cold HDD. Cold HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.  
         public let volumeType: String?
         /// The volume mount point. For example, "/mnt/disk1".
         public let mountPoint: String?
@@ -3949,8 +3990,9 @@ extension Opsworks {
         /// The volume size.
         public let size: Int32?
 
-        public init(device: String? = nil, volumeId: String? = nil, region: String? = nil, ec2VolumeId: String? = nil, iops: Int32? = nil, availabilityZone: String? = nil, raidArrayId: String? = nil, status: String? = nil, volumeType: String? = nil, mountPoint: String? = nil, name: String? = nil, instanceId: String? = nil, size: Int32? = nil) {
+        public init(device: String? = nil, encrypted: Bool? = nil, volumeId: String? = nil, region: String? = nil, ec2VolumeId: String? = nil, iops: Int32? = nil, availabilityZone: String? = nil, raidArrayId: String? = nil, status: String? = nil, volumeType: String? = nil, mountPoint: String? = nil, name: String? = nil, instanceId: String? = nil, size: Int32? = nil) {
             self.device = device
+            self.encrypted = encrypted
             self.volumeId = volumeId
             self.region = region
             self.ec2VolumeId = ec2VolumeId
@@ -3967,6 +4009,7 @@ extension Opsworks {
 
         private enum CodingKeys: String, CodingKey {
             case device = "Device"
+            case encrypted = "Encrypted"
             case volumeId = "VolumeId"
             case region = "Region"
             case ec2VolumeId = "Ec2VolumeId"
@@ -3979,6 +4022,52 @@ extension Opsworks {
             case name = "Name"
             case instanceId = "InstanceId"
             case size = "Size"
+        }
+    }
+
+    public struct OperatingSystem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReportedName", required: false, type: .string), 
+            AWSShapeMember(label: "Supported", required: false, type: .boolean), 
+            AWSShapeMember(label: "ConfigurationManagers", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ReportedVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
+        ]
+        /// A short name for the operating system manufacturer.
+        public let reportedName: String?
+        /// Indicates that an operating system is not supported for new instances.
+        public let supported: Bool?
+        /// Supported configuration manager name and versions for an AWS OpsWorks Stacks operating system.
+        public let configurationManagers: [OperatingSystemConfigurationManager]?
+        /// The name of the operating system, such as Amazon Linux 2017.09.
+        public let name: String?
+        /// The version of the operating system, including the release and edition, if applicable.
+        public let reportedVersion: String?
+        /// The type of a supported operating system, either Linux or Windows.
+        public let `type`: String?
+        /// The ID of a supported operating system, such as Amazon Linux 2017.09.
+        public let id: String?
+
+        public init(reportedName: String? = nil, supported: Bool? = nil, configurationManagers: [OperatingSystemConfigurationManager]? = nil, name: String? = nil, reportedVersion: String? = nil, type: String? = nil, id: String? = nil) {
+            self.reportedName = reportedName
+            self.supported = supported
+            self.configurationManagers = configurationManagers
+            self.name = name
+            self.reportedVersion = reportedVersion
+            self.`type` = `type`
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportedName = "ReportedName"
+            case supported = "Supported"
+            case configurationManagers = "ConfigurationManagers"
+            case name = "Name"
+            case reportedVersion = "ReportedVersion"
+            case `type` = "Type"
+            case id = "Id"
         }
     }
 
@@ -4044,22 +4133,6 @@ extension Opsworks {
         }
     }
 
-    public struct DescribeStackSummaryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackId", required: true, type: .string)
-        ]
-        /// The stack ID.
-        public let stackId: String
-
-        public init(stackId: String) {
-            self.stackId = stackId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackId = "StackId"
-        }
-    }
-
     public struct CreateLayerResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LayerId", required: false, type: .string)
@@ -4073,6 +4146,22 @@ extension Opsworks {
 
         private enum CodingKeys: String, CodingKey {
             case layerId = "LayerId"
+        }
+    }
+
+    public struct DescribeStackSummaryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: true, type: .string)
+        ]
+        /// The stack ID.
+        public let stackId: String
+
+        public init(stackId: String) {
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
         }
     }
 
@@ -4139,7 +4228,7 @@ extension Opsworks {
         public let stackId: String
         /// A user-defined comment.
         public let comment: String?
-        /// A string that contains user-defined, custom JSON. It is used to override the corresponding default stack configuration JSON values. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information on custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
+        /// A string that contains user-defined, custom JSON. It is used to override the corresponding default stack configuration JSON values. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
         public let customJson: String?
         /// A DeploymentCommand object that specifies the deployment command and any associated arguments.
         public let command: DeploymentCommand
@@ -4354,7 +4443,7 @@ extension Opsworks {
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "DatabaseName", required: false, type: .string)
         ]
-        /// The data source's type, AutoSelectOpsworksMysqlInstance, OpsworksMysqlInstance, or RdsDbInstance.
+        /// The data source's type, AutoSelectOpsworksMysqlInstance, OpsworksMysqlInstance, RdsDbInstance, or None.
         public let `type`: String?
         /// The data source's ARN.
         public let arn: String?
@@ -4456,6 +4545,22 @@ extension Opsworks {
         public var description: String { return self.rawValue }
     }
 
+    public struct DescribeOperatingSystemsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperatingSystems", required: false, type: .list)
+        ]
+        /// Contains information in response to a DescribeOperatingSystems request.
+        public let operatingSystems: [OperatingSystem]?
+
+        public init(operatingSystems: [OperatingSystem]? = nil) {
+            self.operatingSystems = operatingSystems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operatingSystems = "OperatingSystems"
+        }
+    }
+
     public struct EbsBlockDevice: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
@@ -4470,7 +4575,7 @@ extension Opsworks {
         public let volumeSize: Int32?
         /// Whether the volume is deleted on instance termination.
         public let deleteOnTermination: Bool?
-        /// The volume type. gp2 for General Purpose (SSD) volumes, io1 for Provisioned IOPS (SSD) volumes, and standard for Magnetic volumes.
+        /// The volume type. gp2 for General Purpose (SSD) volumes, io1 for Provisioned IOPS (SSD) volumes, st1 for Throughput Optimized hard disk drives (HDD), sc1 for Cold HDD,and standard for Magnetic volumes. If you specify the io1 volume type, you must also specify a value for the Iops attribute. The maximum ratio of provisioned IOPS to requested volume size (in GiB) is 50:1. AWS uses the default volume size (in GiB) specified in the AMI attributes to set IOPS to 50 x (volume size).
         public let volumeType: VolumeType?
         /// The number of I/O operations per second (IOPS) that the volume supports. For more information, see EbsBlockDevice.
         public let iops: Int32?
@@ -4560,7 +4665,7 @@ extension Opsworks {
             AWSShapeMember(label: "DefaultAvailabilityZone", required: false, type: .string), 
             AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean)
         ]
-        /// The stack's operating system, which must be set to one of the following:   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information on how to use custom AMIs with OpsWorks, see Using Custom AMIs.   The default option is the stack's current operating system. For more information on the supported operating systems, see AWS OpsWorks Stacks Operating Systems.
+        /// The stack's operating system, which must be set to one of the following:   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information about how to use custom AMIs with OpsWorks, see Using Custom AMIs.   The default option is the stack's current operating system. For more information about supported operating systems, see AWS OpsWorks Stacks Operating Systems.
         public let defaultOs: String?
         /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create a New Stack.
         public let chefConfiguration: ChefConfiguration?
@@ -4571,7 +4676,7 @@ extension Opsworks {
         /// The ARN of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
         public let defaultInstanceProfileArn: String?
         public let customCookbooksSource: Source?
-        /// A string that contains user-defined, custom JSON. It can be used to override the corresponding default stack configuration JSON values or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information on custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
+        /// A string that contains user-defined, custom JSON. It can be used to override the corresponding default stack configuration JSON values or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
         public let customJson: String?
         /// Whether the stack uses custom cookbooks.
         public let useCustomCookbooks: Bool?
@@ -4583,7 +4688,7 @@ extension Opsworks {
         public let name: String?
         /// The stack ID.
         public let stackId: String
-        /// The configuration manager. When you update a stack, we recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 11.4.
+        /// The configuration manager. When you update a stack, we recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 12.
         public let configurationManager: StackConfigurationManager?
         /// One or more user-defined key-value pairs to be added to the stack attributes.
         public let attributes: [StackAttributesKeys: String]?
@@ -4644,7 +4749,7 @@ extension Opsworks {
             AWSShapeMember(label: "ElasticIp", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// The address.
+        /// The IP address for which you want to update the name.
         public let elasticIp: String
         /// The new name.
         public let name: String?
@@ -4717,7 +4822,7 @@ extension Opsworks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
-        /// The stack ID
+        /// The stack ID.
         public let stackId: String
 
         public init(stackId: String) {

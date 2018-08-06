@@ -28,15 +28,15 @@ extension Discovery {
 
     public struct DescribeTagsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// Depending on the input, this is a list of configuration items tagged with a specific tag, or a list of tags for a specific configuration item.
-        public let tags: ConfigurationTagSet?
+        public let tags: [ConfigurationTag]?
         /// The call returns a token. Use this token to get the next set of results.
         public let nextToken: String?
 
-        public init(tags: ConfigurationTagSet? = nil, nextToken: String? = nil) {
+        public init(tags: [ConfigurationTag]? = nil, nextToken: String? = nil) {
             self.tags = tags
             self.nextToken = nextToken
         }
@@ -49,15 +49,15 @@ extension Discovery {
 
     public struct CreateTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: true, type: .structure), 
+            AWSShapeMember(label: "tags", required: true, type: .list), 
             AWSShapeMember(label: "configurationIds", required: true, type: .list)
         ]
         /// Tags that you want to associate with one or more configuration items. Specify the tags that you want to create in a key-value format. For example:  {"key": "serverType", "value": "webServer"} 
-        public let tags: TagSet
+        public let tags: [Tag]
         /// A list of configuration items that you want to tag.
         public let configurationIds: [String]
 
-        public init(tags: TagSet, configurationIds: [String]) {
+        public init(tags: [Tag], configurationIds: [String]) {
             self.tags = tags
             self.configurationIds = configurationIds
         }
@@ -72,38 +72,8 @@ extension Discovery {
 
     }
 
-    public struct FilterValues: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "item", required: false, type: .list)
-        ]
-        public let item: [String]?
-
-        public init(item: [String]? = nil) {
-            self.item = item
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case item = "item"
-        }
-    }
-
     public struct UpdateApplicationResponse: AWSShape {
 
-    }
-
-    public struct TagSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "item", required: false, type: .list)
-        ]
-        public let item: [Tag]?
-
-        public init(item: [Tag]? = nil) {
-            self.item = item
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case item = "item"
-        }
     }
 
     public struct OrderByElement: AWSShape {
@@ -422,14 +392,14 @@ extension Discovery {
     public struct TagFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "values", required: true, type: .structure)
+            AWSShapeMember(label: "values", required: true, type: .list)
         ]
         /// A name of the tag filter.
         public let name: String
         /// Values for the tag filter.
-        public let values: FilterValues
+        public let values: [String]
 
-        public init(name: String, values: FilterValues) {
+        public init(name: String, values: [String]) {
             self.name = name
             self.values = values
         }
@@ -464,17 +434,17 @@ extension Discovery {
     public struct ExportFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "values", required: true, type: .structure), 
+            AWSShapeMember(label: "values", required: true, type: .list), 
             AWSShapeMember(label: "condition", required: true, type: .string)
         ]
         /// A single ExportFilter name. Supported filters: agentId.
         public let name: String
         /// A single agentId for a Discovery Agent. An agentId can be found using the DescribeAgents action. Typically an ADS agentId is in the form o-0123456789abcdef0.
-        public let values: FilterValues
+        public let values: [String]
         /// Supported condition: EQUALS 
         public let condition: String
 
-        public init(name: String, values: FilterValues, condition: String) {
+        public init(name: String, values: [String], condition: String) {
             self.name = name
             self.values = values
             self.condition = condition
@@ -500,21 +470,6 @@ extension Discovery {
 
         private enum CodingKeys: String, CodingKey {
             case exportId = "exportId"
-        }
-    }
-
-    public struct ConfigurationTagSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "item", required: false, type: .list)
-        ]
-        public let item: [ConfigurationTag]?
-
-        public init(item: [ConfigurationTag]? = nil) {
-            self.item = item
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case item = "item"
         }
     }
 
@@ -824,15 +779,15 @@ extension Discovery {
 
     public struct DeleteTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "configurationIds", required: true, type: .list)
         ]
         /// Tags that you want to delete from one or more configuration items. Specify the tags that you want to delete in a key-value format. For example:  {"key": "serverType", "value": "webServer"} 
-        public let tags: TagSet?
+        public let tags: [Tag]?
         /// A list of configuration items with tags that you want to delete.
         public let configurationIds: [String]
 
-        public init(tags: TagSet? = nil, configurationIds: [String]) {
+        public init(tags: [Tag]? = nil, configurationIds: [String]) {
             self.tags = tags
             self.configurationIds = configurationIds
         }
@@ -882,7 +837,7 @@ extension Discovery {
         public let startTime: TimeStamp?
         /// If a filter is present, it selects the single agentId of the Application Discovery Agent for which data is exported. The agentId can be found in the results of the DescribeAgents API or CLI. If no filter is present, startTime and endTime are ignored and exported data includes both Agentless Discovery Connector data and summary data from Application Discovery agents. 
         public let filters: [ExportFilter]?
-        /// The file format for the returned export data. Default value is CSV.
+        /// The file format for the returned export data. Default value is CSV. Note: The GRAPHML option has been deprecated. 
         public let exportDataFormat: [ExportDataFormat]?
 
         public init(endTime: TimeStamp? = nil, startTime: TimeStamp? = nil, filters: [ExportFilter]? = nil, exportDataFormat: [ExportDataFormat]? = nil) {
@@ -1185,17 +1140,17 @@ extension Discovery {
     public struct Filter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "values", required: true, type: .structure), 
+            AWSShapeMember(label: "values", required: true, type: .list), 
             AWSShapeMember(label: "condition", required: true, type: .string)
         ]
         /// The name of the filter.
         public let name: String
         /// A string value on which to filter. For example, if you choose the destinationServer.osVersion filter name, you could specify Ubuntu for the value.
-        public let values: FilterValues
+        public let values: [String]
         /// A conditional operator. The following operators are valid: EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the system utilizes all filters as though concatenated by AND. If you specify multiple values for a particular filter, the system differentiates the values using OR. Calling either DescribeConfigurations or ListConfigurations returns attributes of matching configuration items.
         public let condition: String
 
-        public init(name: String, values: FilterValues, condition: String) {
+        public init(name: String, values: [String], condition: String) {
             self.name = name
             self.values = values
             self.condition = condition

@@ -8,6 +8,10 @@ public enum KinesisVideoArchivedMediaError: AWSErrorType {
     case invalidArgumentException(message: String?)
     case clientLimitExceededException(message: String?)
     case notAuthorizedException(message: String?)
+    case unsupportedStreamMediaTypeException(message: String?)
+    case noDataRetentionException(message: String?)
+    case missingCodecPrivateDataException(message: String?)
+    case invalidCodecPrivateDataException(message: String?)
 }
 
 extension KinesisVideoArchivedMediaError {
@@ -25,6 +29,14 @@ extension KinesisVideoArchivedMediaError {
             self = .clientLimitExceededException(message: message)
         case "NotAuthorizedException":
             self = .notAuthorizedException(message: message)
+        case "UnsupportedStreamMediaTypeException":
+            self = .unsupportedStreamMediaTypeException(message: message)
+        case "NoDataRetentionException":
+            self = .noDataRetentionException(message: message)
+        case "MissingCodecPrivateDataException":
+            self = .missingCodecPrivateDataException(message: message)
+        case "InvalidCodecPrivateDataException":
+            self = .invalidCodecPrivateDataException(message: message)
         default:
             return nil
         }

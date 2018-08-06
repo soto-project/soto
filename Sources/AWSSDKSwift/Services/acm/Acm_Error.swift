@@ -11,8 +11,8 @@ public enum AcmError: AWSErrorType {
     case requestInProgressException(message: String?)
     case limitExceededException(message: String?)
     case invalidDomainValidationOptionsException(message: String?)
-    case tooManyTagsException(message: String?)
     case invalidStateException(message: String?)
+    case tooManyTagsException(message: String?)
 }
 
 extension AcmError {
@@ -36,10 +36,10 @@ extension AcmError {
             self = .limitExceededException(message: message)
         case "InvalidDomainValidationOptionsException":
             self = .invalidDomainValidationOptionsException(message: message)
-        case "TooManyTagsException":
-            self = .tooManyTagsException(message: message)
         case "InvalidStateException":
             self = .invalidStateException(message: message)
+        case "TooManyTagsException":
+            self = .tooManyTagsException(message: message)
         default:
             return nil
         }

@@ -9,6 +9,7 @@ public enum SnowballError: AWSErrorType {
     case kMSRequestFailedException(message: String?)
     case invalidInputCombinationException(message: String?)
     case clusterLimitExceededException(message: String?)
+    case ec2RequestFailedException(message: String?)
     case invalidJobStateException(message: String?)
     case invalidAddressException(message: String?)
     case unsupportedAddressException(message: String?)
@@ -31,6 +32,8 @@ extension SnowballError {
             self = .invalidInputCombinationException(message: message)
         case "ClusterLimitExceededException":
             self = .clusterLimitExceededException(message: message)
+        case "Ec2RequestFailedException":
+            self = .ec2RequestFailedException(message: message)
         case "InvalidJobStateException":
             self = .invalidJobStateException(message: message)
         case "InvalidAddressException":

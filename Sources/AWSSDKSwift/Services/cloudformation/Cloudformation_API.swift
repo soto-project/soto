@@ -94,7 +94,7 @@ public struct Cloudformation {
         return try client.send(operation: "ListStackResources", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the stack set and all associated stack instances. Even if the stack set operation created by updating the stack set fails (completely or partially, below or above a specified failure tolerance), the stack set is updated with your changes. Subsequent CreateStackInstances calls on the specified stack set use the updated stack set.
+    ///  Updates the stack set, and associated stack instances in the specified accounts and regions. Even if the stack set operation created by updating the stack set fails (completely or partially, below or above a specified failure tolerance), the stack set is updated with your changes. Subsequent CreateStackInstances calls on the specified stack set use the updated stack set.
     public func updateStackSet(_ input: UpdateStackSetInput) throws -> UpdateStackSetOutput {
         return try client.send(operation: "UpdateStackSet", path: "/", httpMethod: "POST", input: input)
     }

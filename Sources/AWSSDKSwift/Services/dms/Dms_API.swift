@@ -90,11 +90,6 @@ public struct Dms {
         return try client.send(operation: "DescribeReplicationSubnetGroups", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Uploads the specified certificate.
-    public func importCertificate(_ input: ImportCertificateMessage) throws -> ImportCertificateResponse {
-        return try client.send(operation: "ImportCertificate", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Deletes the specified replication task.
     public func deleteReplicationTask(_ input: DeleteReplicationTaskMessage) throws -> DeleteReplicationTaskResponse {
         return try client.send(operation: "DeleteReplicationTask", path: "/", httpMethod: "POST", input: input)
@@ -125,9 +120,14 @@ public struct Dms {
         return try client.send(operation: "DescribeTableStatistics", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Reloads the target database table with the source data. 
-    public func reloadTables(_ input: ReloadTablesMessage) throws -> ReloadTablesResponse {
-        return try client.send(operation: "ReloadTables", path: "/", httpMethod: "POST", input: input)
+    ///  Creates the replication instance using the specified parameters.
+    public func createReplicationInstance(_ input: CreateReplicationInstanceMessage) throws -> CreateReplicationInstanceResponse {
+        return try client.send(operation: "CreateReplicationInstance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Reboots a replication instance. Rebooting results in a momentary outage, until the replication instance becomes available again.
+    public func rebootReplicationInstance(_ input: RebootReplicationInstanceMessage) throws -> RebootReplicationInstanceResponse {
+        return try client.send(operation: "RebootReplicationInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified certificate. 
@@ -135,14 +135,24 @@ public struct Dms {
         return try client.send(operation: "DeleteCertificate", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Reloads the target database table with the source data. 
+    public func reloadTables(_ input: ReloadTablesMessage) throws -> ReloadTablesResponse {
+        return try client.send(operation: "ReloadTables", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new values in the request. Some settings are applied during the maintenance window. 
     public func modifyReplicationInstance(_ input: ModifyReplicationInstanceMessage) throws -> ModifyReplicationInstanceResponse {
         return try client.send(operation: "ModifyReplicationInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates the replication instance using the specified parameters.
-    public func createReplicationInstance(_ input: CreateReplicationInstanceMessage) throws -> CreateReplicationInstanceResponse {
-        return try client.send(operation: "CreateReplicationInstance", path: "/", httpMethod: "POST", input: input)
+    ///  Uploads the specified certificate.
+    public func importCertificate(_ input: ImportCertificateMessage) throws -> ImportCertificateResponse {
+        return try client.send(operation: "ImportCertificate", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about the task logs for the specified task.
+    public func describeReplicationInstanceTaskLogs(_ input: DescribeReplicationInstanceTaskLogsMessage) throws -> DescribeReplicationInstanceTaskLogsResponse {
+        return try client.send(operation: "DescribeReplicationInstanceTaskLogs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified replication instance.  You must delete any migration tasks that are associated with the replication instance before you can delete it.  
@@ -220,7 +230,7 @@ public struct Dms {
         return try client.send(operation: "DescribeCertificates", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds metadata tags to a DMS resource, including replication instance, endpoint, security group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS resources, or used in a Condition statement in an IAM policy for DMS.
+    ///  Adds metadata tags to an AWS DMS resource, including replication instance, endpoint, security group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS resources, or used in a Condition statement in an IAM policy for DMS.
     public func addTagsToResource(_ input: AddTagsToResourceMessage) throws -> AddTagsToResourceResponse {
         return try client.send(operation: "AddTagsToResource", path: "/", httpMethod: "POST", input: input)
     }

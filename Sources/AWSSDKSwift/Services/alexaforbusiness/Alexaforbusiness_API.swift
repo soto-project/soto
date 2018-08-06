@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-Alexa for Business makes it easy for you to use Alexa in your organization. Alexa for Business gives you the tools you need to manage Alexa devices, enroll your users, and assign skills, at scale. You can build your own context-aware voice skills using the Alexa Skills Kit, and the Alexa for Business APIs, and you can make these available as private skills for your organization. Alexa for Business also makes it easy to voice-enable your products and services, providing context-aware voice experiences for your customers.
+Alexa for Business makes it easy for you to use Alexa in your organization. Alexa for Business gives you the tools you need for managing Alexa devices, enroll your users, and assign skills, at scale. You can build your own context-aware voice skills using the Alexa Skills Kit and the Alexa for Business API operations. You can make also these available as private skills for your organization. Alexa for Business makes it easy to voice-enable your products and services, providing context-aware voice experiences for your customers.
 */
 public struct Alexaforbusiness {
 
@@ -25,34 +25,14 @@ public struct Alexaforbusiness {
         )
     }
 
-    ///  Gets skill group details by skill group ARN.
-    public func getSkillGroup(_ input: GetSkillGroupRequest) throws -> GetSkillGroupResponse {
-        return try client.send(operation: "GetSkillGroup", path: "/", httpMethod: "POST", input: input)
+    ///  Searches address books and lists the ones that meet a set of filter and sort criteria.
+    public func searchAddressBooks(_ input: SearchAddressBooksRequest) throws -> SearchAddressBooksResponse {
+        return try client.send(operation: "SearchAddressBooks", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Resets a device and its account to the known default settings by clearing all information and settings set by previous users.
-    public func startDeviceSync(_ input: StartDeviceSyncRequest) throws -> StartDeviceSyncResponse {
-        return try client.send(operation: "StartDeviceSync", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a room with the specified details.
-    public func createRoom(_ input: CreateRoomRequest) throws -> CreateRoomResponse {
-        return try client.send(operation: "CreateRoom", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a skill group by skill group ARN.
-    public func deleteSkillGroup(_ input: DeleteSkillGroupRequest) throws -> DeleteSkillGroupResponse {
-        return try client.send(operation: "DeleteSkillGroup", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists all tags for a specific resource.
+    ///  Lists all tags for the specified resource.
     public func listTags(_ input: ListTagsRequest) throws -> ListTagsResponse {
         return try client.send(operation: "ListTags", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Searches room profiles and lists the ones that meet a set of filter criteria.
-    public func searchProfiles(_ input: SearchProfilesRequest) throws -> SearchProfilesResponse {
-        return try client.send(operation: "SearchProfiles", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Revokes an invitation and invalidates the enrollment URL.
@@ -60,19 +40,9 @@ public struct Alexaforbusiness {
         return try client.send(operation: "RevokeInvitation", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Associates a device to a given room. This applies all the settings from the room profile to the device, and all the skills in any skill groups added to that room. This operation requires the device to be online, or a manual sync is required. 
-    public func associateDeviceWithRoom(_ input: AssociateDeviceWithRoomRequest) throws -> AssociateDeviceWithRoomResponse {
-        return try client.send(operation: "AssociateDeviceWithRoom", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Creates a user.
     public func createUser(_ input: CreateUserRequest) throws -> CreateUserResponse {
         return try client.send(operation: "CreateUser", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a room profile by the profile ARN.
-    public func deleteProfile(_ input: DeleteProfileRequest) throws -> DeleteProfileResponse {
-        return try client.send(operation: "DeleteProfile", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new room profile with the specified details.
@@ -80,24 +50,9 @@ public struct Alexaforbusiness {
         return try client.send(operation: "CreateProfile", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the device name by device ARN.
-    public func updateDevice(_ input: UpdateDeviceRequest) throws -> UpdateDeviceResponse {
-        return try client.send(operation: "UpdateDevice", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Searches rooms and lists the ones that meet a set of filter and sort criteria.
-    public func searchRooms(_ input: SearchRoomsRequest) throws -> SearchRoomsResponse {
-        return try client.send(operation: "SearchRooms", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Disassociates a skill group from a specified room. This disables all skills in the skill group on all devices in the room.
-    public func disassociateSkillGroupFromRoom(_ input: DisassociateSkillGroupFromRoomRequest) throws -> DisassociateSkillGroupFromRoomResponse {
-        return try client.send(operation: "DisassociateSkillGroupFromRoom", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a skill group with a specified name and description.
-    public func createSkillGroup(_ input: CreateSkillGroupRequest) throws -> CreateSkillGroupResponse {
-        return try client.send(operation: "CreateSkillGroup", path: "/", httpMethod: "POST", input: input)
+    ///  Disassociates a contact from a given address book.
+    public func disassociateContactFromAddressBook(_ input: DisassociateContactFromAddressBookRequest) throws -> DisassociateContactFromAddressBookResponse {
+        return try client.send(operation: "DisassociateContactFromAddressBook", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the details of a device by device ARN.
@@ -110,14 +65,19 @@ public struct Alexaforbusiness {
         return try client.send(operation: "GetRoom", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Searches skill groups and lists the ones that meet a set of filter and sort criteria.
-    public func searchSkillGroups(_ input: SearchSkillGroupsRequest) throws -> SearchSkillGroupsResponse {
-        return try client.send(operation: "SearchSkillGroups", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes a contact by the contact ARN.
+    public func deleteContact(_ input: DeleteContactRequest) throws -> DeleteContactResponse {
+        return try client.send(operation: "DeleteContact", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates a device from its current room. The device continues to be connected to the Wi-Fi network and is still registered to the account. The device settings and skills are removed from the room.
     public func disassociateDeviceFromRoom(_ input: DisassociateDeviceFromRoomRequest) throws -> DisassociateDeviceFromRoomResponse {
         return try client.send(operation: "DisassociateDeviceFromRoom", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Associates a contact with a given address book.
+    public func associateContactWithAddressBook(_ input: AssociateContactWithAddressBookRequest) throws -> AssociateContactWithAddressBookResponse {
+        return try client.send(operation: "AssociateContactWithAddressBook", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes room skill parameter details by room, skill, and parameter key ID.
@@ -130,14 +90,9 @@ public struct Alexaforbusiness {
         return try client.send(operation: "DeleteRoom", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sends an enrollment invitation email with a URL to a user. The URL is valid for 72 hours or until you call this operation again, whichever comes first. 
-    public func sendInvitation(_ input: SendInvitationRequest) throws -> SendInvitationResponse {
-        return try client.send(operation: "SendInvitation", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates room details by room ARN.
-    public func updateRoom(_ input: UpdateRoomRequest) throws -> UpdateRoomResponse {
-        return try client.send(operation: "UpdateRoom", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes an address book by the address book ARN.
+    public func deleteAddressBook(_ input: DeleteAddressBookRequest) throws -> DeleteAddressBookResponse {
+        return try client.send(operation: "DeleteAddressBook", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an existing room profile by room profile ARN.
@@ -145,19 +100,14 @@ public struct Alexaforbusiness {
         return try client.send(operation: "UpdateProfile", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Gets address the book details by the address book ARN.
+    public func getAddressBook(_ input: GetAddressBookRequest) throws -> GetAddressBookResponse {
+        return try client.send(operation: "GetAddressBook", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Updates room skill parameter details by room, skill, and parameter key ID. Not all skills have a room skill parameter.
     public func putRoomSkillParameter(_ input: PutRoomSkillParameterRequest) throws -> PutRoomSkillParameterResponse {
         return try client.send(operation: "PutRoomSkillParameter", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Associates a skill group to a given room. This enables all skills in the associated skill group on all devices in the room.
-    public func associateSkillGroupWithRoom(_ input: AssociateSkillGroupWithRoomRequest) throws -> AssociateSkillGroupWithRoomResponse {
-        return try client.send(operation: "AssociateSkillGroupWithRoom", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Removes metadata tags from a specified resource.
-    public func untagResource(_ input: UntagResourceRequest) throws -> UntagResourceResponse {
-        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Determines the details for the room from which a skill request was invoked. This operation is used by skill developers.
@@ -195,9 +145,124 @@ public struct Alexaforbusiness {
         return try client.send(operation: "UpdateSkillGroup", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Gets skill group details by skill group ARN.
+    public func getSkillGroup(_ input: GetSkillGroupRequest) throws -> GetSkillGroupResponse {
+        return try client.send(operation: "GetSkillGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Searches devices and lists the ones that meet a set of filter criteria.
     public func searchDevices(_ input: SearchDevicesRequest) throws -> SearchDevicesResponse {
         return try client.send(operation: "SearchDevices", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Resets a device and its account to the known default settings, by clearing all information and settings set by previous users.
+    public func startDeviceSync(_ input: StartDeviceSyncRequest) throws -> StartDeviceSyncResponse {
+        return try client.send(operation: "StartDeviceSync", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the device event history, including device connection status, for up to 30 days.
+    public func listDeviceEvents(_ input: ListDeviceEventsRequest) throws -> ListDeviceEventsResponse {
+        return try client.send(operation: "ListDeviceEvents", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a room with the specified details.
+    public func createRoom(_ input: CreateRoomRequest) throws -> CreateRoomResponse {
+        return try client.send(operation: "CreateRoom", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a skill group by skill group ARN.
+    public func deleteSkillGroup(_ input: DeleteSkillGroupRequest) throws -> DeleteSkillGroupResponse {
+        return try client.send(operation: "DeleteSkillGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets the contact details by the contact ARN.
+    public func getContact(_ input: GetContactRequest) throws -> GetContactResponse {
+        return try client.send(operation: "GetContact", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Searches contacts and lists the ones that meet a set of filter and sort criteria.
+    public func searchContacts(_ input: SearchContactsRequest) throws -> SearchContactsResponse {
+        return try client.send(operation: "SearchContacts", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Searches room profiles and lists the ones that meet a set of filter criteria.
+    public func searchProfiles(_ input: SearchProfilesRequest) throws -> SearchProfilesResponse {
+        return try client.send(operation: "SearchProfiles", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Associates a device with a given room. This applies all the settings from the room profile to the device, and all the skills in any skill groups added to that room. This operation requires the device to be online, or else a manual sync is required. 
+    public func associateDeviceWithRoom(_ input: AssociateDeviceWithRoomRequest) throws -> AssociateDeviceWithRoomResponse {
+        return try client.send(operation: "AssociateDeviceWithRoom", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a room profile by the profile ARN.
+    public func deleteProfile(_ input: DeleteProfileRequest) throws -> DeleteProfileResponse {
+        return try client.send(operation: "DeleteProfile", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the device name by device ARN.
+    public func updateDevice(_ input: UpdateDeviceRequest) throws -> UpdateDeviceResponse {
+        return try client.send(operation: "UpdateDevice", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Searches rooms and lists the ones that meet a set of filter and sort criteria.
+    public func searchRooms(_ input: SearchRoomsRequest) throws -> SearchRoomsResponse {
+        return try client.send(operation: "SearchRooms", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Disassociates a skill group from a specified room. This disables all skills in the skill group on all devices in the room.
+    public func disassociateSkillGroupFromRoom(_ input: DisassociateSkillGroupFromRoomRequest) throws -> DisassociateSkillGroupFromRoomResponse {
+        return try client.send(operation: "DisassociateSkillGroupFromRoom", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a skill group with a specified name and description.
+    public func createSkillGroup(_ input: CreateSkillGroupRequest) throws -> CreateSkillGroupResponse {
+        return try client.send(operation: "CreateSkillGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the contact details by the contact ARN.
+    public func updateContact(_ input: UpdateContactRequest) throws -> UpdateContactResponse {
+        return try client.send(operation: "UpdateContact", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Searches skill groups and lists the ones that meet a set of filter and sort criteria.
+    public func searchSkillGroups(_ input: SearchSkillGroupsRequest) throws -> SearchSkillGroupsResponse {
+        return try client.send(operation: "SearchSkillGroups", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an address book with the specified details.
+    public func createAddressBook(_ input: CreateAddressBookRequest) throws -> CreateAddressBookResponse {
+        return try client.send(operation: "CreateAddressBook", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a contact with the specified details.
+    public func createContact(_ input: CreateContactRequest) throws -> CreateContactResponse {
+        return try client.send(operation: "CreateContact", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Sends an enrollment invitation email with a URL to a user. The URL is valid for 72 hours or until you call this operation again, whichever comes first. 
+    public func sendInvitation(_ input: SendInvitationRequest) throws -> SendInvitationResponse {
+        return try client.send(operation: "SendInvitation", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates room details by room ARN.
+    public func updateRoom(_ input: UpdateRoomRequest) throws -> UpdateRoomResponse {
+        return try client.send(operation: "UpdateRoom", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Associates a skill group with a given room. This enables all skills in the associated skill group on all devices in the room.
+    public func associateSkillGroupWithRoom(_ input: AssociateSkillGroupWithRoomRequest) throws -> AssociateSkillGroupWithRoomResponse {
+        return try client.send(operation: "AssociateSkillGroupWithRoom", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes metadata tags from a specified resource.
+    public func untagResource(_ input: UntagResourceRequest) throws -> UntagResourceResponse {
+        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates address book details by the address book ARN.
+    public func updateAddressBook(_ input: UpdateAddressBookRequest) throws -> UpdateAddressBookResponse {
+        return try client.send(operation: "UpdateAddressBook", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Searches users and lists the ones that meet a set of filter and sort criteria.

@@ -333,13 +333,13 @@ extension Cloudsearch {
             AWSShapeMember(label: "ARN", required: false, type: .string), 
             AWSShapeMember(label: "DocService", required: false, type: .structure), 
             AWSShapeMember(label: "RequiresIndexDocuments", required: true, type: .boolean), 
-            AWSShapeMember(label: "SearchService", required: false, type: .structure), 
             AWSShapeMember(label: "SearchPartitionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "SearchService", required: false, type: .structure), 
             AWSShapeMember(label: "SearchInstanceType", required: false, type: .string), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "SearchInstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "Deleted", required: false, type: .boolean), 
-            AWSShapeMember(label: "DomainId", required: true, type: .string)
+            AWSShapeMember(label: "DomainId", required: true, type: .string), 
+            AWSShapeMember(label: "Deleted", required: false, type: .boolean)
         ]
         public let limits: Limits?
         /// True if processing is being done to activate the current domain configuration.
@@ -351,33 +351,33 @@ extension Cloudsearch {
         public let docService: ServiceEndpoint?
         /// True if IndexDocuments needs to be called to activate the current domain configuration.
         public let requiresIndexDocuments: Bool
-        /// The service endpoint for requesting search results from a search domain.
-        public let searchService: ServiceEndpoint?
         /// The number of partitions across which the search index is spread.
         public let searchPartitionCount: Int32?
+        /// The service endpoint for requesting search results from a search domain.
+        public let searchService: ServiceEndpoint?
         /// The instance type that is being used to process search requests.
         public let searchInstanceType: String?
         public let domainName: String
         /// The number of search instances that are available to process search requests.
         public let searchInstanceCount: Int32?
+        public let domainId: String
         /// True if the search domain has been deleted. The system must clean up resources dedicated to the search domain when DeleteDomain is called. Newly deleted search domains are returned from DescribeDomains with a true value for IsDeleted for several minutes until resource cleanup is complete.
         public let deleted: Bool?
-        public let domainId: String
 
-        public init(limits: Limits? = nil, processing: Bool? = nil, created: Bool? = nil, arn: String? = nil, docService: ServiceEndpoint? = nil, requiresIndexDocuments: Bool, searchService: ServiceEndpoint? = nil, searchPartitionCount: Int32? = nil, searchInstanceType: String? = nil, domainName: String, searchInstanceCount: Int32? = nil, deleted: Bool? = nil, domainId: String) {
+        public init(limits: Limits? = nil, processing: Bool? = nil, created: Bool? = nil, arn: String? = nil, docService: ServiceEndpoint? = nil, requiresIndexDocuments: Bool, searchPartitionCount: Int32? = nil, searchService: ServiceEndpoint? = nil, searchInstanceType: String? = nil, domainName: String, searchInstanceCount: Int32? = nil, domainId: String, deleted: Bool? = nil) {
             self.limits = limits
             self.processing = processing
             self.created = created
             self.arn = arn
             self.docService = docService
             self.requiresIndexDocuments = requiresIndexDocuments
-            self.searchService = searchService
             self.searchPartitionCount = searchPartitionCount
+            self.searchService = searchService
             self.searchInstanceType = searchInstanceType
             self.domainName = domainName
             self.searchInstanceCount = searchInstanceCount
-            self.deleted = deleted
             self.domainId = domainId
+            self.deleted = deleted
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -387,13 +387,13 @@ extension Cloudsearch {
             case arn = "ARN"
             case docService = "DocService"
             case requiresIndexDocuments = "RequiresIndexDocuments"
-            case searchService = "SearchService"
             case searchPartitionCount = "SearchPartitionCount"
+            case searchService = "SearchService"
             case searchInstanceType = "SearchInstanceType"
             case domainName = "DomainName"
             case searchInstanceCount = "SearchInstanceCount"
-            case deleted = "Deleted"
             case domainId = "DomainId"
+            case deleted = "Deleted"
         }
     }
 

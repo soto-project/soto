@@ -916,7 +916,7 @@ extension Elasticmapreduce {
             AWSShapeMember(label: "Market", required: false, type: .enum), 
             AWSShapeMember(label: "Configurations", required: false, type: .list)
         ]
-        /// The bid price for each EC2 instance in the instance group when launching nodes as Spot Instances, expressed in USD.
+        /// The maximum Spot price your are willing to pay for EC2 instances. An optional, nullable field that applies if the MarketType for the instance group is specified as SPOT. Specify the maximum spot price in USD. If the value is NULL and SPOT is specified, the maximum Spot price is set equal to the On-Demand price.
         public let bidPrice: String?
         /// Policy for customizing shrink operations.
         public let shrinkPolicy: ShrinkPolicy?
@@ -1727,7 +1727,7 @@ extension Elasticmapreduce {
         public let supportedProducts: [String]?
         /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides a way for the automatic scaling feature to get the required permissions it needs to launch and terminate EC2 instances in an instance group.
         public let autoScalingRole: String?
-        /// Used only for version 2.x and 3.x of Amazon EMR. The version of the AMI used to initialize Amazon EC2 instances in the job flow. For a list of AMI versions supported by Amazon EMR, see AMI Versions Supported in EMR in the Amazon EMR Developer Guide. 
+        /// Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases 4.0 and later, ReleaseLabel is used. To specify a custom AMI, use CustomAmiID.
         public let amiVersion: String?
         /// Specifies whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and (if they have the proper policy permissions set) manage the cluster. If it is set to false, only the IAM user that created the cluster can view and manage it. This value can be changed using the SetVisibleToAllUsers action.
         public let visibleToAllUsers: Bool?
@@ -2268,7 +2268,7 @@ extension Elasticmapreduce {
         ]
         ///  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.  Describes the EC2 instances and instance configurations for clusters that use the instance fleet configuration.
         public let instanceFleets: [InstanceFleetConfig]?
-        /// The Hadoop version for the cluster. Valid inputs are "0.18" (deprecated), "0.20" (deprecated), "0.20.205" (deprecated), "1.0.3", "2.2.0", or "2.4.0". If you do not set this value, the default of 0.18 is used, unless the AmiVersion parameter is set in the RunJobFlow call, in which case the default version of Hadoop for that AMI version is used.
+        /// Applies only to Amazon EMR release versions earlier than 4.0. The Hadoop version for the cluster. Valid inputs are "0.18" (deprecated), "0.20" (deprecated), "0.20.205" (deprecated), "1.0.3", "2.2.0", or "2.4.0". If you do not set this value, the default of 0.18 is used, unless the AmiVersion parameter is set in the RunJobFlow call, in which case the default version of Hadoop for that AMI version is used.
         public let hadoopVersion: String?
         /// Applies to clusters that use the uniform instance group configuration. To launch the cluster in Amazon Virtual Private Cloud (Amazon VPC), set this parameter to the identifier of the Amazon VPC subnet where you want the cluster to launch. If you do not specify this value, the cluster launches in the normal Amazon Web Services cloud, outside of an Amazon VPC, if the account launching the cluster supports EC2 Classic networks in the region where the cluster launches. Amazon VPC currently does not support cluster compute quadruple extra large (cc1.4xlarge) instances. Thus you cannot specify the cc1.4xlarge instance type for clusters launched in an Amazon VPC.
         public let ec2SubnetId: String?
@@ -2710,13 +2710,13 @@ extension Elasticmapreduce {
         public let steps: [StepConfig]?
         ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.  A list of strings that indicates third-party software to use. For more information, see the Amazon EMR Developer Guide. Currently supported values are:   "mapr-m3" - launch the job flow using MapR M3 Edition.   "mapr-m5" - launch the job flow using MapR M5 Edition.  
         public let supportedProducts: [String]?
-        ///  The release label for the Amazon EMR release. For Amazon EMR 3.x and 2.x AMIs, use AmiVersion instead.
+        /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version, for example, emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see http://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label applies only to Amazon EMR releases versions 4.x and later. Earlier versions use AmiVersion.
         public let releaseLabel: String?
         /// The name of a security configuration to apply to the cluster.
         public let securityConfiguration: String?
         /// A list of tags to associate with a cluster and propagate to Amazon EC2 instances.
         public let tags: [Tag]?
-        /// For Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases 4.0 and later, the Linux AMI is determined by the ReleaseLabel specified or by CustomAmiID. The version of the Amazon Machine Image (AMI) to use when launching Amazon EC2 instances in the job flow. For details about the AMI versions currently supported in EMR version 3.x and 2.x, see AMI Versions Supported in EMR in the Amazon EMR Developer Guide.  If the AMI supports multiple versions of Hadoop (for example, AMI 1.0 supports both Hadoop 0.18 and 0.20), you can use the JobFlowInstancesConfig HadoopVersion parameter to modify the version of Hadoop from the defaults shown above.  Previously, the EMR AMI version API parameter options allowed you to use latest for the latest AMI version rather than specify a numerical value. Some regions no longer support this deprecated option as they only have a newer release label version of EMR, which requires you to specify an EMR release label release (EMR 4.x or later). 
+        /// Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases 4.0 and later, ReleaseLabel is used. To specify a custom AMI, use CustomAmiID.
         public let amiVersion: String?
         /// Applies only when CustomAmiID is used. Specifies which updates from the Amazon Linux AMI package repositories to apply automatically when the instance boots using the AMI. If omitted, the default is SECURITY, which indicates that only security updates are applied. If NONE is specified, no updates are applied, and all updates must be applied manually.
         public let repoUpgradeOnBoot: RepoUpgradeOnBoot?
@@ -2877,7 +2877,7 @@ extension Elasticmapreduce {
             AWSShapeMember(label: "TerminationProtected", required: false, type: .boolean), 
             AWSShapeMember(label: "Configurations", required: false, type: .list)
         ]
-        /// The release label for the Amazon EMR release.
+        /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version, for example, emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see http://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label applies only to Amazon EMR releases versions 4.x and later. Earlier versions use AmiVersion.
         public let releaseLabel: String?
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
         public let normalizedInstanceHours: Int32?
@@ -3192,30 +3192,30 @@ extension Elasticmapreduce {
     public struct InstanceGroupModifyConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceGroupId", required: true, type: .string), 
-            AWSShapeMember(label: "ShrinkPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "ShrinkPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "EC2InstanceIdsToTerminate", required: false, type: .list)
         ]
         /// Unique ID of the instance group to expand or shrink.
         public let instanceGroupId: String
-        /// Policy for customizing shrink operations.
-        public let shrinkPolicy: ShrinkPolicy?
         /// Target size for the instance group.
         public let instanceCount: Int32?
+        /// Policy for customizing shrink operations.
+        public let shrinkPolicy: ShrinkPolicy?
         /// The EC2 InstanceIds to terminate. After you terminate the instances, the instance group will not return to its original requested size.
         public let eC2InstanceIdsToTerminate: [String]?
 
-        public init(instanceGroupId: String, shrinkPolicy: ShrinkPolicy? = nil, instanceCount: Int32? = nil, eC2InstanceIdsToTerminate: [String]? = nil) {
+        public init(instanceGroupId: String, instanceCount: Int32? = nil, shrinkPolicy: ShrinkPolicy? = nil, eC2InstanceIdsToTerminate: [String]? = nil) {
             self.instanceGroupId = instanceGroupId
-            self.shrinkPolicy = shrinkPolicy
             self.instanceCount = instanceCount
+            self.shrinkPolicy = shrinkPolicy
             self.eC2InstanceIdsToTerminate = eC2InstanceIdsToTerminate
         }
 
         private enum CodingKeys: String, CodingKey {
             case instanceGroupId = "InstanceGroupId"
-            case shrinkPolicy = "ShrinkPolicy"
             case instanceCount = "InstanceCount"
+            case shrinkPolicy = "ShrinkPolicy"
             case eC2InstanceIdsToTerminate = "EC2InstanceIdsToTerminate"
         }
     }
@@ -3398,7 +3398,7 @@ extension Elasticmapreduce {
             AWSShapeMember(label: "EbsConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Configurations", required: false, type: .list)
         ]
-        /// Bid price for each EC2 instance in the instance group when launching nodes as Spot Instances, expressed in USD.
+        /// The maximum Spot price your are willing to pay for EC2 instances. An optional, nullable field that applies if the MarketType for the instance group is specified as SPOT. Specify the maximum spot price in USD. If the value is NULL and SPOT is specified, the maximum Spot price is set equal to the On-Demand price.
         public let bidPrice: String?
         /// Market type of the EC2 instances used to create a cluster node.
         public let market: MarketType?
@@ -3461,7 +3461,7 @@ extension Elasticmapreduce {
         ]
         /// Unique identifier for the instance group.
         public let instanceGroupId: String?
-        /// Bid price for EC2 Instances when launching nodes as Spot Instances, expressed in USD.
+        /// The maximum Spot price your are willing to pay for EC2 instances. An optional, nullable field that applies if the MarketType for the instance group is specified as SPOT. Specified in USD. If the value is NULL and SPOT is specified, the maximum Spot price is set equal to the On-Demand price.
         public let bidPrice: String?
         /// Actual count of running instances.
         public let instanceRunningCount: Int32

@@ -72,6 +72,7 @@ public enum RdsError: AWSErrorType {
     case authorizationAlreadyExistsFault(message: String?)
     case authorizationQuotaExceededFault(message: String?)
     case dBClusterSnapshotAlreadyExistsFault(message: String?)
+    case dBClusterBacktrackNotFoundFault(message: String?)
     case subscriptionAlreadyExistFault(message: String?)
     case subnetAlreadyInUse(message: String?)
     case sharedSnapshotQuotaExceededFault(message: String?)
@@ -225,6 +226,8 @@ extension RdsError {
             self = .authorizationQuotaExceededFault(message: message)
         case "DBClusterSnapshotAlreadyExistsFault":
             self = .dBClusterSnapshotAlreadyExistsFault(message: message)
+        case "DBClusterBacktrackNotFoundFault":
+            self = .dBClusterBacktrackNotFoundFault(message: message)
         case "SubscriptionAlreadyExistFault":
             self = .subscriptionAlreadyExistFault(message: message)
         case "SubnetAlreadyInUse":

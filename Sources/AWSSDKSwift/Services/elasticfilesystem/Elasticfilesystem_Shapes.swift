@@ -159,6 +159,7 @@ extension Elasticfilesystem {
     public enum LifeCycleState: String, CustomStringConvertible, Codable {
         case creating = "creating"
         case available = "available"
+        case updating = "updating"
         case deleting = "deleting"
         case deleted = "deleted"
         public var description: String { return self.rawValue }
@@ -209,6 +210,12 @@ extension Elasticfilesystem {
             case fileSystemId = "FileSystemId"
             case maxItems = "MaxItems"
         }
+    }
+
+    public enum ThroughputMode: String, CustomStringConvertible, Codable {
+        case bursting = "bursting"
+        case provisioned = "provisioned"
+        public var description: String { return self.rawValue }
     }
 
     public struct ModifyMountTargetSecurityGroupsRequest: AWSShape {
@@ -313,32 +320,42 @@ extension Elasticfilesystem {
 
     public struct CreateFileSystemRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "CreationToken", required: true, type: .string), 
             AWSShapeMember(label: "PerformanceMode", required: false, type: .enum), 
+            AWSShapeMember(label: "ThroughputMode", required: false, type: .enum), 
+            AWSShapeMember(label: "ProvisionedThroughputInMibps", required: false, type: .double), 
             AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "CreationToken", required: true, type: .string)
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
         ]
-        /// The id of the AWS KMS CMK that will be used to protect the encrypted file system. This parameter is only required if you want to use a non-default CMK. If this parameter is not specified, the default CMK for Amazon EFS is used. This id can be in one of the following formats:   Key ID - A unique identifier of the key. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name for the key. For example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key. For example, alias/projectKey1.   Key alias ARN - An Amazon Resource Name for a key alias. For example, arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   Note that if the KmsKeyId is specified, the CreateFileSystemRequest$Encrypted parameter must be set to true.
-        public let kmsKeyId: String?
-        /// The PerformanceMode of the file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. This can't be changed after the file system has been created.
-        public let performanceMode: PerformanceMode?
-        /// A boolean value that, if true, creates an encrypted file system. When creating an encrypted file system, you have the option of specifying a CreateFileSystemRequest$KmsKeyId for an existing AWS Key Management Service (AWS KMS) customer master key (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS, /aws/elasticfilesystem, is used to protect the encrypted file system. 
-        public let encrypted: Bool?
         /// String of up to 64 ASCII characters. Amazon EFS uses this to ensure idempotent creation.
         public let creationToken: String
+        /// The PerformanceMode of the file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. This can't be changed after the file system has been created.
+        public let performanceMode: PerformanceMode?
+        /// The throughput mode for the file system to be created. There are two throughput modes to choose from for your file system: bursting and provisioned. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change.
+        public let throughputMode: ThroughputMode?
+        /// The throughput, measured in MiB/s, that you want to provision for a file system that you're creating. The limit on throughput is 1024 MiB/s. You can get these limits increased by contacting AWS Support. For more information, see Amazon EFS Limits That You Can Increase in the Amazon EFS User Guide. 
+        public let provisionedThroughputInMibps: Double?
+        /// A Boolean value that, if true, creates an encrypted file system. When creating an encrypted file system, you have the option of specifying a CreateFileSystemRequest$KmsKeyId for an existing AWS Key Management Service (AWS KMS) customer master key (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS, /aws/elasticfilesystem, is used to protect the encrypted file system. 
+        public let encrypted: Bool?
+        /// The ID of the AWS KMS CMK to be used to protect the encrypted file system. This parameter is only required if you want to use a non-default CMK. If this parameter is not specified, the default CMK for Amazon EFS is used. This ID can be in one of the following formats:   Key ID - A unique identifier of the key, for example, 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key, for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key. For example, alias/projectKey1.   Key alias ARN - An ARN for a key alias, for example, arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   If KmsKeyId is specified, the CreateFileSystemRequest$Encrypted parameter must be set to true.
+        public let kmsKeyId: String?
 
-        public init(kmsKeyId: String? = nil, performanceMode: PerformanceMode? = nil, encrypted: Bool? = nil, creationToken: String) {
-            self.kmsKeyId = kmsKeyId
-            self.performanceMode = performanceMode
-            self.encrypted = encrypted
+        public init(creationToken: String, performanceMode: PerformanceMode? = nil, throughputMode: ThroughputMode? = nil, provisionedThroughputInMibps: Double? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil) {
             self.creationToken = creationToken
+            self.performanceMode = performanceMode
+            self.throughputMode = throughputMode
+            self.provisionedThroughputInMibps = provisionedThroughputInMibps
+            self.encrypted = encrypted
+            self.kmsKeyId = kmsKeyId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyId = "KmsKeyId"
-            case performanceMode = "PerformanceMode"
-            case encrypted = "Encrypted"
             case creationToken = "CreationToken"
+            case performanceMode = "PerformanceMode"
+            case throughputMode = "ThroughputMode"
+            case provisionedThroughputInMibps = "ProvisionedThroughputInMibps"
+            case encrypted = "Encrypted"
+            case kmsKeyId = "KmsKeyId"
         }
     }
 
@@ -379,6 +396,32 @@ extension Elasticfilesystem {
         }
     }
 
+    public struct UpdateFileSystemRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisionedThroughputInMibps", required: false, type: .double), 
+            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
+            AWSShapeMember(label: "ThroughputMode", required: false, type: .enum)
+        ]
+        /// (Optional) The amount of throughput, in MiB/s, that you want to provision for your file system. If you're not updating the amount of provisioned throughput for your file system, you don't need to provide this value in your request.
+        public let provisionedThroughputInMibps: Double?
+        /// The ID of the file system that you want to update.
+        public let fileSystemId: String
+        /// (Optional) The throughput mode that you want your file system to use. If you're not updating your throughput mode, you don't need to provide this value in your request.
+        public let throughputMode: ThroughputMode?
+
+        public init(provisionedThroughputInMibps: Double? = nil, fileSystemId: String, throughputMode: ThroughputMode? = nil) {
+            self.provisionedThroughputInMibps = provisionedThroughputInMibps
+            self.fileSystemId = fileSystemId
+            self.throughputMode = throughputMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisionedThroughputInMibps = "ProvisionedThroughputInMibps"
+            case fileSystemId = "FileSystemId"
+            case throughputMode = "ThroughputMode"
+        }
+    }
+
     public enum PerformanceMode: String, CustomStringConvertible, Codable {
         case generalpurpose = "generalPurpose"
         case maxio = "maxIO"
@@ -387,66 +430,76 @@ extension Elasticfilesystem {
 
     public struct FileSystemDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedThroughputInMibps", required: false, type: .double), 
             AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "OwnerId", required: true, type: .string), 
+            AWSShapeMember(label: "ThroughputMode", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "CreationToken", required: true, type: .string), 
             AWSShapeMember(label: "SizeInBytes", required: true, type: .structure), 
-            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
-            AWSShapeMember(label: "LifeCycleState", required: true, type: .enum), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "PerformanceMode", required: true, type: .enum), 
+            AWSShapeMember(label: "LifeCycleState", required: true, type: .enum), 
             AWSShapeMember(label: "NumberOfMountTargets", required: true, type: .integer), 
-            AWSShapeMember(label: "OwnerId", required: true, type: .string), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
         ]
-        /// You can add tags to a file system, including a Name tag. For more information, see CreateTags. If the file system has a Name tag, Amazon EFS returns the value in this field. 
-        public let name: String?
-        /// A boolean value that, if true, indicates that the file system is encrypted.
+        /// The throughput, measured in MiB/s, that you want to provision for a file system. The limit on throughput is 1024 MiB/s. You can get these limits increased by contacting AWS Support. For more information, see Amazon EFS Limits That You Can Increase in the Amazon EFS User Guide. 
+        public let provisionedThroughputInMibps: Double?
+        /// A Boolean value that, if true, indicates that the file system is encrypted.
         public let encrypted: Bool?
-        /// Opaque string specified in the request.
-        public let creationToken: String
-        /// Latest known metered size (in bytes) of data stored in the file system, in bytes, in its Value field, and the time at which that size was determined in its Timestamp field. The Timestamp value is the integer number of seconds since 1970-01-01T00:00:00Z. Note that the value does not represent the size of a consistent snapshot of the file system, but it is eventually consistent when there are no writes to the file system. That is, the value will represent actual size only if the file system is not modified for a period longer than a couple of hours. Otherwise, the value is not the exact size the file system was at any instant in time. 
-        public let sizeInBytes: FileSystemSize
         /// ID of the file system, assigned by Amazon EFS.
         public let fileSystemId: String
-        /// Lifecycle phase of the file system.
-        public let lifeCycleState: LifeCycleState
         /// Time that the file system was created, in seconds (since 1970-01-01T00:00:00Z).
         public let creationTime: TimeStamp
-        /// The PerformanceMode of the file system.
-        public let performanceMode: PerformanceMode
-        /// Current number of mount targets that the file system has. For more information, see CreateMountTarget.
-        public let numberOfMountTargets: Int32
         /// AWS account that created the file system. If the file system was created by an IAM user, the parent account to which the user belongs is the owner.
         public let ownerId: String
-        /// The id of an AWS Key Management Service (AWS KMS) customer master key (CMK) that was used to protect the encrypted file system.
+        /// The throughput mode for a file system. There are two throughput modes to choose from for your file system: bursting and provisioned. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change.
+        public let throughputMode: ThroughputMode?
+        /// You can add tags to a file system, including a Name tag. For more information, see CreateTags. If the file system has a Name tag, Amazon EFS returns the value in this field. 
+        public let name: String?
+        /// Opaque string specified in the request.
+        public let creationToken: String
+        /// Latest known metered size (in bytes) of data stored in the file system, in its Value field, and the time at which that size was determined in its Timestamp field. The Timestamp value is the integer number of seconds since 1970-01-01T00:00:00Z. The SizeInBytes value doesn't represent the size of a consistent snapshot of the file system, but it is eventually consistent when there are no writes to the file system. That is, SizeInBytes represents actual size only if the file system is not modified for a period longer than a couple of hours. Otherwise, the value is not the exact size that the file system was at any point in time. 
+        public let sizeInBytes: FileSystemSize
+        /// The PerformanceMode of the file system.
+        public let performanceMode: PerformanceMode
+        /// Lifecycle phase of the file system.
+        public let lifeCycleState: LifeCycleState
+        /// Current number of mount targets that the file system has. For more information, see CreateMountTarget.
+        public let numberOfMountTargets: Int32
+        /// The ID of an AWS Key Management Service (AWS KMS) customer master key (CMK) that was used to protect the encrypted file system.
         public let kmsKeyId: String?
 
-        public init(name: String? = nil, encrypted: Bool? = nil, creationToken: String, sizeInBytes: FileSystemSize, fileSystemId: String, lifeCycleState: LifeCycleState, creationTime: TimeStamp, performanceMode: PerformanceMode, numberOfMountTargets: Int32, ownerId: String, kmsKeyId: String? = nil) {
-            self.name = name
+        public init(provisionedThroughputInMibps: Double? = nil, encrypted: Bool? = nil, fileSystemId: String, creationTime: TimeStamp, ownerId: String, throughputMode: ThroughputMode? = nil, name: String? = nil, creationToken: String, sizeInBytes: FileSystemSize, performanceMode: PerformanceMode, lifeCycleState: LifeCycleState, numberOfMountTargets: Int32, kmsKeyId: String? = nil) {
+            self.provisionedThroughputInMibps = provisionedThroughputInMibps
             self.encrypted = encrypted
+            self.fileSystemId = fileSystemId
+            self.creationTime = creationTime
+            self.ownerId = ownerId
+            self.throughputMode = throughputMode
+            self.name = name
             self.creationToken = creationToken
             self.sizeInBytes = sizeInBytes
-            self.fileSystemId = fileSystemId
-            self.lifeCycleState = lifeCycleState
-            self.creationTime = creationTime
             self.performanceMode = performanceMode
+            self.lifeCycleState = lifeCycleState
             self.numberOfMountTargets = numberOfMountTargets
-            self.ownerId = ownerId
             self.kmsKeyId = kmsKeyId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "Name"
+            case provisionedThroughputInMibps = "ProvisionedThroughputInMibps"
             case encrypted = "Encrypted"
+            case fileSystemId = "FileSystemId"
+            case creationTime = "CreationTime"
+            case ownerId = "OwnerId"
+            case throughputMode = "ThroughputMode"
+            case name = "Name"
             case creationToken = "CreationToken"
             case sizeInBytes = "SizeInBytes"
-            case fileSystemId = "FileSystemId"
-            case lifeCycleState = "LifeCycleState"
-            case creationTime = "CreationTime"
             case performanceMode = "PerformanceMode"
+            case lifeCycleState = "LifeCycleState"
             case numberOfMountTargets = "NumberOfMountTargets"
-            case ownerId = "OwnerId"
             case kmsKeyId = "KmsKeyId"
         }
     }

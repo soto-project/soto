@@ -100,7 +100,7 @@ extension Email {
             AWSShapeMember(label: "RuleSetName", required: true, type: .string), 
             AWSShapeMember(label: "OriginalRuleSetName", required: true, type: .string)
         ]
-        /// The name of the rule set to create. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
+        /// The name of the rule set to create. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
         public let ruleSetName: String
         /// The name of the rule set to clone.
         public let originalRuleSetName: String
@@ -170,6 +170,22 @@ extension Email {
 
     }
 
+    public struct GetCustomVerificationEmailTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateName", required: true, type: .string)
+        ]
+        /// The name of the custom verification email template that you want to retrieve.
+        public let templateName: String
+
+        public init(templateName: String) {
+            self.templateName = templateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "TemplateName"
+        }
+    }
+
     public struct EventDestination: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudWatchDestination", required: false, type: .structure), 
@@ -185,7 +201,7 @@ extension Email {
         public let sNSDestination: SNSDestination?
         /// The type of email sending events to publish to the event destination.
         public let matchingEventTypes: [EventType]
-        /// The name of the event destination. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 64 characters.  
+        /// The name of the event destination. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 64 characters.  
         public let name: String
         /// An object that contains the delivery stream ARN and the IAM role ARN associated with an Amazon Kinesis Firehose event destination.
         public let kinesisFirehoseDestination: KinesisFirehoseDestination?
@@ -345,6 +361,32 @@ extension Email {
         }
     }
 
+    public struct SendCustomVerificationEmailRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string), 
+            AWSShapeMember(label: "EmailAddress", required: true, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: true, type: .string)
+        ]
+        /// Name of a configuration set to use when sending the verification email.
+        public let configurationSetName: String?
+        /// The email address to verify.
+        public let emailAddress: String
+        /// The name of the custom verification email template to use when sending the verification email.
+        public let templateName: String
+
+        public init(configurationSetName: String? = nil, emailAddress: String, templateName: String) {
+            self.configurationSetName = configurationSetName
+            self.emailAddress = emailAddress
+            self.templateName = templateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case emailAddress = "EmailAddress"
+            case templateName = "TemplateName"
+        }
+    }
+
     public struct ConfigurationSet: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
@@ -384,6 +426,47 @@ extension Email {
             case identityType = "IdentityType"
             case nextToken = "NextToken"
             case maxItems = "MaxItems"
+        }
+    }
+
+    public struct CreateCustomVerificationEmailTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateSubject", required: true, type: .string), 
+            AWSShapeMember(label: "TemplateContent", required: true, type: .string), 
+            AWSShapeMember(label: "SuccessRedirectionURL", required: true, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: true, type: .string), 
+            AWSShapeMember(label: "FailureRedirectionURL", required: true, type: .string), 
+            AWSShapeMember(label: "FromEmailAddress", required: true, type: .string)
+        ]
+        /// The subject line of the custom verification email.
+        public let templateSubject: String
+        /// The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see Custom Verification Email Frequently Asked Questions in the Amazon SES Developer Guide.
+        public let templateContent: String
+        /// The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
+        public let successRedirectionURL: String
+        /// The name of the custom verification email template.
+        public let templateName: String
+        /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
+        public let failureRedirectionURL: String
+        /// The email address that the custom verification email is sent from.
+        public let fromEmailAddress: String
+
+        public init(templateSubject: String, templateContent: String, successRedirectionURL: String, templateName: String, failureRedirectionURL: String, fromEmailAddress: String) {
+            self.templateSubject = templateSubject
+            self.templateContent = templateContent
+            self.successRedirectionURL = successRedirectionURL
+            self.templateName = templateName
+            self.failureRedirectionURL = failureRedirectionURL
+            self.fromEmailAddress = fromEmailAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateSubject = "TemplateSubject"
+            case templateContent = "TemplateContent"
+            case successRedirectionURL = "SuccessRedirectionURL"
+            case templateName = "TemplateName"
+            case failureRedirectionURL = "FailureRedirectionURL"
+            case fromEmailAddress = "FromEmailAddress"
         }
     }
 
@@ -492,6 +575,47 @@ extension Email {
         private enum CodingKeys: String, CodingKey {
             case trackingOptions = "TrackingOptions"
             case configurationSetName = "ConfigurationSetName"
+        }
+    }
+
+    public struct UpdateCustomVerificationEmailTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateSubject", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateContent", required: false, type: .string), 
+            AWSShapeMember(label: "SuccessRedirectionURL", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: true, type: .string), 
+            AWSShapeMember(label: "FailureRedirectionURL", required: false, type: .string), 
+            AWSShapeMember(label: "FromEmailAddress", required: false, type: .string)
+        ]
+        /// The subject line of the custom verification email.
+        public let templateSubject: String?
+        /// The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see Custom Verification Email Frequently Asked Questions in the Amazon SES Developer Guide.
+        public let templateContent: String?
+        /// The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
+        public let successRedirectionURL: String?
+        /// The name of the custom verification email template that you want to update.
+        public let templateName: String
+        /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
+        public let failureRedirectionURL: String?
+        /// The email address that the custom verification email is sent from.
+        public let fromEmailAddress: String?
+
+        public init(templateSubject: String? = nil, templateContent: String? = nil, successRedirectionURL: String? = nil, templateName: String, failureRedirectionURL: String? = nil, fromEmailAddress: String? = nil) {
+            self.templateSubject = templateSubject
+            self.templateContent = templateContent
+            self.successRedirectionURL = successRedirectionURL
+            self.templateName = templateName
+            self.failureRedirectionURL = failureRedirectionURL
+            self.fromEmailAddress = fromEmailAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateSubject = "TemplateSubject"
+            case templateContent = "TemplateContent"
+            case successRedirectionURL = "SuccessRedirectionURL"
+            case templateName = "TemplateName"
+            case failureRedirectionURL = "FailureRedirectionURL"
+            case fromEmailAddress = "FromEmailAddress"
         }
     }
 
@@ -711,6 +835,22 @@ extension Email {
         }
     }
 
+    public struct SendCustomVerificationEmailResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageId", required: false, type: .string)
+        ]
+        /// The unique message identifier returned from the SendCustomVerificationEmail operation.
+        public let messageId: String?
+
+        public init(messageId: String? = nil) {
+            self.messageId = messageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageId = "MessageId"
+        }
+    }
+
     public struct UpdateConfigurationSetReputationMetricsEnabledRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string), 
@@ -732,11 +872,6 @@ extension Email {
         }
     }
 
-    public enum StopScope: String, CustomStringConvertible, Codable {
-        case ruleset = "RuleSet"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListConfigurationSetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -756,6 +891,11 @@ extension Email {
             case nextToken = "NextToken"
             case maxItems = "MaxItems"
         }
+    }
+
+    public enum StopScope: String, CustomStringConvertible, Codable {
+        case ruleset = "RuleSet"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeReceiptRuleSetResponse: AWSShape {
@@ -811,7 +951,7 @@ extension Email {
         public let returnPathArn: String?
         /// A list of tags, in the form of name/value pairs, to apply to an email that you send to a destination using SendBulkTemplatedEmail.
         public let defaultTags: [MessageTag]?
-        /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide. If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide.  In all cases, the email address must be 7-bit ASCII. If the text must contain any other characters, then you must use MIME encoded-word syntax (RFC 2047) instead of a literal string. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?=. For more information, see RFC 2047. 
+        /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide. If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide.  Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531. For this reason, the local part of a source email address (the part of the email address that precedes the @ sign) may only contain 7-bit ASCII characters. If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492. The sender name (also known as the friendly name) may contain non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as described in RFC 2047. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?=. 
         public let source: String
         /// The template to use when sending this email.
         public let template: String
@@ -910,9 +1050,9 @@ extension Email {
         ]
         /// The place where Amazon SES finds the value of a dimension to publish to Amazon CloudWatch. If you want Amazon SES to use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail/SendRawEmail API, choose messageTag. If you want Amazon SES to use your own email headers, choose emailHeader.
         public let dimensionValueSource: DimensionValueSource
-        /// The name of an Amazon CloudWatch dimension associated with an email sending metric. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
+        /// The name of an Amazon CloudWatch dimension associated with an email sending metric. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
         public let dimensionName: String
-        /// The default value of the dimension that is published to Amazon CloudWatch if you do not provide the value of the dimension when you send an email. The default value must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
+        /// The default value of the dimension that is published to Amazon CloudWatch if you do not provide the value of the dimension when you send an email. The default value must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
         public let defaultDimensionValue: String
 
         public init(dimensionValueSource: DimensionValueSource, dimensionName: String, defaultDimensionValue: String) {
@@ -955,7 +1095,7 @@ extension Email {
         ]
         /// Saves the received message to an Amazon Simple Storage Service (Amazon S3) bucket and, optionally, publishes a notification to Amazon SNS.
         public let s3Action: S3Action?
-        /// Calls Amazon WorkMail and, optionally, publishes a notification to Amazon SNS.
+        /// Calls Amazon WorkMail and, optionally, publishes a notification to Amazon Amazon SNS.
         public let workmailAction: WorkmailAction?
         /// Adds a header to the received email.
         public let addHeaderAction: AddHeaderAction?
@@ -1013,7 +1153,7 @@ extension Email {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RuleSetName", required: true, type: .string)
         ]
-        /// The name of the rule set to create. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
+        /// The name of the rule set to create. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
         public let ruleSetName: String
 
         public init(ruleSetName: String) {
@@ -1198,6 +1338,27 @@ extension Email {
 
     }
 
+    public struct ListCustomVerificationEmailTemplatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// An array the contains the name and creation time stamp for each template in your Amazon SES account.
+        public let nextToken: String?
+        /// The maximum number of custom verification email templates to return. This value must be at least 1 and less than or equal to 50. If you do not specify a value, or if you specify a value less than 1 or greater than 50, the operation will return up to 50 results.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
     public struct DescribeReceiptRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RuleName", required: true, type: .string), 
@@ -1245,10 +1406,6 @@ extension Email {
         }
     }
 
-    public struct DeleteConfigurationSetEventDestinationResponse: AWSShape {
-
-    }
-
     public struct SendEmailResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MessageId", required: true, type: .string)
@@ -1263,6 +1420,10 @@ extension Email {
         private enum CodingKeys: String, CodingKey {
             case messageId = "MessageId"
         }
+    }
+
+    public struct DeleteConfigurationSetEventDestinationResponse: AWSShape {
+
     }
 
     public struct LambdaAction: AWSShape {
@@ -1528,7 +1689,7 @@ extension Email {
         public let returnPathArn: String?
         /// The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply.
         public let replyToAddresses: [String]?
-        /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide. If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide.  In all cases, the email address must be 7-bit ASCII. If the text must contain any other characters, then you must use MIME encoded-word syntax (RFC 2047) instead of a literal string. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?=. For more information, see RFC 2047. 
+        /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide. If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide.  Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531. For this reason, the local part of a source email address (the part of the email address that precedes the @ sign) may only contain 7-bit ASCII characters. If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492. The sender name (also known as the friendly name) may contain non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as described inRFC 2047. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?=. 
         public let source: String
         /// The template to use when sending this email.
         public let template: String
@@ -1624,6 +1785,47 @@ extension Email {
 
     public struct SetActiveReceiptRuleSetResponse: AWSShape {
 
+    }
+
+    public struct GetCustomVerificationEmailTemplateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateSubject", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateContent", required: false, type: .string), 
+            AWSShapeMember(label: "SuccessRedirectionURL", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "FailureRedirectionURL", required: false, type: .string), 
+            AWSShapeMember(label: "FromEmailAddress", required: false, type: .string)
+        ]
+        /// The subject line of the custom verification email.
+        public let templateSubject: String?
+        /// The content of the custom verification email.
+        public let templateContent: String?
+        /// The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
+        public let successRedirectionURL: String?
+        /// The name of the custom verification email template.
+        public let templateName: String?
+        /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
+        public let failureRedirectionURL: String?
+        /// The email address that the custom verification email is sent from.
+        public let fromEmailAddress: String?
+
+        public init(templateSubject: String? = nil, templateContent: String? = nil, successRedirectionURL: String? = nil, templateName: String? = nil, failureRedirectionURL: String? = nil, fromEmailAddress: String? = nil) {
+            self.templateSubject = templateSubject
+            self.templateContent = templateContent
+            self.successRedirectionURL = successRedirectionURL
+            self.templateName = templateName
+            self.failureRedirectionURL = failureRedirectionURL
+            self.fromEmailAddress = fromEmailAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateSubject = "TemplateSubject"
+            case templateContent = "TemplateContent"
+            case successRedirectionURL = "SuccessRedirectionURL"
+            case templateName = "TemplateName"
+            case failureRedirectionURL = "FailureRedirectionURL"
+            case fromEmailAddress = "FromEmailAddress"
+        }
     }
 
     public struct PutIdentityPolicyRequest: AWSShape {
@@ -1858,9 +2060,9 @@ extension Email {
             AWSShapeMember(label: "TemplatesMetadata", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// An array the contains the name of creation time stamp for each template in your Amazon SES account.
+        /// An array the contains the name and creation time stamp for each template in your Amazon SES account.
         public let templatesMetadata: [TemplateMetadata]?
-        /// The token to use for pagination.
+        /// A token indicating that there are additional email templates available to be listed. Pass this token to a subsequent call to ListTemplates to retrieve the next 50 email templates.
         public let nextToken: String?
 
         public init(templatesMetadata: [TemplateMetadata]? = nil, nextToken: String? = nil) {
@@ -1878,7 +2080,7 @@ extension Email {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
-        /// Describes whether email sending is enabled or disabled for your Amazon SES account.
+        /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current AWS Region.
         public let enabled: Bool?
 
         public init(enabled: Bool? = nil) {
@@ -2073,7 +2275,7 @@ extension Email {
         public let bucketName: String
         /// The key prefix of the Amazon S3 bucket. The key prefix is similar to a directory name that enables you to store similar data under the same directory in a bucket.
         public let objectKeyPrefix: String?
-        /// The customer master key that Amazon SES should use to encrypt your emails before saving them to the Amazon S3 bucket. You can use the default master key or a custom master key you created in AWS KMS as follows:   To use the default master key, provide an ARN in the form of arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses. For example, if your AWS account ID is 123456789012 and you want to use the default master key in the US West (Oregon) region, the ARN of the default master key would be arn:aws:kms:us-west-2:123456789012:alias/aws/ses. If you use the default master key, you don't need to perform any extra steps to give Amazon SES permission to use the key.   To use a custom master key you created in AWS KMS, provide the ARN of the master key and ensure that you add a statement to your key's policy to give Amazon SES permission to use it. For more information about giving permissions, see the Amazon SES Developer Guide.   For more information about key policies, see the AWS KMS Developer Guide. If you do not specify a master key, Amazon SES will not encrypt your emails.  Your mail is encrypted by Amazon SES using the Amazon S3 encryption client before the mail is submitted to Amazon S3 for storage. It is not encrypted using Amazon S3 server-side encryption. This means that you must use the Amazon S3 encryption client to decrypt the email after retrieving it from Amazon S3, as the service has no access to use your AWS KMS keys for decryption. This encryption client is currently available with the AWS Java SDK and AWS Ruby SDK only. For more information about client-side encryption using AWS KMS master keys, see the Amazon S3 Developer Guide. 
+        /// The customer master key that Amazon SES should use to encrypt your emails before saving them to the Amazon S3 bucket. You can use the default master key or a custom master key you created in AWS KMS as follows:   To use the default master key, provide an ARN in the form of arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses. For example, if your AWS account ID is 123456789012 and you want to use the default master key in the US West (Oregon) region, the ARN of the default master key would be arn:aws:kms:us-west-2:123456789012:alias/aws/ses. If you use the default master key, you don't need to perform any extra steps to give Amazon SES permission to use the key.   To use a custom master key you created in AWS KMS, provide the ARN of the master key and ensure that you add a statement to your key's policy to give Amazon SES permission to use it. For more information about giving permissions, see the Amazon SES Developer Guide.   For more information about key policies, see the AWS KMS Developer Guide. If you do not specify a master key, Amazon SES will not encrypt your emails.  Your mail is encrypted by Amazon SES using the Amazon S3 encryption client before the mail is submitted to Amazon S3 for storage. It is not encrypted using Amazon S3 server-side encryption. This means that you must use the Amazon S3 encryption client to decrypt the email after retrieving it from Amazon S3, as the service has no access to use your AWS KMS keys for decryption. This encryption client is currently available with the AWS SDK for Java and AWS SDK for Ruby only. For more information about client-side encryption using AWS KMS master keys, see the Amazon S3 Developer Guide. 
         public let kmsKeyArn: String?
 
         public init(topicArn: String? = nil, bucketName: String, objectKeyPrefix: String? = nil, kmsKeyArn: String? = nil) {
@@ -2096,7 +2298,7 @@ extension Email {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "IpFilter", required: true, type: .structure)
         ]
-        /// The name of the IP address filter. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
+        /// The name of the IP address filter. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
         public let name: String
         /// A structure that provides the IP addresses to block or allow, and whether to block or allow incoming mail from them.
         public let ipFilter: ReceiptIpFilter
@@ -2175,6 +2377,27 @@ extension Email {
         }
     }
 
+    public struct ListCustomVerificationEmailTemplatesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomVerificationEmailTemplates", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of the custom verification email templates that exist in your account.
+        public let customVerificationEmailTemplates: [CustomVerificationEmailTemplate]?
+        /// A token indicating that there are additional custom verification email templates available to be listed. Pass this token to a subsequent call to ListTemplates to retrieve the next 50 custom verification email templates.
+        public let nextToken: String?
+
+        public init(customVerificationEmailTemplates: [CustomVerificationEmailTemplate]? = nil, nextToken: String? = nil) {
+            self.customVerificationEmailTemplates = customVerificationEmailTemplates
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customVerificationEmailTemplates = "CustomVerificationEmailTemplates"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct VerifyEmailIdentityRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EmailAddress", required: true, type: .string)
@@ -2233,9 +2456,9 @@ extension Email {
             AWSShapeMember(label: "Value", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// The value of the tag. The value must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
+        /// The value of the tag. The value must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
         public let value: String
-        /// The name of the tag. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
+        /// The name of the tag. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
         public let name: String
 
         public init(value: String, name: String) {
@@ -2286,7 +2509,7 @@ extension Email {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp)
         ]
-        /// The name of the receipt rule set. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
+        /// The name of the receipt rule set. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
         public let name: String?
         /// The date and time the receipt rule set was created.
         public let createdTimestamp: TimeStamp?
@@ -2408,7 +2631,7 @@ extension Email {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
-        /// Describes whether email sending is enabled or disabled for your Amazon SES account.
+        /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current AWS Region.
         public let enabled: Bool?
 
         public init(enabled: Bool? = nil) {
@@ -2536,7 +2759,7 @@ extension Email {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", required: false, type: .integer)
         ]
-        /// The token to use for pagination.
+        /// A token returned from a previous call to ListTemplates to indicate the position in the list of email templates.
         public let nextToken: String?
         /// The maximum number of templates to return. This value must be at least 1 and less than or equal to 10. If you do not specify a value, or if you specify a value less than 1 or greater than 10, the operation will return up to 10 results.
         public let maxItems: Int32?
@@ -2577,7 +2800,7 @@ extension Email {
         public let returnPathArn: String?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to specify a particular "From" address in the header of the raw email. Instead of using this parameter, you can use the X-header X-SES-FROM-ARN in the raw message of the email. If you use both the FromArn parameter and the corresponding X-header, Amazon SES uses the value of the FromArn parameter.  For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the Amazon SES Developer Guide. 
         public let fromArn: String?
-        /// The identity's email address. If you do not provide a value for this parameter, you must specify a "From" address in the raw text of the message. (You can also specify both.)  By default, the string must be 7-bit ASCII. If the text must contain any other characters, then you must use MIME encoded-word syntax (RFC 2047) instead of a literal string. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?=. For more information, see RFC 2047.   If you specify the Source parameter and have feedback forwarding enabled, then bounces and complaints will be sent to this email address. This takes precedence over any Return-Path header that you might include in the raw text of the message. 
+        /// The identity's email address. If you do not provide a value for this parameter, you must specify a "From" address in the raw text of the message. (You can also specify both.)  Amazon SES does not support the SMTPUTF8 extension, as described inRFC6531. For this reason, the local part of a source email address (the part of the email address that precedes the @ sign) may only contain 7-bit ASCII characters. If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492. The sender name (also known as the friendly name) may contain non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as described in RFC 2047. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?=.  If you specify the Source parameter and have feedback forwarding enabled, then bounces and complaints will be sent to this email address. This takes precedence over any Return-Path header that you might include in the raw text of the message.
         public let source: String?
 
         public init(configurationSetName: String? = nil, rawMessage: RawMessage, destinations: [String]? = nil, sourceArn: String? = nil, tags: [MessageTag]? = nil, returnPathArn: String? = nil, fromArn: String? = nil, source: String? = nil) {
@@ -2769,7 +2992,7 @@ extension Email {
         public let actions: [ReceiptAction]?
         /// If true, the receipt rule is active. The default value is false.
         public let enabled: Bool?
-        /// The name of the receipt rule. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
+        /// The name of the receipt rule. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
         public let name: String
         /// The recipient domains and email addresses that the receipt rule applies to. If this field is not specified, this rule will match all recipients under all verified domains.
         public let recipients: [String]?
@@ -2819,7 +3042,7 @@ extension Email {
         public let tags: [MessageTag]?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the ReturnPath to be feedback@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
         public let returnPathArn: String?
-        /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide. If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide.  In all cases, the email address must be 7-bit ASCII. If the text must contain any other characters, then you must use MIME encoded-word syntax (RFC 2047) instead of a literal string. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?=. For more information, see RFC 2047. 
+        /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide. If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide.  Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531. For this reason, the local part of a source email address (the part of the email address that precedes the @ sign) may only contain 7-bit ASCII characters. If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492. The sender name (also known as the friendly name) may contain non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as described in RFC 2047. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?=. 
         public let source: String
         /// The email address that bounces and complaints will be forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. 
         public let returnPath: String?
@@ -2927,6 +3150,22 @@ extension Email {
         }
     }
 
+    public struct DeleteCustomVerificationEmailTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateName", required: true, type: .string)
+        ]
+        /// The name of the custom verification email template that you want to delete.
+        public let templateName: String
+
+        public init(templateName: String) {
+            self.templateName = templateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "TemplateName"
+        }
+    }
+
     public struct RecipientDsnFields: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: true, type: .string), 
@@ -3010,6 +3249,42 @@ extension Email {
         }
     }
 
+    public struct CustomVerificationEmailTemplate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateSubject", required: false, type: .string), 
+            AWSShapeMember(label: "SuccessRedirectionURL", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "FailureRedirectionURL", required: false, type: .string), 
+            AWSShapeMember(label: "FromEmailAddress", required: false, type: .string)
+        ]
+        /// The subject line of the custom verification email.
+        public let templateSubject: String?
+        /// The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
+        public let successRedirectionURL: String?
+        /// The name of the custom verification email template.
+        public let templateName: String?
+        /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
+        public let failureRedirectionURL: String?
+        /// The email address that the custom verification email is sent from.
+        public let fromEmailAddress: String?
+
+        public init(templateSubject: String? = nil, successRedirectionURL: String? = nil, templateName: String? = nil, failureRedirectionURL: String? = nil, fromEmailAddress: String? = nil) {
+            self.templateSubject = templateSubject
+            self.successRedirectionURL = successRedirectionURL
+            self.templateName = templateName
+            self.failureRedirectionURL = failureRedirectionURL
+            self.fromEmailAddress = fromEmailAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateSubject = "TemplateSubject"
+            case successRedirectionURL = "SuccessRedirectionURL"
+            case templateName = "TemplateName"
+            case failureRedirectionURL = "FailureRedirectionURL"
+            case fromEmailAddress = "FromEmailAddress"
+        }
+    }
+
     public struct SendDataPoint: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeliveryAttempts", required: false, type: .long), 
@@ -3067,11 +3342,11 @@ extension Email {
         }
     }
 
-    public struct CreateReceiptRuleSetResponse: AWSShape {
+    public struct DeleteIdentityResponse: AWSShape {
 
     }
 
-    public struct DeleteIdentityResponse: AWSShape {
+    public struct CreateReceiptRuleSetResponse: AWSShape {
 
     }
 

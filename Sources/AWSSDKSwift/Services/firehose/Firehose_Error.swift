@@ -4,10 +4,10 @@ import AWSSDKSwiftCore
 
 /// Error enum for Firehose
 public enum FirehoseError: AWSErrorType {
+    case resourceNotFoundException(message: String?)
+    case resourceInUseException(message: String?)
     case invalidArgumentException(message: String?)
     case limitExceededException(message: String?)
-    case resourceInUseException(message: String?)
-    case resourceNotFoundException(message: String?)
     case serviceUnavailableException(message: String?)
     case concurrentModificationException(message: String?)
 }
@@ -19,14 +19,14 @@ extension FirehoseError {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
+        case "ResourceInUseException":
+            self = .resourceInUseException(message: message)
         case "InvalidArgumentException":
             self = .invalidArgumentException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
         case "ConcurrentModificationException":

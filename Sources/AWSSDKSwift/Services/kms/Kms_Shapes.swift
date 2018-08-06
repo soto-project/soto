@@ -13,7 +13,7 @@ extension Kms {
         ]
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
-        /// A list of policy names. Currently, there is only one policy and it is named "Default".
+        /// A list of key policy names. Currently, there is only one key policy per CMK and it is always named default.
         public let policyNames: [String]?
         /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
         public let nextMarker: String?
@@ -31,9 +31,45 @@ extension Kms {
         }
     }
 
-    public enum WrappingKeySpec: String, CustomStringConvertible, Codable {
-        case rsa2048 = "RSA_2048"
-        public var description: String { return self.rawValue }
+    public struct CreateKeyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BypassPolicyLockoutSafetyCheck", required: false, type: .boolean), 
+            AWSShapeMember(label: "KeyUsage", required: false, type: .enum), 
+            AWSShapeMember(label: "Origin", required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Policy", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// A flag to indicate whether to bypass the key policy lockout safety check.  Setting this value to true increases the risk that the CMK becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.  Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK. The default value is false.
+        public let bypassPolicyLockoutSafetyCheck: Bool?
+        /// The intended use of the CMK. You can use CMKs only for symmetric encryption and decryption.
+        public let keyUsage: KeyUsageType?
+        /// The source of the CMK's key material. The default is AWS_KMS, which means AWS KMS creates the key material. When this parameter is set to EXTERNAL, the request creates a CMK without key material so that you can import key material from your existing key management infrastructure. For more information about importing key material into AWS KMS, see Importing Key Material in the AWS Key Management Service Developer Guide. The CMK's Origin is immutable and is set when the CMK is created.
+        public let origin: OriginType?
+        /// One or more tags. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings. Use this parameter to tag the CMK when it is created. Alternately, you can omit this parameter and instead tag the CMK after it is created using TagResource.
+        public let tags: [Tag]?
+        /// The key policy to attach to the CMK. If you provide a key policy, it must meet the following criteria:   If you don't set BypassPolicyLockoutSafetyCheck to true, the key policy must allow the principal that is making the CreateKey request to make a subsequent PutKeyPolicy request on the CMK. This reduces the risk that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section of the AWS Key Management Service Developer Guide.   Each statement in the key policy must contain one or more principals. The principals in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before including the new principal in a key policy. The reason for this is that the new principal might not be immediately visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the AWS Identity and Access Management User Guide.   If you do not provide a key policy, AWS KMS attaches a default key policy to the CMK. For more information, see Default Key Policy in the AWS Key Management Service Developer Guide. The key policy size limit is 32 kilobytes (32768 bytes).
+        public let policy: String?
+        /// A description of the CMK. Use a description that helps you decide whether the CMK is appropriate for a task.
+        public let description: String?
+
+        public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, keyUsage: KeyUsageType? = nil, origin: OriginType? = nil, tags: [Tag]? = nil, policy: String? = nil, description: String? = nil) {
+            self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
+            self.keyUsage = keyUsage
+            self.origin = origin
+            self.tags = tags
+            self.policy = policy
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bypassPolicyLockoutSafetyCheck = "BypassPolicyLockoutSafetyCheck"
+            case keyUsage = "KeyUsage"
+            case origin = "Origin"
+            case tags = "Tags"
+            case policy = "Policy"
+            case description = "Description"
+        }
     }
 
     public struct GetParametersForImportRequest: AWSShape {
@@ -44,7 +80,7 @@ extension Kms {
         ]
         /// The identifier of the CMK into which you will import key material. The CMK's Origin must be EXTERNAL. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
-        /// The algorithm you will use to encrypt the key material before importing it with ImportKeyMaterial. For more information, see Encrypt the Key Material in the AWS Key Management Service Developer Guide.
+        /// The algorithm you use to encrypt the key material before importing it with ImportKeyMaterial. For more information, see Encrypt the Key Material in the AWS Key Management Service Developer Guide.
         public let wrappingAlgorithm: AlgorithmSpec
         /// The type of wrapping key (public key) to return in the response. Only 2048-bit RSA public keys are supported.
         public let wrappingKeySpec: WrappingKeySpec
@@ -216,7 +252,7 @@ extension Kms {
         ]
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// A unique identifier for the customer master key (CMK). To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// Describes the specified customer master key (CMK).  If you specify a predefined AWS alias (an AWS alias with no key ID), KMS associates the alias with an AWS managed CMK and returns its KeyId and Arn in the response. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
 
         public init(grantTokens: [String]? = nil, keyId: String) {
@@ -241,7 +277,7 @@ extension Kms {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Policy", required: false, type: .string)
         ]
-        /// A policy document in JSON format.
+        /// A key policy document in JSON format.
         public let policy: String?
 
         public init(policy: String? = nil) {
@@ -279,6 +315,53 @@ extension Kms {
         }
     }
 
+    public struct ListKeyPoliciesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
+        ]
+        /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
+        public let marker: String?
+        /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        public let keyId: String
+        /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100. Currently only 1 policy can be attached to a key.
+        public let limit: Int32?
+
+        public init(marker: String? = nil, keyId: String, limit: Int32? = nil) {
+            self.marker = marker
+            self.keyId = keyId
+            self.limit = limit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case keyId = "KeyId"
+            case limit = "Limit"
+        }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagValue", required: true, type: .string), 
+            AWSShapeMember(label: "TagKey", required: true, type: .string)
+        ]
+        /// The value of the tag.
+        public let tagValue: String
+        /// The key of the tag.
+        public let tagKey: String
+
+        public init(tagValue: String, tagKey: String) {
+            self.tagValue = tagValue
+            self.tagKey = tagKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagValue = "TagValue"
+            case tagKey = "TagKey"
+        }
+    }
+
     public struct ListAliasesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Aliases", required: false, type: .list), 
@@ -305,27 +388,6 @@ extension Kms {
         }
     }
 
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagValue", required: true, type: .string), 
-            AWSShapeMember(label: "TagKey", required: true, type: .string)
-        ]
-        /// The value of the tag.
-        public let tagValue: String
-        /// The key of the tag.
-        public let tagKey: String
-
-        public init(tagValue: String, tagKey: String) {
-            self.tagValue = tagValue
-            self.tagKey = tagKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagValue = "TagValue"
-            case tagKey = "TagKey"
-        }
-    }
-
     public struct GetKeyRotationStatusResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KeyRotationEnabled", required: false, type: .boolean)
@@ -349,11 +411,11 @@ extension Kms {
             AWSShapeMember(label: "Policy", required: true, type: .string), 
             AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
-        /// A flag to indicate whether to bypass the key policy lockout safety check.  Setting this value to true increases the likelihood that the CMK becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.  Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK. The default value is false.
+        /// A flag to indicate whether to bypass the key policy lockout safety check.  Setting this value to true increases the risk that the CMK becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.  Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK. The default value is false.
         public let bypassPolicyLockoutSafetyCheck: Bool?
         /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
-        /// The key policy to attach to the CMK. If you do not set BypassPolicyLockoutSafetyCheck to true, the policy must meet the following criteria:   It must allow the principal that is making the PutKeyPolicy request to make a subsequent PutKeyPolicy request on the CMK. This reduces the likelihood that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.   The principals that are specified in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before specifying the new principal in a key policy because the new principal might not immediately be visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the IAM User Guide.   The policy size limit is 32 kilobytes (32768 bytes).
+        /// The key policy to attach to the CMK. The key policy must meet the following criteria:   If you don't set BypassPolicyLockoutSafetyCheck to true, the key policy must allow the principal that is making the PutKeyPolicy request to make a subsequent PutKeyPolicy request on the CMK. This reduces the risk that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section of the AWS Key Management Service Developer Guide.   Each statement in the key policy must contain one or more principals. The principals in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before including the new principal in a key policy. The reason for this is that the new principal might not be immediately visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the AWS Identity and Access Management User Guide.   The key policy size limit is 32 kilobytes (32768 bytes).
         public let policy: String
         /// The name of the key policy. The only valid value is default.
         public let policyName: String
@@ -409,7 +471,7 @@ extension Kms {
         public let deletionDate: TimeStamp?
         /// The description of the CMK.
         public let description: String?
-        /// The CMK's manager. CMKs are either customer-managed or AWS-managed. For more information about the difference, see Customer Master Keys in the AWS Key Management Service Developer Guide.
+        /// The CMK's manager. CMKs are either customer managed or AWS managed. For more information about the difference, see Customer Master Keys in the AWS Key Management Service Developer Guide.
         public let keyManager: KeyManagerType?
         /// Specifies whether the CMK's key material expires. This value is present only when Origin is EXTERNAL, otherwise this value is omitted.
         public let expirationModel: ExpirationModelType?
@@ -465,38 +527,12 @@ extension Kms {
         }
     }
 
-    public struct ListKeyPoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "KeyId", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer)
-        ]
-        /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
-        public let marker: String?
-        /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
-        public let keyId: String
-        /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100. Currently only 1 policy can be attached to a key.
-        public let limit: Int32?
-
-        public init(marker: String? = nil, keyId: String, limit: Int32? = nil) {
-            self.marker = marker
-            self.keyId = keyId
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case keyId = "KeyId"
-            case limit = "Limit"
-        }
-    }
-
     public struct CreateAliasRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AliasName", required: true, type: .string), 
             AWSShapeMember(label: "TargetKeyId", required: true, type: .string)
         ]
-        /// String that contains the display name. The name must start with the word "alias" followed by a forward slash (alias/). Aliases that begin with "alias/AWS" are reserved.
+        /// Specifies the alias name. This value must begin with alias/ followed by the alias name, such as alias/ExampleAlias. The alias name cannot begin with aws/. The alias/aws/ prefix is reserved for AWS managed CMKs.
         public let aliasName: String
         /// Identifies the CMK for which you are creating the alias. This value cannot be an alias. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let targetKeyId: String
@@ -845,7 +881,7 @@ extension Kms {
         public let keyId: String
         /// The principal that is given permission to retire the grant by using RetireGrant operation. To specify the principal, use the Amazon Resource Name (ARN) of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, federated users, and assumed role users. For examples of the ARN syntax to use for specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs section of the AWS General Reference.
         public let retiringPrincipal: String?
-        /// A friendly name for identifying the grant. Use this value to prevent unintended creation of duplicate grants when retrying this request. When this value is absent, all CreateGrant requests result in a new grant with a unique GrantId even if all the supplied parameters are identical. This can result in unintended duplicates when you retry the CreateGrant request. When this value is present, you can retry a CreateGrant request with identical parameters; if the grant already exists, the original GrantId is returned without creating a new grant. Note that the returned grant token is unique with every CreateGrant request, even when a duplicate GrantId is returned. All grant tokens obtained in this way can be used interchangeably.
+        /// A friendly name for identifying the grant. Use this value to prevent the unintended creation of duplicate grants when retrying this request. When this value is absent, all CreateGrant requests result in a new grant with a unique GrantId even if all the supplied parameters are identical. This can result in unintended duplicates when you retry the CreateGrant request. When this value is present, you can retry a CreateGrant request with identical parameters; if the grant already exists, the original GrantId is returned without creating a new grant. Note that the returned grant token is unique with every CreateGrant request, even when a duplicate GrantId is returned. All grant tokens obtained in this way can be used interchangeably.
         public let name: String?
         /// A list of operations that the grant permits.
         public let operations: [GrantOperation]
@@ -927,7 +963,7 @@ extension Kms {
         ]
         /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
-        /// Specifies the name of the policy. The only valid name is default. To get the names of key policies, use ListKeyPolicies.
+        /// Specifies the name of the key policy. The only valid name is default. To get the names of key policies, use ListKeyPolicies.
         public let policyName: String
 
         public init(keyId: String, policyName: String) {
@@ -1056,20 +1092,25 @@ extension Kms {
     public struct ListAliasesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
+        /// Lists only aliases that refer to the specified CMK. The value of this parameter can be the ID or Amazon Resource Name (ARN) of a CMK in the caller's account and region. You cannot use an alias name or alias ARN in this value. This parameter is optional. If you omit it, ListAliases returns all aliases in the account and region.
+        public let keyId: String?
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
         public let limit: Int32?
 
-        public init(marker: String? = nil, limit: Int32? = nil) {
+        public init(marker: String? = nil, keyId: String? = nil, limit: Int32? = nil) {
             self.marker = marker
+            self.keyId = keyId
             self.limit = limit
         }
 
         private enum CodingKeys: String, CodingKey {
             case marker = "Marker"
+            case keyId = "KeyId"
             case limit = "Limit"
         }
     }
@@ -1447,47 +1488,6 @@ extension Kms {
         }
     }
 
-    public struct CreateKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BypassPolicyLockoutSafetyCheck", required: false, type: .boolean), 
-            AWSShapeMember(label: "KeyUsage", required: false, type: .enum), 
-            AWSShapeMember(label: "Origin", required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "Policy", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// A flag to indicate whether to bypass the key policy lockout safety check.  Setting this value to true increases the likelihood that the CMK becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.  Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK. The default value is false.
-        public let bypassPolicyLockoutSafetyCheck: Bool?
-        /// The intended use of the CMK. You can use CMKs only for symmetric encryption and decryption.
-        public let keyUsage: KeyUsageType?
-        /// The source of the CMK's key material. The default is AWS_KMS, which means AWS KMS creates the key material. When this parameter is set to EXTERNAL, the request creates a CMK without key material so that you can import key material from your existing key management infrastructure. For more information about importing key material into AWS KMS, see Importing Key Material in the AWS Key Management Service Developer Guide. The CMK's Origin is immutable and is set when the CMK is created.
-        public let origin: OriginType?
-        /// One or more tags. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings. Use this parameter to tag the CMK when it is created. Alternately, you can omit this parameter and instead tag the CMK after it is created using TagResource.
-        public let tags: [Tag]?
-        /// The key policy to attach to the CMK. If you specify a policy and do not set BypassPolicyLockoutSafetyCheck to true, the policy must meet the following criteria:   It must allow the principal that is making the CreateKey request to make a subsequent PutKeyPolicy request on the CMK. This reduces the likelihood that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.   The principals that are specified in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before specifying the new principal in a key policy because the new principal might not immediately be visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the IAM User Guide.   If you do not specify a policy, AWS KMS attaches a default key policy to the CMK. For more information, see Default Key Policy in the AWS Key Management Service Developer Guide. The policy size limit is 32 kilobytes (32768 bytes).
-        public let policy: String?
-        /// A description of the CMK. Use a description that helps you decide whether the CMK is appropriate for a task.
-        public let description: String?
-
-        public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, keyUsage: KeyUsageType? = nil, origin: OriginType? = nil, tags: [Tag]? = nil, policy: String? = nil, description: String? = nil) {
-            self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
-            self.keyUsage = keyUsage
-            self.origin = origin
-            self.tags = tags
-            self.policy = policy
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bypassPolicyLockoutSafetyCheck = "BypassPolicyLockoutSafetyCheck"
-            case keyUsage = "KeyUsage"
-            case origin = "Origin"
-            case tags = "Tags"
-            case policy = "Policy"
-            case description = "Description"
-        }
-    }
-
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KeyId", required: true, type: .string), 
@@ -1554,6 +1554,11 @@ extension Kms {
             case ciphertextBlob = "CiphertextBlob"
             case keyId = "KeyId"
         }
+    }
+
+    public enum WrappingKeySpec: String, CustomStringConvertible, Codable {
+        case rsa2048 = "RSA_2048"
+        public var description: String { return self.rawValue }
     }
 
 }

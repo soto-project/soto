@@ -5,11 +5,12 @@ import AWSSDKSwiftCore
 /// Error enum for Alexaforbusiness
 public enum AlexaforbusinessError: AWSErrorType {
     case notFoundException(message: String?)
-    case alreadyExistsException(message: String?)
-    case limitExceededException(message: String?)
     case resourceInUseException(message: String?)
-    case invalidUserStatusException(message: String?)
+    case limitExceededException(message: String?)
+    case alreadyExistsException(message: String?)
+    case deviceNotRegisteredException(message: String?)
     case nameInUseException(message: String?)
+    case invalidUserStatusException(message: String?)
 }
 
 extension AlexaforbusinessError {
@@ -21,16 +22,18 @@ extension AlexaforbusinessError {
         switch errorCode {
         case "NotFoundException":
             self = .notFoundException(message: message)
-        case "AlreadyExistsException":
-            self = .alreadyExistsException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)
-        case "InvalidUserStatusException":
-            self = .invalidUserStatusException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "AlreadyExistsException":
+            self = .alreadyExistsException(message: message)
+        case "DeviceNotRegisteredException":
+            self = .deviceNotRegisteredException(message: message)
         case "NameInUseException":
             self = .nameInUseException(message: message)
+        case "InvalidUserStatusException":
+            self = .invalidUserStatusException(message: message)
         default:
             return nil
         }

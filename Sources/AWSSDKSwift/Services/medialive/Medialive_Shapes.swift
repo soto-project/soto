@@ -5,43 +5,6 @@ import AWSSDKSwiftCore
 
 extension Medialive {
 
-    public struct HlsInputSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bandwidth", location: .body(locationName: "bandwidth"), required: false, type: .integer), 
-            AWSShapeMember(label: "RetryInterval", location: .body(locationName: "retryInterval"), required: false, type: .integer), 
-            AWSShapeMember(label: "Retries", location: .body(locationName: "retries"), required: false, type: .integer), 
-            AWSShapeMember(label: "BufferSegments", location: .body(locationName: "bufferSegments"), required: false, type: .integer)
-        ]
-        /// When specified the HLS stream with the m3u8 BANDWIDTH that most closely matches this value will be chosen, otherwise the highest bandwidth stream in the m3u8 will be chosen.  The bitrate is specified in bits per second, as in an HLS manifest.
-        public let bandwidth: Int32?
-        /// The number of seconds between retries when an attempt to read a manifest or segment fails.
-        public let retryInterval: Int32?
-        /// The number of consecutive times that attempts to read a manifest or segment must fail before the input is considered unavailable.
-        public let retries: Int32?
-        /// When specified, reading of the HLS input will begin this many buffer segments from the end (most recently written segment).  When not specified, the HLS input will begin with the first segment specified in the m3u8.
-        public let bufferSegments: Int32?
-
-        public init(bandwidth: Int32? = nil, retryInterval: Int32? = nil, retries: Int32? = nil, bufferSegments: Int32? = nil) {
-            self.bandwidth = bandwidth
-            self.retryInterval = retryInterval
-            self.retries = retries
-            self.bufferSegments = bufferSegments
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bandwidth = "bandwidth"
-            case retryInterval = "retryInterval"
-            case retries = "retries"
-            case bufferSegments = "bufferSegments"
-        }
-    }
-
-    public enum HlsWebdavHttpTransferMode: String, CustomStringConvertible, Codable {
-        case chunked = "CHUNKED"
-        case nonChunked = "NON_CHUNKED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InternalServiceError: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
@@ -55,71 +18,6 @@ extension Medialive {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
         }
-    }
-
-    public enum H264GopSizeUnits: String, CustomStringConvertible, Codable {
-        case frames = "FRAMES"
-        case seconds = "SECONDS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct InputLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Uri", location: .body(locationName: "uri"), required: false, type: .string), 
-            AWSShapeMember(label: "PasswordParam", location: .body(locationName: "passwordParam"), required: false, type: .string), 
-            AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
-        ]
-        /// Uniform Resource Identifier - This should be a path to a file accessible to the Live system (eg. a http:// URI) depending on the output type. For example, a rtmpEndpoint should have a uri simliar to: "rtmp://fmsserver/live".
-        public let uri: String?
-        /// key used to extract the password from EC2 Parameter store
-        public let passwordParam: String?
-        /// Username if credentials are required to access a file or publishing point.  This can be either a plaintext username, or a reference to an AWS parameter store name from which the username can be retrieved.  AWS Parameter store format: "ssm://"
-        public let username: String?
-
-        public init(uri: String? = nil, passwordParam: String? = nil, username: String? = nil) {
-            self.uri = uri
-            self.passwordParam = passwordParam
-            self.username = username
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case uri = "uri"
-            case passwordParam = "passwordParam"
-            case username = "username"
-        }
-    }
-
-    public struct InputSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PasswordParam", location: .body(locationName: "passwordParam"), required: false, type: .string), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
-            AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
-        ]
-        /// key used to extract the password from EC2 Parameter store
-        public let passwordParam: String?
-        /// This represents the customer's source URL where stream is
-        /// pulled from.
-        public let url: String?
-        /// username for input source
-        public let username: String?
-
-        public init(passwordParam: String? = nil, url: String? = nil, username: String? = nil) {
-            self.passwordParam = passwordParam
-            self.url = url
-            self.username = username
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case passwordParam = "passwordParam"
-            case url = "url"
-            case username = "username"
-        }
-    }
-
-    public enum AudioNormalizationAlgorithm: String, CustomStringConvertible, Codable {
-        case itu17701 = "ITU_1770_1"
-        case itu17702 = "ITU_1770_2"
-        public var description: String { return self.rawValue }
     }
 
     public enum Ac3BitstreamMode: String, CustomStringConvertible, Codable {
@@ -137,18 +35,18 @@ extension Medialive {
     public struct RemixSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChannelsOut", location: .body(locationName: "channelsOut"), required: false, type: .integer), 
-            AWSShapeMember(label: "ChannelMappings", location: .body(locationName: "channelMappings"), required: false, type: .list), 
+            AWSShapeMember(label: "ChannelMappings", location: .body(locationName: "channelMappings"), required: true, type: .list), 
             AWSShapeMember(label: "ChannelsIn", location: .body(locationName: "channelsIn"), required: false, type: .integer)
         ]
         /// Number of output channels to be produced.
         /// Valid values: 1, 2, 4, 6, 8
         public let channelsOut: Int32?
         /// Mapping of input channels to output channels, with appropriate gain adjustments.
-        public let channelMappings: [AudioChannelMapping]?
+        public let channelMappings: [AudioChannelMapping]
         /// Number of input channels to be used.
         public let channelsIn: Int32?
 
-        public init(channelsOut: Int32? = nil, channelMappings: [AudioChannelMapping]? = nil, channelsIn: Int32? = nil) {
+        public init(channelsOut: Int32? = nil, channelMappings: [AudioChannelMapping], channelsIn: Int32? = nil) {
             self.channelsOut = channelsOut
             self.channelMappings = channelMappings
             self.channelsIn = channelsIn
@@ -166,8 +64,8 @@ extension Medialive {
             AWSShapeMember(label: "ConnectionRetryInterval", location: .body(locationName: "connectionRetryInterval"), required: false, type: .integer), 
             AWSShapeMember(label: "Token", location: .body(locationName: "token"), required: false, type: .string), 
             AWSShapeMember(label: "HttpTransferMode", location: .body(locationName: "httpTransferMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "RestartDelay", location: .body(locationName: "restartDelay"), required: false, type: .integer), 
             AWSShapeMember(label: "FilecacheDuration", location: .body(locationName: "filecacheDuration"), required: false, type: .integer), 
+            AWSShapeMember(label: "RestartDelay", location: .body(locationName: "restartDelay"), required: false, type: .integer), 
             AWSShapeMember(label: "Salt", location: .body(locationName: "salt"), required: false, type: .string), 
             AWSShapeMember(label: "NumRetries", location: .body(locationName: "numRetries"), required: false, type: .integer)
         ]
@@ -177,21 +75,21 @@ extension Medialive {
         public let token: String?
         /// Specify whether or not to use chunked transfer encoding to Akamai. User should contact Akamai to enable this feature.
         public let httpTransferMode: HlsAkamaiHttpTransferMode?
-        /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
-        public let restartDelay: Int32?
         /// Size in seconds of file cache for streaming outputs.
         public let filecacheDuration: Int32?
+        /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
+        public let restartDelay: Int32?
         /// Salt for authenticated Akamai.
         public let salt: String?
         /// Number of retry attempts that will be made before the Live Event is put into an error state.
         public let numRetries: Int32?
 
-        public init(connectionRetryInterval: Int32? = nil, token: String? = nil, httpTransferMode: HlsAkamaiHttpTransferMode? = nil, restartDelay: Int32? = nil, filecacheDuration: Int32? = nil, salt: String? = nil, numRetries: Int32? = nil) {
+        public init(connectionRetryInterval: Int32? = nil, token: String? = nil, httpTransferMode: HlsAkamaiHttpTransferMode? = nil, filecacheDuration: Int32? = nil, restartDelay: Int32? = nil, salt: String? = nil, numRetries: Int32? = nil) {
             self.connectionRetryInterval = connectionRetryInterval
             self.token = token
             self.httpTransferMode = httpTransferMode
-            self.restartDelay = restartDelay
             self.filecacheDuration = filecacheDuration
+            self.restartDelay = restartDelay
             self.salt = salt
             self.numRetries = numRetries
         }
@@ -200,8 +98,8 @@ extension Medialive {
             case connectionRetryInterval = "connectionRetryInterval"
             case token = "token"
             case httpTransferMode = "httpTransferMode"
-            case restartDelay = "restartDelay"
             case filecacheDuration = "filecacheDuration"
+            case restartDelay = "restartDelay"
             case salt = "salt"
             case numRetries = "numRetries"
         }
@@ -220,18 +118,6 @@ extension Medialive {
         private enum CodingKeys: String, CodingKey {
             case input = "input"
         }
-    }
-
-    public enum M2tsAudioStreamType: String, CustomStringConvertible, Codable {
-        case atsc = "ATSC"
-        case dvb = "DVB"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Scte20Convert608To708: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case upconvert = "UPCONVERT"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateInputRequest: AWSShape {
@@ -288,41 +174,9 @@ extension Medialive {
         }
     }
 
-    public struct TtmlDestinationSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StyleControl", location: .body(locationName: "styleControl"), required: false, type: .enum)
-        ]
-        /// When set to passthrough, passes through style and position information from a TTML-like input source (TTML, SMPTE-TT, CFF-TT) to the CFF-TT output or TTML output.
-        public let styleControl: TtmlDestinationStyleControl?
-
-        public init(styleControl: TtmlDestinationStyleControl? = nil) {
-            self.styleControl = styleControl
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case styleControl = "styleControl"
-        }
-    }
-
-    public struct DeleteInputResponse: AWSShape {
-
-    }
-
     public enum H264SceneChangeDetect: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Scte35AposNoRegionalBlackoutBehavior: String, CustomStringConvertible, Codable {
-        case follow = "FOLLOW"
-        case ignore = "IGNORE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Scte35SpliceInsertWebDeliveryAllowedBehavior: String, CustomStringConvertible, Codable {
-        case follow = "FOLLOW"
-        case ignore = "IGNORE"
         public var description: String { return self.rawValue }
     }
 
@@ -341,140 +195,10 @@ extension Medialive {
         }
     }
 
-    public struct Eac3Settings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LtRtCenterMixLevel", location: .body(locationName: "ltRtCenterMixLevel"), required: false, type: .double), 
-            AWSShapeMember(label: "LfeControl", location: .body(locationName: "lfeControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "Dialnorm", location: .body(locationName: "dialnorm"), required: false, type: .integer), 
-            AWSShapeMember(label: "DcFilter", location: .body(locationName: "dcFilter"), required: false, type: .enum), 
-            AWSShapeMember(label: "LtRtSurroundMixLevel", location: .body(locationName: "ltRtSurroundMixLevel"), required: false, type: .double), 
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .double), 
-            AWSShapeMember(label: "SurroundExMode", location: .body(locationName: "surroundExMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "MetadataControl", location: .body(locationName: "metadataControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "DrcRf", location: .body(locationName: "drcRf"), required: false, type: .enum), 
-            AWSShapeMember(label: "SurroundMode", location: .body(locationName: "surroundMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "LfeFilter", location: .body(locationName: "lfeFilter"), required: false, type: .enum), 
-            AWSShapeMember(label: "DrcLine", location: .body(locationName: "drcLine"), required: false, type: .enum), 
-            AWSShapeMember(label: "BitstreamMode", location: .body(locationName: "bitstreamMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "PassthroughControl", location: .body(locationName: "passthroughControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "LoRoSurroundMixLevel", location: .body(locationName: "loRoSurroundMixLevel"), required: false, type: .double), 
-            AWSShapeMember(label: "LoRoCenterMixLevel", location: .body(locationName: "loRoCenterMixLevel"), required: false, type: .double), 
-            AWSShapeMember(label: "PhaseControl", location: .body(locationName: "phaseControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "AttenuationControl", location: .body(locationName: "attenuationControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "StereoDownmix", location: .body(locationName: "stereoDownmix"), required: false, type: .enum)
-        ]
-        /// Left total/Right total center mix level. Only used for 3/2 coding mode.
-        public let ltRtCenterMixLevel: Double?
-        /// When encoding 3/2 audio, setting to lfe enables the LFE channel
-        public let lfeControl: Eac3LfeControl?
-        /// Sets the dialnorm for the output. If blank and input audio is Dolby Digital Plus, dialnorm will be passed through.
-        public let dialnorm: Int32?
-        /// When set to enabled, activates a DC highpass filter for all input channels.
-        public let dcFilter: Eac3DcFilter?
-        /// Left total/Right total surround mix level. Only used for 3/2 coding mode.
-        public let ltRtSurroundMixLevel: Double?
-        /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
-        public let bitrate: Double?
-        /// When encoding 3/2 audio, sets whether an extra center back surround channel is matrix encoded into the left and right surround channels.
-        public let surroundExMode: Eac3SurroundExMode?
-        /// When set to followInput, encoder metadata will be sourced from the DD, DD+, or DolbyE decoder that supplied this audio data. If audio was not supplied from one of these streams, then the static metadata settings will be used.
-        public let metadataControl: Eac3MetadataControl?
-        /// Sets the profile for heavy Dolby dynamic range compression, ensures that the instantaneous signal peaks do not exceed specified levels.
-        public let drcRf: Eac3DrcRf?
-        /// When encoding 2/0 audio, sets whether Dolby Surround is matrix encoded into the two channels.
-        public let surroundMode: Eac3SurroundMode?
-        /// Dolby Digital Plus coding mode. Determines number of channels.
-        public let codingMode: Eac3CodingMode?
-        /// When set to enabled, applies a 120Hz lowpass filter to the LFE channel prior to encoding. Only valid with codingMode32 coding mode.
-        public let lfeFilter: Eac3LfeFilter?
-        /// Sets the Dolby dynamic range compression profile.
-        public let drcLine: Eac3DrcLine?
-        /// Specifies the bitstream mode (bsmod) for the emitted E-AC-3 stream. See ATSC A/52-2012 (Annex E) for background on these values.
-        public let bitstreamMode: Eac3BitstreamMode?
-        /// When set to whenPossible, input DD+ audio will be passed through if it is present on the input. This detection is dynamic over the life of the transcode. Inputs that alternate between DD+ and non-DD+ content will have a consistent DD+ output as the system alternates between passthrough and encoding.
-        public let passthroughControl: Eac3PassthroughControl?
-        /// Left only/Right only surround mix level. Only used for 3/2 coding mode.
-        public let loRoSurroundMixLevel: Double?
-        /// Left only/Right only center mix level. Only used for 3/2 coding mode.
-        public let loRoCenterMixLevel: Double?
-        /// When set to shift90Degrees, applies a 90-degree phase shift to the surround channels. Only used for 3/2 coding mode.
-        public let phaseControl: Eac3PhaseControl?
-        /// When set to attenuate3Db, applies a 3 dB attenuation to the surround channels. Only used for 3/2 coding mode.
-        public let attenuationControl: Eac3AttenuationControl?
-        /// Stereo downmix preference. Only used for 3/2 coding mode.
-        public let stereoDownmix: Eac3StereoDownmix?
-
-        public init(ltRtCenterMixLevel: Double? = nil, lfeControl: Eac3LfeControl? = nil, dialnorm: Int32? = nil, dcFilter: Eac3DcFilter? = nil, ltRtSurroundMixLevel: Double? = nil, bitrate: Double? = nil, surroundExMode: Eac3SurroundExMode? = nil, metadataControl: Eac3MetadataControl? = nil, drcRf: Eac3DrcRf? = nil, surroundMode: Eac3SurroundMode? = nil, codingMode: Eac3CodingMode? = nil, lfeFilter: Eac3LfeFilter? = nil, drcLine: Eac3DrcLine? = nil, bitstreamMode: Eac3BitstreamMode? = nil, passthroughControl: Eac3PassthroughControl? = nil, loRoSurroundMixLevel: Double? = nil, loRoCenterMixLevel: Double? = nil, phaseControl: Eac3PhaseControl? = nil, attenuationControl: Eac3AttenuationControl? = nil, stereoDownmix: Eac3StereoDownmix? = nil) {
-            self.ltRtCenterMixLevel = ltRtCenterMixLevel
-            self.lfeControl = lfeControl
-            self.dialnorm = dialnorm
-            self.dcFilter = dcFilter
-            self.ltRtSurroundMixLevel = ltRtSurroundMixLevel
-            self.bitrate = bitrate
-            self.surroundExMode = surroundExMode
-            self.metadataControl = metadataControl
-            self.drcRf = drcRf
-            self.surroundMode = surroundMode
-            self.codingMode = codingMode
-            self.lfeFilter = lfeFilter
-            self.drcLine = drcLine
-            self.bitstreamMode = bitstreamMode
-            self.passthroughControl = passthroughControl
-            self.loRoSurroundMixLevel = loRoSurroundMixLevel
-            self.loRoCenterMixLevel = loRoCenterMixLevel
-            self.phaseControl = phaseControl
-            self.attenuationControl = attenuationControl
-            self.stereoDownmix = stereoDownmix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ltRtCenterMixLevel = "ltRtCenterMixLevel"
-            case lfeControl = "lfeControl"
-            case dialnorm = "dialnorm"
-            case dcFilter = "dcFilter"
-            case ltRtSurroundMixLevel = "ltRtSurroundMixLevel"
-            case bitrate = "bitrate"
-            case surroundExMode = "surroundExMode"
-            case metadataControl = "metadataControl"
-            case drcRf = "drcRf"
-            case surroundMode = "surroundMode"
-            case codingMode = "codingMode"
-            case lfeFilter = "lfeFilter"
-            case drcLine = "drcLine"
-            case bitstreamMode = "bitstreamMode"
-            case passthroughControl = "passthroughControl"
-            case loRoSurroundMixLevel = "loRoSurroundMixLevel"
-            case loRoCenterMixLevel = "loRoCenterMixLevel"
-            case phaseControl = "phaseControl"
-            case attenuationControl = "attenuationControl"
-            case stereoDownmix = "stereoDownmix"
-        }
-    }
-
-    public struct OutputGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"), required: false, type: .list), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "OutputGroupSettings", location: .body(locationName: "outputGroupSettings"), required: false, type: .structure)
-        ]
-        public let outputs: [Output]?
-        /// Custom output group name optionally defined by the user.  Only letters, numbers, and the underscore character allowed; only 32 characters allowed.
-        public let name: String?
-        /// Settings associated with the output group.
-        public let outputGroupSettings: OutputGroupSettings?
-
-        public init(outputs: [Output]? = nil, name: String? = nil, outputGroupSettings: OutputGroupSettings? = nil) {
-            self.outputs = outputs
-            self.name = name
-            self.outputGroupSettings = outputGroupSettings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case outputs = "outputs"
-            case name = "name"
-            case outputGroupSettings = "outputGroupSettings"
-        }
+    public enum Scte35SpliceInsertWebDeliveryAllowedBehavior: String, CustomStringConvertible, Codable {
+        case follow = "FOLLOW"
+        case ignore = "IGNORE"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateInputSecurityGroupResponse: AWSShape {
@@ -492,65 +216,6 @@ extension Medialive {
         }
     }
 
-    public enum AudioDescriptionAudioTypeControl: String, CustomStringConvertible, Codable {
-        case followInput = "FOLLOW_INPUT"
-        case useConfigured = "USE_CONFIGURED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Ac3LfeFilter: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BurnInAlignment: String, CustomStringConvertible, Codable {
-        case centered = "CENTERED"
-        case left = "LEFT"
-        case smart = "SMART"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GlobalConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputEndAction", location: .body(locationName: "inputEndAction"), required: false, type: .enum), 
-            AWSShapeMember(label: "InputLossBehavior", location: .body(locationName: "inputLossBehavior"), required: false, type: .structure), 
-            AWSShapeMember(label: "SupportLowFramerateInputs", location: .body(locationName: "supportLowFramerateInputs"), required: false, type: .enum), 
-            AWSShapeMember(label: "OutputTimingSource", location: .body(locationName: "outputTimingSource"), required: false, type: .enum), 
-            AWSShapeMember(label: "InitialAudioGain", location: .body(locationName: "initialAudioGain"), required: false, type: .integer)
-        ]
-        /// Indicates the action to take when an input completes (e.g. end-of-file.) Options include immediately switching to the next sequential input (via "switchInput"), switching to the next input and looping back to the first input when last input ends (via "switchAndLoopInputs") or not switching inputs and instead transcoding black / color / slate images per the "Input Loss Behavior" configuration until an activateInput REST command is received (via "none").
-        public let inputEndAction: GlobalConfigurationInputEndAction?
-        /// Settings for system actions when input is lost.
-        public let inputLossBehavior: InputLossBehavior?
-        /// Adjusts video input buffer for streams with very low video framerates. This is commonly set to enabled for music channels with less than one video frame per second.
-        public let supportLowFramerateInputs: GlobalConfigurationLowFramerateInputs?
-        /// Indicates whether the rate of frames emitted by the Live encoder should be paced by its system clock (which optionally may be locked to another source via NTP) or should be locked to the clock of the source that is providing the input stream.
-        public let outputTimingSource: GlobalConfigurationOutputTimingSource?
-        /// Value to set the initial audio gain for the Live Event.
-        public let initialAudioGain: Int32?
-
-        public init(inputEndAction: GlobalConfigurationInputEndAction? = nil, inputLossBehavior: InputLossBehavior? = nil, supportLowFramerateInputs: GlobalConfigurationLowFramerateInputs? = nil, outputTimingSource: GlobalConfigurationOutputTimingSource? = nil, initialAudioGain: Int32? = nil) {
-            self.inputEndAction = inputEndAction
-            self.inputLossBehavior = inputLossBehavior
-            self.supportLowFramerateInputs = supportLowFramerateInputs
-            self.outputTimingSource = outputTimingSource
-            self.initialAudioGain = initialAudioGain
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputEndAction = "inputEndAction"
-            case inputLossBehavior = "inputLossBehavior"
-            case supportLowFramerateInputs = "supportLowFramerateInputs"
-            case outputTimingSource = "outputTimingSource"
-            case initialAudioGain = "initialAudioGain"
-        }
-    }
-
-    public struct AribSourceSettings: AWSShape {
-
-    }
-
     public enum Ac3CodingMode: String, CustomStringConvertible, Codable {
         case codingMode10 = "CODING_MODE_1_0"
         case codingMode11 = "CODING_MODE_1_1"
@@ -559,9 +224,10 @@ extension Medialive {
         public var description: String { return self.rawValue }
     }
 
-    public enum EmbeddedScte20Detection: String, CustomStringConvertible, Codable {
-        case auto = "AUTO"
-        case off = "OFF"
+    public enum ReservationMaximumBitrate: String, CustomStringConvertible, Codable {
+        case max10Mbps = "MAX_10_MBPS"
+        case max20Mbps = "MAX_20_MBPS"
+        case max50Mbps = "MAX_50_MBPS"
         public var description: String { return self.rawValue }
     }
 
@@ -572,50 +238,10 @@ extension Medialive {
         public var description: String { return self.rawValue }
     }
 
-    public struct Scte27DestinationSettings: AWSShape {
-
-    }
-
-    public struct AudioPidSelection: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Pid", location: .body(locationName: "pid"), required: false, type: .integer)
-        ]
-        /// Selects a specific PID from within a source.
-        public let pid: Int32?
-
-        public init(pid: Int32? = nil) {
-            self.pid = pid
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pid = "pid"
-        }
-    }
-
-    public enum InputFilter: String, CustomStringConvertible, Codable {
-        case auto = "AUTO"
-        case disabled = "DISABLED"
-        case forced = "FORCED"
-        public var description: String { return self.rawValue }
-    }
-
     public enum InputLossActionForUdpOut: String, CustomStringConvertible, Codable {
         case dropProgram = "DROP_PROGRAM"
         case dropTs = "DROP_TS"
         case emitProgram = "EMIT_PROGRAM"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3SurroundMode: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        case notIndicated = "NOT_INDICATED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum M2tsKlv: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
@@ -625,245 +251,30 @@ extension Medialive {
         public var description: String { return self.rawValue }
     }
 
-    public struct Scte20SourceSettings: AWSShape {
+    public struct ListOfferingsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Source608ChannelNumber", location: .body(locationName: "source608ChannelNumber"), required: false, type: .integer), 
-            AWSShapeMember(label: "Convert608To708", location: .body(locationName: "convert608To708"), required: false, type: .enum)
+            AWSShapeMember(label: "Offerings", location: .body(locationName: "offerings"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
-        /// Specifies the 608/708 channel number within the video track from which to extract captions. Unused for passthrough.
-        public let source608ChannelNumber: Int32?
-        /// If upconvert, 608 data is both passed through via the "608 compatibility bytes" fields of the 708 wrapper as well as translated into 708. 708 data present in the source content will be discarded.
-        public let convert608To708: Scte20Convert608To708?
+        public let offerings: [Offering]?
+        public let nextToken: String?
 
-        public init(source608ChannelNumber: Int32? = nil, convert608To708: Scte20Convert608To708? = nil) {
-            self.source608ChannelNumber = source608ChannelNumber
-            self.convert608To708 = convert608To708
+        public init(offerings: [Offering]? = nil, nextToken: String? = nil) {
+            self.offerings = offerings
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case source608ChannelNumber = "source608ChannelNumber"
-            case convert608To708 = "convert608To708"
+            case offerings = "offerings"
+            case nextToken = "nextToken"
         }
     }
 
-    public struct InputChannelLevel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputChannel", location: .body(locationName: "inputChannel"), required: false, type: .integer), 
-            AWSShapeMember(label: "Gain", location: .body(locationName: "gain"), required: false, type: .integer)
-        ]
-        /// The index of the input channel used as a source.
-        public let inputChannel: Int32?
-        /// Remixing value. Units are in dB and acceptable values are within the range from -60 (mute) and 6 dB.
-        public let gain: Int32?
-
-        public init(inputChannel: Int32? = nil, gain: Int32? = nil) {
-            self.inputChannel = inputChannel
-            self.gain = gain
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputChannel = "inputChannel"
-            case gain = "gain"
-        }
-    }
-
-    public struct VideoSelector: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ColorSpace", location: .body(locationName: "colorSpace"), required: false, type: .enum), 
-            AWSShapeMember(label: "ColorSpaceUsage", location: .body(locationName: "colorSpaceUsage"), required: false, type: .enum), 
-            AWSShapeMember(label: "SelectorSettings", location: .body(locationName: "selectorSettings"), required: false, type: .structure)
-        ]
-        /// Specifies the colorspace of an input. This setting works in tandem with colorSpaceConversion to determine if any conversion will be performed.
-        public let colorSpace: VideoSelectorColorSpace?
-        /// Applies only if colorSpace is a value other than follow. This field controls how the value in the colorSpace field will be used. fallback means that when the input does include color space data, that data will be used, but when the input has no color space data, the value in colorSpace will be used. Choose fallback if your input is sometimes missing color space data, but when it does have color space data, that data is correct. force means to always use the value in colorSpace. Choose force if your input usually has no color space data or might have unreliable color space data.
-        public let colorSpaceUsage: VideoSelectorColorSpaceUsage?
-        /// The video selector settings.
-        public let selectorSettings: VideoSelectorSettings?
-
-        public init(colorSpace: VideoSelectorColorSpace? = nil, colorSpaceUsage: VideoSelectorColorSpaceUsage? = nil, selectorSettings: VideoSelectorSettings? = nil) {
-            self.colorSpace = colorSpace
-            self.colorSpaceUsage = colorSpaceUsage
-            self.selectorSettings = selectorSettings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case colorSpace = "colorSpace"
-            case colorSpaceUsage = "colorSpaceUsage"
-            case selectorSettings = "selectorSettings"
-        }
-    }
-
-    public enum ChannelState: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case createFailed = "CREATE_FAILED"
-        case idle = "IDLE"
-        case starting = "STARTING"
-        case running = "RUNNING"
-        case recovering = "RECOVERING"
-        case stopping = "STOPPING"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
+    public enum InputResolution: String, CustomStringConvertible, Codable {
+        case sd = "SD"
+        case hd = "HD"
+        case uhd = "UHD"
         public var description: String { return self.rawValue }
-    }
-
-    public struct DvbSubSourceSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Pid", location: .body(locationName: "pid"), required: false, type: .integer)
-        ]
-        /// When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
-        public let pid: Int32?
-
-        public init(pid: Int32? = nil) {
-            self.pid = pid
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pid = "pid"
-        }
-    }
-
-    public enum Eac3DrcRf: String, CustomStringConvertible, Codable {
-        case filmLight = "FILM_LIGHT"
-        case filmStandard = "FILM_STANDARD"
-        case musicLight = "MUSIC_LIGHT"
-        case musicStandard = "MUSIC_STANDARD"
-        case none = "NONE"
-        case speech = "SPEECH"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct HlsBasicPutSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionRetryInterval", location: .body(locationName: "connectionRetryInterval"), required: false, type: .integer), 
-            AWSShapeMember(label: "FilecacheDuration", location: .body(locationName: "filecacheDuration"), required: false, type: .integer), 
-            AWSShapeMember(label: "NumRetries", location: .body(locationName: "numRetries"), required: false, type: .integer), 
-            AWSShapeMember(label: "RestartDelay", location: .body(locationName: "restartDelay"), required: false, type: .integer)
-        ]
-        /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
-        public let connectionRetryInterval: Int32?
-        /// Size in seconds of file cache for streaming outputs.
-        public let filecacheDuration: Int32?
-        /// Number of retry attempts that will be made before the Live Event is put into an error state.
-        public let numRetries: Int32?
-        /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
-        public let restartDelay: Int32?
-
-        public init(connectionRetryInterval: Int32? = nil, filecacheDuration: Int32? = nil, numRetries: Int32? = nil, restartDelay: Int32? = nil) {
-            self.connectionRetryInterval = connectionRetryInterval
-            self.filecacheDuration = filecacheDuration
-            self.numRetries = numRetries
-            self.restartDelay = restartDelay
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectionRetryInterval = "connectionRetryInterval"
-            case filecacheDuration = "filecacheDuration"
-            case numRetries = "numRetries"
-            case restartDelay = "restartDelay"
-        }
-    }
-
-    public enum UdpTimedMetadataId3Frame: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case priv = "PRIV"
-        case tdrl = "TDRL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DvbSubDestinationSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackgroundColor", location: .body(locationName: "backgroundColor"), required: false, type: .enum), 
-            AWSShapeMember(label: "BackgroundOpacity", location: .body(locationName: "backgroundOpacity"), required: false, type: .integer), 
-            AWSShapeMember(label: "YPosition", location: .body(locationName: "yPosition"), required: false, type: .integer), 
-            AWSShapeMember(label: "FontOpacity", location: .body(locationName: "fontOpacity"), required: false, type: .integer), 
-            AWSShapeMember(label: "ShadowXOffset", location: .body(locationName: "shadowXOffset"), required: false, type: .integer), 
-            AWSShapeMember(label: "FontSize", location: .body(locationName: "fontSize"), required: false, type: .string), 
-            AWSShapeMember(label: "Alignment", location: .body(locationName: "alignment"), required: false, type: .enum), 
-            AWSShapeMember(label: "XPosition", location: .body(locationName: "xPosition"), required: false, type: .integer), 
-            AWSShapeMember(label: "ShadowOpacity", location: .body(locationName: "shadowOpacity"), required: false, type: .integer), 
-            AWSShapeMember(label: "FontColor", location: .body(locationName: "fontColor"), required: false, type: .enum), 
-            AWSShapeMember(label: "OutlineColor", location: .body(locationName: "outlineColor"), required: false, type: .enum), 
-            AWSShapeMember(label: "ShadowColor", location: .body(locationName: "shadowColor"), required: false, type: .enum), 
-            AWSShapeMember(label: "ShadowYOffset", location: .body(locationName: "shadowYOffset"), required: false, type: .integer), 
-            AWSShapeMember(label: "FontResolution", location: .body(locationName: "fontResolution"), required: false, type: .integer), 
-            AWSShapeMember(label: "Font", location: .body(locationName: "font"), required: false, type: .structure), 
-            AWSShapeMember(label: "OutlineSize", location: .body(locationName: "outlineSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "TeletextGridControl", location: .body(locationName: "teletextGridControl"), required: false, type: .enum)
-        ]
-        /// Specifies the color of the rectangle behind the captions.  All burn-in and DVB-Sub font settings must match.
-        public let backgroundColor: DvbSubDestinationBackgroundColor?
-        /// Specifies the opacity of the background rectangle. 255 is opaque; 0 is transparent. Leaving this parameter blank is equivalent to setting it to 0 (transparent).  All burn-in and DVB-Sub font settings must match.
-        public let backgroundOpacity: Int32?
-        /// Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit yPosition is provided, the caption will be positioned towards the bottom of the output.  This option is not valid for source captions that are STL, 608/embedded or teletext.  These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
-        public let yPosition: Int32?
-        /// Specifies the opacity of the burned-in captions. 255 is opaque; 0 is transparent.  All burn-in and DVB-Sub font settings must match.
-        public let fontOpacity: Int32?
-        /// Specifies the horizontal offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels to the left.  All burn-in and DVB-Sub font settings must match.
-        public let shadowXOffset: Int32?
-        /// When set to auto fontSize will scale depending on the size of the output.  Giving a positive integer will specify the exact font size in points.  All burn-in and DVB-Sub font settings must match.
-        public let fontSize: String?
-        /// If no explicit xPosition or yPosition is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. Selecting "smart" justification will left-justify live subtitles and center-justify pre-recorded subtitles.  This option is not valid for source captions that are STL or 608/embedded.  These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
-        public let alignment: DvbSubDestinationAlignment?
-        /// Specifies the horizontal position of the caption relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit xPosition is provided, the horizontal caption position will be determined by the alignment parameter.  This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
-        public let xPosition: Int32?
-        /// Specifies the opacity of the shadow. 255 is opaque; 0 is transparent. Leaving this parameter blank is equivalent to setting it to 0 (transparent).  All burn-in and DVB-Sub font settings must match.
-        public let shadowOpacity: Int32?
-        /// Specifies the color of the burned-in captions.  This option is not valid for source captions that are STL, 608/embedded or teletext.  These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
-        public let fontColor: DvbSubDestinationFontColor?
-        /// Specifies font outline color. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
-        public let outlineColor: DvbSubDestinationOutlineColor?
-        /// Specifies the color of the shadow cast by the captions.  All burn-in and DVB-Sub font settings must match.
-        public let shadowColor: DvbSubDestinationShadowColor?
-        /// Specifies the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text.  All burn-in and DVB-Sub font settings must match.
-        public let shadowYOffset: Int32?
-        /// Font resolution in DPI (dots per inch); default is 96 dpi.  All burn-in and DVB-Sub font settings must match.
-        public let fontResolution: Int32?
-        /// External font file used for caption burn-in. File extension must be 'ttf' or 'tte'.  Although the user can select output fonts for many different types of input captions, embedded, STL and teletext sources use a strict grid system. Using external fonts with these caption sources could cause unexpected display of proportional fonts.  All burn-in and DVB-Sub font settings must match.
-        public let font: InputLocation?
-        /// Specifies font outline size in pixels. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
-        public let outlineSize: Int32?
-        /// Controls whether a fixed grid size will be used to generate the output subtitles bitmap. Only applicable for Teletext inputs and DVB-Sub/Burn-in outputs.
-        public let teletextGridControl: DvbSubDestinationTeletextGridControl?
-
-        public init(backgroundColor: DvbSubDestinationBackgroundColor? = nil, backgroundOpacity: Int32? = nil, yPosition: Int32? = nil, fontOpacity: Int32? = nil, shadowXOffset: Int32? = nil, fontSize: String? = nil, alignment: DvbSubDestinationAlignment? = nil, xPosition: Int32? = nil, shadowOpacity: Int32? = nil, fontColor: DvbSubDestinationFontColor? = nil, outlineColor: DvbSubDestinationOutlineColor? = nil, shadowColor: DvbSubDestinationShadowColor? = nil, shadowYOffset: Int32? = nil, fontResolution: Int32? = nil, font: InputLocation? = nil, outlineSize: Int32? = nil, teletextGridControl: DvbSubDestinationTeletextGridControl? = nil) {
-            self.backgroundColor = backgroundColor
-            self.backgroundOpacity = backgroundOpacity
-            self.yPosition = yPosition
-            self.fontOpacity = fontOpacity
-            self.shadowXOffset = shadowXOffset
-            self.fontSize = fontSize
-            self.alignment = alignment
-            self.xPosition = xPosition
-            self.shadowOpacity = shadowOpacity
-            self.fontColor = fontColor
-            self.outlineColor = outlineColor
-            self.shadowColor = shadowColor
-            self.shadowYOffset = shadowYOffset
-            self.fontResolution = fontResolution
-            self.font = font
-            self.outlineSize = outlineSize
-            self.teletextGridControl = teletextGridControl
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case backgroundColor = "backgroundColor"
-            case backgroundOpacity = "backgroundOpacity"
-            case yPosition = "yPosition"
-            case fontOpacity = "fontOpacity"
-            case shadowXOffset = "shadowXOffset"
-            case fontSize = "fontSize"
-            case alignment = "alignment"
-            case xPosition = "xPosition"
-            case shadowOpacity = "shadowOpacity"
-            case fontColor = "fontColor"
-            case outlineColor = "outlineColor"
-            case shadowColor = "shadowColor"
-            case shadowYOffset = "shadowYOffset"
-            case fontResolution = "fontResolution"
-            case font = "font"
-            case outlineSize = "outlineSize"
-            case teletextGridControl = "teletextGridControl"
-        }
     }
 
     public struct ListInputsRequest: AWSShape {
@@ -882,6 +293,39 @@ extension Medialive {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case maxResults = "maxResults"
+        }
+    }
+
+    public struct UpdateInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "InputSecurityGroups", location: .body(locationName: "inputSecurityGroups"), required: false, type: .list), 
+            AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: false, type: .list), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+        ]
+        /// Destination settings for PUSH type inputs.
+        public let destinations: [InputDestinationRequest]?
+        /// A list of security groups referenced by IDs to attach to the input.
+        public let inputSecurityGroups: [String]?
+        /// The source URLs for a PULL-type input. Every PULL type input needs
+        /// exactly two source URLs for redundancy.
+        /// Only specify sources for PULL type Inputs. Leave Destinations empty.
+        public let sources: [InputSourceRequest]?
+        /// Name of the input.
+        public let name: String?
+
+        public init(destinations: [InputDestinationRequest]? = nil, inputSecurityGroups: [String]? = nil, sources: [InputSourceRequest]? = nil, name: String? = nil) {
+            self.destinations = destinations
+            self.inputSecurityGroups = inputSecurityGroups
+            self.sources = sources
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+            case inputSecurityGroups = "inputSecurityGroups"
+            case sources = "sources"
+            case name = "name"
         }
     }
 
@@ -908,46 +352,6 @@ extension Medialive {
             case includeFec = "includeFec"
             case columnDepth = "columnDepth"
             case rowLength = "rowLength"
-        }
-    }
-
-    public enum Eac3LfeFilter: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AudioOnlyHlsSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioTrackType", location: .body(locationName: "audioTrackType"), required: false, type: .enum), 
-            AWSShapeMember(label: "AudioGroupId", location: .body(locationName: "audioGroupId"), required: false, type: .string), 
-            AWSShapeMember(label: "AudioOnlyImage", location: .body(locationName: "audioOnlyImage"), required: false, type: .structure)
-        ]
-        /// Four types of audio-only tracks are supported:
-        /// Audio-Only Variant Stream
-        /// The client can play back this audio-only stream instead of video in low-bandwidth scenarios. Represented as an EXT-X-STREAM-INF in the HLS manifest.
-        /// Alternate Audio, Auto Select, Default
-        /// Alternate rendition that the client should try to play back by default. Represented as an EXT-X-MEDIA in the HLS manifest with DEFAULT=YES, AUTOSELECT=YES
-        /// Alternate Audio, Auto Select, Not Default
-        /// Alternate rendition that the client may try to play back by default. Represented as an EXT-X-MEDIA in the HLS manifest with DEFAULT=NO, AUTOSELECT=YES
-        /// Alternate Audio, not Auto Select
-        /// Alternate rendition that the client will not try to play back by default. Represented as an EXT-X-MEDIA in the HLS manifest with DEFAULT=NO, AUTOSELECT=NO
-        public let audioTrackType: AudioOnlyHlsTrackType?
-        /// Specifies the group to which the audio Rendition belongs.
-        public let audioGroupId: String?
-        /// For use with an audio only Stream. Must be a .jpg or .png file. If given, this image will be used as the cover-art for the audio only output. Ideally, it should be formatted for an iPhone screen for two reasons. The iPhone does not resize the image, it crops a centered image on the top/bottom and left/right. Additionally, this image file gets saved bit-for-bit into every 10-second segment file, so will increase bandwidth by {image file size} * {segment count} * {user count.}.
-        public let audioOnlyImage: InputLocation?
-
-        public init(audioTrackType: AudioOnlyHlsTrackType? = nil, audioGroupId: String? = nil, audioOnlyImage: InputLocation? = nil) {
-            self.audioTrackType = audioTrackType
-            self.audioGroupId = audioGroupId
-            self.audioOnlyImage = audioOnlyImage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case audioTrackType = "audioTrackType"
-            case audioGroupId = "audioGroupId"
-            case audioOnlyImage = "audioOnlyImage"
         }
     }
 
@@ -1010,28 +414,6 @@ extension Medialive {
         }
     }
 
-    public enum M2tsEbpPlacement: String, CustomStringConvertible, Codable {
-        case videoAndAudioPids = "VIDEO_AND_AUDIO_PIDS"
-        case videoPid = "VIDEO_PID"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ChannelEgressEndpoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceIp", location: .body(locationName: "sourceIp"), required: false, type: .string)
-        ]
-        /// Public IP of where a channel's output comes from
-        public let sourceIp: String?
-
-        public init(sourceIp: String? = nil) {
-            self.sourceIp = sourceIp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceIp = "sourceIp"
-        }
-    }
-
     public enum SmoothGroupTimestampOffsetMode: String, CustomStringConvertible, Codable {
         case useConfiguredOffset = "USE_CONFIGURED_OFFSET"
         case useEventStartDate = "USE_EVENT_START_DATE"
@@ -1047,12 +429,6 @@ extension Medialive {
         public var description: String { return self.rawValue }
     }
 
-    public enum SmoothGroupAudioOnlyTimecodeControl: String, CustomStringConvertible, Codable {
-        case passthrough = "PASSTHROUGH"
-        case useConfiguredClock = "USE_CONFIGURED_CLOCK"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CreateChannelResultModel: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Channel", location: .body(locationName: "channel"), required: false, type: .structure)
@@ -1065,57 +441,6 @@ extension Medialive {
 
         private enum CodingKeys: String, CodingKey {
             case channel = "channel"
-        }
-    }
-
-    public struct UdpOutputSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FecOutputSettings", location: .body(locationName: "fecOutputSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "ContainerSettings", location: .body(locationName: "containerSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: false, type: .structure), 
-            AWSShapeMember(label: "BufferMsec", location: .body(locationName: "bufferMsec"), required: false, type: .integer)
-        ]
-        /// Settings for enabling and adjusting Forward Error Correction on UDP outputs.
-        public let fecOutputSettings: FecOutputSettings?
-        public let containerSettings: UdpContainerSettings?
-        /// Destination address and port number for RTP or UDP packets. Can be unicast or multicast RTP or UDP (eg. rtp://239.10.10.10:5001 or udp://10.100.100.100:5002).
-        public let destination: OutputLocationRef?
-        /// UDP output buffering in milliseconds. Larger values increase latency through the transcoder but simultaneously assist the transcoder in maintaining a constant, low-jitter UDP/RTP output while accommodating clock recovery, input switching, input disruptions, picture reordering, etc.
-        public let bufferMsec: Int32?
-
-        public init(fecOutputSettings: FecOutputSettings? = nil, containerSettings: UdpContainerSettings? = nil, destination: OutputLocationRef? = nil, bufferMsec: Int32? = nil) {
-            self.fecOutputSettings = fecOutputSettings
-            self.containerSettings = containerSettings
-            self.destination = destination
-            self.bufferMsec = bufferMsec
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fecOutputSettings = "fecOutputSettings"
-            case containerSettings = "containerSettings"
-            case destination = "destination"
-            case bufferMsec = "bufferMsec"
-        }
-    }
-
-    public struct ArchiveGroupSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RolloverInterval", location: .body(locationName: "rolloverInterval"), required: false, type: .integer), 
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: false, type: .structure)
-        ]
-        /// Number of seconds to write to archive file before closing and starting a new one.
-        public let rolloverInterval: Int32?
-        /// A directory and base filename where archive files should be written.  If the base filename portion of the URI is left blank, the base filename of the first input will be automatically inserted.
-        public let destination: OutputLocationRef?
-
-        public init(rolloverInterval: Int32? = nil, destination: OutputLocationRef? = nil) {
-            self.rolloverInterval = rolloverInterval
-            self.destination = destination
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rolloverInterval = "rolloverInterval"
-            case destination = "destination"
         }
     }
 
@@ -1140,30 +465,39 @@ extension Medialive {
         public var description: String { return self.rawValue }
     }
 
-    public struct StartChannelRequest: AWSShape {
+    public struct UdpOutputSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string)
+            AWSShapeMember(label: "FecOutputSettings", location: .body(locationName: "fecOutputSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "ContainerSettings", location: .body(locationName: "containerSettings"), required: true, type: .structure), 
+            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: true, type: .structure), 
+            AWSShapeMember(label: "BufferMsec", location: .body(locationName: "bufferMsec"), required: false, type: .integer)
         ]
-        public let channelId: String
+        /// Settings for enabling and adjusting Forward Error Correction on UDP outputs.
+        public let fecOutputSettings: FecOutputSettings?
+        public let containerSettings: UdpContainerSettings
+        /// Destination address and port number for RTP or UDP packets. Can be unicast or multicast RTP or UDP (eg. rtp://239.10.10.10:5001 or udp://10.100.100.100:5002).
+        public let destination: OutputLocationRef
+        /// UDP output buffering in milliseconds. Larger values increase latency through the transcoder but simultaneously assist the transcoder in maintaining a constant, low-jitter UDP/RTP output while accommodating clock recovery, input switching, input disruptions, picture reordering, etc.
+        public let bufferMsec: Int32?
 
-        public init(channelId: String) {
-            self.channelId = channelId
+        public init(fecOutputSettings: FecOutputSettings? = nil, containerSettings: UdpContainerSettings, destination: OutputLocationRef, bufferMsec: Int32? = nil) {
+            self.fecOutputSettings = fecOutputSettings
+            self.containerSettings = containerSettings
+            self.destination = destination
+            self.bufferMsec = bufferMsec
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelId = "channelId"
+            case fecOutputSettings = "fecOutputSettings"
+            case containerSettings = "containerSettings"
+            case destination = "destination"
+            case bufferMsec = "bufferMsec"
         }
     }
 
     public enum H264TemporalAq: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InputSourceEndBehavior: String, CustomStringConvertible, Codable {
-        case `continue` = "CONTINUE"
-        case loop = "LOOP"
         public var description: String { return self.rawValue }
     }
 
@@ -1182,67 +516,67 @@ extension Medialive {
         public var description: String { return self.rawValue }
     }
 
-    public struct DescribeInputResponse: AWSShape {
+    public struct PurchaseOffering: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
-            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "AttachedChannels", location: .body(locationName: "attachedChannels"), required: false, type: .list), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId"), required: false, type: .string), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: false, type: .list), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
+            AWSShapeMember(label: "Count", location: .body(locationName: "count"), required: false, type: .integer)
         ]
-        public let destinations: [InputDestination]?
-        public let securityGroups: [String]?
-        public let arn: String?
-        public let attachedChannels: [String]?
-        public let state: InputState?
+        /// Unique request ID to be specified. This is needed to prevent retries from creating multiple resources.
+        public let requestId: String?
+        /// Name for the new reservation
         public let name: String?
-        public let sources: [InputSource]?
-        public let `type`: InputType?
-        public let id: String?
+        /// Number of resources
+        public let count: Int32?
 
-        public init(destinations: [InputDestination]? = nil, securityGroups: [String]? = nil, arn: String? = nil, attachedChannels: [String]? = nil, state: InputState? = nil, name: String? = nil, sources: [InputSource]? = nil, type: InputType? = nil, id: String? = nil) {
-            self.destinations = destinations
-            self.securityGroups = securityGroups
-            self.arn = arn
-            self.attachedChannels = attachedChannels
-            self.state = state
+        public init(requestId: String? = nil, name: String? = nil, count: Int32? = nil) {
+            self.requestId = requestId
             self.name = name
-            self.sources = sources
-            self.`type` = `type`
-            self.id = id
+            self.count = count
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinations = "destinations"
-            case securityGroups = "securityGroups"
-            case arn = "arn"
-            case attachedChannels = "attachedChannels"
-            case state = "state"
+            case requestId = "requestId"
             case name = "name"
-            case sources = "sources"
-            case `type` = "type"
-            case id = "id"
+            case count = "count"
+        }
+    }
+
+    public struct ListReservationsResultModel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "Reservations", location: .body(locationName: "reservations"), required: false, type: .list)
+        ]
+        /// Token to retrieve the next page of results
+        public let nextToken: String?
+        /// List of reservations
+        public let reservations: [Reservation]?
+
+        public init(nextToken: String? = nil, reservations: [Reservation]? = nil) {
+            self.nextToken = nextToken
+            self.reservations = reservations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case reservations = "reservations"
         }
     }
 
     public struct HlsOutputSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SegmentModifier", location: .body(locationName: "segmentModifier"), required: false, type: .string), 
-            AWSShapeMember(label: "HlsSettings", location: .body(locationName: "hlsSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "HlsSettings", location: .body(locationName: "hlsSettings"), required: true, type: .structure), 
             AWSShapeMember(label: "NameModifier", location: .body(locationName: "nameModifier"), required: false, type: .string)
         ]
         /// String concatenated to end of segment filenames.
         public let segmentModifier: String?
         /// Settings regarding the underlying stream. These settings are different for audio-only outputs.
-        public let hlsSettings: HlsSettings?
+        public let hlsSettings: HlsSettings
         /// String concatenated to the end of the destination filename. Accepts \"Format Identifiers\":#formatIdentifierParameters.
         public let nameModifier: String?
 
-        public init(segmentModifier: String? = nil, hlsSettings: HlsSettings? = nil, nameModifier: String? = nil) {
+        public init(segmentModifier: String? = nil, hlsSettings: HlsSettings, nameModifier: String? = nil) {
             self.segmentModifier = segmentModifier
             self.hlsSettings = hlsSettings
             self.nameModifier = nameModifier
@@ -1252,6 +586,53 @@ extension Medialive {
             case segmentModifier = "segmentModifier"
             case hlsSettings = "hlsSettings"
             case nameModifier = "nameModifier"
+        }
+    }
+
+    public struct ListReservationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Codec", location: .querystring(locationName: "codec"), required: false, type: .string), 
+            AWSShapeMember(label: "VideoQuality", location: .querystring(locationName: "videoQuality"), required: false, type: .string), 
+            AWSShapeMember(label: "MaximumFramerate", location: .querystring(locationName: "maximumFramerate"), required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", location: .querystring(locationName: "resourceType"), required: false, type: .string), 
+            AWSShapeMember(label: "SpecialFeature", location: .querystring(locationName: "specialFeature"), required: false, type: .string), 
+            AWSShapeMember(label: "Resolution", location: .querystring(locationName: "resolution"), required: false, type: .string), 
+            AWSShapeMember(label: "MaximumBitrate", location: .querystring(locationName: "maximumBitrate"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        public let codec: String?
+        public let videoQuality: String?
+        public let maximumFramerate: String?
+        public let resourceType: String?
+        public let specialFeature: String?
+        public let resolution: String?
+        public let maximumBitrate: String?
+        public let nextToken: String?
+        public let maxResults: Int32?
+
+        public init(codec: String? = nil, videoQuality: String? = nil, maximumFramerate: String? = nil, resourceType: String? = nil, specialFeature: String? = nil, resolution: String? = nil, maximumBitrate: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.codec = codec
+            self.videoQuality = videoQuality
+            self.maximumFramerate = maximumFramerate
+            self.resourceType = resourceType
+            self.specialFeature = specialFeature
+            self.resolution = resolution
+            self.maximumBitrate = maximumBitrate
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codec = "codec"
+            case videoQuality = "videoQuality"
+            case maximumFramerate = "maximumFramerate"
+            case resourceType = "resourceType"
+            case specialFeature = "specialFeature"
+            case resolution = "resolution"
+            case maximumBitrate = "maximumBitrate"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
@@ -1270,120 +651,10 @@ extension Medialive {
         }
     }
 
-    public struct OutputSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MsSmoothOutputSettings", location: .body(locationName: "msSmoothOutputSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "UdpOutputSettings", location: .body(locationName: "udpOutputSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "ArchiveOutputSettings", location: .body(locationName: "archiveOutputSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "HlsOutputSettings", location: .body(locationName: "hlsOutputSettings"), required: false, type: .structure)
-        ]
-        public let msSmoothOutputSettings: MsSmoothOutputSettings?
-        public let udpOutputSettings: UdpOutputSettings?
-        public let archiveOutputSettings: ArchiveOutputSettings?
-        public let hlsOutputSettings: HlsOutputSettings?
-
-        public init(msSmoothOutputSettings: MsSmoothOutputSettings? = nil, udpOutputSettings: UdpOutputSettings? = nil, archiveOutputSettings: ArchiveOutputSettings? = nil, hlsOutputSettings: HlsOutputSettings? = nil) {
-            self.msSmoothOutputSettings = msSmoothOutputSettings
-            self.udpOutputSettings = udpOutputSettings
-            self.archiveOutputSettings = archiveOutputSettings
-            self.hlsOutputSettings = hlsOutputSettings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case msSmoothOutputSettings = "msSmoothOutputSettings"
-            case udpOutputSettings = "udpOutputSettings"
-            case archiveOutputSettings = "archiveOutputSettings"
-            case hlsOutputSettings = "hlsOutputSettings"
-        }
-    }
-
-    public enum BurnInFontColor: String, CustomStringConvertible, Codable {
-        case black = "BLACK"
-        case blue = "BLUE"
-        case green = "GREEN"
-        case red = "RED"
-        case white = "WHITE"
-        case yellow = "YELLOW"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SmoothGroupCertificateMode: String, CustomStringConvertible, Codable {
-        case selfSigned = "SELF_SIGNED"
-        case verifyAuthenticity = "VERIFY_AUTHENTICITY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BlackoutSlateState: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public enum Eac3AttenuationControl: String, CustomStringConvertible, Codable {
         case attenuate3Db = "ATTENUATE_3_DB"
         case none = "NONE"
         public var description: String { return self.rawValue }
-    }
-
-    public enum HlsCodecSpecification: String, CustomStringConvertible, Codable {
-        case rfc4281 = "RFC_4281"
-        case rfc6381 = "RFC_6381"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListChannelsResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Channels", location: .body(locationName: "channels"), required: false, type: .list)
-        ]
-        public let nextToken: String?
-        public let channels: [ChannelSummary]?
-
-        public init(nextToken: String? = nil, channels: [ChannelSummary]? = nil) {
-            self.nextToken = nextToken
-            self.channels = channels
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case channels = "channels"
-        }
-    }
-
-    public struct HlsWebdavSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionRetryInterval", location: .body(locationName: "connectionRetryInterval"), required: false, type: .integer), 
-            AWSShapeMember(label: "FilecacheDuration", location: .body(locationName: "filecacheDuration"), required: false, type: .integer), 
-            AWSShapeMember(label: "HttpTransferMode", location: .body(locationName: "httpTransferMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "NumRetries", location: .body(locationName: "numRetries"), required: false, type: .integer), 
-            AWSShapeMember(label: "RestartDelay", location: .body(locationName: "restartDelay"), required: false, type: .integer)
-        ]
-        /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
-        public let connectionRetryInterval: Int32?
-        /// Size in seconds of file cache for streaming outputs.
-        public let filecacheDuration: Int32?
-        /// Specify whether or not to use chunked transfer encoding to WebDAV.
-        public let httpTransferMode: HlsWebdavHttpTransferMode?
-        /// Number of retry attempts that will be made before the Live Event is put into an error state.
-        public let numRetries: Int32?
-        /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
-        public let restartDelay: Int32?
-
-        public init(connectionRetryInterval: Int32? = nil, filecacheDuration: Int32? = nil, httpTransferMode: HlsWebdavHttpTransferMode? = nil, numRetries: Int32? = nil, restartDelay: Int32? = nil) {
-            self.connectionRetryInterval = connectionRetryInterval
-            self.filecacheDuration = filecacheDuration
-            self.httpTransferMode = httpTransferMode
-            self.numRetries = numRetries
-            self.restartDelay = restartDelay
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectionRetryInterval = "connectionRetryInterval"
-            case filecacheDuration = "filecacheDuration"
-            case httpTransferMode = "httpTransferMode"
-            case numRetries = "numRetries"
-            case restartDelay = "restartDelay"
-        }
     }
 
     public enum AacVbrQuality: String, CustomStringConvertible, Codable {
@@ -1394,280 +665,9 @@ extension Medialive {
         public var description: String { return self.rawValue }
     }
 
-    public struct MsSmoothOutputSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NameModifier", location: .body(locationName: "nameModifier"), required: false, type: .string)
-        ]
-        /// String concatenated to the end of the destination filename.  Required for multiple outputs of the same type.
-        public let nameModifier: String?
-
-        public init(nameModifier: String? = nil) {
-            self.nameModifier = nameModifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nameModifier = "nameModifier"
-        }
-    }
-
     public enum M3u8Scte35Behavior: String, CustomStringConvertible, Codable {
         case noPassthrough = "NO_PASSTHROUGH"
         case passthrough = "PASSTHROUGH"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum M2tsEsRateInPes: String, CustomStringConvertible, Codable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct M2tsSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PcrControl", location: .body(locationName: "pcrControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "TimedMetadataPid", location: .body(locationName: "timedMetadataPid"), required: false, type: .string), 
-            AWSShapeMember(label: "KlvDataPids", location: .body(locationName: "klvDataPids"), required: false, type: .string), 
-            AWSShapeMember(label: "PatInterval", location: .body(locationName: "patInterval"), required: false, type: .integer), 
-            AWSShapeMember(label: "EsRateInPes", location: .body(locationName: "esRateInPes"), required: false, type: .enum), 
-            AWSShapeMember(label: "AbsentInputAudioBehavior", location: .body(locationName: "absentInputAudioBehavior"), required: false, type: .enum), 
-            AWSShapeMember(label: "PmtPid", location: .body(locationName: "pmtPid"), required: false, type: .string), 
-            AWSShapeMember(label: "VideoPid", location: .body(locationName: "videoPid"), required: false, type: .string), 
-            AWSShapeMember(label: "EtvSignalPid", location: .body(locationName: "etvSignalPid"), required: false, type: .string), 
-            AWSShapeMember(label: "PcrPid", location: .body(locationName: "pcrPid"), required: false, type: .string), 
-            AWSShapeMember(label: "AribCaptionsPidControl", location: .body(locationName: "aribCaptionsPidControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "Klv", location: .body(locationName: "klv"), required: false, type: .enum), 
-            AWSShapeMember(label: "TimedMetadataBehavior", location: .body(locationName: "timedMetadataBehavior"), required: false, type: .enum), 
-            AWSShapeMember(label: "Scte35Control", location: .body(locationName: "scte35Control"), required: false, type: .enum), 
-            AWSShapeMember(label: "DvbTdtSettings", location: .body(locationName: "dvbTdtSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "RateMode", location: .body(locationName: "rateMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "DvbSdtSettings", location: .body(locationName: "dvbSdtSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Scte27Pids", location: .body(locationName: "scte27Pids"), required: false, type: .string), 
-            AWSShapeMember(label: "AudioFramesPerPes", location: .body(locationName: "audioFramesPerPes"), required: false, type: .integer), 
-            AWSShapeMember(label: "BufferModel", location: .body(locationName: "bufferModel"), required: false, type: .enum), 
-            AWSShapeMember(label: "EbpLookaheadMs", location: .body(locationName: "ebpLookaheadMs"), required: false, type: .integer), 
-            AWSShapeMember(label: "AudioStreamType", location: .body(locationName: "audioStreamType"), required: false, type: .enum), 
-            AWSShapeMember(label: "Ebif", location: .body(locationName: "ebif"), required: false, type: .enum), 
-            AWSShapeMember(label: "SegmentationTime", location: .body(locationName: "segmentationTime"), required: false, type: .double), 
-            AWSShapeMember(label: "AudioBufferModel", location: .body(locationName: "audioBufferModel"), required: false, type: .enum), 
-            AWSShapeMember(label: "SegmentationStyle", location: .body(locationName: "segmentationStyle"), required: false, type: .enum), 
-            AWSShapeMember(label: "CcDescriptor", location: .body(locationName: "ccDescriptor"), required: false, type: .enum), 
-            AWSShapeMember(label: "EbpAudioInterval", location: .body(locationName: "ebpAudioInterval"), required: false, type: .enum), 
-            AWSShapeMember(label: "DvbNitSettings", location: .body(locationName: "dvbNitSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "FragmentTime", location: .body(locationName: "fragmentTime"), required: false, type: .double), 
-            AWSShapeMember(label: "ProgramNum", location: .body(locationName: "programNum"), required: false, type: .integer), 
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .integer), 
-            AWSShapeMember(label: "PmtInterval", location: .body(locationName: "pmtInterval"), required: false, type: .integer), 
-            AWSShapeMember(label: "Scte35Pid", location: .body(locationName: "scte35Pid"), required: false, type: .string), 
-            AWSShapeMember(label: "DvbTeletextPid", location: .body(locationName: "dvbTeletextPid"), required: false, type: .string), 
-            AWSShapeMember(label: "EbpPlacement", location: .body(locationName: "ebpPlacement"), required: false, type: .enum), 
-            AWSShapeMember(label: "AribCaptionsPid", location: .body(locationName: "aribCaptionsPid"), required: false, type: .string), 
-            AWSShapeMember(label: "SegmentationMarkers", location: .body(locationName: "segmentationMarkers"), required: false, type: .enum), 
-            AWSShapeMember(label: "AudioPids", location: .body(locationName: "audioPids"), required: false, type: .string), 
-            AWSShapeMember(label: "PcrPeriod", location: .body(locationName: "pcrPeriod"), required: false, type: .integer), 
-            AWSShapeMember(label: "EcmPid", location: .body(locationName: "ecmPid"), required: false, type: .string), 
-            AWSShapeMember(label: "Arib", location: .body(locationName: "arib"), required: false, type: .enum), 
-            AWSShapeMember(label: "DvbSubPids", location: .body(locationName: "dvbSubPids"), required: false, type: .string), 
-            AWSShapeMember(label: "TransportStreamId", location: .body(locationName: "transportStreamId"), required: false, type: .integer), 
-            AWSShapeMember(label: "EtvPlatformPid", location: .body(locationName: "etvPlatformPid"), required: false, type: .string), 
-            AWSShapeMember(label: "NullPacketBitrate", location: .body(locationName: "nullPacketBitrate"), required: false, type: .double)
-        ]
-        /// When set to pcrEveryPesPacket, a Program Clock Reference value is inserted for every Packetized Elementary Stream (PES) header. This parameter is effective only when the PCR PID is the same as the video or audio elementary stream.
-        public let pcrControl: M2tsPcrControl?
-        /// Packet Identifier (PID) of the timed metadata stream in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
-        public let timedMetadataPid: String?
-        /// Packet Identifier (PID) for input source KLV data to this output. Multiple values are accepted, and can be entered in ranges and/or by comma separation. Can be entered as decimal or hexadecimal values.  Each PID specified must be in the range of 32 (or 0x20)..8182 (or 0x1ff6).
-        public let klvDataPids: String?
-        /// The number of milliseconds between instances of this table in the output transport stream.  Valid values are 0, 10..1000.
-        public let patInterval: Int32?
-        /// Include or exclude the ES Rate field in the PES header.
-        public let esRateInPes: M2tsEsRateInPes?
-        /// When set to drop, output audio streams will be removed from the program if the selected input audio stream is removed from the input. This allows the output audio configuration to dynamically change based on input configuration. If this is set to encodeSilence, all output audio streams will output encoded silence when not connected to an active input stream.
-        public let absentInputAudioBehavior: M2tsAbsentInputAudioBehavior?
-        /// Packet Identifier (PID) for the Program Map Table (PMT) in the transport stream. Can be entered as a decimal or hexadecimal value. Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
-        public let pmtPid: String?
-        /// Packet Identifier (PID) of the elementary video stream in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
-        public let videoPid: String?
-        /// Packet Identifier (PID) for input source ETV Signal data to this output. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
-        public let etvSignalPid: String?
-        /// Packet Identifier (PID) of the Program Clock Reference (PCR) in the transport stream. When no value is given, the encoder will assign the same value as the Video PID. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
-        public let pcrPid: String?
-        /// If set to auto, pid number used for ARIB Captions will be auto-selected from unused pids.  If set to useConfigured, ARIB Captions will be on the configured pid number.
-        public let aribCaptionsPidControl: M2tsAribCaptionsPidControl?
-        /// If set to passthrough, passes any KLV data from the input source to this output.
-        public let klv: M2tsKlv?
-        /// When set to passthrough, timed metadata will be passed through from input to output.
-        public let timedMetadataBehavior: M2tsTimedMetadataBehavior?
-        /// Optionally pass SCTE-35 signals from the input source to this output.
-        public let scte35Control: M2tsScte35Control?
-        /// Inserts DVB Time and Date Table (TDT) at the specified table repetition interval.
-        public let dvbTdtSettings: DvbTdtSettings?
-        /// When vbr, does not insert null packets into transport stream to fill specified bitrate. The bitrate setting acts as the maximum bitrate when vbr is set.
-        public let rateMode: M2tsRateMode?
-        /// Inserts DVB Service Description Table (SDT) at the specified table repetition interval.
-        public let dvbSdtSettings: DvbSdtSettings?
-        /// Packet Identifier (PID) for input source SCTE-27 data to this output. Multiple values are accepted, and can be entered in ranges and/or by comma separation. Can be entered as decimal or hexadecimal values.  Each PID specified must be in the range of 32 (or 0x20)..8182 (or 0x1ff6).
-        public let scte27Pids: String?
-        /// The number of audio frames to insert for each PES packet.
-        public let audioFramesPerPes: Int32?
-        /// If set to multiplex, use multiplex buffer model for accurate interleaving.  Setting to bufferModel to none can lead to lower latency, but low-memory devices may not be able to play back the stream without interruptions.
-        public let bufferModel: M2tsBufferModel?
-        /// When set, enforces that Encoder Boundary Points do not come within the specified time interval of each other by looking ahead at input video. If another EBP is going to come in within the specified time interval, the current EBP is not emitted, and the segment is "stretched" to the next marker.  The lookahead value does not add latency to the system. The Live Event must be configured elsewhere to create sufficient latency to make the lookahead accurate.
-        public let ebpLookaheadMs: Int32?
-        /// When set to atsc, uses stream type = 0x81 for AC3 and stream type = 0x87 for EAC3. When set to dvb, uses stream type = 0x06.
-        public let audioStreamType: M2tsAudioStreamType?
-        /// If set to passthrough, passes any EBIF data from the input source to this output.
-        public let ebif: M2tsEbifControl?
-        /// The length in seconds of each segment. Required unless markers is set to None_.
-        public let segmentationTime: Double?
-        /// When set to dvb, uses DVB buffer model for Dolby Digital audio.  When set to atsc, the ATSC model is used.
-        public let audioBufferModel: M2tsAudioBufferModel?
-        /// The segmentation style parameter controls how segmentation markers are inserted into the transport stream. With avails, it is possible that segments may be truncated, which can influence where future segmentation markers are inserted.
-        /// When a segmentation style of "resetCadence" is selected and a segment is truncated due to an avail, we will reset the segmentation cadence. This means the subsequent segment will have a duration of $segmentationTime seconds.
-        /// When a segmentation style of "maintainCadence" is selected and a segment is truncated due to an avail, we will not reset the segmentation cadence. This means the subsequent segment will likely be truncated as well. However, all segments after that will have a duration of $segmentationTime seconds. Note that EBP lookahead is a slight exception to this rule.
-        public let segmentationStyle: M2tsSegmentationStyle?
-        /// When set to enabled, generates captionServiceDescriptor in PMT.
-        public let ccDescriptor: M2tsCcDescriptor?
-        /// When videoAndFixedIntervals is selected, audio EBP markers will be added to partitions 3 and 4. The interval between these additional markers will be fixed, and will be slightly shorter than the video EBP marker interval. Only available when EBP Cablelabs segmentation markers are selected.  Partitions 1 and 2 will always follow the video interval.
-        public let ebpAudioInterval: M2tsAudioInterval?
-        /// Inserts DVB Network Information Table (NIT) at the specified table repetition interval.
-        public let dvbNitSettings: DvbNitSettings?
-        /// The length in seconds of each fragment. Only used with EBP markers.
-        public let fragmentTime: Double?
-        /// The value of the program number field in the Program Map Table.
-        public let programNum: Int32?
-        /// The output bitrate of the transport stream in bits per second. Setting to 0 lets the muxer automatically determine the appropriate bitrate.
-        public let bitrate: Int32?
-        /// The number of milliseconds between instances of this table in the output transport stream. Valid values are 0, 10..1000.
-        public let pmtInterval: Int32?
-        /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
-        public let scte35Pid: String?
-        /// Packet Identifier (PID) for input source DVB Teletext data to this output. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
-        public let dvbTeletextPid: String?
-        /// Controls placement of EBP on Audio PIDs. If set to videoAndAudioPids, EBP markers will be placed on the video PID and all audio PIDs.  If set to videoPid, EBP markers will be placed on only the video PID.
-        public let ebpPlacement: M2tsEbpPlacement?
-        /// Packet Identifier (PID) for ARIB Captions in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
-        public let aribCaptionsPid: String?
-        /// Inserts segmentation markers at each segmentationTime period. raiSegstart sets the Random Access Indicator bit in the adaptation field. raiAdapt sets the RAI bit and adds the current timecode in the private data bytes. psiSegstart inserts PAT and PMT tables at the start of segments. ebp adds Encoder Boundary Point information to the adaptation field as per OpenCable specification OC-SP-EBP-I01-130118. ebpLegacy adds Encoder Boundary Point information to the adaptation field using a legacy proprietary format.
-        public let segmentationMarkers: M2tsSegmentationMarkers?
-        /// Packet Identifier (PID) of the elementary audio stream(s) in the transport stream. Multiple values are accepted, and can be entered in ranges and/or by comma separation. Can be entered as decimal or hexadecimal values. Each PID specified must be in the range of 32 (or 0x20)..8182 (or 0x1ff6).
-        public let audioPids: String?
-        /// Maximum time in milliseconds between Program Clock Reference (PCRs) inserted into the transport stream.
-        public let pcrPeriod: Int32?
-        /// Packet Identifier (PID) for ECM in the transport stream. Only enabled when Simulcrypt is enabled. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
-        public let ecmPid: String?
-        /// When set to enabled, uses ARIB-compliant field muxing and removes video descriptor.
-        public let arib: M2tsArib?
-        /// Packet Identifier (PID) for input source DVB Subtitle data to this output. Multiple values are accepted, and can be entered in ranges and/or by comma separation. Can be entered as decimal or hexadecimal values.  Each PID specified must be in the range of 32 (or 0x20)..8182 (or 0x1ff6).
-        public let dvbSubPids: String?
-        /// The value of the transport stream ID field in the Program Map Table.
-        public let transportStreamId: Int32?
-        /// Packet Identifier (PID) for input source ETV Platform data to this output. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
-        public let etvPlatformPid: String?
-        /// Value in bits per second of extra null packets to insert into the transport stream. This can be used if a downstream encryption system requires periodic null packets.
-        public let nullPacketBitrate: Double?
-
-        public init(pcrControl: M2tsPcrControl? = nil, timedMetadataPid: String? = nil, klvDataPids: String? = nil, patInterval: Int32? = nil, esRateInPes: M2tsEsRateInPes? = nil, absentInputAudioBehavior: M2tsAbsentInputAudioBehavior? = nil, pmtPid: String? = nil, videoPid: String? = nil, etvSignalPid: String? = nil, pcrPid: String? = nil, aribCaptionsPidControl: M2tsAribCaptionsPidControl? = nil, klv: M2tsKlv? = nil, timedMetadataBehavior: M2tsTimedMetadataBehavior? = nil, scte35Control: M2tsScte35Control? = nil, dvbTdtSettings: DvbTdtSettings? = nil, rateMode: M2tsRateMode? = nil, dvbSdtSettings: DvbSdtSettings? = nil, scte27Pids: String? = nil, audioFramesPerPes: Int32? = nil, bufferModel: M2tsBufferModel? = nil, ebpLookaheadMs: Int32? = nil, audioStreamType: M2tsAudioStreamType? = nil, ebif: M2tsEbifControl? = nil, segmentationTime: Double? = nil, audioBufferModel: M2tsAudioBufferModel? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, ccDescriptor: M2tsCcDescriptor? = nil, ebpAudioInterval: M2tsAudioInterval? = nil, dvbNitSettings: DvbNitSettings? = nil, fragmentTime: Double? = nil, programNum: Int32? = nil, bitrate: Int32? = nil, pmtInterval: Int32? = nil, scte35Pid: String? = nil, dvbTeletextPid: String? = nil, ebpPlacement: M2tsEbpPlacement? = nil, aribCaptionsPid: String? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, audioPids: String? = nil, pcrPeriod: Int32? = nil, ecmPid: String? = nil, arib: M2tsArib? = nil, dvbSubPids: String? = nil, transportStreamId: Int32? = nil, etvPlatformPid: String? = nil, nullPacketBitrate: Double? = nil) {
-            self.pcrControl = pcrControl
-            self.timedMetadataPid = timedMetadataPid
-            self.klvDataPids = klvDataPids
-            self.patInterval = patInterval
-            self.esRateInPes = esRateInPes
-            self.absentInputAudioBehavior = absentInputAudioBehavior
-            self.pmtPid = pmtPid
-            self.videoPid = videoPid
-            self.etvSignalPid = etvSignalPid
-            self.pcrPid = pcrPid
-            self.aribCaptionsPidControl = aribCaptionsPidControl
-            self.klv = klv
-            self.timedMetadataBehavior = timedMetadataBehavior
-            self.scte35Control = scte35Control
-            self.dvbTdtSettings = dvbTdtSettings
-            self.rateMode = rateMode
-            self.dvbSdtSettings = dvbSdtSettings
-            self.scte27Pids = scte27Pids
-            self.audioFramesPerPes = audioFramesPerPes
-            self.bufferModel = bufferModel
-            self.ebpLookaheadMs = ebpLookaheadMs
-            self.audioStreamType = audioStreamType
-            self.ebif = ebif
-            self.segmentationTime = segmentationTime
-            self.audioBufferModel = audioBufferModel
-            self.segmentationStyle = segmentationStyle
-            self.ccDescriptor = ccDescriptor
-            self.ebpAudioInterval = ebpAudioInterval
-            self.dvbNitSettings = dvbNitSettings
-            self.fragmentTime = fragmentTime
-            self.programNum = programNum
-            self.bitrate = bitrate
-            self.pmtInterval = pmtInterval
-            self.scte35Pid = scte35Pid
-            self.dvbTeletextPid = dvbTeletextPid
-            self.ebpPlacement = ebpPlacement
-            self.aribCaptionsPid = aribCaptionsPid
-            self.segmentationMarkers = segmentationMarkers
-            self.audioPids = audioPids
-            self.pcrPeriod = pcrPeriod
-            self.ecmPid = ecmPid
-            self.arib = arib
-            self.dvbSubPids = dvbSubPids
-            self.transportStreamId = transportStreamId
-            self.etvPlatformPid = etvPlatformPid
-            self.nullPacketBitrate = nullPacketBitrate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pcrControl = "pcrControl"
-            case timedMetadataPid = "timedMetadataPid"
-            case klvDataPids = "klvDataPids"
-            case patInterval = "patInterval"
-            case esRateInPes = "esRateInPes"
-            case absentInputAudioBehavior = "absentInputAudioBehavior"
-            case pmtPid = "pmtPid"
-            case videoPid = "videoPid"
-            case etvSignalPid = "etvSignalPid"
-            case pcrPid = "pcrPid"
-            case aribCaptionsPidControl = "aribCaptionsPidControl"
-            case klv = "klv"
-            case timedMetadataBehavior = "timedMetadataBehavior"
-            case scte35Control = "scte35Control"
-            case dvbTdtSettings = "dvbTdtSettings"
-            case rateMode = "rateMode"
-            case dvbSdtSettings = "dvbSdtSettings"
-            case scte27Pids = "scte27Pids"
-            case audioFramesPerPes = "audioFramesPerPes"
-            case bufferModel = "bufferModel"
-            case ebpLookaheadMs = "ebpLookaheadMs"
-            case audioStreamType = "audioStreamType"
-            case ebif = "ebif"
-            case segmentationTime = "segmentationTime"
-            case audioBufferModel = "audioBufferModel"
-            case segmentationStyle = "segmentationStyle"
-            case ccDescriptor = "ccDescriptor"
-            case ebpAudioInterval = "ebpAudioInterval"
-            case dvbNitSettings = "dvbNitSettings"
-            case fragmentTime = "fragmentTime"
-            case programNum = "programNum"
-            case bitrate = "bitrate"
-            case pmtInterval = "pmtInterval"
-            case scte35Pid = "scte35Pid"
-            case dvbTeletextPid = "dvbTeletextPid"
-            case ebpPlacement = "ebpPlacement"
-            case aribCaptionsPid = "aribCaptionsPid"
-            case segmentationMarkers = "segmentationMarkers"
-            case audioPids = "audioPids"
-            case pcrPeriod = "pcrPeriod"
-            case ecmPid = "ecmPid"
-            case arib = "arib"
-            case dvbSubPids = "dvbSubPids"
-            case transportStreamId = "transportStreamId"
-            case etvPlatformPid = "etvPlatformPid"
-            case nullPacketBitrate = "nullPacketBitrate"
-        }
-    }
-
-    public enum Eac3PassthroughControl: String, CustomStringConvertible, Codable {
-        case noPassthrough = "NO_PASSTHROUGH"
-        case whenPossible = "WHEN_POSSIBLE"
         public var description: String { return self.rawValue }
     }
 
@@ -1678,23 +678,23 @@ extension Medialive {
         public var description: String { return self.rawValue }
     }
 
-    public struct VideoCodecSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "H264Settings", location: .body(locationName: "h264Settings"), required: false, type: .structure)
-        ]
-        public let h264Settings: H264Settings?
+    public struct EmbeddedDestinationSettings: AWSShape {
 
-        public init(h264Settings: H264Settings? = nil) {
-            self.h264Settings = h264Settings
+    }
+
+    public struct PurchaseOfferingResultModel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reservation", location: .body(locationName: "reservation"), required: false, type: .structure)
+        ]
+        public let reservation: Reservation?
+
+        public init(reservation: Reservation? = nil) {
+            self.reservation = reservation
         }
 
         private enum CodingKeys: String, CodingKey {
-            case h264Settings = "h264Settings"
+            case reservation = "reservation"
         }
-    }
-
-    public struct EmbeddedDestinationSettings: AWSShape {
-
     }
 
     public struct H264Settings: AWSShape {
@@ -1886,92 +886,33 @@ extension Medialive {
         }
     }
 
-    public enum AudioOnlyHlsTrackType: String, CustomStringConvertible, Codable {
-        case alternateAudioAutoSelect = "ALTERNATE_AUDIO_AUTO_SELECT"
-        case alternateAudioAutoSelectDefault = "ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT"
-        case alternateAudioNotAutoSelect = "ALTERNATE_AUDIO_NOT_AUTO_SELECT"
-        case audioOnlyVariantStream = "AUDIO_ONLY_VARIANT_STREAM"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum M2tsAribCaptionsPidControl: String, CustomStringConvertible, Codable {
-        case auto = "AUTO"
-        case useConfigured = "USE_CONFIGURED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct InputDestination: AWSShape {
+    public struct UpdateInputSecurityGroupResultModel: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ip", location: .body(locationName: "ip"), required: false, type: .string), 
-            AWSShapeMember(label: "Port", location: .body(locationName: "port"), required: false, type: .string), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string)
+            AWSShapeMember(label: "SecurityGroup", location: .body(locationName: "securityGroup"), required: false, type: .structure)
         ]
-        /// system-generated static IP address of endpoint.
-        /// Remains fixed for the lifetime of the input
-        public let ip: String?
-        /// port for input
-        public let port: String?
-        /// This represents the endpoint that the customer stream will be
-        /// pushed to.
-        public let url: String?
+        public let securityGroup: InputSecurityGroup?
 
-        public init(ip: String? = nil, port: String? = nil, url: String? = nil) {
-            self.ip = ip
-            self.port = port
-            self.url = url
+        public init(securityGroup: InputSecurityGroup? = nil) {
+            self.securityGroup = securityGroup
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ip = "ip"
-            case port = "port"
-            case url = "url"
+            case securityGroup = "securityGroup"
         }
     }
 
-    public struct KeyProviderSettings: AWSShape {
+    public struct DescribeReservationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StaticKeySettings", location: .body(locationName: "staticKeySettings"), required: false, type: .structure)
+            AWSShapeMember(label: "ReservationId", location: .uri(locationName: "reservationId"), required: true, type: .string)
         ]
-        public let staticKeySettings: StaticKeySettings?
+        public let reservationId: String
 
-        public init(staticKeySettings: StaticKeySettings? = nil) {
-            self.staticKeySettings = staticKeySettings
+        public init(reservationId: String) {
+            self.reservationId = reservationId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case staticKeySettings = "staticKeySettings"
-        }
-    }
-
-    public enum M3u8PcrControl: String, CustomStringConvertible, Codable {
-        case configuredPcrPeriod = "CONFIGURED_PCR_PERIOD"
-        case pcrEveryPesPacket = "PCR_EVERY_PES_PACKET"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CaptionSelector: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "SelectorSettings", location: .body(locationName: "selectorSettings"), required: false, type: .structure)
-        ]
-        /// When specified this field indicates the three letter language code of the caption track to extract from the source.
-        public let languageCode: String?
-        /// Name identifier for a caption selector.  This name is used to associate this caption selector with one or more caption descriptions.  Names must be unique within an event.
-        public let name: String?
-        /// Caption selector settings.
-        public let selectorSettings: CaptionSelectorSettings?
-
-        public init(languageCode: String? = nil, name: String? = nil, selectorSettings: CaptionSelectorSettings? = nil) {
-            self.languageCode = languageCode
-            self.name = name
-            self.selectorSettings = selectorSettings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case languageCode = "languageCode"
-            case name = "name"
-            case selectorSettings = "selectorSettings"
+            case reservationId = "reservationId"
         }
     }
 
@@ -1989,41 +930,36 @@ extension Medialive {
         public var description: String { return self.rawValue }
     }
 
-    public struct UdpGroupSettings: AWSShape {
+    public struct PurchaseOfferingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TimedMetadataId3Frame", location: .body(locationName: "timedMetadataId3Frame"), required: false, type: .enum), 
-            AWSShapeMember(label: "TimedMetadataId3Period", location: .body(locationName: "timedMetadataId3Period"), required: false, type: .integer), 
-            AWSShapeMember(label: "InputLossAction", location: .body(locationName: "inputLossAction"), required: false, type: .enum)
+            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "OfferingId", location: .uri(locationName: "offeringId"), required: true, type: .string), 
+            AWSShapeMember(label: "Count", location: .body(locationName: "count"), required: false, type: .integer)
         ]
-        /// Indicates ID3 frame that has the timecode.
-        public let timedMetadataId3Frame: UdpTimedMetadataId3Frame?
-        /// Timed Metadata interval in seconds.
-        public let timedMetadataId3Period: Int32?
-        /// Specifies behavior of last resort when input video is lost, and no more backup inputs are available. When dropTs is selected the entire transport stream will stop being emitted.  When dropProgram is selected the program can be dropped from the transport stream (and replaced with null packets to meet the TS bitrate requirement).  Or, when emitProgram is chosen the transport stream will continue to be produced normally with repeat frames, black frames, or slate frames substituted for the absent input video.
-        public let inputLossAction: InputLossActionForUdpOut?
+        public let requestId: String?
+        public let name: String?
+        public let offeringId: String
+        public let count: Int32?
 
-        public init(timedMetadataId3Frame: UdpTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int32? = nil, inputLossAction: InputLossActionForUdpOut? = nil) {
-            self.timedMetadataId3Frame = timedMetadataId3Frame
-            self.timedMetadataId3Period = timedMetadataId3Period
-            self.inputLossAction = inputLossAction
+        public init(requestId: String? = nil, name: String? = nil, offeringId: String, count: Int32? = nil) {
+            self.requestId = requestId
+            self.name = name
+            self.offeringId = offeringId
+            self.count = count
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timedMetadataId3Frame = "timedMetadataId3Frame"
-            case timedMetadataId3Period = "timedMetadataId3Period"
-            case inputLossAction = "inputLossAction"
+            case requestId = "requestId"
+            case name = "name"
+            case offeringId = "offeringId"
+            case count = "count"
         }
     }
 
     public enum H264TimecodeInsertionBehavior: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case picTimingSei = "PIC_TIMING_SEI"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SmoothGroupEventStopBehavior: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case sendEos = "SEND_EOS"
         public var description: String { return self.rawValue }
     }
 
@@ -2075,119 +1011,6 @@ extension Medialive {
         public var description: String { return self.rawValue }
     }
 
-    public struct MsSmoothGroupSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcquisitionPointId", location: .body(locationName: "acquisitionPointId"), required: false, type: .string), 
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: false, type: .structure), 
-            AWSShapeMember(label: "EventIdMode", location: .body(locationName: "eventIdMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "RestartDelay", location: .body(locationName: "restartDelay"), required: false, type: .integer), 
-            AWSShapeMember(label: "TimestampOffsetMode", location: .body(locationName: "timestampOffsetMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "CertificateMode", location: .body(locationName: "certificateMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "EventStopBehavior", location: .body(locationName: "eventStopBehavior"), required: false, type: .enum), 
-            AWSShapeMember(label: "ConnectionRetryInterval", location: .body(locationName: "connectionRetryInterval"), required: false, type: .integer), 
-            AWSShapeMember(label: "FragmentLength", location: .body(locationName: "fragmentLength"), required: false, type: .integer), 
-            AWSShapeMember(label: "SegmentationMode", location: .body(locationName: "segmentationMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "InputLossAction", location: .body(locationName: "inputLossAction"), required: false, type: .enum), 
-            AWSShapeMember(label: "EventId", location: .body(locationName: "eventId"), required: false, type: .string), 
-            AWSShapeMember(label: "FilecacheDuration", location: .body(locationName: "filecacheDuration"), required: false, type: .integer), 
-            AWSShapeMember(label: "AudioOnlyTimecodeControl", location: .body(locationName: "audioOnlyTimecodeControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "SparseTrackType", location: .body(locationName: "sparseTrackType"), required: false, type: .enum), 
-            AWSShapeMember(label: "SendDelayMs", location: .body(locationName: "sendDelayMs"), required: false, type: .integer), 
-            AWSShapeMember(label: "StreamManifestBehavior", location: .body(locationName: "streamManifestBehavior"), required: false, type: .enum), 
-            AWSShapeMember(label: "TimestampOffset", location: .body(locationName: "timestampOffset"), required: false, type: .string), 
-            AWSShapeMember(label: "NumRetries", location: .body(locationName: "numRetries"), required: false, type: .integer)
-        ]
-        /// The value of the "Acquisition Point Identity" element used in each message placed in the sparse track.  Only enabled if sparseTrackType is not "none".
-        public let acquisitionPointId: String?
-        /// Smooth Streaming publish point on an IIS server. Elemental Live acts as a "Push" encoder to IIS.
-        public let destination: OutputLocationRef?
-        /// Specifies whether or not to send an event ID to the IIS server. If no event ID is sent and the same Live Event is used without changing the publishing point, clients might see cached video from the previous run.
-        /// Options:
-        /// - "useConfigured" - use the value provided in eventId
-        /// - "useTimestamp" - generate and send an event ID based on the current timestamp
-        /// - "noEventId" - do not send an event ID to the IIS server.
-        public let eventIdMode: SmoothGroupEventIdMode?
-        /// Number of seconds before initiating a restart due to output failure, due to exhausting the numRetries on one segment, or exceeding filecacheDuration.
-        public let restartDelay: Int32?
-        /// Type of timestamp date offset to use.
-        /// - useEventStartDate: Use the date the event was started as the offset
-        /// - useConfiguredOffset: Use an explicitly configured date as the offset
-        public let timestampOffsetMode: SmoothGroupTimestampOffsetMode?
-        /// If set to verifyAuthenticity, verify the https certificate chain to a trusted Certificate Authority (CA).  This will cause https outputs to self-signed certificates to fail unless those certificates are manually added to the OS trusted keystore.
-        public let certificateMode: SmoothGroupCertificateMode?
-        /// When set to sendEos, send EOS signal to IIS server when stopping the event
-        public let eventStopBehavior: SmoothGroupEventStopBehavior?
-        /// Number of seconds to wait before retrying connection to the IIS server if the connection is lost. Content will be cached during this time and the cache will be be delivered to the IIS server once the connection is re-established.
-        public let connectionRetryInterval: Int32?
-        /// Length of mp4 fragments to generate (in seconds). Fragment length must be compatible with GOP size and framerate.
-        public let fragmentLength: Int32?
-        /// When set to useInputSegmentation, the output segment or fragment points are set by the RAI markers from the input streams.
-        public let segmentationMode: SmoothGroupSegmentationMode?
-        /// Parameter that control output group behavior on input loss.
-        public let inputLossAction: InputLossActionForMsSmoothOut?
-        /// MS Smooth event ID to be sent to the IIS server.
-        /// Should only be specified if eventIdMode is set to useConfigured.
-        public let eventId: String?
-        /// Size in seconds of file cache for streaming outputs.
-        public let filecacheDuration: Int32?
-        /// If set to passthrough for an audio-only MS Smooth output, the fragment absolute time will be set to the current timecode. This option does not write timecodes to the audio elementary stream.
-        public let audioOnlyTimecodeControl: SmoothGroupAudioOnlyTimecodeControl?
-        /// If set to scte35, use incoming SCTE-35 messages to generate a sparse track in this group of MS-Smooth outputs.
-        public let sparseTrackType: SmoothGroupSparseTrackType?
-        /// Outputs that are "output locked" can use this delay. Assign a delay to the output that is "secondary".  Do not assign a delay to the "primary" output. The delay means that the primary output will always reach the downstream system before the secondary, which helps ensure that the downstream system always uses the primary output. (If there were no delay, the downstream system might flip-flop between whichever output happens to arrive first.) If the primary fails, the downstream system will switch to the secondary output. When the primary is restarted, the downstream system will switch back to the primary (because once again it is always arriving first)
-        public let sendDelayMs: Int32?
-        /// When set to send, send stream manifest so publishing point doesn't start until all streams start.
-        public let streamManifestBehavior: SmoothGroupStreamManifestBehavior?
-        /// Timestamp offset for the event.  Only used if timestampOffsetMode is set to useConfiguredOffset.
-        public let timestampOffset: String?
-        /// Number of retry attempts.
-        public let numRetries: Int32?
-
-        public init(acquisitionPointId: String? = nil, destination: OutputLocationRef? = nil, eventIdMode: SmoothGroupEventIdMode? = nil, restartDelay: Int32? = nil, timestampOffsetMode: SmoothGroupTimestampOffsetMode? = nil, certificateMode: SmoothGroupCertificateMode? = nil, eventStopBehavior: SmoothGroupEventStopBehavior? = nil, connectionRetryInterval: Int32? = nil, fragmentLength: Int32? = nil, segmentationMode: SmoothGroupSegmentationMode? = nil, inputLossAction: InputLossActionForMsSmoothOut? = nil, eventId: String? = nil, filecacheDuration: Int32? = nil, audioOnlyTimecodeControl: SmoothGroupAudioOnlyTimecodeControl? = nil, sparseTrackType: SmoothGroupSparseTrackType? = nil, sendDelayMs: Int32? = nil, streamManifestBehavior: SmoothGroupStreamManifestBehavior? = nil, timestampOffset: String? = nil, numRetries: Int32? = nil) {
-            self.acquisitionPointId = acquisitionPointId
-            self.destination = destination
-            self.eventIdMode = eventIdMode
-            self.restartDelay = restartDelay
-            self.timestampOffsetMode = timestampOffsetMode
-            self.certificateMode = certificateMode
-            self.eventStopBehavior = eventStopBehavior
-            self.connectionRetryInterval = connectionRetryInterval
-            self.fragmentLength = fragmentLength
-            self.segmentationMode = segmentationMode
-            self.inputLossAction = inputLossAction
-            self.eventId = eventId
-            self.filecacheDuration = filecacheDuration
-            self.audioOnlyTimecodeControl = audioOnlyTimecodeControl
-            self.sparseTrackType = sparseTrackType
-            self.sendDelayMs = sendDelayMs
-            self.streamManifestBehavior = streamManifestBehavior
-            self.timestampOffset = timestampOffset
-            self.numRetries = numRetries
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case acquisitionPointId = "acquisitionPointId"
-            case destination = "destination"
-            case eventIdMode = "eventIdMode"
-            case restartDelay = "restartDelay"
-            case timestampOffsetMode = "timestampOffsetMode"
-            case certificateMode = "certificateMode"
-            case eventStopBehavior = "eventStopBehavior"
-            case connectionRetryInterval = "connectionRetryInterval"
-            case fragmentLength = "fragmentLength"
-            case segmentationMode = "segmentationMode"
-            case inputLossAction = "inputLossAction"
-            case eventId = "eventId"
-            case filecacheDuration = "filecacheDuration"
-            case audioOnlyTimecodeControl = "audioOnlyTimecodeControl"
-            case sparseTrackType = "sparseTrackType"
-            case sendDelayMs = "sendDelayMs"
-            case streamManifestBehavior = "streamManifestBehavior"
-            case timestampOffset = "timestampOffset"
-            case numRetries = "numRetries"
-        }
-    }
-
     public enum DvbSubDestinationOutlineColor: String, CustomStringConvertible, Codable {
         case black = "BLACK"
         case blue = "BLUE"
@@ -2202,26 +1025,26 @@ extension Medialive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HlsBasicPutSettings", location: .body(locationName: "hlsBasicPutSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "HlsMediaStoreSettings", location: .body(locationName: "hlsMediaStoreSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "HlsWebdavSettings", location: .body(locationName: "hlsWebdavSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "HlsAkamaiSettings", location: .body(locationName: "hlsAkamaiSettings"), required: false, type: .structure)
+            AWSShapeMember(label: "HlsAkamaiSettings", location: .body(locationName: "hlsAkamaiSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "HlsWebdavSettings", location: .body(locationName: "hlsWebdavSettings"), required: false, type: .structure)
         ]
         public let hlsBasicPutSettings: HlsBasicPutSettings?
         public let hlsMediaStoreSettings: HlsMediaStoreSettings?
-        public let hlsWebdavSettings: HlsWebdavSettings?
         public let hlsAkamaiSettings: HlsAkamaiSettings?
+        public let hlsWebdavSettings: HlsWebdavSettings?
 
-        public init(hlsBasicPutSettings: HlsBasicPutSettings? = nil, hlsMediaStoreSettings: HlsMediaStoreSettings? = nil, hlsWebdavSettings: HlsWebdavSettings? = nil, hlsAkamaiSettings: HlsAkamaiSettings? = nil) {
+        public init(hlsBasicPutSettings: HlsBasicPutSettings? = nil, hlsMediaStoreSettings: HlsMediaStoreSettings? = nil, hlsAkamaiSettings: HlsAkamaiSettings? = nil, hlsWebdavSettings: HlsWebdavSettings? = nil) {
             self.hlsBasicPutSettings = hlsBasicPutSettings
             self.hlsMediaStoreSettings = hlsMediaStoreSettings
-            self.hlsWebdavSettings = hlsWebdavSettings
             self.hlsAkamaiSettings = hlsAkamaiSettings
+            self.hlsWebdavSettings = hlsWebdavSettings
         }
 
         private enum CodingKeys: String, CodingKey {
             case hlsBasicPutSettings = "hlsBasicPutSettings"
             case hlsMediaStoreSettings = "hlsMediaStoreSettings"
-            case hlsWebdavSettings = "hlsWebdavSettings"
             case hlsAkamaiSettings = "hlsAkamaiSettings"
+            case hlsWebdavSettings = "hlsWebdavSettings"
         }
     }
 
@@ -2254,15 +1077,16 @@ extension Medialive {
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsAudioBufferModel: String, CustomStringConvertible, Codable {
-        case atsc = "ATSC"
-        case dvb = "DVB"
-        public var description: String { return self.rawValue }
-    }
-
     public enum InputLossActionForMsSmoothOut: String, CustomStringConvertible, Codable {
         case emitOutput = "EMIT_OUTPUT"
         case pauseOutput = "PAUSE_OUTPUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RtmpCaptionData: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case field1608 = "FIELD1_608"
+        case field1AndField2608 = "FIELD1_AND_FIELD2_608"
         public var description: String { return self.rawValue }
     }
 
@@ -2270,174 +1094,10 @@ extension Medialive {
 
     }
 
-    public struct CaptionDestinationSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmbeddedPlusScte20DestinationSettings", location: .body(locationName: "embeddedPlusScte20DestinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Scte20PlusEmbeddedDestinationSettings", location: .body(locationName: "scte20PlusEmbeddedDestinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "AribDestinationSettings", location: .body(locationName: "aribDestinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "TtmlDestinationSettings", location: .body(locationName: "ttmlDestinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "TeletextDestinationSettings", location: .body(locationName: "teletextDestinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "WebvttDestinationSettings", location: .body(locationName: "webvttDestinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "EmbeddedDestinationSettings", location: .body(locationName: "embeddedDestinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "DvbSubDestinationSettings", location: .body(locationName: "dvbSubDestinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "SmpteTtDestinationSettings", location: .body(locationName: "smpteTtDestinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "BurnInDestinationSettings", location: .body(locationName: "burnInDestinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Scte27DestinationSettings", location: .body(locationName: "scte27DestinationSettings"), required: false, type: .structure)
-        ]
-        public let embeddedPlusScte20DestinationSettings: EmbeddedPlusScte20DestinationSettings?
-        public let scte20PlusEmbeddedDestinationSettings: Scte20PlusEmbeddedDestinationSettings?
-        public let aribDestinationSettings: AribDestinationSettings?
-        public let ttmlDestinationSettings: TtmlDestinationSettings?
-        public let teletextDestinationSettings: TeletextDestinationSettings?
-        public let webvttDestinationSettings: WebvttDestinationSettings?
-        public let embeddedDestinationSettings: EmbeddedDestinationSettings?
-        public let dvbSubDestinationSettings: DvbSubDestinationSettings?
-        public let smpteTtDestinationSettings: SmpteTtDestinationSettings?
-        public let burnInDestinationSettings: BurnInDestinationSettings?
-        public let scte27DestinationSettings: Scte27DestinationSettings?
-
-        public init(embeddedPlusScte20DestinationSettings: EmbeddedPlusScte20DestinationSettings? = nil, scte20PlusEmbeddedDestinationSettings: Scte20PlusEmbeddedDestinationSettings? = nil, aribDestinationSettings: AribDestinationSettings? = nil, ttmlDestinationSettings: TtmlDestinationSettings? = nil, teletextDestinationSettings: TeletextDestinationSettings? = nil, webvttDestinationSettings: WebvttDestinationSettings? = nil, embeddedDestinationSettings: EmbeddedDestinationSettings? = nil, dvbSubDestinationSettings: DvbSubDestinationSettings? = nil, smpteTtDestinationSettings: SmpteTtDestinationSettings? = nil, burnInDestinationSettings: BurnInDestinationSettings? = nil, scte27DestinationSettings: Scte27DestinationSettings? = nil) {
-            self.embeddedPlusScte20DestinationSettings = embeddedPlusScte20DestinationSettings
-            self.scte20PlusEmbeddedDestinationSettings = scte20PlusEmbeddedDestinationSettings
-            self.aribDestinationSettings = aribDestinationSettings
-            self.ttmlDestinationSettings = ttmlDestinationSettings
-            self.teletextDestinationSettings = teletextDestinationSettings
-            self.webvttDestinationSettings = webvttDestinationSettings
-            self.embeddedDestinationSettings = embeddedDestinationSettings
-            self.dvbSubDestinationSettings = dvbSubDestinationSettings
-            self.smpteTtDestinationSettings = smpteTtDestinationSettings
-            self.burnInDestinationSettings = burnInDestinationSettings
-            self.scte27DestinationSettings = scte27DestinationSettings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case embeddedPlusScte20DestinationSettings = "embeddedPlusScte20DestinationSettings"
-            case scte20PlusEmbeddedDestinationSettings = "scte20PlusEmbeddedDestinationSettings"
-            case aribDestinationSettings = "aribDestinationSettings"
-            case ttmlDestinationSettings = "ttmlDestinationSettings"
-            case teletextDestinationSettings = "teletextDestinationSettings"
-            case webvttDestinationSettings = "webvttDestinationSettings"
-            case embeddedDestinationSettings = "embeddedDestinationSettings"
-            case dvbSubDestinationSettings = "dvbSubDestinationSettings"
-            case smpteTtDestinationSettings = "smpteTtDestinationSettings"
-            case burnInDestinationSettings = "burnInDestinationSettings"
-            case scte27DestinationSettings = "scte27DestinationSettings"
-        }
-    }
-
-    public enum H264RateControlMode: String, CustomStringConvertible, Codable {
-        case cbr = "CBR"
-        case vbr = "VBR"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct VideoDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Height", location: .body(locationName: "height"), required: false, type: .integer), 
-            AWSShapeMember(label: "Sharpness", location: .body(locationName: "sharpness"), required: false, type: .integer), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "ScalingBehavior", location: .body(locationName: "scalingBehavior"), required: false, type: .enum), 
-            AWSShapeMember(label: "RespondToAfd", location: .body(locationName: "respondToAfd"), required: false, type: .enum), 
-            AWSShapeMember(label: "Width", location: .body(locationName: "width"), required: false, type: .integer), 
-            AWSShapeMember(label: "CodecSettings", location: .body(locationName: "codecSettings"), required: false, type: .structure)
-        ]
-        /// Output video height (in pixels). Leave blank to use source video height. If left blank, width must also be unspecified.
-        public let height: Int32?
-        /// Changes the width of the anti-alias filter kernel used for scaling. Only applies if scaling is being performed and antiAlias is set to true. 0 is the softest setting, 100 the sharpest, and 50 recommended for most content.
-        public let sharpness: Int32?
-        /// The name of this VideoDescription. Outputs will use this name to uniquely identify this Description.  Description names should be unique within this Live Event.
-        public let name: String?
-        /// When set to "stretchToOutput", automatically configures the output position to stretch the video to the specified output resolution. This option will override any position value.
-        public let scalingBehavior: VideoDescriptionScalingBehavior?
-        /// Indicates how to respond to the AFD values in the input stream. Setting to "respond" causes input video to be clipped, depending on AFD value, input display aspect ratio and output display aspect ratio.
-        public let respondToAfd: VideoDescriptionRespondToAfd?
-        /// Output video width (in pixels). Leave out to use source video width.  If left out, height must also be left out. Display aspect ratio is always preserved by letterboxing or pillarboxing when necessary.
-        public let width: Int32?
-        /// Video codec settings.
-        public let codecSettings: VideoCodecSettings?
-
-        public init(height: Int32? = nil, sharpness: Int32? = nil, name: String? = nil, scalingBehavior: VideoDescriptionScalingBehavior? = nil, respondToAfd: VideoDescriptionRespondToAfd? = nil, width: Int32? = nil, codecSettings: VideoCodecSettings? = nil) {
-            self.height = height
-            self.sharpness = sharpness
-            self.name = name
-            self.scalingBehavior = scalingBehavior
-            self.respondToAfd = respondToAfd
-            self.width = width
-            self.codecSettings = codecSettings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case height = "height"
-            case sharpness = "sharpness"
-            case name = "name"
-            case scalingBehavior = "scalingBehavior"
-            case respondToAfd = "respondToAfd"
-            case width = "width"
-            case codecSettings = "codecSettings"
-        }
-    }
-
-    public enum AacInputType: String, CustomStringConvertible, Codable {
-        case broadcasterMixedAd = "BROADCASTER_MIXED_AD"
-        case normal = "NORMAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SmoothGroupEventIdMode: String, CustomStringConvertible, Codable {
-        case noEventId = "NO_EVENT_ID"
-        case useConfigured = "USE_CONFIGURED"
-        case useTimestamp = "USE_TIMESTAMP"
-        public var description: String { return self.rawValue }
-    }
-
     public enum HlsOutputSelection: String, CustomStringConvertible, Codable {
         case manifestsAndSegments = "MANIFESTS_AND_SEGMENTS"
         case segmentsOnly = "SEGMENTS_ONLY"
         public var description: String { return self.rawValue }
-    }
-
-    public struct ResourceConflict: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-        public let message: String?
-
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
-    }
-
-    public enum HlsAkamaiHttpTransferMode: String, CustomStringConvertible, Codable {
-        case chunked = "CHUNKED"
-        case nonChunked = "NON_CHUNKED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeInputSecurityGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "WhitelistRules", location: .body(locationName: "whitelistRules"), required: false, type: .list)
-        ]
-        public let id: String?
-        public let arn: String?
-        public let whitelistRules: [InputWhitelistRule]?
-
-        public init(id: String? = nil, arn: String? = nil, whitelistRules: [InputWhitelistRule]? = nil) {
-            self.id = id
-            self.arn = arn
-            self.whitelistRules = whitelistRules
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case arn = "arn"
-            case whitelistRules = "whitelistRules"
-        }
     }
 
     public struct DeleteInputRequest: AWSShape {
@@ -2455,30 +1115,69 @@ extension Medialive {
         }
     }
 
-    public struct ListInputSecurityGroupsResultModel: AWSShape {
+    public struct ResourceConflict: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "InputSecurityGroups", location: .body(locationName: "inputSecurityGroups"), required: false, type: .list)
+            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
         ]
-        public let nextToken: String?
-        /// List of input security groups
-        public let inputSecurityGroups: [InputSecurityGroup]?
+        public let message: String?
 
-        public init(nextToken: String? = nil, inputSecurityGroups: [InputSecurityGroup]? = nil) {
-            self.nextToken = nextToken
-            self.inputSecurityGroups = inputSecurityGroups
+        public init(message: String? = nil) {
+            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case inputSecurityGroups = "inputSecurityGroups"
+            case message = "message"
         }
+    }
+
+    public struct DescribeInputSecurityGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WhitelistRules", location: .body(locationName: "whitelistRules"), required: false, type: .list), 
+            AWSShapeMember(label: "Inputs", location: .body(locationName: "inputs"), required: false, type: .list), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
+        ]
+        public let whitelistRules: [InputWhitelistRule]?
+        public let inputs: [String]?
+        public let arn: String?
+        public let state: InputSecurityGroupState?
+        public let id: String?
+
+        public init(whitelistRules: [InputWhitelistRule]? = nil, inputs: [String]? = nil, arn: String? = nil, state: InputSecurityGroupState? = nil, id: String? = nil) {
+            self.whitelistRules = whitelistRules
+            self.inputs = inputs
+            self.arn = arn
+            self.state = state
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case whitelistRules = "whitelistRules"
+            case inputs = "inputs"
+            case arn = "arn"
+            case state = "state"
+            case id = "id"
+        }
+    }
+
+    public enum Scte35SpliceInsertNoRegionalBlackoutBehavior: String, CustomStringConvertible, Codable {
+        case follow = "FOLLOW"
+        case ignore = "IGNORE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TimecodeConfigSource: String, CustomStringConvertible, Codable {
+        case embedded = "EMBEDDED"
+        case systemclock = "SYSTEMCLOCK"
+        case zerobased = "ZEROBASED"
+        public var description: String { return self.rawValue }
     }
 
     public struct Output: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CaptionDescriptionNames", location: .body(locationName: "captionDescriptionNames"), required: false, type: .list), 
-            AWSShapeMember(label: "OutputSettings", location: .body(locationName: "outputSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "OutputSettings", location: .body(locationName: "outputSettings"), required: true, type: .structure), 
             AWSShapeMember(label: "VideoDescriptionName", location: .body(locationName: "videoDescriptionName"), required: false, type: .string), 
             AWSShapeMember(label: "OutputName", location: .body(locationName: "outputName"), required: false, type: .string), 
             AWSShapeMember(label: "AudioDescriptionNames", location: .body(locationName: "audioDescriptionNames"), required: false, type: .list)
@@ -2486,7 +1185,7 @@ extension Medialive {
         /// The names of the CaptionDescriptions used as caption sources for this output.
         public let captionDescriptionNames: [String]?
         /// Output type-specific settings.
-        public let outputSettings: OutputSettings?
+        public let outputSettings: OutputSettings
         /// The name of the VideoDescription used as the source for this output.
         public let videoDescriptionName: String?
         /// The name used to identify an output.
@@ -2494,7 +1193,7 @@ extension Medialive {
         /// The names of the AudioDescriptions used as audio sources for this output.
         public let audioDescriptionNames: [String]?
 
-        public init(captionDescriptionNames: [String]? = nil, outputSettings: OutputSettings? = nil, videoDescriptionName: String? = nil, outputName: String? = nil, audioDescriptionNames: [String]? = nil) {
+        public init(captionDescriptionNames: [String]? = nil, outputSettings: OutputSettings, videoDescriptionName: String? = nil, outputName: String? = nil, audioDescriptionNames: [String]? = nil) {
             self.captionDescriptionNames = captionDescriptionNames
             self.outputSettings = outputSettings
             self.videoDescriptionName = videoDescriptionName
@@ -2511,58 +1210,15 @@ extension Medialive {
         }
     }
 
-    public enum Eac3CodingMode: String, CustomStringConvertible, Codable {
-        case codingMode10 = "CODING_MODE_1_0"
-        case codingMode20 = "CODING_MODE_2_0"
-        case codingMode32 = "CODING_MODE_3_2"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct InputLossBehavior: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlackFrameMsec", location: .body(locationName: "blackFrameMsec"), required: false, type: .integer), 
-            AWSShapeMember(label: "InputLossImageSlate", location: .body(locationName: "inputLossImageSlate"), required: false, type: .structure), 
-            AWSShapeMember(label: "InputLossImageColor", location: .body(locationName: "inputLossImageColor"), required: false, type: .string), 
-            AWSShapeMember(label: "InputLossImageType", location: .body(locationName: "inputLossImageType"), required: false, type: .enum), 
-            AWSShapeMember(label: "RepeatFrameMsec", location: .body(locationName: "repeatFrameMsec"), required: false, type: .integer)
-        ]
-        /// On input loss, the number of milliseconds to substitute black into the output before switching to the frame specified by inputLossImageType.  A value x, where 0 <= x <= 1,000,000 and a value of 1,000,000 will be interpreted as infinite.
-        public let blackFrameMsec: Int32?
-        /// When input loss image type is "slate" these fields specify the parameters for accessing the slate.
-        public let inputLossImageSlate: InputLocation?
-        /// When input loss image type is "color" this field specifies the color to use. Value: 6 hex characters representing the values of RGB.
-        public let inputLossImageColor: String?
-        /// Indicates whether to substitute a solid color or a slate into the output after input loss exceeds blackFrameMsec.
-        public let inputLossImageType: InputLossImageType?
-        /// On input loss, the number of milliseconds to repeat the previous picture before substituting black into the output.  A value x, where 0 <= x <= 1,000,000 and a value of 1,000,000 will be interpreted as infinite.
-        public let repeatFrameMsec: Int32?
-
-        public init(blackFrameMsec: Int32? = nil, inputLossImageSlate: InputLocation? = nil, inputLossImageColor: String? = nil, inputLossImageType: InputLossImageType? = nil, repeatFrameMsec: Int32? = nil) {
-            self.blackFrameMsec = blackFrameMsec
-            self.inputLossImageSlate = inputLossImageSlate
-            self.inputLossImageColor = inputLossImageColor
-            self.inputLossImageType = inputLossImageType
-            self.repeatFrameMsec = repeatFrameMsec
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case blackFrameMsec = "blackFrameMsec"
-            case inputLossImageSlate = "inputLossImageSlate"
-            case inputLossImageColor = "inputLossImageColor"
-            case inputLossImageType = "inputLossImageType"
-            case repeatFrameMsec = "repeatFrameMsec"
-        }
-    }
-
-    public enum HlsSegmentationMode: String, CustomStringConvertible, Codable {
-        case useInputSegmentation = "USE_INPUT_SEGMENTATION"
-        case useSegmentDuration = "USE_SEGMENT_DURATION"
-        public var description: String { return self.rawValue }
-    }
-
     public enum Eac3MetadataControl: String, CustomStringConvertible, Codable {
         case followInput = "FOLLOW_INPUT"
         case useConfigured = "USE_CONFIGURED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264ScanType: String, CustomStringConvertible, Codable {
+        case interlaced = "INTERLACED"
+        case progressive = "PROGRESSIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -2662,12 +1318,6 @@ extension Medialive {
         }
     }
 
-    public enum InputLossActionForHlsOut: String, CustomStringConvertible, Codable {
-        case emitOutput = "EMIT_OUTPUT"
-        case pauseOutput = "PAUSE_OUTPUT"
-        public var description: String { return self.rawValue }
-    }
-
     public enum M2tsAudioInterval: String, CustomStringConvertible, Codable {
         case videoAndFixedIntervals = "VIDEO_AND_FIXED_INTERVALS"
         case videoInterval = "VIDEO_INTERVAL"
@@ -2693,55 +1343,17 @@ extension Medialive {
         }
     }
 
-    public enum Scte35SpliceInsertNoRegionalBlackoutBehavior: String, CustomStringConvertible, Codable {
-        case follow = "FOLLOW"
-        case ignore = "IGNORE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TimecodeConfigSource: String, CustomStringConvertible, Codable {
-        case embedded = "EMBEDDED"
-        case systemclock = "SYSTEMCLOCK"
-        case zerobased = "ZEROBASED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264ScanType: String, CustomStringConvertible, Codable {
-        case interlaced = "INTERLACED"
-        case progressive = "PROGRESSIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListInputsResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Inputs", location: .body(locationName: "inputs"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
-        public let inputs: [Input]?
-        public let nextToken: String?
-
-        public init(inputs: [Input]? = nil, nextToken: String? = nil) {
-            self.inputs = inputs
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputs = "inputs"
-            case nextToken = "nextToken"
-        }
-    }
-
     public struct AudioSelector: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "SelectorSettings", location: .body(locationName: "selectorSettings"), required: false, type: .structure)
         ]
         /// The name of this AudioSelector. AudioDescriptions will use this name to uniquely identify this Selector.  Selector names should be unique per input.
-        public let name: String?
+        public let name: String
         /// The audio selector settings.
         public let selectorSettings: AudioSelectorSettings?
 
-        public init(name: String? = nil, selectorSettings: AudioSelectorSettings? = nil) {
+        public init(name: String, selectorSettings: AudioSelectorSettings? = nil) {
             self.name = name
             self.selectorSettings = selectorSettings
         }
@@ -2752,44 +1364,18 @@ extension Medialive {
         }
     }
 
-    public struct DvbNitSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RepInterval", location: .body(locationName: "repInterval"), required: false, type: .integer), 
-            AWSShapeMember(label: "NetworkId", location: .body(locationName: "networkId"), required: false, type: .integer), 
-            AWSShapeMember(label: "NetworkName", location: .body(locationName: "networkName"), required: false, type: .string)
-        ]
-        /// The number of milliseconds between instances of this table in the output transport stream.
-        public let repInterval: Int32?
-        /// The numeric value placed in the Network Information Table (NIT).
-        public let networkId: Int32?
-        /// The network name text placed in the networkNameDescriptor inside the Network Information Table. Maximum length is 256 characters.
-        public let networkName: String?
-
-        public init(repInterval: Int32? = nil, networkId: Int32? = nil, networkName: String? = nil) {
-            self.repInterval = repInterval
-            self.networkId = networkId
-            self.networkName = networkName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repInterval = "repInterval"
-            case networkId = "networkId"
-            case networkName = "networkName"
-        }
-    }
-
     public struct InputSourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PasswordParam", location: .body(locationName: "passwordParam"), required: false, type: .string), 
             AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
             AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
         ]
-        /// key used to extract the password from EC2 Parameter store
+        /// The key used to extract the password from EC2 Parameter store.
         public let passwordParam: String?
         /// This represents the customer's source URL where stream is
         /// pulled from.
         public let url: String?
-        /// username for input source
+        /// The username for the input source.
         public let username: String?
 
         public init(passwordParam: String? = nil, url: String? = nil, username: String? = nil) {
@@ -2805,21 +1391,9 @@ extension Medialive {
         }
     }
 
-    public enum M2tsAbsentInputAudioBehavior: String, CustomStringConvertible, Codable {
-        case drop = "DROP"
-        case encodeSilence = "ENCODE_SILENCE"
-        public var description: String { return self.rawValue }
-    }
-
     public enum HlsMode: String, CustomStringConvertible, Codable {
         case live = "LIVE"
         case vod = "VOD"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264EntropyEncoding: String, CustomStringConvertible, Codable {
-        case cabac = "CABAC"
-        case cavlc = "CAVLC"
         public var description: String { return self.rawValue }
     }
 
@@ -2829,9 +1403,15 @@ extension Medialive {
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsRateMode: String, CustomStringConvertible, Codable {
-        case cbr = "CBR"
-        case vbr = "VBR"
+    public enum M2tsAbsentInputAudioBehavior: String, CustomStringConvertible, Codable {
+        case drop = "DROP"
+        case encodeSilence = "ENCODE_SILENCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsDirectoryStructure: String, CustomStringConvertible, Codable {
+        case singleDirectory = "SINGLE_DIRECTORY"
+        case subdirectoryPerStream = "SUBDIRECTORY_PER_STREAM"
         public var description: String { return self.rawValue }
     }
 
@@ -2908,112 +1488,10 @@ extension Medialive {
         }
     }
 
-    public enum BurnInShadowColor: String, CustomStringConvertible, Codable {
-        case black = "BLACK"
-        case none = "NONE"
-        case white = "WHITE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Scte35SpliceInsert: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NoRegionalBlackoutFlag", location: .body(locationName: "noRegionalBlackoutFlag"), required: false, type: .enum), 
-            AWSShapeMember(label: "AdAvailOffset", location: .body(locationName: "adAvailOffset"), required: false, type: .integer), 
-            AWSShapeMember(label: "WebDeliveryAllowedFlag", location: .body(locationName: "webDeliveryAllowedFlag"), required: false, type: .enum)
-        ]
-        /// When set to ignore, Segment Descriptors with noRegionalBlackoutFlag set to 0 will no longer trigger blackouts or Ad Avail slates
-        public let noRegionalBlackoutFlag: Scte35SpliceInsertNoRegionalBlackoutBehavior?
-        /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time. This only applies to embedded SCTE 104/35 messages and does not apply to OOB messages.
-        public let adAvailOffset: Int32?
-        /// When set to ignore, Segment Descriptors with webDeliveryAllowedFlag set to 0 will no longer trigger blackouts or Ad Avail slates
-        public let webDeliveryAllowedFlag: Scte35SpliceInsertWebDeliveryAllowedBehavior?
-
-        public init(noRegionalBlackoutFlag: Scte35SpliceInsertNoRegionalBlackoutBehavior? = nil, adAvailOffset: Int32? = nil, webDeliveryAllowedFlag: Scte35SpliceInsertWebDeliveryAllowedBehavior? = nil) {
-            self.noRegionalBlackoutFlag = noRegionalBlackoutFlag
-            self.adAvailOffset = adAvailOffset
-            self.webDeliveryAllowedFlag = webDeliveryAllowedFlag
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case noRegionalBlackoutFlag = "noRegionalBlackoutFlag"
-            case adAvailOffset = "adAvailOffset"
-            case webDeliveryAllowedFlag = "webDeliveryAllowedFlag"
-        }
-    }
-
-    public enum HlsDirectoryStructure: String, CustomStringConvertible, Codable {
-        case singleDirectory = "SINGLE_DIRECTORY"
-        case subdirectoryPerStream = "SUBDIRECTORY_PER_STREAM"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HlsManifestDurationFormat: String, CustomStringConvertible, Codable {
-        case floatingPoint = "FLOATING_POINT"
-        case integer = "INTEGER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FecOutputIncludeFec: String, CustomStringConvertible, Codable {
-        case column = "COLUMN"
-        case columnAndRow = "COLUMN_AND_ROW"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct InputWhitelistRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cidr", location: .body(locationName: "cidr"), required: false, type: .string)
-        ]
-        /// The IPv4 CIDR that's whitelisted.
-        public let cidr: String?
-
-        public init(cidr: String? = nil) {
-            self.cidr = cidr
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cidr = "cidr"
-        }
-    }
-
     public enum SmoothGroupStreamManifestBehavior: String, CustomStringConvertible, Codable {
         case doNotSend = "DO_NOT_SEND"
         case send = "SEND"
         public var description: String { return self.rawValue }
-    }
-
-    public struct Scte27SourceSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Pid", location: .body(locationName: "pid"), required: false, type: .integer)
-        ]
-        /// The pid field is used in conjunction with the caption selector languageCode field as follows:
-        ///   - Specify PID and Language: Extracts captions from that PID; the language is "informational".
-        ///   - Specify PID and omit Language: Extracts the specified PID.
-        ///   - Omit PID and specify Language: Extracts the specified language, whichever PID that happens to be.
-        ///   - Omit PID and omit Language: Valid only if source is DVB-Sub that is being passed through; all languages will be passed through.
-        public let pid: Int32?
-
-        public init(pid: Int32? = nil) {
-            self.pid = pid
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pid = "pid"
-        }
-    }
-
-    public struct DescribeChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string)
-        ]
-        public let channelId: String
-
-        public init(channelId: String) {
-            self.channelId = channelId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case channelId = "channelId"
-        }
     }
 
     public struct ListInputSecurityGroupsRequest: AWSShape {
@@ -3035,63 +1513,29 @@ extension Medialive {
         }
     }
 
-    public struct EncoderSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VideoDescriptions", location: .body(locationName: "videoDescriptions"), required: false, type: .list), 
-            AWSShapeMember(label: "BlackoutSlate", location: .body(locationName: "blackoutSlate"), required: false, type: .structure), 
-            AWSShapeMember(label: "OutputGroups", location: .body(locationName: "outputGroups"), required: false, type: .list), 
-            AWSShapeMember(label: "AudioDescriptions", location: .body(locationName: "audioDescriptions"), required: false, type: .list), 
-            AWSShapeMember(label: "GlobalConfiguration", location: .body(locationName: "globalConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "AvailConfiguration", location: .body(locationName: "availConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "CaptionDescriptions", location: .body(locationName: "captionDescriptions"), required: false, type: .list), 
-            AWSShapeMember(label: "AvailBlanking", location: .body(locationName: "availBlanking"), required: false, type: .structure), 
-            AWSShapeMember(label: "TimecodeConfig", location: .body(locationName: "timecodeConfig"), required: false, type: .structure)
-        ]
-        public let videoDescriptions: [VideoDescription]?
-        /// Settings for blackout slate.
-        public let blackoutSlate: BlackoutSlate?
-        public let outputGroups: [OutputGroup]?
-        public let audioDescriptions: [AudioDescription]?
-        /// Configuration settings that apply to the event as a whole.
-        public let globalConfiguration: GlobalConfiguration?
-        /// Event-wide configuration settings for ad avail insertion.
-        public let availConfiguration: AvailConfiguration?
-        /// Settings for caption decriptions
-        public let captionDescriptions: [CaptionDescription]?
-        /// Settings for ad avail blanking.
-        public let availBlanking: AvailBlanking?
-        /// Contains settings used to acquire and adjust timecode information from inputs.
-        public let timecodeConfig: TimecodeConfig?
-
-        public init(videoDescriptions: [VideoDescription]? = nil, blackoutSlate: BlackoutSlate? = nil, outputGroups: [OutputGroup]? = nil, audioDescriptions: [AudioDescription]? = nil, globalConfiguration: GlobalConfiguration? = nil, availConfiguration: AvailConfiguration? = nil, captionDescriptions: [CaptionDescription]? = nil, availBlanking: AvailBlanking? = nil, timecodeConfig: TimecodeConfig? = nil) {
-            self.videoDescriptions = videoDescriptions
-            self.blackoutSlate = blackoutSlate
-            self.outputGroups = outputGroups
-            self.audioDescriptions = audioDescriptions
-            self.globalConfiguration = globalConfiguration
-            self.availConfiguration = availConfiguration
-            self.captionDescriptions = captionDescriptions
-            self.availBlanking = availBlanking
-            self.timecodeConfig = timecodeConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case videoDescriptions = "videoDescriptions"
-            case blackoutSlate = "blackoutSlate"
-            case outputGroups = "outputGroups"
-            case audioDescriptions = "audioDescriptions"
-            case globalConfiguration = "globalConfiguration"
-            case availConfiguration = "availConfiguration"
-            case captionDescriptions = "captionDescriptions"
-            case availBlanking = "availBlanking"
-            case timecodeConfig = "timecodeConfig"
-        }
-    }
-
     public enum BlackoutSlateNetworkEndBlackout: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateInputSecurityGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputSecurityGroupId", location: .uri(locationName: "inputSecurityGroupId"), required: true, type: .string), 
+            AWSShapeMember(label: "WhitelistRules", location: .body(locationName: "whitelistRules"), required: false, type: .list)
+        ]
+        public let inputSecurityGroupId: String
+        public let whitelistRules: [InputWhitelistRuleCidr]?
+
+        public init(inputSecurityGroupId: String, whitelistRules: [InputWhitelistRuleCidr]? = nil) {
+            self.inputSecurityGroupId = inputSecurityGroupId
+            self.whitelistRules = whitelistRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputSecurityGroupId = "inputSecurityGroupId"
+            case whitelistRules = "whitelistRules"
+        }
     }
 
     public enum Eac3DcFilter: String, CustomStringConvertible, Codable {
@@ -3107,45 +1551,11 @@ extension Medialive {
         public var description: String { return self.rawValue }
     }
 
-    public struct BlackoutSlate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkEndBlackout", location: .body(locationName: "networkEndBlackout"), required: false, type: .enum), 
-            AWSShapeMember(label: "NetworkEndBlackoutImage", location: .body(locationName: "networkEndBlackoutImage"), required: false, type: .structure), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
-            AWSShapeMember(label: "NetworkId", location: .body(locationName: "networkId"), required: false, type: .string), 
-            AWSShapeMember(label: "BlackoutSlateImage", location: .body(locationName: "blackoutSlateImage"), required: false, type: .structure)
-        ]
-        /// Setting to enabled causes the encoder to blackout the video, audio, and captions, and raise the "Network Blackout Image" slate when an SCTE104/35 Network End Segmentation Descriptor is encountered. The blackout will be lifted when the Network Start Segmentation Descriptor is encountered. The Network End and Network Start descriptors must contain a network ID that matches the value entered in "Network ID".
-        public let networkEndBlackout: BlackoutSlateNetworkEndBlackout?
-        /// Path to local file to use as Network End Blackout image. Image will be scaled to fill the entire output raster.
-        public let networkEndBlackoutImage: InputLocation?
-        /// When set to enabled, causes video, audio and captions to be blanked when indicated by program metadata.
-        public let state: BlackoutSlateState?
-        /// Provides Network ID that matches EIDR ID format (e.g., "10.XXXX/XXXX-XXXX-XXXX-XXXX-XXXX-C").
-        public let networkId: String?
-        /// Blackout slate image to be used. Leave empty for solid black. Only bmp and png images are supported.
-        public let blackoutSlateImage: InputLocation?
-
-        public init(networkEndBlackout: BlackoutSlateNetworkEndBlackout? = nil, networkEndBlackoutImage: InputLocation? = nil, state: BlackoutSlateState? = nil, networkId: String? = nil, blackoutSlateImage: InputLocation? = nil) {
-            self.networkEndBlackout = networkEndBlackout
-            self.networkEndBlackoutImage = networkEndBlackoutImage
-            self.state = state
-            self.networkId = networkId
-            self.blackoutSlateImage = blackoutSlateImage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case networkEndBlackout = "networkEndBlackout"
-            case networkEndBlackoutImage = "networkEndBlackoutImage"
-            case state = "state"
-            case networkId = "networkId"
-            case blackoutSlateImage = "blackoutSlateImage"
-        }
-    }
-
-    public enum H264Syntax: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case rp2027 = "RP2027"
+    public enum AudioType: String, CustomStringConvertible, Codable {
+        case cleanEffects = "CLEAN_EFFECTS"
+        case hearingImpaired = "HEARING_IMPAIRED"
+        case undefined = "UNDEFINED"
+        case visualImpairedCommentary = "VISUAL_IMPAIRED_COMMENTARY"
         public var description: String { return self.rawValue }
     }
 
@@ -3177,6 +1587,101 @@ extension Medialive {
         }
     }
 
+    public enum H264Syntax: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case rp2027 = "RP2027"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputLossImageType: String, CustomStringConvertible, Codable {
+        case color = "COLOR"
+        case slate = "SLATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TimecodeConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SyncThreshold", location: .body(locationName: "syncThreshold"), required: false, type: .integer), 
+            AWSShapeMember(label: "Source", location: .body(locationName: "source"), required: true, type: .enum)
+        ]
+        /// Threshold in frames beyond which output timecode is resynchronized to the input timecode. Discrepancies below this threshold are permitted to avoid unnecessary discontinuities in the output timecode. No timecode sync when this is not specified.
+        public let syncThreshold: Int32?
+        /// Identifies the source for the timecode that will be associated with the events outputs.
+        /// -Embedded (embedded): Initialize the output timecode with timecode from the the source.  If no embedded timecode is detected in the source, the system falls back to using "Start at 0" (zerobased).
+        /// -System Clock (systemclock): Use the UTC time.
+        /// -Start at 0 (zerobased): The time of the first frame of the event will be 00:00:00:00.
+        public let source: TimecodeConfigSource
+
+        public init(syncThreshold: Int32? = nil, source: TimecodeConfigSource) {
+            self.syncThreshold = syncThreshold
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case syncThreshold = "syncThreshold"
+            case source = "source"
+        }
+    }
+
+    public enum H264LookAheadRateControl: String, CustomStringConvertible, Codable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InputWhitelistRuleCidr: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cidr", location: .body(locationName: "cidr"), required: false, type: .string)
+        ]
+        /// The IPv4 CIDR to whitelist.
+        public let cidr: String?
+
+        public init(cidr: String? = nil) {
+            self.cidr = cidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "cidr"
+        }
+    }
+
+    public struct InputSecurityGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WhitelistRules", location: .body(locationName: "whitelistRules"), required: false, type: .list), 
+            AWSShapeMember(label: "Inputs", location: .body(locationName: "inputs"), required: false, type: .list), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
+        ]
+        /// Whitelist rules and their sync status
+        public let whitelistRules: [InputWhitelistRule]?
+        /// The list of inputs currently using this Input Security Group.
+        public let inputs: [String]?
+        /// Unique ARN of Input Security Group
+        public let arn: String?
+        /// The current state of the Input Security Group.
+        public let state: InputSecurityGroupState?
+        /// The Id of the Input Security Group
+        public let id: String?
+
+        public init(whitelistRules: [InputWhitelistRule]? = nil, inputs: [String]? = nil, arn: String? = nil, state: InputSecurityGroupState? = nil, id: String? = nil) {
+            self.whitelistRules = whitelistRules
+            self.inputs = inputs
+            self.arn = arn
+            self.state = state
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case whitelistRules = "whitelistRules"
+            case inputs = "inputs"
+            case arn = "arn"
+            case state = "state"
+            case id = "id"
+        }
+    }
+
     public struct AvailBlanking: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
@@ -3198,97 +1703,6 @@ extension Medialive {
         }
     }
 
-    public enum InputLossImageType: String, CustomStringConvertible, Codable {
-        case color = "COLOR"
-        case slate = "SLATE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct TimecodeConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SyncThreshold", location: .body(locationName: "syncThreshold"), required: false, type: .integer), 
-            AWSShapeMember(label: "Source", location: .body(locationName: "source"), required: false, type: .enum)
-        ]
-        /// Threshold in frames beyond which output timecode is resynchronized to the input timecode. Discrepancies below this threshold are permitted to avoid unnecessary discontinuities in the output timecode. No timecode sync when this is not specified.
-        public let syncThreshold: Int32?
-        /// Identifies the source for the timecode that will be associated with the events outputs.
-        /// -Embedded (embedded): Initialize the output timecode with timecode from the the source.  If no embedded timecode is detected in the source, the system falls back to using "Start at 0" (zerobased).
-        /// -System Clock (systemclock): Use the UTC time.
-        /// -Start at 0 (zerobased): The time of the first frame of the event will be 00:00:00:00.
-        public let source: TimecodeConfigSource?
-
-        public init(syncThreshold: Int32? = nil, source: TimecodeConfigSource? = nil) {
-            self.syncThreshold = syncThreshold
-            self.source = source
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case syncThreshold = "syncThreshold"
-            case source = "source"
-        }
-    }
-
-    public enum AudioType: String, CustomStringConvertible, Codable {
-        case cleanEffects = "CLEAN_EFFECTS"
-        case hearingImpaired = "HEARING_IMPAIRED"
-        case undefined = "UNDEFINED"
-        case visualImpairedCommentary = "VISUAL_IMPAIRED_COMMENTARY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264LookAheadRateControl: String, CustomStringConvertible, Codable {
-        case high = "HIGH"
-        case low = "LOW"
-        case medium = "MEDIUM"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct InputWhitelistRuleCidr: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cidr", location: .body(locationName: "cidr"), required: false, type: .string)
-        ]
-        /// The IPv4 CIDR to whitelist
-        public let cidr: String?
-
-        public init(cidr: String? = nil) {
-            self.cidr = cidr
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cidr = "cidr"
-        }
-    }
-
-    public struct InputSecurityGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "WhitelistRules", location: .body(locationName: "whitelistRules"), required: false, type: .list)
-        ]
-        /// The Id of the Input Security Group
-        public let id: String?
-        /// Unique ARN of Input Security Group
-        public let arn: String?
-        /// Whitelist rules and their sync status
-        public let whitelistRules: [InputWhitelistRule]?
-
-        public init(id: String? = nil, arn: String? = nil, whitelistRules: [InputWhitelistRule]? = nil) {
-            self.id = id
-            self.arn = arn
-            self.whitelistRules = whitelistRules
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case arn = "arn"
-            case whitelistRules = "whitelistRules"
-        }
-    }
-
-    public struct PassThroughSettings: AWSShape {
-
-    }
-
     public enum AacProfile: String, CustomStringConvertible, Codable {
         case hev1 = "HEV1"
         case hev2 = "HEV2"
@@ -3299,53 +1713,6 @@ extension Medialive {
     public enum SmoothGroupSegmentationMode: String, CustomStringConvertible, Codable {
         case useInputSegmentation = "USE_INPUT_SEGMENTATION"
         case useSegmentDuration = "USE_SEGMENT_DURATION"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264Profile: String, CustomStringConvertible, Codable {
-        case baseline = "BASELINE"
-        case high = "HIGH"
-        case high10Bit = "HIGH_10BIT"
-        case high422 = "HIGH_422"
-        case high42210Bit = "HIGH_422_10BIT"
-        case main = "MAIN"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3BitstreamMode: String, CustomStringConvertible, Codable {
-        case commentary = "COMMENTARY"
-        case completeMain = "COMPLETE_MAIN"
-        case emergency = "EMERGENCY"
-        case hearingImpaired = "HEARING_IMPAIRED"
-        case visuallyImpaired = "VISUALLY_IMPAIRED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InputState: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case detached = "DETACHED"
-        case attached = "ATTACHED"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum M2tsCcDescriptor: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum M2tsBufferModel: String, CustomStringConvertible, Codable {
-        case multiplex = "MULTIPLEX"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AfdSignaling: String, CustomStringConvertible, Codable {
-        case auto = "AUTO"
-        case fixed = "FIXED"
-        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -3368,55 +1735,11 @@ extension Medialive {
         }
     }
 
-    public struct CreateChannel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
-            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments"), required: false, type: .list), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Reserved", location: .body(locationName: "reserved"), required: false, type: .string), 
-            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId"), required: false, type: .string)
-        ]
-        public let destinations: [OutputDestination]?
-        /// List of input attachments for channel.
-        public let inputAttachments: [InputAttachment]?
-        /// Name of channel.
-        public let name: String?
-        /// Reserved for future use.
-        public let reserved: String?
-        public let encoderSettings: EncoderSettings?
-        /// An optional Amazon Resource Name (ARN) of the role to assume when running the Channel.
-        public let roleArn: String?
-        /// Unique request ID to be specified. This is needed to prevent retries from
-        /// creating multiple resources.
-        public let requestId: String?
-
-        public init(destinations: [OutputDestination]? = nil, inputAttachments: [InputAttachment]? = nil, name: String? = nil, reserved: String? = nil, encoderSettings: EncoderSettings? = nil, roleArn: String? = nil, requestId: String? = nil) {
-            self.destinations = destinations
-            self.inputAttachments = inputAttachments
-            self.name = name
-            self.reserved = reserved
-            self.encoderSettings = encoderSettings
-            self.roleArn = roleArn
-            self.requestId = requestId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinations = "destinations"
-            case inputAttachments = "inputAttachments"
-            case name = "name"
-            case reserved = "reserved"
-            case encoderSettings = "encoderSettings"
-            case roleArn = "roleArn"
-            case requestId = "requestId"
-        }
-    }
-
     public struct M3u8Settings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PcrControl", location: .body(locationName: "pcrControl"), required: false, type: .enum), 
+            AWSShapeMember(label: "TimedMetadataPid", location: .body(locationName: "timedMetadataPid"), required: false, type: .string), 
             AWSShapeMember(label: "Scte35Behavior", location: .body(locationName: "scte35Behavior"), required: false, type: .enum), 
+            AWSShapeMember(label: "PcrControl", location: .body(locationName: "pcrControl"), required: false, type: .enum), 
             AWSShapeMember(label: "PatInterval", location: .body(locationName: "patInterval"), required: false, type: .integer), 
             AWSShapeMember(label: "PmtPid", location: .body(locationName: "pmtPid"), required: false, type: .string), 
             AWSShapeMember(label: "VideoPid", location: .body(locationName: "videoPid"), required: false, type: .string), 
@@ -3431,10 +1754,12 @@ extension Medialive {
             AWSShapeMember(label: "AudioFramesPerPes", location: .body(locationName: "audioFramesPerPes"), required: false, type: .integer), 
             AWSShapeMember(label: "TransportStreamId", location: .body(locationName: "transportStreamId"), required: false, type: .integer)
         ]
-        /// When set to pcrEveryPesPacket, a Program Clock Reference value is inserted for every Packetized Elementary Stream (PES) header. This parameter is effective only when the PCR PID is the same as the video or audio elementary stream.
-        public let pcrControl: M3u8PcrControl?
+        /// Packet Identifier (PID) of the timed metadata stream in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
+        public let timedMetadataPid: String?
         /// If set to passthrough, passes any SCTE-35 signals from the input source to this output.
         public let scte35Behavior: M3u8Scte35Behavior?
+        /// When set to pcrEveryPesPacket, a Program Clock Reference value is inserted for every Packetized Elementary Stream (PES) header. This parameter is effective only when the PCR PID is the same as the video or audio elementary stream.
+        public let pcrControl: M3u8PcrControl?
         /// The number of milliseconds between instances of this table in the output transport stream. A value of \"0\" writes out the PMT once per segment file.
         public let patInterval: Int32?
         /// Packet Identifier (PID) for the Program Map Table (PMT) in the transport stream. Can be entered as a decimal or hexadecimal value.
@@ -3455,16 +1780,17 @@ extension Medialive {
         public let audioPids: String?
         /// Maximum time in milliseconds between Program Clock References (PCRs) inserted into the transport stream.
         public let pcrPeriod: Int32?
-        /// ThePlatform-protected transport streams using 'microsoft' as Target Client include an ECM stream. This ECM stream contains the size, IV, and PTS of every sample in the transport stream.  This stream PID is specified here. This PID has no effect on non ThePlatform-protected streams.
+        /// This parameter is unused and deprecated.
         public let ecmPid: String?
         /// The number of audio frames to insert for each PES packet.
         public let audioFramesPerPes: Int32?
         /// The value of the transport stream ID field in the Program Map Table.
         public let transportStreamId: Int32?
 
-        public init(pcrControl: M3u8PcrControl? = nil, scte35Behavior: M3u8Scte35Behavior? = nil, patInterval: Int32? = nil, pmtPid: String? = nil, videoPid: String? = nil, timedMetadataBehavior: M3u8TimedMetadataBehavior? = nil, programNum: Int32? = nil, pcrPid: String? = nil, scte35Pid: String? = nil, pmtInterval: Int32? = nil, audioPids: String? = nil, pcrPeriod: Int32? = nil, ecmPid: String? = nil, audioFramesPerPes: Int32? = nil, transportStreamId: Int32? = nil) {
-            self.pcrControl = pcrControl
+        public init(timedMetadataPid: String? = nil, scte35Behavior: M3u8Scte35Behavior? = nil, pcrControl: M3u8PcrControl? = nil, patInterval: Int32? = nil, pmtPid: String? = nil, videoPid: String? = nil, timedMetadataBehavior: M3u8TimedMetadataBehavior? = nil, programNum: Int32? = nil, pcrPid: String? = nil, scte35Pid: String? = nil, pmtInterval: Int32? = nil, audioPids: String? = nil, pcrPeriod: Int32? = nil, ecmPid: String? = nil, audioFramesPerPes: Int32? = nil, transportStreamId: Int32? = nil) {
+            self.timedMetadataPid = timedMetadataPid
             self.scte35Behavior = scte35Behavior
+            self.pcrControl = pcrControl
             self.patInterval = patInterval
             self.pmtPid = pmtPid
             self.videoPid = videoPid
@@ -3481,8 +1807,9 @@ extension Medialive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pcrControl = "pcrControl"
+            case timedMetadataPid = "timedMetadataPid"
             case scte35Behavior = "scte35Behavior"
+            case pcrControl = "pcrControl"
             case patInterval = "patInterval"
             case pmtPid = "pmtPid"
             case videoPid = "videoPid"
@@ -3499,122 +1826,10 @@ extension Medialive {
         }
     }
 
-    public enum HlsIvInManifest: String, CustomStringConvertible, Codable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ChannelConfigurationValidationError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ValidationErrors", location: .body(locationName: "validationErrors"), required: false, type: .list), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-        /// A collection of validation error responses from attempting to create a channel with a bouquet of settings.
-        public let validationErrors: [ValidationError]?
-        public let message: String?
-
-        public init(validationErrors: [ValidationError]? = nil, message: String? = nil) {
-            self.validationErrors = validationErrors
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case validationErrors = "validationErrors"
-            case message = "message"
-        }
-    }
-
-    public struct InvalidRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-        public let message: String?
-
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
-    }
-
-    public struct AudioChannelMapping: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputChannelLevels", location: .body(locationName: "inputChannelLevels"), required: false, type: .list), 
-            AWSShapeMember(label: "OutputChannel", location: .body(locationName: "outputChannel"), required: false, type: .integer)
-        ]
-        /// Indices and gain values for each input channel that should be remixed into this output channel.
-        public let inputChannelLevels: [InputChannelLevel]?
-        /// The index of the output channel being produced.
-        public let outputChannel: Int32?
-
-        public init(inputChannelLevels: [InputChannelLevel]? = nil, outputChannel: Int32? = nil) {
-            self.inputChannelLevels = inputChannelLevels
-            self.outputChannel = outputChannel
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputChannelLevels = "inputChannelLevels"
-            case outputChannel = "outputChannel"
-        }
-    }
-
     public enum BurnInBackgroundColor: String, CustomStringConvertible, Codable {
         case black = "BLACK"
         case none = "NONE"
         case white = "WHITE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Scte35AposWebDeliveryAllowedBehavior: String, CustomStringConvertible, Codable {
-        case follow = "FOLLOW"
-        case ignore = "IGNORE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DvbSdtOutputSdt: String, CustomStringConvertible, Codable {
-        case sdtFollow = "SDT_FOLLOW"
-        case sdtFollowIfPresent = "SDT_FOLLOW_IF_PRESENT"
-        case sdtManual = "SDT_MANUAL"
-        case sdtNone = "SDT_NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HlsEncryptionType: String, CustomStringConvertible, Codable {
-        case aes128 = "AES128"
-        case sampleAes = "SAMPLE_AES"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3DrcLine: String, CustomStringConvertible, Codable {
-        case filmLight = "FILM_LIGHT"
-        case filmStandard = "FILM_STANDARD"
-        case musicLight = "MUSIC_LIGHT"
-        case musicStandard = "MUSIC_STANDARD"
-        case none = "NONE"
-        case speech = "SPEECH"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteInputSecurityGroupResponse: AWSShape {
-
-    }
-
-    public enum BurnInOutlineColor: String, CustomStringConvertible, Codable {
-        case black = "BLACK"
-        case blue = "BLUE"
-        case green = "GREEN"
-        case red = "RED"
-        case white = "WHITE"
-        case yellow = "YELLOW"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3LfeControl: String, CustomStringConvertible, Codable {
-        case lfe = "LFE"
-        case noLfe = "NO_LFE"
         public var description: String { return self.rawValue }
     }
 
@@ -3628,183 +1843,45 @@ extension Medialive {
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsClientCache: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
+    public enum Scte35AposWebDeliveryAllowedBehavior: String, CustomStringConvertible, Codable {
+        case follow = "FOLLOW"
+        case ignore = "IGNORE"
         public var description: String { return self.rawValue }
     }
 
-    public struct CreateChannelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Channel", location: .body(locationName: "channel"), required: false, type: .structure)
-        ]
-        public let channel: Channel?
-
-        public init(channel: Channel? = nil) {
-            self.channel = channel
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case channel = "channel"
-        }
-    }
-
-    public struct Channel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments"), required: false, type: .list), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
-            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "EgressEndpoints", location: .body(locationName: "egressEndpoints"), required: false, type: .list), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
-            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
-        ]
-        /// A list of destinations of the channel. For UDP outputs, there is one
-        /// destination per output. For other types (HLS, for example), there is
-        /// one destination per packager.
-        public let destinations: [OutputDestination]?
-        /// The unique arn of the channel.
-        public let arn: String?
-        /// List of input attachments for channel.
-        public let inputAttachments: [InputAttachment]?
-        public let state: ChannelState?
-        public let encoderSettings: EncoderSettings?
-        /// The name of the channel. (user-mutable)
-        public let name: String?
-        /// The endpoints where outgoing connections initiate from
-        public let egressEndpoints: [ChannelEgressEndpoint]?
-        /// The Amazon Resource Name (ARN) of the role assumed when running the Channel.
-        public let roleArn: String?
-        /// The number of currently healthy pipelines.
-        public let pipelinesRunningCount: Int32?
-        /// The unique id of the channel.
-        public let id: String?
-
-        public init(destinations: [OutputDestination]? = nil, arn: String? = nil, inputAttachments: [InputAttachment]? = nil, state: ChannelState? = nil, encoderSettings: EncoderSettings? = nil, name: String? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, roleArn: String? = nil, pipelinesRunningCount: Int32? = nil, id: String? = nil) {
-            self.destinations = destinations
-            self.arn = arn
-            self.inputAttachments = inputAttachments
-            self.state = state
-            self.encoderSettings = encoderSettings
-            self.name = name
-            self.egressEndpoints = egressEndpoints
-            self.roleArn = roleArn
-            self.pipelinesRunningCount = pipelinesRunningCount
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinations = "destinations"
-            case arn = "arn"
-            case inputAttachments = "inputAttachments"
-            case state = "state"
-            case encoderSettings = "encoderSettings"
-            case name = "name"
-            case egressEndpoints = "egressEndpoints"
-            case roleArn = "roleArn"
-            case pipelinesRunningCount = "pipelinesRunningCount"
-            case id = "id"
-        }
-    }
-
-    public enum InputType: String, CustomStringConvertible, Codable {
-        case udpPush = "UDP_PUSH"
-        case rtpPush = "RTP_PUSH"
-        case rtmpPush = "RTMP_PUSH"
-        case rtmpPull = "RTMP_PULL"
-        case urlPull = "URL_PULL"
+    public enum Eac3LfeControl: String, CustomStringConvertible, Codable {
+        case lfe = "LFE"
+        case noLfe = "NO_LFE"
         public var description: String { return self.rawValue }
     }
 
-    public struct StopChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string)
-        ]
-        public let channelId: String
-
-        public init(channelId: String) {
-            self.channelId = channelId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case channelId = "channelId"
-        }
-    }
-
-    public struct Ac3Settings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "DrcProfile", location: .body(locationName: "drcProfile"), required: false, type: .enum), 
-            AWSShapeMember(label: "LfeFilter", location: .body(locationName: "lfeFilter"), required: false, type: .enum), 
-            AWSShapeMember(label: "BitstreamMode", location: .body(locationName: "bitstreamMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .double), 
-            AWSShapeMember(label: "MetadataControl", location: .body(locationName: "metadataControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "Dialnorm", location: .body(locationName: "dialnorm"), required: false, type: .integer)
-        ]
-        /// Dolby Digital coding mode. Determines number of channels.
-        public let codingMode: Ac3CodingMode?
-        /// If set to filmStandard, adds dynamic range compression signaling to the output bitstream as defined in the Dolby Digital specification.
-        public let drcProfile: Ac3DrcProfile?
-        /// When set to enabled, applies a 120Hz lowpass filter to the LFE channel prior to encoding. Only valid in codingMode32Lfe mode.
-        public let lfeFilter: Ac3LfeFilter?
-        /// Specifies the bitstream mode (bsmod) for the emitted AC-3 stream. See ATSC A/52-2012 for background on these values.
-        public let bitstreamMode: Ac3BitstreamMode?
-        /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
-        public let bitrate: Double?
-        /// When set to "followInput", encoder metadata will be sourced from the DD, DD+, or DolbyE decoder that supplied this audio data. If audio was not supplied from one of these streams, then the static metadata settings will be used.
-        public let metadataControl: Ac3MetadataControl?
-        /// Sets the dialnorm for the output. If excluded and input audio is Dolby Digital, dialnorm will be passed through.
-        public let dialnorm: Int32?
-
-        public init(codingMode: Ac3CodingMode? = nil, drcProfile: Ac3DrcProfile? = nil, lfeFilter: Ac3LfeFilter? = nil, bitstreamMode: Ac3BitstreamMode? = nil, bitrate: Double? = nil, metadataControl: Ac3MetadataControl? = nil, dialnorm: Int32? = nil) {
-            self.codingMode = codingMode
-            self.drcProfile = drcProfile
-            self.lfeFilter = lfeFilter
-            self.bitstreamMode = bitstreamMode
-            self.bitrate = bitrate
-            self.metadataControl = metadataControl
-            self.dialnorm = dialnorm
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case codingMode = "codingMode"
-            case drcProfile = "drcProfile"
-            case lfeFilter = "lfeFilter"
-            case bitstreamMode = "bitstreamMode"
-            case bitrate = "bitrate"
-            case metadataControl = "metadataControl"
-            case dialnorm = "dialnorm"
-        }
-    }
-
-    public enum H264SpatialAq: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
+    public enum HlsEncryptionType: String, CustomStringConvertible, Codable {
+        case aes128 = "AES128"
+        case sampleAes = "SAMPLE_AES"
         public var description: String { return self.rawValue }
     }
 
-    public enum VideoDescriptionScalingBehavior: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case stretchToOutput = "STRETCH_TO_OUTPUT"
+    public struct DeleteInputSecurityGroupResponse: AWSShape {
+
+    }
+
+    public enum ReservationVideoQuality: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case enhanced = "ENHANCED"
+        case premium = "PREMIUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputCodec: String, CustomStringConvertible, Codable {
+        case mpeg2 = "MPEG2"
+        case avc = "AVC"
+        case hevc = "HEVC"
         public var description: String { return self.rawValue }
     }
 
     public enum M2tsTimedMetadataBehavior: String, CustomStringConvertible, Codable {
         case noPassthrough = "NO_PASSTHROUGH"
         case passthrough = "PASSTHROUGH"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DvbSubDestinationFontColor: String, CustomStringConvertible, Codable {
-        case black = "BLACK"
-        case blue = "BLUE"
-        case green = "GREEN"
-        case red = "RED"
-        case white = "WHITE"
-        case yellow = "YELLOW"
         public var description: String { return self.rawValue }
     }
 
@@ -3823,58 +1900,11 @@ extension Medialive {
         }
     }
 
-    public enum HlsProgramDateTime: String, CustomStringConvertible, Codable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
+    public enum ReservationResourceType: String, CustomStringConvertible, Codable {
+        case input = "INPUT"
+        case output = "OUTPUT"
+        case channel = "CHANNEL"
         public var description: String { return self.rawValue }
-    }
-
-    public enum InputDenoiseFilter: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum M2tsArib: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CaptionDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CaptionSelectorName", location: .body(locationName: "captionSelectorName"), required: false, type: .string), 
-            AWSShapeMember(label: "LanguageDescription", location: .body(locationName: "languageDescription"), required: false, type: .string), 
-            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "DestinationSettings", location: .body(locationName: "destinationSettings"), required: false, type: .structure)
-        ]
-        /// Specifies which input caption selector to use as a caption source when generating output captions. This field should match a captionSelector name.
-        public let captionSelectorName: String?
-        /// Human readable information to indicate captions available for players (eg. English, or Spanish).
-        public let languageDescription: String?
-        /// ISO 639-2 three-digit code: http://www.loc.gov/standards/iso639-2/
-        public let languageCode: String?
-        /// Name of the caption description.  Used to associate a caption description with an output.  Names must be unique within an event.
-        public let name: String?
-        /// Additional settings for captions destination that depend on the destination type.
-        public let destinationSettings: CaptionDestinationSettings?
-
-        public init(captionSelectorName: String? = nil, languageDescription: String? = nil, languageCode: String? = nil, name: String? = nil, destinationSettings: CaptionDestinationSettings? = nil) {
-            self.captionSelectorName = captionSelectorName
-            self.languageDescription = languageDescription
-            self.languageCode = languageCode
-            self.name = name
-            self.destinationSettings = destinationSettings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case captionSelectorName = "captionSelectorName"
-            case languageDescription = "languageDescription"
-            case languageCode = "languageCode"
-            case name = "name"
-            case destinationSettings = "destinationSettings"
-        }
     }
 
     public struct OutputLocationRef: AWSShape {
@@ -3892,161 +1922,41 @@ extension Medialive {
         }
     }
 
-    public struct Scte20PlusEmbeddedDestinationSettings: AWSShape {
-
-    }
-
-    public struct ListInputSecurityGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "InputSecurityGroups", location: .body(locationName: "inputSecurityGroups"), required: false, type: .list)
-        ]
-        public let nextToken: String?
-        public let inputSecurityGroups: [InputSecurityGroup]?
-
-        public init(nextToken: String? = nil, inputSecurityGroups: [InputSecurityGroup]? = nil) {
-            self.nextToken = nextToken
-            self.inputSecurityGroups = inputSecurityGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case inputSecurityGroups = "inputSecurityGroups"
-        }
-    }
-
-    public struct AudioLanguageSelection: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode"), required: false, type: .string), 
-            AWSShapeMember(label: "LanguageSelectionPolicy", location: .body(locationName: "languageSelectionPolicy"), required: false, type: .enum)
-        ]
-        /// Selects a specific three-letter language code from within an audio source.
-        public let languageCode: String?
-        /// When set to "strict", the transport stream demux strictly identifies audio streams by their language descriptor. If a PMT update occurs such that an audio stream matching the initially selected language is no longer present then mute will be encoded until the language returns. If "loose", then on a PMT update the demux will choose another audio stream in the program with the same stream type if it can't find one with the same language.
-        public let languageSelectionPolicy: AudioLanguageSelectionPolicy?
-
-        public init(languageCode: String? = nil, languageSelectionPolicy: AudioLanguageSelectionPolicy? = nil) {
-            self.languageCode = languageCode
-            self.languageSelectionPolicy = languageSelectionPolicy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case languageCode = "languageCode"
-            case languageSelectionPolicy = "languageSelectionPolicy"
-        }
-    }
-
     public enum Eac3PhaseControl: String, CustomStringConvertible, Codable {
         case noShift = "NO_SHIFT"
         case shift90Degrees = "SHIFT_90_DEGREES"
         public var description: String { return self.rawValue }
     }
 
-    public struct CreateChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
-            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments"), required: false, type: .list), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Reserved", location: .body(locationName: "reserved"), required: false, type: .string), 
-            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId"), required: false, type: .string)
-        ]
-        public let destinations: [OutputDestination]?
-        public let inputAttachments: [InputAttachment]?
-        public let name: String?
-        public let reserved: String?
-        public let encoderSettings: EncoderSettings?
-        public let roleArn: String?
-        public let requestId: String?
-
-        public init(destinations: [OutputDestination]? = nil, inputAttachments: [InputAttachment]? = nil, name: String? = nil, reserved: String? = nil, encoderSettings: EncoderSettings? = nil, roleArn: String? = nil, requestId: String? = nil) {
-            self.destinations = destinations
-            self.inputAttachments = inputAttachments
-            self.name = name
-            self.reserved = reserved
-            self.encoderSettings = encoderSettings
-            self.roleArn = roleArn
-            self.requestId = requestId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinations = "destinations"
-            case inputAttachments = "inputAttachments"
-            case name = "name"
-            case reserved = "reserved"
-            case encoderSettings = "encoderSettings"
-            case roleArn = "roleArn"
-            case requestId = "requestId"
-        }
-    }
-
-    public struct OutputDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Settings", location: .body(locationName: "settings"), required: false, type: .list), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
-        ]
-        /// Destination settings for output; one for each redundant encoder.
-        public let settings: [OutputDestinationSettings]?
-        /// User-specified id. This is used in an output group or an output.
-        public let id: String?
-
-        public init(settings: [OutputDestinationSettings]? = nil, id: String? = nil) {
-            self.settings = settings
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case settings = "settings"
-            case id = "id"
-        }
-    }
-
-    public struct DeleteChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string)
-        ]
-        public let channelId: String
-
-        public init(channelId: String) {
-            self.channelId = channelId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case channelId = "channelId"
-        }
-    }
-
     public struct OutputDestinationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PasswordParam", location: .body(locationName: "passwordParam"), required: false, type: .string), 
+            AWSShapeMember(label: "StreamName", location: .body(locationName: "streamName"), required: false, type: .string), 
             AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
             AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
         ]
         /// key used to extract the password from EC2 Parameter store
         public let passwordParam: String?
+        /// Stream name for RTMP destinations (URLs of type rtmp://)
+        public let streamName: String?
         /// A URL specifying a destination
         public let url: String?
         /// username for destination
         public let username: String?
 
-        public init(passwordParam: String? = nil, url: String? = nil, username: String? = nil) {
+        public init(passwordParam: String? = nil, streamName: String? = nil, url: String? = nil, username: String? = nil) {
             self.passwordParam = passwordParam
+            self.streamName = streamName
             self.url = url
             self.username = username
         }
 
         private enum CodingKeys: String, CodingKey {
             case passwordParam = "passwordParam"
+            case streamName = "streamName"
             case url = "url"
             case username = "username"
         }
-    }
-
-    public enum H264GopBReference: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteInputSecurityGroupRequest: AWSShape {
@@ -4061,6 +1971,57 @@ extension Medialive {
 
         private enum CodingKeys: String, CodingKey {
             case inputSecurityGroupId = "inputSecurityGroupId"
+        }
+    }
+
+    public struct ListOfferingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Codec", location: .querystring(locationName: "codec"), required: false, type: .string), 
+            AWSShapeMember(label: "VideoQuality", location: .querystring(locationName: "videoQuality"), required: false, type: .string), 
+            AWSShapeMember(label: "MaximumFramerate", location: .querystring(locationName: "maximumFramerate"), required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", location: .querystring(locationName: "resourceType"), required: false, type: .string), 
+            AWSShapeMember(label: "SpecialFeature", location: .querystring(locationName: "specialFeature"), required: false, type: .string), 
+            AWSShapeMember(label: "Resolution", location: .querystring(locationName: "resolution"), required: false, type: .string), 
+            AWSShapeMember(label: "ChannelConfiguration", location: .querystring(locationName: "channelConfiguration"), required: false, type: .string), 
+            AWSShapeMember(label: "MaximumBitrate", location: .querystring(locationName: "maximumBitrate"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        public let codec: String?
+        public let videoQuality: String?
+        public let maximumFramerate: String?
+        public let resourceType: String?
+        public let specialFeature: String?
+        public let resolution: String?
+        public let channelConfiguration: String?
+        public let maximumBitrate: String?
+        public let nextToken: String?
+        public let maxResults: Int32?
+
+        public init(codec: String? = nil, videoQuality: String? = nil, maximumFramerate: String? = nil, resourceType: String? = nil, specialFeature: String? = nil, resolution: String? = nil, channelConfiguration: String? = nil, maximumBitrate: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.codec = codec
+            self.videoQuality = videoQuality
+            self.maximumFramerate = maximumFramerate
+            self.resourceType = resourceType
+            self.specialFeature = specialFeature
+            self.resolution = resolution
+            self.channelConfiguration = channelConfiguration
+            self.maximumBitrate = maximumBitrate
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codec = "codec"
+            case videoQuality = "videoQuality"
+            case maximumFramerate = "maximumFramerate"
+            case resourceType = "resourceType"
+            case specialFeature = "specialFeature"
+            case resolution = "resolution"
+            case channelConfiguration = "channelConfiguration"
+            case maximumBitrate = "maximumBitrate"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
@@ -4100,51 +2061,10 @@ extension Medialive {
         }
     }
 
-    public enum HlsStreamInfResolution: String, CustomStringConvertible, Codable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct VideoSelectorProgramId: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProgramId", location: .body(locationName: "programId"), required: false, type: .integer)
-        ]
-        /// Selects a specific program from within a multi-program transport stream. If the program doesn't exist, the first program within the transport stream will be selected by default.
-        public let programId: Int32?
-
-        public init(programId: Int32? = nil) {
-            self.programId = programId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case programId = "programId"
-        }
-    }
-
-    public struct StandardHlsSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioRenditionSets", location: .body(locationName: "audioRenditionSets"), required: false, type: .string), 
-            AWSShapeMember(label: "M3u8Settings", location: .body(locationName: "m3u8Settings"), required: false, type: .structure)
-        ]
-        /// List all the audio groups that are used with the video output stream. Input all the audio GROUP-IDs that are associated to the video, separate by ','.
-        public let audioRenditionSets: String?
-        public let m3u8Settings: M3u8Settings?
-
-        public init(audioRenditionSets: String? = nil, m3u8Settings: M3u8Settings? = nil) {
-            self.audioRenditionSets = audioRenditionSets
-            self.m3u8Settings = m3u8Settings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case audioRenditionSets = "audioRenditionSets"
-            case m3u8Settings = "m3u8Settings"
-        }
-    }
-
     public struct ChannelSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments"), required: false, type: .list), 
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
@@ -4152,12 +2072,15 @@ extension Medialive {
             AWSShapeMember(label: "EgressEndpoints", location: .body(locationName: "egressEndpoints"), required: false, type: .list), 
             AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
             AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
+            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
+            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification"), required: false, type: .structure)
         ]
         /// A list of destinations of the channel. For UDP outputs, there is one
         /// destination per output. For other types (HLS, for example), there is
         /// one destination per packager.
         public let destinations: [OutputDestination]?
+        /// The unique id of the channel.
+        public let id: String?
         /// The unique arn of the channel.
         public let arn: String?
         /// List of input attachments for channel.
@@ -4171,11 +2094,13 @@ extension Medialive {
         public let roleArn: String?
         /// The number of currently healthy pipelines.
         public let pipelinesRunningCount: Int32?
-        /// The unique id of the channel.
-        public let id: String?
+        /// The log level being written to CloudWatch Logs.
+        public let logLevel: LogLevel?
+        public let inputSpecification: InputSpecification?
 
-        public init(destinations: [OutputDestination]? = nil, arn: String? = nil, inputAttachments: [InputAttachment]? = nil, state: ChannelState? = nil, name: String? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, roleArn: String? = nil, pipelinesRunningCount: Int32? = nil, id: String? = nil) {
+        public init(destinations: [OutputDestination]? = nil, id: String? = nil, arn: String? = nil, inputAttachments: [InputAttachment]? = nil, state: ChannelState? = nil, name: String? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, roleArn: String? = nil, pipelinesRunningCount: Int32? = nil, logLevel: LogLevel? = nil, inputSpecification: InputSpecification? = nil) {
             self.destinations = destinations
+            self.id = id
             self.arn = arn
             self.inputAttachments = inputAttachments
             self.state = state
@@ -4183,11 +2108,13 @@ extension Medialive {
             self.egressEndpoints = egressEndpoints
             self.roleArn = roleArn
             self.pipelinesRunningCount = pipelinesRunningCount
-            self.id = id
+            self.logLevel = logLevel
+            self.inputSpecification = inputSpecification
         }
 
         private enum CodingKeys: String, CodingKey {
             case destinations = "destinations"
+            case id = "id"
             case arn = "arn"
             case inputAttachments = "inputAttachments"
             case state = "state"
@@ -4195,29 +2122,28 @@ extension Medialive {
             case egressEndpoints = "egressEndpoints"
             case roleArn = "roleArn"
             case pipelinesRunningCount = "pipelinesRunningCount"
-            case id = "id"
+            case logLevel = "logLevel"
+            case inputSpecification = "inputSpecification"
         }
     }
 
-    public enum HlsMediaStoreStorageClass: String, CustomStringConvertible, Codable {
-        case temporal = "TEMPORAL"
-        public var description: String { return self.rawValue }
-    }
+    public struct ListReservationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "Reservations", location: .body(locationName: "reservations"), required: false, type: .list)
+        ]
+        public let nextToken: String?
+        public let reservations: [Reservation]?
 
-    public enum VideoSelectorColorSpaceUsage: String, CustomStringConvertible, Codable {
-        case fallback = "FALLBACK"
-        case force = "FORCE"
-        public var description: String { return self.rawValue }
-    }
+        public init(nextToken: String? = nil, reservations: [Reservation]? = nil) {
+            self.nextToken = nextToken
+            self.reservations = reservations
+        }
 
-    public struct SmpteTtDestinationSettings: AWSShape {
-
-    }
-
-    public enum M2tsEbifControl: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case passthrough = "PASSTHROUGH"
-        public var description: String { return self.rawValue }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case reservations = "reservations"
+        }
     }
 
     public struct UdpContainerSettings: AWSShape {
@@ -4235,88 +2161,41 @@ extension Medialive {
         }
     }
 
-    public enum M2tsScte35Control: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case passthrough = "PASSTHROUGH"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Input: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
-            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "AttachedChannels", location: .body(locationName: "attachedChannels"), required: false, type: .list), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: false, type: .list), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
-        ]
-        /// List of destinations of input (PULL-type)
-        public let destinations: [InputDestination]?
-        /// List of IDs for all the security groups attached to the input.
-        public let securityGroups: [String]?
-        /// Unique ARN of input (generated, immutable)
-        public let arn: String?
-        /// List of channel IDs that that input is attached to (currently an input can only be attached to one channel)
-        public let attachedChannels: [String]?
-        public let state: InputState?
-        /// user-assigned name (mutable)
-        public let name: String?
-        /// List of sources of input (PULL-type)
-        public let sources: [InputSource]?
-        public let `type`: InputType?
-        /// generated ID of input (unique for user account, immutable)
-        public let id: String?
-
-        public init(destinations: [InputDestination]? = nil, securityGroups: [String]? = nil, arn: String? = nil, attachedChannels: [String]? = nil, state: InputState? = nil, name: String? = nil, sources: [InputSource]? = nil, type: InputType? = nil, id: String? = nil) {
-            self.destinations = destinations
-            self.securityGroups = securityGroups
-            self.arn = arn
-            self.attachedChannels = attachedChannels
-            self.state = state
-            self.name = name
-            self.sources = sources
-            self.`type` = `type`
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinations = "destinations"
-            case securityGroups = "securityGroups"
-            case arn = "arn"
-            case attachedChannels = "attachedChannels"
-            case state = "state"
-            case name = "name"
-            case sources = "sources"
-            case `type` = "type"
-            case id = "id"
-        }
-    }
-
-    public enum GlobalConfigurationInputEndAction: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case switchAndLoopInputs = "SWITCH_AND_LOOP_INPUTS"
-        public var description: String { return self.rawValue }
-    }
-
     public enum GlobalConfigurationLowFramerateInputs: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264ParControl: String, CustomStringConvertible, Codable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
-    }
+    public struct RtmpOutputSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionRetryInterval", location: .body(locationName: "connectionRetryInterval"), required: false, type: .integer), 
+            AWSShapeMember(label: "CertificateMode", location: .body(locationName: "certificateMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: true, type: .structure), 
+            AWSShapeMember(label: "NumRetries", location: .body(locationName: "numRetries"), required: false, type: .integer)
+        ]
+        /// Number of seconds to wait before retrying a connection to the Flash Media server if the connection is lost.
+        public let connectionRetryInterval: Int32?
+        /// If set to verifyAuthenticity, verify the tls certificate chain to a trusted Certificate Authority (CA).  This will cause rtmps outputs with self-signed certificates to fail.
+        public let certificateMode: RtmpOutputCertificateMode?
+        /// The RTMP endpoint excluding the stream name (eg. rtmp://host/appname). For connection to Akamai, a username and password must be supplied. URI fields accept format identifiers.
+        public let destination: OutputLocationRef
+        /// Number of retry attempts.
+        public let numRetries: Int32?
 
-    public enum EmbeddedConvert608To708: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case upconvert = "UPCONVERT"
-        public var description: String { return self.rawValue }
+        public init(connectionRetryInterval: Int32? = nil, certificateMode: RtmpOutputCertificateMode? = nil, destination: OutputLocationRef, numRetries: Int32? = nil) {
+            self.connectionRetryInterval = connectionRetryInterval
+            self.certificateMode = certificateMode
+            self.destination = destination
+            self.numRetries = numRetries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionRetryInterval = "connectionRetryInterval"
+            case certificateMode = "certificateMode"
+            case destination = "destination"
+            case numRetries = "numRetries"
+        }
     }
 
     public struct CreateInputSecurityGroupRequest: AWSShape {
@@ -4334,23 +2213,41 @@ extension Medialive {
         }
     }
 
+    public struct DeleteReservationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservationId", location: .uri(locationName: "reservationId"), required: true, type: .string)
+        ]
+        public let reservationId: String
+
+        public init(reservationId: String) {
+            self.reservationId = reservationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservationId = "reservationId"
+        }
+    }
+
     public struct OutputGroupSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MsSmoothGroupSettings", location: .body(locationName: "msSmoothGroupSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "ArchiveGroupSettings", location: .body(locationName: "archiveGroupSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "UdpGroupSettings", location: .body(locationName: "udpGroupSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "HlsGroupSettings", location: .body(locationName: "hlsGroupSettings"), required: false, type: .structure)
+            AWSShapeMember(label: "HlsGroupSettings", location: .body(locationName: "hlsGroupSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "RtmpGroupSettings", location: .body(locationName: "rtmpGroupSettings"), required: false, type: .structure)
         ]
         public let msSmoothGroupSettings: MsSmoothGroupSettings?
         public let archiveGroupSettings: ArchiveGroupSettings?
         public let udpGroupSettings: UdpGroupSettings?
         public let hlsGroupSettings: HlsGroupSettings?
+        public let rtmpGroupSettings: RtmpGroupSettings?
 
-        public init(msSmoothGroupSettings: MsSmoothGroupSettings? = nil, archiveGroupSettings: ArchiveGroupSettings? = nil, udpGroupSettings: UdpGroupSettings? = nil, hlsGroupSettings: HlsGroupSettings? = nil) {
+        public init(msSmoothGroupSettings: MsSmoothGroupSettings? = nil, archiveGroupSettings: ArchiveGroupSettings? = nil, udpGroupSettings: UdpGroupSettings? = nil, hlsGroupSettings: HlsGroupSettings? = nil, rtmpGroupSettings: RtmpGroupSettings? = nil) {
             self.msSmoothGroupSettings = msSmoothGroupSettings
             self.archiveGroupSettings = archiveGroupSettings
             self.udpGroupSettings = udpGroupSettings
             self.hlsGroupSettings = hlsGroupSettings
+            self.rtmpGroupSettings = rtmpGroupSettings
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4358,29 +2255,16 @@ extension Medialive {
             case archiveGroupSettings = "archiveGroupSettings"
             case udpGroupSettings = "udpGroupSettings"
             case hlsGroupSettings = "hlsGroupSettings"
+            case rtmpGroupSettings = "rtmpGroupSettings"
         }
     }
 
-    public enum H264FlickerAq: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
+    public enum ReservationCodec: String, CustomStringConvertible, Codable {
+        case mpeg2 = "MPEG2"
+        case avc = "AVC"
+        case hevc = "HEVC"
+        case audio = "AUDIO"
         public var description: String { return self.rawValue }
-    }
-
-    public struct DvbTdtSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RepInterval", location: .body(locationName: "repInterval"), required: false, type: .integer)
-        ]
-        /// The number of milliseconds between instances of this table in the output transport stream.
-        public let repInterval: Int32?
-
-        public init(repInterval: Int32? = nil) {
-            self.repInterval = repInterval
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repInterval = "repInterval"
-        }
     }
 
     public struct AudioNormalizationSettings: AWSShape {
@@ -4409,88 +2293,9 @@ extension Medialive {
         }
     }
 
-    public struct DvbSdtSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RepInterval", location: .body(locationName: "repInterval"), required: false, type: .integer), 
-            AWSShapeMember(label: "ServiceName", location: .body(locationName: "serviceName"), required: false, type: .string), 
-            AWSShapeMember(label: "ServiceProviderName", location: .body(locationName: "serviceProviderName"), required: false, type: .string), 
-            AWSShapeMember(label: "OutputSdt", location: .body(locationName: "outputSdt"), required: false, type: .enum)
-        ]
-        /// The number of milliseconds between instances of this table in the output transport stream.
-        public let repInterval: Int32?
-        /// The service name placed in the serviceDescriptor in the Service Description Table. Maximum length is 256 characters.
-        public let serviceName: String?
-        /// The service provider name placed in the serviceDescriptor in the Service Description Table. Maximum length is 256 characters.
-        public let serviceProviderName: String?
-        /// Selects method of inserting SDT information into output stream. The sdtFollow setting copies SDT information from input stream to output stream. The sdtFollowIfPresent setting copies SDT information from input stream to output stream if SDT information is present in the input, otherwise it will fall back on the user-defined values. The sdtManual setting means user will enter the SDT information. The sdtNone setting means output stream will not contain SDT information.
-        public let outputSdt: DvbSdtOutputSdt?
-
-        public init(repInterval: Int32? = nil, serviceName: String? = nil, serviceProviderName: String? = nil, outputSdt: DvbSdtOutputSdt? = nil) {
-            self.repInterval = repInterval
-            self.serviceName = serviceName
-            self.serviceProviderName = serviceProviderName
-            self.outputSdt = outputSdt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repInterval = "repInterval"
-            case serviceName = "serviceName"
-            case serviceProviderName = "serviceProviderName"
-            case outputSdt = "outputSdt"
-        }
-    }
-
-    public struct AribDestinationSettings: AWSShape {
-
-    }
-
-    public struct StaticKeySettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyProviderServer", location: .body(locationName: "keyProviderServer"), required: false, type: .structure), 
-            AWSShapeMember(label: "StaticKeyValue", location: .body(locationName: "staticKeyValue"), required: false, type: .string)
-        ]
-        /// The URL of the license server used for protecting content.
-        public let keyProviderServer: InputLocation?
-        /// Static key value as a 32 character hexadecimal string.
-        public let staticKeyValue: String?
-
-        public init(keyProviderServer: InputLocation? = nil, staticKeyValue: String? = nil) {
-            self.keyProviderServer = keyProviderServer
-            self.staticKeyValue = staticKeyValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyProviderServer = "keyProviderServer"
-            case staticKeyValue = "staticKeyValue"
-        }
-    }
-
     public enum H264ColorMetadata: String, CustomStringConvertible, Codable {
         case ignore = "IGNORE"
         case insert = "INSERT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateInputSecurityGroupResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroup", location: .body(locationName: "securityGroup"), required: false, type: .structure)
-        ]
-        public let securityGroup: InputSecurityGroup?
-
-        public init(securityGroup: InputSecurityGroup? = nil) {
-            self.securityGroup = securityGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityGroup = "securityGroup"
-        }
-    }
-
-    public enum Eac3StereoDownmix: String, CustomStringConvertible, Codable {
-        case dpl2 = "DPL2"
-        case loRo = "LO_RO"
-        case ltRt = "LT_RT"
-        case notIndicated = "NOT_INDICATED"
         public var description: String { return self.rawValue }
     }
 
@@ -4509,205 +2314,49 @@ extension Medialive {
         }
     }
 
-    public enum M2tsSegmentationStyle: String, CustomStringConvertible, Codable {
-        case maintainCadence = "MAINTAIN_CADENCE"
-        case resetCadence = "RESET_CADENCE"
+    public struct ListOfferingsResultModel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Offerings", location: .body(locationName: "offerings"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        /// List of offerings
+        public let offerings: [Offering]?
+        /// Token to retrieve the next page of results
+        public let nextToken: String?
+
+        public init(offerings: [Offering]? = nil, nextToken: String? = nil) {
+            self.offerings = offerings
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case offerings = "offerings"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public enum OfferingType: String, CustomStringConvertible, Codable {
+        case noUpfront = "NO_UPFRONT"
         public var description: String { return self.rawValue }
-    }
-
-    public enum M2tsSegmentationMarkers: String, CustomStringConvertible, Codable {
-        case ebp = "EBP"
-        case ebpLegacy = "EBP_LEGACY"
-        case none = "NONE"
-        case psiSegstart = "PSI_SEGSTART"
-        case raiAdapt = "RAI_ADAPT"
-        case raiSegstart = "RAI_SEGSTART"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AacSpec: String, CustomStringConvertible, Codable {
-        case mpeg2 = "MPEG2"
-        case mpeg4 = "MPEG4"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Mp2Settings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .double), 
-            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"), required: false, type: .double)
-        ]
-        /// The MPEG2 Audio coding mode.  Valid values are codingMode10 (for mono) or codingMode20 (for stereo).
-        public let codingMode: Mp2CodingMode?
-        /// Average bitrate in bits/second.
-        public let bitrate: Double?
-        /// Sample rate in Hz.
-        public let sampleRate: Double?
-
-        public init(codingMode: Mp2CodingMode? = nil, bitrate: Double? = nil, sampleRate: Double? = nil) {
-            self.codingMode = codingMode
-            self.bitrate = bitrate
-            self.sampleRate = sampleRate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case codingMode = "codingMode"
-            case bitrate = "bitrate"
-            case sampleRate = "sampleRate"
-        }
-    }
-
-    public struct Scte35TimeSignalApos: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NoRegionalBlackoutFlag", location: .body(locationName: "noRegionalBlackoutFlag"), required: false, type: .enum), 
-            AWSShapeMember(label: "AdAvailOffset", location: .body(locationName: "adAvailOffset"), required: false, type: .integer), 
-            AWSShapeMember(label: "WebDeliveryAllowedFlag", location: .body(locationName: "webDeliveryAllowedFlag"), required: false, type: .enum)
-        ]
-        /// When set to ignore, Segment Descriptors with noRegionalBlackoutFlag set to 0 will no longer trigger blackouts or Ad Avail slates
-        public let noRegionalBlackoutFlag: Scte35AposNoRegionalBlackoutBehavior?
-        /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time. This only applies to embedded SCTE 104/35 messages and does not apply to OOB messages.
-        public let adAvailOffset: Int32?
-        /// When set to ignore, Segment Descriptors with webDeliveryAllowedFlag set to 0 will no longer trigger blackouts or Ad Avail slates
-        public let webDeliveryAllowedFlag: Scte35AposWebDeliveryAllowedBehavior?
-
-        public init(noRegionalBlackoutFlag: Scte35AposNoRegionalBlackoutBehavior? = nil, adAvailOffset: Int32? = nil, webDeliveryAllowedFlag: Scte35AposWebDeliveryAllowedBehavior? = nil) {
-            self.noRegionalBlackoutFlag = noRegionalBlackoutFlag
-            self.adAvailOffset = adAvailOffset
-            self.webDeliveryAllowedFlag = webDeliveryAllowedFlag
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case noRegionalBlackoutFlag = "noRegionalBlackoutFlag"
-            case adAvailOffset = "adAvailOffset"
-            case webDeliveryAllowedFlag = "webDeliveryAllowedFlag"
-        }
-    }
-
-    public struct AudioCodecSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Mp2Settings", location: .body(locationName: "mp2Settings"), required: false, type: .structure), 
-            AWSShapeMember(label: "AacSettings", location: .body(locationName: "aacSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Ac3Settings", location: .body(locationName: "ac3Settings"), required: false, type: .structure), 
-            AWSShapeMember(label: "PassThroughSettings", location: .body(locationName: "passThroughSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Eac3Settings", location: .body(locationName: "eac3Settings"), required: false, type: .structure)
-        ]
-        public let mp2Settings: Mp2Settings?
-        public let aacSettings: AacSettings?
-        public let ac3Settings: Ac3Settings?
-        public let passThroughSettings: PassThroughSettings?
-        public let eac3Settings: Eac3Settings?
-
-        public init(mp2Settings: Mp2Settings? = nil, aacSettings: AacSettings? = nil, ac3Settings: Ac3Settings? = nil, passThroughSettings: PassThroughSettings? = nil, eac3Settings: Eac3Settings? = nil) {
-            self.mp2Settings = mp2Settings
-            self.aacSettings = aacSettings
-            self.ac3Settings = ac3Settings
-            self.passThroughSettings = passThroughSettings
-            self.eac3Settings = eac3Settings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mp2Settings = "mp2Settings"
-            case aacSettings = "aacSettings"
-            case ac3Settings = "ac3Settings"
-            case passThroughSettings = "passThroughSettings"
-            case eac3Settings = "eac3Settings"
-        }
-    }
-
-    public enum HlsIvSource: String, CustomStringConvertible, Codable {
-        case explicit = "EXPLICIT"
-        case followsSegmentNumber = "FOLLOWS_SEGMENT_NUMBER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AvailConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailSettings", location: .body(locationName: "availSettings"), required: false, type: .structure)
-        ]
-        /// Ad avail settings.
-        public let availSettings: AvailSettings?
-
-        public init(availSettings: AvailSettings? = nil) {
-            self.availSettings = availSettings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case availSettings = "availSettings"
-        }
-    }
-
-    public struct StopChannelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments"), required: false, type: .list), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
-            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "EgressEndpoints", location: .body(locationName: "egressEndpoints"), required: false, type: .list), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
-            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
-        ]
-        public let destinations: [OutputDestination]?
-        public let arn: String?
-        public let inputAttachments: [InputAttachment]?
-        public let state: ChannelState?
-        public let encoderSettings: EncoderSettings?
-        public let name: String?
-        public let egressEndpoints: [ChannelEgressEndpoint]?
-        public let roleArn: String?
-        public let pipelinesRunningCount: Int32?
-        public let id: String?
-
-        public init(destinations: [OutputDestination]? = nil, arn: String? = nil, inputAttachments: [InputAttachment]? = nil, state: ChannelState? = nil, encoderSettings: EncoderSettings? = nil, name: String? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, roleArn: String? = nil, pipelinesRunningCount: Int32? = nil, id: String? = nil) {
-            self.destinations = destinations
-            self.arn = arn
-            self.inputAttachments = inputAttachments
-            self.state = state
-            self.encoderSettings = encoderSettings
-            self.name = name
-            self.egressEndpoints = egressEndpoints
-            self.roleArn = roleArn
-            self.pipelinesRunningCount = pipelinesRunningCount
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinations = "destinations"
-            case arn = "arn"
-            case inputAttachments = "inputAttachments"
-            case state = "state"
-            case encoderSettings = "encoderSettings"
-            case name = "name"
-            case egressEndpoints = "egressEndpoints"
-            case roleArn = "roleArn"
-            case pipelinesRunningCount = "pipelinesRunningCount"
-            case id = "id"
-        }
-    }
-
-    public struct AvailSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Scte35TimeSignalApos", location: .body(locationName: "scte35TimeSignalApos"), required: false, type: .structure), 
-            AWSShapeMember(label: "Scte35SpliceInsert", location: .body(locationName: "scte35SpliceInsert"), required: false, type: .structure)
-        ]
-        public let scte35TimeSignalApos: Scte35TimeSignalApos?
-        public let scte35SpliceInsert: Scte35SpliceInsert?
-
-        public init(scte35TimeSignalApos: Scte35TimeSignalApos? = nil, scte35SpliceInsert: Scte35SpliceInsert? = nil) {
-            self.scte35TimeSignalApos = scte35TimeSignalApos
-            self.scte35SpliceInsert = scte35SpliceInsert
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scte35TimeSignalApos = "scte35TimeSignalApos"
-            case scte35SpliceInsert = "scte35SpliceInsert"
-        }
     }
 
     public struct EmbeddedPlusScte20DestinationSettings: AWSShape {
 
+    }
+
+    public struct DescribeOfferingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OfferingId", location: .uri(locationName: "offeringId"), required: true, type: .string)
+        ]
+        public let offeringId: String
+
+        public init(offeringId: String) {
+            self.offeringId = offeringId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case offeringId = "offeringId"
+        }
     }
 
     public enum HlsManifestCompression: String, CustomStringConvertible, Codable {
@@ -4716,67 +2365,63 @@ extension Medialive {
         public var description: String { return self.rawValue }
     }
 
-    public enum AacRawFormat: String, CustomStringConvertible, Codable {
-        case latmLoas = "LATM_LOAS"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DescribeChannelResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments"), required: false, type: .list), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
             AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "EgressEndpoints", location: .body(locationName: "egressEndpoints"), required: false, type: .list), 
             AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
             AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
+            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
+            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification"), required: false, type: .structure)
         ]
         public let destinations: [OutputDestination]?
+        public let id: String?
         public let arn: String?
         public let inputAttachments: [InputAttachment]?
+        public let name: String?
         public let state: ChannelState?
         public let encoderSettings: EncoderSettings?
-        public let name: String?
         public let egressEndpoints: [ChannelEgressEndpoint]?
         public let roleArn: String?
         public let pipelinesRunningCount: Int32?
-        public let id: String?
+        public let logLevel: LogLevel?
+        public let inputSpecification: InputSpecification?
 
-        public init(destinations: [OutputDestination]? = nil, arn: String? = nil, inputAttachments: [InputAttachment]? = nil, state: ChannelState? = nil, encoderSettings: EncoderSettings? = nil, name: String? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, roleArn: String? = nil, pipelinesRunningCount: Int32? = nil, id: String? = nil) {
+        public init(destinations: [OutputDestination]? = nil, id: String? = nil, arn: String? = nil, inputAttachments: [InputAttachment]? = nil, name: String? = nil, state: ChannelState? = nil, encoderSettings: EncoderSettings? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, roleArn: String? = nil, pipelinesRunningCount: Int32? = nil, logLevel: LogLevel? = nil, inputSpecification: InputSpecification? = nil) {
             self.destinations = destinations
+            self.id = id
             self.arn = arn
             self.inputAttachments = inputAttachments
+            self.name = name
             self.state = state
             self.encoderSettings = encoderSettings
-            self.name = name
             self.egressEndpoints = egressEndpoints
             self.roleArn = roleArn
             self.pipelinesRunningCount = pipelinesRunningCount
-            self.id = id
+            self.logLevel = logLevel
+            self.inputSpecification = inputSpecification
         }
 
         private enum CodingKeys: String, CodingKey {
             case destinations = "destinations"
+            case id = "id"
             case arn = "arn"
             case inputAttachments = "inputAttachments"
+            case name = "name"
             case state = "state"
             case encoderSettings = "encoderSettings"
-            case name = "name"
             case egressEndpoints = "egressEndpoints"
             case roleArn = "roleArn"
             case pipelinesRunningCount = "pipelinesRunningCount"
-            case id = "id"
+            case logLevel = "logLevel"
+            case inputSpecification = "inputSpecification"
         }
-    }
-
-    public enum AudioDescriptionLanguageCodeControl: String, CustomStringConvertible, Codable {
-        case followInput = "FOLLOW_INPUT"
-        case useConfigured = "USE_CONFIGURED"
-        public var description: String { return self.rawValue }
     }
 
     public struct InputDestinationRequest: AWSShape {
@@ -4794,6 +2439,12 @@ extension Medialive {
         private enum CodingKeys: String, CodingKey {
             case streamName = "streamName"
         }
+    }
+
+    public enum AacRawFormat: String, CustomStringConvertible, Codable {
+        case latmLoas = "LATM_LOAS"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
     }
 
     public struct EmbeddedSourceSettings: AWSShape {
@@ -4827,6 +2478,12 @@ extension Medialive {
         }
     }
 
+    public enum AudioDescriptionLanguageCodeControl: String, CustomStringConvertible, Codable {
+        case followInput = "FOLLOW_INPUT"
+        case useConfigured = "USE_CONFIGURED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct VideoSelectorSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VideoSelectorPid", location: .body(locationName: "videoSelectorPid"), required: false, type: .structure), 
@@ -4846,30 +2503,6 @@ extension Medialive {
         }
     }
 
-    public enum AudioLanguageSelectionPolicy: String, CustomStringConvertible, Codable {
-        case loose = "LOOSE"
-        case strict = "STRICT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HlsTsFileMode: String, CustomStringConvertible, Codable {
-        case segmentedFiles = "SEGMENTED_FILES"
-        case singleFile = "SINGLE_FILE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NetworkInputServerValidation: String, CustomStringConvertible, Codable {
-        case checkCryptographyAndValidateName = "CHECK_CRYPTOGRAPHY_AND_VALIDATE_NAME"
-        case checkCryptographyOnly = "CHECK_CRYPTOGRAPHY_ONLY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InputDeblockFilter: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InputSecurityGroupWhitelistRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WhitelistRules", location: .body(locationName: "whitelistRules"), required: false, type: .list)
@@ -4884,10 +2517,6 @@ extension Medialive {
         private enum CodingKeys: String, CodingKey {
             case whitelistRules = "whitelistRules"
         }
-    }
-
-    public struct Empty: AWSShape {
-
     }
 
     public struct LimitExceeded: AWSShape {
@@ -4905,19 +2534,8 @@ extension Medialive {
         }
     }
 
-    public struct DescribeInputRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputId", location: .uri(locationName: "inputId"), required: true, type: .string)
-        ]
-        public let inputId: String
+    public struct Empty: AWSShape {
 
-        public init(inputId: String) {
-            self.inputId = inputId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputId = "inputId"
-        }
     }
 
     public enum HlsTimedMetadataId3Frame: String, CustomStringConvertible, Codable {
@@ -4927,46 +2545,15 @@ extension Medialive {
         public var description: String { return self.rawValue }
     }
 
-    public enum AacRateControlMode: String, CustomStringConvertible, Codable {
-        case cbr = "CBR"
-        case vbr = "VBR"
-        public var description: String { return self.rawValue }
-    }
-
     public enum BurnInTeletextGridControl: String, CustomStringConvertible, Codable {
         case fixed = "FIXED"
         case scaled = "SCALED"
         public var description: String { return self.rawValue }
     }
 
-    public struct ListInputsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Inputs", location: .body(locationName: "inputs"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
-        public let inputs: [Input]?
-        public let nextToken: String?
-
-        public init(inputs: [Input]? = nil, nextToken: String? = nil) {
-            self.inputs = inputs
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputs = "inputs"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public enum M2tsPcrControl: String, CustomStringConvertible, Codable {
-        case configuredPcrPeriod = "CONFIGURED_PCR_PERIOD"
-        case pcrEveryPesPacket = "PCR_EVERY_PES_PACKET"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Ac3MetadataControl: String, CustomStringConvertible, Codable {
-        case followInput = "FOLLOW_INPUT"
-        case useConfigured = "USE_CONFIGURED"
+    public enum AacRateControlMode: String, CustomStringConvertible, Codable {
+        case cbr = "CBR"
+        case vbr = "VBR"
         public var description: String { return self.rawValue }
     }
 
@@ -4991,32 +2578,6 @@ extension Medialive {
         }
     }
 
-    public struct ArchiveOutputSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NameModifier", location: .body(locationName: "nameModifier"), required: false, type: .string), 
-            AWSShapeMember(label: "ContainerSettings", location: .body(locationName: "containerSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Extension", location: .body(locationName: "extension"), required: false, type: .string)
-        ]
-        /// String concatenated to the end of the destination filename.  Required for multiple outputs of the same type.
-        public let nameModifier: String?
-        /// Settings specific to the container type of the file.
-        public let containerSettings: ArchiveContainerSettings?
-        /// Output file extension. If excluded, this will be auto-selected from the container type.
-        public let `extension`: String?
-
-        public init(nameModifier: String? = nil, containerSettings: ArchiveContainerSettings? = nil, extension: String? = nil) {
-            self.nameModifier = nameModifier
-            self.containerSettings = containerSettings
-            self.`extension` = `extension`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nameModifier = "nameModifier"
-            case containerSettings = "containerSettings"
-            case `extension` = "extension"
-        }
-    }
-
     public struct CreateInputResultModel: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Input", location: .body(locationName: "input"), required: false, type: .structure)
@@ -5032,54 +2593,148 @@ extension Medialive {
         }
     }
 
+    public enum InputMaximumBitrate: String, CustomStringConvertible, Codable {
+        case max10Mbps = "MAX_10_MBPS"
+        case max20Mbps = "MAX_20_MBPS"
+        case max50Mbps = "MAX_50_MBPS"
+        public var description: String { return self.rawValue }
+    }
+
     public struct StartChannelResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments"), required: false, type: .list), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
             AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "EgressEndpoints", location: .body(locationName: "egressEndpoints"), required: false, type: .list), 
             AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
             AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
+            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
+            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification"), required: false, type: .structure)
         ]
         public let destinations: [OutputDestination]?
+        public let id: String?
         public let arn: String?
         public let inputAttachments: [InputAttachment]?
+        public let name: String?
         public let state: ChannelState?
         public let encoderSettings: EncoderSettings?
-        public let name: String?
         public let egressEndpoints: [ChannelEgressEndpoint]?
         public let roleArn: String?
         public let pipelinesRunningCount: Int32?
-        public let id: String?
+        public let logLevel: LogLevel?
+        public let inputSpecification: InputSpecification?
 
-        public init(destinations: [OutputDestination]? = nil, arn: String? = nil, inputAttachments: [InputAttachment]? = nil, state: ChannelState? = nil, encoderSettings: EncoderSettings? = nil, name: String? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, roleArn: String? = nil, pipelinesRunningCount: Int32? = nil, id: String? = nil) {
+        public init(destinations: [OutputDestination]? = nil, id: String? = nil, arn: String? = nil, inputAttachments: [InputAttachment]? = nil, name: String? = nil, state: ChannelState? = nil, encoderSettings: EncoderSettings? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, roleArn: String? = nil, pipelinesRunningCount: Int32? = nil, logLevel: LogLevel? = nil, inputSpecification: InputSpecification? = nil) {
             self.destinations = destinations
+            self.id = id
             self.arn = arn
             self.inputAttachments = inputAttachments
+            self.name = name
             self.state = state
             self.encoderSettings = encoderSettings
-            self.name = name
             self.egressEndpoints = egressEndpoints
             self.roleArn = roleArn
             self.pipelinesRunningCount = pipelinesRunningCount
-            self.id = id
+            self.logLevel = logLevel
+            self.inputSpecification = inputSpecification
         }
 
         private enum CodingKeys: String, CodingKey {
             case destinations = "destinations"
+            case id = "id"
             case arn = "arn"
             case inputAttachments = "inputAttachments"
+            case name = "name"
             case state = "state"
             case encoderSettings = "encoderSettings"
-            case name = "name"
             case egressEndpoints = "egressEndpoints"
             case roleArn = "roleArn"
             case pipelinesRunningCount = "pipelinesRunningCount"
-            case id = "id"
+            case logLevel = "logLevel"
+            case inputSpecification = "inputSpecification"
+        }
+    }
+
+    public struct DeleteReservationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "OfferingId", location: .body(locationName: "offeringId"), required: false, type: .string), 
+            AWSShapeMember(label: "UsagePrice", location: .body(locationName: "usagePrice"), required: false, type: .double), 
+            AWSShapeMember(label: "Region", location: .body(locationName: "region"), required: false, type: .string), 
+            AWSShapeMember(label: "Count", location: .body(locationName: "count"), required: false, type: .integer), 
+            AWSShapeMember(label: "OfferingType", location: .body(locationName: "offeringType"), required: false, type: .enum), 
+            AWSShapeMember(label: "ResourceSpecification", location: .body(locationName: "resourceSpecification"), required: false, type: .structure), 
+            AWSShapeMember(label: "ReservationId", location: .body(locationName: "reservationId"), required: false, type: .string), 
+            AWSShapeMember(label: "OfferingDescription", location: .body(locationName: "offeringDescription"), required: false, type: .string), 
+            AWSShapeMember(label: "Start", location: .body(locationName: "start"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "End", location: .body(locationName: "end"), required: false, type: .string), 
+            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: false, type: .string), 
+            AWSShapeMember(label: "DurationUnits", location: .body(locationName: "durationUnits"), required: false, type: .enum), 
+            AWSShapeMember(label: "Duration", location: .body(locationName: "duration"), required: false, type: .integer), 
+            AWSShapeMember(label: "FixedPrice", location: .body(locationName: "fixedPrice"), required: false, type: .double)
+        ]
+        public let arn: String?
+        public let state: ReservationState?
+        public let offeringId: String?
+        public let usagePrice: Double?
+        public let region: String?
+        public let count: Int32?
+        public let offeringType: OfferingType?
+        public let resourceSpecification: ReservationResourceSpecification?
+        public let reservationId: String?
+        public let offeringDescription: String?
+        public let start: String?
+        public let name: String?
+        public let end: String?
+        public let currencyCode: String?
+        public let durationUnits: OfferingDurationUnits?
+        public let duration: Int32?
+        public let fixedPrice: Double?
+
+        public init(arn: String? = nil, state: ReservationState? = nil, offeringId: String? = nil, usagePrice: Double? = nil, region: String? = nil, count: Int32? = nil, offeringType: OfferingType? = nil, resourceSpecification: ReservationResourceSpecification? = nil, reservationId: String? = nil, offeringDescription: String? = nil, start: String? = nil, name: String? = nil, end: String? = nil, currencyCode: String? = nil, durationUnits: OfferingDurationUnits? = nil, duration: Int32? = nil, fixedPrice: Double? = nil) {
+            self.arn = arn
+            self.state = state
+            self.offeringId = offeringId
+            self.usagePrice = usagePrice
+            self.region = region
+            self.count = count
+            self.offeringType = offeringType
+            self.resourceSpecification = resourceSpecification
+            self.reservationId = reservationId
+            self.offeringDescription = offeringDescription
+            self.start = start
+            self.name = name
+            self.end = end
+            self.currencyCode = currencyCode
+            self.durationUnits = durationUnits
+            self.duration = duration
+            self.fixedPrice = fixedPrice
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case state = "state"
+            case offeringId = "offeringId"
+            case usagePrice = "usagePrice"
+            case region = "region"
+            case count = "count"
+            case offeringType = "offeringType"
+            case resourceSpecification = "resourceSpecification"
+            case reservationId = "reservationId"
+            case offeringDescription = "offeringDescription"
+            case start = "start"
+            case name = "name"
+            case end = "end"
+            case currencyCode = "currencyCode"
+            case durationUnits = "durationUnits"
+            case duration = "duration"
+            case fixedPrice = "fixedPrice"
         }
     }
 
@@ -5099,35 +2754,10 @@ extension Medialive {
         public var description: String { return self.rawValue }
     }
 
-    public struct ValidationError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorMessage", location: .body(locationName: "errorMessage"), required: false, type: .string), 
-            AWSShapeMember(label: "ElementPath", location: .body(locationName: "elementPath"), required: false, type: .string)
-        ]
-        public let errorMessage: String?
-        public let elementPath: String?
-
-        public init(errorMessage: String? = nil, elementPath: String? = nil) {
-            self.errorMessage = errorMessage
-            self.elementPath = elementPath
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorMessage = "errorMessage"
-            case elementPath = "elementPath"
-        }
-    }
-
-    public enum Ac3DrcProfile: String, CustomStringConvertible, Codable {
-        case filmStandard = "FILM_STANDARD"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HlsGroupSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OutputSelection", location: .body(locationName: "outputSelection"), required: false, type: .enum), 
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: false, type: .structure), 
+            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: true, type: .structure), 
             AWSShapeMember(label: "KeyFormat", location: .body(locationName: "keyFormat"), required: false, type: .string), 
             AWSShapeMember(label: "AdMarkers", location: .body(locationName: "adMarkers"), required: false, type: .list), 
             AWSShapeMember(label: "TsFileMode", location: .body(locationName: "tsFileMode"), required: false, type: .enum), 
@@ -5165,7 +2795,7 @@ extension Medialive {
         /// Generates the .m3u8 playlist file for this HLS output group. The segmentsOnly option will output segments without the .m3u8 file.
         public let outputSelection: HlsOutputSelection?
         /// A directory or HTTP destination for the HLS segments, manifest files, and encryption keys (if enabled).
-        public let destination: OutputLocationRef?
+        public let destination: OutputLocationRef
         /// The value specifies how the key is represented in the resource identified by the URI.  If parameter is absent, an implicit value of "identity" is used.  A reverse DNS string can also be given.
         public let keyFormat: String?
         /// Choose one or more ad marker types to pass SCTE35 signals through to this group of Apple HLS outputs.
@@ -5185,7 +2815,7 @@ extension Medialive {
         public let segmentationMode: HlsSegmentationMode?
         /// For use with encryptionType. The IV (Initialization Vector) is a 128-bit number used in conjunction with the key for encrypting blocks. If set to "include", IV is listed in the manifest, otherwise the IV is not in the manifest.
         public let ivInManifest: HlsIvInManifest?
-        /// Number of segments to keep in the playlist (.m3u8) file. mode must be "vod" for this setting to have an effect, and this number should be less than or equal to keepSegments.
+        /// If mode is "live", the number of segments to retain in the manifest (.m3u8) file. This number must be less than or equal to keepSegments. If mode is "vod", this parameter has no effect.
         public let indexNSegments: Int32?
         /// Mapping of up to 4 caption channels to caption languages.  Is only meaningful if captionLanguageSetting is set to "insert".
         public let captionLanguageMappings: [CaptionLanguageMapping]?
@@ -5215,7 +2845,8 @@ extension Medialive {
         public let constantIv: String?
         /// The key provider settings.
         public let keyProviderSettings: KeyProviderSettings?
-        /// If set to "vod", keeps and indexes all segments starting with the first segment.  If set to "live" segments will age out and only the last keepSegments number of segments will be retained.
+        /// If "vod", all segments are indexed and kept permanently in the destination and manifest. If "live", only the number segments specified in keepSegments and indexNSegments are kept; newer segments replace older segments, which may prevent players from rewinding all the way to the beginning of the event.
+        /// VOD mode uses HLS EXT-X-PLAYLIST-TYPE of EVENT while the channel is running, converting it to a "VOD" type manifest on completion of the stream.
         public let mode: HlsMode?
         /// When set to "disabled", sets the #EXT-X-ALLOW-CACHE:no tag in the manifest, which prevents clients from saving media segments for later replay.
         public let clientCache: HlsClientCache?
@@ -5231,12 +2862,12 @@ extension Medialive {
         public let baseUrlManifest: String?
         /// Indicates ID3 frame that has the timecode.
         public let timedMetadataId3Frame: HlsTimedMetadataId3Frame?
-        /// Number of segments to retain in the destination directory. mode must be "live" for this setting to have an effect.
+        /// If mode is "live", the number of TS segments to retain in the destination directory. If mode is "vod", this parameter has no effect.
         public let keepSegments: Int32?
         /// Parameters that control interactions with the CDN.
         public let hlsCdnSettings: HlsCdnSettings?
 
-        public init(outputSelection: HlsOutputSelection? = nil, destination: OutputLocationRef? = nil, keyFormat: String? = nil, adMarkers: [HlsAdMarkers]? = nil, tsFileMode: HlsTsFileMode? = nil, programDateTimePeriod: Int32? = nil, encryptionType: HlsEncryptionType? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, segmentationMode: HlsSegmentationMode? = nil, ivInManifest: HlsIvInManifest? = nil, indexNSegments: Int32? = nil, captionLanguageMappings: [CaptionLanguageMapping]? = nil, ivSource: HlsIvSource? = nil, timedMetadataId3Period: Int32? = nil, keyFormatVersions: String? = nil, segmentsPerSubdirectory: Int32? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, baseUrlContent: String? = nil, segmentLength: Int32? = nil, minSegmentLength: Int32? = nil, manifestCompression: HlsManifestCompression? = nil, streamInfResolution: HlsStreamInfResolution? = nil, directoryStructure: HlsDirectoryStructure? = nil, constantIv: String? = nil, keyProviderSettings: KeyProviderSettings? = nil, mode: HlsMode? = nil, clientCache: HlsClientCache? = nil, timestampDeltaMilliseconds: Int32? = nil, inputLossAction: InputLossActionForHlsOut? = nil, programDateTime: HlsProgramDateTime? = nil, codecSpecification: HlsCodecSpecification? = nil, baseUrlManifest: String? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, keepSegments: Int32? = nil, hlsCdnSettings: HlsCdnSettings? = nil) {
+        public init(outputSelection: HlsOutputSelection? = nil, destination: OutputLocationRef, keyFormat: String? = nil, adMarkers: [HlsAdMarkers]? = nil, tsFileMode: HlsTsFileMode? = nil, programDateTimePeriod: Int32? = nil, encryptionType: HlsEncryptionType? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, segmentationMode: HlsSegmentationMode? = nil, ivInManifest: HlsIvInManifest? = nil, indexNSegments: Int32? = nil, captionLanguageMappings: [CaptionLanguageMapping]? = nil, ivSource: HlsIvSource? = nil, timedMetadataId3Period: Int32? = nil, keyFormatVersions: String? = nil, segmentsPerSubdirectory: Int32? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, baseUrlContent: String? = nil, segmentLength: Int32? = nil, minSegmentLength: Int32? = nil, manifestCompression: HlsManifestCompression? = nil, streamInfResolution: HlsStreamInfResolution? = nil, directoryStructure: HlsDirectoryStructure? = nil, constantIv: String? = nil, keyProviderSettings: KeyProviderSettings? = nil, mode: HlsMode? = nil, clientCache: HlsClientCache? = nil, timestampDeltaMilliseconds: Int32? = nil, inputLossAction: InputLossActionForHlsOut? = nil, programDateTime: HlsProgramDateTime? = nil, codecSpecification: HlsCodecSpecification? = nil, baseUrlManifest: String? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, keepSegments: Int32? = nil, hlsCdnSettings: HlsCdnSettings? = nil) {
             self.outputSelection = outputSelection
             self.destination = destination
             self.keyFormat = keyFormat
@@ -5313,52 +2944,28 @@ extension Medialive {
         }
     }
 
-    public struct CreateInput: AWSShape {
+    public struct ValidationError: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
-            AWSShapeMember(label: "InputSecurityGroups", location: .body(locationName: "inputSecurityGroups"), required: false, type: .list), 
-            AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: false, type: .list), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum), 
-            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId"), required: false, type: .string)
+            AWSShapeMember(label: "ErrorMessage", location: .body(locationName: "errorMessage"), required: false, type: .string), 
+            AWSShapeMember(label: "ElementPath", location: .body(locationName: "elementPath"), required: false, type: .string)
         ]
-        /// settings required for PUSH-type inputs; one per redundancy group.
-        /// Only one of sources and destinations can be specified.
-        /// Note: there are currently no settings required for PUSH-type inputs
-        public let destinations: [InputDestinationRequest]?
-        /// A list of security groups referenced by IDs to attach to the input.
-        public let inputSecurityGroups: [String]?
-        /// settings required for PULL-type inputs; one per redundancy group
-        /// Only one of sources and destinations can be specified
-        public let sources: [InputSourceRequest]?
-        /// Name of the input.
-        public let name: String?
-        public let `type`: InputType?
-        /// Unique identifier of the request to ensure the request is handled
-        /// exactly once in case of retries
-        public let requestId: String?
+        public let errorMessage: String?
+        public let elementPath: String?
 
-        public init(destinations: [InputDestinationRequest]? = nil, inputSecurityGroups: [String]? = nil, sources: [InputSourceRequest]? = nil, name: String? = nil, type: InputType? = nil, requestId: String? = nil) {
-            self.destinations = destinations
-            self.inputSecurityGroups = inputSecurityGroups
-            self.sources = sources
-            self.name = name
-            self.`type` = `type`
-            self.requestId = requestId
+        public init(errorMessage: String? = nil, elementPath: String? = nil) {
+            self.errorMessage = errorMessage
+            self.elementPath = elementPath
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinations = "destinations"
-            case inputSecurityGroups = "inputSecurityGroups"
-            case sources = "sources"
-            case name = "name"
-            case `type` = "type"
-            case requestId = "requestId"
+            case errorMessage = "errorMessage"
+            case elementPath = "elementPath"
         }
     }
 
-    public enum AudioNormalizationAlgorithmControl: String, CustomStringConvertible, Codable {
-        case correctAudio = "CORRECT_AUDIO"
+    public enum Ac3DrcProfile: String, CustomStringConvertible, Codable {
+        case filmStandard = "FILM_STANDARD"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -5366,13 +2973,13 @@ extension Medialive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AudioNormalizationSettings", location: .body(locationName: "audioNormalizationSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "LanguageCodeControl", location: .body(locationName: "languageCodeControl"), required: false, type: .enum), 
             AWSShapeMember(label: "AudioTypeControl", location: .body(locationName: "audioTypeControl"), required: false, type: .enum), 
             AWSShapeMember(label: "AudioType", location: .body(locationName: "audioType"), required: false, type: .enum), 
             AWSShapeMember(label: "StreamName", location: .body(locationName: "streamName"), required: false, type: .string), 
             AWSShapeMember(label: "RemixSettings", location: .body(locationName: "remixSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "AudioSelectorName", location: .body(locationName: "audioSelectorName"), required: false, type: .string), 
+            AWSShapeMember(label: "AudioSelectorName", location: .body(locationName: "audioSelectorName"), required: true, type: .string), 
             AWSShapeMember(label: "CodecSettings", location: .body(locationName: "codecSettings"), required: false, type: .structure)
         ]
         /// Advanced audio normalization settings.
@@ -5380,7 +2987,7 @@ extension Medialive {
         /// Indicates the language of the audio output track. Only used if languageControlMode is useConfigured, or there is no ISO 639 language code specified in the input.
         public let languageCode: String?
         /// The name of this AudioDescription. Outputs will use this name to uniquely identify this AudioDescription.  Description names should be unique within this Live Event.
-        public let name: String?
+        public let name: String
         /// Choosing followInput will cause the ISO 639 language code of the output to follow the ISO 639 language code of the input. The languageCode will be used when useConfigured is set, or when followInput is selected but there is no ISO 639 language code specified by the input.
         public let languageCodeControl: AudioDescriptionLanguageCodeControl?
         /// Determines how audio type is determined.
@@ -5395,11 +3002,11 @@ extension Medialive {
         /// Settings that control how input audio channels are remixed into the output audio channels.
         public let remixSettings: RemixSettings?
         /// The name of the AudioSelector used as the source for this AudioDescription.
-        public let audioSelectorName: String?
+        public let audioSelectorName: String
         /// Audio codec settings.
         public let codecSettings: AudioCodecSettings?
 
-        public init(audioNormalizationSettings: AudioNormalizationSettings? = nil, languageCode: String? = nil, name: String? = nil, languageCodeControl: AudioDescriptionLanguageCodeControl? = nil, audioTypeControl: AudioDescriptionAudioTypeControl? = nil, audioType: AudioType? = nil, streamName: String? = nil, remixSettings: RemixSettings? = nil, audioSelectorName: String? = nil, codecSettings: AudioCodecSettings? = nil) {
+        public init(audioNormalizationSettings: AudioNormalizationSettings? = nil, languageCode: String? = nil, name: String, languageCodeControl: AudioDescriptionLanguageCodeControl? = nil, audioTypeControl: AudioDescriptionAudioTypeControl? = nil, audioType: AudioType? = nil, streamName: String? = nil, remixSettings: RemixSettings? = nil, audioSelectorName: String, codecSettings: AudioCodecSettings? = nil) {
             self.audioNormalizationSettings = audioNormalizationSettings
             self.languageCode = languageCode
             self.name = name
@@ -5426,6 +3033,3804 @@ extension Medialive {
         }
     }
 
+    public struct CreateInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "InputSecurityGroups", location: .body(locationName: "inputSecurityGroups"), required: false, type: .list), 
+            AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: false, type: .list), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum), 
+            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId"), required: false, type: .string)
+        ]
+        /// Destination settings for PUSH type inputs.
+        public let destinations: [InputDestinationRequest]?
+        /// A list of security groups referenced by IDs to attach to the input.
+        public let inputSecurityGroups: [String]?
+        /// The source URLs for a PULL-type input. Every PULL type input needs
+        /// exactly two source URLs for redundancy.
+        /// Only specify sources for PULL type Inputs. Leave Destinations empty.
+        public let sources: [InputSourceRequest]?
+        /// Name of the input.
+        public let name: String?
+        public let `type`: InputType?
+        /// Unique identifier of the request to ensure the request is handled
+        /// exactly once in case of retries.
+        public let requestId: String?
+
+        public init(destinations: [InputDestinationRequest]? = nil, inputSecurityGroups: [String]? = nil, sources: [InputSourceRequest]? = nil, name: String? = nil, type: InputType? = nil, requestId: String? = nil) {
+            self.destinations = destinations
+            self.inputSecurityGroups = inputSecurityGroups
+            self.sources = sources
+            self.name = name
+            self.`type` = `type`
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+            case inputSecurityGroups = "inputSecurityGroups"
+            case sources = "sources"
+            case name = "name"
+            case `type` = "type"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct UpdateChannel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments"), required: false, type: .list), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
+            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
+            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification"), required: false, type: .structure)
+        ]
+        /// A list of output destinations for this channel.
+        public let destinations: [OutputDestination]?
+        public let inputAttachments: [InputAttachment]?
+        /// The name of the channel.
+        public let name: String?
+        /// The encoder settings for this channel.
+        public let encoderSettings: EncoderSettings?
+        /// An optional Amazon Resource Name (ARN) of the role to assume when running the Channel. If you do not specify this on an update call but the role was previously set that role will be removed.
+        public let roleArn: String?
+        /// The log level to write to CloudWatch Logs.
+        public let logLevel: LogLevel?
+        /// Specification of input for this channel (max. bitrate, resolution, codec, etc.)
+        public let inputSpecification: InputSpecification?
+
+        public init(destinations: [OutputDestination]? = nil, inputAttachments: [InputAttachment]? = nil, name: String? = nil, encoderSettings: EncoderSettings? = nil, roleArn: String? = nil, logLevel: LogLevel? = nil, inputSpecification: InputSpecification? = nil) {
+            self.destinations = destinations
+            self.inputAttachments = inputAttachments
+            self.name = name
+            self.encoderSettings = encoderSettings
+            self.roleArn = roleArn
+            self.logLevel = logLevel
+            self.inputSpecification = inputSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+            case inputAttachments = "inputAttachments"
+            case name = "name"
+            case encoderSettings = "encoderSettings"
+            case roleArn = "roleArn"
+            case logLevel = "logLevel"
+            case inputSpecification = "inputSpecification"
+        }
+    }
+
+    public struct DeleteChannelResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments"), required: false, type: .list), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "EgressEndpoints", location: .body(locationName: "egressEndpoints"), required: false, type: .list), 
+            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
+            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
+            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
+            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification"), required: false, type: .structure)
+        ]
+        public let destinations: [OutputDestination]?
+        public let id: String?
+        public let arn: String?
+        public let inputAttachments: [InputAttachment]?
+        public let name: String?
+        public let state: ChannelState?
+        public let encoderSettings: EncoderSettings?
+        public let egressEndpoints: [ChannelEgressEndpoint]?
+        public let roleArn: String?
+        public let pipelinesRunningCount: Int32?
+        public let logLevel: LogLevel?
+        public let inputSpecification: InputSpecification?
+
+        public init(destinations: [OutputDestination]? = nil, id: String? = nil, arn: String? = nil, inputAttachments: [InputAttachment]? = nil, name: String? = nil, state: ChannelState? = nil, encoderSettings: EncoderSettings? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, roleArn: String? = nil, pipelinesRunningCount: Int32? = nil, logLevel: LogLevel? = nil, inputSpecification: InputSpecification? = nil) {
+            self.destinations = destinations
+            self.id = id
+            self.arn = arn
+            self.inputAttachments = inputAttachments
+            self.name = name
+            self.state = state
+            self.encoderSettings = encoderSettings
+            self.egressEndpoints = egressEndpoints
+            self.roleArn = roleArn
+            self.pipelinesRunningCount = pipelinesRunningCount
+            self.logLevel = logLevel
+            self.inputSpecification = inputSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+            case id = "id"
+            case arn = "arn"
+            case inputAttachments = "inputAttachments"
+            case name = "name"
+            case state = "state"
+            case encoderSettings = "encoderSettings"
+            case egressEndpoints = "egressEndpoints"
+            case roleArn = "roleArn"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case logLevel = "logLevel"
+            case inputSpecification = "inputSpecification"
+        }
+    }
+
+    public struct CaptionLanguageMapping: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode"), required: true, type: .string), 
+            AWSShapeMember(label: "LanguageDescription", location: .body(locationName: "languageDescription"), required: true, type: .string), 
+            AWSShapeMember(label: "CaptionChannel", location: .body(locationName: "captionChannel"), required: true, type: .integer)
+        ]
+        /// Three character ISO 639-2 language code (see http://www.loc.gov/standards/iso639-2)
+        public let languageCode: String
+        /// Textual description of language
+        public let languageDescription: String
+        /// The closed caption channel being described by this CaptionLanguageMapping.  Each channel mapping must have a unique channel number (maximum of 4)
+        public let captionChannel: Int32
+
+        public init(languageCode: String, languageDescription: String, captionChannel: Int32) {
+            self.languageCode = languageCode
+            self.languageDescription = languageDescription
+            self.captionChannel = captionChannel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "languageCode"
+            case languageDescription = "languageDescription"
+            case captionChannel = "captionChannel"
+        }
+    }
+
+    public enum TtmlDestinationStyleControl: String, CustomStringConvertible, Codable {
+        case passthrough = "PASSTHROUGH"
+        case useConfigured = "USE_CONFIGURED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct HlsInputSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bandwidth", location: .body(locationName: "bandwidth"), required: false, type: .integer), 
+            AWSShapeMember(label: "RetryInterval", location: .body(locationName: "retryInterval"), required: false, type: .integer), 
+            AWSShapeMember(label: "Retries", location: .body(locationName: "retries"), required: false, type: .integer), 
+            AWSShapeMember(label: "BufferSegments", location: .body(locationName: "bufferSegments"), required: false, type: .integer)
+        ]
+        /// When specified the HLS stream with the m3u8 BANDWIDTH that most closely matches this value will be chosen, otherwise the highest bandwidth stream in the m3u8 will be chosen.  The bitrate is specified in bits per second, as in an HLS manifest.
+        public let bandwidth: Int32?
+        /// The number of seconds between retries when an attempt to read a manifest or segment fails.
+        public let retryInterval: Int32?
+        /// The number of consecutive times that attempts to read a manifest or segment must fail before the input is considered unavailable.
+        public let retries: Int32?
+        /// When specified, reading of the HLS input will begin this many buffer segments from the end (most recently written segment).  When not specified, the HLS input will begin with the first segment specified in the m3u8.
+        public let bufferSegments: Int32?
+
+        public init(bandwidth: Int32? = nil, retryInterval: Int32? = nil, retries: Int32? = nil, bufferSegments: Int32? = nil) {
+            self.bandwidth = bandwidth
+            self.retryInterval = retryInterval
+            self.retries = retries
+            self.bufferSegments = bufferSegments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bandwidth = "bandwidth"
+            case retryInterval = "retryInterval"
+            case retries = "retries"
+            case bufferSegments = "bufferSegments"
+        }
+    }
+
+    public enum HlsWebdavHttpTransferMode: String, CustomStringConvertible, Codable {
+        case chunked = "CHUNKED"
+        case nonChunked = "NON_CHUNKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264GopSizeUnits: String, CustomStringConvertible, Codable {
+        case frames = "FRAMES"
+        case seconds = "SECONDS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AudioNormalizationAlgorithm: String, CustomStringConvertible, Codable {
+        case itu17701 = "ITU_1770_1"
+        case itu17702 = "ITU_1770_2"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InputSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PasswordParam", location: .body(locationName: "passwordParam"), required: false, type: .string), 
+            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
+            AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
+        ]
+        /// The key used to extract the password from EC2 Parameter store.
+        public let passwordParam: String?
+        /// This represents the customer's source URL where stream is
+        /// pulled from.
+        public let url: String?
+        /// The username for the input source.
+        public let username: String?
+
+        public init(passwordParam: String? = nil, url: String? = nil, username: String? = nil) {
+            self.passwordParam = passwordParam
+            self.url = url
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case passwordParam = "passwordParam"
+            case url = "url"
+            case username = "username"
+        }
+    }
+
+    public struct InputLocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Uri", location: .body(locationName: "uri"), required: true, type: .string), 
+            AWSShapeMember(label: "PasswordParam", location: .body(locationName: "passwordParam"), required: false, type: .string), 
+            AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
+        ]
+        /// Uniform Resource Identifier - This should be a path to a file accessible to the Live system (eg. a http:// URI) depending on the output type. For example, a RTMP destination should have a uri simliar to: "rtmp://fmsserver/live".
+        public let uri: String
+        /// key used to extract the password from EC2 Parameter store
+        public let passwordParam: String?
+        /// Username if credentials are required to access a file or publishing point.  This can be either a plaintext username, or a reference to an AWS parameter store name from which the username can be retrieved.  AWS Parameter store format: "ssm://"
+        public let username: String?
+
+        public init(uri: String, passwordParam: String? = nil, username: String? = nil) {
+            self.uri = uri
+            self.passwordParam = passwordParam
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case uri = "uri"
+            case passwordParam = "passwordParam"
+            case username = "username"
+        }
+    }
+
+    public struct UpdateInputSecurityGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityGroup", location: .body(locationName: "securityGroup"), required: false, type: .structure)
+        ]
+        public let securityGroup: InputSecurityGroup?
+
+        public init(securityGroup: InputSecurityGroup? = nil) {
+            self.securityGroup = securityGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroup = "securityGroup"
+        }
+    }
+
+    public struct UpdateChannelResultModel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Channel", location: .body(locationName: "channel"), required: false, type: .structure)
+        ]
+        public let channel: Channel?
+
+        public init(channel: Channel? = nil) {
+            self.channel = channel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channel = "channel"
+        }
+    }
+
+    public enum M2tsAudioStreamType: String, CustomStringConvertible, Codable {
+        case atsc = "ATSC"
+        case dvb = "DVB"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Scte20Convert608To708: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case upconvert = "UPCONVERT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteInputResponse: AWSShape {
+
+    }
+
+    public struct TtmlDestinationSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StyleControl", location: .body(locationName: "styleControl"), required: false, type: .enum)
+        ]
+        /// When set to passthrough, passes through style and position information from a TTML-like input source (TTML, SMPTE-TT, CFF-TT) to the CFF-TT output or TTML output.
+        public let styleControl: TtmlDestinationStyleControl?
+
+        public init(styleControl: TtmlDestinationStyleControl? = nil) {
+            self.styleControl = styleControl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case styleControl = "styleControl"
+        }
+    }
+
+    public enum Scte35AposNoRegionalBlackoutBehavior: String, CustomStringConvertible, Codable {
+        case follow = "FOLLOW"
+        case ignore = "IGNORE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct OutputGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"), required: true, type: .list), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "OutputGroupSettings", location: .body(locationName: "outputGroupSettings"), required: true, type: .structure)
+        ]
+        public let outputs: [Output]
+        /// Custom output group name optionally defined by the user.  Only letters, numbers, and the underscore character allowed; only 32 characters allowed.
+        public let name: String?
+        /// Settings associated with the output group.
+        public let outputGroupSettings: OutputGroupSettings
+
+        public init(outputs: [Output], name: String? = nil, outputGroupSettings: OutputGroupSettings) {
+            self.outputs = outputs
+            self.name = name
+            self.outputGroupSettings = outputGroupSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputs = "outputs"
+            case name = "name"
+            case outputGroupSettings = "outputGroupSettings"
+        }
+    }
+
+    public struct Eac3Settings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LtRtCenterMixLevel", location: .body(locationName: "ltRtCenterMixLevel"), required: false, type: .double), 
+            AWSShapeMember(label: "LfeControl", location: .body(locationName: "lfeControl"), required: false, type: .enum), 
+            AWSShapeMember(label: "Dialnorm", location: .body(locationName: "dialnorm"), required: false, type: .integer), 
+            AWSShapeMember(label: "DcFilter", location: .body(locationName: "dcFilter"), required: false, type: .enum), 
+            AWSShapeMember(label: "LtRtSurroundMixLevel", location: .body(locationName: "ltRtSurroundMixLevel"), required: false, type: .double), 
+            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .double), 
+            AWSShapeMember(label: "SurroundExMode", location: .body(locationName: "surroundExMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "MetadataControl", location: .body(locationName: "metadataControl"), required: false, type: .enum), 
+            AWSShapeMember(label: "DrcRf", location: .body(locationName: "drcRf"), required: false, type: .enum), 
+            AWSShapeMember(label: "SurroundMode", location: .body(locationName: "surroundMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "LfeFilter", location: .body(locationName: "lfeFilter"), required: false, type: .enum), 
+            AWSShapeMember(label: "DrcLine", location: .body(locationName: "drcLine"), required: false, type: .enum), 
+            AWSShapeMember(label: "BitstreamMode", location: .body(locationName: "bitstreamMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "PassthroughControl", location: .body(locationName: "passthroughControl"), required: false, type: .enum), 
+            AWSShapeMember(label: "LoRoSurroundMixLevel", location: .body(locationName: "loRoSurroundMixLevel"), required: false, type: .double), 
+            AWSShapeMember(label: "LoRoCenterMixLevel", location: .body(locationName: "loRoCenterMixLevel"), required: false, type: .double), 
+            AWSShapeMember(label: "PhaseControl", location: .body(locationName: "phaseControl"), required: false, type: .enum), 
+            AWSShapeMember(label: "AttenuationControl", location: .body(locationName: "attenuationControl"), required: false, type: .enum), 
+            AWSShapeMember(label: "StereoDownmix", location: .body(locationName: "stereoDownmix"), required: false, type: .enum)
+        ]
+        /// Left total/Right total center mix level. Only used for 3/2 coding mode.
+        public let ltRtCenterMixLevel: Double?
+        /// When encoding 3/2 audio, setting to lfe enables the LFE channel
+        public let lfeControl: Eac3LfeControl?
+        /// Sets the dialnorm for the output. If blank and input audio is Dolby Digital Plus, dialnorm will be passed through.
+        public let dialnorm: Int32?
+        /// When set to enabled, activates a DC highpass filter for all input channels.
+        public let dcFilter: Eac3DcFilter?
+        /// Left total/Right total surround mix level. Only used for 3/2 coding mode.
+        public let ltRtSurroundMixLevel: Double?
+        /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
+        public let bitrate: Double?
+        /// When encoding 3/2 audio, sets whether an extra center back surround channel is matrix encoded into the left and right surround channels.
+        public let surroundExMode: Eac3SurroundExMode?
+        /// When set to followInput, encoder metadata will be sourced from the DD, DD+, or DolbyE decoder that supplied this audio data. If audio was not supplied from one of these streams, then the static metadata settings will be used.
+        public let metadataControl: Eac3MetadataControl?
+        /// Sets the profile for heavy Dolby dynamic range compression, ensures that the instantaneous signal peaks do not exceed specified levels.
+        public let drcRf: Eac3DrcRf?
+        /// When encoding 2/0 audio, sets whether Dolby Surround is matrix encoded into the two channels.
+        public let surroundMode: Eac3SurroundMode?
+        /// Dolby Digital Plus coding mode. Determines number of channels.
+        public let codingMode: Eac3CodingMode?
+        /// When set to enabled, applies a 120Hz lowpass filter to the LFE channel prior to encoding. Only valid with codingMode32 coding mode.
+        public let lfeFilter: Eac3LfeFilter?
+        /// Sets the Dolby dynamic range compression profile.
+        public let drcLine: Eac3DrcLine?
+        /// Specifies the bitstream mode (bsmod) for the emitted E-AC-3 stream. See ATSC A/52-2012 (Annex E) for background on these values.
+        public let bitstreamMode: Eac3BitstreamMode?
+        /// When set to whenPossible, input DD+ audio will be passed through if it is present on the input. This detection is dynamic over the life of the transcode. Inputs that alternate between DD+ and non-DD+ content will have a consistent DD+ output as the system alternates between passthrough and encoding.
+        public let passthroughControl: Eac3PassthroughControl?
+        /// Left only/Right only surround mix level. Only used for 3/2 coding mode.
+        public let loRoSurroundMixLevel: Double?
+        /// Left only/Right only center mix level. Only used for 3/2 coding mode.
+        public let loRoCenterMixLevel: Double?
+        /// When set to shift90Degrees, applies a 90-degree phase shift to the surround channels. Only used for 3/2 coding mode.
+        public let phaseControl: Eac3PhaseControl?
+        /// When set to attenuate3Db, applies a 3 dB attenuation to the surround channels. Only used for 3/2 coding mode.
+        public let attenuationControl: Eac3AttenuationControl?
+        /// Stereo downmix preference. Only used for 3/2 coding mode.
+        public let stereoDownmix: Eac3StereoDownmix?
+
+        public init(ltRtCenterMixLevel: Double? = nil, lfeControl: Eac3LfeControl? = nil, dialnorm: Int32? = nil, dcFilter: Eac3DcFilter? = nil, ltRtSurroundMixLevel: Double? = nil, bitrate: Double? = nil, surroundExMode: Eac3SurroundExMode? = nil, metadataControl: Eac3MetadataControl? = nil, drcRf: Eac3DrcRf? = nil, surroundMode: Eac3SurroundMode? = nil, codingMode: Eac3CodingMode? = nil, lfeFilter: Eac3LfeFilter? = nil, drcLine: Eac3DrcLine? = nil, bitstreamMode: Eac3BitstreamMode? = nil, passthroughControl: Eac3PassthroughControl? = nil, loRoSurroundMixLevel: Double? = nil, loRoCenterMixLevel: Double? = nil, phaseControl: Eac3PhaseControl? = nil, attenuationControl: Eac3AttenuationControl? = nil, stereoDownmix: Eac3StereoDownmix? = nil) {
+            self.ltRtCenterMixLevel = ltRtCenterMixLevel
+            self.lfeControl = lfeControl
+            self.dialnorm = dialnorm
+            self.dcFilter = dcFilter
+            self.ltRtSurroundMixLevel = ltRtSurroundMixLevel
+            self.bitrate = bitrate
+            self.surroundExMode = surroundExMode
+            self.metadataControl = metadataControl
+            self.drcRf = drcRf
+            self.surroundMode = surroundMode
+            self.codingMode = codingMode
+            self.lfeFilter = lfeFilter
+            self.drcLine = drcLine
+            self.bitstreamMode = bitstreamMode
+            self.passthroughControl = passthroughControl
+            self.loRoSurroundMixLevel = loRoSurroundMixLevel
+            self.loRoCenterMixLevel = loRoCenterMixLevel
+            self.phaseControl = phaseControl
+            self.attenuationControl = attenuationControl
+            self.stereoDownmix = stereoDownmix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ltRtCenterMixLevel = "ltRtCenterMixLevel"
+            case lfeControl = "lfeControl"
+            case dialnorm = "dialnorm"
+            case dcFilter = "dcFilter"
+            case ltRtSurroundMixLevel = "ltRtSurroundMixLevel"
+            case bitrate = "bitrate"
+            case surroundExMode = "surroundExMode"
+            case metadataControl = "metadataControl"
+            case drcRf = "drcRf"
+            case surroundMode = "surroundMode"
+            case codingMode = "codingMode"
+            case lfeFilter = "lfeFilter"
+            case drcLine = "drcLine"
+            case bitstreamMode = "bitstreamMode"
+            case passthroughControl = "passthroughControl"
+            case loRoSurroundMixLevel = "loRoSurroundMixLevel"
+            case loRoCenterMixLevel = "loRoCenterMixLevel"
+            case phaseControl = "phaseControl"
+            case attenuationControl = "attenuationControl"
+            case stereoDownmix = "stereoDownmix"
+        }
+    }
+
+    public struct UpdateInputRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "InputId", location: .uri(locationName: "inputId"), required: true, type: .string), 
+            AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: false, type: .list), 
+            AWSShapeMember(label: "InputSecurityGroups", location: .body(locationName: "inputSecurityGroups"), required: false, type: .list), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+        ]
+        public let destinations: [InputDestinationRequest]?
+        public let inputId: String
+        public let sources: [InputSourceRequest]?
+        public let inputSecurityGroups: [String]?
+        public let name: String?
+
+        public init(destinations: [InputDestinationRequest]? = nil, inputId: String, sources: [InputSourceRequest]? = nil, inputSecurityGroups: [String]? = nil, name: String? = nil) {
+            self.destinations = destinations
+            self.inputId = inputId
+            self.sources = sources
+            self.inputSecurityGroups = inputSecurityGroups
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+            case inputId = "inputId"
+            case sources = "sources"
+            case inputSecurityGroups = "inputSecurityGroups"
+            case name = "name"
+        }
+    }
+
+    public enum AudioDescriptionAudioTypeControl: String, CustomStringConvertible, Codable {
+        case followInput = "FOLLOW_INPUT"
+        case useConfigured = "USE_CONFIGURED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Ac3LfeFilter: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GlobalConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputEndAction", location: .body(locationName: "inputEndAction"), required: false, type: .enum), 
+            AWSShapeMember(label: "InputLossBehavior", location: .body(locationName: "inputLossBehavior"), required: false, type: .structure), 
+            AWSShapeMember(label: "SupportLowFramerateInputs", location: .body(locationName: "supportLowFramerateInputs"), required: false, type: .enum), 
+            AWSShapeMember(label: "OutputTimingSource", location: .body(locationName: "outputTimingSource"), required: false, type: .enum), 
+            AWSShapeMember(label: "InitialAudioGain", location: .body(locationName: "initialAudioGain"), required: false, type: .integer)
+        ]
+        /// Indicates the action to take when an input completes (e.g. end-of-file.) Options include immediately switching to the next sequential input (via "switchInput"), switching to the next input and looping back to the first input when last input ends (via "switchAndLoopInputs") or not switching inputs and instead transcoding black / color / slate images per the "Input Loss Behavior" configuration until an activateInput REST command is received (via "none").
+        public let inputEndAction: GlobalConfigurationInputEndAction?
+        /// Settings for system actions when input is lost.
+        public let inputLossBehavior: InputLossBehavior?
+        /// Adjusts video input buffer for streams with very low video framerates. This is commonly set to enabled for music channels with less than one video frame per second.
+        public let supportLowFramerateInputs: GlobalConfigurationLowFramerateInputs?
+        /// Indicates whether the rate of frames emitted by the Live encoder should be paced by its system clock (which optionally may be locked to another source via NTP) or should be locked to the clock of the source that is providing the input stream.
+        public let outputTimingSource: GlobalConfigurationOutputTimingSource?
+        /// Value to set the initial audio gain for the Live Event.
+        public let initialAudioGain: Int32?
+
+        public init(inputEndAction: GlobalConfigurationInputEndAction? = nil, inputLossBehavior: InputLossBehavior? = nil, supportLowFramerateInputs: GlobalConfigurationLowFramerateInputs? = nil, outputTimingSource: GlobalConfigurationOutputTimingSource? = nil, initialAudioGain: Int32? = nil) {
+            self.inputEndAction = inputEndAction
+            self.inputLossBehavior = inputLossBehavior
+            self.supportLowFramerateInputs = supportLowFramerateInputs
+            self.outputTimingSource = outputTimingSource
+            self.initialAudioGain = initialAudioGain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputEndAction = "inputEndAction"
+            case inputLossBehavior = "inputLossBehavior"
+            case supportLowFramerateInputs = "supportLowFramerateInputs"
+            case outputTimingSource = "outputTimingSource"
+            case initialAudioGain = "initialAudioGain"
+        }
+    }
+
+    public enum BurnInAlignment: String, CustomStringConvertible, Codable {
+        case centered = "CENTERED"
+        case left = "LEFT"
+        case smart = "SMART"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AribSourceSettings: AWSShape {
+
+    }
+
+    public enum EmbeddedScte20Detection: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
+        case off = "OFF"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RtmpGroupSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheLength", location: .body(locationName: "cacheLength"), required: false, type: .integer), 
+            AWSShapeMember(label: "CaptionData", location: .body(locationName: "captionData"), required: false, type: .enum), 
+            AWSShapeMember(label: "AuthenticationScheme", location: .body(locationName: "authenticationScheme"), required: false, type: .enum), 
+            AWSShapeMember(label: "CacheFullBehavior", location: .body(locationName: "cacheFullBehavior"), required: false, type: .enum), 
+            AWSShapeMember(label: "RestartDelay", location: .body(locationName: "restartDelay"), required: false, type: .integer)
+        ]
+        /// Cache length, in seconds, is used to calculate buffer size.
+        public let cacheLength: Int32?
+        /// Controls the types of data that passes to onCaptionInfo outputs.  If set to 'all' then 608 and 708 carried DTVCC data will be passed.  If set to 'field1AndField2608' then DTVCC data will be stripped out, but 608 data from both fields will be passed. If set to 'field1608' then only the data carried in 608 from field 1 video will be passed.
+        public let captionData: RtmpCaptionData?
+        /// Authentication scheme to use when connecting with CDN
+        public let authenticationScheme: AuthenticationScheme?
+        /// Controls behavior when content cache fills up. If remote origin server stalls the RTMP connection and does not accept content fast enough the 'Media Cache' will fill up. When the cache reaches the duration specified by cacheLength the cache will stop accepting new content. If set to disconnectImmediately, the RTMP output will force a disconnect. Clear the media cache, and reconnect after restartDelay seconds. If set to waitForServer, the RTMP output will wait up to 5 minutes to allow the origin server to begin accepting data again.
+        public let cacheFullBehavior: RtmpCacheFullBehavior?
+        /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
+        public let restartDelay: Int32?
+
+        public init(cacheLength: Int32? = nil, captionData: RtmpCaptionData? = nil, authenticationScheme: AuthenticationScheme? = nil, cacheFullBehavior: RtmpCacheFullBehavior? = nil, restartDelay: Int32? = nil) {
+            self.cacheLength = cacheLength
+            self.captionData = captionData
+            self.authenticationScheme = authenticationScheme
+            self.cacheFullBehavior = cacheFullBehavior
+            self.restartDelay = restartDelay
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheLength = "cacheLength"
+            case captionData = "captionData"
+            case authenticationScheme = "authenticationScheme"
+            case cacheFullBehavior = "cacheFullBehavior"
+            case restartDelay = "restartDelay"
+        }
+    }
+
+    public struct AudioPidSelection: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Pid", location: .body(locationName: "pid"), required: true, type: .integer)
+        ]
+        /// Selects a specific PID from within a source.
+        public let pid: Int32
+
+        public init(pid: Int32) {
+            self.pid = pid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pid = "pid"
+        }
+    }
+
+    public struct Scte27DestinationSettings: AWSShape {
+
+    }
+
+    public enum InputFilter: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
+        case disabled = "DISABLED"
+        case forced = "FORCED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3SurroundMode: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case notIndicated = "NOT_INDICATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsKlv: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case passthrough = "PASSTHROUGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Scte20SourceSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Source608ChannelNumber", location: .body(locationName: "source608ChannelNumber"), required: false, type: .integer), 
+            AWSShapeMember(label: "Convert608To708", location: .body(locationName: "convert608To708"), required: false, type: .enum)
+        ]
+        /// Specifies the 608/708 channel number within the video track from which to extract captions. Unused for passthrough.
+        public let source608ChannelNumber: Int32?
+        /// If upconvert, 608 data is both passed through via the "608 compatibility bytes" fields of the 708 wrapper as well as translated into 708. 708 data present in the source content will be discarded.
+        public let convert608To708: Scte20Convert608To708?
+
+        public init(source608ChannelNumber: Int32? = nil, convert608To708: Scte20Convert608To708? = nil) {
+            self.source608ChannelNumber = source608ChannelNumber
+            self.convert608To708 = convert608To708
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source608ChannelNumber = "source608ChannelNumber"
+            case convert608To708 = "convert608To708"
+        }
+    }
+
+    public struct VideoSelector: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ColorSpace", location: .body(locationName: "colorSpace"), required: false, type: .enum), 
+            AWSShapeMember(label: "ColorSpaceUsage", location: .body(locationName: "colorSpaceUsage"), required: false, type: .enum), 
+            AWSShapeMember(label: "SelectorSettings", location: .body(locationName: "selectorSettings"), required: false, type: .structure)
+        ]
+        /// Specifies the colorspace of an input. This setting works in tandem with colorSpaceConversion to determine if any conversion will be performed.
+        public let colorSpace: VideoSelectorColorSpace?
+        /// Applies only if colorSpace is a value other than follow. This field controls how the value in the colorSpace field will be used. fallback means that when the input does include color space data, that data will be used, but when the input has no color space data, the value in colorSpace will be used. Choose fallback if your input is sometimes missing color space data, but when it does have color space data, that data is correct. force means to always use the value in colorSpace. Choose force if your input usually has no color space data or might have unreliable color space data.
+        public let colorSpaceUsage: VideoSelectorColorSpaceUsage?
+        /// The video selector settings.
+        public let selectorSettings: VideoSelectorSettings?
+
+        public init(colorSpace: VideoSelectorColorSpace? = nil, colorSpaceUsage: VideoSelectorColorSpaceUsage? = nil, selectorSettings: VideoSelectorSettings? = nil) {
+            self.colorSpace = colorSpace
+            self.colorSpaceUsage = colorSpaceUsage
+            self.selectorSettings = selectorSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case colorSpace = "colorSpace"
+            case colorSpaceUsage = "colorSpaceUsage"
+            case selectorSettings = "selectorSettings"
+        }
+    }
+
+    public enum ReservationSpecialFeature: String, CustomStringConvertible, Codable {
+        case advancedAudio = "ADVANCED_AUDIO"
+        case audioNormalization = "AUDIO_NORMALIZATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InputChannelLevel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputChannel", location: .body(locationName: "inputChannel"), required: true, type: .integer), 
+            AWSShapeMember(label: "Gain", location: .body(locationName: "gain"), required: true, type: .integer)
+        ]
+        /// The index of the input channel used as a source.
+        public let inputChannel: Int32
+        /// Remixing value. Units are in dB and acceptable values are within the range from -60 (mute) and 6 dB.
+        public let gain: Int32
+
+        public init(inputChannel: Int32, gain: Int32) {
+            self.inputChannel = inputChannel
+            self.gain = gain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputChannel = "inputChannel"
+            case gain = "gain"
+        }
+    }
+
+    public enum ChannelState: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case createFailed = "CREATE_FAILED"
+        case idle = "IDLE"
+        case starting = "STARTING"
+        case running = "RUNNING"
+        case recovering = "RECOVERING"
+        case stopping = "STOPPING"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DvbSubSourceSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Pid", location: .body(locationName: "pid"), required: false, type: .integer)
+        ]
+        /// When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
+        public let pid: Int32?
+
+        public init(pid: Int32? = nil) {
+            self.pid = pid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pid = "pid"
+        }
+    }
+
+    public enum InputSecurityGroupState: String, CustomStringConvertible, Codable {
+        case idle = "IDLE"
+        case inUse = "IN_USE"
+        case updating = "UPDATING"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3DrcRf: String, CustomStringConvertible, Codable {
+        case filmLight = "FILM_LIGHT"
+        case filmStandard = "FILM_STANDARD"
+        case musicLight = "MUSIC_LIGHT"
+        case musicStandard = "MUSIC_STANDARD"
+        case none = "NONE"
+        case speech = "SPEECH"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct HlsBasicPutSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionRetryInterval", location: .body(locationName: "connectionRetryInterval"), required: false, type: .integer), 
+            AWSShapeMember(label: "FilecacheDuration", location: .body(locationName: "filecacheDuration"), required: false, type: .integer), 
+            AWSShapeMember(label: "NumRetries", location: .body(locationName: "numRetries"), required: false, type: .integer), 
+            AWSShapeMember(label: "RestartDelay", location: .body(locationName: "restartDelay"), required: false, type: .integer)
+        ]
+        /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
+        public let connectionRetryInterval: Int32?
+        /// Size in seconds of file cache for streaming outputs.
+        public let filecacheDuration: Int32?
+        /// Number of retry attempts that will be made before the Live Event is put into an error state.
+        public let numRetries: Int32?
+        /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
+        public let restartDelay: Int32?
+
+        public init(connectionRetryInterval: Int32? = nil, filecacheDuration: Int32? = nil, numRetries: Int32? = nil, restartDelay: Int32? = nil) {
+            self.connectionRetryInterval = connectionRetryInterval
+            self.filecacheDuration = filecacheDuration
+            self.numRetries = numRetries
+            self.restartDelay = restartDelay
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionRetryInterval = "connectionRetryInterval"
+            case filecacheDuration = "filecacheDuration"
+            case numRetries = "numRetries"
+            case restartDelay = "restartDelay"
+        }
+    }
+
+    public enum UdpTimedMetadataId3Frame: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case priv = "PRIV"
+        case tdrl = "TDRL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DvbSubDestinationSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BackgroundColor", location: .body(locationName: "backgroundColor"), required: false, type: .enum), 
+            AWSShapeMember(label: "BackgroundOpacity", location: .body(locationName: "backgroundOpacity"), required: false, type: .integer), 
+            AWSShapeMember(label: "YPosition", location: .body(locationName: "yPosition"), required: false, type: .integer), 
+            AWSShapeMember(label: "FontOpacity", location: .body(locationName: "fontOpacity"), required: false, type: .integer), 
+            AWSShapeMember(label: "ShadowXOffset", location: .body(locationName: "shadowXOffset"), required: false, type: .integer), 
+            AWSShapeMember(label: "FontSize", location: .body(locationName: "fontSize"), required: false, type: .string), 
+            AWSShapeMember(label: "Alignment", location: .body(locationName: "alignment"), required: false, type: .enum), 
+            AWSShapeMember(label: "XPosition", location: .body(locationName: "xPosition"), required: false, type: .integer), 
+            AWSShapeMember(label: "ShadowOpacity", location: .body(locationName: "shadowOpacity"), required: false, type: .integer), 
+            AWSShapeMember(label: "FontColor", location: .body(locationName: "fontColor"), required: false, type: .enum), 
+            AWSShapeMember(label: "OutlineColor", location: .body(locationName: "outlineColor"), required: false, type: .enum), 
+            AWSShapeMember(label: "ShadowColor", location: .body(locationName: "shadowColor"), required: false, type: .enum), 
+            AWSShapeMember(label: "ShadowYOffset", location: .body(locationName: "shadowYOffset"), required: false, type: .integer), 
+            AWSShapeMember(label: "FontResolution", location: .body(locationName: "fontResolution"), required: false, type: .integer), 
+            AWSShapeMember(label: "Font", location: .body(locationName: "font"), required: false, type: .structure), 
+            AWSShapeMember(label: "OutlineSize", location: .body(locationName: "outlineSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "TeletextGridControl", location: .body(locationName: "teletextGridControl"), required: false, type: .enum)
+        ]
+        /// Specifies the color of the rectangle behind the captions.  All burn-in and DVB-Sub font settings must match.
+        public let backgroundColor: DvbSubDestinationBackgroundColor?
+        /// Specifies the opacity of the background rectangle. 255 is opaque; 0 is transparent. Leaving this parameter blank is equivalent to setting it to 0 (transparent).  All burn-in and DVB-Sub font settings must match.
+        public let backgroundOpacity: Int32?
+        /// Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit yPosition is provided, the caption will be positioned towards the bottom of the output.  This option is not valid for source captions that are STL, 608/embedded or teletext.  These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
+        public let yPosition: Int32?
+        /// Specifies the opacity of the burned-in captions. 255 is opaque; 0 is transparent.  All burn-in and DVB-Sub font settings must match.
+        public let fontOpacity: Int32?
+        /// Specifies the horizontal offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels to the left.  All burn-in and DVB-Sub font settings must match.
+        public let shadowXOffset: Int32?
+        /// When set to auto fontSize will scale depending on the size of the output.  Giving a positive integer will specify the exact font size in points.  All burn-in and DVB-Sub font settings must match.
+        public let fontSize: String?
+        /// If no explicit xPosition or yPosition is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. Selecting "smart" justification will left-justify live subtitles and center-justify pre-recorded subtitles.  This option is not valid for source captions that are STL or 608/embedded.  These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
+        public let alignment: DvbSubDestinationAlignment?
+        /// Specifies the horizontal position of the caption relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit xPosition is provided, the horizontal caption position will be determined by the alignment parameter.  This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
+        public let xPosition: Int32?
+        /// Specifies the opacity of the shadow. 255 is opaque; 0 is transparent. Leaving this parameter blank is equivalent to setting it to 0 (transparent).  All burn-in and DVB-Sub font settings must match.
+        public let shadowOpacity: Int32?
+        /// Specifies the color of the burned-in captions.  This option is not valid for source captions that are STL, 608/embedded or teletext.  These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
+        public let fontColor: DvbSubDestinationFontColor?
+        /// Specifies font outline color. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
+        public let outlineColor: DvbSubDestinationOutlineColor?
+        /// Specifies the color of the shadow cast by the captions.  All burn-in and DVB-Sub font settings must match.
+        public let shadowColor: DvbSubDestinationShadowColor?
+        /// Specifies the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text.  All burn-in and DVB-Sub font settings must match.
+        public let shadowYOffset: Int32?
+        /// Font resolution in DPI (dots per inch); default is 96 dpi.  All burn-in and DVB-Sub font settings must match.
+        public let fontResolution: Int32?
+        /// External font file used for caption burn-in. File extension must be 'ttf' or 'tte'.  Although the user can select output fonts for many different types of input captions, embedded, STL and teletext sources use a strict grid system. Using external fonts with these caption sources could cause unexpected display of proportional fonts.  All burn-in and DVB-Sub font settings must match.
+        public let font: InputLocation?
+        /// Specifies font outline size in pixels. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
+        public let outlineSize: Int32?
+        /// Controls whether a fixed grid size will be used to generate the output subtitles bitmap. Only applicable for Teletext inputs and DVB-Sub/Burn-in outputs.
+        public let teletextGridControl: DvbSubDestinationTeletextGridControl?
+
+        public init(backgroundColor: DvbSubDestinationBackgroundColor? = nil, backgroundOpacity: Int32? = nil, yPosition: Int32? = nil, fontOpacity: Int32? = nil, shadowXOffset: Int32? = nil, fontSize: String? = nil, alignment: DvbSubDestinationAlignment? = nil, xPosition: Int32? = nil, shadowOpacity: Int32? = nil, fontColor: DvbSubDestinationFontColor? = nil, outlineColor: DvbSubDestinationOutlineColor? = nil, shadowColor: DvbSubDestinationShadowColor? = nil, shadowYOffset: Int32? = nil, fontResolution: Int32? = nil, font: InputLocation? = nil, outlineSize: Int32? = nil, teletextGridControl: DvbSubDestinationTeletextGridControl? = nil) {
+            self.backgroundColor = backgroundColor
+            self.backgroundOpacity = backgroundOpacity
+            self.yPosition = yPosition
+            self.fontOpacity = fontOpacity
+            self.shadowXOffset = shadowXOffset
+            self.fontSize = fontSize
+            self.alignment = alignment
+            self.xPosition = xPosition
+            self.shadowOpacity = shadowOpacity
+            self.fontColor = fontColor
+            self.outlineColor = outlineColor
+            self.shadowColor = shadowColor
+            self.shadowYOffset = shadowYOffset
+            self.fontResolution = fontResolution
+            self.font = font
+            self.outlineSize = outlineSize
+            self.teletextGridControl = teletextGridControl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backgroundColor = "backgroundColor"
+            case backgroundOpacity = "backgroundOpacity"
+            case yPosition = "yPosition"
+            case fontOpacity = "fontOpacity"
+            case shadowXOffset = "shadowXOffset"
+            case fontSize = "fontSize"
+            case alignment = "alignment"
+            case xPosition = "xPosition"
+            case shadowOpacity = "shadowOpacity"
+            case fontColor = "fontColor"
+            case outlineColor = "outlineColor"
+            case shadowColor = "shadowColor"
+            case shadowYOffset = "shadowYOffset"
+            case fontResolution = "fontResolution"
+            case font = "font"
+            case outlineSize = "outlineSize"
+            case teletextGridControl = "teletextGridControl"
+        }
+    }
+
+    public enum Eac3LfeFilter: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AudioOnlyHlsSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AudioTrackType", location: .body(locationName: "audioTrackType"), required: false, type: .enum), 
+            AWSShapeMember(label: "AudioGroupId", location: .body(locationName: "audioGroupId"), required: false, type: .string), 
+            AWSShapeMember(label: "AudioOnlyImage", location: .body(locationName: "audioOnlyImage"), required: false, type: .structure)
+        ]
+        /// Four types of audio-only tracks are supported:
+        /// Audio-Only Variant Stream
+        /// The client can play back this audio-only stream instead of video in low-bandwidth scenarios. Represented as an EXT-X-STREAM-INF in the HLS manifest.
+        /// Alternate Audio, Auto Select, Default
+        /// Alternate rendition that the client should try to play back by default. Represented as an EXT-X-MEDIA in the HLS manifest with DEFAULT=YES, AUTOSELECT=YES
+        /// Alternate Audio, Auto Select, Not Default
+        /// Alternate rendition that the client may try to play back by default. Represented as an EXT-X-MEDIA in the HLS manifest with DEFAULT=NO, AUTOSELECT=YES
+        /// Alternate Audio, not Auto Select
+        /// Alternate rendition that the client will not try to play back by default. Represented as an EXT-X-MEDIA in the HLS manifest with DEFAULT=NO, AUTOSELECT=NO
+        public let audioTrackType: AudioOnlyHlsTrackType?
+        /// Specifies the group to which the audio Rendition belongs.
+        public let audioGroupId: String?
+        /// For use with an audio only Stream. Must be a .jpg or .png file. If given, this image will be used as the cover-art for the audio only output. Ideally, it should be formatted for an iPhone screen for two reasons. The iPhone does not resize the image, it crops a centered image on the top/bottom and left/right. Additionally, this image file gets saved bit-for-bit into every 10-second segment file, so will increase bandwidth by {image file size} * {segment count} * {user count.}.
+        public let audioOnlyImage: InputLocation?
+
+        public init(audioTrackType: AudioOnlyHlsTrackType? = nil, audioGroupId: String? = nil, audioOnlyImage: InputLocation? = nil) {
+            self.audioTrackType = audioTrackType
+            self.audioGroupId = audioGroupId
+            self.audioOnlyImage = audioOnlyImage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioTrackType = "audioTrackType"
+            case audioGroupId = "audioGroupId"
+            case audioOnlyImage = "audioOnlyImage"
+        }
+    }
+
+    public enum M2tsEbpPlacement: String, CustomStringConvertible, Codable {
+        case videoAndAudioPids = "VIDEO_AND_AUDIO_PIDS"
+        case videoPid = "VIDEO_PID"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ChannelEgressEndpoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceIp", location: .body(locationName: "sourceIp"), required: false, type: .string)
+        ]
+        /// Public IP of where a channel's output comes from
+        public let sourceIp: String?
+
+        public init(sourceIp: String? = nil) {
+            self.sourceIp = sourceIp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceIp = "sourceIp"
+        }
+    }
+
+    public enum SmoothGroupAudioOnlyTimecodeControl: String, CustomStringConvertible, Codable {
+        case passthrough = "PASSTHROUGH"
+        case useConfiguredClock = "USE_CONFIGURED_CLOCK"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ArchiveGroupSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RolloverInterval", location: .body(locationName: "rolloverInterval"), required: false, type: .integer), 
+            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: true, type: .structure)
+        ]
+        /// Number of seconds to write to archive file before closing and starting a new one.
+        public let rolloverInterval: Int32?
+        /// A directory and base filename where archive files should be written.  If the base filename portion of the URI is left blank, the base filename of the first input will be automatically inserted.
+        public let destination: OutputLocationRef
+
+        public init(rolloverInterval: Int32? = nil, destination: OutputLocationRef) {
+            self.rolloverInterval = rolloverInterval
+            self.destination = destination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rolloverInterval = "rolloverInterval"
+            case destination = "destination"
+        }
+    }
+
+    public struct StartChannelRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string)
+        ]
+        public let channelId: String
+
+        public init(channelId: String) {
+            self.channelId = channelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelId = "channelId"
+        }
+    }
+
+    public enum InputSourceEndBehavior: String, CustomStringConvertible, Codable {
+        case `continue` = "CONTINUE"
+        case loop = "LOOP"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeInputResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "AttachedChannels", location: .body(locationName: "attachedChannels"), required: false, type: .list), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: false, type: .list), 
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
+        ]
+        public let destinations: [InputDestination]?
+        public let securityGroups: [String]?
+        public let arn: String?
+        public let attachedChannels: [String]?
+        public let state: InputState?
+        public let name: String?
+        public let sources: [InputSource]?
+        public let `type`: InputType?
+        public let id: String?
+
+        public init(destinations: [InputDestination]? = nil, securityGroups: [String]? = nil, arn: String? = nil, attachedChannels: [String]? = nil, state: InputState? = nil, name: String? = nil, sources: [InputSource]? = nil, type: InputType? = nil, id: String? = nil) {
+            self.destinations = destinations
+            self.securityGroups = securityGroups
+            self.arn = arn
+            self.attachedChannels = attachedChannels
+            self.state = state
+            self.name = name
+            self.sources = sources
+            self.`type` = `type`
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+            case securityGroups = "securityGroups"
+            case arn = "arn"
+            case attachedChannels = "attachedChannels"
+            case state = "state"
+            case name = "name"
+            case sources = "sources"
+            case `type` = "type"
+            case id = "id"
+        }
+    }
+
+    public struct OutputSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MsSmoothOutputSettings", location: .body(locationName: "msSmoothOutputSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "UdpOutputSettings", location: .body(locationName: "udpOutputSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "ArchiveOutputSettings", location: .body(locationName: "archiveOutputSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "HlsOutputSettings", location: .body(locationName: "hlsOutputSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "RtmpOutputSettings", location: .body(locationName: "rtmpOutputSettings"), required: false, type: .structure)
+        ]
+        public let msSmoothOutputSettings: MsSmoothOutputSettings?
+        public let udpOutputSettings: UdpOutputSettings?
+        public let archiveOutputSettings: ArchiveOutputSettings?
+        public let hlsOutputSettings: HlsOutputSettings?
+        public let rtmpOutputSettings: RtmpOutputSettings?
+
+        public init(msSmoothOutputSettings: MsSmoothOutputSettings? = nil, udpOutputSettings: UdpOutputSettings? = nil, archiveOutputSettings: ArchiveOutputSettings? = nil, hlsOutputSettings: HlsOutputSettings? = nil, rtmpOutputSettings: RtmpOutputSettings? = nil) {
+            self.msSmoothOutputSettings = msSmoothOutputSettings
+            self.udpOutputSettings = udpOutputSettings
+            self.archiveOutputSettings = archiveOutputSettings
+            self.hlsOutputSettings = hlsOutputSettings
+            self.rtmpOutputSettings = rtmpOutputSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case msSmoothOutputSettings = "msSmoothOutputSettings"
+            case udpOutputSettings = "udpOutputSettings"
+            case archiveOutputSettings = "archiveOutputSettings"
+            case hlsOutputSettings = "hlsOutputSettings"
+            case rtmpOutputSettings = "rtmpOutputSettings"
+        }
+    }
+
+    public enum BurnInFontColor: String, CustomStringConvertible, Codable {
+        case black = "BLACK"
+        case blue = "BLUE"
+        case green = "GREEN"
+        case red = "RED"
+        case white = "WHITE"
+        case yellow = "YELLOW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SmoothGroupCertificateMode: String, CustomStringConvertible, Codable {
+        case selfSigned = "SELF_SIGNED"
+        case verifyAuthenticity = "VERIFY_AUTHENTICITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BlackoutSlateState: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsCodecSpecification: String, CustomStringConvertible, Codable {
+        case rfc4281 = "RFC_4281"
+        case rfc6381 = "RFC_6381"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListChannelsResultModel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "Channels", location: .body(locationName: "channels"), required: false, type: .list)
+        ]
+        public let nextToken: String?
+        public let channels: [ChannelSummary]?
+
+        public init(nextToken: String? = nil, channels: [ChannelSummary]? = nil) {
+            self.nextToken = nextToken
+            self.channels = channels
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case channels = "channels"
+        }
+    }
+
+    public struct HlsWebdavSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionRetryInterval", location: .body(locationName: "connectionRetryInterval"), required: false, type: .integer), 
+            AWSShapeMember(label: "FilecacheDuration", location: .body(locationName: "filecacheDuration"), required: false, type: .integer), 
+            AWSShapeMember(label: "HttpTransferMode", location: .body(locationName: "httpTransferMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "NumRetries", location: .body(locationName: "numRetries"), required: false, type: .integer), 
+            AWSShapeMember(label: "RestartDelay", location: .body(locationName: "restartDelay"), required: false, type: .integer)
+        ]
+        /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
+        public let connectionRetryInterval: Int32?
+        /// Size in seconds of file cache for streaming outputs.
+        public let filecacheDuration: Int32?
+        /// Specify whether or not to use chunked transfer encoding to WebDAV.
+        public let httpTransferMode: HlsWebdavHttpTransferMode?
+        /// Number of retry attempts that will be made before the Live Event is put into an error state.
+        public let numRetries: Int32?
+        /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
+        public let restartDelay: Int32?
+
+        public init(connectionRetryInterval: Int32? = nil, filecacheDuration: Int32? = nil, httpTransferMode: HlsWebdavHttpTransferMode? = nil, numRetries: Int32? = nil, restartDelay: Int32? = nil) {
+            self.connectionRetryInterval = connectionRetryInterval
+            self.filecacheDuration = filecacheDuration
+            self.httpTransferMode = httpTransferMode
+            self.numRetries = numRetries
+            self.restartDelay = restartDelay
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionRetryInterval = "connectionRetryInterval"
+            case filecacheDuration = "filecacheDuration"
+            case httpTransferMode = "httpTransferMode"
+            case numRetries = "numRetries"
+            case restartDelay = "restartDelay"
+        }
+    }
+
+    public struct MsSmoothOutputSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NameModifier", location: .body(locationName: "nameModifier"), required: false, type: .string)
+        ]
+        /// String concatenated to the end of the destination filename.  Required for multiple outputs of the same type.
+        public let nameModifier: String?
+
+        public init(nameModifier: String? = nil) {
+            self.nameModifier = nameModifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nameModifier = "nameModifier"
+        }
+    }
+
+    public enum M2tsEsRateInPes: String, CustomStringConvertible, Codable {
+        case exclude = "EXCLUDE"
+        case include = "INCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct M2tsSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PcrControl", location: .body(locationName: "pcrControl"), required: false, type: .enum), 
+            AWSShapeMember(label: "TimedMetadataPid", location: .body(locationName: "timedMetadataPid"), required: false, type: .string), 
+            AWSShapeMember(label: "KlvDataPids", location: .body(locationName: "klvDataPids"), required: false, type: .string), 
+            AWSShapeMember(label: "PatInterval", location: .body(locationName: "patInterval"), required: false, type: .integer), 
+            AWSShapeMember(label: "EsRateInPes", location: .body(locationName: "esRateInPes"), required: false, type: .enum), 
+            AWSShapeMember(label: "AbsentInputAudioBehavior", location: .body(locationName: "absentInputAudioBehavior"), required: false, type: .enum), 
+            AWSShapeMember(label: "PmtPid", location: .body(locationName: "pmtPid"), required: false, type: .string), 
+            AWSShapeMember(label: "VideoPid", location: .body(locationName: "videoPid"), required: false, type: .string), 
+            AWSShapeMember(label: "EtvSignalPid", location: .body(locationName: "etvSignalPid"), required: false, type: .string), 
+            AWSShapeMember(label: "PcrPid", location: .body(locationName: "pcrPid"), required: false, type: .string), 
+            AWSShapeMember(label: "AribCaptionsPidControl", location: .body(locationName: "aribCaptionsPidControl"), required: false, type: .enum), 
+            AWSShapeMember(label: "Klv", location: .body(locationName: "klv"), required: false, type: .enum), 
+            AWSShapeMember(label: "TimedMetadataBehavior", location: .body(locationName: "timedMetadataBehavior"), required: false, type: .enum), 
+            AWSShapeMember(label: "Scte35Control", location: .body(locationName: "scte35Control"), required: false, type: .enum), 
+            AWSShapeMember(label: "DvbTdtSettings", location: .body(locationName: "dvbTdtSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "RateMode", location: .body(locationName: "rateMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "DvbSdtSettings", location: .body(locationName: "dvbSdtSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Scte27Pids", location: .body(locationName: "scte27Pids"), required: false, type: .string), 
+            AWSShapeMember(label: "AudioFramesPerPes", location: .body(locationName: "audioFramesPerPes"), required: false, type: .integer), 
+            AWSShapeMember(label: "BufferModel", location: .body(locationName: "bufferModel"), required: false, type: .enum), 
+            AWSShapeMember(label: "EbpLookaheadMs", location: .body(locationName: "ebpLookaheadMs"), required: false, type: .integer), 
+            AWSShapeMember(label: "AudioStreamType", location: .body(locationName: "audioStreamType"), required: false, type: .enum), 
+            AWSShapeMember(label: "Ebif", location: .body(locationName: "ebif"), required: false, type: .enum), 
+            AWSShapeMember(label: "SegmentationTime", location: .body(locationName: "segmentationTime"), required: false, type: .double), 
+            AWSShapeMember(label: "AudioBufferModel", location: .body(locationName: "audioBufferModel"), required: false, type: .enum), 
+            AWSShapeMember(label: "SegmentationStyle", location: .body(locationName: "segmentationStyle"), required: false, type: .enum), 
+            AWSShapeMember(label: "CcDescriptor", location: .body(locationName: "ccDescriptor"), required: false, type: .enum), 
+            AWSShapeMember(label: "EbpAudioInterval", location: .body(locationName: "ebpAudioInterval"), required: false, type: .enum), 
+            AWSShapeMember(label: "DvbNitSettings", location: .body(locationName: "dvbNitSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "FragmentTime", location: .body(locationName: "fragmentTime"), required: false, type: .double), 
+            AWSShapeMember(label: "ProgramNum", location: .body(locationName: "programNum"), required: false, type: .integer), 
+            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .integer), 
+            AWSShapeMember(label: "PmtInterval", location: .body(locationName: "pmtInterval"), required: false, type: .integer), 
+            AWSShapeMember(label: "Scte35Pid", location: .body(locationName: "scte35Pid"), required: false, type: .string), 
+            AWSShapeMember(label: "DvbTeletextPid", location: .body(locationName: "dvbTeletextPid"), required: false, type: .string), 
+            AWSShapeMember(label: "EbpPlacement", location: .body(locationName: "ebpPlacement"), required: false, type: .enum), 
+            AWSShapeMember(label: "AribCaptionsPid", location: .body(locationName: "aribCaptionsPid"), required: false, type: .string), 
+            AWSShapeMember(label: "SegmentationMarkers", location: .body(locationName: "segmentationMarkers"), required: false, type: .enum), 
+            AWSShapeMember(label: "AudioPids", location: .body(locationName: "audioPids"), required: false, type: .string), 
+            AWSShapeMember(label: "PcrPeriod", location: .body(locationName: "pcrPeriod"), required: false, type: .integer), 
+            AWSShapeMember(label: "EcmPid", location: .body(locationName: "ecmPid"), required: false, type: .string), 
+            AWSShapeMember(label: "Arib", location: .body(locationName: "arib"), required: false, type: .enum), 
+            AWSShapeMember(label: "DvbSubPids", location: .body(locationName: "dvbSubPids"), required: false, type: .string), 
+            AWSShapeMember(label: "TransportStreamId", location: .body(locationName: "transportStreamId"), required: false, type: .integer), 
+            AWSShapeMember(label: "EtvPlatformPid", location: .body(locationName: "etvPlatformPid"), required: false, type: .string), 
+            AWSShapeMember(label: "NullPacketBitrate", location: .body(locationName: "nullPacketBitrate"), required: false, type: .double)
+        ]
+        /// When set to pcrEveryPesPacket, a Program Clock Reference value is inserted for every Packetized Elementary Stream (PES) header. This parameter is effective only when the PCR PID is the same as the video or audio elementary stream.
+        public let pcrControl: M2tsPcrControl?
+        /// Packet Identifier (PID) of the timed metadata stream in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
+        public let timedMetadataPid: String?
+        /// Packet Identifier (PID) for input source KLV data to this output. Multiple values are accepted, and can be entered in ranges and/or by comma separation. Can be entered as decimal or hexadecimal values.  Each PID specified must be in the range of 32 (or 0x20)..8182 (or 0x1ff6).
+        public let klvDataPids: String?
+        /// The number of milliseconds between instances of this table in the output transport stream.  Valid values are 0, 10..1000.
+        public let patInterval: Int32?
+        /// Include or exclude the ES Rate field in the PES header.
+        public let esRateInPes: M2tsEsRateInPes?
+        /// When set to drop, output audio streams will be removed from the program if the selected input audio stream is removed from the input. This allows the output audio configuration to dynamically change based on input configuration. If this is set to encodeSilence, all output audio streams will output encoded silence when not connected to an active input stream.
+        public let absentInputAudioBehavior: M2tsAbsentInputAudioBehavior?
+        /// Packet Identifier (PID) for the Program Map Table (PMT) in the transport stream. Can be entered as a decimal or hexadecimal value. Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
+        public let pmtPid: String?
+        /// Packet Identifier (PID) of the elementary video stream in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
+        public let videoPid: String?
+        /// Packet Identifier (PID) for input source ETV Signal data to this output. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
+        public let etvSignalPid: String?
+        /// Packet Identifier (PID) of the Program Clock Reference (PCR) in the transport stream. When no value is given, the encoder will assign the same value as the Video PID. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
+        public let pcrPid: String?
+        /// If set to auto, pid number used for ARIB Captions will be auto-selected from unused pids.  If set to useConfigured, ARIB Captions will be on the configured pid number.
+        public let aribCaptionsPidControl: M2tsAribCaptionsPidControl?
+        /// If set to passthrough, passes any KLV data from the input source to this output.
+        public let klv: M2tsKlv?
+        /// When set to passthrough, timed metadata will be passed through from input to output.
+        public let timedMetadataBehavior: M2tsTimedMetadataBehavior?
+        /// Optionally pass SCTE-35 signals from the input source to this output.
+        public let scte35Control: M2tsScte35Control?
+        /// Inserts DVB Time and Date Table (TDT) at the specified table repetition interval.
+        public let dvbTdtSettings: DvbTdtSettings?
+        /// When vbr, does not insert null packets into transport stream to fill specified bitrate. The bitrate setting acts as the maximum bitrate when vbr is set.
+        public let rateMode: M2tsRateMode?
+        /// Inserts DVB Service Description Table (SDT) at the specified table repetition interval.
+        public let dvbSdtSettings: DvbSdtSettings?
+        /// Packet Identifier (PID) for input source SCTE-27 data to this output. Multiple values are accepted, and can be entered in ranges and/or by comma separation. Can be entered as decimal or hexadecimal values.  Each PID specified must be in the range of 32 (or 0x20)..8182 (or 0x1ff6).
+        public let scte27Pids: String?
+        /// The number of audio frames to insert for each PES packet.
+        public let audioFramesPerPes: Int32?
+        /// If set to multiplex, use multiplex buffer model for accurate interleaving.  Setting to bufferModel to none can lead to lower latency, but low-memory devices may not be able to play back the stream without interruptions.
+        public let bufferModel: M2tsBufferModel?
+        /// When set, enforces that Encoder Boundary Points do not come within the specified time interval of each other by looking ahead at input video. If another EBP is going to come in within the specified time interval, the current EBP is not emitted, and the segment is "stretched" to the next marker.  The lookahead value does not add latency to the system. The Live Event must be configured elsewhere to create sufficient latency to make the lookahead accurate.
+        public let ebpLookaheadMs: Int32?
+        /// When set to atsc, uses stream type = 0x81 for AC3 and stream type = 0x87 for EAC3. When set to dvb, uses stream type = 0x06.
+        public let audioStreamType: M2tsAudioStreamType?
+        /// If set to passthrough, passes any EBIF data from the input source to this output.
+        public let ebif: M2tsEbifControl?
+        /// The length in seconds of each segment. Required unless markers is set to None_.
+        public let segmentationTime: Double?
+        /// When set to dvb, uses DVB buffer model for Dolby Digital audio.  When set to atsc, the ATSC model is used.
+        public let audioBufferModel: M2tsAudioBufferModel?
+        /// The segmentation style parameter controls how segmentation markers are inserted into the transport stream. With avails, it is possible that segments may be truncated, which can influence where future segmentation markers are inserted.
+        /// When a segmentation style of "resetCadence" is selected and a segment is truncated due to an avail, we will reset the segmentation cadence. This means the subsequent segment will have a duration of $segmentationTime seconds.
+        /// When a segmentation style of "maintainCadence" is selected and a segment is truncated due to an avail, we will not reset the segmentation cadence. This means the subsequent segment will likely be truncated as well. However, all segments after that will have a duration of $segmentationTime seconds. Note that EBP lookahead is a slight exception to this rule.
+        public let segmentationStyle: M2tsSegmentationStyle?
+        /// When set to enabled, generates captionServiceDescriptor in PMT.
+        public let ccDescriptor: M2tsCcDescriptor?
+        /// When videoAndFixedIntervals is selected, audio EBP markers will be added to partitions 3 and 4. The interval between these additional markers will be fixed, and will be slightly shorter than the video EBP marker interval. Only available when EBP Cablelabs segmentation markers are selected.  Partitions 1 and 2 will always follow the video interval.
+        public let ebpAudioInterval: M2tsAudioInterval?
+        /// Inserts DVB Network Information Table (NIT) at the specified table repetition interval.
+        public let dvbNitSettings: DvbNitSettings?
+        /// The length in seconds of each fragment. Only used with EBP markers.
+        public let fragmentTime: Double?
+        /// The value of the program number field in the Program Map Table.
+        public let programNum: Int32?
+        /// The output bitrate of the transport stream in bits per second. Setting to 0 lets the muxer automatically determine the appropriate bitrate.
+        public let bitrate: Int32?
+        /// The number of milliseconds between instances of this table in the output transport stream. Valid values are 0, 10..1000.
+        public let pmtInterval: Int32?
+        /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
+        public let scte35Pid: String?
+        /// Packet Identifier (PID) for input source DVB Teletext data to this output. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
+        public let dvbTeletextPid: String?
+        /// Controls placement of EBP on Audio PIDs. If set to videoAndAudioPids, EBP markers will be placed on the video PID and all audio PIDs.  If set to videoPid, EBP markers will be placed on only the video PID.
+        public let ebpPlacement: M2tsEbpPlacement?
+        /// Packet Identifier (PID) for ARIB Captions in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
+        public let aribCaptionsPid: String?
+        /// Inserts segmentation markers at each segmentationTime period. raiSegstart sets the Random Access Indicator bit in the adaptation field. raiAdapt sets the RAI bit and adds the current timecode in the private data bytes. psiSegstart inserts PAT and PMT tables at the start of segments. ebp adds Encoder Boundary Point information to the adaptation field as per OpenCable specification OC-SP-EBP-I01-130118. ebpLegacy adds Encoder Boundary Point information to the adaptation field using a legacy proprietary format.
+        public let segmentationMarkers: M2tsSegmentationMarkers?
+        /// Packet Identifier (PID) of the elementary audio stream(s) in the transport stream. Multiple values are accepted, and can be entered in ranges and/or by comma separation. Can be entered as decimal or hexadecimal values. Each PID specified must be in the range of 32 (or 0x20)..8182 (or 0x1ff6).
+        public let audioPids: String?
+        /// Maximum time in milliseconds between Program Clock Reference (PCRs) inserted into the transport stream.
+        public let pcrPeriod: Int32?
+        /// This field is unused and deprecated.
+        public let ecmPid: String?
+        /// When set to enabled, uses ARIB-compliant field muxing and removes video descriptor.
+        public let arib: M2tsArib?
+        /// Packet Identifier (PID) for input source DVB Subtitle data to this output. Multiple values are accepted, and can be entered in ranges and/or by comma separation. Can be entered as decimal or hexadecimal values.  Each PID specified must be in the range of 32 (or 0x20)..8182 (or 0x1ff6).
+        public let dvbSubPids: String?
+        /// The value of the transport stream ID field in the Program Map Table.
+        public let transportStreamId: Int32?
+        /// Packet Identifier (PID) for input source ETV Platform data to this output. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
+        public let etvPlatformPid: String?
+        /// Value in bits per second of extra null packets to insert into the transport stream. This can be used if a downstream encryption system requires periodic null packets.
+        public let nullPacketBitrate: Double?
+
+        public init(pcrControl: M2tsPcrControl? = nil, timedMetadataPid: String? = nil, klvDataPids: String? = nil, patInterval: Int32? = nil, esRateInPes: M2tsEsRateInPes? = nil, absentInputAudioBehavior: M2tsAbsentInputAudioBehavior? = nil, pmtPid: String? = nil, videoPid: String? = nil, etvSignalPid: String? = nil, pcrPid: String? = nil, aribCaptionsPidControl: M2tsAribCaptionsPidControl? = nil, klv: M2tsKlv? = nil, timedMetadataBehavior: M2tsTimedMetadataBehavior? = nil, scte35Control: M2tsScte35Control? = nil, dvbTdtSettings: DvbTdtSettings? = nil, rateMode: M2tsRateMode? = nil, dvbSdtSettings: DvbSdtSettings? = nil, scte27Pids: String? = nil, audioFramesPerPes: Int32? = nil, bufferModel: M2tsBufferModel? = nil, ebpLookaheadMs: Int32? = nil, audioStreamType: M2tsAudioStreamType? = nil, ebif: M2tsEbifControl? = nil, segmentationTime: Double? = nil, audioBufferModel: M2tsAudioBufferModel? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, ccDescriptor: M2tsCcDescriptor? = nil, ebpAudioInterval: M2tsAudioInterval? = nil, dvbNitSettings: DvbNitSettings? = nil, fragmentTime: Double? = nil, programNum: Int32? = nil, bitrate: Int32? = nil, pmtInterval: Int32? = nil, scte35Pid: String? = nil, dvbTeletextPid: String? = nil, ebpPlacement: M2tsEbpPlacement? = nil, aribCaptionsPid: String? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, audioPids: String? = nil, pcrPeriod: Int32? = nil, ecmPid: String? = nil, arib: M2tsArib? = nil, dvbSubPids: String? = nil, transportStreamId: Int32? = nil, etvPlatformPid: String? = nil, nullPacketBitrate: Double? = nil) {
+            self.pcrControl = pcrControl
+            self.timedMetadataPid = timedMetadataPid
+            self.klvDataPids = klvDataPids
+            self.patInterval = patInterval
+            self.esRateInPes = esRateInPes
+            self.absentInputAudioBehavior = absentInputAudioBehavior
+            self.pmtPid = pmtPid
+            self.videoPid = videoPid
+            self.etvSignalPid = etvSignalPid
+            self.pcrPid = pcrPid
+            self.aribCaptionsPidControl = aribCaptionsPidControl
+            self.klv = klv
+            self.timedMetadataBehavior = timedMetadataBehavior
+            self.scte35Control = scte35Control
+            self.dvbTdtSettings = dvbTdtSettings
+            self.rateMode = rateMode
+            self.dvbSdtSettings = dvbSdtSettings
+            self.scte27Pids = scte27Pids
+            self.audioFramesPerPes = audioFramesPerPes
+            self.bufferModel = bufferModel
+            self.ebpLookaheadMs = ebpLookaheadMs
+            self.audioStreamType = audioStreamType
+            self.ebif = ebif
+            self.segmentationTime = segmentationTime
+            self.audioBufferModel = audioBufferModel
+            self.segmentationStyle = segmentationStyle
+            self.ccDescriptor = ccDescriptor
+            self.ebpAudioInterval = ebpAudioInterval
+            self.dvbNitSettings = dvbNitSettings
+            self.fragmentTime = fragmentTime
+            self.programNum = programNum
+            self.bitrate = bitrate
+            self.pmtInterval = pmtInterval
+            self.scte35Pid = scte35Pid
+            self.dvbTeletextPid = dvbTeletextPid
+            self.ebpPlacement = ebpPlacement
+            self.aribCaptionsPid = aribCaptionsPid
+            self.segmentationMarkers = segmentationMarkers
+            self.audioPids = audioPids
+            self.pcrPeriod = pcrPeriod
+            self.ecmPid = ecmPid
+            self.arib = arib
+            self.dvbSubPids = dvbSubPids
+            self.transportStreamId = transportStreamId
+            self.etvPlatformPid = etvPlatformPid
+            self.nullPacketBitrate = nullPacketBitrate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pcrControl = "pcrControl"
+            case timedMetadataPid = "timedMetadataPid"
+            case klvDataPids = "klvDataPids"
+            case patInterval = "patInterval"
+            case esRateInPes = "esRateInPes"
+            case absentInputAudioBehavior = "absentInputAudioBehavior"
+            case pmtPid = "pmtPid"
+            case videoPid = "videoPid"
+            case etvSignalPid = "etvSignalPid"
+            case pcrPid = "pcrPid"
+            case aribCaptionsPidControl = "aribCaptionsPidControl"
+            case klv = "klv"
+            case timedMetadataBehavior = "timedMetadataBehavior"
+            case scte35Control = "scte35Control"
+            case dvbTdtSettings = "dvbTdtSettings"
+            case rateMode = "rateMode"
+            case dvbSdtSettings = "dvbSdtSettings"
+            case scte27Pids = "scte27Pids"
+            case audioFramesPerPes = "audioFramesPerPes"
+            case bufferModel = "bufferModel"
+            case ebpLookaheadMs = "ebpLookaheadMs"
+            case audioStreamType = "audioStreamType"
+            case ebif = "ebif"
+            case segmentationTime = "segmentationTime"
+            case audioBufferModel = "audioBufferModel"
+            case segmentationStyle = "segmentationStyle"
+            case ccDescriptor = "ccDescriptor"
+            case ebpAudioInterval = "ebpAudioInterval"
+            case dvbNitSettings = "dvbNitSettings"
+            case fragmentTime = "fragmentTime"
+            case programNum = "programNum"
+            case bitrate = "bitrate"
+            case pmtInterval = "pmtInterval"
+            case scte35Pid = "scte35Pid"
+            case dvbTeletextPid = "dvbTeletextPid"
+            case ebpPlacement = "ebpPlacement"
+            case aribCaptionsPid = "aribCaptionsPid"
+            case segmentationMarkers = "segmentationMarkers"
+            case audioPids = "audioPids"
+            case pcrPeriod = "pcrPeriod"
+            case ecmPid = "ecmPid"
+            case arib = "arib"
+            case dvbSubPids = "dvbSubPids"
+            case transportStreamId = "transportStreamId"
+            case etvPlatformPid = "etvPlatformPid"
+            case nullPacketBitrate = "nullPacketBitrate"
+        }
+    }
+
+    public enum Eac3PassthroughControl: String, CustomStringConvertible, Codable {
+        case noPassthrough = "NO_PASSTHROUGH"
+        case whenPossible = "WHEN_POSSIBLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct VideoCodecSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "H264Settings", location: .body(locationName: "h264Settings"), required: false, type: .structure)
+        ]
+        public let h264Settings: H264Settings?
+
+        public init(h264Settings: H264Settings? = nil) {
+            self.h264Settings = h264Settings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case h264Settings = "h264Settings"
+        }
+    }
+
+    public enum OfferingDurationUnits: String, CustomStringConvertible, Codable {
+        case months = "MONTHS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AudioOnlyHlsTrackType: String, CustomStringConvertible, Codable {
+        case alternateAudioAutoSelect = "ALTERNATE_AUDIO_AUTO_SELECT"
+        case alternateAudioAutoSelectDefault = "ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT"
+        case alternateAudioNotAutoSelect = "ALTERNATE_AUDIO_NOT_AUTO_SELECT"
+        case audioOnlyVariantStream = "AUDIO_ONLY_VARIANT_STREAM"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Reservation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "OfferingId", location: .body(locationName: "offeringId"), required: false, type: .string), 
+            AWSShapeMember(label: "UsagePrice", location: .body(locationName: "usagePrice"), required: false, type: .double), 
+            AWSShapeMember(label: "Region", location: .body(locationName: "region"), required: false, type: .string), 
+            AWSShapeMember(label: "Count", location: .body(locationName: "count"), required: false, type: .integer), 
+            AWSShapeMember(label: "OfferingType", location: .body(locationName: "offeringType"), required: false, type: .enum), 
+            AWSShapeMember(label: "ResourceSpecification", location: .body(locationName: "resourceSpecification"), required: false, type: .structure), 
+            AWSShapeMember(label: "ReservationId", location: .body(locationName: "reservationId"), required: false, type: .string), 
+            AWSShapeMember(label: "OfferingDescription", location: .body(locationName: "offeringDescription"), required: false, type: .string), 
+            AWSShapeMember(label: "Start", location: .body(locationName: "start"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "End", location: .body(locationName: "end"), required: false, type: .string), 
+            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: false, type: .string), 
+            AWSShapeMember(label: "DurationUnits", location: .body(locationName: "durationUnits"), required: false, type: .enum), 
+            AWSShapeMember(label: "Duration", location: .body(locationName: "duration"), required: false, type: .integer), 
+            AWSShapeMember(label: "FixedPrice", location: .body(locationName: "fixedPrice"), required: false, type: .double)
+        ]
+        /// Unique reservation ARN, e.g. 'arn:aws:medialive:us-west-2:123456789012:reservation:1234567'
+        public let arn: String?
+        /// Current state of reservation, e.g. 'ACTIVE'
+        public let state: ReservationState?
+        /// Unique offering ID, e.g. '87654321'
+        public let offeringId: String?
+        /// Recurring usage charge for each reserved resource, e.g. '157.0'
+        public let usagePrice: Double?
+        /// AWS region, e.g. 'us-west-2'
+        public let region: String?
+        /// Number of reserved resources
+        public let count: Int32?
+        /// Offering type, e.g. 'NO_UPFRONT'
+        public let offeringType: OfferingType?
+        /// Resource configuration details
+        public let resourceSpecification: ReservationResourceSpecification?
+        /// Unique reservation ID, e.g. '1234567'
+        public let reservationId: String?
+        /// Offering description, e.g. 'HD AVC output at 10-20 Mbps, 30 fps, and standard VQ in US West (Oregon)'
+        public let offeringDescription: String?
+        /// Reservation UTC start date and time in ISO-8601 format, e.g. '2018-03-01T00:00:00'
+        public let start: String?
+        /// User specified reservation name
+        public let name: String?
+        /// Reservation UTC end date and time in ISO-8601 format, e.g. '2019-03-01T00:00:00'
+        public let end: String?
+        /// Currency code for usagePrice and fixedPrice in ISO-4217 format, e.g. 'USD'
+        public let currencyCode: String?
+        /// Units for duration, e.g. 'MONTHS'
+        public let durationUnits: OfferingDurationUnits?
+        /// Lease duration, e.g. '12'
+        public let duration: Int32?
+        /// One-time charge for each reserved resource, e.g. '0.0' for a NO_UPFRONT offering
+        public let fixedPrice: Double?
+
+        public init(arn: String? = nil, state: ReservationState? = nil, offeringId: String? = nil, usagePrice: Double? = nil, region: String? = nil, count: Int32? = nil, offeringType: OfferingType? = nil, resourceSpecification: ReservationResourceSpecification? = nil, reservationId: String? = nil, offeringDescription: String? = nil, start: String? = nil, name: String? = nil, end: String? = nil, currencyCode: String? = nil, durationUnits: OfferingDurationUnits? = nil, duration: Int32? = nil, fixedPrice: Double? = nil) {
+            self.arn = arn
+            self.state = state
+            self.offeringId = offeringId
+            self.usagePrice = usagePrice
+            self.region = region
+            self.count = count
+            self.offeringType = offeringType
+            self.resourceSpecification = resourceSpecification
+            self.reservationId = reservationId
+            self.offeringDescription = offeringDescription
+            self.start = start
+            self.name = name
+            self.end = end
+            self.currencyCode = currencyCode
+            self.durationUnits = durationUnits
+            self.duration = duration
+            self.fixedPrice = fixedPrice
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case state = "state"
+            case offeringId = "offeringId"
+            case usagePrice = "usagePrice"
+            case region = "region"
+            case count = "count"
+            case offeringType = "offeringType"
+            case resourceSpecification = "resourceSpecification"
+            case reservationId = "reservationId"
+            case offeringDescription = "offeringDescription"
+            case start = "start"
+            case name = "name"
+            case end = "end"
+            case currencyCode = "currencyCode"
+            case durationUnits = "durationUnits"
+            case duration = "duration"
+            case fixedPrice = "fixedPrice"
+        }
+    }
+
+    public struct RtmpCaptionInfoDestinationSettings: AWSShape {
+
+    }
+
+    public enum ReservationState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case expired = "EXPIRED"
+        case canceled = "CANCELED"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsAribCaptionsPidControl: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
+        case useConfigured = "USE_CONFIGURED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InputDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Ip", location: .body(locationName: "ip"), required: false, type: .string), 
+            AWSShapeMember(label: "Port", location: .body(locationName: "port"), required: false, type: .string), 
+            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string)
+        ]
+        /// The system-generated static IP address of endpoint.
+        /// It remains fixed for the lifetime of the input.
+        public let ip: String?
+        /// The port number for the input.
+        public let port: String?
+        /// This represents the endpoint that the customer stream will be
+        /// pushed to.
+        public let url: String?
+
+        public init(ip: String? = nil, port: String? = nil, url: String? = nil) {
+            self.ip = ip
+            self.port = port
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ip = "ip"
+            case port = "port"
+            case url = "url"
+        }
+    }
+
+    public struct KeyProviderSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StaticKeySettings", location: .body(locationName: "staticKeySettings"), required: false, type: .structure)
+        ]
+        public let staticKeySettings: StaticKeySettings?
+
+        public init(staticKeySettings: StaticKeySettings? = nil) {
+            self.staticKeySettings = staticKeySettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case staticKeySettings = "staticKeySettings"
+        }
+    }
+
+    public struct CaptionSelector: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "SelectorSettings", location: .body(locationName: "selectorSettings"), required: false, type: .structure)
+        ]
+        /// When specified this field indicates the three letter language code of the caption track to extract from the source.
+        public let languageCode: String?
+        /// Name identifier for a caption selector.  This name is used to associate this caption selector with one or more caption descriptions.  Names must be unique within an event.
+        public let name: String
+        /// Caption selector settings.
+        public let selectorSettings: CaptionSelectorSettings?
+
+        public init(languageCode: String? = nil, name: String, selectorSettings: CaptionSelectorSettings? = nil) {
+            self.languageCode = languageCode
+            self.name = name
+            self.selectorSettings = selectorSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "languageCode"
+            case name = "name"
+            case selectorSettings = "selectorSettings"
+        }
+    }
+
+    public enum M3u8PcrControl: String, CustomStringConvertible, Codable {
+        case configuredPcrPeriod = "CONFIGURED_PCR_PERIOD"
+        case pcrEveryPesPacket = "PCR_EVERY_PES_PACKET"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UdpGroupSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TimedMetadataId3Frame", location: .body(locationName: "timedMetadataId3Frame"), required: false, type: .enum), 
+            AWSShapeMember(label: "TimedMetadataId3Period", location: .body(locationName: "timedMetadataId3Period"), required: false, type: .integer), 
+            AWSShapeMember(label: "InputLossAction", location: .body(locationName: "inputLossAction"), required: false, type: .enum)
+        ]
+        /// Indicates ID3 frame that has the timecode.
+        public let timedMetadataId3Frame: UdpTimedMetadataId3Frame?
+        /// Timed Metadata interval in seconds.
+        public let timedMetadataId3Period: Int32?
+        /// Specifies behavior of last resort when input video is lost, and no more backup inputs are available. When dropTs is selected the entire transport stream will stop being emitted.  When dropProgram is selected the program can be dropped from the transport stream (and replaced with null packets to meet the TS bitrate requirement).  Or, when emitProgram is chosen the transport stream will continue to be produced normally with repeat frames, black frames, or slate frames substituted for the absent input video.
+        public let inputLossAction: InputLossActionForUdpOut?
+
+        public init(timedMetadataId3Frame: UdpTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int32? = nil, inputLossAction: InputLossActionForUdpOut? = nil) {
+            self.timedMetadataId3Frame = timedMetadataId3Frame
+            self.timedMetadataId3Period = timedMetadataId3Period
+            self.inputLossAction = inputLossAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timedMetadataId3Frame = "timedMetadataId3Frame"
+            case timedMetadataId3Period = "timedMetadataId3Period"
+            case inputLossAction = "inputLossAction"
+        }
+    }
+
+    public enum SmoothGroupEventStopBehavior: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case sendEos = "SEND_EOS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeOfferingResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "OfferingDescription", location: .body(locationName: "offeringDescription"), required: false, type: .string), 
+            AWSShapeMember(label: "UsagePrice", location: .body(locationName: "usagePrice"), required: false, type: .double), 
+            AWSShapeMember(label: "Region", location: .body(locationName: "region"), required: false, type: .string), 
+            AWSShapeMember(label: "OfferingId", location: .body(locationName: "offeringId"), required: false, type: .string), 
+            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: false, type: .string), 
+            AWSShapeMember(label: "DurationUnits", location: .body(locationName: "durationUnits"), required: false, type: .enum), 
+            AWSShapeMember(label: "Duration", location: .body(locationName: "duration"), required: false, type: .integer), 
+            AWSShapeMember(label: "OfferingType", location: .body(locationName: "offeringType"), required: false, type: .enum), 
+            AWSShapeMember(label: "FixedPrice", location: .body(locationName: "fixedPrice"), required: false, type: .double), 
+            AWSShapeMember(label: "ResourceSpecification", location: .body(locationName: "resourceSpecification"), required: false, type: .structure)
+        ]
+        public let arn: String?
+        public let offeringDescription: String?
+        public let usagePrice: Double?
+        public let region: String?
+        public let offeringId: String?
+        public let currencyCode: String?
+        public let durationUnits: OfferingDurationUnits?
+        public let duration: Int32?
+        public let offeringType: OfferingType?
+        public let fixedPrice: Double?
+        public let resourceSpecification: ReservationResourceSpecification?
+
+        public init(arn: String? = nil, offeringDescription: String? = nil, usagePrice: Double? = nil, region: String? = nil, offeringId: String? = nil, currencyCode: String? = nil, durationUnits: OfferingDurationUnits? = nil, duration: Int32? = nil, offeringType: OfferingType? = nil, fixedPrice: Double? = nil, resourceSpecification: ReservationResourceSpecification? = nil) {
+            self.arn = arn
+            self.offeringDescription = offeringDescription
+            self.usagePrice = usagePrice
+            self.region = region
+            self.offeringId = offeringId
+            self.currencyCode = currencyCode
+            self.durationUnits = durationUnits
+            self.duration = duration
+            self.offeringType = offeringType
+            self.fixedPrice = fixedPrice
+            self.resourceSpecification = resourceSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case offeringDescription = "offeringDescription"
+            case usagePrice = "usagePrice"
+            case region = "region"
+            case offeringId = "offeringId"
+            case currencyCode = "currencyCode"
+            case durationUnits = "durationUnits"
+            case duration = "duration"
+            case offeringType = "offeringType"
+            case fixedPrice = "fixedPrice"
+            case resourceSpecification = "resourceSpecification"
+        }
+    }
+
+    public struct MsSmoothGroupSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcquisitionPointId", location: .body(locationName: "acquisitionPointId"), required: false, type: .string), 
+            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: true, type: .structure), 
+            AWSShapeMember(label: "EventIdMode", location: .body(locationName: "eventIdMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "RestartDelay", location: .body(locationName: "restartDelay"), required: false, type: .integer), 
+            AWSShapeMember(label: "TimestampOffsetMode", location: .body(locationName: "timestampOffsetMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "CertificateMode", location: .body(locationName: "certificateMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "EventStopBehavior", location: .body(locationName: "eventStopBehavior"), required: false, type: .enum), 
+            AWSShapeMember(label: "ConnectionRetryInterval", location: .body(locationName: "connectionRetryInterval"), required: false, type: .integer), 
+            AWSShapeMember(label: "FragmentLength", location: .body(locationName: "fragmentLength"), required: false, type: .integer), 
+            AWSShapeMember(label: "SegmentationMode", location: .body(locationName: "segmentationMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "InputLossAction", location: .body(locationName: "inputLossAction"), required: false, type: .enum), 
+            AWSShapeMember(label: "EventId", location: .body(locationName: "eventId"), required: false, type: .string), 
+            AWSShapeMember(label: "FilecacheDuration", location: .body(locationName: "filecacheDuration"), required: false, type: .integer), 
+            AWSShapeMember(label: "AudioOnlyTimecodeControl", location: .body(locationName: "audioOnlyTimecodeControl"), required: false, type: .enum), 
+            AWSShapeMember(label: "SparseTrackType", location: .body(locationName: "sparseTrackType"), required: false, type: .enum), 
+            AWSShapeMember(label: "SendDelayMs", location: .body(locationName: "sendDelayMs"), required: false, type: .integer), 
+            AWSShapeMember(label: "StreamManifestBehavior", location: .body(locationName: "streamManifestBehavior"), required: false, type: .enum), 
+            AWSShapeMember(label: "TimestampOffset", location: .body(locationName: "timestampOffset"), required: false, type: .string), 
+            AWSShapeMember(label: "NumRetries", location: .body(locationName: "numRetries"), required: false, type: .integer)
+        ]
+        /// The value of the "Acquisition Point Identity" element used in each message placed in the sparse track.  Only enabled if sparseTrackType is not "none".
+        public let acquisitionPointId: String?
+        /// Smooth Streaming publish point on an IIS server. Elemental Live acts as a "Push" encoder to IIS.
+        public let destination: OutputLocationRef
+        /// Specifies whether or not to send an event ID to the IIS server. If no event ID is sent and the same Live Event is used without changing the publishing point, clients might see cached video from the previous run.
+        /// Options:
+        /// - "useConfigured" - use the value provided in eventId
+        /// - "useTimestamp" - generate and send an event ID based on the current timestamp
+        /// - "noEventId" - do not send an event ID to the IIS server.
+        public let eventIdMode: SmoothGroupEventIdMode?
+        /// Number of seconds before initiating a restart due to output failure, due to exhausting the numRetries on one segment, or exceeding filecacheDuration.
+        public let restartDelay: Int32?
+        /// Type of timestamp date offset to use.
+        /// - useEventStartDate: Use the date the event was started as the offset
+        /// - useConfiguredOffset: Use an explicitly configured date as the offset
+        public let timestampOffsetMode: SmoothGroupTimestampOffsetMode?
+        /// If set to verifyAuthenticity, verify the https certificate chain to a trusted Certificate Authority (CA).  This will cause https outputs to self-signed certificates to fail.
+        public let certificateMode: SmoothGroupCertificateMode?
+        /// When set to sendEos, send EOS signal to IIS server when stopping the event
+        public let eventStopBehavior: SmoothGroupEventStopBehavior?
+        /// Number of seconds to wait before retrying connection to the IIS server if the connection is lost. Content will be cached during this time and the cache will be be delivered to the IIS server once the connection is re-established.
+        public let connectionRetryInterval: Int32?
+        /// Length of mp4 fragments to generate (in seconds). Fragment length must be compatible with GOP size and framerate.
+        public let fragmentLength: Int32?
+        /// When set to useInputSegmentation, the output segment or fragment points are set by the RAI markers from the input streams.
+        public let segmentationMode: SmoothGroupSegmentationMode?
+        /// Parameter that control output group behavior on input loss.
+        public let inputLossAction: InputLossActionForMsSmoothOut?
+        /// MS Smooth event ID to be sent to the IIS server.
+        /// Should only be specified if eventIdMode is set to useConfigured.
+        public let eventId: String?
+        /// Size in seconds of file cache for streaming outputs.
+        public let filecacheDuration: Int32?
+        /// If set to passthrough for an audio-only MS Smooth output, the fragment absolute time will be set to the current timecode. This option does not write timecodes to the audio elementary stream.
+        public let audioOnlyTimecodeControl: SmoothGroupAudioOnlyTimecodeControl?
+        /// If set to scte35, use incoming SCTE-35 messages to generate a sparse track in this group of MS-Smooth outputs.
+        public let sparseTrackType: SmoothGroupSparseTrackType?
+        /// Outputs that are "output locked" can use this delay. Assign a delay to the output that is "secondary".  Do not assign a delay to the "primary" output. The delay means that the primary output will always reach the downstream system before the secondary, which helps ensure that the downstream system always uses the primary output. (If there were no delay, the downstream system might flip-flop between whichever output happens to arrive first.) If the primary fails, the downstream system will switch to the secondary output. When the primary is restarted, the downstream system will switch back to the primary (because once again it is always arriving first)
+        public let sendDelayMs: Int32?
+        /// When set to send, send stream manifest so publishing point doesn't start until all streams start.
+        public let streamManifestBehavior: SmoothGroupStreamManifestBehavior?
+        /// Timestamp offset for the event.  Only used if timestampOffsetMode is set to useConfiguredOffset.
+        public let timestampOffset: String?
+        /// Number of retry attempts.
+        public let numRetries: Int32?
+
+        public init(acquisitionPointId: String? = nil, destination: OutputLocationRef, eventIdMode: SmoothGroupEventIdMode? = nil, restartDelay: Int32? = nil, timestampOffsetMode: SmoothGroupTimestampOffsetMode? = nil, certificateMode: SmoothGroupCertificateMode? = nil, eventStopBehavior: SmoothGroupEventStopBehavior? = nil, connectionRetryInterval: Int32? = nil, fragmentLength: Int32? = nil, segmentationMode: SmoothGroupSegmentationMode? = nil, inputLossAction: InputLossActionForMsSmoothOut? = nil, eventId: String? = nil, filecacheDuration: Int32? = nil, audioOnlyTimecodeControl: SmoothGroupAudioOnlyTimecodeControl? = nil, sparseTrackType: SmoothGroupSparseTrackType? = nil, sendDelayMs: Int32? = nil, streamManifestBehavior: SmoothGroupStreamManifestBehavior? = nil, timestampOffset: String? = nil, numRetries: Int32? = nil) {
+            self.acquisitionPointId = acquisitionPointId
+            self.destination = destination
+            self.eventIdMode = eventIdMode
+            self.restartDelay = restartDelay
+            self.timestampOffsetMode = timestampOffsetMode
+            self.certificateMode = certificateMode
+            self.eventStopBehavior = eventStopBehavior
+            self.connectionRetryInterval = connectionRetryInterval
+            self.fragmentLength = fragmentLength
+            self.segmentationMode = segmentationMode
+            self.inputLossAction = inputLossAction
+            self.eventId = eventId
+            self.filecacheDuration = filecacheDuration
+            self.audioOnlyTimecodeControl = audioOnlyTimecodeControl
+            self.sparseTrackType = sparseTrackType
+            self.sendDelayMs = sendDelayMs
+            self.streamManifestBehavior = streamManifestBehavior
+            self.timestampOffset = timestampOffset
+            self.numRetries = numRetries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acquisitionPointId = "acquisitionPointId"
+            case destination = "destination"
+            case eventIdMode = "eventIdMode"
+            case restartDelay = "restartDelay"
+            case timestampOffsetMode = "timestampOffsetMode"
+            case certificateMode = "certificateMode"
+            case eventStopBehavior = "eventStopBehavior"
+            case connectionRetryInterval = "connectionRetryInterval"
+            case fragmentLength = "fragmentLength"
+            case segmentationMode = "segmentationMode"
+            case inputLossAction = "inputLossAction"
+            case eventId = "eventId"
+            case filecacheDuration = "filecacheDuration"
+            case audioOnlyTimecodeControl = "audioOnlyTimecodeControl"
+            case sparseTrackType = "sparseTrackType"
+            case sendDelayMs = "sendDelayMs"
+            case streamManifestBehavior = "streamManifestBehavior"
+            case timestampOffset = "timestampOffset"
+            case numRetries = "numRetries"
+        }
+    }
+
+    public enum M2tsAudioBufferModel: String, CustomStringConvertible, Codable {
+        case atsc = "ATSC"
+        case dvb = "DVB"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CaptionDestinationSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmbeddedPlusScte20DestinationSettings", location: .body(locationName: "embeddedPlusScte20DestinationSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Scte27DestinationSettings", location: .body(locationName: "scte27DestinationSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Scte20PlusEmbeddedDestinationSettings", location: .body(locationName: "scte20PlusEmbeddedDestinationSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "AribDestinationSettings", location: .body(locationName: "aribDestinationSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "EmbeddedDestinationSettings", location: .body(locationName: "embeddedDestinationSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "TeletextDestinationSettings", location: .body(locationName: "teletextDestinationSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "WebvttDestinationSettings", location: .body(locationName: "webvttDestinationSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "TtmlDestinationSettings", location: .body(locationName: "ttmlDestinationSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "DvbSubDestinationSettings", location: .body(locationName: "dvbSubDestinationSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "SmpteTtDestinationSettings", location: .body(locationName: "smpteTtDestinationSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "RtmpCaptionInfoDestinationSettings", location: .body(locationName: "rtmpCaptionInfoDestinationSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "BurnInDestinationSettings", location: .body(locationName: "burnInDestinationSettings"), required: false, type: .structure)
+        ]
+        public let embeddedPlusScte20DestinationSettings: EmbeddedPlusScte20DestinationSettings?
+        public let scte27DestinationSettings: Scte27DestinationSettings?
+        public let scte20PlusEmbeddedDestinationSettings: Scte20PlusEmbeddedDestinationSettings?
+        public let aribDestinationSettings: AribDestinationSettings?
+        public let embeddedDestinationSettings: EmbeddedDestinationSettings?
+        public let teletextDestinationSettings: TeletextDestinationSettings?
+        public let webvttDestinationSettings: WebvttDestinationSettings?
+        public let ttmlDestinationSettings: TtmlDestinationSettings?
+        public let dvbSubDestinationSettings: DvbSubDestinationSettings?
+        public let smpteTtDestinationSettings: SmpteTtDestinationSettings?
+        public let rtmpCaptionInfoDestinationSettings: RtmpCaptionInfoDestinationSettings?
+        public let burnInDestinationSettings: BurnInDestinationSettings?
+
+        public init(embeddedPlusScte20DestinationSettings: EmbeddedPlusScte20DestinationSettings? = nil, scte27DestinationSettings: Scte27DestinationSettings? = nil, scte20PlusEmbeddedDestinationSettings: Scte20PlusEmbeddedDestinationSettings? = nil, aribDestinationSettings: AribDestinationSettings? = nil, embeddedDestinationSettings: EmbeddedDestinationSettings? = nil, teletextDestinationSettings: TeletextDestinationSettings? = nil, webvttDestinationSettings: WebvttDestinationSettings? = nil, ttmlDestinationSettings: TtmlDestinationSettings? = nil, dvbSubDestinationSettings: DvbSubDestinationSettings? = nil, smpteTtDestinationSettings: SmpteTtDestinationSettings? = nil, rtmpCaptionInfoDestinationSettings: RtmpCaptionInfoDestinationSettings? = nil, burnInDestinationSettings: BurnInDestinationSettings? = nil) {
+            self.embeddedPlusScte20DestinationSettings = embeddedPlusScte20DestinationSettings
+            self.scte27DestinationSettings = scte27DestinationSettings
+            self.scte20PlusEmbeddedDestinationSettings = scte20PlusEmbeddedDestinationSettings
+            self.aribDestinationSettings = aribDestinationSettings
+            self.embeddedDestinationSettings = embeddedDestinationSettings
+            self.teletextDestinationSettings = teletextDestinationSettings
+            self.webvttDestinationSettings = webvttDestinationSettings
+            self.ttmlDestinationSettings = ttmlDestinationSettings
+            self.dvbSubDestinationSettings = dvbSubDestinationSettings
+            self.smpteTtDestinationSettings = smpteTtDestinationSettings
+            self.rtmpCaptionInfoDestinationSettings = rtmpCaptionInfoDestinationSettings
+            self.burnInDestinationSettings = burnInDestinationSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case embeddedPlusScte20DestinationSettings = "embeddedPlusScte20DestinationSettings"
+            case scte27DestinationSettings = "scte27DestinationSettings"
+            case scte20PlusEmbeddedDestinationSettings = "scte20PlusEmbeddedDestinationSettings"
+            case aribDestinationSettings = "aribDestinationSettings"
+            case embeddedDestinationSettings = "embeddedDestinationSettings"
+            case teletextDestinationSettings = "teletextDestinationSettings"
+            case webvttDestinationSettings = "webvttDestinationSettings"
+            case ttmlDestinationSettings = "ttmlDestinationSettings"
+            case dvbSubDestinationSettings = "dvbSubDestinationSettings"
+            case smpteTtDestinationSettings = "smpteTtDestinationSettings"
+            case rtmpCaptionInfoDestinationSettings = "rtmpCaptionInfoDestinationSettings"
+            case burnInDestinationSettings = "burnInDestinationSettings"
+        }
+    }
+
+    public enum H264RateControlMode: String, CustomStringConvertible, Codable {
+        case cbr = "CBR"
+        case vbr = "VBR"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct VideoDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Height", location: .body(locationName: "height"), required: false, type: .integer), 
+            AWSShapeMember(label: "Sharpness", location: .body(locationName: "sharpness"), required: false, type: .integer), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "ScalingBehavior", location: .body(locationName: "scalingBehavior"), required: false, type: .enum), 
+            AWSShapeMember(label: "RespondToAfd", location: .body(locationName: "respondToAfd"), required: false, type: .enum), 
+            AWSShapeMember(label: "Width", location: .body(locationName: "width"), required: false, type: .integer), 
+            AWSShapeMember(label: "CodecSettings", location: .body(locationName: "codecSettings"), required: false, type: .structure)
+        ]
+        /// Output video height (in pixels). Leave blank to use source video height. If left blank, width must also be unspecified.
+        public let height: Int32?
+        /// Changes the width of the anti-alias filter kernel used for scaling. Only applies if scaling is being performed and antiAlias is set to true. 0 is the softest setting, 100 the sharpest, and 50 recommended for most content.
+        public let sharpness: Int32?
+        /// The name of this VideoDescription. Outputs will use this name to uniquely identify this Description.  Description names should be unique within this Live Event.
+        public let name: String
+        /// When set to "stretchToOutput", automatically configures the output position to stretch the video to the specified output resolution. This option will override any position value.
+        public let scalingBehavior: VideoDescriptionScalingBehavior?
+        /// Indicates how to respond to the AFD values in the input stream. Setting to "respond" causes input video to be clipped, depending on AFD value, input display aspect ratio and output display aspect ratio.
+        public let respondToAfd: VideoDescriptionRespondToAfd?
+        /// Output video width (in pixels). Leave out to use source video width.  If left out, height must also be left out. Display aspect ratio is always preserved by letterboxing or pillarboxing when necessary.
+        public let width: Int32?
+        /// Video codec settings.
+        public let codecSettings: VideoCodecSettings?
+
+        public init(height: Int32? = nil, sharpness: Int32? = nil, name: String, scalingBehavior: VideoDescriptionScalingBehavior? = nil, respondToAfd: VideoDescriptionRespondToAfd? = nil, width: Int32? = nil, codecSettings: VideoCodecSettings? = nil) {
+            self.height = height
+            self.sharpness = sharpness
+            self.name = name
+            self.scalingBehavior = scalingBehavior
+            self.respondToAfd = respondToAfd
+            self.width = width
+            self.codecSettings = codecSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case height = "height"
+            case sharpness = "sharpness"
+            case name = "name"
+            case scalingBehavior = "scalingBehavior"
+            case respondToAfd = "respondToAfd"
+            case width = "width"
+            case codecSettings = "codecSettings"
+        }
+    }
+
+    public enum AacInputType: String, CustomStringConvertible, Codable {
+        case broadcasterMixedAd = "BROADCASTER_MIXED_AD"
+        case normal = "NORMAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SmoothGroupEventIdMode: String, CustomStringConvertible, Codable {
+        case noEventId = "NO_EVENT_ID"
+        case useConfigured = "USE_CONFIGURED"
+        case useTimestamp = "USE_TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsAkamaiHttpTransferMode: String, CustomStringConvertible, Codable {
+        case chunked = "CHUNKED"
+        case nonChunked = "NON_CHUNKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListInputSecurityGroupsResultModel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "InputSecurityGroups", location: .body(locationName: "inputSecurityGroups"), required: false, type: .list)
+        ]
+        public let nextToken: String?
+        /// List of input security groups
+        public let inputSecurityGroups: [InputSecurityGroup]?
+
+        public init(nextToken: String? = nil, inputSecurityGroups: [InputSecurityGroup]? = nil) {
+            self.nextToken = nextToken
+            self.inputSecurityGroups = inputSecurityGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case inputSecurityGroups = "inputSecurityGroups"
+        }
+    }
+
+    public struct InputLossBehavior: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BlackFrameMsec", location: .body(locationName: "blackFrameMsec"), required: false, type: .integer), 
+            AWSShapeMember(label: "InputLossImageSlate", location: .body(locationName: "inputLossImageSlate"), required: false, type: .structure), 
+            AWSShapeMember(label: "InputLossImageColor", location: .body(locationName: "inputLossImageColor"), required: false, type: .string), 
+            AWSShapeMember(label: "InputLossImageType", location: .body(locationName: "inputLossImageType"), required: false, type: .enum), 
+            AWSShapeMember(label: "RepeatFrameMsec", location: .body(locationName: "repeatFrameMsec"), required: false, type: .integer)
+        ]
+        /// On input loss, the number of milliseconds to substitute black into the output before switching to the frame specified by inputLossImageType.  A value x, where 0 <= x <= 1,000,000 and a value of 1,000,000 will be interpreted as infinite.
+        public let blackFrameMsec: Int32?
+        /// When input loss image type is "slate" these fields specify the parameters for accessing the slate.
+        public let inputLossImageSlate: InputLocation?
+        /// When input loss image type is "color" this field specifies the color to use. Value: 6 hex characters representing the values of RGB.
+        public let inputLossImageColor: String?
+        /// Indicates whether to substitute a solid color or a slate into the output after input loss exceeds blackFrameMsec.
+        public let inputLossImageType: InputLossImageType?
+        /// On input loss, the number of milliseconds to repeat the previous picture before substituting black into the output.  A value x, where 0 <= x <= 1,000,000 and a value of 1,000,000 will be interpreted as infinite.
+        public let repeatFrameMsec: Int32?
+
+        public init(blackFrameMsec: Int32? = nil, inputLossImageSlate: InputLocation? = nil, inputLossImageColor: String? = nil, inputLossImageType: InputLossImageType? = nil, repeatFrameMsec: Int32? = nil) {
+            self.blackFrameMsec = blackFrameMsec
+            self.inputLossImageSlate = inputLossImageSlate
+            self.inputLossImageColor = inputLossImageColor
+            self.inputLossImageType = inputLossImageType
+            self.repeatFrameMsec = repeatFrameMsec
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blackFrameMsec = "blackFrameMsec"
+            case inputLossImageSlate = "inputLossImageSlate"
+            case inputLossImageColor = "inputLossImageColor"
+            case inputLossImageType = "inputLossImageType"
+            case repeatFrameMsec = "repeatFrameMsec"
+        }
+    }
+
+    public enum Eac3CodingMode: String, CustomStringConvertible, Codable {
+        case codingMode10 = "CODING_MODE_1_0"
+        case codingMode20 = "CODING_MODE_2_0"
+        case codingMode32 = "CODING_MODE_3_2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsSegmentationMode: String, CustomStringConvertible, Codable {
+        case useInputSegmentation = "USE_INPUT_SEGMENTATION"
+        case useSegmentDuration = "USE_SEGMENT_DURATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InputSpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Resolution", location: .body(locationName: "resolution"), required: false, type: .enum), 
+            AWSShapeMember(label: "Codec", location: .body(locationName: "codec"), required: false, type: .enum), 
+            AWSShapeMember(label: "MaximumBitrate", location: .body(locationName: "maximumBitrate"), required: false, type: .enum)
+        ]
+        /// Input resolution, categorized coarsely
+        public let resolution: InputResolution?
+        /// Input codec
+        public let codec: InputCodec?
+        /// Maximum input bitrate, categorized coarsely
+        public let maximumBitrate: InputMaximumBitrate?
+
+        public init(resolution: InputResolution? = nil, codec: InputCodec? = nil, maximumBitrate: InputMaximumBitrate? = nil) {
+            self.resolution = resolution
+            self.codec = codec
+            self.maximumBitrate = maximumBitrate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolution = "resolution"
+            case codec = "codec"
+            case maximumBitrate = "maximumBitrate"
+        }
+    }
+
+    public struct ListInputsResultModel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Inputs", location: .body(locationName: "inputs"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let inputs: [Input]?
+        public let nextToken: String?
+
+        public init(inputs: [Input]? = nil, nextToken: String? = nil) {
+            self.inputs = inputs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputs = "inputs"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public enum InputLossActionForHlsOut: String, CustomStringConvertible, Codable {
+        case emitOutput = "EMIT_OUTPUT"
+        case pauseOutput = "PAUSE_OUTPUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthenticationScheme: String, CustomStringConvertible, Codable {
+        case akamai = "AKAMAI"
+        case common = "COMMON"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DvbNitSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RepInterval", location: .body(locationName: "repInterval"), required: false, type: .integer), 
+            AWSShapeMember(label: "NetworkId", location: .body(locationName: "networkId"), required: true, type: .integer), 
+            AWSShapeMember(label: "NetworkName", location: .body(locationName: "networkName"), required: true, type: .string)
+        ]
+        /// The number of milliseconds between instances of this table in the output transport stream.
+        public let repInterval: Int32?
+        /// The numeric value placed in the Network Information Table (NIT).
+        public let networkId: Int32
+        /// The network name text placed in the networkNameDescriptor inside the Network Information Table. Maximum length is 256 characters.
+        public let networkName: String
+
+        public init(repInterval: Int32? = nil, networkId: Int32, networkName: String) {
+            self.repInterval = repInterval
+            self.networkId = networkId
+            self.networkName = networkName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repInterval = "repInterval"
+            case networkId = "networkId"
+            case networkName = "networkName"
+        }
+    }
+
+    public struct Offering: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "OfferingDescription", location: .body(locationName: "offeringDescription"), required: false, type: .string), 
+            AWSShapeMember(label: "UsagePrice", location: .body(locationName: "usagePrice"), required: false, type: .double), 
+            AWSShapeMember(label: "Region", location: .body(locationName: "region"), required: false, type: .string), 
+            AWSShapeMember(label: "OfferingId", location: .body(locationName: "offeringId"), required: false, type: .string), 
+            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: false, type: .string), 
+            AWSShapeMember(label: "DurationUnits", location: .body(locationName: "durationUnits"), required: false, type: .enum), 
+            AWSShapeMember(label: "Duration", location: .body(locationName: "duration"), required: false, type: .integer), 
+            AWSShapeMember(label: "OfferingType", location: .body(locationName: "offeringType"), required: false, type: .enum), 
+            AWSShapeMember(label: "FixedPrice", location: .body(locationName: "fixedPrice"), required: false, type: .double), 
+            AWSShapeMember(label: "ResourceSpecification", location: .body(locationName: "resourceSpecification"), required: false, type: .structure)
+        ]
+        /// Unique offering ARN, e.g. 'arn:aws:medialive:us-west-2:123456789012:offering:87654321'
+        public let arn: String?
+        /// Offering description, e.g. 'HD AVC output at 10-20 Mbps, 30 fps, and standard VQ in US West (Oregon)'
+        public let offeringDescription: String?
+        /// Recurring usage charge for each reserved resource, e.g. '157.0'
+        public let usagePrice: Double?
+        /// AWS region, e.g. 'us-west-2'
+        public let region: String?
+        /// Unique offering ID, e.g. '87654321'
+        public let offeringId: String?
+        /// Currency code for usagePrice and fixedPrice in ISO-4217 format, e.g. 'USD'
+        public let currencyCode: String?
+        /// Units for duration, e.g. 'MONTHS'
+        public let durationUnits: OfferingDurationUnits?
+        /// Lease duration, e.g. '12'
+        public let duration: Int32?
+        /// Offering type, e.g. 'NO_UPFRONT'
+        public let offeringType: OfferingType?
+        /// One-time charge for each reserved resource, e.g. '0.0' for a NO_UPFRONT offering
+        public let fixedPrice: Double?
+        /// Resource configuration details
+        public let resourceSpecification: ReservationResourceSpecification?
+
+        public init(arn: String? = nil, offeringDescription: String? = nil, usagePrice: Double? = nil, region: String? = nil, offeringId: String? = nil, currencyCode: String? = nil, durationUnits: OfferingDurationUnits? = nil, duration: Int32? = nil, offeringType: OfferingType? = nil, fixedPrice: Double? = nil, resourceSpecification: ReservationResourceSpecification? = nil) {
+            self.arn = arn
+            self.offeringDescription = offeringDescription
+            self.usagePrice = usagePrice
+            self.region = region
+            self.offeringId = offeringId
+            self.currencyCode = currencyCode
+            self.durationUnits = durationUnits
+            self.duration = duration
+            self.offeringType = offeringType
+            self.fixedPrice = fixedPrice
+            self.resourceSpecification = resourceSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case offeringDescription = "offeringDescription"
+            case usagePrice = "usagePrice"
+            case region = "region"
+            case offeringId = "offeringId"
+            case currencyCode = "currencyCode"
+            case durationUnits = "durationUnits"
+            case duration = "duration"
+            case offeringType = "offeringType"
+            case fixedPrice = "fixedPrice"
+            case resourceSpecification = "resourceSpecification"
+        }
+    }
+
+    public enum M2tsRateMode: String, CustomStringConvertible, Codable {
+        case cbr = "CBR"
+        case vbr = "VBR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264EntropyEncoding: String, CustomStringConvertible, Codable {
+        case cabac = "CABAC"
+        case cavlc = "CAVLC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BurnInShadowColor: String, CustomStringConvertible, Codable {
+        case black = "BLACK"
+        case none = "NONE"
+        case white = "WHITE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Scte35SpliceInsert: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NoRegionalBlackoutFlag", location: .body(locationName: "noRegionalBlackoutFlag"), required: false, type: .enum), 
+            AWSShapeMember(label: "AdAvailOffset", location: .body(locationName: "adAvailOffset"), required: false, type: .integer), 
+            AWSShapeMember(label: "WebDeliveryAllowedFlag", location: .body(locationName: "webDeliveryAllowedFlag"), required: false, type: .enum)
+        ]
+        /// When set to ignore, Segment Descriptors with noRegionalBlackoutFlag set to 0 will no longer trigger blackouts or Ad Avail slates
+        public let noRegionalBlackoutFlag: Scte35SpliceInsertNoRegionalBlackoutBehavior?
+        /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time. This only applies to embedded SCTE 104/35 messages and does not apply to OOB messages.
+        public let adAvailOffset: Int32?
+        /// When set to ignore, Segment Descriptors with webDeliveryAllowedFlag set to 0 will no longer trigger blackouts or Ad Avail slates
+        public let webDeliveryAllowedFlag: Scte35SpliceInsertWebDeliveryAllowedBehavior?
+
+        public init(noRegionalBlackoutFlag: Scte35SpliceInsertNoRegionalBlackoutBehavior? = nil, adAvailOffset: Int32? = nil, webDeliveryAllowedFlag: Scte35SpliceInsertWebDeliveryAllowedBehavior? = nil) {
+            self.noRegionalBlackoutFlag = noRegionalBlackoutFlag
+            self.adAvailOffset = adAvailOffset
+            self.webDeliveryAllowedFlag = webDeliveryAllowedFlag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case noRegionalBlackoutFlag = "noRegionalBlackoutFlag"
+            case adAvailOffset = "adAvailOffset"
+            case webDeliveryAllowedFlag = "webDeliveryAllowedFlag"
+        }
+    }
+
+    public enum HlsManifestDurationFormat: String, CustomStringConvertible, Codable {
+        case floatingPoint = "FLOATING_POINT"
+        case integer = "INTEGER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FecOutputIncludeFec: String, CustomStringConvertible, Codable {
+        case column = "COLUMN"
+        case columnAndRow = "COLUMN_AND_ROW"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InputWhitelistRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cidr", location: .body(locationName: "cidr"), required: false, type: .string)
+        ]
+        /// The IPv4 CIDR that's whitelisted.
+        public let cidr: String?
+
+        public init(cidr: String? = nil) {
+            self.cidr = cidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "cidr"
+        }
+    }
+
+    public struct Scte27SourceSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Pid", location: .body(locationName: "pid"), required: false, type: .integer)
+        ]
+        /// The pid field is used in conjunction with the caption selector languageCode field as follows:
+        ///   - Specify PID and Language: Extracts captions from that PID; the language is "informational".
+        ///   - Specify PID and omit Language: Extracts the specified PID.
+        ///   - Omit PID and specify Language: Extracts the specified language, whichever PID that happens to be.
+        ///   - Omit PID and omit Language: Valid only if source is DVB-Sub that is being passed through; all languages will be passed through.
+        public let pid: Int32?
+
+        public init(pid: Int32? = nil) {
+            self.pid = pid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pid = "pid"
+        }
+    }
+
+    public struct DescribeChannelRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string)
+        ]
+        public let channelId: String
+
+        public init(channelId: String) {
+            self.channelId = channelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelId = "channelId"
+        }
+    }
+
+    public struct EncoderSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VideoDescriptions", location: .body(locationName: "videoDescriptions"), required: true, type: .list), 
+            AWSShapeMember(label: "BlackoutSlate", location: .body(locationName: "blackoutSlate"), required: false, type: .structure), 
+            AWSShapeMember(label: "OutputGroups", location: .body(locationName: "outputGroups"), required: true, type: .list), 
+            AWSShapeMember(label: "AudioDescriptions", location: .body(locationName: "audioDescriptions"), required: true, type: .list), 
+            AWSShapeMember(label: "GlobalConfiguration", location: .body(locationName: "globalConfiguration"), required: false, type: .structure), 
+            AWSShapeMember(label: "AvailConfiguration", location: .body(locationName: "availConfiguration"), required: false, type: .structure), 
+            AWSShapeMember(label: "CaptionDescriptions", location: .body(locationName: "captionDescriptions"), required: false, type: .list), 
+            AWSShapeMember(label: "AvailBlanking", location: .body(locationName: "availBlanking"), required: false, type: .structure), 
+            AWSShapeMember(label: "TimecodeConfig", location: .body(locationName: "timecodeConfig"), required: true, type: .structure)
+        ]
+        public let videoDescriptions: [VideoDescription]
+        /// Settings for blackout slate.
+        public let blackoutSlate: BlackoutSlate?
+        public let outputGroups: [OutputGroup]
+        public let audioDescriptions: [AudioDescription]
+        /// Configuration settings that apply to the event as a whole.
+        public let globalConfiguration: GlobalConfiguration?
+        /// Event-wide configuration settings for ad avail insertion.
+        public let availConfiguration: AvailConfiguration?
+        /// Settings for caption decriptions
+        public let captionDescriptions: [CaptionDescription]?
+        /// Settings for ad avail blanking.
+        public let availBlanking: AvailBlanking?
+        /// Contains settings used to acquire and adjust timecode information from inputs.
+        public let timecodeConfig: TimecodeConfig
+
+        public init(videoDescriptions: [VideoDescription], blackoutSlate: BlackoutSlate? = nil, outputGroups: [OutputGroup], audioDescriptions: [AudioDescription], globalConfiguration: GlobalConfiguration? = nil, availConfiguration: AvailConfiguration? = nil, captionDescriptions: [CaptionDescription]? = nil, availBlanking: AvailBlanking? = nil, timecodeConfig: TimecodeConfig) {
+            self.videoDescriptions = videoDescriptions
+            self.blackoutSlate = blackoutSlate
+            self.outputGroups = outputGroups
+            self.audioDescriptions = audioDescriptions
+            self.globalConfiguration = globalConfiguration
+            self.availConfiguration = availConfiguration
+            self.captionDescriptions = captionDescriptions
+            self.availBlanking = availBlanking
+            self.timecodeConfig = timecodeConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case videoDescriptions = "videoDescriptions"
+            case blackoutSlate = "blackoutSlate"
+            case outputGroups = "outputGroups"
+            case audioDescriptions = "audioDescriptions"
+            case globalConfiguration = "globalConfiguration"
+            case availConfiguration = "availConfiguration"
+            case captionDescriptions = "captionDescriptions"
+            case availBlanking = "availBlanking"
+            case timecodeConfig = "timecodeConfig"
+        }
+    }
+
+    public struct BlackoutSlate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NetworkEndBlackout", location: .body(locationName: "networkEndBlackout"), required: false, type: .enum), 
+            AWSShapeMember(label: "NetworkEndBlackoutImage", location: .body(locationName: "networkEndBlackoutImage"), required: false, type: .structure), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "NetworkId", location: .body(locationName: "networkId"), required: false, type: .string), 
+            AWSShapeMember(label: "BlackoutSlateImage", location: .body(locationName: "blackoutSlateImage"), required: false, type: .structure)
+        ]
+        /// Setting to enabled causes the encoder to blackout the video, audio, and captions, and raise the "Network Blackout Image" slate when an SCTE104/35 Network End Segmentation Descriptor is encountered. The blackout will be lifted when the Network Start Segmentation Descriptor is encountered. The Network End and Network Start descriptors must contain a network ID that matches the value entered in "Network ID".
+        public let networkEndBlackout: BlackoutSlateNetworkEndBlackout?
+        /// Path to local file to use as Network End Blackout image. Image will be scaled to fill the entire output raster.
+        public let networkEndBlackoutImage: InputLocation?
+        /// When set to enabled, causes video, audio and captions to be blanked when indicated by program metadata.
+        public let state: BlackoutSlateState?
+        /// Provides Network ID that matches EIDR ID format (e.g., "10.XXXX/XXXX-XXXX-XXXX-XXXX-XXXX-C").
+        public let networkId: String?
+        /// Blackout slate image to be used. Leave empty for solid black. Only bmp and png images are supported.
+        public let blackoutSlateImage: InputLocation?
+
+        public init(networkEndBlackout: BlackoutSlateNetworkEndBlackout? = nil, networkEndBlackoutImage: InputLocation? = nil, state: BlackoutSlateState? = nil, networkId: String? = nil, blackoutSlateImage: InputLocation? = nil) {
+            self.networkEndBlackout = networkEndBlackout
+            self.networkEndBlackoutImage = networkEndBlackoutImage
+            self.state = state
+            self.networkId = networkId
+            self.blackoutSlateImage = blackoutSlateImage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkEndBlackout = "networkEndBlackout"
+            case networkEndBlackoutImage = "networkEndBlackoutImage"
+            case state = "state"
+            case networkId = "networkId"
+            case blackoutSlateImage = "blackoutSlateImage"
+        }
+    }
+
+    public struct PassThroughSettings: AWSShape {
+
+    }
+
+    public enum H264Profile: String, CustomStringConvertible, Codable {
+        case baseline = "BASELINE"
+        case high = "HIGH"
+        case high10Bit = "HIGH_10BIT"
+        case high422 = "HIGH_422"
+        case high42210Bit = "HIGH_422_10BIT"
+        case main = "MAIN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3BitstreamMode: String, CustomStringConvertible, Codable {
+        case commentary = "COMMENTARY"
+        case completeMain = "COMPLETE_MAIN"
+        case emergency = "EMERGENCY"
+        case hearingImpaired = "HEARING_IMPAIRED"
+        case visuallyImpaired = "VISUALLY_IMPAIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputState: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case detached = "DETACHED"
+        case attached = "ATTACHED"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsCcDescriptor: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AfdSignaling: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
+        case fixed = "FIXED"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsBufferModel: String, CustomStringConvertible, Codable {
+        case multiplex = "MULTIPLEX"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateChannel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments"), required: false, type: .list), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Reserved", location: .body(locationName: "reserved"), required: false, type: .string), 
+            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId"), required: false, type: .string), 
+            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
+            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification"), required: false, type: .structure)
+        ]
+        public let destinations: [OutputDestination]?
+        /// List of input attachments for channel.
+        public let inputAttachments: [InputAttachment]?
+        /// Name of channel.
+        public let name: String?
+        public let encoderSettings: EncoderSettings?
+        /// Deprecated field that's only usable by whitelisted customers.
+        public let reserved: String?
+        /// An optional Amazon Resource Name (ARN) of the role to assume when running the Channel.
+        public let roleArn: String?
+        /// Unique request ID to be specified. This is needed to prevent retries from
+        /// creating multiple resources.
+        public let requestId: String?
+        /// The log level to write to CloudWatch Logs.
+        public let logLevel: LogLevel?
+        /// Specification of input for this channel (max. bitrate, resolution, codec, etc.)
+        public let inputSpecification: InputSpecification?
+
+        public init(destinations: [OutputDestination]? = nil, inputAttachments: [InputAttachment]? = nil, name: String? = nil, encoderSettings: EncoderSettings? = nil, reserved: String? = nil, roleArn: String? = nil, requestId: String? = nil, logLevel: LogLevel? = nil, inputSpecification: InputSpecification? = nil) {
+            self.destinations = destinations
+            self.inputAttachments = inputAttachments
+            self.name = name
+            self.encoderSettings = encoderSettings
+            self.reserved = reserved
+            self.roleArn = roleArn
+            self.requestId = requestId
+            self.logLevel = logLevel
+            self.inputSpecification = inputSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+            case inputAttachments = "inputAttachments"
+            case name = "name"
+            case encoderSettings = "encoderSettings"
+            case reserved = "reserved"
+            case roleArn = "roleArn"
+            case requestId = "requestId"
+            case logLevel = "logLevel"
+            case inputSpecification = "inputSpecification"
+        }
+    }
+
+    public enum HlsIvInManifest: String, CustomStringConvertible, Codable {
+        case exclude = "EXCLUDE"
+        case include = "INCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ChannelConfigurationValidationError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ValidationErrors", location: .body(locationName: "validationErrors"), required: false, type: .list), 
+            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
+        ]
+        /// A collection of validation error responses from attempting to create a channel with a bouquet of settings.
+        public let validationErrors: [ValidationError]?
+        public let message: String?
+
+        public init(validationErrors: [ValidationError]? = nil, message: String? = nil) {
+            self.validationErrors = validationErrors
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case validationErrors = "validationErrors"
+            case message = "message"
+        }
+    }
+
+    public struct InvalidRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
+        ]
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct AudioChannelMapping: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputChannelLevels", location: .body(locationName: "inputChannelLevels"), required: true, type: .list), 
+            AWSShapeMember(label: "OutputChannel", location: .body(locationName: "outputChannel"), required: true, type: .integer)
+        ]
+        /// Indices and gain values for each input channel that should be remixed into this output channel.
+        public let inputChannelLevels: [InputChannelLevel]
+        /// The index of the output channel being produced.
+        public let outputChannel: Int32
+
+        public init(inputChannelLevels: [InputChannelLevel], outputChannel: Int32) {
+            self.inputChannelLevels = inputChannelLevels
+            self.outputChannel = outputChannel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputChannelLevels = "inputChannelLevels"
+            case outputChannel = "outputChannel"
+        }
+    }
+
+    public enum HlsClientCache: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ReservationResourceSpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Codec", location: .body(locationName: "codec"), required: false, type: .enum), 
+            AWSShapeMember(label: "VideoQuality", location: .body(locationName: "videoQuality"), required: false, type: .enum), 
+            AWSShapeMember(label: "MaximumFramerate", location: .body(locationName: "maximumFramerate"), required: false, type: .enum), 
+            AWSShapeMember(label: "ResourceType", location: .body(locationName: "resourceType"), required: false, type: .enum), 
+            AWSShapeMember(label: "SpecialFeature", location: .body(locationName: "specialFeature"), required: false, type: .enum), 
+            AWSShapeMember(label: "Resolution", location: .body(locationName: "resolution"), required: false, type: .enum), 
+            AWSShapeMember(label: "MaximumBitrate", location: .body(locationName: "maximumBitrate"), required: false, type: .enum)
+        ]
+        /// Codec, e.g. 'AVC'
+        public let codec: ReservationCodec?
+        /// Video quality, e.g. 'STANDARD' (Outputs only)
+        public let videoQuality: ReservationVideoQuality?
+        /// Maximum framerate, e.g. 'MAX_30_FPS' (Outputs only)
+        public let maximumFramerate: ReservationMaximumFramerate?
+        /// Resource type, 'INPUT', 'OUTPUT', or 'CHANNEL'
+        public let resourceType: ReservationResourceType?
+        /// Special feature, e.g. 'AUDIO_NORMALIZATION' (Channels only)
+        public let specialFeature: ReservationSpecialFeature?
+        /// Resolution, e.g. 'HD'
+        public let resolution: ReservationResolution?
+        /// Maximum bitrate, e.g. 'MAX_20_MBPS'
+        public let maximumBitrate: ReservationMaximumBitrate?
+
+        public init(codec: ReservationCodec? = nil, videoQuality: ReservationVideoQuality? = nil, maximumFramerate: ReservationMaximumFramerate? = nil, resourceType: ReservationResourceType? = nil, specialFeature: ReservationSpecialFeature? = nil, resolution: ReservationResolution? = nil, maximumBitrate: ReservationMaximumBitrate? = nil) {
+            self.codec = codec
+            self.videoQuality = videoQuality
+            self.maximumFramerate = maximumFramerate
+            self.resourceType = resourceType
+            self.specialFeature = specialFeature
+            self.resolution = resolution
+            self.maximumBitrate = maximumBitrate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codec = "codec"
+            case videoQuality = "videoQuality"
+            case maximumFramerate = "maximumFramerate"
+            case resourceType = "resourceType"
+            case specialFeature = "specialFeature"
+            case resolution = "resolution"
+            case maximumBitrate = "maximumBitrate"
+        }
+    }
+
+    public enum Eac3DrcLine: String, CustomStringConvertible, Codable {
+        case filmLight = "FILM_LIGHT"
+        case filmStandard = "FILM_STANDARD"
+        case musicLight = "MUSIC_LIGHT"
+        case musicStandard = "MUSIC_STANDARD"
+        case none = "NONE"
+        case speech = "SPEECH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DvbSdtOutputSdt: String, CustomStringConvertible, Codable {
+        case sdtFollow = "SDT_FOLLOW"
+        case sdtFollowIfPresent = "SDT_FOLLOW_IF_PRESENT"
+        case sdtManual = "SDT_MANUAL"
+        case sdtNone = "SDT_NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BurnInOutlineColor: String, CustomStringConvertible, Codable {
+        case black = "BLACK"
+        case blue = "BLUE"
+        case green = "GREEN"
+        case red = "RED"
+        case white = "WHITE"
+        case yellow = "YELLOW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RtmpCacheFullBehavior: String, CustomStringConvertible, Codable {
+        case disconnectImmediately = "DISCONNECT_IMMEDIATELY"
+        case waitForServer = "WAIT_FOR_SERVER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Channel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments"), required: false, type: .list), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "EgressEndpoints", location: .body(locationName: "egressEndpoints"), required: false, type: .list), 
+            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
+            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
+            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
+            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification"), required: false, type: .structure)
+        ]
+        /// A list of destinations of the channel. For UDP outputs, there is one
+        /// destination per output. For other types (HLS, for example), there is
+        /// one destination per packager.
+        public let destinations: [OutputDestination]?
+        /// The unique id of the channel.
+        public let id: String?
+        /// The unique arn of the channel.
+        public let arn: String?
+        /// List of input attachments for channel.
+        public let inputAttachments: [InputAttachment]?
+        /// The name of the channel. (user-mutable)
+        public let name: String?
+        public let state: ChannelState?
+        public let encoderSettings: EncoderSettings?
+        /// The endpoints where outgoing connections initiate from
+        public let egressEndpoints: [ChannelEgressEndpoint]?
+        /// The Amazon Resource Name (ARN) of the role assumed when running the Channel.
+        public let roleArn: String?
+        /// The number of currently healthy pipelines.
+        public let pipelinesRunningCount: Int32?
+        /// The log level being written to CloudWatch Logs.
+        public let logLevel: LogLevel?
+        public let inputSpecification: InputSpecification?
+
+        public init(destinations: [OutputDestination]? = nil, id: String? = nil, arn: String? = nil, inputAttachments: [InputAttachment]? = nil, name: String? = nil, state: ChannelState? = nil, encoderSettings: EncoderSettings? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, roleArn: String? = nil, pipelinesRunningCount: Int32? = nil, logLevel: LogLevel? = nil, inputSpecification: InputSpecification? = nil) {
+            self.destinations = destinations
+            self.id = id
+            self.arn = arn
+            self.inputAttachments = inputAttachments
+            self.name = name
+            self.state = state
+            self.encoderSettings = encoderSettings
+            self.egressEndpoints = egressEndpoints
+            self.roleArn = roleArn
+            self.pipelinesRunningCount = pipelinesRunningCount
+            self.logLevel = logLevel
+            self.inputSpecification = inputSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+            case id = "id"
+            case arn = "arn"
+            case inputAttachments = "inputAttachments"
+            case name = "name"
+            case state = "state"
+            case encoderSettings = "encoderSettings"
+            case egressEndpoints = "egressEndpoints"
+            case roleArn = "roleArn"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case logLevel = "logLevel"
+            case inputSpecification = "inputSpecification"
+        }
+    }
+
+    public enum InputType: String, CustomStringConvertible, Codable {
+        case udpPush = "UDP_PUSH"
+        case rtpPush = "RTP_PUSH"
+        case rtmpPush = "RTMP_PUSH"
+        case rtmpPull = "RTMP_PULL"
+        case urlPull = "URL_PULL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateChannelResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Channel", location: .body(locationName: "channel"), required: false, type: .structure)
+        ]
+        public let channel: Channel?
+
+        public init(channel: Channel? = nil) {
+            self.channel = channel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channel = "channel"
+        }
+    }
+
+    public struct StopChannelRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string)
+        ]
+        public let channelId: String
+
+        public init(channelId: String) {
+            self.channelId = channelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelId = "channelId"
+        }
+    }
+
+    public enum ReservationResolution: String, CustomStringConvertible, Codable {
+        case sd = "SD"
+        case hd = "HD"
+        case uhd = "UHD"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Ac3Settings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "DrcProfile", location: .body(locationName: "drcProfile"), required: false, type: .enum), 
+            AWSShapeMember(label: "LfeFilter", location: .body(locationName: "lfeFilter"), required: false, type: .enum), 
+            AWSShapeMember(label: "BitstreamMode", location: .body(locationName: "bitstreamMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .double), 
+            AWSShapeMember(label: "MetadataControl", location: .body(locationName: "metadataControl"), required: false, type: .enum), 
+            AWSShapeMember(label: "Dialnorm", location: .body(locationName: "dialnorm"), required: false, type: .integer)
+        ]
+        /// Dolby Digital coding mode. Determines number of channels.
+        public let codingMode: Ac3CodingMode?
+        /// If set to filmStandard, adds dynamic range compression signaling to the output bitstream as defined in the Dolby Digital specification.
+        public let drcProfile: Ac3DrcProfile?
+        /// When set to enabled, applies a 120Hz lowpass filter to the LFE channel prior to encoding. Only valid in codingMode32Lfe mode.
+        public let lfeFilter: Ac3LfeFilter?
+        /// Specifies the bitstream mode (bsmod) for the emitted AC-3 stream. See ATSC A/52-2012 for background on these values.
+        public let bitstreamMode: Ac3BitstreamMode?
+        /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
+        public let bitrate: Double?
+        /// When set to "followInput", encoder metadata will be sourced from the DD, DD+, or DolbyE decoder that supplied this audio data. If audio was not supplied from one of these streams, then the static metadata settings will be used.
+        public let metadataControl: Ac3MetadataControl?
+        /// Sets the dialnorm for the output. If excluded and input audio is Dolby Digital, dialnorm will be passed through.
+        public let dialnorm: Int32?
+
+        public init(codingMode: Ac3CodingMode? = nil, drcProfile: Ac3DrcProfile? = nil, lfeFilter: Ac3LfeFilter? = nil, bitstreamMode: Ac3BitstreamMode? = nil, bitrate: Double? = nil, metadataControl: Ac3MetadataControl? = nil, dialnorm: Int32? = nil) {
+            self.codingMode = codingMode
+            self.drcProfile = drcProfile
+            self.lfeFilter = lfeFilter
+            self.bitstreamMode = bitstreamMode
+            self.bitrate = bitrate
+            self.metadataControl = metadataControl
+            self.dialnorm = dialnorm
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codingMode = "codingMode"
+            case drcProfile = "drcProfile"
+            case lfeFilter = "lfeFilter"
+            case bitstreamMode = "bitstreamMode"
+            case bitrate = "bitrate"
+            case metadataControl = "metadataControl"
+            case dialnorm = "dialnorm"
+        }
+    }
+
+    public enum H264SpatialAq: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VideoDescriptionScalingBehavior: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case stretchToOutput = "STRETCH_TO_OUTPUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DvbSubDestinationFontColor: String, CustomStringConvertible, Codable {
+        case black = "BLACK"
+        case blue = "BLUE"
+        case green = "GREEN"
+        case red = "RED"
+        case white = "WHITE"
+        case yellow = "YELLOW"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeReservationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "OfferingId", location: .body(locationName: "offeringId"), required: false, type: .string), 
+            AWSShapeMember(label: "UsagePrice", location: .body(locationName: "usagePrice"), required: false, type: .double), 
+            AWSShapeMember(label: "Region", location: .body(locationName: "region"), required: false, type: .string), 
+            AWSShapeMember(label: "Count", location: .body(locationName: "count"), required: false, type: .integer), 
+            AWSShapeMember(label: "OfferingType", location: .body(locationName: "offeringType"), required: false, type: .enum), 
+            AWSShapeMember(label: "ResourceSpecification", location: .body(locationName: "resourceSpecification"), required: false, type: .structure), 
+            AWSShapeMember(label: "ReservationId", location: .body(locationName: "reservationId"), required: false, type: .string), 
+            AWSShapeMember(label: "OfferingDescription", location: .body(locationName: "offeringDescription"), required: false, type: .string), 
+            AWSShapeMember(label: "Start", location: .body(locationName: "start"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "End", location: .body(locationName: "end"), required: false, type: .string), 
+            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: false, type: .string), 
+            AWSShapeMember(label: "DurationUnits", location: .body(locationName: "durationUnits"), required: false, type: .enum), 
+            AWSShapeMember(label: "Duration", location: .body(locationName: "duration"), required: false, type: .integer), 
+            AWSShapeMember(label: "FixedPrice", location: .body(locationName: "fixedPrice"), required: false, type: .double)
+        ]
+        public let arn: String?
+        public let state: ReservationState?
+        public let offeringId: String?
+        public let usagePrice: Double?
+        public let region: String?
+        public let count: Int32?
+        public let offeringType: OfferingType?
+        public let resourceSpecification: ReservationResourceSpecification?
+        public let reservationId: String?
+        public let offeringDescription: String?
+        public let start: String?
+        public let name: String?
+        public let end: String?
+        public let currencyCode: String?
+        public let durationUnits: OfferingDurationUnits?
+        public let duration: Int32?
+        public let fixedPrice: Double?
+
+        public init(arn: String? = nil, state: ReservationState? = nil, offeringId: String? = nil, usagePrice: Double? = nil, region: String? = nil, count: Int32? = nil, offeringType: OfferingType? = nil, resourceSpecification: ReservationResourceSpecification? = nil, reservationId: String? = nil, offeringDescription: String? = nil, start: String? = nil, name: String? = nil, end: String? = nil, currencyCode: String? = nil, durationUnits: OfferingDurationUnits? = nil, duration: Int32? = nil, fixedPrice: Double? = nil) {
+            self.arn = arn
+            self.state = state
+            self.offeringId = offeringId
+            self.usagePrice = usagePrice
+            self.region = region
+            self.count = count
+            self.offeringType = offeringType
+            self.resourceSpecification = resourceSpecification
+            self.reservationId = reservationId
+            self.offeringDescription = offeringDescription
+            self.start = start
+            self.name = name
+            self.end = end
+            self.currencyCode = currencyCode
+            self.durationUnits = durationUnits
+            self.duration = duration
+            self.fixedPrice = fixedPrice
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case state = "state"
+            case offeringId = "offeringId"
+            case usagePrice = "usagePrice"
+            case region = "region"
+            case count = "count"
+            case offeringType = "offeringType"
+            case resourceSpecification = "resourceSpecification"
+            case reservationId = "reservationId"
+            case offeringDescription = "offeringDescription"
+            case start = "start"
+            case name = "name"
+            case end = "end"
+            case currencyCode = "currencyCode"
+            case durationUnits = "durationUnits"
+            case duration = "duration"
+            case fixedPrice = "fixedPrice"
+        }
+    }
+
+    public enum HlsProgramDateTime: String, CustomStringConvertible, Codable {
+        case exclude = "EXCLUDE"
+        case include = "INCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputDenoiseFilter: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsArib: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CaptionDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CaptionSelectorName", location: .body(locationName: "captionSelectorName"), required: true, type: .string), 
+            AWSShapeMember(label: "LanguageDescription", location: .body(locationName: "languageDescription"), required: false, type: .string), 
+            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "DestinationSettings", location: .body(locationName: "destinationSettings"), required: false, type: .structure)
+        ]
+        /// Specifies which input caption selector to use as a caption source when generating output captions. This field should match a captionSelector name.
+        public let captionSelectorName: String
+        /// Human readable information to indicate captions available for players (eg. English, or Spanish).
+        public let languageDescription: String?
+        /// ISO 639-2 three-digit code: http://www.loc.gov/standards/iso639-2/
+        public let languageCode: String?
+        /// Name of the caption description.  Used to associate a caption description with an output.  Names must be unique within an event.
+        public let name: String
+        /// Additional settings for captions destination that depend on the destination type.
+        public let destinationSettings: CaptionDestinationSettings?
+
+        public init(captionSelectorName: String, languageDescription: String? = nil, languageCode: String? = nil, name: String, destinationSettings: CaptionDestinationSettings? = nil) {
+            self.captionSelectorName = captionSelectorName
+            self.languageDescription = languageDescription
+            self.languageCode = languageCode
+            self.name = name
+            self.destinationSettings = destinationSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case captionSelectorName = "captionSelectorName"
+            case languageDescription = "languageDescription"
+            case languageCode = "languageCode"
+            case name = "name"
+            case destinationSettings = "destinationSettings"
+        }
+    }
+
+    public struct Scte20PlusEmbeddedDestinationSettings: AWSShape {
+
+    }
+
+    public struct ListInputSecurityGroupsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "InputSecurityGroups", location: .body(locationName: "inputSecurityGroups"), required: false, type: .list)
+        ]
+        public let nextToken: String?
+        public let inputSecurityGroups: [InputSecurityGroup]?
+
+        public init(nextToken: String? = nil, inputSecurityGroups: [InputSecurityGroup]? = nil) {
+            self.nextToken = nextToken
+            self.inputSecurityGroups = inputSecurityGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case inputSecurityGroups = "inputSecurityGroups"
+        }
+    }
+
+    public struct AudioLanguageSelection: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode"), required: true, type: .string), 
+            AWSShapeMember(label: "LanguageSelectionPolicy", location: .body(locationName: "languageSelectionPolicy"), required: false, type: .enum)
+        ]
+        /// Selects a specific three-letter language code from within an audio source.
+        public let languageCode: String
+        /// When set to "strict", the transport stream demux strictly identifies audio streams by their language descriptor. If a PMT update occurs such that an audio stream matching the initially selected language is no longer present then mute will be encoded until the language returns. If "loose", then on a PMT update the demux will choose another audio stream in the program with the same stream type if it can't find one with the same language.
+        public let languageSelectionPolicy: AudioLanguageSelectionPolicy?
+
+        public init(languageCode: String, languageSelectionPolicy: AudioLanguageSelectionPolicy? = nil) {
+            self.languageCode = languageCode
+            self.languageSelectionPolicy = languageSelectionPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "languageCode"
+            case languageSelectionPolicy = "languageSelectionPolicy"
+        }
+    }
+
+    public struct CreateChannelRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments"), required: false, type: .list), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Reserved", location: .body(locationName: "reserved"), required: false, type: .string), 
+            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId"), required: false, type: .string), 
+            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
+            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification"), required: false, type: .structure)
+        ]
+        public let destinations: [OutputDestination]?
+        public let inputAttachments: [InputAttachment]?
+        public let name: String?
+        public let encoderSettings: EncoderSettings?
+        public let reserved: String?
+        public let roleArn: String?
+        public let requestId: String?
+        public let logLevel: LogLevel?
+        public let inputSpecification: InputSpecification?
+
+        public init(destinations: [OutputDestination]? = nil, inputAttachments: [InputAttachment]? = nil, name: String? = nil, encoderSettings: EncoderSettings? = nil, reserved: String? = nil, roleArn: String? = nil, requestId: String? = nil, logLevel: LogLevel? = nil, inputSpecification: InputSpecification? = nil) {
+            self.destinations = destinations
+            self.inputAttachments = inputAttachments
+            self.name = name
+            self.encoderSettings = encoderSettings
+            self.reserved = reserved
+            self.roleArn = roleArn
+            self.requestId = requestId
+            self.logLevel = logLevel
+            self.inputSpecification = inputSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+            case inputAttachments = "inputAttachments"
+            case name = "name"
+            case encoderSettings = "encoderSettings"
+            case reserved = "reserved"
+            case roleArn = "roleArn"
+            case requestId = "requestId"
+            case logLevel = "logLevel"
+            case inputSpecification = "inputSpecification"
+        }
+    }
+
+    public struct OutputDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Settings", location: .body(locationName: "settings"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
+        ]
+        /// Destination settings for output; one for each redundant encoder.
+        public let settings: [OutputDestinationSettings]?
+        /// User-specified id. This is used in an output group or an output.
+        public let id: String?
+
+        public init(settings: [OutputDestinationSettings]? = nil, id: String? = nil) {
+            self.settings = settings
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case settings = "settings"
+            case id = "id"
+        }
+    }
+
+    public struct DeleteChannelRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string)
+        ]
+        public let channelId: String
+
+        public init(channelId: String) {
+            self.channelId = channelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelId = "channelId"
+        }
+    }
+
+    public enum H264GopBReference: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsStreamInfResolution: String, CustomStringConvertible, Codable {
+        case exclude = "EXCLUDE"
+        case include = "INCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct VideoSelectorProgramId: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProgramId", location: .body(locationName: "programId"), required: false, type: .integer)
+        ]
+        /// Selects a specific program from within a multi-program transport stream. If the program doesn't exist, the first program within the transport stream will be selected by default.
+        public let programId: Int32?
+
+        public init(programId: Int32? = nil) {
+            self.programId = programId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case programId = "programId"
+        }
+    }
+
+    public struct StandardHlsSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AudioRenditionSets", location: .body(locationName: "audioRenditionSets"), required: false, type: .string), 
+            AWSShapeMember(label: "M3u8Settings", location: .body(locationName: "m3u8Settings"), required: true, type: .structure)
+        ]
+        /// List all the audio groups that are used with the video output stream. Input all the audio GROUP-IDs that are associated to the video, separate by ','.
+        public let audioRenditionSets: String?
+        public let m3u8Settings: M3u8Settings
+
+        public init(audioRenditionSets: String? = nil, m3u8Settings: M3u8Settings) {
+            self.audioRenditionSets = audioRenditionSets
+            self.m3u8Settings = m3u8Settings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioRenditionSets = "audioRenditionSets"
+            case m3u8Settings = "m3u8Settings"
+        }
+    }
+
+    public enum HlsMediaStoreStorageClass: String, CustomStringConvertible, Codable {
+        case temporal = "TEMPORAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VideoSelectorColorSpaceUsage: String, CustomStringConvertible, Codable {
+        case fallback = "FALLBACK"
+        case force = "FORCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SmpteTtDestinationSettings: AWSShape {
+
+    }
+
+    public enum M2tsEbifControl: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case passthrough = "PASSTHROUGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GlobalConfigurationInputEndAction: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case switchAndLoopInputs = "SWITCH_AND_LOOP_INPUTS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Input: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "AttachedChannels", location: .body(locationName: "attachedChannels"), required: false, type: .list), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: false, type: .list), 
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
+        ]
+        /// A list of the destinations of the input (PUSH-type).
+        public let destinations: [InputDestination]?
+        /// A list of IDs for all the security groups attached to the input.
+        public let securityGroups: [String]?
+        /// The Unique ARN of the input (generated, immutable).
+        public let arn: String?
+        /// A list of channel IDs that that input is attached to (currently an input can only be attached to one channel).
+        public let attachedChannels: [String]?
+        public let state: InputState?
+        /// The user-assigned name (This is a mutable value).
+        public let name: String?
+        /// A list of the sources of the input (PULL-type).
+        public let sources: [InputSource]?
+        public let `type`: InputType?
+        /// The generated ID of the input (unique for user account, immutable).
+        public let id: String?
+
+        public init(destinations: [InputDestination]? = nil, securityGroups: [String]? = nil, arn: String? = nil, attachedChannels: [String]? = nil, state: InputState? = nil, name: String? = nil, sources: [InputSource]? = nil, type: InputType? = nil, id: String? = nil) {
+            self.destinations = destinations
+            self.securityGroups = securityGroups
+            self.arn = arn
+            self.attachedChannels = attachedChannels
+            self.state = state
+            self.name = name
+            self.sources = sources
+            self.`type` = `type`
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+            case securityGroups = "securityGroups"
+            case arn = "arn"
+            case attachedChannels = "attachedChannels"
+            case state = "state"
+            case name = "name"
+            case sources = "sources"
+            case `type` = "type"
+            case id = "id"
+        }
+    }
+
+    public enum M2tsScte35Control: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case passthrough = "PASSTHROUGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EmbeddedConvert608To708: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case upconvert = "UPCONVERT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264ParControl: String, CustomStringConvertible, Codable {
+        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
+        case specified = "SPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264FlickerAq: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DvbTdtSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RepInterval", location: .body(locationName: "repInterval"), required: false, type: .integer)
+        ]
+        /// The number of milliseconds between instances of this table in the output transport stream.
+        public let repInterval: Int32?
+
+        public init(repInterval: Int32? = nil) {
+            self.repInterval = repInterval
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repInterval = "repInterval"
+        }
+    }
+
+    public struct DvbSdtSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RepInterval", location: .body(locationName: "repInterval"), required: false, type: .integer), 
+            AWSShapeMember(label: "ServiceName", location: .body(locationName: "serviceName"), required: false, type: .string), 
+            AWSShapeMember(label: "ServiceProviderName", location: .body(locationName: "serviceProviderName"), required: false, type: .string), 
+            AWSShapeMember(label: "OutputSdt", location: .body(locationName: "outputSdt"), required: false, type: .enum)
+        ]
+        /// The number of milliseconds between instances of this table in the output transport stream.
+        public let repInterval: Int32?
+        /// The service name placed in the serviceDescriptor in the Service Description Table. Maximum length is 256 characters.
+        public let serviceName: String?
+        /// The service provider name placed in the serviceDescriptor in the Service Description Table. Maximum length is 256 characters.
+        public let serviceProviderName: String?
+        /// Selects method of inserting SDT information into output stream. The sdtFollow setting copies SDT information from input stream to output stream. The sdtFollowIfPresent setting copies SDT information from input stream to output stream if SDT information is present in the input, otherwise it will fall back on the user-defined values. The sdtManual setting means user will enter the SDT information. The sdtNone setting means output stream will not contain SDT information.
+        public let outputSdt: DvbSdtOutputSdt?
+
+        public init(repInterval: Int32? = nil, serviceName: String? = nil, serviceProviderName: String? = nil, outputSdt: DvbSdtOutputSdt? = nil) {
+            self.repInterval = repInterval
+            self.serviceName = serviceName
+            self.serviceProviderName = serviceProviderName
+            self.outputSdt = outputSdt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repInterval = "repInterval"
+            case serviceName = "serviceName"
+            case serviceProviderName = "serviceProviderName"
+            case outputSdt = "outputSdt"
+        }
+    }
+
+    public struct AribDestinationSettings: AWSShape {
+
+    }
+
+    public struct StaticKeySettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyProviderServer", location: .body(locationName: "keyProviderServer"), required: true, type: .structure), 
+            AWSShapeMember(label: "StaticKeyValue", location: .body(locationName: "staticKeyValue"), required: true, type: .string)
+        ]
+        /// The URL of the license server used for protecting content.
+        public let keyProviderServer: InputLocation
+        /// Static key value as a 32 character hexadecimal string.
+        public let staticKeyValue: String
+
+        public init(keyProviderServer: InputLocation, staticKeyValue: String) {
+            self.keyProviderServer = keyProviderServer
+            self.staticKeyValue = staticKeyValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyProviderServer = "keyProviderServer"
+            case staticKeyValue = "staticKeyValue"
+        }
+    }
+
+    public struct CreateInputSecurityGroupResultModel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityGroup", location: .body(locationName: "securityGroup"), required: false, type: .structure)
+        ]
+        public let securityGroup: InputSecurityGroup?
+
+        public init(securityGroup: InputSecurityGroup? = nil) {
+            self.securityGroup = securityGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroup = "securityGroup"
+        }
+    }
+
+    public enum Eac3StereoDownmix: String, CustomStringConvertible, Codable {
+        case dpl2 = "DPL2"
+        case loRo = "LO_RO"
+        case ltRt = "LT_RT"
+        case notIndicated = "NOT_INDICATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateInputResultModel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Input", location: .body(locationName: "input"), required: false, type: .structure)
+        ]
+        public let input: Input?
+
+        public init(input: Input? = nil) {
+            self.input = input
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case input = "input"
+        }
+    }
+
+    public enum LogLevel: String, CustomStringConvertible, Codable {
+        case error = "ERROR"
+        case warning = "WARNING"
+        case info = "INFO"
+        case debug = "DEBUG"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsSegmentationStyle: String, CustomStringConvertible, Codable {
+        case maintainCadence = "MAINTAIN_CADENCE"
+        case resetCadence = "RESET_CADENCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsSegmentationMarkers: String, CustomStringConvertible, Codable {
+        case ebp = "EBP"
+        case ebpLegacy = "EBP_LEGACY"
+        case none = "NONE"
+        case psiSegstart = "PSI_SEGSTART"
+        case raiAdapt = "RAI_ADAPT"
+        case raiSegstart = "RAI_SEGSTART"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReservationMaximumFramerate: String, CustomStringConvertible, Codable {
+        case max30Fps = "MAX_30_FPS"
+        case max60Fps = "MAX_60_FPS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AacSpec: String, CustomStringConvertible, Codable {
+        case mpeg2 = "MPEG2"
+        case mpeg4 = "MPEG4"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Mp2Settings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .double), 
+            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"), required: false, type: .double)
+        ]
+        /// The MPEG2 Audio coding mode.  Valid values are codingMode10 (for mono) or codingMode20 (for stereo).
+        public let codingMode: Mp2CodingMode?
+        /// Average bitrate in bits/second.
+        public let bitrate: Double?
+        /// Sample rate in Hz.
+        public let sampleRate: Double?
+
+        public init(codingMode: Mp2CodingMode? = nil, bitrate: Double? = nil, sampleRate: Double? = nil) {
+            self.codingMode = codingMode
+            self.bitrate = bitrate
+            self.sampleRate = sampleRate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codingMode = "codingMode"
+            case bitrate = "bitrate"
+            case sampleRate = "sampleRate"
+        }
+    }
+
+    public struct Scte35TimeSignalApos: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NoRegionalBlackoutFlag", location: .body(locationName: "noRegionalBlackoutFlag"), required: false, type: .enum), 
+            AWSShapeMember(label: "AdAvailOffset", location: .body(locationName: "adAvailOffset"), required: false, type: .integer), 
+            AWSShapeMember(label: "WebDeliveryAllowedFlag", location: .body(locationName: "webDeliveryAllowedFlag"), required: false, type: .enum)
+        ]
+        /// When set to ignore, Segment Descriptors with noRegionalBlackoutFlag set to 0 will no longer trigger blackouts or Ad Avail slates
+        public let noRegionalBlackoutFlag: Scte35AposNoRegionalBlackoutBehavior?
+        /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time. This only applies to embedded SCTE 104/35 messages and does not apply to OOB messages.
+        public let adAvailOffset: Int32?
+        /// When set to ignore, Segment Descriptors with webDeliveryAllowedFlag set to 0 will no longer trigger blackouts or Ad Avail slates
+        public let webDeliveryAllowedFlag: Scte35AposWebDeliveryAllowedBehavior?
+
+        public init(noRegionalBlackoutFlag: Scte35AposNoRegionalBlackoutBehavior? = nil, adAvailOffset: Int32? = nil, webDeliveryAllowedFlag: Scte35AposWebDeliveryAllowedBehavior? = nil) {
+            self.noRegionalBlackoutFlag = noRegionalBlackoutFlag
+            self.adAvailOffset = adAvailOffset
+            self.webDeliveryAllowedFlag = webDeliveryAllowedFlag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case noRegionalBlackoutFlag = "noRegionalBlackoutFlag"
+            case adAvailOffset = "adAvailOffset"
+            case webDeliveryAllowedFlag = "webDeliveryAllowedFlag"
+        }
+    }
+
+    public struct AvailConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailSettings", location: .body(locationName: "availSettings"), required: false, type: .structure)
+        ]
+        /// Ad avail settings.
+        public let availSettings: AvailSettings?
+
+        public init(availSettings: AvailSettings? = nil) {
+            self.availSettings = availSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availSettings = "availSettings"
+        }
+    }
+
+    public enum HlsIvSource: String, CustomStringConvertible, Codable {
+        case explicit = "EXPLICIT"
+        case followsSegmentNumber = "FOLLOWS_SEGMENT_NUMBER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AudioCodecSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Mp2Settings", location: .body(locationName: "mp2Settings"), required: false, type: .structure), 
+            AWSShapeMember(label: "AacSettings", location: .body(locationName: "aacSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Ac3Settings", location: .body(locationName: "ac3Settings"), required: false, type: .structure), 
+            AWSShapeMember(label: "PassThroughSettings", location: .body(locationName: "passThroughSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Eac3Settings", location: .body(locationName: "eac3Settings"), required: false, type: .structure)
+        ]
+        public let mp2Settings: Mp2Settings?
+        public let aacSettings: AacSettings?
+        public let ac3Settings: Ac3Settings?
+        public let passThroughSettings: PassThroughSettings?
+        public let eac3Settings: Eac3Settings?
+
+        public init(mp2Settings: Mp2Settings? = nil, aacSettings: AacSettings? = nil, ac3Settings: Ac3Settings? = nil, passThroughSettings: PassThroughSettings? = nil, eac3Settings: Eac3Settings? = nil) {
+            self.mp2Settings = mp2Settings
+            self.aacSettings = aacSettings
+            self.ac3Settings = ac3Settings
+            self.passThroughSettings = passThroughSettings
+            self.eac3Settings = eac3Settings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mp2Settings = "mp2Settings"
+            case aacSettings = "aacSettings"
+            case ac3Settings = "ac3Settings"
+            case passThroughSettings = "passThroughSettings"
+            case eac3Settings = "eac3Settings"
+        }
+    }
+
+    public struct AvailSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Scte35TimeSignalApos", location: .body(locationName: "scte35TimeSignalApos"), required: false, type: .structure), 
+            AWSShapeMember(label: "Scte35SpliceInsert", location: .body(locationName: "scte35SpliceInsert"), required: false, type: .structure)
+        ]
+        public let scte35TimeSignalApos: Scte35TimeSignalApos?
+        public let scte35SpliceInsert: Scte35SpliceInsert?
+
+        public init(scte35TimeSignalApos: Scte35TimeSignalApos? = nil, scte35SpliceInsert: Scte35SpliceInsert? = nil) {
+            self.scte35TimeSignalApos = scte35TimeSignalApos
+            self.scte35SpliceInsert = scte35SpliceInsert
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scte35TimeSignalApos = "scte35TimeSignalApos"
+            case scte35SpliceInsert = "scte35SpliceInsert"
+        }
+    }
+
+    public struct StopChannelResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments"), required: false, type: .list), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "EgressEndpoints", location: .body(locationName: "egressEndpoints"), required: false, type: .list), 
+            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
+            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
+            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
+            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification"), required: false, type: .structure)
+        ]
+        public let destinations: [OutputDestination]?
+        public let id: String?
+        public let arn: String?
+        public let inputAttachments: [InputAttachment]?
+        public let name: String?
+        public let state: ChannelState?
+        public let encoderSettings: EncoderSettings?
+        public let egressEndpoints: [ChannelEgressEndpoint]?
+        public let roleArn: String?
+        public let pipelinesRunningCount: Int32?
+        public let logLevel: LogLevel?
+        public let inputSpecification: InputSpecification?
+
+        public init(destinations: [OutputDestination]? = nil, id: String? = nil, arn: String? = nil, inputAttachments: [InputAttachment]? = nil, name: String? = nil, state: ChannelState? = nil, encoderSettings: EncoderSettings? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, roleArn: String? = nil, pipelinesRunningCount: Int32? = nil, logLevel: LogLevel? = nil, inputSpecification: InputSpecification? = nil) {
+            self.destinations = destinations
+            self.id = id
+            self.arn = arn
+            self.inputAttachments = inputAttachments
+            self.name = name
+            self.state = state
+            self.encoderSettings = encoderSettings
+            self.egressEndpoints = egressEndpoints
+            self.roleArn = roleArn
+            self.pipelinesRunningCount = pipelinesRunningCount
+            self.logLevel = logLevel
+            self.inputSpecification = inputSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+            case id = "id"
+            case arn = "arn"
+            case inputAttachments = "inputAttachments"
+            case name = "name"
+            case state = "state"
+            case encoderSettings = "encoderSettings"
+            case egressEndpoints = "egressEndpoints"
+            case roleArn = "roleArn"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case logLevel = "logLevel"
+            case inputSpecification = "inputSpecification"
+        }
+    }
+
+    public struct UpdateInputResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Input", location: .body(locationName: "input"), required: false, type: .structure)
+        ]
+        public let input: Input?
+
+        public init(input: Input? = nil) {
+            self.input = input
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case input = "input"
+        }
+    }
+
+    public enum AudioLanguageSelectionPolicy: String, CustomStringConvertible, Codable {
+        case loose = "LOOSE"
+        case strict = "STRICT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsTsFileMode: String, CustomStringConvertible, Codable {
+        case segmentedFiles = "SEGMENTED_FILES"
+        case singleFile = "SINGLE_FILE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkInputServerValidation: String, CustomStringConvertible, Codable {
+        case checkCryptographyAndValidateName = "CHECK_CRYPTOGRAPHY_AND_VALIDATE_NAME"
+        case checkCryptographyOnly = "CHECK_CRYPTOGRAPHY_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputDeblockFilter: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeInputRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputId", location: .uri(locationName: "inputId"), required: true, type: .string)
+        ]
+        public let inputId: String
+
+        public init(inputId: String) {
+            self.inputId = inputId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputId = "inputId"
+        }
+    }
+
+    public struct ListInputsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Inputs", location: .body(locationName: "inputs"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let inputs: [Input]?
+        public let nextToken: String?
+
+        public init(inputs: [Input]? = nil, nextToken: String? = nil) {
+            self.inputs = inputs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputs = "inputs"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public enum Ac3MetadataControl: String, CustomStringConvertible, Codable {
+        case followInput = "FOLLOW_INPUT"
+        case useConfigured = "USE_CONFIGURED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsPcrControl: String, CustomStringConvertible, Codable {
+        case configuredPcrPeriod = "CONFIGURED_PCR_PERIOD"
+        case pcrEveryPesPacket = "PCR_EVERY_PES_PACKET"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ArchiveOutputSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NameModifier", location: .body(locationName: "nameModifier"), required: false, type: .string), 
+            AWSShapeMember(label: "ContainerSettings", location: .body(locationName: "containerSettings"), required: true, type: .structure), 
+            AWSShapeMember(label: "Extension", location: .body(locationName: "extension"), required: false, type: .string)
+        ]
+        /// String concatenated to the end of the destination filename.  Required for multiple outputs of the same type.
+        public let nameModifier: String?
+        /// Settings specific to the container type of the file.
+        public let containerSettings: ArchiveContainerSettings
+        /// Output file extension. If excluded, this will be auto-selected from the container type.
+        public let `extension`: String?
+
+        public init(nameModifier: String? = nil, containerSettings: ArchiveContainerSettings, extension: String? = nil) {
+            self.nameModifier = nameModifier
+            self.containerSettings = containerSettings
+            self.`extension` = `extension`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nameModifier = "nameModifier"
+            case containerSettings = "containerSettings"
+            case `extension` = "extension"
+        }
+    }
+
+    public struct PurchaseOfferingResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reservation", location: .body(locationName: "reservation"), required: false, type: .structure)
+        ]
+        public let reservation: Reservation?
+
+        public init(reservation: Reservation? = nil) {
+            self.reservation = reservation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservation = "reservation"
+        }
+    }
+
+    public struct UpdateChannelRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments"), required: false, type: .list), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string), 
+            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
+            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
+            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification"), required: false, type: .structure)
+        ]
+        public let destinations: [OutputDestination]?
+        public let inputAttachments: [InputAttachment]?
+        public let name: String?
+        public let encoderSettings: EncoderSettings?
+        public let channelId: String
+        public let roleArn: String?
+        public let logLevel: LogLevel?
+        public let inputSpecification: InputSpecification?
+
+        public init(destinations: [OutputDestination]? = nil, inputAttachments: [InputAttachment]? = nil, name: String? = nil, encoderSettings: EncoderSettings? = nil, channelId: String, roleArn: String? = nil, logLevel: LogLevel? = nil, inputSpecification: InputSpecification? = nil) {
+            self.destinations = destinations
+            self.inputAttachments = inputAttachments
+            self.name = name
+            self.encoderSettings = encoderSettings
+            self.channelId = channelId
+            self.roleArn = roleArn
+            self.logLevel = logLevel
+            self.inputSpecification = inputSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+            case inputAttachments = "inputAttachments"
+            case name = "name"
+            case encoderSettings = "encoderSettings"
+            case channelId = "channelId"
+            case roleArn = "roleArn"
+            case logLevel = "logLevel"
+            case inputSpecification = "inputSpecification"
+        }
+    }
+
+    public struct UpdateChannelResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Channel", location: .body(locationName: "channel"), required: false, type: .structure)
+        ]
+        public let channel: Channel?
+
+        public init(channel: Channel? = nil) {
+            self.channel = channel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channel = "channel"
+        }
+    }
+
+    public enum RtmpOutputCertificateMode: String, CustomStringConvertible, Codable {
+        case selfSigned = "SELF_SIGNED"
+        case verifyAuthenticity = "VERIFY_AUTHENTICITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AudioNormalizationAlgorithmControl: String, CustomStringConvertible, Codable {
+        case correctAudio = "CORRECT_AUDIO"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AudioSelectorSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AudioLanguageSelection", location: .body(locationName: "audioLanguageSelection"), required: false, type: .structure), 
@@ -5448,89 +6853,6 @@ extension Medialive {
     public enum DvbSubDestinationTeletextGridControl: String, CustomStringConvertible, Codable {
         case fixed = "FIXED"
         case scaled = "SCALED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteChannelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments"), required: false, type: .list), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
-            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "EgressEndpoints", location: .body(locationName: "egressEndpoints"), required: false, type: .list), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
-            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
-        ]
-        public let destinations: [OutputDestination]?
-        public let arn: String?
-        public let inputAttachments: [InputAttachment]?
-        public let state: ChannelState?
-        public let encoderSettings: EncoderSettings?
-        public let name: String?
-        public let egressEndpoints: [ChannelEgressEndpoint]?
-        public let roleArn: String?
-        public let pipelinesRunningCount: Int32?
-        public let id: String?
-
-        public init(destinations: [OutputDestination]? = nil, arn: String? = nil, inputAttachments: [InputAttachment]? = nil, state: ChannelState? = nil, encoderSettings: EncoderSettings? = nil, name: String? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, roleArn: String? = nil, pipelinesRunningCount: Int32? = nil, id: String? = nil) {
-            self.destinations = destinations
-            self.arn = arn
-            self.inputAttachments = inputAttachments
-            self.state = state
-            self.encoderSettings = encoderSettings
-            self.name = name
-            self.egressEndpoints = egressEndpoints
-            self.roleArn = roleArn
-            self.pipelinesRunningCount = pipelinesRunningCount
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinations = "destinations"
-            case arn = "arn"
-            case inputAttachments = "inputAttachments"
-            case state = "state"
-            case encoderSettings = "encoderSettings"
-            case name = "name"
-            case egressEndpoints = "egressEndpoints"
-            case roleArn = "roleArn"
-            case pipelinesRunningCount = "pipelinesRunningCount"
-            case id = "id"
-        }
-    }
-
-    public struct CaptionLanguageMapping: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode"), required: false, type: .string), 
-            AWSShapeMember(label: "LanguageDescription", location: .body(locationName: "languageDescription"), required: false, type: .string), 
-            AWSShapeMember(label: "CaptionChannel", location: .body(locationName: "captionChannel"), required: false, type: .integer)
-        ]
-        /// Three character ISO 639-2 language code (see http://www.loc.gov/standards/iso639-2)
-        public let languageCode: String?
-        /// Textual description of language
-        public let languageDescription: String?
-        /// Channel to insert closed captions.  Each channel mapping must have a unique channel number (maximum of 4)
-        public let captionChannel: Int32?
-
-        public init(languageCode: String? = nil, languageDescription: String? = nil, captionChannel: Int32? = nil) {
-            self.languageCode = languageCode
-            self.languageDescription = languageDescription
-            self.captionChannel = captionChannel
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case languageCode = "languageCode"
-            case languageDescription = "languageDescription"
-            case captionChannel = "captionChannel"
-        }
-    }
-
-    public enum TtmlDestinationStyleControl: String, CustomStringConvertible, Codable {
-        case passthrough = "PASSTHROUGH"
-        case useConfigured = "USE_CONFIGURED"
         public var description: String { return self.rawValue }
     }
 

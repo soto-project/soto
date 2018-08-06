@@ -4,11 +4,11 @@ import AWSSDKSwiftCore
 
 /// Error enum for Kinesis
 public enum KinesisError: AWSErrorType {
+    case limitExceededException(message: String?)
     case resourceNotFoundException(message: String?)
     case invalidArgumentException(message: String?)
-    case provisionedThroughputExceededException(message: String?)
-    case limitExceededException(message: String?)
     case resourceInUseException(message: String?)
+    case provisionedThroughputExceededException(message: String?)
     case kMSDisabledException(message: String?)
     case kMSInvalidStateException(message: String?)
     case kMSAccessDeniedException(message: String?)
@@ -16,6 +16,7 @@ public enum KinesisError: AWSErrorType {
     case kMSOptInRequired(message: String?)
     case kMSThrottlingException(message: String?)
     case expiredIteratorException(message: String?)
+    case expiredNextTokenException(message: String?)
 }
 
 extension KinesisError {
@@ -25,16 +26,16 @@ extension KinesisError {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
         case "InvalidArgumentException":
             self = .invalidArgumentException(message: message)
-        case "ProvisionedThroughputExceededException":
-            self = .provisionedThroughputExceededException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)
+        case "ProvisionedThroughputExceededException":
+            self = .provisionedThroughputExceededException(message: message)
         case "KMSDisabledException":
             self = .kMSDisabledException(message: message)
         case "KMSInvalidStateException":
@@ -49,6 +50,8 @@ extension KinesisError {
             self = .kMSThrottlingException(message: message)
         case "ExpiredIteratorException":
             self = .expiredIteratorException(message: message)
+        case "ExpiredNextTokenException":
+            self = .expiredNextTokenException(message: message)
         default:
             return nil
         }

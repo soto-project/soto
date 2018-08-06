@@ -11,6 +11,7 @@ public enum AppsyncError: AWSErrorType {
     case concurrentModificationException(message: String?)
     case graphQLSchemaException(message: String?)
     case limitExceededException(message: String?)
+    case apiKeyValidityOutOfBoundsException(message: String?)
     case apiLimitExceededException(message: String?)
     case apiKeyLimitExceededException(message: String?)
 }
@@ -36,6 +37,8 @@ extension AppsyncError {
             self = .graphQLSchemaException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "ApiKeyValidityOutOfBoundsException":
+            self = .apiKeyValidityOutOfBoundsException(message: message)
         case "ApiLimitExceededException":
             self = .apiLimitExceededException(message: message)
         case "ApiKeyLimitExceededException":

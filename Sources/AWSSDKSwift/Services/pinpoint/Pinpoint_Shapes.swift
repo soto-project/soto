@@ -26,26 +26,26 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
             AWSShapeMember(label: "CampaignId", location: .uri(locationName: "campaign-id"), required: true, type: .string), 
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
-            AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
+            AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let pageSize: String?
         public let campaignId: String
-        public let applicationId: String
         public let token: String?
+        public let applicationId: String
 
-        public init(pageSize: String? = nil, campaignId: String, applicationId: String, token: String? = nil) {
+        public init(pageSize: String? = nil, campaignId: String, token: String? = nil, applicationId: String) {
             self.pageSize = pageSize
             self.campaignId = campaignId
-            self.applicationId = applicationId
             self.token = token
+            self.applicationId = applicationId
         }
 
         private enum CodingKeys: String, CodingKey {
             case pageSize = "page-size"
             case campaignId = "campaign-id"
-            case applicationId = "application-id"
             case token = "token"
+            case applicationId = "application-id"
         }
     }
 
@@ -79,28 +79,31 @@ extension Pinpoint {
             AWSShapeMember(label: "User", required: false, type: .structure), 
             AWSShapeMember(label: "ChannelType", required: false, type: .enum)
         ]
-        /// The endpoint status. Can be either ACTIVE or INACTIVE. Will be set to INACTIVE if a delivery fails. Will be set to ACTIVE if the address is updated.
+        /// Unused.
         public let endpointStatus: String?
         /// Indicates whether a user has opted out of receiving messages with one of the following values:
         /// ALL - User has opted out of all messages.
         /// NONE - Users has not opted out and receives all messages.
         public let optOut: String?
+        /// Custom metrics that your app reports to Amazon Pinpoint.
         public let metrics: [String: Double]?
         /// The last time the endpoint was updated. Provided in ISO 8601 format.
         public let effectiveDate: String?
-        /// The address or token of the endpoint as provided by your push provider (e.g. DeviceToken or RegistrationId).
+        /// The destination for messages that you send to this endpoint. The address varies by channel. For mobile push channels, use the token provided by the push notification service, such as the APNs device token or the FCM registration token. For the SMS channel, use a phone number in E.164 format, such as +1206XXX5550100. For the email channel, use an email address.
         public let address: String?
         /// The endpoint location attributes.
         public let location: EndpointLocation?
         /// The endpoint demographic attributes.
         public let demographic: EndpointDemographic?
+        /// Custom attributes that describe the endpoint by associating a name with an array of values. For example, an attribute named "interests" might have the values ["science", "politics", "travel"]. You can use these attributes as selection criteria when you create a segment of users to engage with a messaging campaign.
+        /// The following characters are not recommended in attribute names: # : ? \ /. The Amazon Pinpoint console does not display attributes that include these characters in the name. This limitation does not apply to attribute values.
         public let attributes: [String: [String]]?
         /// The unique ID for the most recent request to update the endpoint.
         public let requestId: String?
         /// Custom user-specific attributes that your app reports to Amazon Pinpoint.
         public let user: EndpointUser?
         /// The channel type.
-        /// Valid values: GCM | APNS | SMS | EMAIL
+        /// Valid values: GCM | APNS | APNS_SANDBOX | APNS_VOIP | APNS_VOIP_SANDBOX | ADM | SMS | EMAIL | BAIDU
         public let channelType: ChannelType?
 
         public init(endpointStatus: String? = nil, optOut: String? = nil, metrics: [String: Double]? = nil, effectiveDate: String? = nil, address: String? = nil, location: EndpointLocation? = nil, demographic: EndpointDemographic? = nil, attributes: [String: [String]]? = nil, requestId: String? = nil, user: EndpointUser? = nil, channelType: ChannelType? = nil) {
@@ -252,6 +255,32 @@ extension Pinpoint {
         }
     }
 
+    public struct CampaignHook: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Mode", required: false, type: .enum), 
+            AWSShapeMember(label: "WebUrl", required: false, type: .string), 
+            AWSShapeMember(label: "LambdaFunctionName", required: false, type: .string)
+        ]
+        /// What mode Lambda should be invoked in.
+        public let mode: Mode?
+        /// Web URL to call for hook. If the URL has authentication specified it will be added as authentication to the request
+        public let webUrl: String?
+        /// Lambda function name or arn to be called for delivery
+        public let lambdaFunctionName: String?
+
+        public init(mode: Mode? = nil, webUrl: String? = nil, lambdaFunctionName: String? = nil) {
+            self.mode = mode
+            self.webUrl = webUrl
+            self.lambdaFunctionName = lambdaFunctionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "Mode"
+            case webUrl = "WebUrl"
+            case lambdaFunctionName = "LambdaFunctionName"
+        }
+    }
+
     public struct EndpointSendConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TitleOverride", required: false, type: .string), 
@@ -262,11 +291,13 @@ extension Pinpoint {
         ]
         /// Title override. If specified will override default title if applicable.
         public let titleOverride: String?
+        /// A map of custom attributes to attributes to be attached to the message for this address. This payload is added to the push notification's 'data.pinpoint' object or added to the email/sms delivery receipt event attributes.
         public let context: [String: String]?
         /// Body override. If specified will override default body.
         public let bodyOverride: String?
         /// The Raw JSON formatted string to be used as the payload. This value overrides the message.
         public let rawContent: String?
+        /// A map of substitution values for the message to be merged with the DefaultMessage's substitutions. Substitutions on this map take precedence over the all other substitutions.
         public let substitutions: [String: [String]]?
 
         public init(titleOverride: String? = nil, context: [String: String]? = nil, bodyOverride: String? = nil, rawContent: String? = nil, substitutions: [String: [String]]? = nil) {
@@ -295,30 +326,30 @@ extension Pinpoint {
 
     public struct EmailChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FromAddress", required: false, type: .string), 
             AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "FromAddress", required: false, type: .string), 
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
             AWSShapeMember(label: "Identity", required: false, type: .string)
         ]
-        /// The email address used to send emails from.
-        public let fromAddress: String?
         /// If the channel is enabled for sending messages.
         public let enabled: Bool?
+        /// The email address used to send emails from.
+        public let fromAddress: String?
         /// The ARN of an IAM Role used to submit events to Mobile Analytics' event ingestion service
         public let roleArn: String?
         /// The ARN of an identity verified with SES.
         public let identity: String?
 
-        public init(fromAddress: String? = nil, enabled: Bool? = nil, roleArn: String? = nil, identity: String? = nil) {
-            self.fromAddress = fromAddress
+        public init(enabled: Bool? = nil, fromAddress: String? = nil, roleArn: String? = nil, identity: String? = nil) {
             self.enabled = enabled
+            self.fromAddress = fromAddress
             self.roleArn = roleArn
             self.identity = identity
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fromAddress = "FromAddress"
             case enabled = "Enabled"
+            case fromAddress = "FromAddress"
             case roleArn = "RoleArn"
             case identity = "Identity"
         }
@@ -434,6 +465,39 @@ extension Pinpoint {
         }
     }
 
+    public struct ExportJobResource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SegmentVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "SegmentId", required: false, type: .string), 
+            AWSShapeMember(label: "S3UrlPrefix", required: false, type: .string)
+        ]
+        /// The version of the segment to export if specified.
+        public let segmentVersion: Int32?
+        /// The Amazon Resource Name (ARN) of an IAM role that grants Amazon Pinpoint access to the Amazon S3 location that endpoints will be exported to.
+        public let roleArn: String?
+        /// The ID of the segment to export endpoints from. If not present, Amazon Pinpoint exports all of the endpoints that belong to the application.
+        public let segmentId: String?
+        /// A URL that points to the location within an Amazon S3 bucket that will receive the export. The location is typically a folder with multiple files.
+        /// The URL should follow this format: s3://bucket-name/folder-name/
+        /// Amazon Pinpoint will export endpoints to this location.
+        public let s3UrlPrefix: String?
+
+        public init(segmentVersion: Int32? = nil, roleArn: String? = nil, segmentId: String? = nil, s3UrlPrefix: String? = nil) {
+            self.segmentVersion = segmentVersion
+            self.roleArn = roleArn
+            self.segmentId = segmentId
+            self.s3UrlPrefix = s3UrlPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case segmentVersion = "SegmentVersion"
+            case roleArn = "RoleArn"
+            case segmentId = "SegmentId"
+            case s3UrlPrefix = "S3UrlPrefix"
+        }
+    }
+
     public struct DeleteApnsVoipSandboxChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "APNSVoipSandboxChannelResponse"
@@ -469,7 +533,7 @@ extension Pinpoint {
         public let id: String?
         /// The platform type. Will be BAIDU
         public let platform: String?
-        /// If the channel is registered with a credential for authentication.
+        /// Not used. Retained for backwards compatibility.
         public let hasCredential: Bool?
         /// Version of channel
         public let version: Int32?
@@ -576,6 +640,84 @@ extension Pinpoint {
         }
     }
 
+    public struct ExportJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CompletionDate", required: false, type: .string), 
+            AWSShapeMember(label: "Definition", required: false, type: .structure), 
+            AWSShapeMember(label: "FailedPieces", required: false, type: .integer), 
+            AWSShapeMember(label: "TotalPieces", required: false, type: .integer), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "TotalProcessed", required: false, type: .integer), 
+            AWSShapeMember(label: "CompletedPieces", required: false, type: .integer), 
+            AWSShapeMember(label: "TotalFailures", required: false, type: .integer), 
+            AWSShapeMember(label: "Failures", required: false, type: .list), 
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string)
+        ]
+        /// The date the job completed in ISO 8601 format.
+        public let completionDate: String?
+        /// The export job settings.
+        public let definition: ExportJobResource?
+        /// The number of pieces that failed to be processed as of the time of the request.
+        public let failedPieces: Int32?
+        /// The total number of pieces that must be processed to finish the job. Each piece is an approximately equal portion of the endpoints.
+        public let totalPieces: Int32?
+        /// The date the job was created in ISO 8601 format.
+        public let creationDate: String?
+        /// The status of the job.
+        /// Valid values: CREATED, INITIALIZING, PROCESSING, COMPLETING, COMPLETED, FAILING, FAILED
+        /// The job status is FAILED if one or more pieces failed.
+        public let jobStatus: JobStatus?
+        /// The unique ID of the job.
+        public let id: String?
+        /// The number of endpoints that were processed by the job.
+        public let totalProcessed: Int32?
+        /// The number of pieces that have successfully completed as of the time of the request.
+        public let completedPieces: Int32?
+        /// The number of endpoints that were not processed; for example, because of syntax errors.
+        public let totalFailures: Int32?
+        /// Provides up to 100 of the first failed entries for the job, if any exist.
+        public let failures: [String]?
+        /// The unique ID of the application to which the job applies.
+        public let applicationId: String?
+        /// The job type. Will be 'EXPORT'.
+        public let `type`: String?
+
+        public init(completionDate: String? = nil, definition: ExportJobResource? = nil, failedPieces: Int32? = nil, totalPieces: Int32? = nil, creationDate: String? = nil, jobStatus: JobStatus? = nil, id: String? = nil, totalProcessed: Int32? = nil, completedPieces: Int32? = nil, totalFailures: Int32? = nil, failures: [String]? = nil, applicationId: String? = nil, type: String? = nil) {
+            self.completionDate = completionDate
+            self.definition = definition
+            self.failedPieces = failedPieces
+            self.totalPieces = totalPieces
+            self.creationDate = creationDate
+            self.jobStatus = jobStatus
+            self.id = id
+            self.totalProcessed = totalProcessed
+            self.completedPieces = completedPieces
+            self.totalFailures = totalFailures
+            self.failures = failures
+            self.applicationId = applicationId
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completionDate = "CompletionDate"
+            case definition = "Definition"
+            case failedPieces = "FailedPieces"
+            case totalPieces = "TotalPieces"
+            case creationDate = "CreationDate"
+            case jobStatus = "JobStatus"
+            case id = "Id"
+            case totalProcessed = "TotalProcessed"
+            case completedPieces = "CompletedPieces"
+            case totalFailures = "TotalFailures"
+            case failures = "Failures"
+            case applicationId = "ApplicationId"
+            case `type` = "Type"
+        }
+    }
+
     public struct DeleteApnsVoipChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
@@ -617,74 +759,102 @@ extension Pinpoint {
         }
     }
 
+    public struct GetExportJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
+        ]
+        public let pageSize: String?
+        public let applicationId: String
+        public let token: String?
+
+        public init(pageSize: String? = nil, applicationId: String, token: String? = nil) {
+            self.pageSize = pageSize
+            self.applicationId = applicationId
+            self.token = token
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "page-size"
+            case applicationId = "application-id"
+            case token = "token"
+        }
+    }
+
     public struct WriteCampaignRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limits", required: false, type: .structure), 
             AWSShapeMember(label: "TreatmentName", required: false, type: .string), 
             AWSShapeMember(label: "SegmentVersion", required: false, type: .integer), 
-            AWSShapeMember(label: "AdditionalTreatments", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "TreatmentDescription", required: false, type: .string), 
-            AWSShapeMember(label: "HoldoutPercent", required: false, type: .integer), 
-            AWSShapeMember(label: "Limits", required: false, type: .structure), 
             AWSShapeMember(label: "Schedule", required: false, type: .structure), 
             AWSShapeMember(label: "MessageConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "SegmentId", required: false, type: .string), 
-            AWSShapeMember(label: "IsPaused", required: false, type: .boolean), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Hook", required: false, type: .structure), 
+            AWSShapeMember(label: "TreatmentDescription", required: false, type: .string), 
+            AWSShapeMember(label: "AdditionalTreatments", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "HoldoutPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "IsPaused", required: false, type: .boolean)
         ]
+        /// The campaign limits settings.
+        public let limits: CampaignLimits?
         /// The custom name of a variation of the campaign used for A/B testing.
         public let treatmentName: String?
         /// The version of the segment to which the campaign sends messages.
         public let segmentVersion: Int32?
-        /// Treatments that are defined in addition to the default treatment.
-        public let additionalTreatments: [WriteTreatmentResource]?
-        /// The custom name of the campaign.
-        public let name: String?
-        /// A custom description for the treatment.
-        public let treatmentDescription: String?
-        /// The allocated percentage of end users who will not receive messages from this campaign.
-        public let holdoutPercent: Int32?
-        /// The campaign limits settings.
-        public let limits: CampaignLimits?
         /// The campaign schedule.
         public let schedule: Schedule?
         /// The message configuration settings.
         public let messageConfiguration: MessageConfiguration?
         /// The ID of the segment to which the campaign sends messages.
         public let segmentId: String?
-        /// Indicates whether the campaign is paused. A paused campaign does not send messages unless you resume it by setting IsPaused to false.
-        public let isPaused: Bool?
         /// A description of the campaign.
         public let description: String?
+        /// Campaign hook information.
+        public let hook: CampaignHook?
+        /// A custom description for the treatment.
+        public let treatmentDescription: String?
+        /// Treatments that are defined in addition to the default treatment.
+        public let additionalTreatments: [WriteTreatmentResource]?
+        /// The custom name of the campaign.
+        public let name: String?
+        /// The allocated percentage of end users who will not receive messages from this campaign.
+        public let holdoutPercent: Int32?
+        /// Indicates whether the campaign is paused. A paused campaign does not send messages unless you resume it by setting IsPaused to false.
+        public let isPaused: Bool?
 
-        public init(treatmentName: String? = nil, segmentVersion: Int32? = nil, additionalTreatments: [WriteTreatmentResource]? = nil, name: String? = nil, treatmentDescription: String? = nil, holdoutPercent: Int32? = nil, limits: CampaignLimits? = nil, schedule: Schedule? = nil, messageConfiguration: MessageConfiguration? = nil, segmentId: String? = nil, isPaused: Bool? = nil, description: String? = nil) {
+        public init(limits: CampaignLimits? = nil, treatmentName: String? = nil, segmentVersion: Int32? = nil, schedule: Schedule? = nil, messageConfiguration: MessageConfiguration? = nil, segmentId: String? = nil, description: String? = nil, hook: CampaignHook? = nil, treatmentDescription: String? = nil, additionalTreatments: [WriteTreatmentResource]? = nil, name: String? = nil, holdoutPercent: Int32? = nil, isPaused: Bool? = nil) {
+            self.limits = limits
             self.treatmentName = treatmentName
             self.segmentVersion = segmentVersion
-            self.additionalTreatments = additionalTreatments
-            self.name = name
-            self.treatmentDescription = treatmentDescription
-            self.holdoutPercent = holdoutPercent
-            self.limits = limits
             self.schedule = schedule
             self.messageConfiguration = messageConfiguration
             self.segmentId = segmentId
-            self.isPaused = isPaused
             self.description = description
+            self.hook = hook
+            self.treatmentDescription = treatmentDescription
+            self.additionalTreatments = additionalTreatments
+            self.name = name
+            self.holdoutPercent = holdoutPercent
+            self.isPaused = isPaused
         }
 
         private enum CodingKeys: String, CodingKey {
+            case limits = "Limits"
             case treatmentName = "TreatmentName"
             case segmentVersion = "SegmentVersion"
-            case additionalTreatments = "AdditionalTreatments"
-            case name = "Name"
-            case treatmentDescription = "TreatmentDescription"
-            case holdoutPercent = "HoldoutPercent"
-            case limits = "Limits"
             case schedule = "Schedule"
             case messageConfiguration = "MessageConfiguration"
             case segmentId = "SegmentId"
-            case isPaused = "IsPaused"
             case description = "Description"
+            case hook = "Hook"
+            case treatmentDescription = "TreatmentDescription"
+            case additionalTreatments = "AdditionalTreatments"
+            case name = "Name"
+            case holdoutPercent = "HoldoutPercent"
+            case isPaused = "IsPaused"
         }
     }
 
@@ -741,31 +911,61 @@ extension Pinpoint {
 
     public struct SMSMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Keyword", required: false, type: .string), 
             AWSShapeMember(label: "SenderId", required: false, type: .string), 
+            AWSShapeMember(label: "OriginationNumber", required: false, type: .string), 
             AWSShapeMember(label: "MessageType", required: false, type: .enum), 
             AWSShapeMember(label: "Body", required: false, type: .string), 
             AWSShapeMember(label: "Substitutions", required: false, type: .map)
         ]
-        /// Sender ID of sent message.
+        /// The SMS program name that you provided to AWS Support when you requested your dedicated number.
+        public let keyword: String?
+        /// The sender ID that is shown as the message sender on the recipient's device. Support for sender IDs varies by country or region.
         public let senderId: String?
+        /// The phone number that the SMS message originates from. Specify one of the dedicated long codes or short codes that you requested from AWS Support and that is assigned to your account. If this attribute is not specified, Amazon Pinpoint randomly assigns a long code.
+        public let originationNumber: String?
         /// Is this a transaction priority message or lower priority.
         public let messageType: MessageType?
-        /// The message body of the notification, the email body or the text message.
+        /// The body of the SMS message.
         public let body: String?
+        /// Default message substitutions. Can be overridden by individual address substitutions.
         public let substitutions: [String: [String]]?
 
-        public init(senderId: String? = nil, messageType: MessageType? = nil, body: String? = nil, substitutions: [String: [String]]? = nil) {
+        public init(keyword: String? = nil, senderId: String? = nil, originationNumber: String? = nil, messageType: MessageType? = nil, body: String? = nil, substitutions: [String: [String]]? = nil) {
+            self.keyword = keyword
             self.senderId = senderId
+            self.originationNumber = originationNumber
             self.messageType = messageType
             self.body = body
             self.substitutions = substitutions
         }
 
         private enum CodingKeys: String, CodingKey {
+            case keyword = "Keyword"
             case senderId = "SenderId"
+            case originationNumber = "OriginationNumber"
             case messageType = "MessageType"
             case body = "Body"
             case substitutions = "Substitutions"
+        }
+    }
+
+    public struct GetUserEndpointsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "user-id"), required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        ]
+        public let userId: String
+        public let applicationId: String
+
+        public init(userId: String, applicationId: String) {
+            self.userId = userId
+            self.applicationId = applicationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userId = "user-id"
+            case applicationId = "application-id"
         }
     }
 
@@ -784,20 +984,24 @@ extension Pinpoint {
         }
     }
 
-    public struct DeleteSmsChannelResponse: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "SMSChannelResponse"
+    public struct SegmentReference: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SMSChannelResponse", required: true, type: .structure)
+            AWSShapeMember(label: "Version", required: false, type: .integer), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        public let sMSChannelResponse: SMSChannelResponse
+        /// If specified contains a specific version of the segment included.
+        public let version: Int32?
+        /// Segment Id.
+        public let id: String?
 
-        public init(sMSChannelResponse: SMSChannelResponse) {
-            self.sMSChannelResponse = sMSChannelResponse
+        public init(version: Int32? = nil, id: String? = nil) {
+            self.version = version
+            self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sMSChannelResponse = "SMSChannelResponse"
+            case version = "Version"
+            case id = "Id"
         }
     }
 
@@ -829,6 +1033,23 @@ extension Pinpoint {
         case weekly = "WEEKLY"
         case monthly = "MONTHLY"
         public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteSmsChannelResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "SMSChannelResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SMSChannelResponse", required: true, type: .structure)
+        ]
+        public let sMSChannelResponse: SMSChannelResponse
+
+        public init(sMSChannelResponse: SMSChannelResponse) {
+            self.sMSChannelResponse = sMSChannelResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sMSChannelResponse = "SMSChannelResponse"
+        }
     }
 
     public struct GetSmsChannelRequest: AWSShape {
@@ -868,12 +1089,13 @@ extension Pinpoint {
             AWSShapeMember(label: "MessageConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Endpoints", required: false, type: .map)
         ]
+        /// A map of custom attributes to attributes to be attached to the message. This payload is added to the push notification's 'data.pinpoint' object or added to the email/sms delivery receipt event attributes.
         public let context: [String: String]?
-        /// A map of destination addresses, with the address as the key(Email address, phone number or push token) and the Address Configuration as the value.
+        /// A map of key-value pairs, where each key is an address and each value is an AddressConfiguration object. An address can be a push notification token, a phone number, or an email address.
         public let addresses: [String: AddressConfiguration]?
         /// Message configuration.
         public let messageConfiguration: DirectMessageConfiguration?
-        /// A map of destination addresses, with the address as the key(Email address, phone number or push token) and the Address Configuration as the value.
+        /// A map of key-value pairs, where each key is an endpoint ID and each value is an EndpointSendConfiguration object. Within an EndpointSendConfiguration object, you can tailor the message for an endpoint by specifying message overrides or substitutions.
         public let endpoints: [String: EndpointSendConfiguration]?
 
         public init(context: [String: String]? = nil, addresses: [String: AddressConfiguration]? = nil, messageConfiguration: DirectMessageConfiguration? = nil, endpoints: [String: EndpointSendConfiguration]? = nil) {
@@ -888,6 +1110,25 @@ extension Pinpoint {
             case addresses = "Addresses"
             case messageConfiguration = "MessageConfiguration"
             case endpoints = "Endpoints"
+        }
+    }
+
+    public struct GetExportJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", location: .uri(locationName: "job-id"), required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        ]
+        public let jobId: String
+        public let applicationId: String
+
+        public init(jobId: String, applicationId: String) {
+            self.jobId = jobId
+            self.applicationId = applicationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "job-id"
+            case applicationId = "application-id"
         }
     }
 
@@ -993,21 +1234,31 @@ extension Pinpoint {
     public struct WriteApplicationSettingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Limits", required: false, type: .structure), 
-            AWSShapeMember(label: "QuietTime", required: false, type: .structure)
+            AWSShapeMember(label: "QuietTime", required: false, type: .structure), 
+            AWSShapeMember(label: "CampaignHook", required: false, type: .structure), 
+            AWSShapeMember(label: "CloudWatchMetricsEnabled", required: false, type: .boolean)
         ]
         /// The default campaign limits for the app. These limits apply to each campaign for the app, unless the campaign overrides the default with limits of its own.
         public let limits: CampaignLimits?
         /// The default quiet time for the app. Each campaign for this app sends no messages during this time unless the campaign overrides the default with a quiet time of its own.
         public let quietTime: QuietTime?
+        /// Default campaign hook information.
+        public let campaignHook: CampaignHook?
+        /// The CloudWatchMetrics settings for the app.
+        public let cloudWatchMetricsEnabled: Bool?
 
-        public init(limits: CampaignLimits? = nil, quietTime: QuietTime? = nil) {
+        public init(limits: CampaignLimits? = nil, quietTime: QuietTime? = nil, campaignHook: CampaignHook? = nil, cloudWatchMetricsEnabled: Bool? = nil) {
             self.limits = limits
             self.quietTime = quietTime
+            self.campaignHook = campaignHook
+            self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
             case limits = "Limits"
             case quietTime = "QuietTime"
+            case campaignHook = "CampaignHook"
+            case cloudWatchMetricsEnabled = "CloudWatchMetricsEnabled"
         }
     }
 
@@ -1030,37 +1281,42 @@ extension Pinpoint {
 
     public struct EndpointMessageResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "UpdatedToken", required: false, type: .string), 
             AWSShapeMember(label: "StatusCode", required: false, type: .integer), 
+            AWSShapeMember(label: "DeliveryStatus", required: false, type: .enum), 
             AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
             AWSShapeMember(label: "Address", required: false, type: .string), 
-            AWSShapeMember(label: "UpdatedToken", required: false, type: .string)
+            AWSShapeMember(label: "MessageId", required: false, type: .string)
         ]
-        /// Delivery status of message.
-        public let deliveryStatus: DeliveryStatus?
+        /// If token was updated as part of delivery. (This is GCM Specific)
+        public let updatedToken: String?
         /// Downstream service status code.
         public let statusCode: Int32?
+        /// Delivery status of message.
+        public let deliveryStatus: DeliveryStatus?
         /// Status message for message delivery.
         public let statusMessage: String?
         /// Address that endpoint message was delivered to.
         public let address: String?
-        /// If token was updated as part of delivery. (This is GCM Specific)
-        public let updatedToken: String?
+        /// Unique message identifier associated with the message that was sent.
+        public let messageId: String?
 
-        public init(deliveryStatus: DeliveryStatus? = nil, statusCode: Int32? = nil, statusMessage: String? = nil, address: String? = nil, updatedToken: String? = nil) {
-            self.deliveryStatus = deliveryStatus
+        public init(updatedToken: String? = nil, statusCode: Int32? = nil, deliveryStatus: DeliveryStatus? = nil, statusMessage: String? = nil, address: String? = nil, messageId: String? = nil) {
+            self.updatedToken = updatedToken
             self.statusCode = statusCode
+            self.deliveryStatus = deliveryStatus
             self.statusMessage = statusMessage
             self.address = address
-            self.updatedToken = updatedToken
+            self.messageId = messageId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deliveryStatus = "DeliveryStatus"
+            case updatedToken = "UpdatedToken"
             case statusCode = "StatusCode"
+            case deliveryStatus = "DeliveryStatus"
             case statusMessage = "StatusMessage"
             case address = "Address"
-            case updatedToken = "UpdatedToken"
+            case messageId = "MessageId"
         }
     }
 
@@ -1070,6 +1326,22 @@ extension Pinpoint {
         case day14 = "DAY_14"
         case day30 = "DAY_30"
         public var description: String { return self.rawValue }
+    }
+
+    public struct EndpointsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Item", required: false, type: .list)
+        ]
+        /// The list of endpoints.
+        public let item: [EndpointResponse]?
+
+        public init(item: [EndpointResponse]? = nil) {
+            self.item = item
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case item = "Item"
+        }
     }
 
     public struct GetSmsChannelResponse: AWSShape {
@@ -1105,7 +1377,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The channel type.
-        /// Valid values: GCM | APNS | SMS | EMAIL
+        /// Valid values: GCM | APNS | APNS_SANDBOX | APNS_VOIP | APNS_VOIP_SANDBOX | ADM | SMS | EMAIL | BAIDU
         public let channelType: ChannelType?
         /// Custom user-specific attributes that your app reports to Amazon Pinpoint.
         public let user: EndpointUser?
@@ -1115,17 +1387,20 @@ extension Pinpoint {
         /// ALL - User has opted out of all messages.
         /// NONE - Users has not opted out and receives all messages.
         public let optOut: String?
+        /// Custom metrics that your app reports to Amazon Pinpoint.
         public let metrics: [String: Double]?
         /// The endpoint location attributes.
         public let location: EndpointLocation?
-        /// The address or token of the endpoint as provided by your push provider (e.g. DeviceToken or RegistrationId).
+        /// The destination for messages that you send to this endpoint. The address varies by channel. For mobile push channels, use the token provided by the push notification service, such as the APNs device token or the FCM registration token. For the SMS channel, use a phone number in E.164 format, such as +1206XXX5550100. For the email channel, use an email address.
         public let address: String?
         /// The endpoint demographic attributes.
         public let demographic: EndpointDemographic?
+        /// Custom attributes that describe the endpoint by associating a name with an array of values. For example, an attribute named "interests" might have the values ["science", "politics", "travel"]. You can use these attributes as selection criteria when you create a segment of users to engage with a messaging campaign.
+        /// The following characters are not recommended in attribute names: # : ? \ /. The Amazon Pinpoint console does not display attributes that include these characters in the name. This limitation does not apply to attribute values.
         public let attributes: [String: [String]]?
         /// The unique ID for the most recent request to update the endpoint.
         public let requestId: String?
-        /// The endpoint status. Can be either ACTIVE or INACTIVE. Will be set to INACTIVE if a delivery fails. Will be set to ACTIVE if the address is updated.
+        /// Unused.
         public let endpointStatus: String?
         /// The unique Id for the Endpoint in the batch.
         public let id: String?
@@ -1231,6 +1506,7 @@ extension Pinpoint {
         ]
         /// The message body of the notification, the email body or the text message.
         public let body: String?
+        /// Default message substitutions. Can be overridden by individual address substitutions.
         public let substitutions: [String: [String]]?
 
         public init(body: String? = nil, substitutions: [String: [String]]? = nil) {
@@ -1244,19 +1520,10 @@ extension Pinpoint {
         }
     }
 
-    public struct DeleteAdmChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
-        ]
-        public let applicationId: String
-
-        public init(applicationId: String) {
-            self.applicationId = applicationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+    public enum Mode: String, CustomStringConvertible, Codable {
+        case delivery = "DELIVERY"
+        case filter = "FILTER"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateApplicationRequest: AWSShape {
@@ -1333,6 +1600,54 @@ extension Pinpoint {
         }
     }
 
+    public struct ExportJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SegmentVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "SegmentId", required: false, type: .string), 
+            AWSShapeMember(label: "S3UrlPrefix", required: false, type: .string)
+        ]
+        /// The version of the segment to export if specified.
+        public let segmentVersion: Int32?
+        /// The Amazon Resource Name (ARN) of an IAM role that grants Amazon Pinpoint access to the Amazon S3 location that endpoints will be exported to.
+        public let roleArn: String?
+        /// The ID of the segment to export endpoints from. If not present, Amazon Pinpoint exports all of the endpoints that belong to the application.
+        public let segmentId: String?
+        /// A URL that points to the location within an Amazon S3 bucket that will receive the export. The location is typically a folder with multiple files.
+        /// The URL should follow this format: s3://bucket-name/folder-name/
+        /// Amazon Pinpoint will export endpoints to this location.
+        public let s3UrlPrefix: String?
+
+        public init(segmentVersion: Int32? = nil, roleArn: String? = nil, segmentId: String? = nil, s3UrlPrefix: String? = nil) {
+            self.segmentVersion = segmentVersion
+            self.roleArn = roleArn
+            self.segmentId = segmentId
+            self.s3UrlPrefix = s3UrlPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case segmentVersion = "SegmentVersion"
+            case roleArn = "RoleArn"
+            case segmentId = "SegmentId"
+            case s3UrlPrefix = "S3UrlPrefix"
+        }
+    }
+
+    public struct DeleteAdmChannelRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        ]
+        public let applicationId: String
+
+        public init(applicationId: String) {
+            self.applicationId = applicationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+        }
+    }
+
     public struct GetEndpointResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "EndpointResponse"
@@ -1368,7 +1683,7 @@ extension Pinpoint {
         public let id: String?
         /// The platform type. Will be GCM
         public let platform: String?
-        /// If the channel is registered with a credential for authentication.
+        /// Not used. Retained for backwards compatibility.
         public let hasCredential: Bool?
         /// Version of channel
         public let version: Int32?
@@ -1488,12 +1803,34 @@ extension Pinpoint {
         }
     }
 
+    public struct SegmentGroupList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Groups", required: false, type: .list), 
+            AWSShapeMember(label: "Include", required: false, type: .enum)
+        ]
+        /// List of dimension groups to evaluate.
+        public let groups: [SegmentGroup]?
+        /// How should the groups be applied for the result
+        public let include: Include?
+
+        public init(groups: [SegmentGroup]? = nil, include: Include? = nil) {
+            self.groups = groups
+            self.include = include
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groups = "Groups"
+            case include = "Include"
+        }
+    }
+
     public enum CampaignStatus: String, CustomStringConvertible, Codable {
         case scheduled = "SCHEDULED"
         case executing = "EXECUTING"
         case pendingNextRun = "PENDING_NEXT_RUN"
         case completed = "COMPLETED"
         case paused = "PAUSED"
+        case deleted = "DELETED"
         public var description: String { return self.rawValue }
     }
 
@@ -1527,6 +1864,7 @@ extension Pinpoint {
         /// INCLUSIVE - Endpoints that match the criteria are included in the segment.
         /// EXCLUSIVE - Endpoints that match the criteria are excluded from the segment.
         public let dimensionType: DimensionType?
+        /// The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
         public let values: [String]?
 
         public init(dimensionType: DimensionType? = nil, values: [String]? = nil) {
@@ -1618,7 +1956,6 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
-        /// Application Id.
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -1648,7 +1985,7 @@ extension Pinpoint {
         ]
         /// The unique message body ID.
         public let requestID: String?
-        /// The error message returned from the API.
+        /// The error message that's returned from the API.
         public let message: String?
 
         public init(requestID: String? = nil, message: String? = nil) {
@@ -1696,6 +2033,27 @@ extension Pinpoint {
         }
     }
 
+    public struct MetricDimension: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComparisonOperator", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .double)
+        ]
+        /// GREATER_THAN | LESS_THAN | GREATER_THAN_OR_EQUAL | LESS_THAN_OR_EQUAL | EQUAL
+        public let comparisonOperator: String?
+        /// Value to be compared.
+        public let value: Double?
+
+        public init(comparisonOperator: String? = nil, value: Double? = nil) {
+            self.comparisonOperator = comparisonOperator
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonOperator = "ComparisonOperator"
+            case value = "Value"
+        }
+    }
+
     public struct UpdateEndpointResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "MessageBody"
@@ -1717,26 +2075,47 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
             AWSShapeMember(label: "CampaignId", location: .uri(locationName: "campaign-id"), required: true, type: .string), 
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
-            AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
+            AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let pageSize: String?
         public let campaignId: String
-        public let applicationId: String
         public let token: String?
+        public let applicationId: String
 
-        public init(pageSize: String? = nil, campaignId: String, applicationId: String, token: String? = nil) {
+        public init(pageSize: String? = nil, campaignId: String, token: String? = nil, applicationId: String) {
             self.pageSize = pageSize
             self.campaignId = campaignId
-            self.applicationId = applicationId
             self.token = token
+            self.applicationId = applicationId
         }
 
         private enum CodingKeys: String, CodingKey {
             case pageSize = "page-size"
             case campaignId = "campaign-id"
-            case applicationId = "application-id"
             case token = "token"
+            case applicationId = "application-id"
+        }
+    }
+
+    public struct GPSCoordinates: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Longitude", required: false, type: .double), 
+            AWSShapeMember(label: "Latitude", required: false, type: .double)
+        ]
+        /// Longitude
+        public let longitude: Double?
+        /// Latitude
+        public let latitude: Double?
+
+        public init(longitude: Double? = nil, latitude: Double? = nil) {
+            self.longitude = longitude
+            self.latitude = latitude
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case longitude = "Longitude"
+            case latitude = "Latitude"
         }
     }
 
@@ -1749,6 +2128,7 @@ extension Pinpoint {
         /// INCLUSIVE - Endpoints that match the criteria are included in the segment.
         /// EXCLUSIVE - Endpoints that match the criteria are excluded from the segment.
         public let attributeType: AttributeType?
+        /// The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
         public let values: [String]?
 
         public init(attributeType: AttributeType? = nil, values: [String]? = nil) {
@@ -1814,11 +2194,11 @@ extension Pinpoint {
         public let creationDate: String?
         /// The ID of the application to which the channel applies.
         public let applicationId: String?
-        /// If the channel is registered with a credential for authentication.
+        /// Not used. Retained for backwards compatibility.
         public let hasCredential: Bool?
         /// Is this channel archived
         public let isArchived: Bool?
-        /// If the channel is registered with a token key for authentication.
+        /// Indicates whether the channel is configured with a key for APNs token authentication. Provide a token key by setting the TokenKey attribute.
         public let hasTokenKey: Bool?
         /// Who last updated this entry
         public let lastModifiedBy: String?
@@ -1879,7 +2259,6 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
-        /// Application Id.
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -1888,6 +2267,23 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case applicationId = "application-id"
+        }
+    }
+
+    public struct DeleteUserEndpointsResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "EndpointsResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointsResponse", required: true, type: .structure)
+        ]
+        public let endpointsResponse: EndpointsResponse
+
+        public init(endpointsResponse: EndpointsResponse) {
+            self.endpointsResponse = endpointsResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointsResponse = "EndpointsResponse"
         }
     }
 
@@ -1997,6 +2393,22 @@ extension Pinpoint {
         }
     }
 
+    public struct ChannelsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Channels", required: false, type: .map)
+        ]
+        /// A map of channels, with the ChannelType as the key and the Channel as the value.
+        public let channels: [String: ChannelResponse]?
+
+        public init(channels: [String: ChannelResponse]? = nil) {
+            self.channels = channels
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channels = "Channels"
+        }
+    }
+
     public struct UpdateSegmentRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "WriteSegmentRequest"
@@ -2060,6 +2472,23 @@ extension Pinpoint {
         }
     }
 
+    public struct UpdateApnsChannelResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "APNSChannelResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "APNSChannelResponse", required: true, type: .structure)
+        ]
+        public let aPNSChannelResponse: APNSChannelResponse
+
+        public init(aPNSChannelResponse: APNSChannelResponse) {
+            self.aPNSChannelResponse = aPNSChannelResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aPNSChannelResponse = "APNSChannelResponse"
+        }
+    }
+
     public struct APNSSandboxChannelResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: false, type: .string), 
@@ -2089,13 +2518,13 @@ extension Pinpoint {
         public let lastModifiedDate: String?
         /// When was this segment created
         public let creationDate: String?
-        /// Application id
+        /// The ID of the application to which the channel applies.
         public let applicationId: String?
-        /// If the channel is registered with a credential for authentication.
+        /// Not used. Retained for backwards compatibility.
         public let hasCredential: Bool?
         /// Is this channel archived
         public let isArchived: Bool?
-        /// If the channel is registered with a token key for authentication.
+        /// Indicates whether the channel is configured with a key for APNs token authentication. Provide a token key by setting the TokenKey attribute.
         public let hasTokenKey: Bool?
         /// Who last updated this entry
         public let lastModifiedBy: String?
@@ -2128,23 +2557,6 @@ extension Pinpoint {
             case isArchived = "IsArchived"
             case hasTokenKey = "HasTokenKey"
             case lastModifiedBy = "LastModifiedBy"
-        }
-    }
-
-    public struct UpdateApnsChannelResponse: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "APNSChannelResponse"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "APNSChannelResponse", required: true, type: .structure)
-        ]
-        public let aPNSChannelResponse: APNSChannelResponse
-
-        public init(aPNSChannelResponse: APNSChannelResponse) {
-            self.aPNSChannelResponse = aPNSChannelResponse
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case aPNSChannelResponse = "APNSChannelResponse"
         }
     }
 
@@ -2193,6 +2605,13 @@ extension Pinpoint {
         private enum CodingKeys: String, CodingKey {
             case aPNSVoipSandboxChannelResponse = "APNSVoipSandboxChannelResponse"
         }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case any = "ANY"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
     }
 
     public struct UpdateBaiduChannelResponse: AWSShape {
@@ -2310,27 +2729,44 @@ extension Pinpoint {
     public struct GetSegmentImportJobsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
-            AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string), 
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string), 
             AWSShapeMember(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string)
         ]
         public let pageSize: String?
-        public let token: String?
         public let applicationId: String
+        public let token: String?
         public let segmentId: String
 
-        public init(pageSize: String? = nil, token: String? = nil, applicationId: String, segmentId: String) {
+        public init(pageSize: String? = nil, applicationId: String, token: String? = nil, segmentId: String) {
             self.pageSize = pageSize
-            self.token = token
             self.applicationId = applicationId
+            self.token = token
             self.segmentId = segmentId
         }
 
         private enum CodingKeys: String, CodingKey {
             case pageSize = "page-size"
-            case token = "token"
             case applicationId = "application-id"
+            case token = "token"
             case segmentId = "segment-id"
+        }
+    }
+
+    public struct DeleteEndpointResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "EndpointResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointResponse", required: true, type: .structure)
+        ]
+        public let endpointResponse: EndpointResponse
+
+        public init(endpointResponse: EndpointResponse) {
+            self.endpointResponse = endpointResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointResponse = "EndpointResponse"
         }
     }
 
@@ -2358,9 +2794,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "WriteEventStream", required: true, type: .structure)
         ]
-        /// Application Id.
         public let applicationId: String
-        /// Write event stream wrapper.
         public let writeEventStream: WriteEventStream
 
         public init(applicationId: String, writeEventStream: WriteEventStream) {
@@ -2371,23 +2805,6 @@ extension Pinpoint {
         private enum CodingKeys: String, CodingKey {
             case applicationId = "application-id"
             case writeEventStream = "WriteEventStream"
-        }
-    }
-
-    public struct GetCampaignVersionsResponse: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "CampaignsResponse"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CampaignsResponse", required: true, type: .structure)
-        ]
-        public let campaignsResponse: CampaignsResponse
-
-        public init(campaignsResponse: CampaignsResponse) {
-            self.campaignsResponse = campaignsResponse
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case campaignsResponse = "CampaignsResponse"
         }
     }
 
@@ -2405,6 +2822,40 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case applicationResponse = "ApplicationResponse"
+        }
+    }
+
+    public struct GetChannelsResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "ChannelsResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelsResponse", required: true, type: .structure)
+        ]
+        public let channelsResponse: ChannelsResponse
+
+        public init(channelsResponse: ChannelsResponse) {
+            self.channelsResponse = channelsResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelsResponse = "ChannelsResponse"
+        }
+    }
+
+    public struct GetCampaignVersionsResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CampaignsResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CampaignsResponse", required: true, type: .structure)
+        ]
+        public let campaignsResponse: CampaignsResponse
+
+        public init(campaignsResponse: CampaignsResponse) {
+            self.campaignsResponse = campaignsResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case campaignsResponse = "CampaignsResponse"
         }
     }
 
@@ -2459,6 +2910,27 @@ extension Pinpoint {
         }
     }
 
+    public struct ExportJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Item", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of export jobs for the application.
+        public let item: [ExportJobResponse]?
+        /// The string that you use in a subsequent request to get the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(item: [ExportJobResponse]? = nil, nextToken: String? = nil) {
+            self.item = item
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case item = "Item"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct GetEndpointRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointId", location: .uri(locationName: "endpoint-id"), required: true, type: .string), 
@@ -2507,10 +2979,11 @@ extension Pinpoint {
             AWSShapeMember(label: "Context", required: false, type: .map), 
             AWSShapeMember(label: "Users", required: false, type: .map)
         ]
-        /// Message configuration.
+        /// Message definitions for the default message and any messages that are tailored for specific channels.
         public let messageConfiguration: DirectMessageConfiguration?
+        /// A map of custom attribute-value pairs. Amazon Pinpoint adds these attributes to the data.pinpoint object in the body of the push notification payload. Amazon Pinpoint also provides these attributes in the events that it generates for users-messages deliveries.
         public let context: [String: String]?
-        /// A map of destination endpoints, with the EndpointId as the key Endpoint Message Configuration as the value.
+        /// A map that associates user IDs with EndpointSendConfiguration objects. Within an EndpointSendConfiguration object, you can tailor the message for a user by specifying message overrides or substitutions.
         public let users: [String: EndpointSendConfiguration]?
 
         public init(messageConfiguration: DirectMessageConfiguration? = nil, context: [String: String]? = nil, users: [String: EndpointSendConfiguration]? = nil) {
@@ -2610,6 +3083,22 @@ extension Pinpoint {
         }
     }
 
+    public struct UpdateAttributesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Blacklist", required: false, type: .list)
+        ]
+        /// The GLOB wildcard for removing the attributes in the application
+        public let blacklist: [String]?
+
+        public init(blacklist: [String]? = nil) {
+            self.blacklist = blacklist
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blacklist = "Blacklist"
+        }
+    }
+
     public struct DeleteSegmentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string), 
@@ -2641,12 +3130,14 @@ extension Pinpoint {
             AWSShapeMember(label: "Url", required: false, type: .string), 
             AWSShapeMember(label: "RawContent", required: false, type: .string), 
             AWSShapeMember(label: "Sound", required: false, type: .string), 
-            AWSShapeMember(label: "ImageUrl", required: false, type: .string), 
+            AWSShapeMember(label: "TimeToLive", required: false, type: .integer), 
             AWSShapeMember(label: "Body", required: false, type: .string), 
+            AWSShapeMember(label: "ImageUrl", required: false, type: .string), 
             AWSShapeMember(label: "Substitutions", required: false, type: .map)
         ]
         /// The icon image name of the asset saved in your application.
         public let iconReference: String?
+        /// The data payload used for a silent push. This payload is added to the notifications' data.pinpoint.jsonBody' object
         public let data: [String: String]?
         /// The message title that displays above the message on the user's device.
         public let title: String?
@@ -2664,13 +3155,16 @@ extension Pinpoint {
         public let rawContent: String?
         /// Indicates a sound to play when the device receives the notification. Supports default, or the filename of a sound resource bundled in the app. Android sound files must reside in /res/raw/
         public let sound: String?
-        /// The URL that points to an image used in the push notification.
-        public let imageUrl: String?
+        /// This parameter specifies how long (in seconds) the message should be kept in Baidu storage if the device is offline. The and the default value and the maximum time to live supported is 7 days (604800 seconds)
+        public let timeToLive: Int32?
         /// The message body of the notification, the email body or the text message.
         public let body: String?
+        /// The URL that points to an image used in the push notification.
+        public let imageUrl: String?
+        /// Default message substitutions. Can be overridden by individual address substitutions.
         public let substitutions: [String: [String]]?
 
-        public init(iconReference: String? = nil, data: [String: String]? = nil, title: String? = nil, imageIconUrl: String? = nil, silentPush: Bool? = nil, smallImageIconUrl: String? = nil, action: Action? = nil, url: String? = nil, rawContent: String? = nil, sound: String? = nil, imageUrl: String? = nil, body: String? = nil, substitutions: [String: [String]]? = nil) {
+        public init(iconReference: String? = nil, data: [String: String]? = nil, title: String? = nil, imageIconUrl: String? = nil, silentPush: Bool? = nil, smallImageIconUrl: String? = nil, action: Action? = nil, url: String? = nil, rawContent: String? = nil, sound: String? = nil, timeToLive: Int32? = nil, body: String? = nil, imageUrl: String? = nil, substitutions: [String: [String]]? = nil) {
             self.iconReference = iconReference
             self.data = data
             self.title = title
@@ -2681,8 +3175,9 @@ extension Pinpoint {
             self.url = url
             self.rawContent = rawContent
             self.sound = sound
-            self.imageUrl = imageUrl
+            self.timeToLive = timeToLive
             self.body = body
+            self.imageUrl = imageUrl
             self.substitutions = substitutions
         }
 
@@ -2697,8 +3192,9 @@ extension Pinpoint {
             case url = "Url"
             case rawContent = "RawContent"
             case sound = "Sound"
-            case imageUrl = "ImageUrl"
+            case timeToLive = "TimeToLive"
             case body = "Body"
+            case imageUrl = "ImageUrl"
             case substitutions = "Substitutions"
         }
     }
@@ -2774,6 +3270,50 @@ extension Pinpoint {
             case appVersion = "AppVersion"
             case model = "Model"
             case modelVersion = "ModelVersion"
+        }
+    }
+
+    public struct CreateExportJobResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "ExportJobResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExportJobResponse", required: true, type: .structure)
+        ]
+        public let exportJobResponse: ExportJobResponse
+
+        public init(exportJobResponse: ExportJobResponse) {
+            self.exportJobResponse = exportJobResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportJobResponse = "ExportJobResponse"
+        }
+    }
+
+    public struct GetSegmentExportJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string), 
+            AWSShapeMember(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string)
+        ]
+        public let pageSize: String?
+        public let applicationId: String
+        public let token: String?
+        public let segmentId: String
+
+        public init(pageSize: String? = nil, applicationId: String, token: String? = nil, segmentId: String) {
+            self.pageSize = pageSize
+            self.applicationId = applicationId
+            self.token = token
+            self.segmentId = segmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "page-size"
+            case applicationId = "application-id"
+            case token = "token"
+            case segmentId = "segment-id"
         }
     }
 
@@ -2859,6 +3399,70 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case applicationResponse = "ApplicationResponse"
+        }
+    }
+
+    public struct GPSPointDimension: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Coordinates", required: false, type: .structure), 
+            AWSShapeMember(label: "RangeInKilometers", required: false, type: .double)
+        ]
+        /// Coordinate to measure distance from.
+        public let coordinates: GPSCoordinates?
+        /// Range in kilometers from the coordinate.
+        public let rangeInKilometers: Double?
+
+        public init(coordinates: GPSCoordinates? = nil, rangeInKilometers: Double? = nil) {
+            self.coordinates = coordinates
+            self.rangeInKilometers = rangeInKilometers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coordinates = "Coordinates"
+            case rangeInKilometers = "RangeInKilometers"
+        }
+    }
+
+    public struct GetExportJobResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "ExportJobResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExportJobResponse", required: true, type: .structure)
+        ]
+        public let exportJobResponse: ExportJobResponse
+
+        public init(exportJobResponse: ExportJobResponse) {
+            self.exportJobResponse = exportJobResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportJobResponse = "ExportJobResponse"
+        }
+    }
+
+    public struct AttributesResource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeType", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .list), 
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string)
+        ]
+        /// The attribute type for the application.
+        public let attributeType: String?
+        /// The attributes for the application.
+        public let attributes: [String]?
+        /// The unique ID for the application.
+        public let applicationId: String?
+
+        public init(attributeType: String? = nil, attributes: [String]? = nil, applicationId: String? = nil) {
+            self.attributeType = attributeType
+            self.attributes = attributes
+            self.applicationId = applicationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeType = "AttributeType"
+            case attributes = "Attributes"
+            case applicationId = "ApplicationId"
         }
     }
 
@@ -2990,6 +3594,25 @@ extension Pinpoint {
         }
     }
 
+    public struct DeleteEndpointRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointId", location: .uri(locationName: "endpoint-id"), required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        ]
+        public let endpointId: String
+        public let applicationId: String
+
+        public init(endpointId: String, applicationId: String) {
+            self.endpointId = endpointId
+            self.applicationId = applicationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointId = "endpoint-id"
+            case applicationId = "application-id"
+        }
+    }
+
     public struct BaiduChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecretKey", required: false, type: .string), 
@@ -3040,26 +3663,26 @@ extension Pinpoint {
     public struct GetSegmentVersionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
-            AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string), 
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string), 
             AWSShapeMember(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string)
         ]
         public let pageSize: String?
-        public let token: String?
         public let applicationId: String
+        public let token: String?
         public let segmentId: String
 
-        public init(pageSize: String? = nil, token: String? = nil, applicationId: String, segmentId: String) {
+        public init(pageSize: String? = nil, applicationId: String, token: String? = nil, segmentId: String) {
             self.pageSize = pageSize
-            self.token = token
             self.applicationId = applicationId
+            self.token = token
             self.segmentId = segmentId
         }
 
         private enum CodingKeys: String, CodingKey {
             case pageSize = "page-size"
-            case token = "token"
             case applicationId = "application-id"
+            case token = "token"
             case segmentId = "segment-id"
         }
     }
@@ -3075,14 +3698,16 @@ extension Pinpoint {
         ]
         /// Title override. If specified will override default title if applicable.
         public let titleOverride: String?
+        /// A map of custom attributes to attributes to be attached to the message for this address. This payload is added to the push notification's 'data.pinpoint' object or added to the email/sms delivery receipt event attributes.
         public let context: [String: String]?
         /// Body override. If specified will override default body.
         public let bodyOverride: String?
         /// The Raw JSON formatted string to be used as the payload. This value overrides the message.
         public let rawContent: String?
         /// The channel type.
-        /// Valid values: GCM | APNS | SMS | EMAIL
+        /// Valid values: GCM | APNS | APNS_SANDBOX | APNS_VOIP | APNS_VOIP_SANDBOX | ADM | SMS | EMAIL | BAIDU
         public let channelType: ChannelType?
+        /// A map of substitution values for the message to be merged with the DefaultMessage's substitutions. Substitutions on this map take precedence over the all other substitutions.
         public let substitutions: [String: [String]]?
 
         public init(titleOverride: String? = nil, context: [String: String]? = nil, bodyOverride: String? = nil, rawContent: String? = nil, channelType: ChannelType? = nil, substitutions: [String: [String]]? = nil) {
@@ -3104,20 +3729,39 @@ extension Pinpoint {
         }
     }
 
+    public struct GetChannelsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        ]
+        public let applicationId: String
+
+        public init(applicationId: String) {
+            self.applicationId = applicationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+        }
+    }
+
     public struct Message: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SilentPush", required: false, type: .boolean), 
             AWSShapeMember(label: "ImageSmallIconUrl", required: false, type: .string), 
             AWSShapeMember(label: "Action", required: false, type: .enum), 
             AWSShapeMember(label: "Url", required: false, type: .string), 
             AWSShapeMember(label: "RawContent", required: false, type: .string), 
             AWSShapeMember(label: "MediaUrl", required: false, type: .string), 
             AWSShapeMember(label: "Title", required: false, type: .string), 
-            AWSShapeMember(label: "ImageUrl", required: false, type: .string), 
-            AWSShapeMember(label: "SilentPush", required: false, type: .boolean), 
-            AWSShapeMember(label: "JsonBody", required: false, type: .string), 
+            AWSShapeMember(label: "ImageIconUrl", required: false, type: .string), 
+            AWSShapeMember(label: "TimeToLive", required: false, type: .integer), 
             AWSShapeMember(label: "Body", required: false, type: .string), 
-            AWSShapeMember(label: "ImageIconUrl", required: false, type: .string)
+            AWSShapeMember(label: "ImageUrl", required: false, type: .string), 
+            AWSShapeMember(label: "JsonBody", required: false, type: .string)
         ]
+        /// Indicates if the message should display on the users device.
+        /// Silent pushes can be used for Remote Configuration and Phone Home use cases. 
+        public let silentPush: Bool?
         /// The URL that points to the small icon image for the push notification icon, for example, the app icon.
         public let imageSmallIconUrl: String?
         /// The action that occurs if the user taps a push notification delivered by the campaign:
@@ -3133,44 +3777,45 @@ extension Pinpoint {
         public let mediaUrl: String?
         /// The message title that displays above the message on the user's device.
         public let title: String?
-        /// The URL that points to an image used in the push notification.
-        public let imageUrl: String?
-        /// Indicates if the message should display on the users device.
-        /// Silent pushes can be used for Remote Configuration and Phone Home use cases. 
-        public let silentPush: Bool?
-        /// The JSON payload used for a silent push.
-        public let jsonBody: String?
-        /// The message body. Can include up to 140 characters.
-        public let body: String?
         /// The URL that points to the icon image for the push notification icon, for example, the app icon.
         public let imageIconUrl: String?
+        /// This parameter specifies how long (in seconds) the message should be kept if the service is unable to deliver the notification the first time. If the value is 0, it treats the notification as if it expires immediately and does not store the notification or attempt to redeliver it. This value is converted to the expiration field when sent to the service. It only applies to APNs and GCM
+        public let timeToLive: Int32?
+        /// The message body. Can include up to 140 characters.
+        public let body: String?
+        /// The URL that points to an image used in the push notification.
+        public let imageUrl: String?
+        /// The JSON payload used for a silent push.
+        public let jsonBody: String?
 
-        public init(imageSmallIconUrl: String? = nil, action: Action? = nil, url: String? = nil, rawContent: String? = nil, mediaUrl: String? = nil, title: String? = nil, imageUrl: String? = nil, silentPush: Bool? = nil, jsonBody: String? = nil, body: String? = nil, imageIconUrl: String? = nil) {
+        public init(silentPush: Bool? = nil, imageSmallIconUrl: String? = nil, action: Action? = nil, url: String? = nil, rawContent: String? = nil, mediaUrl: String? = nil, title: String? = nil, imageIconUrl: String? = nil, timeToLive: Int32? = nil, body: String? = nil, imageUrl: String? = nil, jsonBody: String? = nil) {
+            self.silentPush = silentPush
             self.imageSmallIconUrl = imageSmallIconUrl
             self.action = action
             self.url = url
             self.rawContent = rawContent
             self.mediaUrl = mediaUrl
             self.title = title
-            self.imageUrl = imageUrl
-            self.silentPush = silentPush
-            self.jsonBody = jsonBody
-            self.body = body
             self.imageIconUrl = imageIconUrl
+            self.timeToLive = timeToLive
+            self.body = body
+            self.imageUrl = imageUrl
+            self.jsonBody = jsonBody
         }
 
         private enum CodingKeys: String, CodingKey {
+            case silentPush = "SilentPush"
             case imageSmallIconUrl = "ImageSmallIconUrl"
             case action = "Action"
             case url = "Url"
             case rawContent = "RawContent"
             case mediaUrl = "MediaUrl"
             case title = "Title"
-            case imageUrl = "ImageUrl"
-            case silentPush = "SilentPush"
-            case jsonBody = "JsonBody"
-            case body = "Body"
             case imageIconUrl = "ImageIconUrl"
+            case timeToLive = "TimeToLive"
+            case body = "Body"
+            case imageUrl = "ImageUrl"
+            case jsonBody = "JsonBody"
         }
     }
 
@@ -3193,71 +3838,81 @@ extension Pinpoint {
 
     public struct SMSChannelResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShortCode", required: false, type: .string), 
             AWSShapeMember(label: "Platform", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SenderId", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "IsArchived", required: false, type: .boolean), 
+            AWSShapeMember(label: "ShortCode", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "TransactionalMessagesPerSecond", required: false, type: .integer), 
+            AWSShapeMember(label: "PromotionalMessagesPerSecond", required: false, type: .integer), 
             AWSShapeMember(label: "HasCredential", required: false, type: .boolean), 
             AWSShapeMember(label: "Version", required: false, type: .integer), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "LastModifiedDate", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
             AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeMember(label: "SenderId", required: false, type: .string), 
-            AWSShapeMember(label: "IsArchived", required: false, type: .boolean), 
             AWSShapeMember(label: "LastModifiedBy", required: false, type: .string)
         ]
-        /// The short code registered with the phone provider.
-        public let shortCode: String?
         /// Platform type. Will be "SMS"
         public let platform: String?
+        /// If the channel is enabled for sending messages.
+        public let enabled: Bool?
+        /// Sender identifier of your messages.
+        public let senderId: String?
+        /// The date that the settings were last updated in ISO 8601 format.
+        public let creationDate: String?
+        /// Is this channel archived
+        public let isArchived: Bool?
+        /// The short code registered with the phone provider.
+        public let shortCode: String?
         /// Channel ID. Not used, only for backwards compatibility.
         public let id: String?
-        /// If the channel is registered with a credential for authentication.
+        /// Transactional messages per second that can be sent
+        public let transactionalMessagesPerSecond: Int32?
+        /// Promotional messages per second that can be sent
+        public let promotionalMessagesPerSecond: Int32?
+        /// Not used. Retained for backwards compatibility.
         public let hasCredential: Bool?
         /// Version of channel
         public let version: Int32?
-        /// If the channel is enabled for sending messages.
-        public let enabled: Bool?
         /// Last date this was updated
         public let lastModifiedDate: String?
-        /// The date that the settings were last updated in ISO 8601 format.
-        public let creationDate: String?
         /// The unique ID of the application to which the SMS channel belongs.
         public let applicationId: String?
-        /// Sender identifier of your messages.
-        public let senderId: String?
-        /// Is this channel archived
-        public let isArchived: Bool?
         /// Who last updated this entry
         public let lastModifiedBy: String?
 
-        public init(shortCode: String? = nil, platform: String? = nil, id: String? = nil, hasCredential: Bool? = nil, version: Int32? = nil, enabled: Bool? = nil, lastModifiedDate: String? = nil, creationDate: String? = nil, applicationId: String? = nil, senderId: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil) {
-            self.shortCode = shortCode
+        public init(platform: String? = nil, enabled: Bool? = nil, senderId: String? = nil, creationDate: String? = nil, isArchived: Bool? = nil, shortCode: String? = nil, id: String? = nil, transactionalMessagesPerSecond: Int32? = nil, promotionalMessagesPerSecond: Int32? = nil, hasCredential: Bool? = nil, version: Int32? = nil, lastModifiedDate: String? = nil, applicationId: String? = nil, lastModifiedBy: String? = nil) {
             self.platform = platform
+            self.enabled = enabled
+            self.senderId = senderId
+            self.creationDate = creationDate
+            self.isArchived = isArchived
+            self.shortCode = shortCode
             self.id = id
+            self.transactionalMessagesPerSecond = transactionalMessagesPerSecond
+            self.promotionalMessagesPerSecond = promotionalMessagesPerSecond
             self.hasCredential = hasCredential
             self.version = version
-            self.enabled = enabled
             self.lastModifiedDate = lastModifiedDate
-            self.creationDate = creationDate
             self.applicationId = applicationId
-            self.senderId = senderId
-            self.isArchived = isArchived
             self.lastModifiedBy = lastModifiedBy
         }
 
         private enum CodingKeys: String, CodingKey {
-            case shortCode = "ShortCode"
             case platform = "Platform"
+            case enabled = "Enabled"
+            case senderId = "SenderId"
+            case creationDate = "CreationDate"
+            case isArchived = "IsArchived"
+            case shortCode = "ShortCode"
             case id = "Id"
+            case transactionalMessagesPerSecond = "TransactionalMessagesPerSecond"
+            case promotionalMessagesPerSecond = "PromotionalMessagesPerSecond"
             case hasCredential = "HasCredential"
             case version = "Version"
-            case enabled = "Enabled"
             case lastModifiedDate = "LastModifiedDate"
-            case creationDate = "CreationDate"
             case applicationId = "ApplicationId"
-            case senderId = "SenderId"
-            case isArchived = "IsArchived"
             case lastModifiedBy = "LastModifiedBy"
         }
     }
@@ -3302,16 +3957,21 @@ extension Pinpoint {
 
     public struct SegmentLocation: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GPSPoint", required: false, type: .structure), 
             AWSShapeMember(label: "Country", required: false, type: .structure)
         ]
+        /// The GPS Point dimension.
+        public let gPSPoint: GPSPointDimension?
         /// The country filter according to ISO 3166-1 Alpha-2 codes.
         public let country: SetDimension?
 
-        public init(country: SetDimension? = nil) {
+        public init(gPSPoint: GPSPointDimension? = nil, country: SetDimension? = nil) {
+            self.gPSPoint = gPSPoint
             self.country = country
         }
 
         private enum CodingKeys: String, CodingKey {
+            case gPSPoint = "GPSPoint"
             case country = "Country"
         }
     }
@@ -3414,7 +4074,7 @@ extension Pinpoint {
         public let creationDate: String?
         /// Application id
         public let applicationId: String?
-        /// If the channel is registered with a credential for authentication.
+        /// Not used. Retained for backwards compatibility.
         public let hasCredential: Bool?
         /// Is this channel archived
         public let isArchived: Bool?
@@ -3463,7 +4123,7 @@ extension Pinpoint {
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
             AWSShapeMember(label: "LastUpdatedBy", required: false, type: .string)
         ]
-        /// The external ID assigned the IAM role that authorizes Amazon Pinpoint to publish to the stream.
+        /// DEPRECATED. Your AWS account ID, which you assigned to the ExternalID key in an IAM trust policy. Used by Amazon Pinpoint to assume an IAM role. This requirement is removed, and external IDs are not recommended for IAM roles assumed by Amazon Pinpoint.
         public let externalId: String?
         /// The date the event stream was last updated in ISO 8601 format.
         public let lastModifiedDate: String?
@@ -3514,7 +4174,7 @@ extension Pinpoint {
 
     public struct EndpointResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointStatus", required: false, type: .string), 
+            AWSShapeMember(label: "User", required: false, type: .structure), 
             AWSShapeMember(label: "Metrics", required: false, type: .map), 
             AWSShapeMember(label: "OptOut", required: false, type: .string), 
             AWSShapeMember(label: "CreationDate", required: false, type: .string), 
@@ -3527,11 +4187,12 @@ extension Pinpoint {
             AWSShapeMember(label: "Attributes", required: false, type: .map), 
             AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "ChannelType", required: false, type: .enum), 
-            AWSShapeMember(label: "User", required: false, type: .structure)
+            AWSShapeMember(label: "EndpointStatus", required: false, type: .string), 
+            AWSShapeMember(label: "ChannelType", required: false, type: .enum)
         ]
-        /// The endpoint status. Can be either ACTIVE or INACTIVE. Will be set to INACTIVE if a delivery fails. Will be set to ACTIVE if the address is updated.
-        public let endpointStatus: String?
+        /// Custom user-specific attributes that your app reports to Amazon Pinpoint.
+        public let user: EndpointUser?
+        /// Custom metrics that your app reports to Amazon Pinpoint.
         public let metrics: [String: Double]?
         /// Indicates whether a user has opted out of receiving messages with one of the following values:
         /// ALL - User has opted out of all messages.
@@ -3551,19 +4212,21 @@ extension Pinpoint {
         public let address: String?
         /// The endpoint demographic attributes.
         public let demographic: EndpointDemographic?
+        /// Custom attributes that describe the endpoint by associating a name with an array of values. For example, an attribute named "interests" might have the values ["science", "politics", "travel"]. You can use these attributes as selection criteria when you create a segment of users to engage with a messaging campaign.
+        /// The following characters are not recommended in attribute names: # : ? \ /. The Amazon Pinpoint console does not display attributes that include these characters in the name. This limitation does not apply to attribute values.
         public let attributes: [String: [String]]?
         /// The ID of the application associated with the endpoint.
         public let applicationId: String?
         /// The unique ID for the most recent request to update the endpoint.
         public let requestId: String?
+        /// Unused.
+        public let endpointStatus: String?
         /// The channel type.
-        /// Valid values: GCM | APNS | SMS | EMAIL
+        /// Valid values: GCM | APNS | APNS_SANDBOX | APNS_VOIP | APNS_VOIP_SANDBOX | ADM | SMS | EMAIL | BAIDU
         public let channelType: ChannelType?
-        /// Custom user-specific attributes that your app reports to Amazon Pinpoint.
-        public let user: EndpointUser?
 
-        public init(endpointStatus: String? = nil, metrics: [String: Double]? = nil, optOut: String? = nil, creationDate: String? = nil, id: String? = nil, cohortId: String? = nil, effectiveDate: String? = nil, location: EndpointLocation? = nil, address: String? = nil, demographic: EndpointDemographic? = nil, attributes: [String: [String]]? = nil, applicationId: String? = nil, requestId: String? = nil, channelType: ChannelType? = nil, user: EndpointUser? = nil) {
-            self.endpointStatus = endpointStatus
+        public init(user: EndpointUser? = nil, metrics: [String: Double]? = nil, optOut: String? = nil, creationDate: String? = nil, id: String? = nil, cohortId: String? = nil, effectiveDate: String? = nil, location: EndpointLocation? = nil, address: String? = nil, demographic: EndpointDemographic? = nil, attributes: [String: [String]]? = nil, applicationId: String? = nil, requestId: String? = nil, endpointStatus: String? = nil, channelType: ChannelType? = nil) {
+            self.user = user
             self.metrics = metrics
             self.optOut = optOut
             self.creationDate = creationDate
@@ -3576,12 +4239,12 @@ extension Pinpoint {
             self.attributes = attributes
             self.applicationId = applicationId
             self.requestId = requestId
+            self.endpointStatus = endpointStatus
             self.channelType = channelType
-            self.user = user
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpointStatus = "EndpointStatus"
+            case user = "User"
             case metrics = "Metrics"
             case optOut = "OptOut"
             case creationDate = "CreationDate"
@@ -3594,8 +4257,8 @@ extension Pinpoint {
             case attributes = "Attributes"
             case applicationId = "ApplicationId"
             case requestId = "RequestId"
+            case endpointStatus = "EndpointStatus"
             case channelType = "ChannelType"
-            case user = "User"
         }
     }
 
@@ -3620,16 +4283,17 @@ extension Pinpoint {
 
     public struct CampaignResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limits", required: false, type: .structure), 
             AWSShapeMember(label: "TreatmentName", required: false, type: .string), 
             AWSShapeMember(label: "SegmentVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "Limits", required: false, type: .structure), 
             AWSShapeMember(label: "State", required: false, type: .structure), 
             AWSShapeMember(label: "CreationDate", required: false, type: .string), 
             AWSShapeMember(label: "Schedule", required: false, type: .structure), 
             AWSShapeMember(label: "MessageConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "SegmentId", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Hook", required: false, type: .structure), 
             AWSShapeMember(label: "TreatmentDescription", required: false, type: .string), 
             AWSShapeMember(label: "AdditionalTreatments", required: false, type: .list), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -3640,12 +4304,12 @@ extension Pinpoint {
             AWSShapeMember(label: "IsPaused", required: false, type: .boolean), 
             AWSShapeMember(label: "DefaultState", required: false, type: .structure)
         ]
-        /// The campaign limits settings.
-        public let limits: CampaignLimits?
         /// The custom name of a variation of the campaign used for A/B testing.
         public let treatmentName: String?
         /// The version of the segment to which the campaign sends messages.
         public let segmentVersion: Int32?
+        /// The campaign limits settings.
+        public let limits: CampaignLimits?
         /// The campaign status.
         /// An A/B test campaign will have a status of COMPLETED only when all treatments have a status of COMPLETED.
         public let state: CampaignState?
@@ -3657,10 +4321,12 @@ extension Pinpoint {
         public let messageConfiguration: MessageConfiguration?
         /// The ID of the segment to which the campaign sends messages.
         public let segmentId: String?
-        /// The unique campaign ID.
-        public let id: String?
         /// A description of the campaign.
         public let description: String?
+        /// The unique campaign ID.
+        public let id: String?
+        /// Campaign hook information.
+        public let hook: CampaignHook?
         /// A custom description for the treatment.
         public let treatmentDescription: String?
         /// Treatments that are defined in addition to the default treatment.
@@ -3680,17 +4346,18 @@ extension Pinpoint {
         /// The status of the campaign's default treatment. Only present for A/B test campaigns.
         public let defaultState: CampaignState?
 
-        public init(limits: CampaignLimits? = nil, treatmentName: String? = nil, segmentVersion: Int32? = nil, state: CampaignState? = nil, creationDate: String? = nil, schedule: Schedule? = nil, messageConfiguration: MessageConfiguration? = nil, segmentId: String? = nil, id: String? = nil, description: String? = nil, treatmentDescription: String? = nil, additionalTreatments: [TreatmentResource]? = nil, name: String? = nil, holdoutPercent: Int32? = nil, version: Int32? = nil, lastModifiedDate: String? = nil, applicationId: String? = nil, isPaused: Bool? = nil, defaultState: CampaignState? = nil) {
-            self.limits = limits
+        public init(treatmentName: String? = nil, segmentVersion: Int32? = nil, limits: CampaignLimits? = nil, state: CampaignState? = nil, creationDate: String? = nil, schedule: Schedule? = nil, messageConfiguration: MessageConfiguration? = nil, segmentId: String? = nil, description: String? = nil, id: String? = nil, hook: CampaignHook? = nil, treatmentDescription: String? = nil, additionalTreatments: [TreatmentResource]? = nil, name: String? = nil, holdoutPercent: Int32? = nil, version: Int32? = nil, lastModifiedDate: String? = nil, applicationId: String? = nil, isPaused: Bool? = nil, defaultState: CampaignState? = nil) {
             self.treatmentName = treatmentName
             self.segmentVersion = segmentVersion
+            self.limits = limits
             self.state = state
             self.creationDate = creationDate
             self.schedule = schedule
             self.messageConfiguration = messageConfiguration
             self.segmentId = segmentId
-            self.id = id
             self.description = description
+            self.id = id
+            self.hook = hook
             self.treatmentDescription = treatmentDescription
             self.additionalTreatments = additionalTreatments
             self.name = name
@@ -3703,16 +4370,17 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limits = "Limits"
             case treatmentName = "TreatmentName"
             case segmentVersion = "SegmentVersion"
+            case limits = "Limits"
             case state = "State"
             case creationDate = "CreationDate"
             case schedule = "Schedule"
             case messageConfiguration = "MessageConfiguration"
             case segmentId = "SegmentId"
-            case id = "Id"
             case description = "Description"
+            case id = "Id"
+            case hook = "Hook"
             case treatmentDescription = "TreatmentDescription"
             case additionalTreatments = "AdditionalTreatments"
             case name = "Name"
@@ -3742,6 +4410,37 @@ extension Pinpoint {
         }
     }
 
+    public struct RemoveAttributesRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "UpdateAttributesRequest"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeType", location: .uri(locationName: "attribute-type"), required: true, type: .string), 
+            AWSShapeMember(label: "UpdateAttributesRequest", required: true, type: .structure), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        ]
+        public let attributeType: String
+        public let updateAttributesRequest: UpdateAttributesRequest
+        public let applicationId: String
+
+        public init(attributeType: String, updateAttributesRequest: UpdateAttributesRequest, applicationId: String) {
+            self.attributeType = attributeType
+            self.updateAttributesRequest = updateAttributesRequest
+            self.applicationId = applicationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeType = "attribute-type"
+            case updateAttributesRequest = "UpdateAttributesRequest"
+            case applicationId = "application-id"
+        }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case any = "ANY"
+        public var description: String { return self.rawValue }
+    }
+
     public struct APNSMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ThreadId", required: false, type: .string), 
@@ -3764,12 +4463,18 @@ extension Pinpoint {
         ]
         /// Provide this key with a string value that represents the app-specific identifier for grouping notifications. If you provide a Notification Content app extension, you can use this value to group your notifications together.
         public let threadId: String?
+        /// The data payload used for a silent push. This payload is added to the notifications' data.pinpoint.jsonBody' object
         public let data: [String: String]?
-        /// Is this a transaction priority message or lower priority.
+        /// The message priority. Amazon Pinpoint uses this value to set the apns-priority request header when it sends the message to APNs. Accepts the following values:
+        /// "5" - Low priority. Messages might be delayed, delivered in groups, and throttled.
+        /// "10" - High priority. Messages are sent immediately. High priority messages must cause an alert, sound, or badge on the receiving device.
+        /// The default value is "10".
+        /// The equivalent values for FCM or GCM messages are "normal" and "high". Amazon Pinpoint accepts these values for APNs messages and converts them.
+        /// For more information about the apns-priority parameter, see Communicating with APNs in the APNs Local and Remote Notification Programming Guide.
         public let priority: String?
         /// The URL that points to a video used in the push notification.
         public let mediaUrl: String?
-        /// Multiple notifications with the same collapse identifier are displayed to the user as a single notification. The value of this key must not exceed 64 bytes.
+        /// An ID that, if assigned to multiple messages, causes APNs to coalesce the messages into a single push notification instead of delivering each message individually. The value must not exceed 64 bytes. Amazon Pinpoint uses this value to set the apns-collapse-id request header when it sends the message to APNs.
         public let collapseId: String?
         /// The message title that displays above the message on the user's device.
         public let title: String?
@@ -3789,10 +4494,11 @@ extension Pinpoint {
         public let category: String?
         /// Include this key when you want the system to play a sound. The value of this key is the name of a sound file in your app's main bundle or in the Library/Sounds folder of your app's data container. If the sound file cannot be found, or if you specify defaultfor the value, the system plays the default alert sound.
         public let sound: String?
-        /// This parameter specifies how long (in seconds) the message should be kept if APNS is unable to deliver the notification the first time. If the value is 0, APNS treats the notification as if it expires immediately and does not store the notification or attempt to redeliver it. This value is converted to the expiration field when sent to APNS
+        /// The length of time (in seconds) that APNs stores and attempts to deliver the message. If the value is 0, APNs does not store the message or attempt to deliver it more than once. Amazon Pinpoint uses this value to set the apns-expiration request header when it sends the message to APNs.
         public let timeToLive: Int32?
         /// The message body of the notification, the email body or the text message.
         public let body: String?
+        /// Default message substitutions. Can be overridden by individual address substitutions.
         public let substitutions: [String: [String]]?
 
         public init(threadId: String? = nil, data: [String: String]? = nil, priority: String? = nil, mediaUrl: String? = nil, collapseId: String? = nil, title: String? = nil, silentPush: Bool? = nil, badge: Int32? = nil, action: Action? = nil, url: String? = nil, preferredAuthenticationMethod: String? = nil, rawContent: String? = nil, category: String? = nil, sound: String? = nil, timeToLive: Int32? = nil, body: String? = nil, substitutions: [String: [String]]? = nil) {
@@ -3863,30 +4569,32 @@ extension Pinpoint {
             AWSShapeMember(label: "Url", required: false, type: .string), 
             AWSShapeMember(label: "Data", required: false, type: .map), 
             AWSShapeMember(label: "Title", required: false, type: .string), 
-            AWSShapeMember(label: "SilentPush", required: false, type: .boolean), 
             AWSShapeMember(label: "Body", required: false, type: .string), 
+            AWSShapeMember(label: "SilentPush", required: false, type: .boolean), 
             AWSShapeMember(label: "Substitutions", required: false, type: .map)
         ]
         /// The action that occurs if the user taps a push notification delivered by the campaign: OPEN_APP - Your app launches, or it becomes the foreground app if it has been sent to the background. This is the default action. DEEP_LINK - Uses deep linking features in iOS and Android to open your app and display a designated user interface within the app. URL - The default mobile browser on the user's device launches and opens a web page at the URL you specify. Possible values include: OPEN_APP | DEEP_LINK | URL
         public let action: Action?
         /// The URL to open in the user's mobile browser. Used if the value for Action is URL.
         public let url: String?
+        /// The data payload used for a silent push. This payload is added to the notifications' data.pinpoint.jsonBody' object
         public let data: [String: String]?
         /// The message title that displays above the message on the user's device.
         public let title: String?
-        /// Indicates if the message should display on the users device. Silent pushes can be used for Remote Configuration and Phone Home use cases.
-        public let silentPush: Bool?
         /// The message body of the notification, the email body or the text message.
         public let body: String?
+        /// Indicates if the message should display on the users device. Silent pushes can be used for Remote Configuration and Phone Home use cases.
+        public let silentPush: Bool?
+        /// Default message substitutions. Can be overridden by individual address substitutions.
         public let substitutions: [String: [String]]?
 
-        public init(action: Action? = nil, url: String? = nil, data: [String: String]? = nil, title: String? = nil, silentPush: Bool? = nil, body: String? = nil, substitutions: [String: [String]]? = nil) {
+        public init(action: Action? = nil, url: String? = nil, data: [String: String]? = nil, title: String? = nil, body: String? = nil, silentPush: Bool? = nil, substitutions: [String: [String]]? = nil) {
             self.action = action
             self.url = url
             self.data = data
             self.title = title
-            self.silentPush = silentPush
             self.body = body
+            self.silentPush = silentPush
             self.substitutions = substitutions
         }
 
@@ -3895,8 +4603,8 @@ extension Pinpoint {
             case url = "Url"
             case data = "Data"
             case title = "Title"
-            case silentPush = "SilentPush"
             case body = "Body"
+            case silentPush = "SilentPush"
             case substitutions = "Substitutions"
         }
     }
@@ -3918,7 +4626,7 @@ extension Pinpoint {
         public let id: String?
         /// Platform type. Will be "ADM"
         public let platform: String?
-        /// If the channel is registered with a credential for authentication.
+        /// Not used. Retained for backwards compatibility.
         public let hasCredential: Bool?
         /// Version of channel
         public let version: Int32?
@@ -3928,7 +4636,7 @@ extension Pinpoint {
         public let lastModifiedDate: String?
         /// When was this segment created
         public let creationDate: String?
-        /// Application id
+        /// The ID of the application to which the channel applies.
         public let applicationId: String?
         /// Is this channel archived
         public let isArchived: Bool?
@@ -3972,6 +4680,7 @@ extension Pinpoint {
         case sms = "SMS"
         case email = "EMAIL"
         case baidu = "BAIDU"
+        case custom = "CUSTOM"
         public var description: String { return self.rawValue }
     }
 
@@ -4044,6 +4753,23 @@ extension Pinpoint {
         }
     }
 
+    public struct GetSegmentExportJobsResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "ExportJobsResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExportJobsResponse", required: true, type: .structure)
+        ]
+        public let exportJobsResponse: ExportJobsResponse
+
+        public init(exportJobsResponse: ExportJobsResponse) {
+            self.exportJobsResponse = exportJobsResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportJobsResponse = "ExportJobsResponse"
+        }
+    }
+
     public struct ActivitiesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Item", required: false, type: .list)
@@ -4057,6 +4783,62 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case item = "Item"
+        }
+    }
+
+    public struct ChannelResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "HasCredential", required: false, type: .boolean), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Version", required: false, type: .integer), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "IsArchived", required: false, type: .boolean), 
+            AWSShapeMember(label: "LastModifiedBy", required: false, type: .string)
+        ]
+        /// Channel ID. Not used, only for backwards compatibility.
+        public let id: String?
+        /// Not used. Retained for backwards compatibility.
+        public let hasCredential: Bool?
+        /// If the channel is enabled for sending messages.
+        public let enabled: Bool?
+        /// Version of channel
+        public let version: Int32?
+        /// Last date this was updated
+        public let lastModifiedDate: String?
+        /// When was this segment created
+        public let creationDate: String?
+        /// Application id
+        public let applicationId: String?
+        /// Is this channel archived
+        public let isArchived: Bool?
+        /// Who made the last change
+        public let lastModifiedBy: String?
+
+        public init(id: String? = nil, hasCredential: Bool? = nil, enabled: Bool? = nil, version: Int32? = nil, lastModifiedDate: String? = nil, creationDate: String? = nil, applicationId: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil) {
+            self.id = id
+            self.hasCredential = hasCredential
+            self.enabled = enabled
+            self.version = version
+            self.lastModifiedDate = lastModifiedDate
+            self.creationDate = creationDate
+            self.applicationId = applicationId
+            self.isArchived = isArchived
+            self.lastModifiedBy = lastModifiedBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case hasCredential = "HasCredential"
+            case enabled = "Enabled"
+            case version = "Version"
+            case lastModifiedDate = "LastModifiedDate"
+            case creationDate = "CreationDate"
+            case applicationId = "ApplicationId"
+            case isArchived = "IsArchived"
+            case lastModifiedBy = "LastModifiedBy"
         }
     }
 
@@ -4216,13 +4998,14 @@ extension Pinpoint {
             AWSShapeMember(label: "S3Url", required: false, type: .string), 
             AWSShapeMember(label: "Size", required: false, type: .integer)
         ]
-        /// A unique, custom ID assigned to the IAM role that restricts who can assume the role.
+        /// DEPRECATED. Your AWS account ID, which you assigned to the ExternalID key in an IAM trust policy. Used by Amazon Pinpoint to assume an IAM role. This requirement is removed, and external IDs are not recommended for IAM roles assumed by Amazon Pinpoint.
         public let externalId: String?
         /// The format of the endpoint files that were imported to create this segment.
         /// Valid values: CSV, JSON
         public let format: Format?
         /// The Amazon Resource Name (ARN) of an IAM role that grants Amazon Pinpoint access to the endpoints in Amazon S3.
         public let roleArn: String?
+        /// Channel type counts
         public let channelCounts: [String: Int32]?
         /// A URL that points to the Amazon S3 location from which the endpoints for this segment were imported.
         public let s3Url: String?
@@ -4268,7 +5051,7 @@ extension Pinpoint {
         /// The format of the files that contain the endpoint definitions.
         /// Valid values: CSV, JSON
         public let format: Format?
-        /// A unique, custom ID assigned to the IAM role that restricts who can assume the role.	
+        /// DEPRECATED. Your AWS account ID, which you assigned to the ExternalID key in an IAM trust policy. Used by Amazon Pinpoint to assume an IAM role. This requirement is removed, and external IDs are not recommended for IAM roles assumed by Amazon Pinpoint.
         public let externalId: String?
         /// Sets whether the endpoints are registered with Amazon Pinpoint when they are imported.
         public let registerEndpoints: Bool?
@@ -4325,6 +5108,40 @@ extension Pinpoint {
         }
     }
 
+    public struct PhoneNumberValidateRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "NumberValidateRequest"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NumberValidateRequest", required: true, type: .structure)
+        ]
+        public let numberValidateRequest: NumberValidateRequest
+
+        public init(numberValidateRequest: NumberValidateRequest) {
+            self.numberValidateRequest = numberValidateRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberValidateRequest = "NumberValidateRequest"
+        }
+    }
+
+    public struct PhoneNumberValidateResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "NumberValidateResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NumberValidateResponse", required: true, type: .structure)
+        ]
+        public let numberValidateResponse: NumberValidateResponse
+
+        public init(numberValidateResponse: NumberValidateResponse) {
+            self.numberValidateResponse = numberValidateResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberValidateResponse = "NumberValidateResponse"
+        }
+    }
+
     public struct CreateImportJobRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "ImportJobRequest"
@@ -4366,7 +5183,7 @@ extension Pinpoint {
         /// The format of the files that contain the endpoint definitions.
         /// Valid values: CSV, JSON
         public let format: Format?
-        /// A unique, custom ID assigned to the IAM role that restricts who can assume the role.	
+        /// DEPRECATED. Your AWS account ID, which you assigned to the ExternalID key in an IAM trust policy. Used by Amazon Pinpoint to assume an IAM role. This requirement is removed, and external IDs are not recommended for IAM roles assumed by Amazon Pinpoint.
         public let externalId: String?
         /// Sets whether the endpoints are registered with Amazon Pinpoint when they are imported.
         public let registerEndpoints: Bool?
@@ -4419,6 +5236,25 @@ extension Pinpoint {
         }
     }
 
+    public struct DeleteUserEndpointsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "user-id"), required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        ]
+        public let userId: String
+        public let applicationId: String
+
+        public init(userId: String, applicationId: String) {
+            self.userId = userId
+            self.applicationId = applicationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userId = "user-id"
+            case applicationId = "application-id"
+        }
+    }
+
     public struct EndpointUser: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserId", required: false, type: .string), 
@@ -4426,6 +5262,8 @@ extension Pinpoint {
         ]
         /// The unique ID of the user.
         public let userId: String?
+        /// Custom attributes that describe an end user by associating a name with an array of values. For example, an attribute named "interests" might have the values ["science", "politics", "travel"]. You can use these attributes as selection criteria when you create a segment of users to engage with a messaging campaign.
+        /// The following characters are not recommended in attribute names: # : ? \ /. The Amazon Pinpoint console does not display attributes that include these characters in the name. This limitation does not apply to attribute values.
         public let userAttributes: [String: [String]]?
 
         public init(userId: String? = nil, userAttributes: [String: [String]]? = nil) {
@@ -4437,6 +5275,13 @@ extension Pinpoint {
             case userId = "UserId"
             case userAttributes = "UserAttributes"
         }
+    }
+
+    public enum Include: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case any = "ANY"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
     }
 
     public struct CampaignEmailMessage: AWSShape {
@@ -4475,6 +5320,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Demographic", required: false, type: .structure), 
             AWSShapeMember(label: "Behavior", required: false, type: .structure), 
             AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "Metrics", required: false, type: .map), 
             AWSShapeMember(label: "Location", required: false, type: .structure), 
             AWSShapeMember(label: "UserAttributes", required: false, type: .map)
         ]
@@ -4484,15 +5330,18 @@ extension Pinpoint {
         public let behavior: SegmentBehaviors?
         /// Custom segment attributes.
         public let attributes: [String: AttributeDimension]?
+        /// Custom segment metrics.
+        public let metrics: [String: MetricDimension]?
         /// The segment location attributes.
         public let location: SegmentLocation?
         /// Custom segment user attributes.
         public let userAttributes: [String: AttributeDimension]?
 
-        public init(demographic: SegmentDemographics? = nil, behavior: SegmentBehaviors? = nil, attributes: [String: AttributeDimension]? = nil, location: SegmentLocation? = nil, userAttributes: [String: AttributeDimension]? = nil) {
+        public init(demographic: SegmentDemographics? = nil, behavior: SegmentBehaviors? = nil, attributes: [String: AttributeDimension]? = nil, metrics: [String: MetricDimension]? = nil, location: SegmentLocation? = nil, userAttributes: [String: AttributeDimension]? = nil) {
             self.demographic = demographic
             self.behavior = behavior
             self.attributes = attributes
+            self.metrics = metrics
             self.location = location
             self.userAttributes = userAttributes
         }
@@ -4501,6 +5350,7 @@ extension Pinpoint {
             case demographic = "Demographic"
             case behavior = "Behavior"
             case attributes = "Attributes"
+            case metrics = "Metrics"
             case location = "Location"
             case userAttributes = "UserAttributes"
         }
@@ -4510,30 +5360,66 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LastModifiedDate", required: false, type: .string), 
             AWSShapeMember(label: "Limits", required: false, type: .structure), 
-            AWSShapeMember(label: "QuietTime", required: false, type: .structure), 
-            AWSShapeMember(label: "ApplicationId", required: false, type: .string)
+            AWSShapeMember(label: "CampaignHook", required: false, type: .structure), 
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "QuietTime", required: false, type: .structure)
         ]
         /// The date that the settings were last updated in ISO 8601 format.
         public let lastModifiedDate: String?
         /// The default campaign limits for the app. These limits apply to each campaign for the app, unless the campaign overrides the default with limits of its own.
         public let limits: CampaignLimits?
-        /// The default quiet time for the app. Each campaign for this app sends no messages during this time unless the campaign overrides the default with a quiet time of its own.
-        public let quietTime: QuietTime?
+        /// Default campaign hook.
+        public let campaignHook: CampaignHook?
         /// The unique ID for the application.
         public let applicationId: String?
+        /// The default quiet time for the app. Each campaign for this app sends no messages during this time unless the campaign overrides the default with a quiet time of its own.
+        public let quietTime: QuietTime?
 
-        public init(lastModifiedDate: String? = nil, limits: CampaignLimits? = nil, quietTime: QuietTime? = nil, applicationId: String? = nil) {
+        public init(lastModifiedDate: String? = nil, limits: CampaignLimits? = nil, campaignHook: CampaignHook? = nil, applicationId: String? = nil, quietTime: QuietTime? = nil) {
             self.lastModifiedDate = lastModifiedDate
             self.limits = limits
-            self.quietTime = quietTime
+            self.campaignHook = campaignHook
             self.applicationId = applicationId
+            self.quietTime = quietTime
         }
 
         private enum CodingKeys: String, CodingKey {
             case lastModifiedDate = "LastModifiedDate"
             case limits = "Limits"
-            case quietTime = "QuietTime"
+            case campaignHook = "CampaignHook"
             case applicationId = "ApplicationId"
+            case quietTime = "QuietTime"
+        }
+    }
+
+    public struct SegmentGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "SourceSegments", required: false, type: .list), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "SourceType", required: false, type: .enum)
+        ]
+        /// List of dimensions to include or exclude.
+        public let dimensions: [SegmentDimensions]?
+        /// Segments that define the source of this segment. Currently a maximum of 1 import segment is supported.
+        public let sourceSegments: [SegmentReference]?
+        /// How should the dimensions be applied for the result
+        public let `type`: `Type`?
+        /// Include or exclude the source.
+        public let sourceType: SourceType?
+
+        public init(dimensions: [SegmentDimensions]? = nil, sourceSegments: [SegmentReference]? = nil, type: `Type`? = nil, sourceType: SourceType? = nil) {
+            self.dimensions = dimensions
+            self.sourceSegments = sourceSegments
+            self.`type` = `type`
+            self.sourceType = sourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case sourceSegments = "SourceSegments"
+            case `type` = "Type"
+            case sourceType = "SourceType"
         }
     }
 
@@ -4586,9 +5472,48 @@ extension Pinpoint {
         }
     }
 
+    public struct NumberValidateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsoCountryCode", required: false, type: .string), 
+            AWSShapeMember(label: "PhoneNumber", required: false, type: .string)
+        ]
+        /// (Optional) The two-character ISO country code for the country where the phone number was originally registered.
+        public let isoCountryCode: String?
+        /// The phone number to get information about.
+        public let phoneNumber: String?
+
+        public init(isoCountryCode: String? = nil, phoneNumber: String? = nil) {
+            self.isoCountryCode = isoCountryCode
+            self.phoneNumber = phoneNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isoCountryCode = "IsoCountryCode"
+            case phoneNumber = "PhoneNumber"
+        }
+    }
+
+    public struct GetExportJobsResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "ExportJobsResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExportJobsResponse", required: true, type: .structure)
+        ]
+        public let exportJobsResponse: ExportJobsResponse
+
+        public init(exportJobsResponse: ExportJobsResponse) {
+            self.exportJobsResponse = exportJobsResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportJobsResponse = "ExportJobsResponse"
+        }
+    }
+
     public struct SegmentResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "SegmentType", required: false, type: .enum), 
+            AWSShapeMember(label: "SegmentGroups", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .integer), 
             AWSShapeMember(label: "Dimensions", required: false, type: .structure), 
@@ -4596,10 +5521,14 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
             AWSShapeMember(label: "LastModifiedDate", required: false, type: .string), 
             AWSShapeMember(label: "ImportDefinition", required: false, type: .structure), 
-            AWSShapeMember(label: "SegmentType", required: false, type: .enum)
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// The unique segment ID.
-        public let id: String?
+        /// The segment type:
+        /// DIMENSIONAL - A dynamic segment built from selection criteria based on endpoint data reported by your app. You create this type of segment by using the segment builder in the Amazon Pinpoint console or by making a POST request to the segments resource.
+        /// IMPORT - A static segment built from an imported set of endpoint definitions. You create this type of segment by importing a segment in the Amazon Pinpoint console or by making a POST request to the jobs/import resource.
+        public let segmentType: SegmentType?
+        /// Segment definition groups. We currently only support one. If specified Dimensions must be empty.
+        public let segmentGroups: SegmentGroupList?
         /// The name of segment
         public let name: String?
         /// The segment version number.
@@ -4614,13 +5543,12 @@ extension Pinpoint {
         public let lastModifiedDate: String?
         /// The import job settings.
         public let importDefinition: SegmentImportResource?
-        /// The segment type:
-        /// DIMENSIONAL - A dynamic segment built from selection criteria based on endpoint data reported by your app. You create this type of segment by using the segment builder in the Amazon Pinpoint console or by making a POST request to the segments resource.
-        /// IMPORT - A static segment built from an imported set of endpoint definitions. You create this type of segment by importing a segment in the Amazon Pinpoint console or by making a POST request to the jobs/import resource.
-        public let segmentType: SegmentType?
+        /// The unique segment ID.
+        public let id: String?
 
-        public init(id: String? = nil, name: String? = nil, version: Int32? = nil, dimensions: SegmentDimensions? = nil, creationDate: String? = nil, applicationId: String? = nil, lastModifiedDate: String? = nil, importDefinition: SegmentImportResource? = nil, segmentType: SegmentType? = nil) {
-            self.id = id
+        public init(segmentType: SegmentType? = nil, segmentGroups: SegmentGroupList? = nil, name: String? = nil, version: Int32? = nil, dimensions: SegmentDimensions? = nil, creationDate: String? = nil, applicationId: String? = nil, lastModifiedDate: String? = nil, importDefinition: SegmentImportResource? = nil, id: String? = nil) {
+            self.segmentType = segmentType
+            self.segmentGroups = segmentGroups
             self.name = name
             self.version = version
             self.dimensions = dimensions
@@ -4628,11 +5556,12 @@ extension Pinpoint {
             self.applicationId = applicationId
             self.lastModifiedDate = lastModifiedDate
             self.importDefinition = importDefinition
-            self.segmentType = segmentType
+            self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
+            case segmentType = "SegmentType"
+            case segmentGroups = "SegmentGroups"
             case name = "Name"
             case version = "Version"
             case dimensions = "Dimensions"
@@ -4640,7 +5569,7 @@ extension Pinpoint {
             case applicationId = "ApplicationId"
             case lastModifiedDate = "LastModifiedDate"
             case importDefinition = "ImportDefinition"
-            case segmentType = "SegmentType"
+            case id = "Id"
         }
     }
 
@@ -4682,6 +5611,7 @@ extension Pinpoint {
         public let completedPieces: Int32?
         /// The number of endpoints that failed to import; for example, because of syntax errors.
         public let totalFailures: Int32?
+        /// Provides up to 100 of the first failed entries for the job, if any exist.
         public let failures: [String]?
         /// The unique ID of the application to which the import job applies.
         public let applicationId: String?
@@ -4721,6 +5651,87 @@ extension Pinpoint {
         }
     }
 
+    public struct NumberValidateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CleansedPhoneNumberE164", required: false, type: .string), 
+            AWSShapeMember(label: "Country", required: false, type: .string), 
+            AWSShapeMember(label: "Carrier", required: false, type: .string), 
+            AWSShapeMember(label: "Timezone", required: false, type: .string), 
+            AWSShapeMember(label: "PhoneTypeCode", required: false, type: .integer), 
+            AWSShapeMember(label: "ZipCode", required: false, type: .string), 
+            AWSShapeMember(label: "PhoneType", required: false, type: .string), 
+            AWSShapeMember(label: "County", required: false, type: .string), 
+            AWSShapeMember(label: "City", required: false, type: .string), 
+            AWSShapeMember(label: "OriginalCountryCodeIso2", required: false, type: .string), 
+            AWSShapeMember(label: "CountryCodeIso2", required: false, type: .string), 
+            AWSShapeMember(label: "CleansedPhoneNumberNational", required: false, type: .string), 
+            AWSShapeMember(label: "CountryCodeNumeric", required: false, type: .string), 
+            AWSShapeMember(label: "OriginalPhoneNumber", required: false, type: .string)
+        ]
+        /// The cleansed (standardized) phone number in E.164 format.
+        public let cleansedPhoneNumberE164: String?
+        /// The country where the phone number was originally registered.
+        public let country: String?
+        /// The carrier that the phone number is registered with.
+        public let carrier: String?
+        /// The time zone for the location where the phone number was originally registered.
+        public let timezone: String?
+        /// The phone type as an integer. Possible values include 0 (MOBILE), 1 (LANDLINE), 2 (VOIP), 3 (INVALID), and 4 (OTHER).
+        public let phoneTypeCode: Int32?
+        /// The zip code for the location where the phone number was originally registered.
+        public let zipCode: String?
+        /// A description of the phone type. Possible values include MOBILE, LANDLINE, VOIP, INVALID, and OTHER.
+        public let phoneType: String?
+        /// The county where the phone number was originally registered.
+        public let county: String?
+        /// The city where the phone number was originally registered.
+        public let city: String?
+        /// The two-character ISO country code that was included in the request body.
+        public let originalCountryCodeIso2: String?
+        /// The two-character ISO country code for the country where the phone number was originally registered.
+        public let countryCodeIso2: String?
+        /// The cleansed phone number in national format.
+        public let cleansedPhoneNumberNational: String?
+        /// The numeric country code for the country where the phone number was originally registered.
+        public let countryCodeNumeric: String?
+        /// The phone number that you included in the request body.
+        public let originalPhoneNumber: String?
+
+        public init(cleansedPhoneNumberE164: String? = nil, country: String? = nil, carrier: String? = nil, timezone: String? = nil, phoneTypeCode: Int32? = nil, zipCode: String? = nil, phoneType: String? = nil, county: String? = nil, city: String? = nil, originalCountryCodeIso2: String? = nil, countryCodeIso2: String? = nil, cleansedPhoneNumberNational: String? = nil, countryCodeNumeric: String? = nil, originalPhoneNumber: String? = nil) {
+            self.cleansedPhoneNumberE164 = cleansedPhoneNumberE164
+            self.country = country
+            self.carrier = carrier
+            self.timezone = timezone
+            self.phoneTypeCode = phoneTypeCode
+            self.zipCode = zipCode
+            self.phoneType = phoneType
+            self.county = county
+            self.city = city
+            self.originalCountryCodeIso2 = originalCountryCodeIso2
+            self.countryCodeIso2 = countryCodeIso2
+            self.cleansedPhoneNumberNational = cleansedPhoneNumberNational
+            self.countryCodeNumeric = countryCodeNumeric
+            self.originalPhoneNumber = originalPhoneNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cleansedPhoneNumberE164 = "CleansedPhoneNumberE164"
+            case country = "Country"
+            case carrier = "Carrier"
+            case timezone = "Timezone"
+            case phoneTypeCode = "PhoneTypeCode"
+            case zipCode = "ZipCode"
+            case phoneType = "PhoneType"
+            case county = "County"
+            case city = "City"
+            case originalCountryCodeIso2 = "OriginalCountryCodeIso2"
+            case countryCodeIso2 = "CountryCodeIso2"
+            case cleansedPhoneNumberNational = "CleansedPhoneNumberNational"
+            case countryCodeNumeric = "CountryCodeNumeric"
+            case originalPhoneNumber = "OriginalPhoneNumber"
+        }
+    }
+
     public struct APNSVoipSandboxChannelResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: false, type: .string), 
@@ -4752,7 +5763,7 @@ extension Pinpoint {
         public let creationDate: String?
         /// Application id
         public let applicationId: String?
-        /// If the channel is registered with a credential for authentication.
+        /// Not used. Retained for backwards compatibility.
         public let hasCredential: Bool?
         /// Is this channel archived
         public let isArchived: Bool?
@@ -4919,6 +5930,7 @@ extension Pinpoint {
         ]
         /// The icon image name of the asset saved in your application.
         public let iconReference: String?
+        /// The data payload used for a silent push. This payload is added to the notifications' data.pinpoint.jsonBody' object
         public let data: [String: String]?
         /// The message title that displays above the message on the user's device.
         public let title: String?
@@ -4946,6 +5958,7 @@ extension Pinpoint {
         public let body: String?
         /// Optional. Number of seconds ADM should retain the message if the device is offline
         public let expiresAfter: String?
+        /// Default message substitutions. Can be overridden by individual address substitutions.
         public let substitutions: [String: [String]]?
 
         public init(iconReference: String? = nil, data: [String: String]? = nil, title: String? = nil, imageIconUrl: String? = nil, silentPush: Bool? = nil, smallImageIconUrl: String? = nil, consolidationKey: String? = nil, action: Action? = nil, url: String? = nil, rawContent: String? = nil, md5: String? = nil, sound: String? = nil, imageUrl: String? = nil, body: String? = nil, expiresAfter: String? = nil, substitutions: [String: [String]]? = nil) {
@@ -4994,11 +6007,11 @@ extension Pinpoint {
             AWSShapeMember(label: "MessagesPerSecond", required: false, type: .integer), 
             AWSShapeMember(label: "Total", required: false, type: .integer)
         ]
-        /// The maximum duration of a campaign from the scheduled start. Must be a minimum of 60 seconds.
+        /// The length of time (in seconds) that the campaign can run before it ends and message deliveries stop. This duration begins at the scheduled start time for the campaign. The minimum value is 60.
         public let maximumDuration: Int32?
         /// The maximum number of messages that the campaign can send daily.
         public let daily: Int32?
-        /// The maximum number of messages per second that the campaign will send. This is a best effort maximum cap and can go as high as 20000 and as low as 50
+        /// The number of messages that the campaign can send per second. The minimum value is 50, and the maximum is 20000.
         public let messagesPerSecond: Int32?
         /// The maximum total number of messages that the campaign can send.
         public let total: Int32?
@@ -5079,11 +6092,12 @@ extension Pinpoint {
     public struct EmailChannelResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Platform", required: false, type: .string), 
+            AWSShapeMember(label: "MessagesPerSecond", required: false, type: .integer), 
             AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "CreationDate", required: false, type: .string), 
             AWSShapeMember(label: "IsArchived", required: false, type: .boolean), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "FromAddress", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "HasCredential", required: false, type: .boolean), 
             AWSShapeMember(label: "Version", required: false, type: .integer), 
             AWSShapeMember(label: "Identity", required: false, type: .string), 
@@ -5094,17 +6108,19 @@ extension Pinpoint {
         ]
         /// Platform type. Will be "EMAIL"
         public let platform: String?
+        /// Messages per second that can be sent
+        public let messagesPerSecond: Int32?
         /// If the channel is enabled for sending messages.
         public let enabled: Bool?
         /// The date that the settings were last updated in ISO 8601 format.
         public let creationDate: String?
         /// Is this channel archived
         public let isArchived: Bool?
-        /// Channel ID. Not used, only for backwards compatibility.
-        public let id: String?
         /// The email address used to send emails from.
         public let fromAddress: String?
-        /// If the channel is registered with a credential for authentication.
+        /// Channel ID. Not used, only for backwards compatibility.
+        public let id: String?
+        /// Not used. Retained for backwards compatibility.
         public let hasCredential: Bool?
         /// Version of channel
         public let version: Int32?
@@ -5119,13 +6135,14 @@ extension Pinpoint {
         /// Who last updated this entry
         public let lastModifiedBy: String?
 
-        public init(platform: String? = nil, enabled: Bool? = nil, creationDate: String? = nil, isArchived: Bool? = nil, id: String? = nil, fromAddress: String? = nil, hasCredential: Bool? = nil, version: Int32? = nil, identity: String? = nil, lastModifiedDate: String? = nil, applicationId: String? = nil, roleArn: String? = nil, lastModifiedBy: String? = nil) {
+        public init(platform: String? = nil, messagesPerSecond: Int32? = nil, enabled: Bool? = nil, creationDate: String? = nil, isArchived: Bool? = nil, fromAddress: String? = nil, id: String? = nil, hasCredential: Bool? = nil, version: Int32? = nil, identity: String? = nil, lastModifiedDate: String? = nil, applicationId: String? = nil, roleArn: String? = nil, lastModifiedBy: String? = nil) {
             self.platform = platform
+            self.messagesPerSecond = messagesPerSecond
             self.enabled = enabled
             self.creationDate = creationDate
             self.isArchived = isArchived
-            self.id = id
             self.fromAddress = fromAddress
+            self.id = id
             self.hasCredential = hasCredential
             self.version = version
             self.identity = identity
@@ -5137,11 +6154,12 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case platform = "Platform"
+            case messagesPerSecond = "MessagesPerSecond"
             case enabled = "Enabled"
             case creationDate = "CreationDate"
             case isArchived = "IsArchived"
-            case id = "Id"
             case fromAddress = "FromAddress"
+            case id = "Id"
             case hasCredential = "HasCredential"
             case version = "Version"
             case identity = "Identity"
@@ -5357,32 +6375,37 @@ extension Pinpoint {
 
     public struct MessageResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryStatus", required: false, type: .enum), 
             AWSShapeMember(label: "StatusCode", required: false, type: .integer), 
             AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
             AWSShapeMember(label: "UpdatedToken", required: false, type: .string), 
-            AWSShapeMember(label: "DeliveryStatus", required: false, type: .enum)
+            AWSShapeMember(label: "MessageId", required: false, type: .string)
         ]
+        /// Delivery status of message.
+        public let deliveryStatus: DeliveryStatus?
         /// Downstream service status code.
         public let statusCode: Int32?
         /// Status message for message delivery.
         public let statusMessage: String?
         /// If token was updated as part of delivery. (This is GCM Specific)
         public let updatedToken: String?
-        /// Delivery status of message.
-        public let deliveryStatus: DeliveryStatus?
+        /// Unique message identifier associated with the message that was sent.
+        public let messageId: String?
 
-        public init(statusCode: Int32? = nil, statusMessage: String? = nil, updatedToken: String? = nil, deliveryStatus: DeliveryStatus? = nil) {
+        public init(deliveryStatus: DeliveryStatus? = nil, statusCode: Int32? = nil, statusMessage: String? = nil, updatedToken: String? = nil, messageId: String? = nil) {
+            self.deliveryStatus = deliveryStatus
             self.statusCode = statusCode
             self.statusMessage = statusMessage
             self.updatedToken = updatedToken
-            self.deliveryStatus = deliveryStatus
+            self.messageId = messageId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deliveryStatus = "DeliveryStatus"
             case statusCode = "StatusCode"
             case statusMessage = "StatusMessage"
             case updatedToken = "UpdatedToken"
-            case deliveryStatus = "DeliveryStatus"
+            case messageId = "MessageId"
         }
     }
 
@@ -5604,8 +6627,13 @@ extension Pinpoint {
         public let iconReference: String?
         /// This parameter identifies a group of messages (e.g., with collapse_key: "Updates Available") that can be collapsed, so that only the last message gets sent when delivery can be resumed. This is intended to avoid sending too many of the same messages when the device comes back online or becomes active.
         public let collapseKey: String?
+        /// The data payload used for a silent push. This payload is added to the notifications' data.pinpoint.jsonBody' object
         public let data: [String: String]?
-        /// Is this a transaction priority message or lower priority.
+        /// The message priority. Amazon Pinpoint uses this value to set the FCM or GCM priority parameter when it sends the message. Accepts the following values:
+        /// "Normal" - Messages might be delayed. Delivery is optimized for battery usage on the receiving device. Use normal priority unless immediate delivery is required.
+        /// "High" - Messages are sent immediately and might wake a sleeping device.
+        /// The equivalent values for APNs messages are "5" and "10". Amazon Pinpoint accepts these values here and converts them.
+        /// For more information, see About FCM Messages in the Firebase documentation.
         public let priority: String?
         /// The message title that displays above the message on the user's device.
         public let title: String?
@@ -5623,12 +6651,13 @@ extension Pinpoint {
         public let rawContent: String?
         /// Indicates a sound to play when the device receives the notification. Supports default, or the filename of a sound resource bundled in the app. Android sound files must reside in /res/raw/
         public let sound: String?
-        /// This parameter specifies how long (in seconds) the message should be kept in GCM storage if the device is offline. The maximum time to live supported is 4 weeks, and the default value is 4 weeks.
+        /// The length of time (in seconds) that FCM or GCM stores and attempts to deliver the message. If unspecified, the value defaults to the maximum, which is 2,419,200 seconds (28 days). Amazon Pinpoint uses this value to set the FCM or GCM time_to_live parameter.
         public let timeToLive: Int32?
         /// The message body of the notification, the email body or the text message.
         public let body: String?
         /// The URL that points to an image used in the push notification.
         public let imageUrl: String?
+        /// Default message substitutions. Can be overridden by individual address substitutions.
         public let substitutions: [String: [String]]?
 
         public init(restrictedPackageName: String? = nil, iconReference: String? = nil, collapseKey: String? = nil, data: [String: String]? = nil, priority: String? = nil, title: String? = nil, imageIconUrl: String? = nil, silentPush: Bool? = nil, smallImageIconUrl: String? = nil, action: Action? = nil, url: String? = nil, rawContent: String? = nil, sound: String? = nil, timeToLive: Int32? = nil, body: String? = nil, imageUrl: String? = nil, substitutions: [String: [String]]? = nil) {
@@ -5695,11 +6724,11 @@ extension Pinpoint {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "ApplicationId", required: false, type: .string)
         ]
-        /// A map containing of UserId to Map of EndpointId to Endpoint Message Result.
+        /// An object that shows the endpoints that were messaged for each user. The object provides a list of user IDs. For each user ID, it provides the endpoint IDs that were messaged. For each endpoint ID, it provides an EndpointMessageResult object.
         public let result: [String: [String: EndpointMessageResult]]?
-        /// Original request Id for which this message was delivered.
+        /// The unique ID assigned to the users-messages request.
         public let requestId: String?
-        /// Application id of the message.
+        /// The unique ID of the Amazon Pinpoint project used to send the message.
         public let applicationId: String?
 
         public init(result: [String: [String: EndpointMessageResult]]? = nil, requestId: String? = nil, applicationId: String? = nil) {
@@ -5732,22 +6761,82 @@ extension Pinpoint {
 
     public struct WriteSegmentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SegmentGroups", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Dimensions", required: false, type: .structure)
         ]
+        /// Segment definition groups. We currently only support one. If specified Dimensions must be empty.
+        public let segmentGroups: SegmentGroupList?
         /// The name of segment
         public let name: String?
         /// The segment dimensions attributes.
         public let dimensions: SegmentDimensions?
 
-        public init(name: String? = nil, dimensions: SegmentDimensions? = nil) {
+        public init(segmentGroups: SegmentGroupList? = nil, name: String? = nil, dimensions: SegmentDimensions? = nil) {
+            self.segmentGroups = segmentGroups
             self.name = name
             self.dimensions = dimensions
         }
 
         private enum CodingKeys: String, CodingKey {
+            case segmentGroups = "SegmentGroups"
             case name = "Name"
             case dimensions = "Dimensions"
+        }
+    }
+
+    public struct CreateExportJobRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "ExportJobRequest"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExportJobRequest", required: true, type: .structure), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        ]
+        public let exportJobRequest: ExportJobRequest
+        public let applicationId: String
+
+        public init(exportJobRequest: ExportJobRequest, applicationId: String) {
+            self.exportJobRequest = exportJobRequest
+            self.applicationId = applicationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportJobRequest = "ExportJobRequest"
+            case applicationId = "application-id"
+        }
+    }
+
+    public struct GetUserEndpointsResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "EndpointsResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointsResponse", required: true, type: .structure)
+        ]
+        public let endpointsResponse: EndpointsResponse
+
+        public init(endpointsResponse: EndpointsResponse) {
+            self.endpointsResponse = endpointsResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointsResponse = "EndpointsResponse"
+        }
+    }
+
+    public struct RemoveAttributesResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "AttributesResource"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributesResource", required: true, type: .structure)
+        ]
+        public let attributesResource: AttributesResource
+
+        public init(attributesResource: AttributesResource) {
+            self.attributesResource = attributesResource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributesResource = "AttributesResource"
         }
     }
 

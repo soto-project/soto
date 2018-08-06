@@ -19,6 +19,7 @@ public struct Elasticache {
             serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2015-02-02",
             endpoint: endpoint,
+            serviceEndpoints: ["fips": "elasticache-fips.us-west-1.amazonaws.com"],
             middlewares: [],
             possibleErrorTypes: [ElasticacheError.self]
         )

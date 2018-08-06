@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-Auto Scaling Auto Scaling is designed to automatically launch or terminate EC2 instances based on user-defined policies, schedules, and health checks. Use this service in conjunction with the Amazon CloudWatch and Elastic Load Balancing services.
+Amazon EC2 Auto Scaling Amazon EC2 Auto Scaling is designed to automatically launch or terminate EC2 instances based on user-defined policies, schedules, and health checks. Use this service in conjunction with the AWS Auto Scaling, Amazon CloudWatch, and Elastic Load Balancing services.
 */
 public struct Autoscaling {
 
@@ -24,9 +24,9 @@ public struct Autoscaling {
         )
     }
 
-    ///  Describes the notification actions associated with the specified Auto Scaling group.
-    public func describeNotificationConfigurations(_ input: DescribeNotificationConfigurationsType) throws -> DescribeNotificationConfigurationsAnswer {
-        return try client.send(operation: "DescribeNotificationConfigurations", path: "/", httpMethod: "POST", input: input)
+    ///  Describes the scaling process types for use with ResumeProcesses and SuspendProcesses.
+    public func describeScalingProcessTypes() throws -> ProcessesType {
+        return try client.send(operation: "DescribeScalingProcessTypes", path: "/", httpMethod: "POST")
     }
 
     ///  Configures an Auto Scaling group to send notifications when specified events take place. Subscribers to the specified topic can have messages delivered to an endpoint such as a web server or an email address. This configuration overwrites any existing configuration. For more information see Getting SNS Notifications When Your Auto Scaling Group Scales in the Auto Scaling User Guide.
@@ -39,7 +39,7 @@ public struct Autoscaling {
         return try client.send(operation: "DescribeLoadBalancers", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an Auto Scaling group with the specified name and attributes. If you exceed your maximum limit of Auto Scaling groups, which by default is 20 per region, the call fails. For information about viewing and updating this limit, see DescribeAccountLimits. For more information, see Auto Scaling Groups in the Auto Scaling User Guide.
+    ///  Creates an Auto Scaling group with the specified name and attributes. If you exceed your maximum limit of Auto Scaling groups, the call fails. For information about viewing this limit, see DescribeAccountLimits. For information about updating this limit, see Auto Scaling Limits in the Auto Scaling User Guide. For more information, see Auto Scaling Groups in the Auto Scaling User Guide.
     public func createAutoScalingGroup(_ input: CreateAutoScalingGroupType) throws {
         _ = try client.send(operation: "CreateAutoScalingGroup", path: "/", httpMethod: "POST", input: input)
     }
@@ -174,12 +174,12 @@ public struct Autoscaling {
         return try client.send(operation: "DescribeAutoScalingNotificationTypes", path: "/", httpMethod: "POST")
     }
 
-    ///  Creates a launch configuration. If you exceed your maximum limit of launch configurations, which by default is 100 per region, the call fails. For information about viewing and updating this limit, see DescribeAccountLimits. For more information, see Launch Configurations in the Auto Scaling User Guide.
+    ///  Creates a launch configuration. If you exceed your maximum limit of launch configurations, the call fails. For information about viewing this limit, see DescribeAccountLimits. For information about updating this limit, see Auto Scaling Limits in the Auto Scaling User Guide. For more information, see Launch Configurations in the Auto Scaling User Guide.
     public func createLaunchConfiguration(_ input: CreateLaunchConfigurationType) throws {
         _ = try client.send(operation: "CreateLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the current Auto Scaling resource limits for your AWS account. For information about requesting an increase in these limits, see AWS Service Limits in the Amazon Web Services General Reference.
+    ///  Describes the current Auto Scaling resource limits for your AWS account. For information about requesting an increase in these limits, see Auto Scaling Limits in the Auto Scaling User Guide.
     public func describeAccountLimits() throws -> DescribeAccountLimitsAnswer {
         return try client.send(operation: "DescribeAccountLimits", path: "/", httpMethod: "POST")
     }
@@ -279,9 +279,9 @@ public struct Autoscaling {
         return try client.send(operation: "RecordLifecycleActionHeartbeat", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the scaling process types for use with ResumeProcesses and SuspendProcesses.
-    public func describeScalingProcessTypes() throws -> ProcessesType {
-        return try client.send(operation: "DescribeScalingProcessTypes", path: "/", httpMethod: "POST")
+    ///  Describes the notification actions associated with the specified Auto Scaling group.
+    public func describeNotificationConfigurations(_ input: DescribeNotificationConfigurationsType) throws -> DescribeNotificationConfigurationsAnswer {
+        return try client.send(operation: "DescribeNotificationConfigurations", path: "/", httpMethod: "POST", input: input)
     }
 
 

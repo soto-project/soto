@@ -126,7 +126,7 @@ extension Route53 {
             AWSShapeMember(label: "Type", location: .uri(locationName: "Type"), required: true, type: .enum), 
             AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
-        /// The limit that you want to get. Valid values include the following:    MAX_RRSETS_BY_ZONE: The maximum number of records that you can create in the specified hosted zone.    MAX_VPCS_ASSOCIATED_BY_TYPE: The maximum number of Amazon VPCs that you can associate with the specified private hosted zone.  
+        /// The limit that you want to get. Valid values include the following:    MAX_RRSETS_BY_ZONE: The maximum number of records that you can create in the specified hosted zone.    MAX_VPCS_ASSOCIATED_BY_ZONE: The maximum number of Amazon VPCs that you can associate with the specified private hosted zone.  
         public let `type`: HostedZoneLimitType
         /// The ID of the hosted zone that you want to get a limit for.
         public let hostedZoneId: String
@@ -406,7 +406,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
         ]
-        /// The ID for the health check for which you want the last failure reason. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.
+        /// The ID for the health check for which you want the last failure reason. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.  If you want to get the last failure reason for a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckLastFailureReason for a calculated health check. 
         public let healthCheckId: String
 
         public init(healthCheckId: String) {
@@ -560,12 +560,14 @@ extension Route53 {
         case usWest2 = "us-west-2"
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
+        case euWest3 = "eu-west-3"
         case euCentral1 = "eu-central-1"
         case apSoutheast1 = "ap-southeast-1"
         case apSoutheast2 = "ap-southeast-2"
         case apSouth1 = "ap-south-1"
         case apNortheast1 = "ap-northeast-1"
         case apNortheast2 = "ap-northeast-2"
+        case apNortheast3 = "ap-northeast-3"
         case saEast1 = "sa-east-1"
         case caCentral1 = "ca-central-1"
         case cnNorth1 = "cn-north-1"
@@ -2785,10 +2787,10 @@ extension Route53 {
 
     public struct HealthCheckConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IPAddress", required: false, type: .string), 
-            AWSShapeMember(label: "ChildHealthChecks", required: false, type: .structure), 
             AWSShapeMember(label: "MeasureLatency", required: false, type: .boolean), 
             AWSShapeMember(label: "ResourcePath", required: false, type: .string), 
+            AWSShapeMember(label: "ChildHealthChecks", required: false, type: .structure), 
+            AWSShapeMember(label: "IPAddress", required: false, type: .string), 
             AWSShapeMember(label: "InsufficientDataHealthStatus", required: false, type: .enum), 
             AWSShapeMember(label: "Inverted", required: false, type: .boolean), 
             AWSShapeMember(label: "AlarmIdentifier", required: false, type: .structure), 
@@ -2802,14 +2804,14 @@ extension Route53 {
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "FailureThreshold", required: false, type: .integer)
         ]
-        /// The IPv4 or IPv6 IP address of the endpoint that you want Amazon Route 53 to perform health checks on. If you don't specify a value for IPAddress, Amazon Route 53 sends a DNS request to resolve the domain name that you specify in FullyQualifiedDomainName at the interval that you specify in RequestInterval. Using an IP address returned by DNS, Amazon Route 53 then checks the health of the endpoint. Use one of the following formats for the value of IPAddress:     IPv4 address: four values between 0 and 255, separated by periods (.), for example, 192.0.2.44.    IPv6 address: eight groups of four hexadecimal values, separated by colons (:), for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345. You can also shorten IPv6 addresses as described in RFC 5952, for example, 2001:db8:85a3::abcd:1:2345.   If the endpoint is an EC2 instance, we recommend that you create an Elastic IP address, associate it with your EC2 instance, and specify the Elastic IP address for IPAddress. This ensures that the IP address of your instance will never change. For more information, see HealthCheckConfig$FullyQualifiedDomainName. Constraints: Amazon Route 53 can't check the health of endpoints for which the IP address is in local, private, non-routable, or multicast ranges. For more information about IP addresses for which you can't create health checks, see the following documents:    RFC 5735, Special Use IPv4 Addresses     RFC 6598, IANA-Reserved IPv4 Prefix for Shared Address Space     RFC 5156, Special-Use IPv6 Addresses    When the value of Type is CALCULATED or CLOUDWATCH_METRIC, omit IPAddress.
-        public let iPAddress: String?
-        /// (CALCULATED Health Checks Only) A complex type that contains one ChildHealthCheck element for each health check that you want to associate with a CALCULATED health check.
-        public let childHealthChecks: ChildHealthCheckList?
         /// Specify whether you want Amazon Route 53 to measure the latency between health checkers in multiple AWS regions and your endpoint, and to display CloudWatch latency graphs on the Health Checks page in the Amazon Route 53 console.  You can't change the value of MeasureLatency after you create a health check. 
         public let measureLatency: Bool?
         /// The path, if any, that you want Amazon Route 53 to request when performing health checks. The path can be any value for which your endpoint will return an HTTP status code of 2xx or 3xx when the endpoint is healthy, for example, the file /docs/route53-health-check.html. 
         public let resourcePath: String?
+        /// (CALCULATED Health Checks Only) A complex type that contains one ChildHealthCheck element for each health check that you want to associate with a CALCULATED health check.
+        public let childHealthChecks: ChildHealthCheckList?
+        /// The IPv4 or IPv6 IP address of the endpoint that you want Amazon Route 53 to perform health checks on. If you don't specify a value for IPAddress, Amazon Route 53 sends a DNS request to resolve the domain name that you specify in FullyQualifiedDomainName at the interval that you specify in RequestInterval. Using an IP address returned by DNS, Amazon Route 53 then checks the health of the endpoint. Use one of the following formats for the value of IPAddress:     IPv4 address: four values between 0 and 255, separated by periods (.), for example, 192.0.2.44.    IPv6 address: eight groups of four hexadecimal values, separated by colons (:), for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345. You can also shorten IPv6 addresses as described in RFC 5952, for example, 2001:db8:85a3::abcd:1:2345.   If the endpoint is an EC2 instance, we recommend that you create an Elastic IP address, associate it with your EC2 instance, and specify the Elastic IP address for IPAddress. This ensures that the IP address of your instance will never change. For more information, see HealthCheckConfig$FullyQualifiedDomainName. Constraints: Amazon Route 53 can't check the health of endpoints for which the IP address is in local, private, non-routable, or multicast ranges. For more information about IP addresses for which you can't create health checks, see the following documents:    RFC 5735, Special Use IPv4 Addresses     RFC 6598, IANA-Reserved IPv4 Prefix for Shared Address Space     RFC 5156, Special-Use IPv6 Addresses    When the value of Type is CALCULATED or CLOUDWATCH_METRIC, omit IPAddress.
+        public let iPAddress: String?
         /// When CloudWatch has insufficient data about the metric to determine the alarm state, the status that you want Amazon Route 53 to assign to the health check:    Healthy: Amazon Route 53 considers the health check to be healthy.    Unhealthy: Amazon Route 53 considers the health check to be unhealthy.    LastKnownStatus: Amazon Route 53 uses the status of the health check from the last time that CloudWatch had sufficient data to determine the alarm state. For new health checks that have no last known status, the default status for the health check is healthy.  
         public let insufficientDataHealthStatus: InsufficientDataHealthStatus?
         /// Specify whether you want Amazon Route 53 to invert the status of a health check, for example, to consider a health check unhealthy when it otherwise would be considered healthy.
@@ -2835,11 +2837,11 @@ extension Route53 {
         /// The number of consecutive health checks that an endpoint must pass or fail for Amazon Route 53 to change the current status of the endpoint from unhealthy to healthy or vice versa. For more information, see How Amazon Route 53 Determines Whether an Endpoint Is Healthy in the Amazon Route 53 Developer Guide. If you don't specify a value for FailureThreshold, the default value is three health checks.
         public let failureThreshold: Int32?
 
-        public init(iPAddress: String? = nil, childHealthChecks: ChildHealthCheckList? = nil, measureLatency: Bool? = nil, resourcePath: String? = nil, insufficientDataHealthStatus: InsufficientDataHealthStatus? = nil, inverted: Bool? = nil, alarmIdentifier: AlarmIdentifier? = nil, regions: HealthCheckRegionList? = nil, healthThreshold: Int32? = nil, searchString: String? = nil, fullyQualifiedDomainName: String? = nil, requestInterval: Int32? = nil, type: HealthCheckType, enableSNI: Bool? = nil, port: Int32? = nil, failureThreshold: Int32? = nil) {
-            self.iPAddress = iPAddress
-            self.childHealthChecks = childHealthChecks
+        public init(measureLatency: Bool? = nil, resourcePath: String? = nil, childHealthChecks: ChildHealthCheckList? = nil, iPAddress: String? = nil, insufficientDataHealthStatus: InsufficientDataHealthStatus? = nil, inverted: Bool? = nil, alarmIdentifier: AlarmIdentifier? = nil, regions: HealthCheckRegionList? = nil, healthThreshold: Int32? = nil, searchString: String? = nil, fullyQualifiedDomainName: String? = nil, requestInterval: Int32? = nil, type: HealthCheckType, enableSNI: Bool? = nil, port: Int32? = nil, failureThreshold: Int32? = nil) {
             self.measureLatency = measureLatency
             self.resourcePath = resourcePath
+            self.childHealthChecks = childHealthChecks
+            self.iPAddress = iPAddress
             self.insufficientDataHealthStatus = insufficientDataHealthStatus
             self.inverted = inverted
             self.alarmIdentifier = alarmIdentifier
@@ -2855,10 +2857,10 @@ extension Route53 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iPAddress = "IPAddress"
-            case childHealthChecks = "ChildHealthChecks"
             case measureLatency = "MeasureLatency"
             case resourcePath = "ResourcePath"
+            case childHealthChecks = "ChildHealthChecks"
+            case iPAddress = "IPAddress"
             case insufficientDataHealthStatus = "InsufficientDataHealthStatus"
             case inverted = "Inverted"
             case alarmIdentifier = "AlarmIdentifier"
@@ -3509,7 +3511,7 @@ extension Route53 {
             AWSShapeMember(label: "Type", required: true, type: .enum), 
             AWSShapeMember(label: "Value", required: true, type: .long)
         ]
-        /// The limit that you requested. Valid values include the following:    MAX_RRSETS_BY_ZONE: The maximum number of records that you can create in the specified hosted zone.    MAX_VPCS_ASSOCIATED_BY_TYPE: The maximum number of Amazon VPCs that you can associate with the specified private hosted zone.  
+        /// The limit that you requested. Valid values include the following:    MAX_RRSETS_BY_ZONE: The maximum number of records that you can create in the specified hosted zone.    MAX_VPCS_ASSOCIATED_BY_ZONE: The maximum number of Amazon VPCs that you can associate with the specified private hosted zone.  
         public let `type`: HostedZoneLimitType
         /// The current value for the limit that is specified by Type.
         public let value: Int64
@@ -3750,13 +3752,16 @@ extension Route53 {
         case caCentral1 = "ca-central-1"
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
+        case euWest3 = "eu-west-3"
         case euCentral1 = "eu-central-1"
         case apSoutheast1 = "ap-southeast-1"
         case apSoutheast2 = "ap-southeast-2"
         case apNortheast1 = "ap-northeast-1"
         case apNortheast2 = "ap-northeast-2"
+        case apNortheast3 = "ap-northeast-3"
         case saEast1 = "sa-east-1"
         case cnNorth1 = "cn-north-1"
+        case cnNorthwest1 = "cn-northwest-1"
         case apSouth1 = "ap-south-1"
         public var description: String { return self.rawValue }
     }
@@ -3922,11 +3927,13 @@ extension Route53 {
         case euCentral1 = "eu-central-1"
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
+        case euWest3 = "eu-west-3"
         case apSouth1 = "ap-south-1"
         case apSoutheast1 = "ap-southeast-1"
         case apSoutheast2 = "ap-southeast-2"
         case apNortheast1 = "ap-northeast-1"
         case apNortheast2 = "ap-northeast-2"
+        case apNortheast3 = "ap-northeast-3"
         case saEast1 = "sa-east-1"
         public var description: String { return self.rawValue }
     }

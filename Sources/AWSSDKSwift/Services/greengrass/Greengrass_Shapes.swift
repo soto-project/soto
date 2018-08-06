@@ -13,15 +13,15 @@ extension Greengrass {
             AWSShapeMember(label: "Definition", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// Version of the resource definition version.
+        /// The version of the resource definition version.
         public let version: String?
         /// Arn of the resource definition version.
         public let arn: String?
-        /// Timestamp of when the resource definition version was created.
+        /// The time, in milliseconds since the epoch, when the resource definition version was created.
         public let creationTimestamp: String?
-        /// Information on definition.
+        /// Information about the definition.
         public let definition: ResourceDefinitionVersion?
-        /// Id of the resource definition the version belongs to.
+        /// The ID of the resource definition version.
         public let id: String?
 
         public init(version: String? = nil, arn: String? = nil, creationTimestamp: String? = nil, definition: ResourceDefinitionVersion? = nil, id: String? = nil) {
@@ -91,15 +91,15 @@ extension Greengrass {
             AWSShapeMember(label: "Definition", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// Unique Id for a version of the Group.
+        /// The unique ID for the version of the group.
         public let version: String?
-        /// Arn of the group version.
+        /// The ARN of the group version.
         public let arn: String?
-        /// Timestamp when the group version was created.
+        /// The time, in milliseconds since the epoch, when the group version was created.
         public let creationTimestamp: String?
-        /// Information on the definition
+        /// Information about the group version definition.
         public let definition: GroupVersion?
-        /// Id of the group version.
+        /// The ID of the group version.
         public let id: String?
 
         public init(version: String? = nil, arn: String? = nil, creationTimestamp: String? = nil, definition: GroupVersion? = nil, id: String? = nil) {
@@ -125,11 +125,11 @@ extension Greengrass {
             AWSShapeMember(label: "CertificateAuthorityExpiryInMilliseconds", required: false, type: .string), 
             AWSShapeMember(label: "GroupId", required: false, type: .string)
         ]
-        /// Amount of time when the certificate expires in milliseconds.
+        /// The amount of time remaining before the certificate expires, in milliseconds.
         public let certificateExpiryInMilliseconds: String?
-        /// Amount of time when the certificate authority expires in milliseconds.
+        /// The amount of time remaining before the certificate authority expires, in milliseconds.
         public let certificateAuthorityExpiryInMilliseconds: String?
-        /// Id of the group the certificate configuration belongs to.
+        /// The ID of the group certificate configuration.
         public let groupId: String?
 
         public init(certificateExpiryInMilliseconds: String? = nil, certificateAuthorityExpiryInMilliseconds: String? = nil, groupId: String? = nil) {
@@ -202,13 +202,13 @@ extension Greengrass {
             AWSShapeMember(label: "Source", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// Subject of the message.
+        /// The subject of the message.
         public let subject: String?
-        /// Where the message is sent to. Can be a thing arn, lambda arn or word 'cloud'.
+        /// Where the message is sent to. Can be a thing ARN, a Lambda function ARN, 'cloud' (which represents the IoT cloud), or 'GGShadowService'.
         public let target: String?
-        /// Source of the subscription. Can be a thing arn, lambda arn or word 'cloud'
+        /// The source of the subscription. Can be a thing ARN, a Lambda function ARN, 'cloud' (which represents the IoT cloud), or 'GGShadowService'.
         public let source: String?
-        /// Element Id for this entry in the list.
+        /// The id of the subscription.
         public let id: String?
 
         public init(subject: String? = nil, target: String? = nil, source: String? = nil, id: String? = nil) {
@@ -408,22 +408,32 @@ extension Greengrass {
 
     public struct ResourceDataContainer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalVolumeResourceData", required: false, type: .structure), 
-            AWSShapeMember(label: "LocalDeviceResourceData", required: false, type: .structure)
+            AWSShapeMember(label: "S3MachineLearningModelResourceData", required: false, type: .structure), 
+            AWSShapeMember(label: "SageMakerMachineLearningModelResourceData", required: false, type: .structure), 
+            AWSShapeMember(label: "LocalDeviceResourceData", required: false, type: .structure), 
+            AWSShapeMember(label: "LocalVolumeResourceData", required: false, type: .structure)
         ]
-        /// Attributes that define the Local Volume Resource.
-        public let localVolumeResourceData: LocalVolumeResourceData?
-        /// Attributes that define the Local Device Resource.
+        /// Attributes that define an S3 machine learning resource.
+        public let s3MachineLearningModelResourceData: S3MachineLearningModelResourceData?
+        /// Attributes that define an SageMaker machine learning resource.
+        public let sageMakerMachineLearningModelResourceData: SageMakerMachineLearningModelResourceData?
+        /// Attributes that define the local device resource.
         public let localDeviceResourceData: LocalDeviceResourceData?
+        /// Attributes that define the local volume resource.
+        public let localVolumeResourceData: LocalVolumeResourceData?
 
-        public init(localVolumeResourceData: LocalVolumeResourceData? = nil, localDeviceResourceData: LocalDeviceResourceData? = nil) {
-            self.localVolumeResourceData = localVolumeResourceData
+        public init(s3MachineLearningModelResourceData: S3MachineLearningModelResourceData? = nil, sageMakerMachineLearningModelResourceData: SageMakerMachineLearningModelResourceData? = nil, localDeviceResourceData: LocalDeviceResourceData? = nil, localVolumeResourceData: LocalVolumeResourceData? = nil) {
+            self.s3MachineLearningModelResourceData = s3MachineLearningModelResourceData
+            self.sageMakerMachineLearningModelResourceData = sageMakerMachineLearningModelResourceData
             self.localDeviceResourceData = localDeviceResourceData
+            self.localVolumeResourceData = localVolumeResourceData
         }
 
         private enum CodingKeys: String, CodingKey {
-            case localVolumeResourceData = "LocalVolumeResourceData"
+            case s3MachineLearningModelResourceData = "S3MachineLearningModelResourceData"
+            case sageMakerMachineLearningModelResourceData = "SageMakerMachineLearningModelResourceData"
             case localDeviceResourceData = "LocalDeviceResourceData"
+            case localVolumeResourceData = "LocalVolumeResourceData"
         }
     }
 
@@ -447,7 +457,7 @@ extension Greengrass {
             AWSShapeMember(label: "Deployments", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// List of deployments for the requested groups
+        /// A list of deployments for the requested groups.
         public let deployments: [Deployment]?
         /// The token for the next set of results, or ''null'' if there are no additional results.
         public let nextToken: String?
@@ -506,7 +516,7 @@ extension Greengrass {
             AWSShapeMember(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
             AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
-        /// Amount of time when the certificate expires in milliseconds.
+        /// The amount of time remaining before the certificate expires, in milliseconds.
         public let certificateExpiryInMilliseconds: String?
         public let groupId: String
 
@@ -631,7 +641,7 @@ extension Greengrass {
         ]
         /// The token for the next set of results, or ''null'' if there are no additional results.
         public let nextToken: String?
-        /// Groups
+        /// Information about a group.
         public let groups: [GroupInformation]?
 
         public init(nextToken: String? = nil, groups: [GroupInformation]? = nil) {
@@ -649,7 +659,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupCertificateAuthorityArn", required: false, type: .string)
         ]
-        /// Arn of the group certificate authority.
+        /// The ARN of the group certificate authority.
         public let groupCertificateAuthorityArn: String?
 
         public init(groupCertificateAuthorityArn: String? = nil) {
@@ -685,17 +695,17 @@ extension Greengrass {
             AWSShapeMember(label: "FunctionDefinitionVersionArn", required: false, type: .string), 
             AWSShapeMember(label: "ResourceDefinitionVersionArn", required: false, type: .string)
         ]
-        /// Subscription definition version arn for this group.
+        /// The ARN of the subscription definition version for this group.
         public let subscriptionDefinitionVersionArn: String?
-        /// Device definition version arn for this group.
+        /// The ARN of the device definition version for this group.
         public let deviceDefinitionVersionArn: String?
-        /// Core definition version arn for this group.
+        /// The ARN of the core definition version for this group.
         public let coreDefinitionVersionArn: String?
-        /// Logger definition version arn for this group.
+        /// The ARN of the logger definition version for this group.
         public let loggerDefinitionVersionArn: String?
-        /// Function definition version arn for this group.
+        /// The ARN of the function definition version for this group.
         public let functionDefinitionVersionArn: String?
-        /// Resource definition version arn for this group.
+        /// The resource definition version ARN for this group.
         public let resourceDefinitionVersionArn: String?
 
         public init(subscriptionDefinitionVersionArn: String? = nil, deviceDefinitionVersionArn: String? = nil, coreDefinitionVersionArn: String? = nil, loggerDefinitionVersionArn: String? = nil, functionDefinitionVersionArn: String? = nil, resourceDefinitionVersionArn: String? = nil) {
@@ -721,7 +731,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupCertificateAuthorities", required: false, type: .list)
         ]
-        /// List of certificate authorities associated with the group.
+        /// A list of certificate authorities associated with the group.
         public let groupCertificateAuthorities: [GroupCertificateAuthorityProperties]?
 
         public init(groupCertificateAuthorities: [GroupCertificateAuthorityProperties]? = nil) {
@@ -756,9 +766,9 @@ extension Greengrass {
         ]
         /// A container of data for all resource types.
         public let resourceDataContainer: ResourceDataContainer?
-        /// A descriptive resource name.
+        /// The descriptive resource name, which is displayed on the Greengrass console. Max length 128 characters with pattern ''[a-zA-Z0-9:_-]+''. This must be unique within a Greengrass group.
         public let name: String?
-        /// Resource Id.
+        /// The resource ID, used to refer to a resource in the Lambda function configuration. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''. This must be unique within a Greengrass group.
         public let id: String?
 
         public init(resourceDataContainer: ResourceDataContainer? = nil, name: String? = nil, id: String? = nil) {
@@ -844,9 +854,9 @@ extension Greengrass {
             AWSShapeMember(label: "DetailedErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "DetailedErrorCode", required: false, type: .string)
         ]
-        /// Detailed Error Message
+        /// A detailed error message.
         public let detailedErrorMessage: String?
-        /// Detailed Error Code
+        /// A detailed error code.
         public let detailedErrorCode: String?
 
         public init(detailedErrorMessage: String? = nil, detailedErrorCode: String? = nil) {
@@ -883,7 +893,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DisassociatedAt", required: false, type: .string)
         ]
-        /// Time when the role was disassociated from the group.
+        /// The time, in milliseconds since the epoch, when the role was disassociated from the group.
         public let disassociatedAt: String?
 
         public init(disassociatedAt: String? = nil) {
@@ -903,15 +913,15 @@ extension Greengrass {
             AWSShapeMember(label: "Definition", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// Version of the function definition version.
+        /// The version of the function definition version.
         public let version: String?
-        /// Arn of the function definition version.
+        /// The ARN of the function definition version.
         public let arn: String?
-        /// Timestamp when the funtion definition version was created.
+        /// The time, in milliseconds since the epoch, when the function definition version was created.
         public let creationTimestamp: String?
         /// Information on the definition.
         public let definition: FunctionDefinitionVersion?
-        /// Id of the function definition the version belongs to.
+        /// The ID of the function definition version.
         public let id: String?
 
         public init(version: String? = nil, arn: String? = nil, creationTimestamp: String? = nil, definition: FunctionDefinitionVersion? = nil, id: String? = nil) {
@@ -936,7 +946,7 @@ extension Greengrass {
             AWSShapeMember(label: "ConnectivityInfo", required: false, type: .list), 
             AWSShapeMember(label: "ThingName", location: .uri(locationName: "ThingName"), required: true, type: .string)
         ]
-        /// Connectivity info list
+        /// A list of connectivity info.
         public let connectivityInfo: [ConnectivityInfo]?
         public let thingName: String
 
@@ -955,7 +965,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Resources", required: false, type: .list)
         ]
-        /// List of resources.
+        /// A list of resources.
         public let resources: [Resource]?
 
         public init(resources: [Resource]? = nil) {
@@ -1021,25 +1031,6 @@ extension Greengrass {
         }
     }
 
-    public struct ListLoggerDefinitionVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Versions", required: false, type: .list)
-        ]
-        public let nextToken: String?
-        public let versions: [VersionInformation]?
-
-        public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
-            self.nextToken = nextToken
-            self.versions = versions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case versions = "Versions"
-        }
-    }
-
     public struct UpdateLoggerDefinitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string), 
@@ -1059,18 +1050,22 @@ extension Greengrass {
         }
     }
 
-    public struct GetResourceDefinitionRequest: AWSShape {
+    public struct ListLoggerDefinitionVersionsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
-        public let resourceDefinitionId: String
+        public let nextToken: String?
+        public let versions: [VersionInformation]?
 
-        public init(resourceDefinitionId: String) {
-            self.resourceDefinitionId = resourceDefinitionId
+        public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
+            self.nextToken = nextToken
+            self.versions = versions
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceDefinitionId = "ResourceDefinitionId"
+            case nextToken = "NextToken"
+            case versions = "Versions"
         }
     }
 
@@ -1081,13 +1076,13 @@ extension Greengrass {
             AWSShapeMember(label: "ThingArn", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// If true, the local shadow value automatically syncs with the cloud's shadow state.
+        /// If true, the core's local shadow is automatically synced with the cloud.
         public let syncShadow: Bool?
-        /// Certificate arn of the core.
+        /// The ARN of the certificate associated with the core.
         public let certificateArn: String?
-        /// Thing arn of the core.
+        /// The ARN of the thing which is the core.
         public let thingArn: String?
-        /// Element Id for this entry in the list.
+        /// The ID of the core.
         public let id: String?
 
         public init(syncShadow: Bool? = nil, certificateArn: String? = nil, thingArn: String? = nil, id: String? = nil) {
@@ -1102,6 +1097,21 @@ extension Greengrass {
             case certificateArn = "CertificateArn"
             case thingArn = "ThingArn"
             case id = "Id"
+        }
+    }
+
+    public struct GetResourceDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string)
+        ]
+        public let resourceDefinitionId: String
+
+        public init(resourceDefinitionId: String) {
+            self.resourceDefinitionId = resourceDefinitionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceDefinitionId = "ResourceDefinitionId"
         }
     }
 
@@ -1236,42 +1246,47 @@ extension Greengrass {
 
     public struct FunctionConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Environment", required: false, type: .structure), 
             AWSShapeMember(label: "Executable", required: false, type: .string), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
             AWSShapeMember(label: "MemorySize", required: false, type: .integer), 
             AWSShapeMember(label: "ExecArgs", required: false, type: .string), 
-            AWSShapeMember(label: "Pinned", required: false, type: .boolean)
+            AWSShapeMember(label: "Pinned", required: false, type: .boolean), 
+            AWSShapeMember(label: "Environment", required: false, type: .structure), 
+            AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
+            AWSShapeMember(label: "Timeout", required: false, type: .integer)
         ]
-        /// Environment of the function configuration
-        public let environment: FunctionConfigurationEnvironment?
-        /// Executable
+        /// The name of the function executable.
         public let executable: String?
-        /// The function execution time at which Lambda should terminate the function. This timeout still applies to pinned lambdas for each request.
-        public let timeout: Int32?
-        /// The memory size, in KB, you configured for the function.
+        /// The memory size, in KB, which the function requires.
         public let memorySize: Int32?
-        /// Execution Arguments
+        /// The execution arguments.
         public let execArgs: String?
-        /// Whether the function is pinned or not. Pinned means the function is long-lived and starts when the core starts.
+        /// True if the function is pinned. Pinned means the function is long-lived and starts when the core starts.
         public let pinned: Bool?
+        /// The environment configuration of the function.
+        public let environment: FunctionConfigurationEnvironment?
+        /// The expected encoding type of the input payload for the function. The default is ''json''.
+        public let encodingType: EncodingType?
+        /// The allowed function execution time, after which Lambda should terminate the function. This timeout still applies to pinned lambdas for each request.
+        public let timeout: Int32?
 
-        public init(environment: FunctionConfigurationEnvironment? = nil, executable: String? = nil, timeout: Int32? = nil, memorySize: Int32? = nil, execArgs: String? = nil, pinned: Bool? = nil) {
-            self.environment = environment
+        public init(executable: String? = nil, memorySize: Int32? = nil, execArgs: String? = nil, pinned: Bool? = nil, environment: FunctionConfigurationEnvironment? = nil, encodingType: EncodingType? = nil, timeout: Int32? = nil) {
             self.executable = executable
-            self.timeout = timeout
             self.memorySize = memorySize
             self.execArgs = execArgs
             self.pinned = pinned
+            self.environment = environment
+            self.encodingType = encodingType
+            self.timeout = timeout
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environment = "Environment"
             case executable = "Executable"
-            case timeout = "Timeout"
             case memorySize = "MemorySize"
             case execArgs = "ExecArgs"
             case pinned = "Pinned"
+            case environment = "Environment"
+            case encodingType = "EncodingType"
+            case timeout = "Timeout"
         }
     }
 
@@ -1355,7 +1370,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssociatedAt", required: false, type: .string)
         ]
-        /// Time when the service role was associated to the account.
+        /// The time when the service role was associated with the account.
         public let associatedAt: String?
 
         public init(associatedAt: String? = nil) {
@@ -1422,9 +1437,9 @@ extension Greengrass {
             AWSShapeMember(label: "AutoAddGroupOwner", required: false, type: .boolean), 
             AWSShapeMember(label: "GroupOwner", required: false, type: .string)
         ]
-        /// Eanble the auto added group owner.
+        /// If true, GreenGrass automatically adds the specified Linux OS group owner of the resource to the Lambda process privileges. Thus the Lambda process will have the file access permissions of the added Linux group.
         public let autoAddGroupOwner: Bool?
-        /// Name of the group owner.
+        /// The name of the Linux OS group whose privileges will be added to the Lambda process. This field is optional.
         public let groupOwner: String?
 
         public init(autoAddGroupOwner: Bool? = nil, groupOwner: String? = nil) {
@@ -1450,6 +1465,27 @@ extension Greengrass {
 
         private enum CodingKeys: String, CodingKey {
             case thingName = "ThingName"
+        }
+    }
+
+    public struct SageMakerMachineLearningModelResourceData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SageMakerJobArn", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationPath", required: false, type: .string)
+        ]
+        /// The ARN of the SageMaker training job that represents the source model.
+        public let sageMakerJobArn: String?
+        /// The absolute local path of the resource inside the Lambda environment.
+        public let destinationPath: String?
+
+        public init(sageMakerJobArn: String? = nil, destinationPath: String? = nil) {
+            self.sageMakerJobArn = sageMakerJobArn
+            self.destinationPath = destinationPath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sageMakerJobArn = "SageMakerJobArn"
+            case destinationPath = "DestinationPath"
         }
     }
 
@@ -1570,9 +1606,9 @@ extension Greengrass {
             AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
-        /// Response Text
+        /// A message about the connectivity info update request.
         public let message: String?
-        /// New Version
+        /// The new version of the connectivity info.
         public let version: String?
 
         public init(message: String? = nil, version: String? = nil) {
@@ -1721,7 +1757,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DisassociatedAt", required: false, type: .string)
         ]
-        /// Time when the service role was disassociated from the account.
+        /// The time when the service role was disassociated from the account.
         public let disassociatedAt: String?
 
         public init(disassociatedAt: String? = nil) {
@@ -1780,15 +1816,15 @@ extension Greengrass {
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// The level of the logs
+        /// The level of the logs.
         public let level: LoggerLevel?
-        /// The component that will be subject to logs
+        /// The component that will be subject to logging.
         public let component: LoggerComponent?
-        /// Amount of hardware space, in KB, to use if file system is used for logging purposes.
+        /// The amount of file space, in KB, to use if the local file system is used for logging purposes.
         public let space: Int32?
-        /// The type which will be use for log output
+        /// The type of log output which will be used.
         public let `type`: LoggerType?
-        /// Element Id for this entry in the list.
+        /// The id of the logger.
         public let id: String?
 
         public init(level: LoggerLevel? = nil, component: LoggerComponent? = nil, space: Int32? = nil, type: LoggerType? = nil, id: String? = nil) {
@@ -1897,15 +1933,15 @@ extension Greengrass {
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "DeploymentStatus", required: false, type: .string)
         ]
-        /// Last time the deployment status was updated.
+        /// The time, in milliseconds since the epoch, when the deployment status was updated.
         public let updatedAt: String?
-        /// The error Details
+        /// Error details
         public let errorDetails: [ErrorDetail]?
         /// The type of the deployment.
         public let deploymentType: DeploymentType?
-        /// Error Message
+        /// Error message
         public let errorMessage: String?
-        /// Status of the deployment.
+        /// The status of the deployment.
         public let deploymentStatus: String?
 
         public init(updatedAt: String? = nil, errorDetails: [ErrorDetail]? = nil, deploymentType: DeploymentType? = nil, errorMessage: String? = nil, deploymentStatus: String? = nil) {
@@ -1953,9 +1989,9 @@ extension Greengrass {
             AWSShapeMember(label: "ResourceId", required: false, type: .string), 
             AWSShapeMember(label: "Permission", required: false, type: .enum)
         ]
-        /// Id of the resource. A reference to the resource definiton.
+        /// The ID of the resource. (This ID is assigned to the resource when you create the resource definiton.)
         public let resourceId: String?
-        /// The function's access permission to the resource.
+        /// The permissions that the Lambda function has to the resource. Can be one of ''rw'' (read/write) or ''ro'' (read-only).
         public let permission: Permission?
 
         public init(resourceId: String? = nil, permission: Permission? = nil) {
@@ -2013,9 +2049,9 @@ extension Greengrass {
             AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
             AWSShapeMember(label: "DeploymentArn", required: false, type: .string)
         ]
-        /// The id of the deployment.
+        /// The ID of the deployment.
         public let deploymentId: String?
-        /// The arn of the deployment.
+        /// The ARN of the deployment.
         public let deploymentArn: String?
 
         public init(deploymentId: String? = nil, deploymentArn: String? = nil) {
@@ -2029,34 +2065,11 @@ extension Greengrass {
         }
     }
 
-    public struct ListDeploymentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
-        ]
-        public let nextToken: String?
-        public let groupId: String
-        public let maxResults: String?
-
-        public init(nextToken: String? = nil, groupId: String, maxResults: String? = nil) {
-            self.nextToken = nextToken
-            self.groupId = groupId
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case groupId = "GroupId"
-            case maxResults = "MaxResults"
-        }
-    }
-
     public struct DeviceDefinitionVersion: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Devices", required: false, type: .list)
         ]
-        /// Devices in the definition version.
+        /// A list of devices in the definition version.
         public let devices: [Device]?
 
         public init(devices: [Device]? = nil) {
@@ -2110,14 +2123,30 @@ extension Greengrass {
         }
     }
 
+    public struct AssociateRoleToGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssociatedAt", required: false, type: .string)
+        ]
+        /// The time, in milliseconds since the epoch, when the role ARN was associated with the group.
+        public let associatedAt: String?
+
+        public init(associatedAt: String? = nil) {
+            self.associatedAt = associatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedAt = "AssociatedAt"
+        }
+    }
+
     public struct LocalDeviceResourceData: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupOwnerSetting", required: false, type: .structure), 
             AWSShapeMember(label: "SourcePath", required: false, type: .string)
         ]
-        /// Group owner related settings for local resources.
+        /// Group/owner related settings for local resources.
         public let groupOwnerSetting: GroupOwnerSetting?
-        /// Local source path of the resource.
+        /// The local absolute path of the device resource. The source path for a device resource can refer only to a character device or block device under ''/dev''.
         public let sourcePath: String?
 
         public init(groupOwnerSetting: GroupOwnerSetting? = nil, sourcePath: String? = nil) {
@@ -2131,19 +2160,32 @@ extension Greengrass {
         }
     }
 
-    public struct AssociateRoleToGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociatedAt", required: false, type: .string)
-        ]
-        /// Time the role arn was associated to your group.
-        public let associatedAt: String?
+    public enum EncodingType: String, CustomStringConvertible, Codable {
+        case binary = "binary"
+        case json = "json"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(associatedAt: String? = nil) {
-            self.associatedAt = associatedAt
+    public struct ListDeploymentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
+        ]
+        public let nextToken: String?
+        public let groupId: String
+        public let maxResults: String?
+
+        public init(nextToken: String? = nil, groupId: String, maxResults: String? = nil) {
+            self.nextToken = nextToken
+            self.groupId = groupId
+            self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedAt = "AssociatedAt"
+            case nextToken = "NextToken"
+            case groupId = "GroupId"
+            case maxResults = "MaxResults"
         }
     }
 
@@ -2174,7 +2216,7 @@ extension Greengrass {
         ]
         public let amznClientToken: String?
         public let groupId: String
-        /// When set to true, perform a best-effort only core reset.
+        /// If true, performs a best-effort only core reset.
         public let force: Bool?
 
         public init(amznClientToken: String? = nil, groupId: String, force: Bool? = nil) {
@@ -2206,15 +2248,15 @@ extension Greengrass {
             AWSShapeMember(label: "GroupArn", required: false, type: .string), 
             AWSShapeMember(label: "DeploymentArn", required: false, type: .string)
         ]
-        /// Id of the deployment.
+        /// The ID of the deployment.
         public let deploymentId: String?
-        /// Timestamp when the deployment was created.
+        /// The time, in milliseconds since the epoch, when the deployment was created.
         public let createdAt: String?
-        /// The type of deployment.
+        /// The type of the deployment.
         public let deploymentType: DeploymentType?
-        /// Arn of the group for this deployment.
+        /// The ARN of the group for this deployment.
         public let groupArn: String?
-        /// Arn of the deployment.
+        /// The ARN of the deployment.
         public let deploymentArn: String?
 
         public init(deploymentId: String? = nil, createdAt: String? = nil, deploymentType: DeploymentType? = nil, groupArn: String? = nil, deploymentArn: String? = nil) {
@@ -2243,7 +2285,7 @@ extension Greengrass {
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
             AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
-        /// Role arn you wish to associate with this group.
+        /// The ARN of the role you wish to associate with this group.
         public let roleArn: String?
         public let groupId: String
 
@@ -2294,7 +2336,7 @@ extension Greengrass {
         ]
         /// The token for the next set of results, or ''null'' if there are no additional results.
         public let nextToken: String?
-        /// Versions
+        /// Information about a version.
         public let versions: [VersionInformation]?
 
         public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
@@ -2314,11 +2356,11 @@ extension Greengrass {
             AWSShapeMember(label: "SourcePath", required: false, type: .string), 
             AWSShapeMember(label: "DestinationPath", required: false, type: .string)
         ]
-        /// Group owner related settings for local resources.
+        /// Allows you to configure additional group privileges for the Lambda process. This field is optional.
         public let groupOwnerSetting: GroupOwnerSetting?
-        /// Local source path of the resource.
+        /// The local absolute path of the volume resource on the host. The source path for a volume resource type cannot start with ''/sys''.
         public let sourcePath: String?
-        /// Local destination path of the resource.
+        /// The absolute local path of the resource inside the lambda environment.
         public let destinationPath: String?
 
         public init(groupOwnerSetting: GroupOwnerSetting? = nil, sourcePath: String? = nil, destinationPath: String? = nil) {
@@ -2340,11 +2382,11 @@ extension Greengrass {
             AWSShapeMember(label: "FunctionArn", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// Configuration of the function
+        /// The configuration of the Lambda function.
         public let functionConfiguration: FunctionConfiguration?
-        /// Arn of the Lambda function.
+        /// The ARN of the Lambda function.
         public let functionArn: String?
-        /// Id of the function in this version.
+        /// The ID of the Lambda function.
         public let id: String?
 
         public init(functionConfiguration: FunctionConfiguration? = nil, functionArn: String? = nil, id: String? = nil) {
@@ -2469,15 +2511,15 @@ extension Greengrass {
             AWSShapeMember(label: "Definition", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// Version of the subscription definition version.
+        /// The version of the subscription definition version.
         public let version: String?
-        /// Arn of the subscription definition version.
+        /// The ARN of the subscription definition version.
         public let arn: String?
-        /// Timestamp of when the subscription definition version was created.
+        /// The time, in milliseconds since the epoch, when the subscription definition version was created.
         public let creationTimestamp: String?
-        /// Information on the definition
+        /// Information about the subscription definition version.
         public let definition: SubscriptionDefinitionVersion?
-        /// Id of the subscription definition the version belongs to.
+        /// The ID of the subscription definition version.
         public let id: String?
 
         public init(version: String? = nil, arn: String? = nil, creationTimestamp: String? = nil, definition: SubscriptionDefinitionVersion? = nil, id: String? = nil) {
@@ -2540,9 +2582,9 @@ extension Greengrass {
             AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
             AWSShapeMember(label: "DeploymentArn", required: false, type: .string)
         ]
-        /// The id of the reset deployment.
+        /// The ID of the deployment.
         public let deploymentId: String?
-        /// The arn of the reset deployment.
+        /// The ARN of the deployment.
         public let deploymentArn: String?
 
         public init(deploymentId: String? = nil, deploymentArn: String? = nil) {
@@ -2561,9 +2603,9 @@ extension Greengrass {
             AWSShapeMember(label: "ConnectivityInfo", required: false, type: .list), 
             AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
         ]
-        /// Connectivity info list
+        /// Connectivity info list.
         public let connectivityInfo: [ConnectivityInfo]?
-        /// Response Text
+        /// A message about the connectivity info request.
         public let message: String?
 
         public init(connectivityInfo: [ConnectivityInfo]? = nil, message: String? = nil) {
@@ -2756,15 +2798,15 @@ extension Greengrass {
             AWSShapeMember(label: "Definition", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// Version of the core definition version.
+        /// The version of the core definition version.
         public let version: String?
-        /// Arn of the core definition version.
+        /// The ARN of the core definition version.
         public let arn: String?
-        /// Timestamp of when the core definition version was created.
+        /// The time, in milliseconds since the epoch, when the core definition version was created.
         public let creationTimestamp: String?
-        /// Information on definition
+        /// Information about the core definition version.
         public let definition: CoreDefinitionVersion?
-        /// Id of the core definition the version belongs to.
+        /// The ID of the core definition version.
         public let id: String?
 
         public init(version: String? = nil, arn: String? = nil, creationTimestamp: String? = nil, definition: CoreDefinitionVersion? = nil, id: String? = nil) {
@@ -2812,9 +2854,9 @@ extension Greengrass {
             AWSShapeMember(label: "IotJobId", required: false, type: .string), 
             AWSShapeMember(label: "IotJobArn", required: false, type: .string)
         ]
-        /// The Iot Job Id corresponding to this update.
+        /// The IoT Job Id corresponding to this update.
         public let iotJobId: String?
-        /// The Iot Job Arn corresponding to this update.
+        /// The IoT Job ARN corresponding to this update.
         public let iotJobArn: String?
 
         public init(iotJobId: String? = nil, iotJobArn: String? = nil) {
@@ -2856,9 +2898,9 @@ extension Greengrass {
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
             AWSShapeMember(label: "AssociatedAt", required: false, type: .string)
         ]
-        /// Role arn which is associated to the account.
+        /// The ARN of the role which is associated with the account.
         public let roleArn: String?
-        /// Time when the service role was associated to the account.
+        /// The time when the service role was associated with the account.
         public let associatedAt: String?
 
         public init(roleArn: String? = nil, associatedAt: String? = nil) {
@@ -2886,15 +2928,15 @@ extension Greengrass {
             AWSShapeMember(label: "Definition", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// Version of the device definition version.
+        /// The version of the device definition version.
         public let version: String?
-        /// Arn of the device definition version.
+        /// The ARN of the device definition version.
         public let arn: String?
-        /// Timestamp of when the device definition version was created.
+        /// The time, in milliseconds since the epoch, when the device definition version was created.
         public let creationTimestamp: String?
-        /// Device definition version
+        /// Information about the device definition version.
         public let definition: DeviceDefinitionVersion?
-        /// Id of the device definition the version belongs to.
+        /// The ID of the device definition version.
         public let id: String?
 
         public init(version: String? = nil, arn: String? = nil, creationTimestamp: String? = nil, definition: DeviceDefinitionVersion? = nil, id: String? = nil) {
@@ -2924,19 +2966,19 @@ extension Greengrass {
             AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// Arn of the definition.
+        /// The ARN of the definition.
         public let arn: String?
-        /// Timestamp of when the definition was created.
+        /// The time, in milliseconds since the epoch, when the definition was created.
         public let creationTimestamp: String?
-        /// Name of the definition.
+        /// The name of the definition.
         public let name: String?
-        /// Last updated timestamp of the definition.
+        /// The time, in milliseconds since the epoch, when the definition was last updated.
         public let lastUpdatedTimestamp: String?
-        /// Latest version arn of the definition.
+        /// The ARN of the latest version of the definition.
         public let latestVersionArn: String?
-        /// Last version of the definition.
+        /// The latest version of the definition.
         public let latestVersion: String?
-        /// Id of the definition.
+        /// The ID of the definition.
         public let id: String?
 
         public init(arn: String? = nil, creationTimestamp: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersionArn: String? = nil, latestVersion: String? = nil, id: String? = nil) {
@@ -2964,7 +3006,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoleArn", required: false, type: .string)
         ]
-        /// Role arn you wish to associate with this account.
+        /// The ARN of the service role you wish to associate with your account.
         public let roleArn: String?
 
         public init(roleArn: String? = nil) {
@@ -2981,9 +3023,9 @@ extension Greengrass {
             AWSShapeMember(label: "ErrorDetails", required: false, type: .list), 
             AWSShapeMember(label: "Message", required: false, type: .string)
         ]
-        /// Error Details
+        /// Details about the error.
         public let errorDetails: [ErrorDetail]?
-        /// Message containing information about the error
+        /// A message containing information about the error.
         public let message: String?
 
         public init(errorDetails: [ErrorDetail]? = nil, message: String? = nil) {
@@ -3010,11 +3052,11 @@ extension Greengrass {
             AWSShapeMember(label: "GroupCertificateAuthorityId", required: false, type: .string), 
             AWSShapeMember(label: "GroupCertificateAuthorityArn", required: false, type: .string)
         ]
-        /// PEM encoded certificate for the group.
+        /// The PEM encoded certificate for the group.
         public let pemEncodedCertificate: String?
-        /// Id of the certificate authority for the group.
+        /// The ID of the certificate authority for the group.
         public let groupCertificateAuthorityId: String?
-        /// Arn of the certificate authority for the group.
+        /// The ARN of the certificate authority for the group.
         public let groupCertificateAuthorityArn: String?
 
         public init(pemEncodedCertificate: String? = nil, groupCertificateAuthorityId: String? = nil, groupCertificateAuthorityArn: String? = nil) {
@@ -3035,9 +3077,9 @@ extension Greengrass {
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
             AWSShapeMember(label: "AssociatedAt", required: false, type: .string)
         ]
-        /// Arn of the role that is associated with the group.
+        /// The ARN of the role that is associated with the group.
         public let roleArn: String?
-        /// Time when the role was associated for the group.
+        /// The time when the role was associated with the group.
         public let associatedAt: String?
 
         public init(roleArn: String? = nil, associatedAt: String? = nil) {
@@ -3089,7 +3131,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cores", required: false, type: .list)
         ]
-        /// Cores in the definition version.
+        /// A list of cores in the core definition version.
         public let cores: [Core]?
 
         public init(cores: [Core]? = nil) {
@@ -3164,7 +3206,7 @@ extension Greengrass {
             AWSShapeMember(label: "Definitions", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Definitions
+        /// Information about a definition.
         public let definitions: [DefinitionInformation]?
         /// The token for the next set of results, or ''null'' if there are no additional results.
         public let nextToken: String?
@@ -3251,9 +3293,9 @@ extension Greengrass {
             AWSShapeMember(label: "GroupCertificateAuthorityId", required: false, type: .string), 
             AWSShapeMember(label: "GroupCertificateAuthorityArn", required: false, type: .string)
         ]
-        /// Id of the certificate authority for the group.
+        /// The ID of the certificate authority for the group.
         public let groupCertificateAuthorityId: String?
-        /// Arn of the certificate authority for the group.
+        /// The ARN of the certificate authority for the group.
         public let groupCertificateAuthorityArn: String?
 
         public init(groupCertificateAuthorityId: String? = nil, groupCertificateAuthorityArn: String? = nil) {
@@ -3309,6 +3351,27 @@ extension Greengrass {
         }
     }
 
+    public struct S3MachineLearningModelResourceData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Uri", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationPath", required: false, type: .string)
+        ]
+        /// The URI of the source model in an S3 bucket. The model package must be in tar.gz or .zip format.
+        public let s3Uri: String?
+        /// The absolute local path of the resource inside the Lambda environment.
+        public let destinationPath: String?
+
+        public init(s3Uri: String? = nil, destinationPath: String? = nil) {
+            self.s3Uri = s3Uri
+            self.destinationPath = destinationPath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "S3Uri"
+            case destinationPath = "DestinationPath"
+        }
+    }
+
     public struct GetLoggerDefinitionVersionResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Version", required: false, type: .string), 
@@ -3317,15 +3380,15 @@ extension Greengrass {
             AWSShapeMember(label: "Definition", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// Version of the logger definition version.
+        /// The version of the logger definition version.
         public let version: String?
-        /// Arn of the logger definition version.
+        /// The ARN of the logger definition version.
         public let arn: String?
-        /// Timestamp of when the logger definition version was created.
+        /// The time, in milliseconds since the epoch, when the logger definition version was created.
         public let creationTimestamp: String?
-        /// Information on definition
+        /// Information about the logger definition version.
         public let definition: LoggerDefinitionVersion?
-        /// Id of the logger definition the version belongs to.
+        /// The ID of the logger definition version.
         public let id: String?
 
         public init(version: String? = nil, arn: String? = nil, creationTimestamp: String? = nil, definition: LoggerDefinitionVersion? = nil, id: String? = nil) {
@@ -3424,10 +3487,11 @@ extension Greengrass {
             AWSShapeMember(label: "Variables", required: false, type: .map), 
             AWSShapeMember(label: "AccessSysfs", required: false, type: .boolean)
         ]
-        /// Policies for the function to access resources.
+        /// A list of the resources, with their permissions, to which the Lambda function will be granted access. A Lambda function can have at most 10 resources.
         public let resourceAccessPolicies: [ResourceAccessPolicy]?
+        /// Environment variables for the Lambda function's configuration.
         public let variables: [String: String]?
-        /// Flag to allow lambda access sys filesystem.
+        /// If true, the Lambda function is allowed to access the host's /sys folder. Use this when the Lambda function needs to read device information from /sys.
         public let accessSysfs: Bool?
 
         public init(resourceAccessPolicies: [ResourceAccessPolicy]? = nil, variables: [String: String]? = nil, accessSysfs: Bool? = nil) {
@@ -3488,19 +3552,19 @@ extension Greengrass {
             AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// Arn of a group.
+        /// The ARN of the group.
         public let arn: String?
-        /// Timestamp of when the group was created.
+        /// The time, in milliseconds since the epoch, when the group was created.
         public let creationTimestamp: String?
-        /// Name of a group.
+        /// The name of the group.
         public let name: String?
-        /// Last updated timestamp of the group.
+        /// The time, in milliseconds since the epoch, when the group was last updated.
         public let lastUpdatedTimestamp: String?
-        /// Latest version arn of the group.
+        /// The ARN of the latest version of the group.
         public let latestVersionArn: String?
-        /// Last version of the group.
+        /// The latest version of the group.
         public let latestVersion: String?
-        /// Id of a group.
+        /// The ID of the group.
         public let id: String?
 
         public init(arn: String? = nil, creationTimestamp: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersionArn: String? = nil, latestVersion: String? = nil, id: String? = nil) {
@@ -3622,11 +3686,11 @@ extension Greengrass {
             AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
             AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
-        /// Id of the deployment if you wish to redeploy a previous deployment.
+        /// The ID of the deployment if you wish to redeploy a previous deployment.
         public let deploymentId: String?
-        /// Group Version you wish to deploy.
+        /// The ID of the group version to be deployed.
         public let groupVersionId: String?
-        /// Type of deployment. When used in CreateDeployment, only NewDeployment and Redeployment are valid. 
+        /// The type of deployment. When used in ''CreateDeployment'', only ''NewDeployment'' and ''Redeployment'' are valid.
         public let deploymentType: DeploymentType?
         public let amznClientToken: String?
         public let groupId: String
@@ -3691,7 +3755,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Subscriptions", required: false, type: .list)
         ]
-        /// Subscriptions in the version.
+        /// A list of subscriptions.
         public let subscriptions: [Subscription]?
 
         public init(subscriptions: [Subscription]? = nil) {
@@ -3752,13 +3816,13 @@ extension Greengrass {
             AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// Unique Id of a version.
+        /// The unique ID of the version.
         public let version: String?
-        /// Arn of the version.
+        /// The ARN of the version.
         public let arn: String?
-        /// Timestamp of when the version was created.
+        /// The time, in milliseconds since the epoch, when the version was created.
         public let creationTimestamp: String?
-        /// Id of the resource container.
+        /// The ID of the version.
         public let id: String?
 
         public init(version: String? = nil, arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil) {
@@ -3779,30 +3843,30 @@ extension Greengrass {
     public struct ConnectivityInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Metadata", required: false, type: .string), 
-            AWSShapeMember(label: "PortNumber", required: false, type: .integer), 
             AWSShapeMember(label: "HostAddress", required: false, type: .string), 
+            AWSShapeMember(label: "PortNumber", required: false, type: .integer), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// Metadata for this endpoint.
         public let metadata: String?
-        /// Port of the GGC. Usually 8883.
-        public let portNumber: Int32?
-        /// Endpoint for the GGC. Can be an IP address or DNS.
+        /// The endpoint for the Greengrass core. Can be an IP address or DNS.
         public let hostAddress: String?
-        /// Element Id for this entry in the list.
+        /// The port of the Greengrass core. Usually 8883.
+        public let portNumber: Int32?
+        /// The ID of the connectivity information.
         public let id: String?
 
-        public init(metadata: String? = nil, portNumber: Int32? = nil, hostAddress: String? = nil, id: String? = nil) {
+        public init(metadata: String? = nil, hostAddress: String? = nil, portNumber: Int32? = nil, id: String? = nil) {
             self.metadata = metadata
-            self.portNumber = portNumber
             self.hostAddress = hostAddress
+            self.portNumber = portNumber
             self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
             case metadata = "Metadata"
-            case portNumber = "PortNumber"
             case hostAddress = "HostAddress"
+            case portNumber = "PortNumber"
             case id = "Id"
         }
     }
@@ -3811,7 +3875,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Loggers", required: false, type: .list)
         ]
-        /// List of loggers.
+        /// A list of loggers.
         public let loggers: [Logger]?
 
         public init(loggers: [Logger]? = nil) {
@@ -3850,7 +3914,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Functions", required: false, type: .list)
         ]
-        /// Lambda functions in this function definition version.
+        /// A list of Lambda functions in this function definition version.
         public let functions: [Function]?
 
         public init(functions: [Function]? = nil) {
@@ -3869,13 +3933,13 @@ extension Greengrass {
             AWSShapeMember(label: "ThingArn", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// If true, the local shadow value automatically syncs with the cloud's shadow state.
+        /// If true, the device's local shadow will be automatically synced with the cloud.
         public let syncShadow: Bool?
-        /// Certificate arn of the device.
+        /// The ARN of the certificate associated with the device.
         public let certificateArn: String?
-        /// Thing arn of the device.
+        /// The thing ARN of the device.
         public let thingArn: String?
-        /// Element Id for this entry in the list.
+        /// The ID of the device.
         public let id: String?
 
         public init(syncShadow: Bool? = nil, certificateArn: String? = nil, thingArn: String? = nil, id: String? = nil) {

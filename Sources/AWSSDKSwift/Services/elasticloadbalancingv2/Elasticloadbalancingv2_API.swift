@@ -24,7 +24,7 @@ public struct Elasticloadbalancingv2 {
         )
     }
 
-    ///  Enables the Availability Zone for the specified subnets for the specified Application Load Balancer. The specified subnets replace the previously enabled subnets. Note that you can't change the subnets for a Network Load Balancer.
+    ///  Enables the Availability Zone for the specified public subnets for the specified Application Load Balancer. The specified subnets replace the previously enabled subnets. You can't change the subnets for a Network Load Balancer.
     public func setSubnets(_ input: SetSubnetsInput) throws -> SetSubnetsOutput {
         return try client.send(operation: "SetSubnets", path: "/", httpMethod: "POST", input: input)
     }
@@ -69,7 +69,7 @@ public struct Elasticloadbalancingv2 {
         return try client.send(operation: "DeleteTargetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified listener. Alternatively, your listener is deleted when you delete the load balancer it is attached to using DeleteLoadBalancer.
+    ///  Deletes the specified listener. Alternatively, your listener is deleted when you delete the load balancer to which it is attached, using DeleteLoadBalancer.
     public func deleteListener(_ input: DeleteListenerInput) throws -> DeleteListenerOutput {
         return try client.send(operation: "DeleteListener", path: "/", httpMethod: "POST", input: input)
     }
@@ -84,17 +84,17 @@ public struct Elasticloadbalancingv2 {
         return try client.send(operation: "DescribeTags", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the specified rule. Any existing properties that you do not modify retain their current values. To modify the default action, use ModifyListener.
+    ///  Modifies the specified rule. Any existing properties that you do not modify retain their current values. To modify the actions for the default rule, use ModifyListener.
     public func modifyRule(_ input: ModifyRuleInput) throws -> ModifyRuleOutput {
         return try client.send(operation: "ModifyRule", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the attributes for the specified target group.
+    ///  Describes the attributes for the specified target group. For more information, see Target Group Attributes in the Application Load Balancers Guide or Target Group Attributes in the Network Load Balancers Guide.
     public func describeTargetGroupAttributes(_ input: DescribeTargetGroupAttributesInput) throws -> DescribeTargetGroupAttributesOutput {
         return try client.send(operation: "DescribeTargetGroupAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a rule for the specified listener. The listener must be associated with an Application Load Balancer. Rules are evaluated in priority order, from the lowest value to the highest value. When the condition for a rule is met, the specified action is taken. If no conditions are met, the action for the default rule is taken. For more information, see Listener Rules in the Application Load Balancers Guide. To view your current rules, use DescribeRules. To update a rule, use ModifyRule. To set the priorities of your rules, use SetRulePriorities. To delete a rule, use DeleteRule.
+    ///  Creates a rule for the specified listener. The listener must be associated with an Application Load Balancer. Rules are evaluated in priority order, from the lowest value to the highest value. When the conditions for a rule are met, its actions are performed. If the conditions for no rules are met, the actions for the default rule are performed. For more information, see Listener Rules in the Application Load Balancers Guide. To view your current rules, use DescribeRules. To update a rule, use ModifyRule. To set the priorities of your rules, use SetRulePriorities. To delete a rule, use DeleteRule.
     public func createRule(_ input: CreateRuleInput) throws -> CreateRuleOutput {
         return try client.send(operation: "CreateRule", path: "/", httpMethod: "POST", input: input)
     }
@@ -104,12 +104,12 @@ public struct Elasticloadbalancingv2 {
         return try client.send(operation: "RemoveTags", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sets the type of IP addresses used by the subnets of the specified Application Load Balancer or Network Load Balancer. Note that Network Load Balancers must use ipv4.
+    ///  Sets the type of IP addresses used by the subnets of the specified Application Load Balancer or Network Load Balancer. Network Load Balancers must use ipv4.
     public func setIpAddressType(_ input: SetIpAddressTypeInput) throws -> SetIpAddressTypeOutput {
         return try client.send(operation: "SetIpAddressType", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an Application Load Balancer or a Network Load Balancer. When you create a load balancer, you can specify security groups, subnets, IP address type, and tags. Otherwise, you could do so later using SetSecurityGroups, SetSubnets, SetIpAddressType, and AddTags. To create listeners for your load balancer, use CreateListener. To describe your current load balancers, see DescribeLoadBalancers. When you are finished with a load balancer, you can delete it using DeleteLoadBalancer. For limit information, see Limits for Your Application Load Balancer in the Application Load Balancers Guide and Limits for Your Network Load Balancer in the Network Load Balancers Guide. This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple load balancers with the same settings, each call succeeds. For more information, see Application Load Balancers in the Application Load Balancers Guide and Network Load Balancers in the Network Load Balancers Guide.
+    ///  Creates an Application Load Balancer or a Network Load Balancer. When you create a load balancer, you can specify security groups, public subnets, IP address type, and tags. Otherwise, you could do so later using SetSecurityGroups, SetSubnets, SetIpAddressType, and AddTags. To create listeners for your load balancer, use CreateListener. To describe your current load balancers, see DescribeLoadBalancers. When you are finished with a load balancer, you can delete it using DeleteLoadBalancer. For limit information, see Limits for Your Application Load Balancer in the Application Load Balancers Guide and Limits for Your Network Load Balancer in the Network Load Balancers Guide. This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple load balancers with the same settings, each call succeeds. For more information, see Application Load Balancers in the Application Load Balancers Guide and Network Load Balancers in the Network Load Balancers Guide.
     public func createLoadBalancer(_ input: CreateLoadBalancerInput) throws -> CreateLoadBalancerOutput {
         return try client.send(operation: "CreateLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
@@ -124,7 +124,7 @@ public struct Elasticloadbalancingv2 {
         return try client.send(operation: "DescribeAccountLimits", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the attributes for the specified Application Load Balancer or Network Load Balancer.
+    ///  Describes the attributes for the specified Application Load Balancer or Network Load Balancer. For more information, see Load Balancer Attributes in the Application Load Balancers Guide or Load Balancer Attributes in the Network Load Balancers Guide.
     public func describeLoadBalancerAttributes(_ input: DescribeLoadBalancerAttributesInput) throws -> DescribeLoadBalancerAttributesOutput {
         return try client.send(operation: "DescribeLoadBalancerAttributes", path: "/", httpMethod: "POST", input: input)
     }
@@ -154,7 +154,7 @@ public struct Elasticloadbalancingv2 {
         return try client.send(operation: "ModifyTargetGroupAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Associates the specified security groups with the specified Application Load Balancer. The specified security groups override the previously associated security groups. Note that you can't specify a security group for a Network Load Balancer.
+    ///  Associates the specified security groups with the specified Application Load Balancer. The specified security groups override the previously associated security groups. You can't specify a security group for a Network Load Balancer.
     public func setSecurityGroups(_ input: SetSecurityGroupsInput) throws -> SetSecurityGroupsOutput {
         return try client.send(operation: "SetSecurityGroups", path: "/", httpMethod: "POST", input: input)
     }

@@ -17,6 +17,7 @@ public enum ClouddirectoryError: AWSErrorType {
     case invalidAttachmentException(message: String?)
     case facetValidationException(message: String?)
     case linkNameAlreadyInUseException(message: String?)
+    case schemaAlreadyExistsException(message: String?)
     case directoryDeletedException(message: String?)
     case facetNotFoundException(message: String?)
     case invalidNextTokenException(message: String?)
@@ -26,15 +27,15 @@ public enum ClouddirectoryError: AWSErrorType {
     case facetAlreadyExistsException(message: String?)
     case invalidRuleException(message: String?)
     case invalidFacetUpdateException(message: String?)
-    case schemaAlreadyExistsException(message: String?)
+    case notNodeException(message: String?)
     case stillContainsLinksException(message: String?)
     case cannotListParentOfRootException(message: String?)
     case invalidSchemaDocException(message: String?)
+    case incompatibleSchemaException(message: String?)
     case notPolicyException(message: String?)
     case unsupportedIndexTypeException(message: String?)
     case batchWriteException(message: String?)
     case notIndexException(message: String?)
-    case notNodeException(message: String?)
     case facetInUseException(message: String?)
     case objectAlreadyDetachedException(message: String?)
     case indexedAttributeMissingException(message: String?)
@@ -73,6 +74,8 @@ extension ClouddirectoryError {
             self = .facetValidationException(message: message)
         case "LinkNameAlreadyInUseException":
             self = .linkNameAlreadyInUseException(message: message)
+        case "SchemaAlreadyExistsException":
+            self = .schemaAlreadyExistsException(message: message)
         case "DirectoryDeletedException":
             self = .directoryDeletedException(message: message)
         case "FacetNotFoundException":
@@ -91,14 +94,16 @@ extension ClouddirectoryError {
             self = .invalidRuleException(message: message)
         case "InvalidFacetUpdateException":
             self = .invalidFacetUpdateException(message: message)
-        case "SchemaAlreadyExistsException":
-            self = .schemaAlreadyExistsException(message: message)
+        case "NotNodeException":
+            self = .notNodeException(message: message)
         case "StillContainsLinksException":
             self = .stillContainsLinksException(message: message)
         case "CannotListParentOfRootException":
             self = .cannotListParentOfRootException(message: message)
         case "InvalidSchemaDocException":
             self = .invalidSchemaDocException(message: message)
+        case "IncompatibleSchemaException":
+            self = .incompatibleSchemaException(message: message)
         case "NotPolicyException":
             self = .notPolicyException(message: message)
         case "UnsupportedIndexTypeException":
@@ -107,8 +112,6 @@ extension ClouddirectoryError {
             self = .batchWriteException(message: message)
         case "NotIndexException":
             self = .notIndexException(message: message)
-        case "NotNodeException":
-            self = .notNodeException(message: message)
         case "FacetInUseException":
             self = .facetInUseException(message: message)
         case "ObjectAlreadyDetachedException":

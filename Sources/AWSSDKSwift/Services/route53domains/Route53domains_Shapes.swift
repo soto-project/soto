@@ -60,20 +60,25 @@ extension Route53domains {
 
     public struct ListOperationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubmittedSince", required: false, type: .timestamp), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", required: false, type: .integer)
         ]
+        /// An optional parameter that lets you get information about all the operations that you submitted after a specified date and time. Specify the date and time in Coordinated Universal time (UTC).
+        public let submittedSince: TimeStamp?
         /// For an initial request for a list of operations, omit this element. If the number of operations that are not yet complete is greater than the value that you specified for MaxItems, you can use Marker to return additional operations. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.
         public let marker: String?
         /// Number of domains to be returned. Default: 20
         public let maxItems: Int32?
 
-        public init(marker: String? = nil, maxItems: Int32? = nil) {
+        public init(submittedSince: TimeStamp? = nil, marker: String? = nil, maxItems: Int32? = nil) {
+            self.submittedSince = submittedSince
             self.marker = marker
             self.maxItems = maxItems
         }
 
         private enum CodingKeys: String, CodingKey {
+            case submittedSince = "SubmittedSince"
             case marker = "Marker"
             case maxItems = "MaxItems"
         }
@@ -186,13 +191,13 @@ extension Route53domains {
             AWSShapeMember(label: "RegistrantPrivacy", required: false, type: .boolean), 
             AWSShapeMember(label: "AdminPrivacy", required: false, type: .boolean)
         ]
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact.
         public let techPrivacy: Bool?
         /// The name of the domain that you want to update the privacy setting for.
         public let domainName: String
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (domain owner).
         public let registrantPrivacy: Bool?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact.
         public let adminPrivacy: Bool?
 
         public init(techPrivacy: Bool? = nil, domainName: String, registrantPrivacy: Bool? = nil, adminPrivacy: Bool? = nil) {
@@ -673,11 +678,11 @@ extension Route53domains {
         public let nameservers: [Nameserver]?
         /// Provides detailed contact information.
         public let techContact: ContactDetail
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Default: true 
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact. Default: true 
         public let privacyProtectTechContact: Bool?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Default: true 
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (domain owner). Default: true 
         public let privacyProtectRegistrantContact: Bool?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Default: true 
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact. Default: true 
         public let privacyProtectAdminContact: Bool?
         /// The name of the domain that you want to transfer to Amazon Route 53. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
         public let domainName: String
@@ -834,7 +839,7 @@ extension Route53domains {
         ]
         /// Values corresponding to the additional parameter names required by some top-level domains.
         public let value: String
-        /// Name of the additional parameter required by the top-level domain.
+        /// Name of the additional parameter required by the top-level domain. Here are the top-level domains that require additional parameters and which parameters they require:    .com.au and .net.au: AU_ID_NUMBER and AU_ID_TYPE     .ca: BRAND_NUMBER, CA_LEGAL_TYPE, and CA_BUSINESS_ENTITY_TYPE     .es: ES_IDENTIFICATION, ES_IDENTIFICATION_TYPE, and ES_LEGAL_FORM     .fi: BIRTH_DATE_IN_YYYY_MM_DD, FI_BUSINESS_NUMBER, FI_ID_NUMBER, FI_NATIONALITY, and FI_ORGANIZATION_TYPE     .fr: BRAND_NUMBER, BIRTH_DEPARTMENT, BIRTH_DATE_IN_YYYY_MM_DD, BIRTH_COUNTRY, and BIRTH_CITY     .it: BIRTH_COUNTRY, IT_PIN, and IT_REGISTRANT_ENTITY_TYPE     .ru: BIRTH_DATE_IN_YYYY_MM_DD and RU_PASSPORT_DATA     .se: BIRTH_COUNTRY and SE_ID_NUMBER     .sg: SG_ID_NUMBER     .co.uk, .me.uk, and .org.uk: UK_CONTACT_TYPE and UK_COMPANY_NUMBER    In addition, many TLDs require VAT_NUMBER.
         public let name: ExtraParamName
 
         public init(value: String, name: ExtraParamName) {
@@ -1001,13 +1006,13 @@ extension Route53domains {
         public let registrantContact: ContactDetail
         /// Provides detailed contact information.
         public let techContact: ContactDetail
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Default: true 
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact. Default: true 
         public let privacyProtectTechContact: Bool?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Default: true 
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (the domain owner). Default: true 
         public let privacyProtectRegistrantContact: Bool?
         /// The domain name that you want to register. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
         public let domainName: String
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Default: true 
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact. Default: true 
         public let privacyProtectAdminContact: Bool?
         /// Indicates whether the domain will be automatically renewed (true) or not (false). Autorenewal only takes effect after the account is charged. Default: true 
         public let autoRenew: Bool?
@@ -1135,25 +1140,25 @@ extension Route53domains {
         public let statusList: [String]?
         /// Provides details about the domain technical contact.
         public let techContact: ContactDetail
-        /// The date when the registration for the domain is set to expire. The date format is Unix time.
+        /// The date when the registration for the domain is set to expire. The date and time is in Coordinated Universal time (UTC).
         public let expirationDate: TimeStamp?
-        /// Name of the registrar of the domain as identified in the registry. Amazon Route 53 domains are registered by registrar Gandi. The value is "GANDI SAS". 
+        /// Name of the registrar of the domain as identified in the registry. Domains with a .com, .net, or .org TLD are registered by Amazon Registrar. All other domains are registered by our registrar associate, Gandi. The value for domains that are registered by Gandi is "GANDI SAS". 
         public let registrarName: String?
-        /// Specifies whether contact information for the tech contact is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
+        /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If the value is false, WHOIS queries return the information that you entered for the technical contact.
         public let techPrivacy: Bool?
         /// Web address of the registrar.
         public let registrarUrl: String?
-        /// The date when the domain was created as found in the response to a WHOIS query. The date format is Unix time.
+        /// The date when the domain was created as found in the response to a WHOIS query. The date and time is in Coordinated Universal time (UTC).
         public let creationDate: TimeStamp?
         /// Email address to contact to report incorrect contact information for a domain, to report that the domain is being used to send spam, to report that someone is cybersquatting on a domain name, or report some other type of abuse.
         public let abuseContactEmail: String?
-        /// Specifies whether contact information for the admin contact is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
+        /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If the value is false, WHOIS queries return the information that you entered for the admin contact.
         public let adminPrivacy: Bool?
         /// Phone number for reporting abuse.
         public let abuseContactPhone: String?
         /// Provides details about the domain administrative contact.
         public let adminContact: ContactDetail
-        /// The last updated date of the domain as found in the response to a WHOIS query. The date format is Unix time.
+        /// The last updated date of the domain as found in the response to a WHOIS query. The date and time is in Coordinated Universal time (UTC).
         public let updatedDate: TimeStamp?
         /// The fully qualified name of the WHOIS server that can answer the WHOIS query for the domain.
         public let whoIsServer: String?
@@ -1163,7 +1168,7 @@ extension Route53domains {
         public let dnsSec: String?
         /// The name of a domain.
         public let domainName: String
-        /// Specifies whether contact information for the registrant contact is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
+        /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If the value is false, WHOIS queries return the information that you entered for the registrant contact (domain owner).
         public let registrantPrivacy: Bool?
         /// Specifies whether the domain registration is set to renew automatically.
         public let autoRenew: Bool?
@@ -1346,11 +1351,11 @@ extension Route53domains {
         ]
         /// The number of billing records to be returned. Default: 20
         public let maxItems: Int32?
-        /// The beginning date and time for the time period for which you want a list of billing records. Specify the date in Unix time format.
+        /// The beginning date and time for the time period for which you want a list of billing records. Specify the date and time in Coordinated Universal time (UTC).
         public let start: TimeStamp?
         /// For an initial request for a list of billing records, omit this element. If the number of billing records that are associated with the current AWS account during the specified period is greater than the value that you specified for MaxItems, you can use Marker to return additional billing records. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.  Constraints: The marker must match the value of NextPageMarker that was returned in the previous response.
         public let marker: String?
-        /// The end date and time for the time period for which you want a list of billing records. Specify the date in Unix time format.
+        /// The end date and time for the time period for which you want a list of billing records. Specify the date and time in Coordinated Universal time (UTC).
         public let end: TimeStamp?
 
         public init(maxItems: Int32? = nil, start: TimeStamp? = nil, marker: String? = nil, end: TimeStamp? = nil) {
@@ -1365,48 +1370,6 @@ extension Route53domains {
             case start = "Start"
             case marker = "Marker"
             case end = "End"
-        }
-    }
-
-    public struct CheckDomainTransferabilityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Transferability", required: true, type: .structure)
-        ]
-        /// A complex type that contains information about whether the specified domain can be transferred to Amazon Route 53.
-        public let transferability: DomainTransferability
-
-        public init(transferability: DomainTransferability) {
-            self.transferability = transferability
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case transferability = "Transferability"
-        }
-    }
-
-    public struct UpdateDomainNameserversRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FIAuthKey", required: false, type: .string), 
-            AWSShapeMember(label: "Nameservers", required: true, type: .list), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
-        /// The authorization key for .fi domains
-        public let fIAuthKey: String?
-        /// A list of new name servers for the domain.
-        public let nameservers: [Nameserver]
-        /// The name of the domain that you want to change name servers for.
-        public let domainName: String
-
-        public init(fIAuthKey: String? = nil, nameservers: [Nameserver], domainName: String) {
-            self.fIAuthKey = fIAuthKey
-            self.nameservers = nameservers
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fIAuthKey = "FIAuthKey"
-            case nameservers = "Nameservers"
-            case domainName = "DomainName"
         }
     }
 
@@ -1454,6 +1417,48 @@ extension Route53domains {
 
         private enum CodingKeys: String, CodingKey {
             case operationId = "OperationId"
+        }
+    }
+
+    public struct UpdateDomainNameserversRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FIAuthKey", required: false, type: .string), 
+            AWSShapeMember(label: "Nameservers", required: true, type: .list), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
+        ]
+        /// The authorization key for .fi domains
+        public let fIAuthKey: String?
+        /// A list of new name servers for the domain.
+        public let nameservers: [Nameserver]
+        /// The name of the domain that you want to change name servers for.
+        public let domainName: String
+
+        public init(fIAuthKey: String? = nil, nameservers: [Nameserver], domainName: String) {
+            self.fIAuthKey = fIAuthKey
+            self.nameservers = nameservers
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fIAuthKey = "FIAuthKey"
+            case nameservers = "Nameservers"
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct CheckDomainTransferabilityResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Transferability", required: true, type: .structure)
+        ]
+        /// A complex type that contains information about whether the specified domain can be transferred to Amazon Route 53.
+        public let transferability: DomainTransferability
+
+        public init(transferability: DomainTransferability) {
+            self.transferability = transferability
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transferability = "Transferability"
         }
     }
 

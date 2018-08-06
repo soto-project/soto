@@ -5,6 +5,42 @@ import AWSSDKSwiftCore
 
 extension Dynamodb {
 
+    public struct UpdateTableInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeDefinitions", required: false, type: .list), 
+            AWSShapeMember(label: "ProvisionedThroughput", required: false, type: .structure), 
+            AWSShapeMember(label: "TableName", required: true, type: .string), 
+            AWSShapeMember(label: "GlobalSecondaryIndexUpdates", required: false, type: .list), 
+            AWSShapeMember(label: "StreamSpecification", required: false, type: .structure)
+        ]
+        /// An array of attributes that describe the key schema for the table and indexes. If you are adding a new global secondary index to the table, AttributeDefinitions must include the key element(s) of the new index.
+        public let attributeDefinitions: [AttributeDefinition]?
+        /// The new provisioned throughput settings for the specified table or index.
+        public let provisionedThroughput: ProvisionedThroughput?
+        /// The name of the table to be updated.
+        public let tableName: String
+        /// An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:    Create - add a new global secondary index to the table.    Update - modify the provisioned throughput settings of an existing global secondary index.    Delete - remove a global secondary index from the table.   For more information, see Managing Global Secondary Indexes in the Amazon DynamoDB Developer Guide. 
+        public let globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]?
+        /// Represents the DynamoDB Streams configuration for the table.  You will receive a ResourceInUseException if you attempt to enable a stream on a table that already has a stream, or if you attempt to disable a stream on a table which does not have a stream. 
+        public let streamSpecification: StreamSpecification?
+
+        public init(attributeDefinitions: [AttributeDefinition]? = nil, provisionedThroughput: ProvisionedThroughput? = nil, tableName: String, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, streamSpecification: StreamSpecification? = nil) {
+            self.attributeDefinitions = attributeDefinitions
+            self.provisionedThroughput = provisionedThroughput
+            self.tableName = tableName
+            self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
+            self.streamSpecification = streamSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeDefinitions = "AttributeDefinitions"
+            case provisionedThroughput = "ProvisionedThroughput"
+            case tableName = "TableName"
+            case globalSecondaryIndexUpdates = "GlobalSecondaryIndexUpdates"
+            case streamSpecification = "StreamSpecification"
+        }
+    }
+
     public struct SourceTableDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KeySchema", required: true, type: .list), 
@@ -56,39 +92,87 @@ extension Dynamodb {
         }
     }
 
-    public struct UpdateTableInput: AWSShape {
+    public struct SSEDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeDefinitions", required: false, type: .list), 
-            AWSShapeMember(label: "ProvisionedThroughput", required: false, type: .structure), 
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "GlobalSecondaryIndexUpdates", required: false, type: .list), 
-            AWSShapeMember(label: "StreamSpecification", required: false, type: .structure)
+            AWSShapeMember(label: "KMSMasterKeyArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "SSEType", required: false, type: .enum)
         ]
-        /// An array of attributes that describe the key schema for the table and indexes. If you are adding a new global secondary index to the table, AttributeDefinitions must include the key element(s) of the new index.
-        public let attributeDefinitions: [AttributeDefinition]?
-        /// The new provisioned throughput settings for the specified table or index.
-        public let provisionedThroughput: ProvisionedThroughput?
-        /// The name of the table to be updated.
-        public let tableName: String
-        /// An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:    Create - add a new global secondary index to the table.    Update - modify the provisioned throughput settings of an existing global secondary index.    Delete - remove a global secondary index from the table.   For more information, see Managing Global Secondary Indexes in the Amazon DynamoDB Developer Guide. 
-        public let globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]?
-        /// Represents the DynamoDB Streams configuration for the table.  You will receive a ResourceInUseException if you attempt to enable a stream on a table that already has a stream, or if you attempt to disable a stream on a table which does not have a stream. 
-        public let streamSpecification: StreamSpecification?
+        /// The KMS master key ARN used for the KMS encryption.
+        public let kMSMasterKeyArn: String?
+        /// The current state of server-side encryption:    ENABLING - Server-side encryption is being enabled.    ENABLED - Server-side encryption is enabled.    DISABLING - Server-side encryption is being disabled.    DISABLED - Server-side encryption is disabled.  
+        public let status: SSEStatus?
+        /// Server-side encryption type:    AES256 - Server-side encryption which uses the AES256 algorithm.    KMS - Server-side encryption which uses AWS Key Management Service.  
+        public let sSEType: SSEType?
 
-        public init(attributeDefinitions: [AttributeDefinition]? = nil, provisionedThroughput: ProvisionedThroughput? = nil, tableName: String, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, streamSpecification: StreamSpecification? = nil) {
-            self.attributeDefinitions = attributeDefinitions
-            self.provisionedThroughput = provisionedThroughput
-            self.tableName = tableName
-            self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
-            self.streamSpecification = streamSpecification
+        public init(kMSMasterKeyArn: String? = nil, status: SSEStatus? = nil, sSEType: SSEType? = nil) {
+            self.kMSMasterKeyArn = kMSMasterKeyArn
+            self.status = status
+            self.sSEType = sSEType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeDefinitions = "AttributeDefinitions"
-            case provisionedThroughput = "ProvisionedThroughput"
-            case tableName = "TableName"
-            case globalSecondaryIndexUpdates = "GlobalSecondaryIndexUpdates"
-            case streamSpecification = "StreamSpecification"
+            case kMSMasterKeyArn = "KMSMasterKeyArn"
+            case status = "Status"
+            case sSEType = "SSEType"
+        }
+    }
+
+    public struct UpdateGlobalTableSettingsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicaSettings", required: false, type: .list), 
+            AWSShapeMember(label: "GlobalTableName", required: false, type: .string)
+        ]
+        /// The region specific settings for the global table.
+        public let replicaSettings: [ReplicaSettingsDescription]?
+        /// The name of the global table.
+        public let globalTableName: String?
+
+        public init(replicaSettings: [ReplicaSettingsDescription]? = nil, globalTableName: String? = nil) {
+            self.replicaSettings = replicaSettings
+            self.globalTableName = globalTableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicaSettings = "ReplicaSettings"
+            case globalTableName = "GlobalTableName"
+        }
+    }
+
+    public struct DescribeBackupInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BackupArn", required: true, type: .string)
+        ]
+        /// The ARN associated with the backup.
+        public let backupArn: String
+
+        public init(backupArn: String) {
+            self.backupArn = backupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupArn = "BackupArn"
+        }
+    }
+
+    public struct Projection: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NonKeyAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "ProjectionType", required: false, type: .enum)
+        ]
+        /// Represents the non-key attribute names which will be projected into the index. For local secondary indexes, the total count of NonKeyAttributes summed across all of the local secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
+        public let nonKeyAttributes: [String]?
+        /// The set of attributes that are projected into the index:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.  
+        public let projectionType: ProjectionType?
+
+        public init(nonKeyAttributes: [String]? = nil, projectionType: ProjectionType? = nil) {
+            self.nonKeyAttributes = nonKeyAttributes
+            self.projectionType = projectionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nonKeyAttributes = "NonKeyAttributes"
+            case projectionType = "ProjectionType"
         }
     }
 
@@ -139,61 +223,44 @@ extension Dynamodb {
         }
     }
 
-    public struct DescribeBackupInput: AWSShape {
+    public struct ReplicaGlobalSecondaryIndexSettingsDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupArn", required: true, type: .string)
+            AWSShapeMember(label: "IndexName", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisionedReadCapacityUnits", required: false, type: .long), 
+            AWSShapeMember(label: "ProvisionedWriteCapacityAutoScalingSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "IndexStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "ProvisionedReadCapacityAutoScalingSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "ProvisionedWriteCapacityUnits", required: false, type: .long)
         ]
-        /// The ARN associated with the backup.
-        public let backupArn: String
+        /// The name of the global secondary index. The name must be unique among all other indexes on this table.
+        public let indexName: String
+        /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException.
+        public let provisionedReadCapacityUnits: Int64?
+        /// AutoScaling settings for a global secondary index replica's write capacity units.
+        public let provisionedWriteCapacityAutoScalingSettings: AutoScalingSettingsDescription?
+        ///  The current status of the global secondary index:    CREATING - The global secondary index is being created.    UPDATING - The global secondary index is being updated.    DELETING - The global secondary index is being deleted.    ACTIVE - The global secondary index is ready for use.  
+        public let indexStatus: IndexStatus?
+        /// Autoscaling settings for a global secondary index replica's read capacity units.
+        public let provisionedReadCapacityAutoScalingSettings: AutoScalingSettingsDescription?
+        /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException.
+        public let provisionedWriteCapacityUnits: Int64?
 
-        public init(backupArn: String) {
-            self.backupArn = backupArn
+        public init(indexName: String, provisionedReadCapacityUnits: Int64? = nil, provisionedWriteCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, indexStatus: IndexStatus? = nil, provisionedReadCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, provisionedWriteCapacityUnits: Int64? = nil) {
+            self.indexName = indexName
+            self.provisionedReadCapacityUnits = provisionedReadCapacityUnits
+            self.provisionedWriteCapacityAutoScalingSettings = provisionedWriteCapacityAutoScalingSettings
+            self.indexStatus = indexStatus
+            self.provisionedReadCapacityAutoScalingSettings = provisionedReadCapacityAutoScalingSettings
+            self.provisionedWriteCapacityUnits = provisionedWriteCapacityUnits
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backupArn = "BackupArn"
-        }
-    }
-
-    public struct Projection: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NonKeyAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "ProjectionType", required: false, type: .enum)
-        ]
-        /// Represents the non-key attribute names which will be projected into the index. For local secondary indexes, the total count of NonKeyAttributes summed across all of the local secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
-        public let nonKeyAttributes: [String]?
-        /// The set of attributes that are projected into the index:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.  
-        public let projectionType: ProjectionType?
-
-        public init(nonKeyAttributes: [String]? = nil, projectionType: ProjectionType? = nil) {
-            self.nonKeyAttributes = nonKeyAttributes
-            self.projectionType = projectionType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nonKeyAttributes = "NonKeyAttributes"
-            case projectionType = "ProjectionType"
-        }
-    }
-
-    public struct ProvisionedThroughput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WriteCapacityUnits", required: true, type: .long), 
-            AWSShapeMember(label: "ReadCapacityUnits", required: true, type: .long)
-        ]
-        /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException. For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide.
-        public let writeCapacityUnits: Int64
-        /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide.
-        public let readCapacityUnits: Int64
-
-        public init(writeCapacityUnits: Int64, readCapacityUnits: Int64) {
-            self.writeCapacityUnits = writeCapacityUnits
-            self.readCapacityUnits = readCapacityUnits
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case writeCapacityUnits = "WriteCapacityUnits"
-            case readCapacityUnits = "ReadCapacityUnits"
+            case indexName = "IndexName"
+            case provisionedReadCapacityUnits = "ProvisionedReadCapacityUnits"
+            case provisionedWriteCapacityAutoScalingSettings = "ProvisionedWriteCapacityAutoScalingSettings"
+            case indexStatus = "IndexStatus"
+            case provisionedReadCapacityAutoScalingSettings = "ProvisionedReadCapacityAutoScalingSettings"
+            case provisionedWriteCapacityUnits = "ProvisionedWriteCapacityUnits"
         }
     }
 
@@ -204,19 +271,39 @@ extension Dynamodb {
         public var description: String { return self.rawValue }
     }
 
-    public struct CreateGlobalTableOutput: AWSShape {
+    public struct ListBackupsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalTableDescription", required: false, type: .structure)
+            AWSShapeMember(label: "TimeRangeLowerBound", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TimeRangeUpperBound", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TableName", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "ExclusiveStartBackupArn", required: false, type: .string)
         ]
-        /// Contains the details of the global table.
-        public let globalTableDescription: GlobalTableDescription?
+        /// Only backups created after this time are listed. TimeRangeLowerBound is inclusive.
+        public let timeRangeLowerBound: TimeStamp?
+        /// Only backups created before this time are listed. TimeRangeUpperBound is exclusive. 
+        public let timeRangeUpperBound: TimeStamp?
+        /// The backups from the table specified by TableName are listed. 
+        public let tableName: String?
+        /// Maximum number of backups to return at once.
+        public let limit: Int32?
+        ///  LastEvaluatedBackupArn is the ARN of the backup last evaluated when the current page of results was returned, inclusive of the current page of results. This value may be specified as the ExclusiveStartBackupArn of a new ListBackups operation in order to fetch the next page of results. 
+        public let exclusiveStartBackupArn: String?
 
-        public init(globalTableDescription: GlobalTableDescription? = nil) {
-            self.globalTableDescription = globalTableDescription
+        public init(timeRangeLowerBound: TimeStamp? = nil, timeRangeUpperBound: TimeStamp? = nil, tableName: String? = nil, limit: Int32? = nil, exclusiveStartBackupArn: String? = nil) {
+            self.timeRangeLowerBound = timeRangeLowerBound
+            self.timeRangeUpperBound = timeRangeUpperBound
+            self.tableName = tableName
+            self.limit = limit
+            self.exclusiveStartBackupArn = exclusiveStartBackupArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case globalTableDescription = "GlobalTableDescription"
+            case timeRangeLowerBound = "TimeRangeLowerBound"
+            case timeRangeUpperBound = "TimeRangeUpperBound"
+            case tableName = "TableName"
+            case limit = "Limit"
+            case exclusiveStartBackupArn = "ExclusiveStartBackupArn"
         }
     }
 
@@ -246,39 +333,61 @@ extension Dynamodb {
         }
     }
 
-    public struct ListBackupsInput: AWSShape {
+    public struct CreateGlobalTableOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TimeRangeLowerBound", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TimeRangeUpperBound", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TableName", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "ExclusiveStartBackupArn", required: false, type: .string)
+            AWSShapeMember(label: "GlobalTableDescription", required: false, type: .structure)
         ]
-        /// Only backups created after this time are listed. TimeRangeLowerBound is inclusive.
-        public let timeRangeLowerBound: TimeStamp?
-        /// Only backups created before this time are listed. TimeRangeUpperBound is exclusive. 
-        public let timeRangeUpperBound: TimeStamp?
-        /// The backups from the table specified by TableName are listed. 
-        public let tableName: String?
-        /// Maximum number of backups to return at once.
-        public let limit: Int32?
-        ///  LastEvaluatedBackupARN returned by the previous ListBackups call. 
-        public let exclusiveStartBackupArn: String?
+        /// Contains the details of the global table.
+        public let globalTableDescription: GlobalTableDescription?
 
-        public init(timeRangeLowerBound: TimeStamp? = nil, timeRangeUpperBound: TimeStamp? = nil, tableName: String? = nil, limit: Int32? = nil, exclusiveStartBackupArn: String? = nil) {
-            self.timeRangeLowerBound = timeRangeLowerBound
-            self.timeRangeUpperBound = timeRangeUpperBound
-            self.tableName = tableName
-            self.limit = limit
-            self.exclusiveStartBackupArn = exclusiveStartBackupArn
+        public init(globalTableDescription: GlobalTableDescription? = nil) {
+            self.globalTableDescription = globalTableDescription
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timeRangeLowerBound = "TimeRangeLowerBound"
-            case timeRangeUpperBound = "TimeRangeUpperBound"
+            case globalTableDescription = "GlobalTableDescription"
+        }
+    }
+
+    public struct UpdateContinuousBackupsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PointInTimeRecoverySpecification", required: true, type: .structure), 
+            AWSShapeMember(label: "TableName", required: true, type: .string)
+        ]
+        /// Represents the settings used to enable point in time recovery.
+        public let pointInTimeRecoverySpecification: PointInTimeRecoverySpecification
+        /// The name of the table.
+        public let tableName: String
+
+        public init(pointInTimeRecoverySpecification: PointInTimeRecoverySpecification, tableName: String) {
+            self.pointInTimeRecoverySpecification = pointInTimeRecoverySpecification
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pointInTimeRecoverySpecification = "PointInTimeRecoverySpecification"
             case tableName = "TableName"
-            case limit = "Limit"
-            case exclusiveStartBackupArn = "ExclusiveStartBackupArn"
+        }
+    }
+
+    public struct ProvisionedThroughput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WriteCapacityUnits", required: true, type: .long), 
+            AWSShapeMember(label: "ReadCapacityUnits", required: true, type: .long)
+        ]
+        /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException. For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide.
+        public let writeCapacityUnits: Int64
+        /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide.
+        public let readCapacityUnits: Int64
+
+        public init(writeCapacityUnits: Int64, readCapacityUnits: Int64) {
+            self.writeCapacityUnits = writeCapacityUnits
+            self.readCapacityUnits = readCapacityUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case writeCapacityUnits = "WriteCapacityUnits"
+            case readCapacityUnits = "ReadCapacityUnits"
         }
     }
 
@@ -371,7 +480,7 @@ extension Dynamodb {
         public let queryFilter: [String: Condition]?
         /// This is a legacy parameter. Use KeyConditionExpression instead. For more information, see KeyConditions in the Amazon DynamoDB Developer Guide.
         public let keyConditions: [String: Condition]?
-        /// The condition that specifies the key value(s) for items to be retrieved by the Query action. The condition must perform an equality test on a single partition key value. The condition can also perform one of several comparison tests on a single sort key value. Query can use KeyConditionExpression to retrieve one item with a given partition key value and sort key value, or several items that have the same partition key value but different sort key values. The partition key equality test is required, and must be specified in the following format:  partitionKeyName = :partitionkeyval  If you also want to provide a condition for the sort key, it must be combined using AND with the condition for the sort key. Following is an example, using the = comparison operator for the sort key:  partitionKeyName = :partitionkeyval AND sortKeyName = :sortkeyval  Valid comparisons for the sort key condition are as follows:    sortKeyName = :sortkeyval - true if the sort key value is equal to :sortkeyval.    sortKeyName &lt; :sortkeyval - true if the sort key value is less than :sortkeyval.    sortKeyName &lt;= :sortkeyval - true if the sort key value is less than or equal to :sortkeyval.    sortKeyName &gt; :sortkeyval - true if the sort key value is greater than :sortkeyval.    sortKeyName &gt;=  :sortkeyval - true if the sort key value is greater than or equal to :sortkeyval.    sortKeyName BETWEEN :sortkeyval1 AND :sortkeyval2 - true if the sort key value is greater than or equal to :sortkeyval1, and less than or equal to :sortkeyval2.    begins_with ( sortKeyName, :sortkeyval ) - true if the sort key value begins with a particular operand. (You cannot use this function with a sort key that is of type Number.) Note that the function name begins_with is case-sensitive.   Use the ExpressionAttributeValues parameter to replace tokens such as :partitionval and :sortval with actual values at runtime. You can optionally use the ExpressionAttributeNames parameter to replace the names of the partition key and sort key with placeholder tokens. This option might be necessary if an attribute name conflicts with a DynamoDB reserved word. For example, the following KeyConditionExpression parameter causes an error because Size is a reserved word:    Size = :myval    To work around this, define a placeholder (such a #S) to represent the attribute name Size. KeyConditionExpression then is as follows:    #S = :myval    For a list of reserved words, see Reserved Words in the Amazon DynamoDB Developer Guide. For more information on ExpressionAttributeNames and ExpressionAttributeValues, see Using Placeholders for Attribute Names and Values in the Amazon DynamoDB Developer Guide.
+        /// The condition that specifies the key value(s) for items to be retrieved by the Query action. The condition must perform an equality test on a single partition key value. The condition can optionally perform one of several comparison tests on a single sort key value. This allows Query to retrieve one item with a given partition key value and sort key value, or several items that have the same partition key value but different sort key values. The partition key equality test is required, and must be specified in the following format:  partitionKeyName = :partitionkeyval  If you also want to provide a condition for the sort key, it must be combined using AND with the condition for the sort key. Following is an example, using the = comparison operator for the sort key:  partitionKeyName = :partitionkeyval AND sortKeyName = :sortkeyval  Valid comparisons for the sort key condition are as follows:    sortKeyName = :sortkeyval - true if the sort key value is equal to :sortkeyval.    sortKeyName &lt; :sortkeyval - true if the sort key value is less than :sortkeyval.    sortKeyName &lt;= :sortkeyval - true if the sort key value is less than or equal to :sortkeyval.    sortKeyName &gt; :sortkeyval - true if the sort key value is greater than :sortkeyval.    sortKeyName &gt;=  :sortkeyval - true if the sort key value is greater than or equal to :sortkeyval.    sortKeyName BETWEEN :sortkeyval1 AND :sortkeyval2 - true if the sort key value is greater than or equal to :sortkeyval1, and less than or equal to :sortkeyval2.    begins_with ( sortKeyName, :sortkeyval ) - true if the sort key value begins with a particular operand. (You cannot use this function with a sort key that is of type Number.) Note that the function name begins_with is case-sensitive.   Use the ExpressionAttributeValues parameter to replace tokens such as :partitionval and :sortval with actual values at runtime. You can optionally use the ExpressionAttributeNames parameter to replace the names of the partition key and sort key with placeholder tokens. This option might be necessary if an attribute name conflicts with a DynamoDB reserved word. For example, the following KeyConditionExpression parameter causes an error because Size is a reserved word:    Size = :myval    To work around this, define a placeholder (such a #S) to represent the attribute name Size. KeyConditionExpression then is as follows:    #S = :myval    For a list of reserved words, see Reserved Words in the Amazon DynamoDB Developer Guide. For more information on ExpressionAttributeNames and ExpressionAttributeValues, see Using Placeholders for Attribute Names and Values in the Amazon DynamoDB Developer Guide.
         public let keyConditionExpression: String?
         /// The name of an index to query. This index can be any local secondary index or global secondary index on the table. Note that if you use the IndexName parameter, you must also provide TableName. 
         public let indexName: String?
@@ -388,7 +497,7 @@ extension Dynamodb {
         /// The name of the table containing the requested items.
         public let tableName: String
         public let returnConsumedCapacity: ReturnConsumedCapacity?
-        /// Specifies the order for index traversal: If true (default), the traversal is performed in ascending order; if false, the traversal is performed in descending order.  Items with the same partition key value are stored in sorted order by sort key. If the sort key data type is Number, the results are stored in numeric order. For type String, the results are stored in order of ASCII character code values. For type Binary, DynamoDB treats each byte of the binary data as unsigned. If ScanIndexForward is true, DynamoDB returns the results in the order in which they are stored (by sort key value). This is the default behavior. If ScanIndexForward is false, DynamoDB reads the results in reverse order by sort key value, and then returns the results to the client.
+        /// Specifies the order for index traversal: If true (default), the traversal is performed in ascending order; if false, the traversal is performed in descending order.  Items with the same partition key value are stored in sorted order by sort key. If the sort key data type is Number, the results are stored in numeric order. For type String, the results are stored in order of UTF-8 bytes. For type Binary, DynamoDB treats each byte of the binary data as unsigned. If ScanIndexForward is true, DynamoDB returns the results in the order in which they are stored (by sort key value). This is the default behavior. If ScanIndexForward is false, DynamoDB reads the results in reverse order by sort key value, and then returns the results to the client.
         public let scanIndexForward: Bool?
         /// A string that contains conditions that DynamoDB applies after the Query operation, but before the data is returned to you. Items that do not satisfy the FilterExpression criteria are not returned. A FilterExpression does not allow key attributes. You cannot define a filter expression based on a partition key or a sort key.  A FilterExpression is applied after the items have already been read; the process of filtering does not consume any additional read capacity units.  For more information, see Filter Expressions in the Amazon DynamoDB Developer Guide.
         public let filterExpression: String?
@@ -481,6 +590,27 @@ extension Dynamodb {
         }
     }
 
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
+        ]
+        /// The value of the tag. Tag values are case-sensitive and can be null.
+        public let value: String
+        /// The key of the tag.Tag keys are case sensitive. Each DynamoDB table can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. 
+        public let key: String
+
+        public init(value: String, key: String) {
+            self.value = value
+            self.key = key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
+        }
+    }
+
     public struct ListGlobalTablesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GlobalTables", required: false, type: .list), 
@@ -509,7 +639,7 @@ extension Dynamodb {
         ]
         /// Specifies how to perform the update. Valid values are PUT (default), DELETE, and ADD. The behavior depends on whether the specified primary key already exists in the table.  If an item with the specified Key is found in the table:     PUT - Adds the specified attribute to the item. If the attribute already exists, it is replaced by the new value.     DELETE - If no value is specified, the attribute and its value are removed from the item. The data type of the specified value must match the existing value's data type. If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [a,b,c] and the DELETE action specified [a,c], then the final attribute value would be [b]. Specifying an empty set is an error.    ADD - If the attribute does not already exist, then the attribute and its values are added to the item. If the attribute does exist, then the behavior of ADD depends on the data type of the attribute:   If the existing attribute is a number, and if Value is also a number, then the Value is mathematically added to the existing attribute. If Value is a negative number, then it is subtracted from the existing attribute.   If you use ADD to increment or decrement a number value for an item that doesn't exist before the update, DynamoDB uses 0 as the initial value. In addition, if you use ADD to update an existing item, and intend to increment or decrement an attribute value which does not yet exist, DynamoDB uses 0 as the initial value. For example, suppose that the item you want to update does not yet have an attribute named itemcount, but you decide to ADD the number 3 to this attribute anyway, even though it currently does not exist. DynamoDB will create the itemcount attribute, set its initial value to 0, and finally add 3 to it. The result will be a new itemcount attribute in the item, with a value of 3.    If the existing data type is a set, and if the Value is also a set, then the Value is added to the existing set. (This is a set operation, not mathematical addition.) For example, if the attribute value was the set [1,2], and the ADD action specified [3], then the final attribute value would be [1,2,3]. An error occurs if an Add action is specified for a set attribute and the attribute type specified does not match the existing set type.  Both sets must have the same primitive data type. For example, if the existing data type is a set of strings, the Value must also be a set of strings. The same holds true for number sets and binary sets.   This action is only valid for an existing attribute whose data type is number or is a set. Do not use ADD for any other data types.    If no item with the specified Key is found:     PUT - DynamoDB creates a new item with the specified primary key, and then adds the attribute.     DELETE - Nothing happens; there is no attribute to delete.    ADD - DynamoDB creates an item with the supplied primary key and number (or set of numbers) for the attribute value. The only data types allowed are number and number set; no other data types can be specified.  
         public let action: AttributeAction?
-        /// Represents the data for an attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself. For more information, see Data TYpes in the Amazon DynamoDB Developer Guide. 
+        /// Represents the data for an attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself. For more information, see Data Types in the Amazon DynamoDB Developer Guide. 
         public let value: AttributeValue?
 
         public init(action: AttributeAction? = nil, value: AttributeValue? = nil) {
@@ -523,32 +653,47 @@ extension Dynamodb {
         }
     }
 
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .string), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
-        ]
-        /// The value of the tag. Tag values are case-sensitive and can be null.
-        public let value: String
-        /// The key of the tag.Tag keys are case sensitive. Each DynamoDB table can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. 
-        public let key: String
-
-        public init(value: String, key: String) {
-            self.value = value
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
-        }
-    }
-
     public enum ProjectionType: String, CustomStringConvertible, Codable {
         case all = "ALL"
         case keysOnly = "KEYS_ONLY"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
+    }
+
+    public struct AutoScalingSettingsDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingDisabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "ScalingPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "MinimumUnits", required: false, type: .long), 
+            AWSShapeMember(label: "AutoScalingRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "MaximumUnits", required: false, type: .long)
+        ]
+        /// Disabled autoscaling for this global table or global secondary index.
+        public let autoScalingDisabled: Bool?
+        /// Information about the scaling policies.
+        public let scalingPolicies: [AutoScalingPolicyDescription]?
+        /// The minimum capacity units that a global table or global secondary index should be scaled down to.
+        public let minimumUnits: Int64?
+        /// Role ARN used for configuring autoScaling policy.
+        public let autoScalingRoleArn: String?
+        /// The maximum capacity units that a global table or global secondary index should be scaled up to.
+        public let maximumUnits: Int64?
+
+        public init(autoScalingDisabled: Bool? = nil, scalingPolicies: [AutoScalingPolicyDescription]? = nil, minimumUnits: Int64? = nil, autoScalingRoleArn: String? = nil, maximumUnits: Int64? = nil) {
+            self.autoScalingDisabled = autoScalingDisabled
+            self.scalingPolicies = scalingPolicies
+            self.minimumUnits = minimumUnits
+            self.autoScalingRoleArn = autoScalingRoleArn
+            self.maximumUnits = maximumUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingDisabled = "AutoScalingDisabled"
+            case scalingPolicies = "ScalingPolicies"
+            case minimumUnits = "MinimumUnits"
+            case autoScalingRoleArn = "AutoScalingRoleArn"
+            case maximumUnits = "MaximumUnits"
+        }
     }
 
     public struct CreateTableOutput: AWSShape {
@@ -586,6 +731,14 @@ extension Dynamodb {
             case resourceArn = "ResourceArn"
             case nextToken = "NextToken"
         }
+    }
+
+    public enum SSEStatus: String, CustomStringConvertible, Codable {
+        case enabling = "ENABLING"
+        case enabled = "ENABLED"
+        case disabling = "DISABLING"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
     }
 
     public struct ScanOutput: AWSShape {
@@ -645,6 +798,28 @@ extension Dynamodb {
         }
     }
 
+    public struct DescribeGlobalTableSettingsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalTableName", required: true, type: .string)
+        ]
+        /// The name of the global table to describe.
+        public let globalTableName: String
+
+        public init(globalTableName: String) {
+            self.globalTableName = globalTableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalTableName = "GlobalTableName"
+        }
+    }
+
+    public enum ReturnItemCollectionMetrics: String, CustomStringConvertible, Codable {
+        case size = "SIZE"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GlobalSecondaryIndex: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Projection", required: true, type: .structure), 
@@ -674,12 +849,6 @@ extension Dynamodb {
             case keySchema = "KeySchema"
             case provisionedThroughput = "ProvisionedThroughput"
         }
-    }
-
-    public enum ReturnItemCollectionMetrics: String, CustomStringConvertible, Codable {
-        case size = "SIZE"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
     }
 
     public struct PutRequest: AWSShape {
@@ -714,27 +883,6 @@ extension Dynamodb {
         }
     }
 
-    public struct ListTablesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExclusiveStartTableName", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer)
-        ]
-        /// The first table name that this operation will evaluate. Use the value that was returned for LastEvaluatedTableName in a previous operation, so that you can obtain the next page of results.
-        public let exclusiveStartTableName: String?
-        /// A maximum number of table names to return. If this parameter is not specified, the limit is 100.
-        public let limit: Int32?
-
-        public init(exclusiveStartTableName: String? = nil, limit: Int32? = nil) {
-            self.exclusiveStartTableName = exclusiveStartTableName
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case exclusiveStartTableName = "ExclusiveStartTableName"
-            case limit = "Limit"
-        }
-    }
-
     public struct TimeToLiveDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TimeToLiveStatus", required: false, type: .enum), 
@@ -756,6 +904,27 @@ extension Dynamodb {
         }
     }
 
+    public struct ListTablesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExclusiveStartTableName", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
+        ]
+        /// The first table name that this operation will evaluate. Use the value that was returned for LastEvaluatedTableName in a previous operation, so that you can obtain the next page of results.
+        public let exclusiveStartTableName: String?
+        /// A maximum number of table names to return. If this parameter is not specified, the limit is 100.
+        public let limit: Int32?
+
+        public init(exclusiveStartTableName: String? = nil, limit: Int32? = nil) {
+            self.exclusiveStartTableName = exclusiveStartTableName
+            self.limit = limit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclusiveStartTableName = "ExclusiveStartTableName"
+            case limit = "Limit"
+        }
+    }
+
     public struct TableDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LatestStreamArn", required: false, type: .string), 
@@ -765,6 +934,7 @@ extension Dynamodb {
             AWSShapeMember(label: "RestoreSummary", required: false, type: .structure), 
             AWSShapeMember(label: "ItemCount", required: false, type: .long), 
             AWSShapeMember(label: "TableId", required: false, type: .string), 
+            AWSShapeMember(label: "SSEDescription", required: false, type: .structure), 
             AWSShapeMember(label: "StreamSpecification", required: false, type: .structure), 
             AWSShapeMember(label: "AttributeDefinitions", required: false, type: .list), 
             AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
@@ -789,6 +959,8 @@ extension Dynamodb {
         public let itemCount: Int64?
         /// Unique identifier for the table for which the backup was created. 
         public let tableId: String?
+        /// The description of the server-side encryption status on the specified table.
+        public let sSEDescription: SSEDescription?
         /// The current DynamoDB Streams configuration for the table.
         public let streamSpecification: StreamSpecification?
         /// An array of AttributeDefinition objects. Each of these objects describes one attribute in the table and index key schema. Each AttributeDefinition object in this array is composed of:    AttributeName - The name of the attribute.    AttributeType - The data type for the attribute.  
@@ -808,7 +980,7 @@ extension Dynamodb {
         /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   the AWS customer ID.   the table name.   the StreamLabel.  
         public let latestStreamLabel: String?
 
-        public init(latestStreamArn: String? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, keySchema: [KeySchemaElement]? = nil, tableArn: String? = nil, restoreSummary: RestoreSummary? = nil, itemCount: Int64? = nil, tableId: String? = nil, streamSpecification: StreamSpecification? = nil, attributeDefinitions: [AttributeDefinition]? = nil, creationDateTime: TimeStamp? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, tableSizeBytes: Int64? = nil, tableName: String? = nil, tableStatus: TableStatus? = nil, latestStreamLabel: String? = nil) {
+        public init(latestStreamArn: String? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, keySchema: [KeySchemaElement]? = nil, tableArn: String? = nil, restoreSummary: RestoreSummary? = nil, itemCount: Int64? = nil, tableId: String? = nil, sSEDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, attributeDefinitions: [AttributeDefinition]? = nil, creationDateTime: TimeStamp? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, tableSizeBytes: Int64? = nil, tableName: String? = nil, tableStatus: TableStatus? = nil, latestStreamLabel: String? = nil) {
             self.latestStreamArn = latestStreamArn
             self.provisionedThroughput = provisionedThroughput
             self.keySchema = keySchema
@@ -816,6 +988,7 @@ extension Dynamodb {
             self.restoreSummary = restoreSummary
             self.itemCount = itemCount
             self.tableId = tableId
+            self.sSEDescription = sSEDescription
             self.streamSpecification = streamSpecification
             self.attributeDefinitions = attributeDefinitions
             self.creationDateTime = creationDateTime
@@ -835,6 +1008,7 @@ extension Dynamodb {
             case restoreSummary = "RestoreSummary"
             case itemCount = "ItemCount"
             case tableId = "TableId"
+            case sSEDescription = "SSEDescription"
             case streamSpecification = "StreamSpecification"
             case attributeDefinitions = "AttributeDefinitions"
             case creationDateTime = "CreationDateTime"
@@ -870,6 +1044,32 @@ extension Dynamodb {
             case backupDetails = "BackupDetails"
             case sourceTableFeatureDetails = "SourceTableFeatureDetails"
             case sourceTableDetails = "SourceTableDetails"
+        }
+    }
+
+    public struct ReplicaGlobalSecondaryIndexSettingsUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexName", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisionedReadCapacityUnits", required: false, type: .long), 
+            AWSShapeMember(label: "ProvisionedReadCapacityAutoScalingSettingsUpdate", required: false, type: .structure)
+        ]
+        /// The name of the global secondary index. The name must be unique among all other indexes on this table.
+        public let indexName: String
+        /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException.
+        public let provisionedReadCapacityUnits: Int64?
+        /// Autoscaling settings for managing a global secondary index replica's read capacity units.
+        public let provisionedReadCapacityAutoScalingSettingsUpdate: AutoScalingSettingsUpdate?
+
+        public init(indexName: String, provisionedReadCapacityUnits: Int64? = nil, provisionedReadCapacityAutoScalingSettingsUpdate: AutoScalingSettingsUpdate? = nil) {
+            self.indexName = indexName
+            self.provisionedReadCapacityUnits = provisionedReadCapacityUnits
+            self.provisionedReadCapacityAutoScalingSettingsUpdate = provisionedReadCapacityAutoScalingSettingsUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexName = "IndexName"
+            case provisionedReadCapacityUnits = "ProvisionedReadCapacityUnits"
+            case provisionedReadCapacityAutoScalingSettingsUpdate = "ProvisionedReadCapacityAutoScalingSettingsUpdate"
         }
     }
 
@@ -1050,7 +1250,7 @@ extension Dynamodb {
         ]
         /// List of BackupSummary objects.
         public let backupSummaries: [BackupSummary]?
-        /// Last evaluated BackupARN.
+        ///  The ARN of the backup last evaluated when the current page of results was returned, inclusive of the current page of results. This value may be specified as the ExclusiveStartBackupArn of a new ListBackups operation in order to fetch the next page of results.   If LastEvaluatedBackupArn is empty, then the last page of results has been processed and there are no more results to be retrieved.   If LastEvaluatedBackupArn is not empty, this may or may not indicate there is more data to be returned. All results are guaranteed to have been returned if and only if no value for LastEvaluatedBackupArn is returned. 
         public let lastEvaluatedBackupArn: String?
 
         public init(backupSummaries: [BackupSummary]? = nil, lastEvaluatedBackupArn: String? = nil) {
@@ -1212,6 +1412,22 @@ extension Dynamodb {
         }
     }
 
+    public struct RestoreTableFromBackupOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableDescription", required: false, type: .structure)
+        ]
+        /// The description of the table created from an existing backup.
+        public let tableDescription: TableDescription?
+
+        public init(tableDescription: TableDescription? = nil) {
+            self.tableDescription = tableDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableDescription = "TableDescription"
+        }
+    }
+
     public struct ProvisionedThroughputDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WriteCapacityUnits", required: false, type: .long), 
@@ -1248,20 +1464,10 @@ extension Dynamodb {
         }
     }
 
-    public struct RestoreTableFromBackupOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableDescription", required: false, type: .structure)
-        ]
-        /// The description of the table created from an existing backup.
-        public let tableDescription: TableDescription?
-
-        public init(tableDescription: TableDescription? = nil) {
-            self.tableDescription = tableDescription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tableDescription = "TableDescription"
-        }
+    public enum PointInTimeRecoveryStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
     }
 
     public struct PutItemInput: AWSShape {
@@ -1324,27 +1530,6 @@ extension Dynamodb {
         }
     }
 
-    public struct Condition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
-            AWSShapeMember(label: "AttributeValueList", required: false, type: .list)
-        ]
-        /// A comparator for evaluating attributes. For example, equals, greater than, less than, etc. The following comparison operators are available:  EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN  The following are descriptions of each comparison operator.    EQ : Equal. EQ is supported for all data types, including lists and maps.  AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]}.     NE : Not equal. NE is supported for all data types, including lists and maps.  AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]}.     LE : Less than or equal.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     LT : Less than.   AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     GE : Greater than or equal.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     GT : Greater than.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     NOT_NULL : The attribute exists. NOT_NULL is supported for all data types, including lists and maps.  This operator tests for the existence of an attribute, not its data type. If the data type of attribute "a" is null, and you evaluate it using NOT_NULL, the result is a Boolean true. This result is because the attribute "a" exists; its data type is not relevant to the NOT_NULL comparison operator.     NULL : The attribute does not exist. NULL is supported for all data types, including lists and maps.  This operator tests for the nonexistence of an attribute, not its data type. If the data type of attribute "a" is null, and you evaluate it using NULL, the result is a Boolean false. This is because the attribute "a" exists; its data type is not relevant to the NULL comparison operator.     CONTAINS : Checks for a subsequence, or value in a set.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is of type String, then the operator checks for a substring match. If the target attribute of the comparison is of type Binary, then the operator looks for a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS", "NS", or "BS"), then the operator evaluates to true if it finds an exact match with any member of the set. CONTAINS is supported for lists: When evaluating "a CONTAINS b", "a" can be a list; however, "b" cannot be a set, a map, or a list.    NOT_CONTAINS : Checks for absence of a subsequence, or absence of a value in a set.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS", "NS", or "BS"), then the operator evaluates to true if it does not find an exact match with any member of the set. NOT_CONTAINS is supported for lists: When evaluating "a NOT CONTAINS b", "a" can be a list; however, "b" cannot be a set, a map, or a list.    BEGINS_WITH : Checks for a prefix.   AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).     IN : Checks for matching elements in a list.  AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary. These attributes are compared against an existing attribute of an item. If any elements of the input are equal to the item attribute, the expression evaluates to true.    BETWEEN : Greater than or equal to the first value, and less than or equal to the second value.   AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not compare to {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}    For usage examples of AttributeValueList and ComparisonOperator, see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide.
-        public let comparisonOperator: ComparisonOperator
-        /// One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used. For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A, and a is greater than B. For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters. For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values.
-        public let attributeValueList: [AttributeValue]?
-
-        public init(comparisonOperator: ComparisonOperator, attributeValueList: [AttributeValue]? = nil) {
-            self.comparisonOperator = comparisonOperator
-            self.attributeValueList = attributeValueList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case comparisonOperator = "ComparisonOperator"
-            case attributeValueList = "AttributeValueList"
-        }
-    }
-
     public struct DescribeLimitsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TableMaxWriteCapacityUnits", required: false, type: .long), 
@@ -1376,6 +1561,27 @@ extension Dynamodb {
         }
     }
 
+    public struct Condition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
+            AWSShapeMember(label: "AttributeValueList", required: false, type: .list)
+        ]
+        /// A comparator for evaluating attributes. For example, equals, greater than, less than, etc. The following comparison operators are available:  EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN  The following are descriptions of each comparison operator.    EQ : Equal. EQ is supported for all data types, including lists and maps.  AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]}.     NE : Not equal. NE is supported for all data types, including lists and maps.  AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]}.     LE : Less than or equal.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     LT : Less than.   AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     GE : Greater than or equal.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     GT : Greater than.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     NOT_NULL : The attribute exists. NOT_NULL is supported for all data types, including lists and maps.  This operator tests for the existence of an attribute, not its data type. If the data type of attribute "a" is null, and you evaluate it using NOT_NULL, the result is a Boolean true. This result is because the attribute "a" exists; its data type is not relevant to the NOT_NULL comparison operator.     NULL : The attribute does not exist. NULL is supported for all data types, including lists and maps.  This operator tests for the nonexistence of an attribute, not its data type. If the data type of attribute "a" is null, and you evaluate it using NULL, the result is a Boolean false. This is because the attribute "a" exists; its data type is not relevant to the NULL comparison operator.     CONTAINS : Checks for a subsequence, or value in a set.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is of type String, then the operator checks for a substring match. If the target attribute of the comparison is of type Binary, then the operator looks for a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS", "NS", or "BS"), then the operator evaluates to true if it finds an exact match with any member of the set. CONTAINS is supported for lists: When evaluating "a CONTAINS b", "a" can be a list; however, "b" cannot be a set, a map, or a list.    NOT_CONTAINS : Checks for absence of a subsequence, or absence of a value in a set.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS", "NS", or "BS"), then the operator evaluates to true if it does not find an exact match with any member of the set. NOT_CONTAINS is supported for lists: When evaluating "a NOT CONTAINS b", "a" can be a list; however, "b" cannot be a set, a map, or a list.    BEGINS_WITH : Checks for a prefix.   AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).     IN : Checks for matching elements in a list.  AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary. These attributes are compared against an existing attribute of an item. If any elements of the input are equal to the item attribute, the expression evaluates to true.    BETWEEN : Greater than or equal to the first value, and less than or equal to the second value.   AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not compare to {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}    For usage examples of AttributeValueList and ComparisonOperator, see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide.
+        public let comparisonOperator: ComparisonOperator
+        /// One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used. For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A, and a is greater than B. For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters. For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values.
+        public let attributeValueList: [AttributeValue]?
+
+        public init(comparisonOperator: ComparisonOperator, attributeValueList: [AttributeValue]? = nil) {
+            self.comparisonOperator = comparisonOperator
+            self.attributeValueList = attributeValueList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonOperator = "ComparisonOperator"
+            case attributeValueList = "AttributeValueList"
+        }
+    }
+
     public struct DeleteItemOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConsumedCapacity", required: false, type: .structure), 
@@ -1400,6 +1606,13 @@ extension Dynamodb {
             case attributes = "Attributes"
             case itemCollectionMetrics = "ItemCollectionMetrics"
         }
+    }
+
+    public enum ReturnConsumedCapacity: String, CustomStringConvertible, Codable {
+        case indexes = "INDEXES"
+        case total = "TOTAL"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
     }
 
     public struct BatchGetItemOutput: AWSShape {
@@ -1428,10 +1641,11 @@ extension Dynamodb {
         }
     }
 
-    public enum ReturnConsumedCapacity: String, CustomStringConvertible, Codable {
-        case indexes = "INDEXES"
-        case total = "TOTAL"
-        case none = "NONE"
+    public enum ReplicaStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
+        case active = "ACTIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -1453,6 +1667,37 @@ extension Dynamodb {
         private enum CodingKeys: String, CodingKey {
             case item = "Item"
             case consumedCapacity = "ConsumedCapacity"
+        }
+    }
+
+    public struct AutoScalingTargetTrackingScalingPolicyConfigurationDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetValue", required: true, type: .double), 
+            AWSShapeMember(label: "ScaleInCooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "ScaleOutCooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "DisableScaleIn", required: false, type: .boolean)
+        ]
+        /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2).
+        public let targetValue: Double
+        /// The amount of time, in seconds, after a scale in activity completes before another scale in activity can start. The cooldown period is used to block subsequent scale in requests until it has expired. You should scale in conservatively to protect your application's availability. However, if another alarm triggers a scale out policy during the cooldown period after a scale-in, application autoscaling scales out your scalable target immediately. 
+        public let scaleInCooldown: Int32?
+        /// The amount of time, in seconds, after a scale out activity completes before another scale out activity can start. While the cooldown period is in effect, the capacity that has been added by the previous scale out event that initiated the cooldown is calculated as part of the desired capacity for the next scale out. You should continuously (but not excessively) scale out.
+        public let scaleOutCooldown: Int32?
+        /// Indicates whether scale in by the target tracking policy is disabled. If the value is true, scale in is disabled and the target tracking policy won't remove capacity from the scalable resource. Otherwise, scale in is enabled and the target tracking policy can remove capacity from the scalable resource. The default value is false.
+        public let disableScaleIn: Bool?
+
+        public init(targetValue: Double, scaleInCooldown: Int32? = nil, scaleOutCooldown: Int32? = nil, disableScaleIn: Bool? = nil) {
+            self.targetValue = targetValue
+            self.scaleInCooldown = scaleInCooldown
+            self.scaleOutCooldown = scaleOutCooldown
+            self.disableScaleIn = disableScaleIn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetValue = "TargetValue"
+            case scaleInCooldown = "ScaleInCooldown"
+            case scaleOutCooldown = "ScaleOutCooldown"
+            case disableScaleIn = "DisableScaleIn"
         }
     }
 
@@ -1723,6 +1968,37 @@ extension Dynamodb {
         }
     }
 
+    public struct ReplicaSettingsUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "ReplicaProvisionedReadCapacityUnits", required: false, type: .long), 
+            AWSShapeMember(label: "ReplicaGlobalSecondaryIndexSettingsUpdate", required: false, type: .list), 
+            AWSShapeMember(label: "RegionName", required: true, type: .string)
+        ]
+        /// Autoscaling settings for managing a global table replica's read capacity units.
+        public let replicaProvisionedReadCapacityAutoScalingSettingsUpdate: AutoScalingSettingsUpdate?
+        /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide. 
+        public let replicaProvisionedReadCapacityUnits: Int64?
+        /// Represents the settings of a global secondary index for a global table that will be modified.
+        public let replicaGlobalSecondaryIndexSettingsUpdate: [ReplicaGlobalSecondaryIndexSettingsUpdate]?
+        /// The region of the replica to be added.
+        public let regionName: String
+
+        public init(replicaProvisionedReadCapacityAutoScalingSettingsUpdate: AutoScalingSettingsUpdate? = nil, replicaProvisionedReadCapacityUnits: Int64? = nil, replicaGlobalSecondaryIndexSettingsUpdate: [ReplicaGlobalSecondaryIndexSettingsUpdate]? = nil, regionName: String) {
+            self.replicaProvisionedReadCapacityAutoScalingSettingsUpdate = replicaProvisionedReadCapacityAutoScalingSettingsUpdate
+            self.replicaProvisionedReadCapacityUnits = replicaProvisionedReadCapacityUnits
+            self.replicaGlobalSecondaryIndexSettingsUpdate = replicaGlobalSecondaryIndexSettingsUpdate
+            self.regionName = regionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicaProvisionedReadCapacityAutoScalingSettingsUpdate = "ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate"
+            case replicaProvisionedReadCapacityUnits = "ReplicaProvisionedReadCapacityUnits"
+            case replicaGlobalSecondaryIndexSettingsUpdate = "ReplicaGlobalSecondaryIndexSettingsUpdate"
+            case regionName = "RegionName"
+        }
+    }
+
     public struct UpdateGlobalTableInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GlobalTableName", required: true, type: .string), 
@@ -1775,6 +2051,32 @@ extension Dynamodb {
         case notContains = "NOT_CONTAINS"
         case beginsWith = "BEGINS_WITH"
         public var description: String { return self.rawValue }
+    }
+
+    public struct GlobalTableGlobalSecondaryIndexSettingsUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexName", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisionedWriteCapacityAutoScalingSettingsUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "ProvisionedWriteCapacityUnits", required: false, type: .long)
+        ]
+        /// The name of the global secondary index. The name must be unique among all other indexes on this table.
+        public let indexName: String
+        /// AutoScaling settings for managing a global secondary index's write capacity units.
+        public let provisionedWriteCapacityAutoScalingSettingsUpdate: AutoScalingSettingsUpdate?
+        /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException. 
+        public let provisionedWriteCapacityUnits: Int64?
+
+        public init(indexName: String, provisionedWriteCapacityAutoScalingSettingsUpdate: AutoScalingSettingsUpdate? = nil, provisionedWriteCapacityUnits: Int64? = nil) {
+            self.indexName = indexName
+            self.provisionedWriteCapacityAutoScalingSettingsUpdate = provisionedWriteCapacityAutoScalingSettingsUpdate
+            self.provisionedWriteCapacityUnits = provisionedWriteCapacityUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexName = "IndexName"
+            case provisionedWriteCapacityAutoScalingSettingsUpdate = "ProvisionedWriteCapacityAutoScalingSettingsUpdate"
+            case provisionedWriteCapacityUnits = "ProvisionedWriteCapacityUnits"
+        }
     }
 
     public struct GlobalSecondaryIndexUpdate: AWSShape {
@@ -1918,6 +2220,22 @@ extension Dynamodb {
         public var description: String { return self.rawValue }
     }
 
+    public struct SSESpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
+        ]
+        /// Indicates whether server-side encryption is enabled (true) or disabled (false) on the table.
+        public let enabled: Bool
+
+        public init(enabled: Bool) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
     public struct DescribeTimeToLiveOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TimeToLiveDescription", required: false, type: .structure)
@@ -1933,12 +2251,80 @@ extension Dynamodb {
         }
     }
 
+    public struct UpdateGlobalTableSettingsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalTableProvisionedWriteCapacityUnits", required: false, type: .long), 
+            AWSShapeMember(label: "GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "GlobalTableGlobalSecondaryIndexSettingsUpdate", required: false, type: .list), 
+            AWSShapeMember(label: "GlobalTableName", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicaSettingsUpdate", required: false, type: .list)
+        ]
+        /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException. 
+        public let globalTableProvisionedWriteCapacityUnits: Int64?
+        /// AutoScaling settings for managing provisioned write capacity for the global table.
+        public let globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate: AutoScalingSettingsUpdate?
+        /// Represents the settings of a global secondary index for a global table that will be modified.
+        public let globalTableGlobalSecondaryIndexSettingsUpdate: [GlobalTableGlobalSecondaryIndexSettingsUpdate]?
+        /// The name of the global table
+        public let globalTableName: String
+        /// Represents the settings for a global table in a region that will be modified.
+        public let replicaSettingsUpdate: [ReplicaSettingsUpdate]?
+
+        public init(globalTableProvisionedWriteCapacityUnits: Int64? = nil, globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate: AutoScalingSettingsUpdate? = nil, globalTableGlobalSecondaryIndexSettingsUpdate: [GlobalTableGlobalSecondaryIndexSettingsUpdate]? = nil, globalTableName: String, replicaSettingsUpdate: [ReplicaSettingsUpdate]? = nil) {
+            self.globalTableProvisionedWriteCapacityUnits = globalTableProvisionedWriteCapacityUnits
+            self.globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate = globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate
+            self.globalTableGlobalSecondaryIndexSettingsUpdate = globalTableGlobalSecondaryIndexSettingsUpdate
+            self.globalTableName = globalTableName
+            self.replicaSettingsUpdate = replicaSettingsUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalTableProvisionedWriteCapacityUnits = "GlobalTableProvisionedWriteCapacityUnits"
+            case globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate = "GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate"
+            case globalTableGlobalSecondaryIndexSettingsUpdate = "GlobalTableGlobalSecondaryIndexSettingsUpdate"
+            case globalTableName = "GlobalTableName"
+            case replicaSettingsUpdate = "ReplicaSettingsUpdate"
+        }
+    }
+
+    public struct PointInTimeRecoverySpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PointInTimeRecoveryEnabled", required: true, type: .boolean)
+        ]
+        /// Indicates whether point in time recovery is enabled (true) or disabled (false) on the table.
+        public let pointInTimeRecoveryEnabled: Bool
+
+        public init(pointInTimeRecoveryEnabled: Bool) {
+            self.pointInTimeRecoveryEnabled = pointInTimeRecoveryEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pointInTimeRecoveryEnabled = "PointInTimeRecoveryEnabled"
+        }
+    }
+
     public enum Select: String, CustomStringConvertible, Codable {
         case allAttributes = "ALL_ATTRIBUTES"
         case allProjectedAttributes = "ALL_PROJECTED_ATTRIBUTES"
         case specificAttributes = "SPECIFIC_ATTRIBUTES"
         case count = "COUNT"
         public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateContinuousBackupsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContinuousBackupsDescription", required: false, type: .structure)
+        ]
+        /// Represents the continuous backups and point in time recovery settings on the table.
+        public let continuousBackupsDescription: ContinuousBackupsDescription?
+
+        public init(continuousBackupsDescription: ContinuousBackupsDescription? = nil) {
+            self.continuousBackupsDescription = continuousBackupsDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continuousBackupsDescription = "ContinuousBackupsDescription"
+        }
     }
 
     public struct ExpectedAttributeValue: AWSShape {
@@ -1969,6 +2355,63 @@ extension Dynamodb {
             case comparisonOperator = "ComparisonOperator"
             case value = "Value"
             case exists = "Exists"
+        }
+    }
+
+    public struct AutoScalingSettingsUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingDisabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "ScalingPolicyUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "MinimumUnits", required: false, type: .long), 
+            AWSShapeMember(label: "AutoScalingRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "MaximumUnits", required: false, type: .long)
+        ]
+        /// Disabled autoscaling for this global table or global secondary index.
+        public let autoScalingDisabled: Bool?
+        /// The scaling policy to apply for scaling target global table or global secondary index capacity units.
+        public let scalingPolicyUpdate: AutoScalingPolicyUpdate?
+        /// The minimum capacity units that a global table or global secondary index should be scaled down to.
+        public let minimumUnits: Int64?
+        /// Role ARN used for configuring autoscaling policy.
+        public let autoScalingRoleArn: String?
+        /// The maximum capacity units that a global table or global secondary index should be scaled up to.
+        public let maximumUnits: Int64?
+
+        public init(autoScalingDisabled: Bool? = nil, scalingPolicyUpdate: AutoScalingPolicyUpdate? = nil, minimumUnits: Int64? = nil, autoScalingRoleArn: String? = nil, maximumUnits: Int64? = nil) {
+            self.autoScalingDisabled = autoScalingDisabled
+            self.scalingPolicyUpdate = scalingPolicyUpdate
+            self.minimumUnits = minimumUnits
+            self.autoScalingRoleArn = autoScalingRoleArn
+            self.maximumUnits = maximumUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingDisabled = "AutoScalingDisabled"
+            case scalingPolicyUpdate = "ScalingPolicyUpdate"
+            case minimumUnits = "MinimumUnits"
+            case autoScalingRoleArn = "AutoScalingRoleArn"
+            case maximumUnits = "MaximumUnits"
+        }
+    }
+
+    public struct DescribeGlobalTableSettingsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicaSettings", required: false, type: .list), 
+            AWSShapeMember(label: "GlobalTableName", required: false, type: .string)
+        ]
+        /// The region specific settings for the global table.
+        public let replicaSettings: [ReplicaSettingsDescription]?
+        /// The name of the global table.
+        public let globalTableName: String?
+
+        public init(replicaSettings: [ReplicaSettingsDescription]? = nil, globalTableName: String? = nil) {
+            self.replicaSettings = replicaSettings
+            self.globalTableName = globalTableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicaSettings = "ReplicaSettings"
+            case globalTableName = "GlobalTableName"
         }
     }
 
@@ -2070,6 +2513,27 @@ extension Dynamodb {
         }
     }
 
+    public struct AutoScalingPolicyDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetTrackingScalingPolicyConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "PolicyName", required: false, type: .string)
+        ]
+        /// Represents a target tracking scaling policy configuration.
+        public let targetTrackingScalingPolicyConfiguration: AutoScalingTargetTrackingScalingPolicyConfigurationDescription?
+        /// The name of the scaling policy.
+        public let policyName: String?
+
+        public init(targetTrackingScalingPolicyConfiguration: AutoScalingTargetTrackingScalingPolicyConfigurationDescription? = nil, policyName: String? = nil) {
+            self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
+            self.policyName = policyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetTrackingScalingPolicyConfiguration = "TargetTrackingScalingPolicyConfiguration"
+            case policyName = "PolicyName"
+        }
+    }
+
     public struct ListGlobalTablesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
@@ -2112,11 +2576,37 @@ extension Dynamodb {
         }
     }
 
+    public struct PointInTimeRecoveryDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PointInTimeRecoveryStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "EarliestRestorableDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LatestRestorableDateTime", required: false, type: .timestamp)
+        ]
+        /// The current state of point in time recovery:    ENABLING - Point in time recovery is being enabled.    ENABLED - Point in time recovery is enabled.    DISABLED - Point in time recovery is disabled.  
+        public let pointInTimeRecoveryStatus: PointInTimeRecoveryStatus?
+        /// Specifies the earliest point in time you can restore your table to. It You can restore your table to any point in time during the last 35 days. 
+        public let earliestRestorableDateTime: TimeStamp?
+        ///  LatestRestorableDateTime is typically 5 minutes before the current time. 
+        public let latestRestorableDateTime: TimeStamp?
+
+        public init(pointInTimeRecoveryStatus: PointInTimeRecoveryStatus? = nil, earliestRestorableDateTime: TimeStamp? = nil, latestRestorableDateTime: TimeStamp? = nil) {
+            self.pointInTimeRecoveryStatus = pointInTimeRecoveryStatus
+            self.earliestRestorableDateTime = earliestRestorableDateTime
+            self.latestRestorableDateTime = latestRestorableDateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pointInTimeRecoveryStatus = "PointInTimeRecoveryStatus"
+            case earliestRestorableDateTime = "EarliestRestorableDateTime"
+            case latestRestorableDateTime = "LatestRestorableDateTime"
+        }
+    }
+
     public struct DescribeContinuousBackupsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
-        /// Name of the table for which the customer wants to check the backup and restore settings.
+        /// Name of the table for which the customer wants to check the continuous backups and point in time recovery settings.
         public let tableName: String
 
         public init(tableName: String) {
@@ -2144,6 +2634,68 @@ extension Dynamodb {
         }
     }
 
+    public struct RestoreTableToPointInTimeInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UseLatestRestorableTime", required: false, type: .boolean), 
+            AWSShapeMember(label: "RestoreDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TargetTableName", required: true, type: .string), 
+            AWSShapeMember(label: "SourceTableName", required: true, type: .string)
+        ]
+        /// Restore the table to the latest possible time. LatestRestorableDateTime is typically 5 minutes before the current time. 
+        public let useLatestRestorableTime: Bool?
+        /// Time in the past to restore the table to.
+        public let restoreDateTime: TimeStamp?
+        /// The name of the new table to which it must be restored to.
+        public let targetTableName: String
+        /// Name of the source table that is being restored.
+        public let sourceTableName: String
+
+        public init(useLatestRestorableTime: Bool? = nil, restoreDateTime: TimeStamp? = nil, targetTableName: String, sourceTableName: String) {
+            self.useLatestRestorableTime = useLatestRestorableTime
+            self.restoreDateTime = restoreDateTime
+            self.targetTableName = targetTableName
+            self.sourceTableName = sourceTableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case useLatestRestorableTime = "UseLatestRestorableTime"
+            case restoreDateTime = "RestoreDateTime"
+            case targetTableName = "TargetTableName"
+            case sourceTableName = "SourceTableName"
+        }
+    }
+
+    public struct AutoScalingTargetTrackingScalingPolicyConfigurationUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetValue", required: true, type: .double), 
+            AWSShapeMember(label: "ScaleInCooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "ScaleOutCooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "DisableScaleIn", required: false, type: .boolean)
+        ]
+        /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2).
+        public let targetValue: Double
+        /// The amount of time, in seconds, after a scale in activity completes before another scale in activity can start. The cooldown period is used to block subsequent scale in requests until it has expired. You should scale in conservatively to protect your application's availability. However, if another alarm triggers a scale out policy during the cooldown period after a scale-in, application autoscaling scales out your scalable target immediately. 
+        public let scaleInCooldown: Int32?
+        /// The amount of time, in seconds, after a scale out activity completes before another scale out activity can start. While the cooldown period is in effect, the capacity that has been added by the previous scale out event that initiated the cooldown is calculated as part of the desired capacity for the next scale out. You should continuously (but not excessively) scale out.
+        public let scaleOutCooldown: Int32?
+        /// Indicates whether scale in by the target tracking policy is disabled. If the value is true, scale in is disabled and the target tracking policy won't remove capacity from the scalable resource. Otherwise, scale in is enabled and the target tracking policy can remove capacity from the scalable resource. The default value is false.
+        public let disableScaleIn: Bool?
+
+        public init(targetValue: Double, scaleInCooldown: Int32? = nil, scaleOutCooldown: Int32? = nil, disableScaleIn: Bool? = nil) {
+            self.targetValue = targetValue
+            self.scaleInCooldown = scaleInCooldown
+            self.scaleOutCooldown = scaleOutCooldown
+            self.disableScaleIn = disableScaleIn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetValue = "TargetValue"
+            case scaleInCooldown = "ScaleInCooldown"
+            case scaleOutCooldown = "ScaleOutCooldown"
+            case disableScaleIn = "DisableScaleIn"
+        }
+    }
+
     public struct CreateTableInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeDefinitions", required: true, type: .list), 
@@ -2151,6 +2703,7 @@ extension Dynamodb {
             AWSShapeMember(label: "ProvisionedThroughput", required: true, type: .structure), 
             AWSShapeMember(label: "LocalSecondaryIndexes", required: false, type: .list), 
             AWSShapeMember(label: "GlobalSecondaryIndexes", required: false, type: .list), 
+            AWSShapeMember(label: "SSESpecification", required: false, type: .structure), 
             AWSShapeMember(label: "TableName", required: true, type: .string), 
             AWSShapeMember(label: "StreamSpecification", required: false, type: .structure)
         ]
@@ -2164,17 +2717,20 @@ extension Dynamodb {
         public let localSecondaryIndexes: [LocalSecondaryIndex]?
         /// One or more global secondary indexes (the maximum is five) to be created on the table. Each global secondary index in the array includes the following:    IndexName - The name of the global secondary index. Must be unique only for this table.     KeySchema - Specifies the key schema for the global secondary index.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.      ProvisionedThroughput - The provisioned throughput settings for the global secondary index, consisting of read and write capacity units.  
         public let globalSecondaryIndexes: [GlobalSecondaryIndex]?
+        /// Represents the settings used to enable server-side encryption.
+        public let sSESpecification: SSESpecification?
         /// The name of the table to create.
         public let tableName: String
         /// The settings for DynamoDB Streams on the table. These settings consist of:    StreamEnabled - Indicates whether Streams is to be enabled (true) or disabled (false).    StreamViewType - When an item in the table is modified, StreamViewType determines what information is written to the table's stream. Valid values for StreamViewType are:    KEYS_ONLY - Only the key attributes of the modified item are written to the stream.    NEW_IMAGE - The entire item, as it appears after it was modified, is written to the stream.    OLD_IMAGE - The entire item, as it appeared before it was modified, is written to the stream.    NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.    
         public let streamSpecification: StreamSpecification?
 
-        public init(attributeDefinitions: [AttributeDefinition], keySchema: [KeySchemaElement], provisionedThroughput: ProvisionedThroughput, localSecondaryIndexes: [LocalSecondaryIndex]? = nil, globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil, tableName: String, streamSpecification: StreamSpecification? = nil) {
+        public init(attributeDefinitions: [AttributeDefinition], keySchema: [KeySchemaElement], provisionedThroughput: ProvisionedThroughput, localSecondaryIndexes: [LocalSecondaryIndex]? = nil, globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil, sSESpecification: SSESpecification? = nil, tableName: String, streamSpecification: StreamSpecification? = nil) {
             self.attributeDefinitions = attributeDefinitions
             self.keySchema = keySchema
             self.provisionedThroughput = provisionedThroughput
             self.localSecondaryIndexes = localSecondaryIndexes
             self.globalSecondaryIndexes = globalSecondaryIndexes
+            self.sSESpecification = sSESpecification
             self.tableName = tableName
             self.streamSpecification = streamSpecification
         }
@@ -2185,6 +2741,7 @@ extension Dynamodb {
             case provisionedThroughput = "ProvisionedThroughput"
             case localSecondaryIndexes = "LocalSecondaryIndexes"
             case globalSecondaryIndexes = "GlobalSecondaryIndexes"
+            case sSESpecification = "SSESpecification"
             case tableName = "TableName"
             case streamSpecification = "StreamSpecification"
         }
@@ -2221,17 +2778,22 @@ extension Dynamodb {
 
     public struct ContinuousBackupsDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContinuousBackupsStatus", required: true, type: .enum)
+            AWSShapeMember(label: "ContinuousBackupsStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "PointInTimeRecoveryDescription", required: false, type: .structure)
         ]
-        /// ContinuousBackupsStatus can be one of the following states : ENABLED, DISABLED
+        ///  ContinuousBackupsStatus can be one of the following states : ENABLED, DISABLED
         public let continuousBackupsStatus: ContinuousBackupsStatus
+        /// The description of the point in time recovery settings applied to the table.
+        public let pointInTimeRecoveryDescription: PointInTimeRecoveryDescription?
 
-        public init(continuousBackupsStatus: ContinuousBackupsStatus) {
+        public init(continuousBackupsStatus: ContinuousBackupsStatus, pointInTimeRecoveryDescription: PointInTimeRecoveryDescription? = nil) {
             self.continuousBackupsStatus = continuousBackupsStatus
+            self.pointInTimeRecoveryDescription = pointInTimeRecoveryDescription
         }
 
         private enum CodingKeys: String, CodingKey {
             case continuousBackupsStatus = "ContinuousBackupsStatus"
+            case pointInTimeRecoveryDescription = "PointInTimeRecoveryDescription"
         }
     }
 
@@ -2287,6 +2849,27 @@ extension Dynamodb {
         }
     }
 
+    public struct UntagResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+        /// The Amazon DyanamoDB resource the tags will be removed from. This value is an Amazon Resource Name (ARN).
+        public let resourceArn: String
+        /// A list of tag keys. Existing tags of the resource whose keys are members of this list will be removed from the Amazon DynamoDB resource.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
     public struct RestoreSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SourceTableArn", required: false, type: .string), 
@@ -2315,27 +2898,6 @@ extension Dynamodb {
             case restoreDateTime = "RestoreDateTime"
             case sourceBackupArn = "SourceBackupArn"
             case restoreInProgress = "RestoreInProgress"
-        }
-    }
-
-    public struct UntagResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
-        /// The Amazon DyanamoDB resource the tags will be removed from. This value is an Amazon Resource Name (ARN).
-        public let resourceArn: String
-        /// A list of tag keys. Existing tags of the resource whose keys are members of this list will be removed from the Amazon DynamoDB resource.
-        public let tagKeys: [String]
-
-        public init(resourceArn: String, tagKeys: [String]) {
-            self.resourceArn = resourceArn
-            self.tagKeys = tagKeys
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-            case tagKeys = "TagKeys"
         }
     }
 
@@ -2384,6 +2946,22 @@ extension Dynamodb {
 
     }
 
+    public struct RestoreTableToPointInTimeOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableDescription", required: false, type: .structure)
+        ]
+        /// Represents the properties of a table.
+        public let tableDescription: TableDescription?
+
+        public init(tableDescription: TableDescription? = nil) {
+            self.tableDescription = tableDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableDescription = "TableDescription"
+        }
+    }
+
     public enum ScalarAttributeType: String, CustomStringConvertible, Codable {
         case s = "S"
         case n = "N"
@@ -2407,11 +2985,25 @@ extension Dynamodb {
         }
     }
 
+    public enum SSEType: String, CustomStringConvertible, Codable {
+        case aes256 = "AES256"
+        case kms = "KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TableStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeContinuousBackupsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContinuousBackupsDescription", required: false, type: .structure)
         ]
-        ///  ContinuousBackupsDescription can be one of the following : ENABLED, DISABLED. 
+        /// Represents the continuous backups and point in time recovery settings on the table.
         public let continuousBackupsDescription: ContinuousBackupsDescription?
 
         public init(continuousBackupsDescription: ContinuousBackupsDescription? = nil) {
@@ -2423,12 +3015,50 @@ extension Dynamodb {
         }
     }
 
-    public enum TableStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
-        case active = "ACTIVE"
-        public var description: String { return self.rawValue }
+    public struct ReplicaSettingsDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicaProvisionedWriteCapacityUnits", required: false, type: .long), 
+            AWSShapeMember(label: "ReplicaProvisionedWriteCapacityAutoScalingSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "ReplicaProvisionedReadCapacityUnits", required: false, type: .long), 
+            AWSShapeMember(label: "ReplicaGlobalSecondaryIndexSettings", required: false, type: .list), 
+            AWSShapeMember(label: "ReplicaProvisionedReadCapacityAutoScalingSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "ReplicaStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "RegionName", required: true, type: .string)
+        ]
+        /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException. For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide.
+        public let replicaProvisionedWriteCapacityUnits: Int64?
+        /// AutoScaling settings for a global table replica's write capacity units.
+        public let replicaProvisionedWriteCapacityAutoScalingSettings: AutoScalingSettingsDescription?
+        /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide. 
+        public let replicaProvisionedReadCapacityUnits: Int64?
+        /// Replica global secondary index settings for the global table.
+        public let replicaGlobalSecondaryIndexSettings: [ReplicaGlobalSecondaryIndexSettingsDescription]?
+        /// Autoscaling settings for a global table replica's read capacity units.
+        public let replicaProvisionedReadCapacityAutoScalingSettings: AutoScalingSettingsDescription?
+        /// The current state of the region:    CREATING - The region is being created.    UPDATING - The region is being updated.    DELETING - The region is being deleted.    ACTIVE - The region is ready for use.  
+        public let replicaStatus: ReplicaStatus?
+        /// The region name of the replica.
+        public let regionName: String
+
+        public init(replicaProvisionedWriteCapacityUnits: Int64? = nil, replicaProvisionedWriteCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, replicaProvisionedReadCapacityUnits: Int64? = nil, replicaGlobalSecondaryIndexSettings: [ReplicaGlobalSecondaryIndexSettingsDescription]? = nil, replicaProvisionedReadCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, replicaStatus: ReplicaStatus? = nil, regionName: String) {
+            self.replicaProvisionedWriteCapacityUnits = replicaProvisionedWriteCapacityUnits
+            self.replicaProvisionedWriteCapacityAutoScalingSettings = replicaProvisionedWriteCapacityAutoScalingSettings
+            self.replicaProvisionedReadCapacityUnits = replicaProvisionedReadCapacityUnits
+            self.replicaGlobalSecondaryIndexSettings = replicaGlobalSecondaryIndexSettings
+            self.replicaProvisionedReadCapacityAutoScalingSettings = replicaProvisionedReadCapacityAutoScalingSettings
+            self.replicaStatus = replicaStatus
+            self.regionName = regionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicaProvisionedWriteCapacityUnits = "ReplicaProvisionedWriteCapacityUnits"
+            case replicaProvisionedWriteCapacityAutoScalingSettings = "ReplicaProvisionedWriteCapacityAutoScalingSettings"
+            case replicaProvisionedReadCapacityUnits = "ReplicaProvisionedReadCapacityUnits"
+            case replicaGlobalSecondaryIndexSettings = "ReplicaGlobalSecondaryIndexSettings"
+            case replicaProvisionedReadCapacityAutoScalingSettings = "ReplicaProvisionedReadCapacityAutoScalingSettings"
+            case replicaStatus = "ReplicaStatus"
+            case regionName = "RegionName"
+        }
     }
 
     public struct DeleteTableOutput: AWSShape {
@@ -2705,6 +3335,7 @@ extension Dynamodb {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TimeToLiveDescription", required: false, type: .structure), 
             AWSShapeMember(label: "LocalSecondaryIndexes", required: false, type: .list), 
+            AWSShapeMember(label: "SSEDescription", required: false, type: .structure), 
             AWSShapeMember(label: "GlobalSecondaryIndexes", required: false, type: .list), 
             AWSShapeMember(label: "StreamDescription", required: false, type: .structure)
         ]
@@ -2712,14 +3343,17 @@ extension Dynamodb {
         public let timeToLiveDescription: TimeToLiveDescription?
         /// Represents the LSI properties for the table when the backup was created. It includes the IndexName, KeySchema and Projection for the LSIs on the table at the time of backup. 
         public let localSecondaryIndexes: [LocalSecondaryIndexInfo]?
+        /// The description of the server-side encryption status on the table when the backup was created.
+        public let sSEDescription: SSEDescription?
         /// Represents the GSI properties for the table when the backup was created. It includes the IndexName, KeySchema, Projection and ProvisionedThroughput for the GSIs on the table at the time of backup. 
         public let globalSecondaryIndexes: [GlobalSecondaryIndexInfo]?
         /// Stream settings on the table when the backup was created.
         public let streamDescription: StreamSpecification?
 
-        public init(timeToLiveDescription: TimeToLiveDescription? = nil, localSecondaryIndexes: [LocalSecondaryIndexInfo]? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexInfo]? = nil, streamDescription: StreamSpecification? = nil) {
+        public init(timeToLiveDescription: TimeToLiveDescription? = nil, localSecondaryIndexes: [LocalSecondaryIndexInfo]? = nil, sSEDescription: SSEDescription? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexInfo]? = nil, streamDescription: StreamSpecification? = nil) {
             self.timeToLiveDescription = timeToLiveDescription
             self.localSecondaryIndexes = localSecondaryIndexes
+            self.sSEDescription = sSEDescription
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.streamDescription = streamDescription
         }
@@ -2727,24 +3361,9 @@ extension Dynamodb {
         private enum CodingKeys: String, CodingKey {
             case timeToLiveDescription = "TimeToLiveDescription"
             case localSecondaryIndexes = "LocalSecondaryIndexes"
+            case sSEDescription = "SSEDescription"
             case globalSecondaryIndexes = "GlobalSecondaryIndexes"
             case streamDescription = "StreamDescription"
-        }
-    }
-
-    public struct DeleteGlobalSecondaryIndexAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexName", required: true, type: .string)
-        ]
-        /// The name of the global secondary index to be deleted.
-        public let indexName: String
-
-        public init(indexName: String) {
-            self.indexName = indexName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case indexName = "IndexName"
         }
     }
 
@@ -2766,6 +3385,22 @@ extension Dynamodb {
         private enum CodingKeys: String, CodingKey {
             case backupArn = "BackupArn"
             case targetTableName = "TargetTableName"
+        }
+    }
+
+    public struct DeleteGlobalSecondaryIndexAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexName", required: true, type: .string)
+        ]
+        /// The name of the global secondary index to be deleted.
+        public let indexName: String
+
+        public init(indexName: String) {
+            self.indexName = indexName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexName = "IndexName"
         }
     }
 
@@ -2848,6 +3483,27 @@ extension Dynamodb {
         private enum CodingKeys: String, CodingKey {
             case indexName = "IndexName"
             case provisionedThroughput = "ProvisionedThroughput"
+        }
+    }
+
+    public struct AutoScalingPolicyUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetTrackingScalingPolicyConfiguration", required: true, type: .structure), 
+            AWSShapeMember(label: "PolicyName", required: false, type: .string)
+        ]
+        /// Represents a target tracking scaling policy configuration.
+        public let targetTrackingScalingPolicyConfiguration: AutoScalingTargetTrackingScalingPolicyConfigurationUpdate
+        /// The name of the scaling policy.
+        public let policyName: String?
+
+        public init(targetTrackingScalingPolicyConfiguration: AutoScalingTargetTrackingScalingPolicyConfigurationUpdate, policyName: String? = nil) {
+            self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
+            self.policyName = policyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetTrackingScalingPolicyConfiguration = "TargetTrackingScalingPolicyConfiguration"
+            case policyName = "PolicyName"
         }
     }
 

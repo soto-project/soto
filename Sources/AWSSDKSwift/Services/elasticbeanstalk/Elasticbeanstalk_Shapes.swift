@@ -717,7 +717,7 @@ extension Elasticbeanstalk {
         public let buildConfiguration: BuildConfiguration?
         /// Specify a commit in an AWS CodeCommit Git repository to use as the source code for the application version.
         public let sourceBuildInformation: SourceBuildInformation?
-        /// Preprocesses and validates the environment manifest and configuration files in the source bundle. Validating configuration files can identify issues prior to deploying the application version to an environment.
+        /// Pre-processes and validates the environment manifest (env.yaml) and configuration files (*.config files in the .ebextensions folder) in the source bundle. Validating configuration files can identify issues prior to deploying the application version to an environment. You must turn processing on for application versions that you create using AWS CodeBuild or AWS CodeCommit. For application versions built from a source bundle in Amazon S3, processing is optional.  The Process option validates Elastic Beanstalk configuration files. It doesn't validate your application's configuration files, like proxy server or Docker configuration. 
         public let process: Bool?
         ///  The name of the application. If no application is found with this name, and AutoCreateApplication is false, returns an InvalidParameterValue error. 
         public let applicationName: String
@@ -1107,6 +1107,7 @@ extension Elasticbeanstalk {
             AWSShapeMember(label: "ConfigurationTemplates", required: false, type: .list), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "DateUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ApplicationArn", required: false, type: .string), 
             AWSShapeMember(label: "ResourceLifecycleConfig", required: false, type: .structure), 
             AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
             AWSShapeMember(label: "DateCreated", required: false, type: .timestamp), 
@@ -1118,6 +1119,8 @@ extension Elasticbeanstalk {
         public let description: String?
         /// The date when the application was last modified.
         public let dateUpdated: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the application.
+        public let applicationArn: String?
         /// The lifecycle settings for the application.
         public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig?
         /// The name of the application.
@@ -1127,10 +1130,11 @@ extension Elasticbeanstalk {
         /// The names of the versions for this application.
         public let versions: [String]?
 
-        public init(configurationTemplates: [String]? = nil, description: String? = nil, dateUpdated: TimeStamp? = nil, resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil, applicationName: String? = nil, dateCreated: TimeStamp? = nil, versions: [String]? = nil) {
+        public init(configurationTemplates: [String]? = nil, description: String? = nil, dateUpdated: TimeStamp? = nil, applicationArn: String? = nil, resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil, applicationName: String? = nil, dateCreated: TimeStamp? = nil, versions: [String]? = nil) {
             self.configurationTemplates = configurationTemplates
             self.description = description
             self.dateUpdated = dateUpdated
+            self.applicationArn = applicationArn
             self.resourceLifecycleConfig = resourceLifecycleConfig
             self.applicationName = applicationName
             self.dateCreated = dateCreated
@@ -1141,6 +1145,7 @@ extension Elasticbeanstalk {
             case configurationTemplates = "ConfigurationTemplates"
             case description = "Description"
             case dateUpdated = "DateUpdated"
+            case applicationArn = "ApplicationArn"
             case resourceLifecycleConfig = "ResourceLifecycleConfig"
             case applicationName = "ApplicationName"
             case dateCreated = "DateCreated"
@@ -1314,7 +1319,7 @@ extension Elasticbeanstalk {
         public let templateName: String
         /// The name of the solution stack used by this configuration. The solution stack specifies the operating system, architecture, and application server for a configuration template. It determines the set of configuration options as well as the possible and default values.  Use ListAvailableSolutionStacks to obtain a list of available solution stacks.   A solution stack name or a source configuration parameter must be specified, otherwise AWS Elastic Beanstalk returns an InvalidParameterValue error.  If a solution stack name is not specified and the source configuration parameter is specified, AWS Elastic Beanstalk uses the same solution stack as the source configuration template.
         public let solutionStackName: String?
-        /// The ARN of the custome platform.
+        /// The ARN of the custom platform.
         public let platformArn: String?
         /// The ID of the environment used with this configuration template.
         public let environmentId: String?
@@ -1472,7 +1477,7 @@ extension Elasticbeanstalk {
         public let templateName: String?
         /// The application version deployed in this environment.
         public let versionLabel: String?
-        /// The environment's Amazon Resource Name (ARN), which can be used in other API reuqests that require an ARN.
+        /// The environment's Amazon Resource Name (ARN), which can be used in other API requests that require an ARN.
         public let environmentArn: String?
         /// The URL to the CNAME for this environment.
         public let cname: String?
@@ -1643,6 +1648,22 @@ extension Elasticbeanstalk {
         }
     }
 
+    public struct DescribeAccountAttributesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceQuotas", required: false, type: .structure)
+        ]
+        /// The Elastic Beanstalk resource quotas associated with the calling AWS account.
+        public let resourceQuotas: ResourceQuotas?
+
+        public init(resourceQuotas: ResourceQuotas? = nil) {
+            self.resourceQuotas = resourceQuotas
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceQuotas = "ResourceQuotas"
+        }
+    }
+
     public struct SourceBuildInformation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SourceLocation", required: true, type: .string), 
@@ -1799,6 +1820,42 @@ extension Elasticbeanstalk {
         }
     }
 
+    public struct ResourceQuotas: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomPlatformQuota", required: false, type: .structure), 
+            AWSShapeMember(label: "ApplicationQuota", required: false, type: .structure), 
+            AWSShapeMember(label: "ConfigurationTemplateQuota", required: false, type: .structure), 
+            AWSShapeMember(label: "ApplicationVersionQuota", required: false, type: .structure), 
+            AWSShapeMember(label: "EnvironmentQuota", required: false, type: .structure)
+        ]
+        /// The quota for custom platforms in the AWS account.
+        public let customPlatformQuota: ResourceQuota?
+        /// The quota for applications in the AWS account.
+        public let applicationQuota: ResourceQuota?
+        /// The quota for configuration templates in the AWS account.
+        public let configurationTemplateQuota: ResourceQuota?
+        /// The quota for application versions in the AWS account.
+        public let applicationVersionQuota: ResourceQuota?
+        /// The quota for environments in the AWS account.
+        public let environmentQuota: ResourceQuota?
+
+        public init(customPlatformQuota: ResourceQuota? = nil, applicationQuota: ResourceQuota? = nil, configurationTemplateQuota: ResourceQuota? = nil, applicationVersionQuota: ResourceQuota? = nil, environmentQuota: ResourceQuota? = nil) {
+            self.customPlatformQuota = customPlatformQuota
+            self.applicationQuota = applicationQuota
+            self.configurationTemplateQuota = configurationTemplateQuota
+            self.applicationVersionQuota = applicationVersionQuota
+            self.environmentQuota = environmentQuota
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customPlatformQuota = "CustomPlatformQuota"
+            case applicationQuota = "ApplicationQuota"
+            case configurationTemplateQuota = "ConfigurationTemplateQuota"
+            case applicationVersionQuota = "ApplicationVersionQuota"
+            case environmentQuota = "EnvironmentQuota"
+        }
+    }
+
     public struct OptionRestrictionRegex: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Pattern", required: false, type: .string), 
@@ -1858,7 +1915,7 @@ extension Elasticbeanstalk {
         ]
         /// The application version lifecycle configuration.
         public let versionLifecycleConfig: ApplicationVersionLifecycleConfig?
-        /// The ARN of an IAM service role that Elastic Beanstalk has permission to assume.
+        /// The ARN of an IAM service role that Elastic Beanstalk has permission to assume. The ServiceRole property is required the first time that you provide a VersionLifecycleConfig for the application in one of the supporting calls (CreateApplication or UpdateApplicationResourceLifecycle). After you provide it once, in either one of the calls, Elastic Beanstalk persists the Service Role with the application, and you don't need to specify it again in subsequent UpdateApplicationResourceLifecycle calls. You can, however, specify it in subsequent calls to change the Service Role to another value.
         public let serviceRole: String?
 
         public init(versionLifecycleConfig: ApplicationVersionLifecycleConfig? = nil, serviceRole: String? = nil) {
@@ -2029,6 +2086,7 @@ extension Elasticbeanstalk {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "DateUpdated", required: false, type: .timestamp), 
             AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationVersionArn", required: false, type: .string), 
             AWSShapeMember(label: "SourceBuildInformation", required: false, type: .structure), 
             AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
             AWSShapeMember(label: "SourceBundle", required: false, type: .structure), 
@@ -2037,12 +2095,14 @@ extension Elasticbeanstalk {
         ]
         /// The description of the application version.
         public let description: String?
-        /// The processing status of the application version.
+        /// The processing status of the application version. Reflects the state of the application version during its creation. Many of the values are only applicable if you specified True for the Process parameter of the CreateApplicationVersion action. The following list describes the possible values.    Unprocessed – Application version wasn't pre-processed or validated. Elastic Beanstalk will validate configuration files during deployment of the application version to an environment.    Processing – Elastic Beanstalk is currently processing the application version.    Building – Application version is currently undergoing an AWS CodeBuild build.    Processed – Elastic Beanstalk was successfully pre-processed and validated.    Failed – Either the AWS CodeBuild build failed or configuration files didn't pass validation. This application version isn't usable.  
         public let status: ApplicationVersionStatus?
         /// The last modified date of the application version.
         public let dateUpdated: TimeStamp?
         /// A unique identifier for the application version.
         public let versionLabel: String?
+        /// The Amazon Resource Name (ARN) of the application version.
+        public let applicationVersionArn: String?
         /// If the version's source code was retrieved from AWS CodeCommit, the location of the source code for the application version.
         public let sourceBuildInformation: SourceBuildInformation?
         /// The name of the application to which the application version belongs.
@@ -2054,11 +2114,12 @@ extension Elasticbeanstalk {
         /// The creation date of the application version.
         public let dateCreated: TimeStamp?
 
-        public init(description: String? = nil, status: ApplicationVersionStatus? = nil, dateUpdated: TimeStamp? = nil, versionLabel: String? = nil, sourceBuildInformation: SourceBuildInformation? = nil, applicationName: String? = nil, sourceBundle: S3Location? = nil, buildArn: String? = nil, dateCreated: TimeStamp? = nil) {
+        public init(description: String? = nil, status: ApplicationVersionStatus? = nil, dateUpdated: TimeStamp? = nil, versionLabel: String? = nil, applicationVersionArn: String? = nil, sourceBuildInformation: SourceBuildInformation? = nil, applicationName: String? = nil, sourceBundle: S3Location? = nil, buildArn: String? = nil, dateCreated: TimeStamp? = nil) {
             self.description = description
             self.status = status
             self.dateUpdated = dateUpdated
             self.versionLabel = versionLabel
+            self.applicationVersionArn = applicationVersionArn
             self.sourceBuildInformation = sourceBuildInformation
             self.applicationName = applicationName
             self.sourceBundle = sourceBundle
@@ -2071,6 +2132,7 @@ extension Elasticbeanstalk {
             case status = "Status"
             case dateUpdated = "DateUpdated"
             case versionLabel = "VersionLabel"
+            case applicationVersionArn = "ApplicationVersionArn"
             case sourceBuildInformation = "SourceBuildInformation"
             case applicationName = "ApplicationName"
             case sourceBundle = "SourceBundle"
@@ -2277,6 +2339,22 @@ extension Elasticbeanstalk {
             case healthStatus = "HealthStatus"
             case causes = "Causes"
             case refreshedAt = "RefreshedAt"
+        }
+    }
+
+    public struct ResourceQuota: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Maximum", required: false, type: .integer)
+        ]
+        /// The maximum number of instances of this Elastic Beanstalk resource type that an AWS account can use.
+        public let maximum: Int32?
+
+        public init(maximum: Int32? = nil) {
+            self.maximum = maximum
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximum = "Maximum"
         }
     }
 
@@ -2563,7 +2641,7 @@ extension Elasticbeanstalk {
         public let environmentName: String?
         /// Describes this environment.
         public let description: String?
-        /// This is an alternative to specifying a template name. If specified, AWS Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack.
+        /// This is an alternative to specifying a template name. If specified, AWS Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack. For a list of current solution stacks, see Elastic Beanstalk Supported Platforms.
         public let solutionStackName: String?
         /// The ARN of the platform.
         public let platformArn: String?
@@ -2957,7 +3035,7 @@ extension Elasticbeanstalk {
         public let `type`: String?
         /// The name of this environment tier.
         public let name: String?
-        /// The version of this environment tier.
+        /// The version of this environment tier. When you don't set a value to it, Elastic Beanstalk uses the latest compatible worker tier version.  This member is deprecated. Any specific version that you set may become out of date. We recommend leaving it unspecified. 
         public let version: String?
 
         public init(type: String? = nil, name: String? = nil, version: String? = nil) {
@@ -3269,6 +3347,7 @@ extension Elasticbeanstalk {
         case warning = "Warning"
         case degraded = "Degraded"
         case severe = "Severe"
+        case suspended = "Suspended"
         public var description: String { return self.rawValue }
     }
 

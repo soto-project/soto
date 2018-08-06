@@ -25,7 +25,7 @@ public struct Translate {
         )
     }
 
-    ///  Translates input text from the source language to the target language. You can translate between English (en) and one of the following languages, or between one of the following languages and English.   Arabic (ar)   Chinese (Simplified) (zh)   French (fr)   German (de)   Portuguese (pt)   Spanish (es)  
+    ///  Translates input text from the source language to the target language. You can translate between English (en) and one of the following languages, or between one of the following languages and English.   Arabic (ar)   Chinese (Simplified) (zh)   French (fr)   German (de)   Portuguese (pt)   Spanish (es)   To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call Amazon Comprehend to determine the source language.
     public func translateText(_ input: TranslateTextRequest) throws -> TranslateTextResponse {
         return try client.send(operation: "TranslateText", path: "/", httpMethod: "POST", input: input)
     }

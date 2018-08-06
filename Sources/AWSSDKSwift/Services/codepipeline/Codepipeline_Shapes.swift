@@ -5,6 +5,51 @@ import AWSSDKSwiftCore
 
 extension Codepipeline {
 
+    public enum ArtifactStoreType: String, CustomStringConvertible, Codable {
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListWebhooksOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "webhooks", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The JSON detail returned for each webhook in the list output for the ListWebhooks call.
+        public let webhooks: [ListWebhookItem]?
+        /// If the amount of returned information is significantly large, an identifier is also returned and can be used in a subsequent ListWebhooks call to return the next set of webhooks in the list. 
+        public let nextToken: String?
+
+        public init(webhooks: [ListWebhookItem]? = nil, nextToken: String? = nil) {
+            self.webhooks = webhooks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webhooks = "webhooks"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct WebhookAuthConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowedIPRange", required: false, type: .string), 
+            AWSShapeMember(label: "SecretToken", required: false, type: .string)
+        ]
+        public let allowedIPRange: String?
+        public let secretToken: String?
+
+        public init(allowedIPRange: String? = nil, secretToken: String? = nil) {
+            self.allowedIPRange = allowedIPRange
+            self.secretToken = secretToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedIPRange = "AllowedIPRange"
+            case secretToken = "SecretToken"
+        }
+    }
+
     public struct ActionContext: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string)
@@ -292,6 +337,22 @@ extension Codepipeline {
         }
     }
 
+    public struct RegisterWebhookWithThirdPartyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "webhookName", required: false, type: .string)
+        ]
+        /// The name of an existing webhook created with PutWebhook to register with a supported third party. 
+        public let webhookName: String?
+
+        public init(webhookName: String? = nil) {
+            self.webhookName = webhookName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webhookName = "webhookName"
+        }
+    }
+
     public struct StageContext: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string)
@@ -432,6 +493,10 @@ extension Codepipeline {
         }
     }
 
+    public struct RegisterWebhookWithThirdPartyOutput: AWSShape {
+
+    }
+
     public struct PutActionRevisionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "stageName", required: true, type: .string), 
@@ -460,6 +525,27 @@ extension Codepipeline {
             case actionName = "actionName"
             case pipelineName = "pipelineName"
             case actionRevision = "actionRevision"
+        }
+    }
+
+    public struct WebhookFilterRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "matchEquals", required: false, type: .string), 
+            AWSShapeMember(label: "jsonPath", required: true, type: .string)
+        ]
+        /// The value selected by the JsonPath expression must match what is supplied in the MatchEquals field, otherwise the request will be ignored. Properties from the target action configuration can be included as placeholders in this value by surrounding the action configuration key with curly braces. For example, if the value supplied here is "refs/heads/{Branch}" and the target action has an action configuration property called "Branch" with a value of "master", the MatchEquals value will be evaluated as "refs/heads/master". A list of action configuration properties for built-in action types can be found here: Pipeline Structure Reference Action Requirements.
+        public let matchEquals: String?
+        /// A JsonPath expression that will be applied to the body/payload of the webhook. The value selected by JsonPath expression must match the value specified in the matchEquals field, otherwise the request will be ignored. More information on JsonPath expressions can be found here: https://github.com/json-path/JsonPath.
+        public let jsonPath: String
+
+        public init(matchEquals: String? = nil, jsonPath: String) {
+            self.matchEquals = matchEquals
+            self.jsonPath = jsonPath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchEquals = "matchEquals"
+            case jsonPath = "jsonPath"
         }
     }
 
@@ -774,6 +860,47 @@ extension Codepipeline {
         }
     }
 
+    public struct WebhookDefinition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "targetAction", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "targetPipeline", required: true, type: .string), 
+            AWSShapeMember(label: "authenticationConfiguration", required: true, type: .structure), 
+            AWSShapeMember(label: "authentication", required: true, type: .enum), 
+            AWSShapeMember(label: "filters", required: true, type: .list)
+        ]
+        /// The name of the action in a pipeline you want to connect to the webhook. The action must be from the source (first) stage of the pipeline.
+        public let targetAction: String
+        /// The name of the webhook.
+        public let name: String
+        /// The name of the pipeline you want to connect to the webhook.
+        public let targetPipeline: String
+        /// Properties that configure the authentication applied to incoming webhook trigger requests. The required properties depend on the authentication type. For GITHUB_HMAC, only the SecretToken property must be set. For IP, only the AllowedIPRange property must be set to a valid CIDR range. For UNAUTHENTICATED, no properties can be set.
+        public let authenticationConfiguration: WebhookAuthConfiguration
+        /// Supported options are GITHUB_HMAC, IP and UNAUTHENTICATED.    GITHUB_HMAC implements the authentication scheme described here: https://developer.github.com/webhooks/securing/    IP will reject webhooks trigger requests unless they originate from an IP within the IP range whitelisted in the authentication configuration.    UNAUTHENTICATED will accept all webhook trigger requests regardless of origin.  
+        public let authentication: WebhookAuthenticationType
+        /// A list of rules applied to the body/payload sent in the POST request to a webhook URL. All defined rules must pass for the request to be accepted and the pipeline started.
+        public let filters: [WebhookFilterRule]
+
+        public init(targetAction: String, name: String, targetPipeline: String, authenticationConfiguration: WebhookAuthConfiguration, authentication: WebhookAuthenticationType, filters: [WebhookFilterRule]) {
+            self.targetAction = targetAction
+            self.name = name
+            self.targetPipeline = targetPipeline
+            self.authenticationConfiguration = authenticationConfiguration
+            self.authentication = authentication
+            self.filters = filters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetAction = "targetAction"
+            case name = "name"
+            case targetPipeline = "targetPipeline"
+            case authenticationConfiguration = "authenticationConfiguration"
+            case authentication = "authentication"
+            case filters = "filters"
+        }
+    }
+
     public struct AcknowledgeJobInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nonce", required: true, type: .string), 
@@ -819,6 +946,29 @@ extension Codepipeline {
             case accountId = "accountId"
             case data = "data"
         }
+    }
+
+    public struct DeleteWebhookInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string)
+        ]
+        /// The name of the webhook you want to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public enum WebhookAuthenticationType: String, CustomStringConvertible, Codable {
+        case githubHmac = "GITHUB_HMAC"
+        case ip = "IP"
+        case unauthenticated = "UNAUTHENTICATED"
+        public var description: String { return self.rawValue }
     }
 
     public struct S3ArtifactLocation: AWSShape {
@@ -893,7 +1043,7 @@ extension Codepipeline {
         ]
         /// The creator of the action being called.
         public let owner: ActionOwner
-        /// A string that identifies the action type.
+        /// A string that describes the action version.
         public let version: String
         /// The provider of the service being called by the action. Valid providers are determined by the action category. For example, an action in the Deploy category type might have a provider of AWS CodeDeploy, which would be specified as CodeDeploy.
         public let provider: String
@@ -920,6 +1070,65 @@ extension Codepipeline {
         case failed = "Failed"
         case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
+    }
+
+    public struct PutWebhookOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "webhook", required: false, type: .structure)
+        ]
+        /// The detail returned from creating the webhook, such as the webhook name, webhook URL, and webhook ARN.
+        public let webhook: ListWebhookItem?
+
+        public init(webhook: ListWebhookItem? = nil) {
+            self.webhook = webhook
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webhook = "webhook"
+        }
+    }
+
+    public struct SourceRevision: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revisionId", required: false, type: .string), 
+            AWSShapeMember(label: "actionName", required: true, type: .string), 
+            AWSShapeMember(label: "revisionUrl", required: false, type: .string), 
+            AWSShapeMember(label: "revisionSummary", required: false, type: .string)
+        ]
+        public let revisionId: String?
+        public let actionName: String
+        public let revisionUrl: String?
+        public let revisionSummary: String?
+
+        public init(revisionId: String? = nil, actionName: String, revisionUrl: String? = nil, revisionSummary: String? = nil) {
+            self.revisionId = revisionId
+            self.actionName = actionName
+            self.revisionUrl = revisionUrl
+            self.revisionSummary = revisionSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case revisionId = "revisionId"
+            case actionName = "actionName"
+            case revisionUrl = "revisionUrl"
+            case revisionSummary = "revisionSummary"
+        }
+    }
+
+    public struct PutWebhookInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "webhook", required: true, type: .structure)
+        ]
+        /// The detail provided in an input file to create the webhook, such as the webhook name, the pipeline name, and the action name. Give the webhook a unique name which identifies the webhook being defined. You may choose to name the webhook after the pipeline and action it targets so that you can easily recognize what it's used for later.
+        public let webhook: WebhookDefinition
+
+        public init(webhook: WebhookDefinition) {
+            self.webhook = webhook
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webhook = "webhook"
+        }
     }
 
     public struct GetThirdPartyJobDetailsInput: AWSShape {
@@ -1028,6 +1237,27 @@ extension Codepipeline {
             case blockers = "blockers"
             case name = "name"
             case actions = "actions"
+        }
+    }
+
+    public struct ListWebhooksInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// The token that was returned from the previous ListWebhooks call, which can be used to return the next set of webhooks in the list.
+        public let nextToken: String?
+        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
@@ -1416,6 +1646,10 @@ extension Codepipeline {
         }
     }
 
+    public struct DeregisterWebhookWithThirdPartyOutput: AWSShape {
+
+    }
+
     public struct ThirdPartyJob: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "jobId", required: false, type: .string), 
@@ -1739,6 +1973,47 @@ extension Codepipeline {
         public var description: String { return self.rawValue }
     }
 
+    public struct ListWebhookItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "definition", required: true, type: .structure), 
+            AWSShapeMember(label: "errorCode", required: false, type: .string), 
+            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "url", required: true, type: .string), 
+            AWSShapeMember(label: "lastTriggered", required: false, type: .timestamp)
+        ]
+        /// The Amazon Resource Name (ARN) of the webhook.
+        public let arn: String?
+        /// The detail returned for each webhook, such as the webhook authentication type and filter rules.
+        public let definition: WebhookDefinition
+        /// The number code of the error.
+        public let errorCode: String?
+        /// The text of the error message about the webhook.
+        public let errorMessage: String?
+        /// A unique URL generated by CodePipeline. When a POST request is made to this URL, the defined pipeline is started as long as the body of the post request satisfies the defined authentication and filtering conditions. Deleting and re-creating a webhook will make the old URL invalid and generate a new URL.
+        public let url: String
+        /// The date and time a webhook was last successfully triggered, in timestamp format.
+        public let lastTriggered: TimeStamp?
+
+        public init(arn: String? = nil, definition: WebhookDefinition, errorCode: String? = nil, errorMessage: String? = nil, url: String, lastTriggered: TimeStamp? = nil) {
+            self.arn = arn
+            self.definition = definition
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.url = url
+            self.lastTriggered = lastTriggered
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case definition = "definition"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case url = "url"
+            case lastTriggered = "lastTriggered"
+        }
+    }
+
     public struct GetPipelineInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
@@ -1945,6 +2220,10 @@ extension Codepipeline {
         private enum CodingKeys: String, CodingKey {
             case pipeline = "pipeline"
         }
+    }
+
+    public struct DeleteWebhookOutput: AWSShape {
+
     }
 
     public struct StartPipelineExecutionOutput: AWSShape {
@@ -2183,11 +2462,13 @@ extension Codepipeline {
 
     public struct PipelineExecutionSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sourceRevisions", required: false, type: .list), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string), 
             AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp)
         ]
+        public let sourceRevisions: [SourceRevision]?
         /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Succeeded: The pipeline execution was completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution advanced and continued through the pipeline instead.    Failed: The pipeline execution was not completed successfully.  
         public let status: PipelineExecutionStatus?
         /// The ID of the pipeline execution.
@@ -2197,7 +2478,8 @@ extension Codepipeline {
         /// The date and time of the last change to the pipeline execution, in timestamp format.
         public let lastUpdateTime: TimeStamp?
 
-        public init(status: PipelineExecutionStatus? = nil, pipelineExecutionId: String? = nil, startTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil) {
+        public init(sourceRevisions: [SourceRevision]? = nil, status: PipelineExecutionStatus? = nil, pipelineExecutionId: String? = nil, startTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil) {
+            self.sourceRevisions = sourceRevisions
             self.status = status
             self.pipelineExecutionId = pipelineExecutionId
             self.startTime = startTime
@@ -2205,6 +2487,7 @@ extension Codepipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case sourceRevisions = "sourceRevisions"
             case status = "status"
             case pipelineExecutionId = "pipelineExecutionId"
             case startTime = "startTime"
@@ -2285,22 +2568,6 @@ extension Codepipeline {
         }
     }
 
-    public struct GetThirdPartyJobDetailsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobDetails", required: false, type: .structure)
-        ]
-        /// The details of the job, including any protected values defined for the job.
-        public let jobDetails: ThirdPartyJobDetails?
-
-        public init(jobDetails: ThirdPartyJobDetails? = nil) {
-            self.jobDetails = jobDetails
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobDetails = "jobDetails"
-        }
-    }
-
     public struct AcknowledgeThirdPartyJobInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nonce", required: true, type: .string), 
@@ -2327,6 +2594,38 @@ extension Codepipeline {
         }
     }
 
+    public struct GetThirdPartyJobDetailsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobDetails", required: false, type: .structure)
+        ]
+        /// The details of the job, including any protected values defined for the job.
+        public let jobDetails: ThirdPartyJobDetails?
+
+        public init(jobDetails: ThirdPartyJobDetails? = nil) {
+            self.jobDetails = jobDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDetails = "jobDetails"
+        }
+    }
+
+    public struct DeregisterWebhookWithThirdPartyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "webhookName", required: false, type: .string)
+        ]
+        /// The name of the webhook you want to deregister.
+        public let webhookName: String?
+
+        public init(webhookName: String? = nil) {
+            self.webhookName = webhookName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webhookName = "webhookName"
+        }
+    }
+
     public struct ListPipelinesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -2346,11 +2645,6 @@ extension Codepipeline {
             case nextToken = "nextToken"
             case pipelines = "pipelines"
         }
-    }
-
-    public enum ArtifactStoreType: String, CustomStringConvertible, Codable {
-        case s3 = "S3"
-        public var description: String { return self.rawValue }
     }
 
 }

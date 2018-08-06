@@ -60,7 +60,7 @@ extension Glacier {
         public let accountId: String
         /// An opaque string used for pagination. This value specifies the upload at which the listing of uploads should begin. Get the marker value from a previous List Uploads response. You need only include the marker if you are continuing the pagination of results started in a previous List Uploads request.
         public let marker: String?
-        /// Specifies the maximum number of uploads returned in the response body. If this value is not specified, the List Uploads operation returns up to 1,000 uploads.
+        /// Specifies the maximum number of uploads returned in the response body. If this value is not specified, the List Uploads operation returns up to 50 uploads.
         public let limit: String?
         /// The name of the vault.
         public let vaultName: String
@@ -99,7 +99,7 @@ extension Glacier {
         public let accountId: String
         /// An opaque string used for pagination. This value specifies the job at which the listing of jobs should begin. Get the marker value from a previous List Jobs response. You only need to include the marker if you are continuing the pagination of results started in a previous List Jobs request.
         public let marker: String?
-        /// The maximum number of jobs to be returned. The default limit is 1000. The number of jobs returned might be fewer than the specified limit, but the number of returned jobs never exceeds the limit.
+        /// The maximum number of jobs to be returned. The default limit is 50. The number of jobs returned might be fewer than the specified limit, but the number of returned jobs never exceeds the limit.
         public let limit: String?
         /// The name of the vault.
         public let vaultName: String
@@ -546,7 +546,7 @@ extension Glacier {
         public let vaultARN: String?
         /// The UTC time that the job request completed. While the job is in progress, the value is null.
         public let completionDate: String?
-        /// Contains the parameters that define a select job.
+        /// Contains the parameters used for a select.
         public let selectParameters: SelectParameters?
         /// For an inventory retrieval job, this value is the size in bytes of the inventory requested for download. For an archive retrieval or select job, this value is null.
         public let inventorySizeInBytes: Int64?
@@ -582,7 +582,7 @@ extension Glacier {
         public let jobDescription: String?
         /// A friendly message that describes the job status.
         public let statusMessage: String?
-        /// The retrieval option to use for the archive retrieval. Valid values are Expedited, Standard, or Bulk. Standard is the default.
+        /// The tier to use for a select or an archive retrieval. Valid values are Expedited, Standard, or Bulk. Standard is the default.
         public let tier: String?
 
         public init(vaultARN: String? = nil, completionDate: String? = nil, selectParameters: SelectParameters? = nil, inventorySizeInBytes: Int64? = nil, archiveId: String? = nil, sNSTopic: String? = nil, creationDate: String? = nil, archiveSHA256TreeHash: String? = nil, jobId: String? = nil, sHA256TreeHash: String? = nil, action: ActionCode? = nil, retrievalByteRange: String? = nil, jobOutputPath: String? = nil, inventoryRetrievalParameters: InventoryRetrievalJobDescription? = nil, outputLocation: OutputLocation? = nil, statusCode: StatusCode? = nil, archiveSizeInBytes: Int64? = nil, completed: Bool? = nil, jobDescription: String? = nil, statusMessage: String? = nil, tier: String? = nil) {
@@ -717,7 +717,7 @@ extension Glacier {
         public let marker: String?
         /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
-        /// The maximum number of vaults to be returned. The default limit is 1000. The number of vaults returned might be fewer than the specified limit, but the number of returned vaults never exceeds the limit.
+        /// The maximum number of vaults to be returned. The default limit is 10. The number of vaults returned might be fewer than the specified limit, but the number of returned vaults never exceeds the limit.
         public let limit: String?
 
         public init(marker: String? = nil, accountId: String, limit: String? = nil) {
@@ -755,7 +755,7 @@ extension Glacier {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3", required: false, type: .structure)
         ]
-        /// Describes an S3 location that will receive the results of the restore request.
+        /// Describes an S3 location that will receive the results of the job request.
         public let s3: S3Location?
 
         public init(s3: S3Location? = nil) {
@@ -779,7 +779,7 @@ extension Glacier {
         public let accountId: String
         /// The upload ID of the multipart upload.
         public let uploadId: String
-        /// The maximum number of parts to be returned. The default limit is 1000. The number of parts returned might be fewer than the specified limit, but the number of returned parts never exceeds the limit.
+        /// The maximum number of parts to be returned. The default limit is 50. The number of parts returned might be fewer than the specified limit, but the number of returned parts never exceeds the limit.
         public let limit: String?
         /// An opaque string used for pagination. This value specifies the part at which the listing of parts should begin. Get the marker value from the response of a previous List Parts response. You need only include the marker if you are continuing the pagination of results started in a previous List Parts request.
         public let marker: String?
@@ -1175,35 +1175,35 @@ extension Glacier {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tagging", required: false, type: .map), 
             AWSShapeMember(label: "Encryption", required: false, type: .structure), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "AccessControlList", required: false, type: .list), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
             AWSShapeMember(label: "BucketName", required: false, type: .string), 
             AWSShapeMember(label: "CannedACL", required: false, type: .enum), 
             AWSShapeMember(label: "UserMetadata", required: false, type: .map)
         ]
-        /// The tag-set that is applied to the restore results.
+        /// The tag-set that is applied to the job results.
         public let tagging: [String: String]?
         /// Contains information about the encryption used to store the job results in Amazon S3.
         public let encryption: Encryption?
-        /// The prefix that is prepended to the restore results for this request.
-        public let prefix: String?
         /// A list of grants that control access to the staged results.
         public let accessControlList: [Grant]?
-        /// The storage class used to store the restore results.
+        /// The prefix that is prepended to the results for this request.
+        public let prefix: String?
+        /// The storage class used to store the job results.
         public let storageClass: StorageClass?
-        /// The name of the bucket where the restore results are stored.
+        /// The name of the Amazon S3 bucket where the job results are stored.
         public let bucketName: String?
-        /// The canned ACL to apply to the restore results.
+        /// The canned access control list (ACL) to apply to the job results.
         public let cannedACL: CannedACL?
-        /// A map of metadata to store with the restore results in Amazon S3.
+        /// A map of metadata to store with the job results in Amazon S3.
         public let userMetadata: [String: String]?
 
-        public init(tagging: [String: String]? = nil, encryption: Encryption? = nil, prefix: String? = nil, accessControlList: [Grant]? = nil, storageClass: StorageClass? = nil, bucketName: String? = nil, cannedACL: CannedACL? = nil, userMetadata: [String: String]? = nil) {
+        public init(tagging: [String: String]? = nil, encryption: Encryption? = nil, accessControlList: [Grant]? = nil, prefix: String? = nil, storageClass: StorageClass? = nil, bucketName: String? = nil, cannedACL: CannedACL? = nil, userMetadata: [String: String]? = nil) {
             self.tagging = tagging
             self.encryption = encryption
-            self.prefix = prefix
             self.accessControlList = accessControlList
+            self.prefix = prefix
             self.storageClass = storageClass
             self.bucketName = bucketName
             self.cannedACL = cannedACL
@@ -1213,8 +1213,8 @@ extension Glacier {
         private enum CodingKeys: String, CodingKey {
             case tagging = "Tagging"
             case encryption = "Encryption"
-            case prefix = "Prefix"
             case accessControlList = "AccessControlList"
+            case prefix = "Prefix"
             case storageClass = "StorageClass"
             case bucketName = "BucketName"
             case cannedACL = "CannedACL"
@@ -1884,7 +1884,7 @@ extension Glacier {
         public let sNSTopic: String?
         /// The job type. You can initiate a job to perform a select query on an archive, retrieve an archive, or get an inventory of a vault. Valid values are "select", "archive-retrieval" and "inventory-retrieval".
         public let `type`: String?
-        /// The retrieval option to use for a select or archive retrieval job. Valid values are Expedited, Standard, or Bulk. Standard is the default.
+        /// The tier to use for a select or an archive retrieval job. Valid values are Expedited, Standard, or Bulk. Standard is the default.
         public let tier: String?
         /// The optional description for the job. The description must be less than or equal to 1,024 bytes. The allowable characters are 7-bit ASCII without control codes-specifically, ASCII values 32-126 decimal or 0x20-0x7E hexadecimal.
         public let description: String?
@@ -1923,6 +1923,50 @@ extension Glacier {
         case read = "READ"
         case readAcp = "READ_ACP"
         public var description: String { return self.rawValue }
+    }
+
+    public struct Encryption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KMSKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "KMSContext", required: false, type: .string), 
+            AWSShapeMember(label: "EncryptionType", required: false, type: .enum)
+        ]
+        /// The AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS fail if not made by using Secure Sockets Layer (SSL) or Signature Version 4. 
+        public let kMSKeyId: String?
+        /// Optional. If the encryption type is aws:kms, you can use this value to specify the encryption context for the job results.
+        public let kMSContext: String?
+        /// The server-side encryption algorithm used when storing job results in Amazon S3, for example AES256 or aws:kms.
+        public let encryptionType: EncryptionType?
+
+        public init(kMSKeyId: String? = nil, kMSContext: String? = nil, encryptionType: EncryptionType? = nil) {
+            self.kMSKeyId = kMSKeyId
+            self.kMSContext = kMSContext
+            self.encryptionType = encryptionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kMSKeyId = "KMSKeyId"
+            case kMSContext = "KMSContext"
+            case encryptionType = "EncryptionType"
+        }
+    }
+
+    public struct GetVaultNotificationsOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "vaultNotificationConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "vaultNotificationConfig", required: false, type: .structure)
+        ]
+        /// Returns the notification configuration set on the vault.
+        public let vaultNotificationConfig: VaultNotificationConfig?
+
+        public init(vaultNotificationConfig: VaultNotificationConfig? = nil) {
+            self.vaultNotificationConfig = vaultNotificationConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vaultNotificationConfig = "vaultNotificationConfig"
+        }
     }
 
     public struct AbortMultipartUploadInput: AWSShape {
@@ -1969,50 +2013,6 @@ extension Glacier {
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case vaultName = "vaultName"
-        }
-    }
-
-    public struct Encryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KMSKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "KMSContext", required: false, type: .string), 
-            AWSShapeMember(label: "EncryptionType", required: false, type: .enum)
-        ]
-        /// The AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS fail if not made by using Secure Sockets Layer (SSL) or Signature Version 4. 
-        public let kMSKeyId: String?
-        /// Optional. If the encryption type is aws:kms, you can use this value to specify the encryption context for the restore results.
-        public let kMSContext: String?
-        /// The server-side encryption algorithm used when storing job results in Amazon S3, for example AES256 or aws:kms.
-        public let encryptionType: EncryptionType?
-
-        public init(kMSKeyId: String? = nil, kMSContext: String? = nil, encryptionType: EncryptionType? = nil) {
-            self.kMSKeyId = kMSKeyId
-            self.kMSContext = kMSContext
-            self.encryptionType = encryptionType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case kMSKeyId = "KMSKeyId"
-            case kMSContext = "KMSContext"
-            case encryptionType = "EncryptionType"
-        }
-    }
-
-    public struct GetVaultNotificationsOutput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "vaultNotificationConfig"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vaultNotificationConfig", required: false, type: .structure)
-        ]
-        /// Returns the notification configuration set on the vault.
-        public let vaultNotificationConfig: VaultNotificationConfig?
-
-        public init(vaultNotificationConfig: VaultNotificationConfig? = nil) {
-            self.vaultNotificationConfig = vaultNotificationConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vaultNotificationConfig = "vaultNotificationConfig"
         }
     }
 

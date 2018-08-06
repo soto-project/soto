@@ -13,8 +13,8 @@ public enum CloudformationError: AWSErrorType {
     case limitExceededException(message: String?)
     case operationNotFoundException(message: String?)
     case tokenAlreadyExistsException(message: String?)
-    case changeSetNotFoundException(message: String?)
     case stackInstanceNotFoundException(message: String?)
+    case changeSetNotFoundException(message: String?)
     case alreadyExistsException(message: String?)
     case insufficientCapabilitiesException(message: String?)
     case nameAlreadyExistsException(message: String?)
@@ -47,10 +47,10 @@ extension CloudformationError {
             self = .operationNotFoundException(message: message)
         case "TokenAlreadyExistsException":
             self = .tokenAlreadyExistsException(message: message)
-        case "ChangeSetNotFoundException":
-            self = .changeSetNotFoundException(message: message)
         case "StackInstanceNotFoundException":
             self = .stackInstanceNotFoundException(message: message)
+        case "ChangeSetNotFoundException":
+            self = .changeSetNotFoundException(message: message)
         case "AlreadyExistsException":
             self = .alreadyExistsException(message: message)
         case "InsufficientCapabilitiesException":

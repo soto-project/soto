@@ -117,30 +117,30 @@ extension Dax {
 
     public struct DescribeParametersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Source", required: false, type: .string), 
             AWSShapeMember(label: "ParameterGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Source", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
-        /// How the parameter is defined. For example, system denotes a system-defined parameter.
-        public let source: String?
         /// The name of the parameter group.
         public let parameterGroupName: String
+        /// How the parameter is defined. For example, system denotes a system-defined parameter.
+        public let source: String?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
         public let maxResults: Int32?
 
-        public init(source: String? = nil, parameterGroupName: String, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.source = source
+        public init(parameterGroupName: String, source: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.parameterGroupName = parameterGroupName
+            self.source = source
             self.nextToken = nextToken
             self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case source = "Source"
             case parameterGroupName = "ParameterGroupName"
+            case source = "Source"
             case nextToken = "NextToken"
             case maxResults = "MaxResults"
         }

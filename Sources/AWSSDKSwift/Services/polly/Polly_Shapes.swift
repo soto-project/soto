@@ -5,6 +5,72 @@ import AWSSDKSwiftCore
 
 extension Polly {
 
+    public struct StartSpeechSynthesisTaskInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VoiceId", required: true, type: .enum), 
+            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
+            AWSShapeMember(label: "OutputS3BucketName", required: true, type: .string), 
+            AWSShapeMember(label: "SampleRate", required: false, type: .string), 
+            AWSShapeMember(label: "Text", required: true, type: .string), 
+            AWSShapeMember(label: "SpeechMarkTypes", required: false, type: .list), 
+            AWSShapeMember(label: "OutputS3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "OutputFormat", required: true, type: .enum), 
+            AWSShapeMember(label: "TextType", required: false, type: .enum), 
+            AWSShapeMember(label: "LexiconNames", required: false, type: .list)
+        ]
+        /// Voice ID to use for the synthesis. 
+        public let voiceId: VoiceId
+        /// ARN for the SNS topic optionally used for providing status notification for a speech synthesis task.
+        public let snsTopicArn: String?
+        /// Optional language code for the Speech Synthesis request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is specified, Amazon Polly will use the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
+        public let languageCode: LanguageCode?
+        /// Amazon S3 bucket name to which the output file will be saved.
+        public let outputS3BucketName: String
+        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", and "22050". The default value is "22050". Valid values for pcm are "8000" and "16000" The default value is "16000". 
+        public let sampleRate: String?
+        /// The input text to synthesize. If you specify ssml as the TextType, follow the SSML format for the input text. 
+        public let text: String
+        /// The type of speech marks returned for the input text.
+        public let speechMarkTypes: [SpeechMarkType]?
+        /// The Amazon S3 key prefix for the output speech file.
+        public let outputS3KeyPrefix: String?
+        /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json. 
+        public let outputFormat: OutputFormat
+        /// Specifies whether the input text is plain text or SSML. The default value is plain text. 
+        public let textType: TextType?
+        /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. 
+        public let lexiconNames: [String]?
+
+        public init(voiceId: VoiceId, snsTopicArn: String? = nil, languageCode: LanguageCode? = nil, outputS3BucketName: String, sampleRate: String? = nil, text: String, speechMarkTypes: [SpeechMarkType]? = nil, outputS3KeyPrefix: String? = nil, outputFormat: OutputFormat, textType: TextType? = nil, lexiconNames: [String]? = nil) {
+            self.voiceId = voiceId
+            self.snsTopicArn = snsTopicArn
+            self.languageCode = languageCode
+            self.outputS3BucketName = outputS3BucketName
+            self.sampleRate = sampleRate
+            self.text = text
+            self.speechMarkTypes = speechMarkTypes
+            self.outputS3KeyPrefix = outputS3KeyPrefix
+            self.outputFormat = outputFormat
+            self.textType = textType
+            self.lexiconNames = lexiconNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case voiceId = "VoiceId"
+            case snsTopicArn = "SnsTopicArn"
+            case languageCode = "LanguageCode"
+            case outputS3BucketName = "OutputS3BucketName"
+            case sampleRate = "SampleRate"
+            case text = "Text"
+            case speechMarkTypes = "SpeechMarkTypes"
+            case outputS3KeyPrefix = "OutputS3KeyPrefix"
+            case outputFormat = "OutputFormat"
+            case textType = "TextType"
+            case lexiconNames = "LexiconNames"
+        }
+    }
+
     public struct Lexicon: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Content", required: false, type: .string), 
@@ -29,21 +95,26 @@ extension Polly {
     public struct DescribeVoicesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LanguageCode", location: .querystring(locationName: "LanguageCode"), required: false, type: .enum), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "IncludeAdditionalLanguageCodes", location: .querystring(locationName: "IncludeAdditionalLanguageCodes"), required: false, type: .boolean)
         ]
         ///  The language identification tag (ISO 639 code for the language name-ISO 3166 country code) for filtering the list of voices returned. If you don't specify this optional parameter, all available voices are returned. 
         public let languageCode: LanguageCode?
         /// An opaque pagination token returned from the previous DescribeVoices operation. If present, this indicates where to continue the listing.
         public let nextToken: String?
+        /// Boolean value indicating whether to return any bilingual voices that use the specified language as an additional language. For instance, if you request all languages that use US English (es-US), and there is an Italian voice that speaks both Italian (it-IT) and US English, that voice will be included if you specify yes but not if you specify no.
+        public let includeAdditionalLanguageCodes: Bool?
 
-        public init(languageCode: LanguageCode? = nil, nextToken: String? = nil) {
+        public init(languageCode: LanguageCode? = nil, nextToken: String? = nil, includeAdditionalLanguageCodes: Bool? = nil) {
             self.languageCode = languageCode
             self.nextToken = nextToken
+            self.includeAdditionalLanguageCodes = includeAdditionalLanguageCodes
         }
 
         private enum CodingKeys: String, CodingKey {
             case languageCode = "LanguageCode"
             case nextToken = "NextToken"
+            case includeAdditionalLanguageCodes = "IncludeAdditionalLanguageCodes"
         }
     }
 
@@ -74,6 +145,7 @@ extension Polly {
         case penelope = "Penelope"
         case chantal = "Chantal"
         case celine = "Celine"
+        case lea = "Lea"
         case mathieu = "Mathieu"
         case dora = "Dora"
         case karl = "Karl"
@@ -103,6 +175,87 @@ extension Polly {
         public var description: String { return self.rawValue }
     }
 
+    public struct SynthesisTask: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
+            AWSShapeMember(label: "TaskStatusReason", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TextType", required: false, type: .enum), 
+            AWSShapeMember(label: "TaskStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "VoiceId", required: false, type: .enum), 
+            AWSShapeMember(label: "SampleRate", required: false, type: .string), 
+            AWSShapeMember(label: "RequestCharacters", required: false, type: .integer), 
+            AWSShapeMember(label: "OutputFormat", required: false, type: .enum), 
+            AWSShapeMember(label: "SpeechMarkTypes", required: false, type: .list), 
+            AWSShapeMember(label: "TaskId", required: false, type: .string), 
+            AWSShapeMember(label: "OutputUri", required: false, type: .string), 
+            AWSShapeMember(label: "LexiconNames", required: false, type: .list)
+        ]
+        /// ARN for the SNS topic optionally used for providing status notification for a speech synthesis task.
+        public let snsTopicArn: String?
+        /// Optional language code for a synthesis task. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is specified, Amazon Polly will use the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
+        public let languageCode: LanguageCode?
+        /// Reason for the current status of a specific speech synthesis task, including errors if the task has failed.
+        public let taskStatusReason: String?
+        /// Timestamp for the time the synthesis task was started.
+        public let creationTime: TimeStamp?
+        /// Specifies whether the input text is plain text or SSML. The default value is plain text. 
+        public let textType: TextType?
+        /// Current status of the individual speech synthesis task.
+        public let taskStatus: TaskStatus?
+        /// Voice ID to use for the synthesis. 
+        public let voiceId: VoiceId?
+        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", and "22050". The default value is "22050". Valid values for pcm are "8000" and "16000" The default value is "16000". 
+        public let sampleRate: String?
+        /// Number of billable characters synthesized.
+        public let requestCharacters: Int32?
+        /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json. 
+        public let outputFormat: OutputFormat?
+        /// The type of speech marks returned for the input text.
+        public let speechMarkTypes: [SpeechMarkType]?
+        /// The Amazon Polly generated identifier for a speech synthesis task.
+        public let taskId: String?
+        /// Pathway for the output speech file.
+        public let outputUri: String?
+        /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. 
+        public let lexiconNames: [String]?
+
+        public init(snsTopicArn: String? = nil, languageCode: LanguageCode? = nil, taskStatusReason: String? = nil, creationTime: TimeStamp? = nil, textType: TextType? = nil, taskStatus: TaskStatus? = nil, voiceId: VoiceId? = nil, sampleRate: String? = nil, requestCharacters: Int32? = nil, outputFormat: OutputFormat? = nil, speechMarkTypes: [SpeechMarkType]? = nil, taskId: String? = nil, outputUri: String? = nil, lexiconNames: [String]? = nil) {
+            self.snsTopicArn = snsTopicArn
+            self.languageCode = languageCode
+            self.taskStatusReason = taskStatusReason
+            self.creationTime = creationTime
+            self.textType = textType
+            self.taskStatus = taskStatus
+            self.voiceId = voiceId
+            self.sampleRate = sampleRate
+            self.requestCharacters = requestCharacters
+            self.outputFormat = outputFormat
+            self.speechMarkTypes = speechMarkTypes
+            self.taskId = taskId
+            self.outputUri = outputUri
+            self.lexiconNames = lexiconNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snsTopicArn = "SnsTopicArn"
+            case languageCode = "LanguageCode"
+            case taskStatusReason = "TaskStatusReason"
+            case creationTime = "CreationTime"
+            case textType = "TextType"
+            case taskStatus = "TaskStatus"
+            case voiceId = "VoiceId"
+            case sampleRate = "SampleRate"
+            case requestCharacters = "RequestCharacters"
+            case outputFormat = "OutputFormat"
+            case speechMarkTypes = "SpeechMarkTypes"
+            case taskId = "TaskId"
+            case outputUri = "OutputUri"
+            case lexiconNames = "LexiconNames"
+        }
+    }
+
     public enum LanguageCode: String, CustomStringConvertible, Codable {
         case cyGb = "cy-GB"
         case daDk = "da-DK"
@@ -118,8 +271,9 @@ extension Polly {
         case frFr = "fr-FR"
         case isIs = "is-IS"
         case itIt = "it-IT"
-        case koKr = "ko-KR"
         case jaJp = "ja-JP"
+        case hiIn = "hi-IN"
+        case koKr = "ko-KR"
         case nbNo = "nb-NO"
         case nlNl = "nl-NL"
         case plPl = "pl-PL"
@@ -257,6 +411,22 @@ extension Polly {
 
     }
 
+    public struct StartSpeechSynthesisTaskOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SynthesisTask", required: false, type: .structure)
+        ]
+        /// SynthesisTask object that provides information and attributes about a newly submitted speech synthesis task.
+        public let synthesisTask: SynthesisTask?
+
+        public init(synthesisTask: SynthesisTask? = nil) {
+            self.synthesisTask = synthesisTask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case synthesisTask = "SynthesisTask"
+        }
+    }
+
     public enum SpeechMarkType: String, CustomStringConvertible, Codable {
         case sentence = "sentence"
         case ssml = "ssml"
@@ -265,11 +435,38 @@ extension Polly {
         public var description: String { return self.rawValue }
     }
 
+    public struct ListSpeechSynthesisTasksInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", location: .querystring(locationName: "Status"), required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer)
+        ]
+        /// Status of the speech synthesis tasks returned in a List operation
+        public let status: TaskStatus?
+        /// The pagination token to use in the next request to continue the listing of speech synthesis tasks. 
+        public let nextToken: String?
+        /// Maximum number of speech synthesis tasks returned in a List operation.
+        public let maxResults: Int32?
+
+        public init(status: TaskStatus? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.status = status
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
     public struct SynthesizeSpeechInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VoiceId", required: true, type: .enum), 
-            AWSShapeMember(label: "Text", required: true, type: .string), 
+            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
             AWSShapeMember(label: "SampleRate", required: false, type: .string), 
+            AWSShapeMember(label: "Text", required: true, type: .string), 
             AWSShapeMember(label: "SpeechMarkTypes", required: false, type: .list), 
             AWSShapeMember(label: "OutputFormat", required: true, type: .enum), 
             AWSShapeMember(label: "TextType", required: false, type: .enum), 
@@ -277,10 +474,12 @@ extension Polly {
         ]
         ///  Voice ID to use for the synthesis. You can get a list of available voice IDs by calling the DescribeVoices operation. 
         public let voiceId: VoiceId
-        ///  Input text to synthesize. If you specify ssml as the TextType, follow the SSML format for the input text. 
-        public let text: String
+        /// Optional language code for the Synthesize Speech request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is specified, Amazon Polly will use the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
+        public let languageCode: LanguageCode?
         ///  The audio frequency specified in Hz.  The valid values for mp3 and ogg_vorbis are "8000", "16000", and "22050". The default value is "22050".   Valid values for pcm are "8000" and "16000" The default value is "16000". 
         public let sampleRate: String?
+        ///  Input text to synthesize. If you specify ssml as the TextType, follow the SSML format for the input text. 
+        public let text: String
         /// The type of speech marks returned for the input text.
         public let speechMarkTypes: [SpeechMarkType]?
         ///  The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json. 
@@ -290,10 +489,11 @@ extension Polly {
         /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. For information about storing lexicons, see PutLexicon.
         public let lexiconNames: [String]?
 
-        public init(voiceId: VoiceId, text: String, sampleRate: String? = nil, speechMarkTypes: [SpeechMarkType]? = nil, outputFormat: OutputFormat, textType: TextType? = nil, lexiconNames: [String]? = nil) {
+        public init(voiceId: VoiceId, languageCode: LanguageCode? = nil, sampleRate: String? = nil, text: String, speechMarkTypes: [SpeechMarkType]? = nil, outputFormat: OutputFormat, textType: TextType? = nil, lexiconNames: [String]? = nil) {
             self.voiceId = voiceId
-            self.text = text
+            self.languageCode = languageCode
             self.sampleRate = sampleRate
+            self.text = text
             self.speechMarkTypes = speechMarkTypes
             self.outputFormat = outputFormat
             self.textType = textType
@@ -302,13 +502,22 @@ extension Polly {
 
         private enum CodingKeys: String, CodingKey {
             case voiceId = "VoiceId"
-            case text = "Text"
+            case languageCode = "LanguageCode"
             case sampleRate = "SampleRate"
+            case text = "Text"
             case speechMarkTypes = "SpeechMarkTypes"
             case outputFormat = "OutputFormat"
             case textType = "TextType"
             case lexiconNames = "LexiconNames"
         }
+    }
+
+    public enum TaskStatus: String, CustomStringConvertible, Codable {
+        case scheduled = "scheduled"
+        case inprogress = "inProgress"
+        case completed = "completed"
+        case failed = "failed"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeVoicesOutput: AWSShape {
@@ -344,6 +553,27 @@ extension Polly {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSpeechSynthesisTasksOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SynthesisTasks", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// List of SynthesisTask objects that provides information from the specified task in the list request, including output format, creation time, task status, and so on.
+        public let synthesisTasks: [SynthesisTask]?
+        /// An opaque pagination token returned from the previous List operation in this request. If present, this indicates where to continue the listing.
+        public let nextToken: String?
+
+        public init(synthesisTasks: [SynthesisTask]? = nil, nextToken: String? = nil) {
+            self.synthesisTasks = synthesisTasks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case synthesisTasks = "SynthesisTasks"
             case nextToken = "NextToken"
         }
     }
@@ -416,6 +646,22 @@ extension Polly {
         public var description: String { return self.rawValue }
     }
 
+    public struct GetSpeechSynthesisTaskOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SynthesisTask", required: false, type: .structure)
+        ]
+        /// SynthesisTask object that provides information from the requested task, including output format, creation time, task status, and so on.
+        public let synthesisTask: SynthesisTask?
+
+        public init(synthesisTask: SynthesisTask? = nil) {
+            self.synthesisTask = synthesisTask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case synthesisTask = "SynthesisTask"
+        }
+    }
+
     public struct PutLexiconOutput: AWSShape {
 
     }
@@ -439,6 +685,7 @@ extension Polly {
     public struct Voice: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LanguageName", required: false, type: .string), 
+            AWSShapeMember(label: "AdditionalLanguageCodes", required: false, type: .list), 
             AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Gender", required: false, type: .enum), 
@@ -446,6 +693,8 @@ extension Polly {
         ]
         /// Human readable name of the language in English.
         public let languageName: String?
+        /// Additional codes for languages available for the specified voice in addition to its default language.  For example, the default language for Aditi is Indian English (en-IN) because it was first used for that language. Since Aditi is bilingual and fluent in both Indian English and Hindi, this parameter would show the code hi-IN.
+        public let additionalLanguageCodes: [LanguageCode]?
         /// Language code of the voice.
         public let languageCode: LanguageCode?
         /// Name of the voice (for example, Salli, Kendra, etc.). This provides a human readable voice name that you might display in your application.
@@ -455,8 +704,9 @@ extension Polly {
         /// Amazon Polly assigned voice ID. This is the ID that you specify when calling the SynthesizeSpeech operation.
         public let id: VoiceId?
 
-        public init(languageName: String? = nil, languageCode: LanguageCode? = nil, name: String? = nil, gender: Gender? = nil, id: VoiceId? = nil) {
+        public init(languageName: String? = nil, additionalLanguageCodes: [LanguageCode]? = nil, languageCode: LanguageCode? = nil, name: String? = nil, gender: Gender? = nil, id: VoiceId? = nil) {
             self.languageName = languageName
+            self.additionalLanguageCodes = additionalLanguageCodes
             self.languageCode = languageCode
             self.name = name
             self.gender = gender
@@ -465,10 +715,27 @@ extension Polly {
 
         private enum CodingKeys: String, CodingKey {
             case languageName = "LanguageName"
+            case additionalLanguageCodes = "AdditionalLanguageCodes"
             case languageCode = "LanguageCode"
             case name = "Name"
             case gender = "Gender"
             case id = "Id"
+        }
+    }
+
+    public struct GetSpeechSynthesisTaskInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TaskId", location: .uri(locationName: "TaskId"), required: true, type: .string)
+        ]
+        /// The Amazon Polly generated identifier for a speech synthesis task.
+        public let taskId: String
+
+        public init(taskId: String) {
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "TaskId"
         }
     }
 

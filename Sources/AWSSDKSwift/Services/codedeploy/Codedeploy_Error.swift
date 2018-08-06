@@ -21,15 +21,17 @@ public enum CodedeployError: AWSErrorType {
     case deploymentConfigAlreadyExistsException(message: String?)
     case invalidMinimumHealthyHostValueException(message: String?)
     case deploymentConfigLimitExceededException(message: String?)
+    case invalidComputePlatformException(message: String?)
+    case invalidTrafficRoutingConfigurationException(message: String?)
     case invalidRegistrationStatusException(message: String?)
     case invalidTagFilterException(message: String?)
     case instanceNameRequiredException(message: String?)
+    case invalidInstanceNameException(message: String?)
     case tagRequiredException(message: String?)
     case invalidTagException(message: String?)
     case tagLimitExceededException(message: String?)
     case instanceLimitExceededException(message: String?)
     case instanceNotRegisteredException(message: String?)
-    case invalidInstanceNameException(message: String?)
     case deploymentGroupNameRequiredException(message: String?)
     case invalidDeploymentGroupNameException(message: String?)
     case instanceIdRequiredException(message: String?)
@@ -53,6 +55,11 @@ public enum CodedeployError: AWSErrorType {
     case invalidEC2TagCombinationException(message: String?)
     case invalidOnPremisesTagCombinationException(message: String?)
     case tagSetListLimitExceededException(message: String?)
+    case invalidInputException(message: String?)
+    case invalidLifecycleEventHookExecutionStatusException(message: String?)
+    case invalidLifecycleEventHookExecutionIdException(message: String?)
+    case lifecycleEventAlreadyCompletedException(message: String?)
+    case unsupportedActionForDeploymentTypeException(message: String?)
     case revisionDoesNotExistException(message: String?)
     case revisionRequiredException(message: String?)
     case invalidRevisionException(message: String?)
@@ -68,15 +75,22 @@ public enum CodedeployError: AWSErrorType {
     case deploymentLimitExceededException(message: String?)
     case invalidTargetInstancesException(message: String?)
     case invalidFileExistsBehaviorException(message: String?)
+    case throttlingException(message: String?)
+    case invalidUpdateOutdatedInstancesOnlyValueException(message: String?)
+    case invalidIgnoreApplicationStopFailuresValueException(message: String?)
+    case invalidGitHubAccountTokenException(message: String?)
     case resourceValidationException(message: String?)
+    case operationNotSupportedException(message: String?)
     case invalidSortByException(message: String?)
     case invalidSortOrderException(message: String?)
     case invalidBucketNameFilterException(message: String?)
     case invalidKeyPrefixFilterException(message: String?)
     case bucketNameFilterRequiredException(message: String?)
     case invalidDeployedStateFilterException(message: String?)
-    case unsupportedActionForDeploymentTypeException(message: String?)
     case deploymentIsNotInReadyStateException(message: String?)
+    case gitHubAccountTokenNameRequiredException(message: String?)
+    case gitHubAccountTokenDoesNotExistException(message: String?)
+    case invalidGitHubAccountTokenNameException(message: String?)
     case instanceNameAlreadyRegisteredException(message: String?)
     case iamArnRequiredException(message: String?)
     case iamSessionArnAlreadyRegisteredException(message: String?)
@@ -128,12 +142,18 @@ extension CodedeployError {
             self = .invalidMinimumHealthyHostValueException(message: message)
         case "DeploymentConfigLimitExceededException":
             self = .deploymentConfigLimitExceededException(message: message)
+        case "InvalidComputePlatformException":
+            self = .invalidComputePlatformException(message: message)
+        case "InvalidTrafficRoutingConfigurationException":
+            self = .invalidTrafficRoutingConfigurationException(message: message)
         case "InvalidRegistrationStatusException":
             self = .invalidRegistrationStatusException(message: message)
         case "InvalidTagFilterException":
             self = .invalidTagFilterException(message: message)
         case "InstanceNameRequiredException":
             self = .instanceNameRequiredException(message: message)
+        case "InvalidInstanceNameException":
+            self = .invalidInstanceNameException(message: message)
         case "TagRequiredException":
             self = .tagRequiredException(message: message)
         case "InvalidTagException":
@@ -144,8 +164,6 @@ extension CodedeployError {
             self = .instanceLimitExceededException(message: message)
         case "InstanceNotRegisteredException":
             self = .instanceNotRegisteredException(message: message)
-        case "InvalidInstanceNameException":
-            self = .invalidInstanceNameException(message: message)
         case "DeploymentGroupNameRequiredException":
             self = .deploymentGroupNameRequiredException(message: message)
         case "InvalidDeploymentGroupNameException":
@@ -192,6 +210,16 @@ extension CodedeployError {
             self = .invalidOnPremisesTagCombinationException(message: message)
         case "TagSetListLimitExceededException":
             self = .tagSetListLimitExceededException(message: message)
+        case "InvalidInputException":
+            self = .invalidInputException(message: message)
+        case "InvalidLifecycleEventHookExecutionStatusException":
+            self = .invalidLifecycleEventHookExecutionStatusException(message: message)
+        case "InvalidLifecycleEventHookExecutionIdException":
+            self = .invalidLifecycleEventHookExecutionIdException(message: message)
+        case "LifecycleEventAlreadyCompletedException":
+            self = .lifecycleEventAlreadyCompletedException(message: message)
+        case "UnsupportedActionForDeploymentTypeException":
+            self = .unsupportedActionForDeploymentTypeException(message: message)
         case "RevisionDoesNotExistException":
             self = .revisionDoesNotExistException(message: message)
         case "RevisionRequiredException":
@@ -222,8 +250,18 @@ extension CodedeployError {
             self = .invalidTargetInstancesException(message: message)
         case "InvalidFileExistsBehaviorException":
             self = .invalidFileExistsBehaviorException(message: message)
+        case "ThrottlingException":
+            self = .throttlingException(message: message)
+        case "InvalidUpdateOutdatedInstancesOnlyValueException":
+            self = .invalidUpdateOutdatedInstancesOnlyValueException(message: message)
+        case "InvalidIgnoreApplicationStopFailuresValueException":
+            self = .invalidIgnoreApplicationStopFailuresValueException(message: message)
+        case "InvalidGitHubAccountTokenException":
+            self = .invalidGitHubAccountTokenException(message: message)
         case "ResourceValidationException":
             self = .resourceValidationException(message: message)
+        case "OperationNotSupportedException":
+            self = .operationNotSupportedException(message: message)
         case "InvalidSortByException":
             self = .invalidSortByException(message: message)
         case "InvalidSortOrderException":
@@ -236,10 +274,14 @@ extension CodedeployError {
             self = .bucketNameFilterRequiredException(message: message)
         case "InvalidDeployedStateFilterException":
             self = .invalidDeployedStateFilterException(message: message)
-        case "UnsupportedActionForDeploymentTypeException":
-            self = .unsupportedActionForDeploymentTypeException(message: message)
         case "DeploymentIsNotInReadyStateException":
             self = .deploymentIsNotInReadyStateException(message: message)
+        case "GitHubAccountTokenNameRequiredException":
+            self = .gitHubAccountTokenNameRequiredException(message: message)
+        case "GitHubAccountTokenDoesNotExistException":
+            self = .gitHubAccountTokenDoesNotExistException(message: message)
+        case "InvalidGitHubAccountTokenNameException":
+            self = .invalidGitHubAccountTokenNameException(message: message)
         case "InstanceNameAlreadyRegisteredException":
             self = .instanceNameAlreadyRegisteredException(message: message)
         case "IamArnRequiredException":

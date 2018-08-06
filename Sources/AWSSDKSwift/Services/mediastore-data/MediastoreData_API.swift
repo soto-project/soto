@@ -24,7 +24,7 @@ public struct MediastoreData {
         )
     }
 
-    ///  Gets the header for an object at the specified path.
+    ///  Gets the headers for an object at the specified path.
     public func describeObject(_ input: DescribeObjectRequest) throws -> DescribeObjectResponse {
         return try client.send(operation: "DescribeObject", path: "/{Path+}", httpMethod: "HEAD", input: input)
     }

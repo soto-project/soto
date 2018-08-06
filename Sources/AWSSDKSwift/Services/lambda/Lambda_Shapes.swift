@@ -41,9 +41,9 @@ extension Lambda {
             AWSShapeMember(label: "Resource", location: .uri(locationName: "ARN"), required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .map)
         ]
-        /// The ARN (Amazon Resource Name) of the Lambda function.
+        /// The ARN (Amazon Resource Name) of the Lambda function. For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide.
         public let resource: String
-        /// The list of tags (key-value pairs) you are assigning to the Lambda function.
+        /// The list of tags (key-value pairs) you are assigning to the Lambda function. For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide.
         public let tags: [String: String]
 
         public init(resource: String, tags: [String: String]) {
@@ -74,9 +74,9 @@ extension Lambda {
         public let uuid: String?
         /// The largest number of records that AWS Lambda will retrieve from your event source at the time of invoking your function. Your function receives an event with all the retrieved records.
         public let batchSize: Int32?
-        /// The Amazon Resource Name (ARN) of the Amazon Kinesis stream that is the source of events.
+        /// The Amazon Resource Name (ARN) of the Amazon Kinesis or DynamoDB stream or the SQS queue that is the source of events.
         public let eventSourceArn: String?
-        /// The Lambda function to invoke when AWS Lambda detects an event on the stream.
+        /// The Lambda function to invoke when AWS Lambda detects an event on the poll-based source.
         public let functionArn: String?
         /// The state of the event source mapping. It can be Creating, Enabled, Disabled, Enabling, Disabling, Updating, or Deleting.
         public let state: String?
@@ -112,11 +112,15 @@ extension Lambda {
         case nodejs = "nodejs"
         case nodejs43 = "nodejs4.3"
         case nodejs610 = "nodejs6.10"
+        case nodejs810 = "nodejs8.10"
         case java8 = "java8"
         case python27 = "python2.7"
         case python36 = "python3.6"
         case dotnetcore10 = "dotnetcore1.0"
+        case dotnetcore20 = "dotnetcore2.0"
+        case dotnetcore21 = "dotnetcore2.1"
         case nodejs43Edge = "nodejs4.3-edge"
+        case go1X = "go1.x"
         public var description: String { return self.rawValue }
     }
 
@@ -124,7 +128,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string)
         ]
-        /// The name of the function you are removing concurrent execution limits from.
+        /// The name of the function you are removing concurrent execution limits from. For more information, see concurrent-executions.
         public let functionName: String
 
         public init(functionName: String) {
@@ -160,6 +164,7 @@ extension Lambda {
     public struct UpdateAliasRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoutingConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "RevisionId", required: false, type: .string), 
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "FunctionVersion", required: false, type: .string), 
             AWSShapeMember(label: "Name", location: .uri(locationName: "Name"), required: true, type: .string), 
@@ -167,6 +172,8 @@ extension Lambda {
         ]
         /// Specifies an additional version your alias can point to, allowing you to dictate what percentage of traffic will invoke each version. For more information, see lambda-traffic-shifting-using-aliases.
         public let routingConfig: AliasRoutingConfiguration?
+        /// An optional value you can use to ensure you are updating the latest update of the function version or alias. If the RevisionID you pass doesn't match the latest RevisionId of the function or alias, it will fail with an error message, advising you to retrieve the latest function version or alias RevisionID using either or .
+        public let revisionId: String?
         /// The function name for which the alias is created. Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Using this parameter you can change the Lambda function version to which the alias points.
@@ -176,8 +183,9 @@ extension Lambda {
         /// You can change the description of the alias using this parameter.
         public let description: String?
 
-        public init(routingConfig: AliasRoutingConfiguration? = nil, functionName: String, functionVersion: String? = nil, name: String, description: String? = nil) {
+        public init(routingConfig: AliasRoutingConfiguration? = nil, revisionId: String? = nil, functionName: String, functionVersion: String? = nil, name: String, description: String? = nil) {
             self.routingConfig = routingConfig
+            self.revisionId = revisionId
             self.functionName = functionName
             self.functionVersion = functionVersion
             self.name = name
@@ -186,6 +194,7 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case routingConfig = "RoutingConfig"
+            case revisionId = "RevisionId"
             case functionName = "FunctionName"
             case functionVersion = "FunctionVersion"
             case name = "Name"
@@ -240,7 +249,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
-        /// The list of tags assigned to the function.
+        /// The list of tags assigned to the function. For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide.
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -256,7 +265,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdditionalVersionWeights", required: false, type: .map)
         ]
-        /// Set this property value to dictate what percentage of traffic will invoke the updated function version. If set to an empty string, 100 percent of traffic will invoke function-version.
+        /// Set this value to dictate what percentage of traffic will invoke the updated function version. If set to an empty string, 100 percent of traffic will invoke function-version. For more information, see lambda-traffic-shifting-using-aliases.
         public let additionalVersionWeights: [String: Double]?
 
         public init(additionalVersionWeights: [String: Double]? = nil) {
@@ -272,7 +281,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetArn", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic you specify as your Dead Letter Queue (DLQ).
+        /// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic you specify as your Dead Letter Queue (DLQ). dlq. For more information, see dlq. 
         public let targetArn: String?
 
         public init(targetArn: String? = nil) {
@@ -290,23 +299,23 @@ extension Lambda {
             AWSShapeMember(label: "BatchSize", required: false, type: .integer), 
             AWSShapeMember(label: "StartingPositionTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "EventSourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "StartingPosition", required: true, type: .enum), 
+            AWSShapeMember(label: "StartingPosition", required: false, type: .enum), 
             AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
         /// The Lambda function to invoke when AWS Lambda detects an event on the stream.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail).   If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). For more information about versioning, see AWS Lambda Function Versioning and Aliases  AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail).  Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
-        /// The largest number of records that AWS Lambda will retrieve from your event source at the time of invoking your function. Your function receives an event with all the retrieved records. The default is 100 records.
+        /// The largest number of records that AWS Lambda will retrieve from your event source at the time of invoking your function. Your function receives an event with all the retrieved records. The default for Amazon Kinesis and Amazon DynamoDB is 100 records. For SQS, the default is 1.
         public let batchSize: Int32?
         /// The timestamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. If a record with this exact timestamp does not exist, the iterator returned is for the next (later) record. If the timestamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON). Valid only for Kinesis streams. 
         public let startingPositionTimestamp: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the Amazon Kinesis or the Amazon DynamoDB stream that is the event source. Any record added to this stream could cause AWS Lambda to invoke your Lambda function, it depends on the BatchSize. AWS Lambda POSTs the Amazon Kinesis event, containing records, to your Lambda function as JSON.
+        /// The Amazon Resource Name (ARN) of the event source. Any record added to this source could cause AWS Lambda to invoke your Lambda function, it depends on the BatchSize. AWS Lambda POSTs the event's records to your Lambda function as JSON.
         public let eventSourceArn: String
-        /// The position in the stream where AWS Lambda should start reading. Valid only for Kinesis streams. For more information, see ShardIteratorType in the Amazon Kinesis API Reference. 
-        public let startingPosition: EventSourcePosition
+        /// The position in the DynamoDB or Kinesis stream where AWS Lambda should start reading. For more information, see GetShardIterator in the Amazon Kinesis API Reference Guide or GetShardIterator in the Amazon DynamoDB API Reference Guide. The AT_TIMESTAMP value is supported only for Kinesis streams. 
+        public let startingPosition: EventSourcePosition?
         /// Indicates whether AWS Lambda should begin polling the event source. By default, Enabled is true. 
         public let enabled: Bool?
 
-        public init(functionName: String, batchSize: Int32? = nil, startingPositionTimestamp: TimeStamp? = nil, eventSourceArn: String, startingPosition: EventSourcePosition, enabled: Bool? = nil) {
+        public init(functionName: String, batchSize: Int32? = nil, startingPositionTimestamp: TimeStamp? = nil, eventSourceArn: String, startingPosition: EventSourcePosition? = nil, enabled: Bool? = nil) {
             self.functionName = functionName
             self.batchSize = batchSize
             self.startingPositionTimestamp = startingPositionTimestamp
@@ -365,6 +374,7 @@ extension Lambda {
     public struct AddPermissionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StatementId", required: true, type: .string), 
+            AWSShapeMember(label: "RevisionId", required: false, type: .string), 
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "Action", required: true, type: .string), 
             AWSShapeMember(label: "SourceArn", required: false, type: .string), 
@@ -375,6 +385,8 @@ extension Lambda {
         ]
         /// A unique statement identifier.
         public let statementId: String
+        /// An optional value you can use to ensure you are updating the latest update of the function version or alias. If the RevisionID you pass doesn't match the latest RevisionId of the function or alias, it will fail with an error message, advising you to retrieve the latest function version or alias RevisionID using either or .
+        public let revisionId: String?
         /// Name of the Lambda function whose resource policy you are updating by adding a new permission.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
         public let functionName: String
         /// The AWS Lambda action you want to allow in this statement. Each Lambda action is a string starting with lambda: followed by the API name . For example, lambda:CreateFunction. You can use wildcard (lambda:*) to grant permission for all AWS Lambda actions. 
@@ -390,8 +402,9 @@ extension Lambda {
         /// You can use this optional query parameter to describe a qualified ARN using a function version or an alias name. The permission will then apply to the specific qualified ARN. For example, if you specify function version 2 as the qualifier, then permission applies only when request is made using qualified function ARN:  arn:aws:lambda:aws-region:acct-id:function:function-name:2  If you specify an alias name, for example PROD, then the permission is valid only for requests made using the alias ARN:  arn:aws:lambda:aws-region:acct-id:function:function-name:PROD  If the qualifier is not specified, the permission is valid only when requests is made using unqualified function ARN.  arn:aws:lambda:aws-region:acct-id:function:function-name 
         public let qualifier: String?
 
-        public init(statementId: String, functionName: String, action: String, sourceArn: String? = nil, sourceAccount: String? = nil, principal: String, eventSourceToken: String? = nil, qualifier: String? = nil) {
+        public init(statementId: String, revisionId: String? = nil, functionName: String, action: String, sourceArn: String? = nil, sourceAccount: String? = nil, principal: String, eventSourceToken: String? = nil, qualifier: String? = nil) {
             self.statementId = statementId
+            self.revisionId = revisionId
             self.functionName = functionName
             self.action = action
             self.sourceArn = sourceArn
@@ -403,6 +416,7 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case statementId = "StatementId"
+            case revisionId = "RevisionId"
             case functionName = "FunctionName"
             case action = "Action"
             case sourceArn = "SourceArn"
@@ -544,6 +558,7 @@ extension Lambda {
 
     public struct UpdateFunctionCodeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RevisionId", required: false, type: .string), 
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "ZipFile", required: false, type: .blob), 
             AWSShapeMember(label: "S3Key", required: false, type: .string), 
@@ -552,9 +567,11 @@ extension Lambda {
             AWSShapeMember(label: "Publish", required: false, type: .boolean), 
             AWSShapeMember(label: "S3ObjectVersion", required: false, type: .string)
         ]
+        /// An optional value you can use to ensure you are updating the latest update of the function version or alias. If the RevisionID you pass doesn't match the latest RevisionId of the function or alias, it will fail with an error message, advising you to retrieve the latest function version or alias RevisionID using either or .
+        public let revisionId: String?
         /// The existing Lambda function name whose code you want to replace.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
         public let functionName: String
-        /// The contents of your zip file containing your deployment package. If you are using the web API directly, the contents of the zip file must be base64-encoded. If you are using the AWS SDKs or the AWS CLI, the SDKs or CLI will do the encoding for you. For more information about creating a .zip file, see Execution Permissions in the AWS Lambda Developer Guide. 
+        /// The contents of your zip file containing your deployment package. If you are using the web API directly, the contents of the zip file must be base64-encoded. If you are using the AWS SDKs or the AWS CLI, the SDKs or CLI will do the encoding for you. For more information about creating a .zip file, see Execution Permissions. 
         public let zipFile: Data?
         /// The Amazon S3 object (the deployment package) key name you want to upload.
         public let s3Key: String?
@@ -567,7 +584,8 @@ extension Lambda {
         /// The Amazon S3 object (the deployment package) version you want to upload.
         public let s3ObjectVersion: String?
 
-        public init(functionName: String, zipFile: Data? = nil, s3Key: String? = nil, dryRun: Bool? = nil, s3Bucket: String? = nil, publish: Bool? = nil, s3ObjectVersion: String? = nil) {
+        public init(revisionId: String? = nil, functionName: String, zipFile: Data? = nil, s3Key: String? = nil, dryRun: Bool? = nil, s3Bucket: String? = nil, publish: Bool? = nil, s3ObjectVersion: String? = nil) {
+            self.revisionId = revisionId
             self.functionName = functionName
             self.zipFile = zipFile
             self.s3Key = s3Key
@@ -578,6 +596,7 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case revisionId = "RevisionId"
             case functionName = "FunctionName"
             case zipFile = "ZipFile"
             case s3Key = "S3Key"
@@ -590,27 +609,32 @@ extension Lambda {
 
     public struct RemovePermissionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string), 
+            AWSShapeMember(label: "StatementId", location: .uri(locationName: "StatementId"), required: true, type: .string), 
+            AWSShapeMember(label: "RevisionId", location: .querystring(locationName: "RevisionId"), required: false, type: .string), 
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
-            AWSShapeMember(label: "StatementId", location: .uri(locationName: "StatementId"), required: true, type: .string)
+            AWSShapeMember(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
-        /// You can specify this optional parameter to remove permission associated with a specific function version or function alias. If you don't specify this parameter, the API removes permission associated with the unqualified function ARN.
-        public let qualifier: String?
-        /// Lambda function whose resource policy you want to remove a permission from.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
-        public let functionName: String
         /// Statement ID of the permission to remove.
         public let statementId: String
+        /// An optional value you can use to ensure you are updating the latest update of the function version or alias. If the RevisionID you pass doesn't match the latest RevisionId of the function or alias, it will fail with an error message, advising you to retrieve the latest function version or alias RevisionID using either or .
+        public let revisionId: String?
+        /// Lambda function whose resource policy you want to remove a permission from.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
+        public let functionName: String
+        /// You can specify this optional parameter to remove permission associated with a specific function version or function alias. If you don't specify this parameter, the API removes permission associated with the unqualified function ARN.
+        public let qualifier: String?
 
-        public init(qualifier: String? = nil, functionName: String, statementId: String) {
-            self.qualifier = qualifier
-            self.functionName = functionName
+        public init(statementId: String, revisionId: String? = nil, functionName: String, qualifier: String? = nil) {
             self.statementId = statementId
+            self.revisionId = revisionId
+            self.functionName = functionName
+            self.qualifier = qualifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case qualifier = "Qualifier"
-            case functionName = "FunctionName"
             case statementId = "StatementId"
+            case revisionId = "RevisionId"
+            case functionName = "FunctionName"
+            case qualifier = "Qualifier"
         }
     }
 
@@ -640,7 +664,7 @@ extension Lambda {
         public let maxItems: Int32?
         /// The name of the Lambda function.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
         public let functionName: String?
-        /// The Amazon Resource Name (ARN) of the Amazon Kinesis stream. (This parameter is optional.)
+        /// The Amazon Resource Name (ARN) of the Amazon Kinesis or DynamoDB stream, or an SQS queue. (This parameter is optional.)
         public let eventSourceArn: String?
         /// Optional string. An opaque pagination token returned from a previous ListEventSourceMappings operation. If present, specifies to continue the list from where the returning call left off. 
         public let marker: String?
@@ -805,7 +829,7 @@ extension Lambda {
         public let logResult: String?
         ///  It is the JSON representation of the object returned by the Lambda function. This is present only if the invocation type is RequestResponse.  In the event of a function error this field contains a message describing the error. For the Handled errors the Lambda function will report this message. For Unhandled errors AWS Lambda reports the message. 
         public let payload: Data?
-        /// The function version that has been executed. This value is returned only if the invocation type is RequestResponse.
+        /// The function version that has been executed. This value is returned only if the invocation type is RequestResponse. For more information, see lambda-traffic-shifting-using-aliases.
         public let executedVersion: String?
         /// Indicates whether an error occurred while executing the Lambda function. If an error occurred this field will have one of two values; Handled or Unhandled. Handled errors are errors that are reported by the function while the Unhandled errors are those detected and reported by AWS Lambda. Unhandled errors include out of memory errors and function timeouts. For information about how to report an Handled error, see Programming Model. 
         public let functionError: String?
@@ -845,70 +869,75 @@ extension Lambda {
 
     public struct UpdateFunctionConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KMSKeyArn", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
-            AWSShapeMember(label: "TracingConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "RevisionId", required: false, type: .string), 
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "MemorySize", required: false, type: .integer), 
-            AWSShapeMember(label: "Role", required: false, type: .string), 
-            AWSShapeMember(label: "Environment", required: false, type: .structure), 
             AWSShapeMember(label: "DeadLetterConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Timeout", required: false, type: .integer), 
             AWSShapeMember(label: "Runtime", required: false, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "KMSKeyArn", required: false, type: .string), 
+            AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeMember(label: "TracingConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "MemorySize", required: false, type: .integer), 
+            AWSShapeMember(label: "Role", required: false, type: .string), 
+            AWSShapeMember(label: "Environment", required: false, type: .structure), 
             AWSShapeMember(label: "Handler", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt your function's environment variables. If you elect to use the AWS Lambda default service key, pass in an empty string ("") for this parameter.
-        public let kMSKeyArn: String?
+        /// An optional value you can use to ensure you are updating the latest update of the function version or alias. If the RevisionID you pass doesn't match the latest RevisionId of the function or alias, it will fail with an error message, advising you to retrieve the latest function version or alias RevisionID using either or .
+        public let revisionId: String?
+        public let vpcConfig: VpcConfig?
+        /// The parent object that contains the target ARN (Amazon Resource Name) of an Amazon SQS queue or Amazon SNS topic. For more information, see dlq. 
+        public let deadLetterConfig: DeadLetterConfig?
+        /// The function execution time at which AWS Lambda should terminate the function. Because the execution time has cost implications, we recommend you set this value based on your expected execution time. The default is 3 seconds.
+        public let timeout: Int32?
+        /// The runtime environment for the Lambda function. To use the Python runtime v3.6, set the value to "python3.6". To use the Python runtime v2.7, set the value to "python2.7". To use the Node.js runtime v6.10, set the value to "nodejs6.10". To use the Node.js runtime v4.3, set the value to "nodejs4.3". To use the .NET Core runtime v1.0, set the value to "dotnetcore1.0". To use the .NET Core runtime v2.0, set the value to "dotnetcore2.0".  Node v0.10.42 is currently marked as deprecated. You must migrate existing functions to the newer Node.js runtime versions available on AWS Lambda (nodejs4.3 or nodejs6.10) as soon as possible. Failure to do so will result in an invalid parameter error being returned. Note that you will have to follow this procedure for each region that contains functions written in the Node v0.10.42 runtime. 
+        public let runtime: Runtime?
         /// A short user-defined function description. AWS Lambda does not use this value. Assign a meaningful description as you see fit.
         public let description: String?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt your function's environment variables. If you elect to use the AWS Lambda default service key, pass in an empty string ("") for this parameter.
+        public let kMSKeyArn: String?
         /// The name of the Lambda function.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
         public let functionName: String
         /// The parent object that contains your function's tracing settings.
         public let tracingConfig: TracingConfig?
-        public let vpcConfig: VpcConfig?
         /// The amount of memory, in MB, your Lambda function is given. AWS Lambda uses this memory size to infer the amount of CPU allocated to your function. Your function use-case determines your CPU and memory requirements. For example, a database operation might need less memory compared to an image processing function. The default value is 128 MB. The value must be a multiple of 64 MB.
         public let memorySize: Int32?
         /// The Amazon Resource Name (ARN) of the IAM role that Lambda will assume when it executes your function.
         public let role: String?
         /// The parent object that contains your environment's configuration settings.
         public let environment: Environment?
-        /// The parent object that contains the target ARN (Amazon Resource Name) of an Amazon SQS queue or Amazon SNS topic.
-        public let deadLetterConfig: DeadLetterConfig?
-        /// The function execution time at which AWS Lambda should terminate the function. Because the execution time has cost implications, we recommend you set this value based on your expected execution time. The default is 3 seconds.
-        public let timeout: Int32?
-        /// The runtime environment for the Lambda function. To use the Python runtime v3.6, set the value to "python3.6". To use the Python runtime v2.7, set the value to "python2.7". To use the Node.js runtime v6.10, set the value to "nodejs6.10". To use the Node.js runtime v4.3, set the value to "nodejs4.3". To use the Python runtime v3.6, set the value to "python3.6".  Node v0.10.42 is currently marked as deprecated. You must migrate existing functions to the newer Node.js runtime versions available on AWS Lambda (nodejs4.3 or nodejs6.10) as soon as possible. Failure to do so will result in an invalid parameter error being returned. Note that you will have to follow this procedure for each region that contains functions written in the Node v0.10.42 runtime. 
-        public let runtime: Runtime?
         /// The function that Lambda calls to begin executing your function. For Node.js, it is the module-name.export value in your function. 
         public let handler: String?
 
-        public init(kMSKeyArn: String? = nil, description: String? = nil, functionName: String, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil, memorySize: Int32? = nil, role: String? = nil, environment: Environment? = nil, deadLetterConfig: DeadLetterConfig? = nil, timeout: Int32? = nil, runtime: Runtime? = nil, handler: String? = nil) {
-            self.kMSKeyArn = kMSKeyArn
-            self.description = description
-            self.functionName = functionName
-            self.tracingConfig = tracingConfig
+        public init(revisionId: String? = nil, vpcConfig: VpcConfig? = nil, deadLetterConfig: DeadLetterConfig? = nil, timeout: Int32? = nil, runtime: Runtime? = nil, description: String? = nil, kMSKeyArn: String? = nil, functionName: String, tracingConfig: TracingConfig? = nil, memorySize: Int32? = nil, role: String? = nil, environment: Environment? = nil, handler: String? = nil) {
+            self.revisionId = revisionId
             self.vpcConfig = vpcConfig
-            self.memorySize = memorySize
-            self.role = role
-            self.environment = environment
             self.deadLetterConfig = deadLetterConfig
             self.timeout = timeout
             self.runtime = runtime
+            self.description = description
+            self.kMSKeyArn = kMSKeyArn
+            self.functionName = functionName
+            self.tracingConfig = tracingConfig
+            self.memorySize = memorySize
+            self.role = role
+            self.environment = environment
             self.handler = handler
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kMSKeyArn = "KMSKeyArn"
-            case description = "Description"
-            case functionName = "FunctionName"
-            case tracingConfig = "TracingConfig"
+            case revisionId = "RevisionId"
             case vpcConfig = "VpcConfig"
-            case memorySize = "MemorySize"
-            case role = "Role"
-            case environment = "Environment"
             case deadLetterConfig = "DeadLetterConfig"
             case timeout = "Timeout"
             case runtime = "Runtime"
+            case description = "Description"
+            case kMSKeyArn = "KMSKeyArn"
+            case functionName = "FunctionName"
+            case tracingConfig = "TracingConfig"
+            case memorySize = "MemorySize"
+            case role = "Role"
+            case environment = "Environment"
             case handler = "Handler"
         }
     }
@@ -961,15 +990,15 @@ extension Lambda {
         ]
         /// If your Lambda function accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and one subnet ID.
         public let vpcConfig: VpcConfig?
-        /// The list of tags (key-value pairs) assigned to the new function.
+        /// The list of tags (key-value pairs) assigned to the new function. For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide.
         public let tags: [String: String]?
-        /// The parent object that contains the target ARN (Amazon Resource Name) of an Amazon SQS queue or Amazon SNS topic. 
+        /// The parent object that contains the target ARN (Amazon Resource Name) of an Amazon SQS queue or Amazon SNS topic. For more information, see dlq. 
         public let deadLetterConfig: DeadLetterConfig?
         /// The function execution time at which Lambda should terminate the function. Because the execution time has cost implications, we recommend you set this value based on your expected execution time. The default is 3 seconds.
         public let timeout: Int32?
         /// This boolean parameter can be used to request AWS Lambda to create the Lambda function and publish a version as an atomic operation.
         public let publish: Bool?
-        /// The runtime environment for the Lambda function you are uploading. To use the Python runtime v3.6, set the value to "python3.6". To use the Python runtime v2.7, set the value to "python2.7". To use the Node.js runtime v6.10, set the value to "nodejs6.10". To use the Node.js runtime v4.3, set the value to "nodejs4.3".  Node v0.10.42 is currently marked as deprecated. You must migrate existing functions to the newer Node.js runtime versions available on AWS Lambda (nodejs4.3 or nodejs6.10) as soon as possible. Failure to do so will result in an invalid parmaeter error being returned. Note that you will have to follow this procedure for each region that contains functions written in the Node v0.10.42 runtime. 
+        /// The runtime environment for the Lambda function you are uploading. To use the Python runtime v3.6, set the value to "python3.6". To use the Python runtime v2.7, set the value to "python2.7". To use the Node.js runtime v6.10, set the value to "nodejs6.10". To use the Node.js runtime v4.3, set the value to "nodejs4.3". To use the .NET Core runtime v1.0, set the value to "dotnetcore1.0". To use the .NET Core runtime v2.0, set the value to "dotnetcore2.0".  Node v0.10.42 is currently marked as deprecated. You must migrate existing functions to the newer Node.js runtime versions available on AWS Lambda (nodejs4.3 or nodejs6.10) as soon as possible. Failure to do so will result in an invalid parameter error being returned. Note that you will have to follow this procedure for each region that contains functions written in the Node v0.10.42 runtime. 
         public let runtime: Runtime
         /// A short, user-defined function description. Lambda does not use this value. Assign a meaningful description as you see fit.
         public let description: String?
@@ -1091,6 +1120,7 @@ extension Lambda {
 
     public struct FunctionConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RevisionId", required: false, type: .string), 
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
             AWSShapeMember(label: "MasterArn", required: false, type: .string), 
             AWSShapeMember(label: "DeadLetterConfig", required: false, type: .structure), 
@@ -1110,11 +1140,13 @@ extension Lambda {
             AWSShapeMember(label: "Environment", required: false, type: .structure), 
             AWSShapeMember(label: "Handler", required: false, type: .string)
         ]
+        /// Represents the latest updated revision of the function or alias.
+        public let revisionId: String?
         /// VPC configuration associated with your Lambda function.
         public let vpcConfig: VpcConfigResponse?
         /// Returns the ARN (Amazon Resource Name) of the master function.
         public let masterArn: String?
-        /// The parent object that contains the target ARN (Amazon Resource Name) of an Amazon SQS queue or Amazon SNS topic.
+        /// The parent object that contains the target ARN (Amazon Resource Name) of an Amazon SQS queue or Amazon SNS topic. For more information, see dlq. 
         public let deadLetterConfig: DeadLetterConfig?
         /// The function execution time at which Lambda should terminate the function. Because the execution time has cost implications, we recommend you set this value based on your expected execution time. The default is 3 seconds.
         public let timeout: Int32?
@@ -1147,7 +1179,8 @@ extension Lambda {
         /// The function Lambda calls to begin executing your function.
         public let handler: String?
 
-        public init(vpcConfig: VpcConfigResponse? = nil, masterArn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, timeout: Int32? = nil, runtime: Runtime? = nil, codeSha256: String? = nil, description: String? = nil, lastModified: String? = nil, kMSKeyArn: String? = nil, functionName: String? = nil, tracingConfig: TracingConfigResponse? = nil, memorySize: Int32? = nil, functionArn: String? = nil, version: String? = nil, role: String? = nil, codeSize: Int64? = nil, environment: EnvironmentResponse? = nil, handler: String? = nil) {
+        public init(revisionId: String? = nil, vpcConfig: VpcConfigResponse? = nil, masterArn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, timeout: Int32? = nil, runtime: Runtime? = nil, codeSha256: String? = nil, description: String? = nil, lastModified: String? = nil, kMSKeyArn: String? = nil, functionName: String? = nil, tracingConfig: TracingConfigResponse? = nil, memorySize: Int32? = nil, functionArn: String? = nil, version: String? = nil, role: String? = nil, codeSize: Int64? = nil, environment: EnvironmentResponse? = nil, handler: String? = nil) {
+            self.revisionId = revisionId
             self.vpcConfig = vpcConfig
             self.masterArn = masterArn
             self.deadLetterConfig = deadLetterConfig
@@ -1169,6 +1202,7 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case revisionId = "RevisionId"
             case vpcConfig = "VpcConfig"
             case masterArn = "MasterArn"
             case deadLetterConfig = "DeadLetterConfig"
@@ -1192,17 +1226,22 @@ extension Lambda {
 
     public struct GetPolicyResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policy", required: false, type: .string)
+            AWSShapeMember(label: "Policy", required: false, type: .string), 
+            AWSShapeMember(label: "RevisionId", required: false, type: .string)
         ]
         /// The resource policy associated with the specified function. The response returns the same as a string using a backslash ("\") as an escape character in the JSON.
         public let policy: String?
+        /// Represents the latest updated revision of the function or alias.
+        public let revisionId: String?
 
-        public init(policy: String? = nil) {
+        public init(policy: String? = nil, revisionId: String? = nil) {
             self.policy = policy
+            self.revisionId = revisionId
         }
 
         private enum CodingKeys: String, CodingKey {
             case policy = "Policy"
+            case revisionId = "RevisionId"
         }
     }
 
@@ -1210,7 +1249,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReservedConcurrentExecutions", required: false, type: .integer)
         ]
-        /// The number of concurrent executions reserved for this function.
+        /// The number of concurrent executions reserved for this function. For more information, see concurrent-executions.
         public let reservedConcurrentExecutions: Int32?
 
         public init(reservedConcurrentExecutions: Int32? = nil) {
@@ -1248,9 +1287,9 @@ extension Lambda {
             AWSShapeMember(label: "ReservedConcurrentExecutions", required: true, type: .integer), 
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string)
         ]
-        /// The concurrent execution limit reserved for this function.
+        /// The concurrent execution limit reserved for this function. For more information, see concurrent-executions.
         public let reservedConcurrentExecutions: Int32
-        /// The name of the function you are setting concurrent execution limits on.
+        /// The name of the function you are setting concurrent execution limits on. For more information, see concurrent-executions.
         public let functionName: String
 
         public init(reservedConcurrentExecutions: Int32, functionName: String) {
@@ -1274,7 +1313,7 @@ extension Lambda {
         ]
         /// Size, in bytes, of a single zipped code/dependencies package you can upload for your Lambda function(.zip/.jar file). Try using Amazon S3 for uploading larger files. Default limit is 50 MB.
         public let codeSizeZipped: Int64?
-        /// The number of concurrent executions available to functions that do not have concurrency limits set.
+        /// The number of concurrent executions available to functions that do not have concurrency limits set. For more information, see concurrent-executions.
         public let unreservedConcurrentExecutions: Int32?
         /// Number of simultaneous executions of your function per region. For more information or to request a limit increase for concurrent executions, see Lambda Function Concurrent Executions. The default limit is 1000.
         public let concurrentExecutions: Int32?
@@ -1303,6 +1342,7 @@ extension Lambda {
     public struct AliasConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoutingConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "RevisionId", required: false, type: .string), 
             AWSShapeMember(label: "FunctionVersion", required: false, type: .string), 
             AWSShapeMember(label: "AliasArn", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -1310,6 +1350,8 @@ extension Lambda {
         ]
         /// Specifies an additional function versions the alias points to, allowing you to dictate what percentage of traffic will invoke each version. For more information, see lambda-traffic-shifting-using-aliases.
         public let routingConfig: AliasRoutingConfiguration?
+        /// Represents the latest updated revision of the function or alias.
+        public let revisionId: String?
         /// Function version to which the alias points.
         public let functionVersion: String?
         /// Lambda function ARN that is qualified using the alias name as the suffix. For example, if you create an alias called BETA that points to a helloworld function version, the ARN is arn:aws:lambda:aws-regions:acct-id:function:helloworld:BETA.
@@ -1319,8 +1361,9 @@ extension Lambda {
         /// Alias description.
         public let description: String?
 
-        public init(routingConfig: AliasRoutingConfiguration? = nil, functionVersion: String? = nil, aliasArn: String? = nil, name: String? = nil, description: String? = nil) {
+        public init(routingConfig: AliasRoutingConfiguration? = nil, revisionId: String? = nil, functionVersion: String? = nil, aliasArn: String? = nil, name: String? = nil, description: String? = nil) {
             self.routingConfig = routingConfig
+            self.revisionId = revisionId
             self.functionVersion = functionVersion
             self.aliasArn = aliasArn
             self.name = name
@@ -1329,6 +1372,7 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case routingConfig = "RoutingConfig"
+            case revisionId = "RevisionId"
             case functionVersion = "FunctionVersion"
             case aliasArn = "AliasArn"
             case name = "Name"
@@ -1505,27 +1549,32 @@ extension Lambda {
 
     public struct PublishVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "RevisionId", required: false, type: .string), 
+            AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "CodeSha256", required: false, type: .string), 
-            AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string)
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        /// The description for the version you are publishing. If not provided, AWS Lambda copies the description from the $LATEST version.
-        public let description: String?
-        /// The SHA256 hash of the deployment package you want to publish. This provides validation on the code you are publishing. If you provide this parameter, the value must match the SHA256 of the $LATEST version for the publication to succeed. You can use the DryRun parameter of UpdateFunctionCode to verify the hash value that will be returned before publishing your new version.
-        public let codeSha256: String?
+        /// An optional value you can use to ensure you are updating the latest update of the function version or alias. If the RevisionID you pass doesn't match the latest RevisionId of the function or alias, it will fail with an error message, advising you to retrieve the latest function version or alias RevisionID using either or .
+        public let revisionId: String?
         /// The Lambda function name. You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
         public let functionName: String
+        /// The SHA256 hash of the deployment package you want to publish. This provides validation on the code you are publishing. If you provide this parameter, the value must match the SHA256 of the $LATEST version for the publication to succeed. You can use the DryRun parameter of UpdateFunctionCode to verify the hash value that will be returned before publishing your new version.
+        public let codeSha256: String?
+        /// The description for the version you are publishing. If not provided, AWS Lambda copies the description from the $LATEST version.
+        public let description: String?
 
-        public init(description: String? = nil, codeSha256: String? = nil, functionName: String) {
-            self.description = description
-            self.codeSha256 = codeSha256
+        public init(revisionId: String? = nil, functionName: String, codeSha256: String? = nil, description: String? = nil) {
+            self.revisionId = revisionId
             self.functionName = functionName
+            self.codeSha256 = codeSha256
+            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description = "Description"
-            case codeSha256 = "CodeSha256"
+            case revisionId = "RevisionId"
             case functionName = "FunctionName"
+            case codeSha256 = "CodeSha256"
+            case description = "Description"
         }
     }
 
@@ -1537,10 +1586,10 @@ extension Lambda {
             AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
         public let configuration: FunctionConfiguration?
-        /// The concurrent execution limit set for this function.
+        /// The concurrent execution limit set for this function. For more information, see concurrent-executions.
         public let concurrency: Concurrency?
         public let code: FunctionCodeLocation?
-        /// Returns the list of tags associated with the function.
+        /// Returns the list of tags associated with the function. For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide.
         public let tags: [String: String]?
 
         public init(configuration: FunctionConfiguration? = nil, concurrency: Concurrency? = nil, code: FunctionCodeLocation? = nil, tags: [String: String]? = nil) {
@@ -1629,7 +1678,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Resource", location: .uri(locationName: "ARN"), required: true, type: .string)
         ]
-        /// The ARN (Amazon Resource Name) of the function.
+        /// The ARN (Amazon Resource Name) of the function. For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide.
         public let resource: String
 
         public init(resource: String) {
@@ -1646,9 +1695,9 @@ extension Lambda {
             AWSShapeMember(label: "Resource", location: .uri(locationName: "ARN"), required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
-        /// The ARN (Amazon Resource Name) of the function.
+        /// The ARN (Amazon Resource Name) of the function. For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide.
         public let resource: String
-        /// The list of tag keys to be deleted from the function.
+        /// The list of tag keys to be deleted from the function. For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide.
         public let tagKeys: [String]
 
         public init(resource: String, tagKeys: [String]) {

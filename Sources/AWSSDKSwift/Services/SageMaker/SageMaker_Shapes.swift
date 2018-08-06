@@ -3,7 +3,14 @@
 import Foundation
 import AWSSDKSwiftCore
 
-extension SageMaker {
+extension Sagemaker {
+
+    public enum HyperParameterTuningJobSortByOptions: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case status = "Status"
+        case creationtime = "CreationTime"
+        public var description: String { return self.rawValue }
+    }
 
     public struct DescribeModelOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -11,8 +18,8 @@ extension SageMaker {
             AWSShapeMember(label: "ExecutionRoleArn", required: true, type: .string), 
             AWSShapeMember(label: "ModelArn", required: true, type: .string), 
             AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "PrimaryContainer", required: true, type: .structure), 
-            AWSShapeMember(label: "SupplementalContainers", required: true, type: .list)
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "PrimaryContainer", required: true, type: .structure)
         ]
         /// Name of the Amazon SageMaker model.
         public let modelName: String
@@ -22,18 +29,18 @@ extension SageMaker {
         public let modelArn: String
         /// A timestamp that shows when the model was created.
         public let creationTime: TimeStamp
+        /// A VpcConfig object that specifies the VPC that this model has access to. For more information, see host-vpc 
+        public let vpcConfig: VpcConfig?
         /// The location of the primary inference code, associated artifacts, and custom environment map that the inference code uses when it is deployed in production. 
         public let primaryContainer: ContainerDefinition
-        /// The description of additional optional containers that you defined when creating the model.
-        public let supplementalContainers: [ContainerDefinition]
 
-        public init(modelName: String, executionRoleArn: String, modelArn: String, creationTime: TimeStamp, primaryContainer: ContainerDefinition, supplementalContainers: [ContainerDefinition]) {
+        public init(modelName: String, executionRoleArn: String, modelArn: String, creationTime: TimeStamp, vpcConfig: VpcConfig? = nil, primaryContainer: ContainerDefinition) {
             self.modelName = modelName
             self.executionRoleArn = executionRoleArn
             self.modelArn = modelArn
             self.creationTime = creationTime
+            self.vpcConfig = vpcConfig
             self.primaryContainer = primaryContainer
-            self.supplementalContainers = supplementalContainers
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -41,86 +48,55 @@ extension SageMaker {
             case executionRoleArn = "ExecutionRoleArn"
             case modelArn = "ModelArn"
             case creationTime = "CreationTime"
+            case vpcConfig = "VpcConfig"
             case primaryContainer = "PrimaryContainer"
-            case supplementalContainers = "SupplementalContainers"
         }
     }
 
-    public struct NotebookInstanceSummary: AWSShape {
+    public struct DescribeNotebookInstanceLifecycleConfigInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string), 
-            AWSShapeMember(label: "Url", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NotebookInstanceArn", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
-            AWSShapeMember(label: "NotebookInstanceStatus", required: false, type: .enum)
+            AWSShapeMember(label: "NotebookInstanceLifecycleConfigName", required: true, type: .string)
         ]
-        /// A timestamp that shows when the notebook instance was last modified.
-        public let lastModifiedTime: TimeStamp?
-        /// The name of the notebook instance that you want a summary for.
-        public let notebookInstanceName: String
-        /// The URL that you use to connect to the Jupyter instance running in your notebook instance. 
-        public let url: String?
-        /// A timestamp that shows when the notebook instance was created.
-        public let creationTime: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the notebook instance.
-        public let notebookInstanceArn: String
-        /// The type of ML compute instance that the notebook instance is running on.
-        public let instanceType: InstanceType?
-        /// The status of the notebook instance.
-        public let notebookInstanceStatus: NotebookInstanceStatus?
+        /// The name of the lifecycle configuration to describe.
+        public let notebookInstanceLifecycleConfigName: String
 
-        public init(lastModifiedTime: TimeStamp? = nil, notebookInstanceName: String, url: String? = nil, creationTime: TimeStamp? = nil, notebookInstanceArn: String, instanceType: InstanceType? = nil, notebookInstanceStatus: NotebookInstanceStatus? = nil) {
-            self.lastModifiedTime = lastModifiedTime
-            self.notebookInstanceName = notebookInstanceName
-            self.url = url
-            self.creationTime = creationTime
-            self.notebookInstanceArn = notebookInstanceArn
-            self.instanceType = instanceType
-            self.notebookInstanceStatus = notebookInstanceStatus
+        public init(notebookInstanceLifecycleConfigName: String) {
+            self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastModifiedTime = "LastModifiedTime"
-            case notebookInstanceName = "NotebookInstanceName"
-            case url = "Url"
-            case creationTime = "CreationTime"
-            case notebookInstanceArn = "NotebookInstanceArn"
-            case instanceType = "InstanceType"
-            case notebookInstanceStatus = "NotebookInstanceStatus"
+            case notebookInstanceLifecycleConfigName = "NotebookInstanceLifecycleConfigName"
         }
     }
 
-    public struct DeleteEndpointConfigInput: AWSShape {
+    public struct CreateHyperParameterTuningJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointConfigName", required: true, type: .string)
+            AWSShapeMember(label: "HyperParameterTuningJobConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "HyperParameterTuningJobName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "TrainingJobDefinition", required: true, type: .structure)
         ]
-        /// The name of the endpoint configuration that you want to delete.
-        public let endpointConfigName: String
+        /// The HyperParameterTuningJobConfig object that describes the tuning job, including the search strategy, metric used to evaluate training jobs, ranges of parameters to search, and resource limits for the tuning job.
+        public let hyperParameterTuningJobConfig: HyperParameterTuningJobConfig
+        /// The name of the tuning job. This name is the prefix for the names of all training jobs that this tuning job launches. The name must be unique within the same AWS account and AWS Region. Names are not case sensitive, and must be between 1-32 characters.
+        public let hyperParameterTuningJobName: String
+        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        public let tags: [Tag]?
+        /// The HyperParameterTrainingJobDefinition object that describes the training jobs that this tuning job launches, including static hyperparameters, input data configuration, output data configuration, resource configuration, and stopping condition.
+        public let trainingJobDefinition: HyperParameterTrainingJobDefinition
 
-        public init(endpointConfigName: String) {
-            self.endpointConfigName = endpointConfigName
+        public init(hyperParameterTuningJobConfig: HyperParameterTuningJobConfig, hyperParameterTuningJobName: String, tags: [Tag]? = nil, trainingJobDefinition: HyperParameterTrainingJobDefinition) {
+            self.hyperParameterTuningJobConfig = hyperParameterTuningJobConfig
+            self.hyperParameterTuningJobName = hyperParameterTuningJobName
+            self.tags = tags
+            self.trainingJobDefinition = trainingJobDefinition
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpointConfigName = "EndpointConfigName"
-        }
-    }
-
-    public struct DeleteNotebookInstanceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
-        ]
-        /// The name of the Amazon SageMaker notebook instance to delete.
-        public let notebookInstanceName: String
-
-        public init(notebookInstanceName: String) {
-            self.notebookInstanceName = notebookInstanceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notebookInstanceName = "NotebookInstanceName"
+            case hyperParameterTuningJobConfig = "HyperParameterTuningJobConfig"
+            case hyperParameterTuningJobName = "HyperParameterTuningJobName"
+            case tags = "Tags"
+            case trainingJobDefinition = "TrainingJobDefinition"
         }
     }
 
@@ -135,112 +111,76 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointConfigSortKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeEndpointOutput: AWSShape {
+    public struct ListHyperParameterTuningJobsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ProductionVariants", required: false, type: .list), 
-            AWSShapeMember(label: "EndpointConfigName", required: true, type: .string), 
-            AWSShapeMember(label: "EndpointName", required: true, type: .string), 
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "EndpointStatus", required: true, type: .enum)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "HyperParameterTuningJobSummaries", required: true, type: .list)
         ]
-        /// A timestamp that shows when the endpoint was last modified.
-        public let lastModifiedTime: TimeStamp
-        ///  An array of ProductionVariant objects, one for each model hosted behind this endpoint. 
-        public let productionVariants: [ProductionVariantSummary]?
-        /// The name of the endpoint configuration associated with this endpoint.
-        public let endpointConfigName: String
-        /// Name of the endpoint.
-        public let endpointName: String
-        /// The Amazon Resource Name (ARN) of the endpoint.
-        public let endpointArn: String
-        /// A timestamp that shows when the endpoint was created.
-        public let creationTime: TimeStamp
-        /// If the status of the endpoint is Failed, the reason why it failed. 
-        public let failureReason: String?
-        /// The status of the endpoint.
-        public let endpointStatus: EndpointStatus
+        /// If the result of this ListHyperParameterTuningJobs request was truncated, the response includes a NextToken. To retrieve the next set of tuning jobs, use the token in the next request.
+        public let nextToken: String?
+        /// A list of HyperParameterTuningJobSummary objects that describe the tuning jobs that the ListHyperParameterTuningJobs request returned.
+        public let hyperParameterTuningJobSummaries: [HyperParameterTuningJobSummary]
 
-        public init(lastModifiedTime: TimeStamp, productionVariants: [ProductionVariantSummary]? = nil, endpointConfigName: String, endpointName: String, endpointArn: String, creationTime: TimeStamp, failureReason: String? = nil, endpointStatus: EndpointStatus) {
-            self.lastModifiedTime = lastModifiedTime
-            self.productionVariants = productionVariants
-            self.endpointConfigName = endpointConfigName
-            self.endpointName = endpointName
-            self.endpointArn = endpointArn
-            self.creationTime = creationTime
-            self.failureReason = failureReason
-            self.endpointStatus = endpointStatus
+        public init(nextToken: String? = nil, hyperParameterTuningJobSummaries: [HyperParameterTuningJobSummary]) {
+            self.nextToken = nextToken
+            self.hyperParameterTuningJobSummaries = hyperParameterTuningJobSummaries
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastModifiedTime = "LastModifiedTime"
-            case productionVariants = "ProductionVariants"
-            case endpointConfigName = "EndpointConfigName"
-            case endpointName = "EndpointName"
-            case endpointArn = "EndpointArn"
-            case creationTime = "CreationTime"
-            case failureReason = "FailureReason"
-            case endpointStatus = "EndpointStatus"
+            case nextToken = "NextToken"
+            case hyperParameterTuningJobSummaries = "HyperParameterTuningJobSummaries"
+        }
+    }
+
+    public struct CreateTransformJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TransformJobArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the transform job.
+        public let transformJobArn: String
+
+        public init(transformJobArn: String) {
+            self.transformJobArn = transformJobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transformJobArn = "TransformJobArn"
         }
     }
 
     public struct CreateModelInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ModelName", required: true, type: .string), 
-            AWSShapeMember(label: "ExecutionRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionRoleArn", required: true, type: .string), 
             AWSShapeMember(label: "PrimaryContainer", required: true, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "SupplementalContainers", required: false, type: .list)
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The name of the new model.
         public let modelName: String
-        /// The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker can assume to access model artifacts and docker image for deployment on ML compute instances. Deploying on ML compute instances is part of model hosting. For more information, see Amazon SageMaker Roles. 
-        public let executionRoleArn: String?
+        /// The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker can assume to access model artifacts and docker image for deployment on ML compute instances. Deploying on ML compute instances is part of model hosting. For more information, see Amazon SageMaker Roles.   To be able to pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission. 
+        public let executionRoleArn: String
         /// The location of the primary docker image containing inference code, associated artifacts, and custom environment map that the inference code uses when the model is deployed into production. 
         public let primaryContainer: ContainerDefinition
+        /// A VpcConfig object that specifies the VPC that you want your model to connect to. Control access to and from your model container by configuring the VPC. For more information, see host-vpc.
+        public let vpcConfig: VpcConfig?
         /// An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide. 
         public let tags: [Tag]?
-        /// The additional optional containers to deploy.
-        public let supplementalContainers: [ContainerDefinition]?
 
-        public init(modelName: String, executionRoleArn: String? = nil, primaryContainer: ContainerDefinition, tags: [Tag]? = nil, supplementalContainers: [ContainerDefinition]? = nil) {
+        public init(modelName: String, executionRoleArn: String, primaryContainer: ContainerDefinition, vpcConfig: VpcConfig? = nil, tags: [Tag]? = nil) {
             self.modelName = modelName
             self.executionRoleArn = executionRoleArn
             self.primaryContainer = primaryContainer
+            self.vpcConfig = vpcConfig
             self.tags = tags
-            self.supplementalContainers = supplementalContainers
         }
 
         private enum CodingKeys: String, CodingKey {
             case modelName = "ModelName"
             case executionRoleArn = "ExecutionRoleArn"
             case primaryContainer = "PrimaryContainer"
+            case vpcConfig = "VpcConfig"
             case tags = "Tags"
-            case supplementalContainers = "SupplementalContainers"
-        }
-    }
-
-    public struct CreateEndpointOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the endpoint.
-        public let endpointArn: String
-
-        public init(endpointArn: String) {
-            self.endpointArn = endpointArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointArn = "EndpointArn"
         }
     }
 
@@ -260,64 +200,19 @@ extension SageMaker {
         }
     }
 
-    public struct ListNotebookInstancesInput: AWSShape {
+    public struct CreateEndpointOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StatusEquals", required: false, type: .enum), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
         ]
-        /// The field to sort results by. The default is Name.
-        public let sortBy: NotebookInstanceSortKey?
-        /// A filter that returns only notebook instances that were modified after the specified time (timestamp).
-        public let lastModifiedTimeAfter: TimeStamp?
-        ///  If the previous call to the ListNotebookInstances is truncated, the response includes a NextToken. You can use this token in your subsequent ListNotebookInstances request to fetch the next set of notebook instances.    You might specify a filter or a sort order in your request. When response is truncated, you must use the same values for the filer and sort order in the next request.  
-        public let nextToken: String?
-        /// A filter that returns only notebook instances that were created after the specified time (timestamp).
-        public let creationTimeAfter: TimeStamp?
-        /// A string in the notebook instances' name. This filter returns only notebook instances whose name contains the specified string. 
-        public let nameContains: String?
-        /// The sort order for results. 
-        public let sortOrder: NotebookInstanceSortOrder?
-        /// A filter that returns only notebook instances that were modified before the specified time (timestamp).
-        public let lastModifiedTimeBefore: TimeStamp?
-        /// A filter that returns only notebook instances with the specified status.
-        public let statusEquals: NotebookInstanceStatus?
-        /// A filter that returns only notebook instances that were created before the specified time (timestamp). 
-        public let creationTimeBefore: TimeStamp?
-        /// The maximum number of notebook instances to return.
-        public let maxResults: Int32?
+        /// The Amazon Resource Name (ARN) of the endpoint.
+        public let endpointArn: String
 
-        public init(sortBy: NotebookInstanceSortKey? = nil, lastModifiedTimeAfter: TimeStamp? = nil, nextToken: String? = nil, creationTimeAfter: TimeStamp? = nil, nameContains: String? = nil, sortOrder: NotebookInstanceSortOrder? = nil, lastModifiedTimeBefore: TimeStamp? = nil, statusEquals: NotebookInstanceStatus? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil) {
-            self.sortBy = sortBy
-            self.lastModifiedTimeAfter = lastModifiedTimeAfter
-            self.nextToken = nextToken
-            self.creationTimeAfter = creationTimeAfter
-            self.nameContains = nameContains
-            self.sortOrder = sortOrder
-            self.lastModifiedTimeBefore = lastModifiedTimeBefore
-            self.statusEquals = statusEquals
-            self.creationTimeBefore = creationTimeBefore
-            self.maxResults = maxResults
+        public init(endpointArn: String) {
+            self.endpointArn = endpointArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sortBy = "SortBy"
-            case lastModifiedTimeAfter = "LastModifiedTimeAfter"
-            case nextToken = "NextToken"
-            case creationTimeAfter = "CreationTimeAfter"
-            case nameContains = "NameContains"
-            case sortOrder = "SortOrder"
-            case lastModifiedTimeBefore = "LastModifiedTimeBefore"
-            case statusEquals = "StatusEquals"
-            case creationTimeBefore = "CreationTimeBefore"
-            case maxResults = "MaxResults"
+            case endpointArn = "EndpointArn"
         }
     }
 
@@ -337,49 +232,30 @@ extension SageMaker {
         }
     }
 
-    public struct ListEndpointConfigsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The field to sort results by. The default is CreationTime.
-        public let sortBy: EndpointConfigSortKey?
-        /// A filter that returns only endpoint configurations created after the specified time (timestamp).
-        public let creationTimeAfter: TimeStamp?
-        /// A string in the endpoint configuration name. This filter returns only endpoint configurations whose name contains the specified string. 
-        public let nameContains: String?
-        /// The sort order for results. The default is Ascending.
-        public let sortOrder: OrderKey?
-        /// If the result of the previous ListEndpointConfig request was truncated, the response includes a NextToken. To retrieve the next set of endpoint configurations, use the token in the next request. 
-        public let nextToken: String?
-        /// A filter that returns only endpoint configurations created before the specified time (timestamp).
-        public let creationTimeBefore: TimeStamp?
-        /// The maximum number of training jobs to return in the response.
-        public let maxResults: Int32?
+    public enum ModelSortKey: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(sortBy: EndpointConfigSortKey? = nil, creationTimeAfter: TimeStamp? = nil, nameContains: String? = nil, sortOrder: OrderKey? = nil, nextToken: String? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil) {
-            self.sortBy = sortBy
-            self.creationTimeAfter = creationTimeAfter
-            self.nameContains = nameContains
-            self.sortOrder = sortOrder
-            self.nextToken = nextToken
-            self.creationTimeBefore = creationTimeBefore
-            self.maxResults = maxResults
+    public struct HyperParameterTuningJobObjective: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetricName", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+        /// The name of the metric to use for the objective metric.
+        public let metricName: String
+        /// Whether to minimize or maximize the objective metric.
+        public let `type`: HyperParameterTuningJobObjectiveType
+
+        public init(metricName: String, type: HyperParameterTuningJobObjectiveType) {
+            self.metricName = metricName
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sortBy = "SortBy"
-            case creationTimeAfter = "CreationTimeAfter"
-            case nameContains = "NameContains"
-            case sortOrder = "SortOrder"
-            case nextToken = "NextToken"
-            case creationTimeBefore = "CreationTimeBefore"
-            case maxResults = "MaxResults"
+            case metricName = "MetricName"
+            case `type` = "Type"
         }
     }
 
@@ -404,33 +280,46 @@ extension SageMaker {
         }
     }
 
-    public enum ModelSortKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateEndpointOutput: AWSShape {
+    public struct HyperParameterAlgorithmSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
+            AWSShapeMember(label: "MetricDefinitions", required: false, type: .list), 
+            AWSShapeMember(label: "TrainingInputMode", required: true, type: .enum), 
+            AWSShapeMember(label: "TrainingImage", required: true, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the endpoint.
-        public let endpointArn: String
+        /// An array of MetricDefinition objects that specify the metrics that the algorithm emits.
+        public let metricDefinitions: [MetricDefinition]?
+        /// The input mode that the algorithm supports: File or Pipe. In File input mode, Amazon SageMaker downloads the training data from Amazon S3 to the storage volume that is attached to the training instance and mounts the directory to the Docker volume for the training container. In Pipe input mode, Amazon SageMaker streams data directly from Amazon S3 to the container.  If you specify File mode, make sure that you provision the storage volume that is attached to the training instance with enough capacity to accommodate the training data downloaded from Amazon S3, the model artifacts, and intermediate information.  For more information about input modes, see Algorithms. 
+        public let trainingInputMode: TrainingInputMode
+        ///  The registry path of the Docker image that contains the training algorithm. For information about Docker registry paths for built-in algorithms, see sagemaker-algo-docker-registry-paths.
+        public let trainingImage: String
 
-        public init(endpointArn: String) {
-            self.endpointArn = endpointArn
+        public init(metricDefinitions: [MetricDefinition]? = nil, trainingInputMode: TrainingInputMode, trainingImage: String) {
+            self.metricDefinitions = metricDefinitions
+            self.trainingInputMode = trainingInputMode
+            self.trainingImage = trainingImage
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpointArn = "EndpointArn"
+            case metricDefinitions = "MetricDefinitions"
+            case trainingInputMode = "TrainingInputMode"
+            case trainingImage = "TrainingImage"
         }
     }
 
-    public enum NotebookInstanceSortKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        case status = "Status"
-        public var description: String { return self.rawValue }
+    public struct CreateNotebookInstanceLifecycleConfigOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotebookInstanceLifecycleConfigArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the lifecycle configuration.
+        public let notebookInstanceLifecycleConfigArn: String?
+
+        public init(notebookInstanceLifecycleConfigArn: String? = nil) {
+            self.notebookInstanceLifecycleConfigArn = notebookInstanceLifecycleConfigArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookInstanceLifecycleConfigArn = "NotebookInstanceLifecycleConfigArn"
+        }
     }
 
     public struct ProductionVariantSummary: AWSShape {
@@ -438,24 +327,28 @@ extension SageMaker {
             AWSShapeMember(label: "CurrentWeight", required: false, type: .float), 
             AWSShapeMember(label: "DesiredWeight", required: false, type: .float), 
             AWSShapeMember(label: "DesiredInstanceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "DeployedImages", required: false, type: .list), 
             AWSShapeMember(label: "VariantName", required: true, type: .string), 
             AWSShapeMember(label: "CurrentInstanceCount", required: false, type: .integer)
         ]
         /// The weight associated with the variant.
         public let currentWeight: Float?
-        /// The requested weight, as specified in the UpdateWeightAndCapacities request. 
+        /// The requested weight, as specified in the UpdateEndpointWeightsAndCapacities request. 
         public let desiredWeight: Float?
-        /// The number of instances requested in the UpdateWeightAndCapacities request. 
+        /// The number of instances requested in the UpdateEndpointWeightsAndCapacities request. 
         public let desiredInstanceCount: Int32?
+        /// An array of DeployedImage objects that specify the Amazon EC2 Container Registry paths of the inference images deployed on instances of this ProductionVariant.
+        public let deployedImages: [DeployedImage]?
         /// The name of the variant.
         public let variantName: String
         /// The number of instances associated with the variant.
         public let currentInstanceCount: Int32?
 
-        public init(currentWeight: Float? = nil, desiredWeight: Float? = nil, desiredInstanceCount: Int32? = nil, variantName: String, currentInstanceCount: Int32? = nil) {
+        public init(currentWeight: Float? = nil, desiredWeight: Float? = nil, desiredInstanceCount: Int32? = nil, deployedImages: [DeployedImage]? = nil, variantName: String, currentInstanceCount: Int32? = nil) {
             self.currentWeight = currentWeight
             self.desiredWeight = desiredWeight
             self.desiredInstanceCount = desiredInstanceCount
+            self.deployedImages = deployedImages
             self.variantName = variantName
             self.currentInstanceCount = currentInstanceCount
         }
@@ -464,104 +357,119 @@ extension SageMaker {
             case currentWeight = "CurrentWeight"
             case desiredWeight = "DesiredWeight"
             case desiredInstanceCount = "DesiredInstanceCount"
+            case deployedImages = "DeployedImages"
             case variantName = "VariantName"
             case currentInstanceCount = "CurrentInstanceCount"
         }
     }
 
-    public struct DescribeNotebookInstanceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
-        ]
-        /// The name of the notebook instance that you want information about.
-        public let notebookInstanceName: String
-
-        public init(notebookInstanceName: String) {
-            self.notebookInstanceName = notebookInstanceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notebookInstanceName = "NotebookInstanceName"
-        }
-    }
-
     public enum ProductionVariantInstanceType: String, CustomStringConvertible, Codable {
-        case mlC42Xlarge = "ml.c4.2xlarge"
-        case mlC48Xlarge = "ml.c4.8xlarge"
-        case mlC4Xlarge = "ml.c4.xlarge"
-        case mlC52Xlarge = "ml.c5.2xlarge"
-        case mlC59Xlarge = "ml.c5.9xlarge"
-        case mlC5Xlarge = "ml.c5.xlarge"
-        case mlM4Xlarge = "ml.m4.xlarge"
-        case mlP2Xlarge = "ml.p2.xlarge"
-        case mlP32Xlarge = "ml.p3.2xlarge"
         case mlT2Medium = "ml.t2.medium"
+        case mlT2Large = "ml.t2.large"
+        case mlT2Xlarge = "ml.t2.xlarge"
+        case mlT22Xlarge = "ml.t2.2xlarge"
+        case mlM4Xlarge = "ml.m4.xlarge"
+        case mlM42Xlarge = "ml.m4.2xlarge"
+        case mlM44Xlarge = "ml.m4.4xlarge"
+        case mlM410Xlarge = "ml.m4.10xlarge"
+        case mlM416Xlarge = "ml.m4.16xlarge"
+        case mlM5Large = "ml.m5.large"
+        case mlM5Xlarge = "ml.m5.xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM512Xlarge = "ml.m5.12xlarge"
+        case mlM524Xlarge = "ml.m5.24xlarge"
+        case mlC4Large = "ml.c4.large"
+        case mlC4Xlarge = "ml.c4.xlarge"
+        case mlC42Xlarge = "ml.c4.2xlarge"
+        case mlC44Xlarge = "ml.c4.4xlarge"
+        case mlC48Xlarge = "ml.c4.8xlarge"
+        case mlP2Xlarge = "ml.p2.xlarge"
+        case mlP28Xlarge = "ml.p2.8xlarge"
+        case mlP216Xlarge = "ml.p2.16xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
+        case mlC5Large = "ml.c5.large"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC52Xlarge = "ml.c5.2xlarge"
+        case mlC54Xlarge = "ml.c5.4xlarge"
+        case mlC59Xlarge = "ml.c5.9xlarge"
+        case mlC518Xlarge = "ml.c5.18xlarge"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3DataType: String, CustomStringConvertible, Codable {
-        case manifestfile = "ManifestFile"
-        case s3prefix = "S3Prefix"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct StartNotebookInstanceInput: AWSShape {
+    public struct CreateTrainingJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
+            AWSShapeMember(label: "TrainingJobArn", required: true, type: .string)
         ]
-        /// The name of the notebook instance to start.
-        public let notebookInstanceName: String
+        /// The Amazon Resource Name (ARN) of the training job.
+        public let trainingJobArn: String
 
-        public init(notebookInstanceName: String) {
-            self.notebookInstanceName = notebookInstanceName
+        public init(trainingJobArn: String) {
+            self.trainingJobArn = trainingJobArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case notebookInstanceName = "NotebookInstanceName"
+            case trainingJobArn = "TrainingJobArn"
         }
     }
 
-    public struct UpdateEndpointWeightsAndCapacitiesInput: AWSShape {
+    public struct CreateNotebookInstanceLifecycleConfigInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointName", required: true, type: .string), 
-            AWSShapeMember(label: "DesiredWeightsAndCapacities", required: true, type: .list)
+            AWSShapeMember(label: "OnCreate", required: false, type: .list), 
+            AWSShapeMember(label: "NotebookInstanceLifecycleConfigName", required: true, type: .string), 
+            AWSShapeMember(label: "OnStart", required: false, type: .list)
         ]
-        /// The name of an existing Amazon SageMaker endpoint.
-        public let endpointName: String
-        /// An object that provides new capacity and weight values for a variant.
-        public let desiredWeightsAndCapacities: [DesiredWeightAndCapacity]
+        /// A shell script that runs only once, when you create a notebook instance.
+        public let onCreate: [NotebookInstanceLifecycleHook]?
+        /// The name of the lifecycle configuration.
+        public let notebookInstanceLifecycleConfigName: String
+        /// A shell script that runs every time you start a notebook instance, including when you create the notebook instance.
+        public let onStart: [NotebookInstanceLifecycleHook]?
 
-        public init(endpointName: String, desiredWeightsAndCapacities: [DesiredWeightAndCapacity]) {
-            self.endpointName = endpointName
-            self.desiredWeightsAndCapacities = desiredWeightsAndCapacities
+        public init(onCreate: [NotebookInstanceLifecycleHook]? = nil, notebookInstanceLifecycleConfigName: String, onStart: [NotebookInstanceLifecycleHook]? = nil) {
+            self.onCreate = onCreate
+            self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
+            self.onStart = onStart
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpointName = "EndpointName"
-            case desiredWeightsAndCapacities = "DesiredWeightsAndCapacities"
+            case onCreate = "OnCreate"
+            case notebookInstanceLifecycleConfigName = "NotebookInstanceLifecycleConfigName"
+            case onStart = "OnStart"
         }
     }
 
-    public struct DeleteModelInput: AWSShape {
+    public struct TransformInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ModelName", required: true, type: .string)
+            AWSShapeMember(label: "DataSource", required: true, type: .structure), 
+            AWSShapeMember(label: "CompressionType", required: false, type: .enum), 
+            AWSShapeMember(label: "SplitType", required: false, type: .enum), 
+            AWSShapeMember(label: "ContentType", required: false, type: .string)
         ]
-        /// The name of the model to delete.
-        public let modelName: String
+        /// Describes the location of the channel data, meaning the S3 location of the input data that the model can consume.
+        public let dataSource: TransformDataSource
+        /// Compressing data helps save on storage space. If your transform data is compressed, specify the compression type.and Amazon SageMaker will automatically decompress the data for the transform job accordingly. The default value is None.
+        public let compressionType: CompressionType?
+        /// The method to use to split the transform job's data into smaller batches. The default value is None. If you don't want to split the data, specify None. If you want to split records on a newline character boundary, specify Line. To split records according to the RecordIO format, specify RecordIO. Amazon SageMaker will send maximum number of records per batch in each request up to the MaxPayloadInMB limit. For more information, see RecordIO data format.  For information about the RecordIO format, see Data Format. 
+        public let splitType: SplitType?
+        /// The multipurpose internet mail extension (MIME) type of the data. Amazon SageMaker uses the MIME type with each http call to transfer data to the transform job.
+        public let contentType: String?
 
-        public init(modelName: String) {
-            self.modelName = modelName
+        public init(dataSource: TransformDataSource, compressionType: CompressionType? = nil, splitType: SplitType? = nil, contentType: String? = nil) {
+            self.dataSource = dataSource
+            self.compressionType = compressionType
+            self.splitType = splitType
+            self.contentType = contentType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelName = "ModelName"
+            case dataSource = "DataSource"
+            case compressionType = "CompressionType"
+            case splitType = "SplitType"
+            case contentType = "ContentType"
         }
-    }
-
-    public enum TrainingInputMode: String, CustomStringConvertible, Codable {
-        case pipe = "Pipe"
-        case file = "File"
-        public var description: String { return self.rawValue }
     }
 
     public struct Tag: AWSShape {
@@ -582,6 +490,38 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case value = "Value"
             case key = "Key"
+        }
+    }
+
+    public struct StartNotebookInstanceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
+        ]
+        /// The name of the notebook instance to start.
+        public let notebookInstanceName: String
+
+        public init(notebookInstanceName: String) {
+            self.notebookInstanceName = notebookInstanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookInstanceName = "NotebookInstanceName"
+        }
+    }
+
+    public struct DescribeTransformJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TransformJobName", required: true, type: .string)
+        ]
+        /// The name of the transform job that you want to view details of.
+        public let transformJobName: String
+
+        public init(transformJobName: String) {
+            self.transformJobName = transformJobName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transformJobName = "TransformJobName"
         }
     }
 
@@ -606,41 +546,41 @@ extension SageMaker {
         }
     }
 
-    public struct ContainerDefinition: AWSShape {
+    public struct TransformS3DataSource: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Environment", required: false, type: .map), 
-            AWSShapeMember(label: "Image", required: true, type: .string), 
-            AWSShapeMember(label: "ModelDataUrl", required: false, type: .string), 
-            AWSShapeMember(label: "ContainerHostname", required: false, type: .string)
+            AWSShapeMember(label: "S3Uri", required: true, type: .string), 
+            AWSShapeMember(label: "S3DataType", required: true, type: .enum)
         ]
-        /// The environment variables to set in the Docker container. Each key and value in the Environment string to string map can have length of up to 1024. We support up to 16 entries in the map. 
-        public let environment: [String: String]?
-        /// The Amazon EC2 Container Registry (Amazon ECR) path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by Amazon SageMaker, the inference code must meet Amazon SageMaker requirements. For more information, see Using Your Own Algorithms with Amazon SageMaker 
-        public let image: String
-        /// The S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). 
-        public let modelDataUrl: String?
-        /// The DNS host name for the container after Amazon SageMaker deploys it.
-        public let containerHostname: String?
+        /// Depending on the value specified for the S3DataType, identifies either a key name prefix or a manifest. For example:    A key name prefix might look like this: s3://bucketname/exampleprefix.     A manifest might look like this: s3://bucketname/example.manifest   The manifest is an S3 object which is a JSON file with the following format:   [    {"prefix": "s3://customer_bucket/some/prefix/"},    "relative/path/to/custdata-1",    "relative/path/custdata-2",    ...    ]   The preceding JSON matches the following S3Uris:   s3://customer_bucket/some/prefix/relative/path/to/custdata-1   s3://customer_bucket/some/prefix/relative/path/custdata-1   ...   The complete set of S3Uris in this manifest constitutes the input data for the channel for this datasource. The object that each S3Uris points to must be readable by the IAM role that Amazon SageMaker uses to perform tasks on your behalf.  
+        public let s3Uri: String
+        /// If you choose S3Prefix, S3Uri identifies a key name prefix. Amazon SageMaker uses all objects with the specified key name prefix for batch transform.  If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want Amazon SageMaker to use for batch transform. 
+        public let s3DataType: S3DataType
 
-        public init(environment: [String: String]? = nil, image: String, modelDataUrl: String? = nil, containerHostname: String? = nil) {
-            self.environment = environment
-            self.image = image
-            self.modelDataUrl = modelDataUrl
-            self.containerHostname = containerHostname
+        public init(s3Uri: String, s3DataType: S3DataType) {
+            self.s3Uri = s3Uri
+            self.s3DataType = s3DataType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environment = "Environment"
-            case image = "Image"
-            case modelDataUrl = "ModelDataUrl"
-            case containerHostname = "ContainerHostname"
+            case s3Uri = "S3Uri"
+            case s3DataType = "S3DataType"
         }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable {
-        case ascending = "Ascending"
-        case descending = "Descending"
-        public var description: String { return self.rawValue }
+    public struct CreateNotebookInstanceOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotebookInstanceArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the notebook instance. 
+        public let notebookInstanceArn: String?
+
+        public init(notebookInstanceArn: String? = nil) {
+            self.notebookInstanceArn = notebookInstanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookInstanceArn = "NotebookInstanceArn"
+        }
     }
 
     public struct DescribeModelInput: AWSShape {
@@ -685,68 +625,6 @@ extension SageMaker {
         }
     }
 
-    public struct Channel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentType", required: false, type: .string), 
-            AWSShapeMember(label: "DataSource", required: true, type: .structure), 
-            AWSShapeMember(label: "CompressionType", required: false, type: .enum), 
-            AWSShapeMember(label: "ChannelName", required: true, type: .string), 
-            AWSShapeMember(label: "RecordWrapperType", required: false, type: .enum)
-        ]
-        /// The MIME type of the data.
-        public let contentType: String?
-        /// The location of the channel data.
-        public let dataSource: DataSource
-        /// If training data is compressed, the compression type. The default value is None. CompressionType is used only in PIPE input mode. In FILE mode, leave this field unset or set it to None.
-        public let compressionType: CompressionType?
-        /// The name of the channel. 
-        public let channelName: String
-        ///  Specify RecordIO as the value when input data is in raw format but the training algorithm requires the RecordIO format, in which caseAmazon SageMaker wraps each individual S3 object in a RecordIO record. If the input data is already in RecordIO format, you don't need to set this attribute. For more information, see Create a Dataset Using RecordIO.  In FILE mode, leave this field unset or set it to None. 
-        public let recordWrapperType: RecordWrapper?
-
-        public init(contentType: String? = nil, dataSource: DataSource, compressionType: CompressionType? = nil, channelName: String, recordWrapperType: RecordWrapper? = nil) {
-            self.contentType = contentType
-            self.dataSource = dataSource
-            self.compressionType = compressionType
-            self.channelName = channelName
-            self.recordWrapperType = recordWrapperType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contentType = "ContentType"
-            case dataSource = "DataSource"
-            case compressionType = "CompressionType"
-            case channelName = "ChannelName"
-            case recordWrapperType = "RecordWrapperType"
-        }
-    }
-
-    public struct CreateEndpointConfigInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointConfigName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "ProductionVariants", required: true, type: .list)
-        ]
-        /// The name of the endpoint configuration. You specify this name in a CreateEndpoint request. 
-        public let endpointConfigName: String
-        /// An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide. 
-        public let tags: [Tag]?
-        /// An array of ProductionVariant objects, one for each model that you want to host at this endpoint.
-        public let productionVariants: [ProductionVariant]
-
-        public init(endpointConfigName: String, tags: [Tag]? = nil, productionVariants: [ProductionVariant]) {
-            self.endpointConfigName = endpointConfigName
-            self.tags = tags
-            self.productionVariants = productionVariants
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointConfigName = "EndpointConfigName"
-            case tags = "Tags"
-            case productionVariants = "ProductionVariants"
-        }
-    }
-
     public struct ModelArtifacts: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3ModelArtifacts", required: true, type: .string)
@@ -770,7 +648,7 @@ extension SageMaker {
         ]
         /// Identifies the S3 path where you want Amazon SageMaker to store the model artifacts. For example, s3://bucket-name/key-name-prefix. 
         public let s3OutputPath: String
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption.   If the configuration of the output S3 bucket requires server-side encryption for objects, and you don't provide the KMS key ID, Amazon SageMaker uses the default service key. For more information, see KMS-Managed Encryption Keys in Amazon Simple Storage Service developer guide.    The KMS key policy must grant permission to the IAM role you specify in your CreateTrainingJob request. Using Key Policies in AWS KMS in the AWS Key Management Service Developer Guide.  
+        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption.   If you don't provide the KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see KMS-Managed Encryption Keys in Amazon Simple Storage Service developer guide.    The KMS key policy must grant permission to the IAM role you specify in your CreateTrainingJob request. Using Key Policies in AWS KMS in the AWS Key Management Service Developer Guide.  
         public let kmsKeyId: String?
 
         public init(s3OutputPath: String, kmsKeyId: String? = nil) {
@@ -784,90 +662,15 @@ extension SageMaker {
         }
     }
 
-    public struct CreateTrainingJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrainingJobArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the training job.
-        public let trainingJobArn: String
-
-        public init(trainingJobArn: String) {
-            self.trainingJobArn = trainingJobArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case trainingJobArn = "TrainingJobArn"
-        }
-    }
-
-    public struct CreateNotebookInstanceOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotebookInstanceArn", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the notebook instance. 
-        public let notebookInstanceArn: String?
-
-        public init(notebookInstanceArn: String? = nil) {
-            self.notebookInstanceArn = notebookInstanceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notebookInstanceArn = "NotebookInstanceArn"
-        }
-    }
-
-    public enum RecordWrapper: String, CustomStringConvertible, Codable {
-        case none = "None"
-        case recordio = "RecordIO"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TrainingInstanceType: String, CustomStringConvertible, Codable {
-        case mlM4Xlarge = "ml.m4.xlarge"
-        case mlM44Xlarge = "ml.m4.4xlarge"
-        case mlM410Xlarge = "ml.m4.10xlarge"
-        case mlC4Xlarge = "ml.c4.xlarge"
-        case mlC42Xlarge = "ml.c4.2xlarge"
-        case mlC48Xlarge = "ml.c4.8xlarge"
-        case mlP2Xlarge = "ml.p2.xlarge"
-        case mlP28Xlarge = "ml.p2.8xlarge"
-        case mlP216Xlarge = "ml.p2.16xlarge"
-        case mlP32Xlarge = "ml.p3.2xlarge"
-        case mlP38Xlarge = "ml.p3.8xlarge"
-        case mlP316Xlarge = "ml.p3.16xlarge"
-        case mlC5Xlarge = "ml.c5.xlarge"
-        case mlC52Xlarge = "ml.c5.2xlarge"
-        case mlC54Xlarge = "ml.c5.4xlarge"
-        case mlC59Xlarge = "ml.c5.9xlarge"
-        case mlC518Xlarge = "ml.c5.18xlarge"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OrderKey: String, CustomStringConvertible, Codable {
-        case ascending = "Ascending"
-        case descending = "Descending"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeTrainingJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrainingJobName", required: true, type: .string)
-        ]
-        /// The name of the training job.
-        public let trainingJobName: String
-
-        public init(trainingJobName: String) {
-            self.trainingJobName = trainingJobName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case trainingJobName = "TrainingJobName"
-        }
-    }
-
     public enum S3DataDistribution: String, CustomStringConvertible, Codable {
         case fullyreplicated = "FullyReplicated"
         case shardedbys3key = "ShardedByS3Key"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotebookInstanceLifecycleConfigSortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "Ascending"
+        case descending = "Descending"
         public var description: String { return self.rawValue }
     }
 
@@ -934,42 +737,46 @@ extension SageMaker {
         }
     }
 
-    public struct DescribeEndpointConfigOutput: AWSShape {
+    public struct DeployedImage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointConfigArn", required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ProductionVariants", required: true, type: .list), 
-            AWSShapeMember(label: "EndpointConfigName", required: true, type: .string)
+            AWSShapeMember(label: "ResolvedImage", required: false, type: .string), 
+            AWSShapeMember(label: "ResolutionTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SpecifiedImage", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the endpoint configuration.
-        public let endpointConfigArn: String
-        /// A timestamp that shows when the endpoint configuration was created.
-        public let creationTime: TimeStamp
-        /// An array of ProductionVariant objects, one for each model that you want to host at this endpoint.
-        public let productionVariants: [ProductionVariant]
-        /// Name of the Amazon SageMaker endpoint configuration.
-        public let endpointConfigName: String
+        /// The specific digest path of the image hosted in this ProductionVariant.
+        public let resolvedImage: String?
+        /// The date and time when the image path for the model resolved to the ResolvedImage 
+        public let resolutionTime: TimeStamp?
+        /// The image path you specified when you created the model.
+        public let specifiedImage: String?
 
-        public init(endpointConfigArn: String, creationTime: TimeStamp, productionVariants: [ProductionVariant], endpointConfigName: String) {
-            self.endpointConfigArn = endpointConfigArn
-            self.creationTime = creationTime
-            self.productionVariants = productionVariants
-            self.endpointConfigName = endpointConfigName
+        public init(resolvedImage: String? = nil, resolutionTime: TimeStamp? = nil, specifiedImage: String? = nil) {
+            self.resolvedImage = resolvedImage
+            self.resolutionTime = resolutionTime
+            self.specifiedImage = specifiedImage
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpointConfigArn = "EndpointConfigArn"
-            case creationTime = "CreationTime"
-            case productionVariants = "ProductionVariants"
-            case endpointConfigName = "EndpointConfigName"
+            case resolvedImage = "ResolvedImage"
+            case resolutionTime = "ResolutionTime"
+            case specifiedImage = "SpecifiedImage"
         }
     }
 
-    public enum EndpointSortKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        case status = "Status"
-        public var description: String { return self.rawValue }
+    public struct DescribeHyperParameterTuningJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HyperParameterTuningJobName", required: true, type: .string)
+        ]
+        /// The name of the tuning job to describe.
+        public let hyperParameterTuningJobName: String
+
+        public init(hyperParameterTuningJobName: String) {
+            self.hyperParameterTuningJobName = hyperParameterTuningJobName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hyperParameterTuningJobName = "HyperParameterTuningJobName"
+        }
     }
 
     public struct DescribeEndpointInput: AWSShape {
@@ -988,24 +795,36 @@ extension SageMaker {
         }
     }
 
-    public struct CreatePresignedNotebookInstanceUrlInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SessionExpirationDurationInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
-        ]
-        /// The duration of the session, in seconds. The default is 12 hours.
-        public let sessionExpirationDurationInSeconds: Int32?
-        /// The name of the notebook instance.
-        public let notebookInstanceName: String
+    public enum EndpointSortKey: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(sessionExpirationDurationInSeconds: Int32? = nil, notebookInstanceName: String) {
-            self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
-            self.notebookInstanceName = notebookInstanceName
+    public struct ObjectiveStatusCounters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Pending", required: false, type: .integer), 
+            AWSShapeMember(label: "Failed", required: false, type: .integer), 
+            AWSShapeMember(label: "Succeeded", required: false, type: .integer)
+        ]
+        /// The number of training jobs that are in progress and pending evaluation of their final objective metric.
+        public let pending: Int32?
+        /// The number of training jobs whose final objective metric was not evaluated and used in the hyperparameter tuning process. This typically occurs when the training job failed or did not emit an objective metric.
+        public let failed: Int32?
+        /// The number of training jobs whose final objective metric was evaluated by the hyperparameter tuning job and used in the hyperparameter tuning process.
+        public let succeeded: Int32?
+
+        public init(pending: Int32? = nil, failed: Int32? = nil, succeeded: Int32? = nil) {
+            self.pending = pending
+            self.failed = failed
+            self.succeeded = succeeded
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sessionExpirationDurationInSeconds = "SessionExpirationDurationInSeconds"
-            case notebookInstanceName = "NotebookInstanceName"
+            case pending = "Pending"
+            case failed = "Failed"
+            case succeeded = "Succeeded"
         }
     }
 
@@ -1047,24 +866,36 @@ extension SageMaker {
 
     public enum InstanceType: String, CustomStringConvertible, Codable {
         case mlT2Medium = "ml.t2.medium"
+        case mlT2Large = "ml.t2.large"
+        case mlT2Xlarge = "ml.t2.xlarge"
+        case mlT22Xlarge = "ml.t2.2xlarge"
         case mlM4Xlarge = "ml.m4.xlarge"
+        case mlM42Xlarge = "ml.m4.2xlarge"
+        case mlM44Xlarge = "ml.m4.4xlarge"
+        case mlM410Xlarge = "ml.m4.10xlarge"
+        case mlM416Xlarge = "ml.m4.16xlarge"
         case mlP2Xlarge = "ml.p2.xlarge"
+        case mlP28Xlarge = "ml.p2.8xlarge"
+        case mlP216Xlarge = "ml.p2.16xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
         public var description: String { return self.rawValue }
     }
 
-    public struct CreateEndpointConfigOutput: AWSShape {
+    public struct CreateHyperParameterTuningJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointConfigArn", required: true, type: .string)
+            AWSShapeMember(label: "HyperParameterTuningJobArn", required: true, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the endpoint configuration. 
-        public let endpointConfigArn: String
+        /// The Amazon Resource Name (ARN) of the tuning job.
+        public let hyperParameterTuningJobArn: String
 
-        public init(endpointConfigArn: String) {
-            self.endpointConfigArn = endpointConfigArn
+        public init(hyperParameterTuningJobArn: String) {
+            self.hyperParameterTuningJobArn = hyperParameterTuningJobArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpointConfigArn = "EndpointConfigArn"
+            case hyperParameterTuningJobArn = "HyperParameterTuningJobArn"
         }
     }
 
@@ -1094,40 +925,218 @@ extension SageMaker {
         }
     }
 
-    public struct StoppingCondition: AWSShape {
+    public struct FinalHyperParameterTuningJobObjectiveMetric: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRuntimeInSeconds", required: false, type: .integer)
+            AWSShapeMember(label: "MetricName", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Value", required: true, type: .float)
         ]
-        /// The maximum length of time, in seconds, that the training job can run. If model training does not complete during this time, Amazon SageMaker ends the job. If value is not specified, default value is 1 day. Maximum value is 5 days.
-        public let maxRuntimeInSeconds: Int32?
+        /// The name of the objective metric.
+        public let metricName: String
+        /// Whether to minimize or maximize the objective metric. Valid values are Minimize and Maximize.
+        public let `type`: HyperParameterTuningJobObjectiveType?
+        /// The value of the objective metric.
+        public let value: Float
 
-        public init(maxRuntimeInSeconds: Int32? = nil) {
-            self.maxRuntimeInSeconds = maxRuntimeInSeconds
+        public init(metricName: String, type: HyperParameterTuningJobObjectiveType? = nil, value: Float) {
+            self.metricName = metricName
+            self.`type` = `type`
+            self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxRuntimeInSeconds = "MaxRuntimeInSeconds"
+            case metricName = "MetricName"
+            case `type` = "Type"
+            case value = "Value"
         }
     }
 
-    public struct ListTrainingJobsResponse: AWSShape {
+    public struct HyperParameterTuningJobSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TrainingJobSummaries", required: true, type: .list)
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Strategy", required: true, type: .enum), 
+            AWSShapeMember(label: "ObjectiveStatusCounters", required: true, type: .structure), 
+            AWSShapeMember(label: "HyperParameterTuningJobName", required: true, type: .string), 
+            AWSShapeMember(label: "TrainingJobStatusCounters", required: true, type: .structure), 
+            AWSShapeMember(label: "HyperParameterTuningJobStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "HyperParameterTuningJobArn", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceLimits", required: false, type: .structure), 
+            AWSShapeMember(label: "HyperParameterTuningEndTime", required: false, type: .timestamp)
         ]
-        /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of training jobs, use it in the subsequent request.
-        public let nextToken: String?
-        /// An array of TrainingJobSummary objects, each listing a training job.
-        public let trainingJobSummaries: [TrainingJobSummary]
+        /// The date and time that the tuning job was modified.
+        public let lastModifiedTime: TimeStamp?
+        /// Specifies the search strategy hyperparameter tuning uses to choose which hyperparameters to use for each iteration. Currently, the only valid value is Bayesian.
+        public let strategy: HyperParameterTuningJobStrategyType
+        /// The ObjectiveStatusCounters object that specifies the numbers of training jobs, categorized by objective metric status, that this tuning job launched.
+        public let objectiveStatusCounters: ObjectiveStatusCounters
+        /// The name of the tuning job.
+        public let hyperParameterTuningJobName: String
+        /// The TrainingJobStatusCounters object that specifies the numbers of training jobs, categorized by status, that this tuning job launched.
+        public let trainingJobStatusCounters: TrainingJobStatusCounters
+        /// The status of the tuning job.
+        public let hyperParameterTuningJobStatus: HyperParameterTuningJobStatus
+        /// The date and time that the tuning job was created.
+        public let creationTime: TimeStamp
+        /// The Amazon Resource Name (ARN) of the tuning job.
+        public let hyperParameterTuningJobArn: String
+        /// The ResourceLimits object that specifies the maximum number of training jobs and parallel training jobs allowed for this tuning job.
+        public let resourceLimits: ResourceLimits?
+        /// The date and time that the tuning job ended.
+        public let hyperParameterTuningEndTime: TimeStamp?
 
-        public init(nextToken: String? = nil, trainingJobSummaries: [TrainingJobSummary]) {
-            self.nextToken = nextToken
-            self.trainingJobSummaries = trainingJobSummaries
+        public init(lastModifiedTime: TimeStamp? = nil, strategy: HyperParameterTuningJobStrategyType, objectiveStatusCounters: ObjectiveStatusCounters, hyperParameterTuningJobName: String, trainingJobStatusCounters: TrainingJobStatusCounters, hyperParameterTuningJobStatus: HyperParameterTuningJobStatus, creationTime: TimeStamp, hyperParameterTuningJobArn: String, resourceLimits: ResourceLimits? = nil, hyperParameterTuningEndTime: TimeStamp? = nil) {
+            self.lastModifiedTime = lastModifiedTime
+            self.strategy = strategy
+            self.objectiveStatusCounters = objectiveStatusCounters
+            self.hyperParameterTuningJobName = hyperParameterTuningJobName
+            self.trainingJobStatusCounters = trainingJobStatusCounters
+            self.hyperParameterTuningJobStatus = hyperParameterTuningJobStatus
+            self.creationTime = creationTime
+            self.hyperParameterTuningJobArn = hyperParameterTuningJobArn
+            self.resourceLimits = resourceLimits
+            self.hyperParameterTuningEndTime = hyperParameterTuningEndTime
         }
 
         private enum CodingKeys: String, CodingKey {
+            case lastModifiedTime = "LastModifiedTime"
+            case strategy = "Strategy"
+            case objectiveStatusCounters = "ObjectiveStatusCounters"
+            case hyperParameterTuningJobName = "HyperParameterTuningJobName"
+            case trainingJobStatusCounters = "TrainingJobStatusCounters"
+            case hyperParameterTuningJobStatus = "HyperParameterTuningJobStatus"
+            case creationTime = "CreationTime"
+            case hyperParameterTuningJobArn = "HyperParameterTuningJobArn"
+            case resourceLimits = "ResourceLimits"
+            case hyperParameterTuningEndTime = "HyperParameterTuningEndTime"
+        }
+    }
+
+    public struct DescribeHyperParameterTuningJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TrainingJobDefinition", required: true, type: .structure), 
+            AWSShapeMember(label: "HyperParameterTuningJobName", required: true, type: .string), 
+            AWSShapeMember(label: "TrainingJobStatusCounters", required: true, type: .structure), 
+            AWSShapeMember(label: "ObjectiveStatusCounters", required: true, type: .structure), 
+            AWSShapeMember(label: "HyperParameterTuningJobStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "HyperParameterTuningJobConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "BestTrainingJob", required: false, type: .structure), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "HyperParameterTuningJobArn", required: true, type: .string), 
+            AWSShapeMember(label: "HyperParameterTuningEndTime", required: false, type: .timestamp)
+        ]
+        /// The date and time that the status of the tuning job was modified. 
+        public let lastModifiedTime: TimeStamp?
+        /// The HyperParameterTrainingJobDefinition object that specifies the definition of the training jobs that this tuning job launches.
+        public let trainingJobDefinition: HyperParameterTrainingJobDefinition
+        /// The name of the tuning job.
+        public let hyperParameterTuningJobName: String
+        /// The TrainingJobStatusCounters object that specifies the number of training jobs, categorized by status, that this tuning job launched.
+        public let trainingJobStatusCounters: TrainingJobStatusCounters
+        /// The ObjectiveStatusCounters object that specifies the number of training jobs, categorized by the status of their final objective metric, that this tuning job launched.
+        public let objectiveStatusCounters: ObjectiveStatusCounters
+        /// The status of the tuning job: InProgress, Completed, Failed, Stopping, or Stopped.
+        public let hyperParameterTuningJobStatus: HyperParameterTuningJobStatus
+        /// The HyperParameterTuningJobConfig object that specifies the configuration of the tuning job.
+        public let hyperParameterTuningJobConfig: HyperParameterTuningJobConfig
+        /// A TrainingJobSummary object that describes the training job that completed with the best current HyperParameterTuningJobObjective.
+        public let bestTrainingJob: HyperParameterTrainingJobSummary?
+        /// The date and time that the tuning job started.
+        public let creationTime: TimeStamp
+        /// If the tuning job failed, the reason it failed.
+        public let failureReason: String?
+        /// The Amazon Resource Name (ARN) of the tuning job.
+        public let hyperParameterTuningJobArn: String
+        /// The date and time that the tuning job ended.
+        public let hyperParameterTuningEndTime: TimeStamp?
+
+        public init(lastModifiedTime: TimeStamp? = nil, trainingJobDefinition: HyperParameterTrainingJobDefinition, hyperParameterTuningJobName: String, trainingJobStatusCounters: TrainingJobStatusCounters, objectiveStatusCounters: ObjectiveStatusCounters, hyperParameterTuningJobStatus: HyperParameterTuningJobStatus, hyperParameterTuningJobConfig: HyperParameterTuningJobConfig, bestTrainingJob: HyperParameterTrainingJobSummary? = nil, creationTime: TimeStamp, failureReason: String? = nil, hyperParameterTuningJobArn: String, hyperParameterTuningEndTime: TimeStamp? = nil) {
+            self.lastModifiedTime = lastModifiedTime
+            self.trainingJobDefinition = trainingJobDefinition
+            self.hyperParameterTuningJobName = hyperParameterTuningJobName
+            self.trainingJobStatusCounters = trainingJobStatusCounters
+            self.objectiveStatusCounters = objectiveStatusCounters
+            self.hyperParameterTuningJobStatus = hyperParameterTuningJobStatus
+            self.hyperParameterTuningJobConfig = hyperParameterTuningJobConfig
+            self.bestTrainingJob = bestTrainingJob
+            self.creationTime = creationTime
+            self.failureReason = failureReason
+            self.hyperParameterTuningJobArn = hyperParameterTuningJobArn
+            self.hyperParameterTuningEndTime = hyperParameterTuningEndTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedTime = "LastModifiedTime"
+            case trainingJobDefinition = "TrainingJobDefinition"
+            case hyperParameterTuningJobName = "HyperParameterTuningJobName"
+            case trainingJobStatusCounters = "TrainingJobStatusCounters"
+            case objectiveStatusCounters = "ObjectiveStatusCounters"
+            case hyperParameterTuningJobStatus = "HyperParameterTuningJobStatus"
+            case hyperParameterTuningJobConfig = "HyperParameterTuningJobConfig"
+            case bestTrainingJob = "BestTrainingJob"
+            case creationTime = "CreationTime"
+            case failureReason = "FailureReason"
+            case hyperParameterTuningJobArn = "HyperParameterTuningJobArn"
+            case hyperParameterTuningEndTime = "HyperParameterTuningEndTime"
+        }
+    }
+
+    public struct ListTrainingJobsForHyperParameterTuningJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "HyperParameterTuningJobName", required: true, type: .string), 
+            AWSShapeMember(label: "StatusEquals", required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// The field to sort results by. The default is Name. If the value of this field is FinalObjectiveMetricValue, any training jobs that did not return an objective metric are not listed.
+        public let sortBy: TrainingJobSortByOptions?
+        /// The sort order for results. The default is Ascending.
+        public let sortOrder: SortOrder?
+        /// The name of the tuning job whose training jobs you want to list.
+        public let hyperParameterTuningJobName: String
+        /// A filter that returns only training jobs with the specified status.
+        public let statusEquals: TrainingJobStatus?
+        /// If the result of the previous ListTrainingJobsForHyperParameterTuningJob request was truncated, the response includes a NextToken. To retrieve the next set of training jobs, use the token in the next request.
+        public let nextToken: String?
+        /// The maximum number of training jobs to return. The default value is 10.
+        public let maxResults: Int32?
+
+        public init(sortBy: TrainingJobSortByOptions? = nil, sortOrder: SortOrder? = nil, hyperParameterTuningJobName: String, statusEquals: TrainingJobStatus? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.hyperParameterTuningJobName = hyperParameterTuningJobName
+            self.statusEquals = statusEquals
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case hyperParameterTuningJobName = "HyperParameterTuningJobName"
+            case statusEquals = "StatusEquals"
             case nextToken = "NextToken"
-            case trainingJobSummaries = "TrainingJobSummaries"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct DeleteNotebookInstanceLifecycleConfigInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotebookInstanceLifecycleConfigName", required: true, type: .string)
+        ]
+        /// The name of the lifecycle configuration to delete.
+        public let notebookInstanceLifecycleConfigName: String
+
+        public init(notebookInstanceLifecycleConfigName: String) {
+            self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookInstanceLifecycleConfigName = "NotebookInstanceLifecycleConfigName"
         }
     }
 
@@ -1233,10 +1242,1812 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeTransformJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxConcurrentTransforms", required: false, type: .integer), 
+            AWSShapeMember(label: "TransformInput", required: true, type: .structure), 
+            AWSShapeMember(label: "BatchStrategy", required: false, type: .enum), 
+            AWSShapeMember(label: "TransformResources", required: true, type: .structure), 
+            AWSShapeMember(label: "ModelName", required: true, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "TransformStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxPayloadInMB", required: false, type: .integer), 
+            AWSShapeMember(label: "TransformOutput", required: false, type: .structure), 
+            AWSShapeMember(label: "Environment", required: false, type: .map), 
+            AWSShapeMember(label: "TransformJobArn", required: true, type: .string), 
+            AWSShapeMember(label: "TransformEndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "TransformJobStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "TransformJobName", required: true, type: .string)
+        ]
+        /// The maximum number of parallel requests on each instance node that can be launched in a transform job. The default value is 1.
+        public let maxConcurrentTransforms: Int32?
+        /// Describes the dataset to be transformed and the Amazon S3 location where it is stored.
+        public let transformInput: TransformInput
+        /// SingleRecord means only one record was used per a batch. MultiRecord means batches contained as many records that could possibly fit within the MaxPayloadInMB limit.
+        public let batchStrategy: BatchStrategy?
+        /// Describes the resources, including ML instance types and ML instance count, to use for the transform job.
+        public let transformResources: TransformResources
+        /// The name of the model used in the transform job.
+        public let modelName: String
+        /// A timestamp that shows when the transform Job was created.
+        public let creationTime: TimeStamp
+        /// Indicates when the transform job starts on ML instances. You are billed for the time interval between this time and the value of TransformEndTime.
+        public let transformStartTime: TimeStamp?
+        /// The maximum payload size , in MB used in the transform job.
+        public let maxPayloadInMB: Int32?
+        /// Identifies the Amazon S3 location where you want Amazon SageMaker to save the results from the transform job.
+        public let transformOutput: TransformOutput?
+        public let environment: [String: String]?
+        /// The Amazon Resource Name (ARN) of the transform job.
+        public let transformJobArn: String
+        /// Indicates when the transform job is Completed, Stopped, or Failed. You are billed for the time interval between this time and the value of TransformStartTime.
+        public let transformEndTime: TimeStamp?
+        /// If the transform job failed, the reason that it failed.
+        public let failureReason: String?
+        /// The status of the transform job. If the transform job failed, the reason is returned in the FailureReason field.
+        public let transformJobStatus: TransformJobStatus
+        /// The name of the transform job.
+        public let transformJobName: String
+
+        public init(maxConcurrentTransforms: Int32? = nil, transformInput: TransformInput, batchStrategy: BatchStrategy? = nil, transformResources: TransformResources, modelName: String, creationTime: TimeStamp, transformStartTime: TimeStamp? = nil, maxPayloadInMB: Int32? = nil, transformOutput: TransformOutput? = nil, environment: [String: String]? = nil, transformJobArn: String, transformEndTime: TimeStamp? = nil, failureReason: String? = nil, transformJobStatus: TransformJobStatus, transformJobName: String) {
+            self.maxConcurrentTransforms = maxConcurrentTransforms
+            self.transformInput = transformInput
+            self.batchStrategy = batchStrategy
+            self.transformResources = transformResources
+            self.modelName = modelName
+            self.creationTime = creationTime
+            self.transformStartTime = transformStartTime
+            self.maxPayloadInMB = maxPayloadInMB
+            self.transformOutput = transformOutput
+            self.environment = environment
+            self.transformJobArn = transformJobArn
+            self.transformEndTime = transformEndTime
+            self.failureReason = failureReason
+            self.transformJobStatus = transformJobStatus
+            self.transformJobName = transformJobName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxConcurrentTransforms = "MaxConcurrentTransforms"
+            case transformInput = "TransformInput"
+            case batchStrategy = "BatchStrategy"
+            case transformResources = "TransformResources"
+            case modelName = "ModelName"
+            case creationTime = "CreationTime"
+            case transformStartTime = "TransformStartTime"
+            case maxPayloadInMB = "MaxPayloadInMB"
+            case transformOutput = "TransformOutput"
+            case environment = "Environment"
+            case transformJobArn = "TransformJobArn"
+            case transformEndTime = "TransformEndTime"
+            case failureReason = "FailureReason"
+            case transformJobStatus = "TransformJobStatus"
+            case transformJobName = "TransformJobName"
+        }
+    }
+
+    public struct DescribeTrainingJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TuningJobArn", required: false, type: .string), 
+            AWSShapeMember(label: "AlgorithmSpecification", required: true, type: .structure), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "SecondaryStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "TrainingStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "TrainingJobStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "ResourceConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "TrainingJobName", required: true, type: .string), 
+            AWSShapeMember(label: "InputDataConfig", required: true, type: .list), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ModelArtifacts", required: true, type: .structure), 
+            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "TrainingJobArn", required: true, type: .string), 
+            AWSShapeMember(label: "HyperParameters", required: false, type: .map), 
+            AWSShapeMember(label: "TrainingEndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "StoppingCondition", required: true, type: .structure), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "SecondaryStatusTransitions", required: false, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the associated hyperparameter tuning job if the training job was launched by a hyperparameter tuning job.
+        public let tuningJobArn: String?
+        /// Information about the algorithm used for training, and algorithm metadata. 
+        public let algorithmSpecification: AlgorithmSpecification
+        /// A VpcConfig object that specifies the VPC that this training job has access to. For more information, see train-vpc.
+        public let vpcConfig: VpcConfig?
+        ///  Provides granular information about the system state. For more information, see TrainingJobStatus.     Starting - starting the training job.    LaunchingMLInstances - launching ML instances for the training job.    PreparingTrainingStack - preparing the ML instances for the training job.    Downloading - downloading the input data.    DownloadingTrainingImage - downloading the training algorithm image.    Training - model training is in progress.    Uploading - uploading the trained model.    Stopping - stopping the training job.    Stopped - the training job has stopped.    MaxRuntimeExceeded - the training job exceeded the specified max run time and has been stopped.    Completed - the training job has completed.    Failed - the training job has failed. The failure reason is provided in the StatusMessage.    The valid values for SecondaryStatus are subject to change. They primarily provide information on the progress of the training job. 
+        public let secondaryStatus: SecondaryStatus
+        /// Indicates the time when the training job starts on training instances. You are billed for the time interval between this time and the value of TrainingEndTime. The start time in CloudWatch Logs might be later than this time. The difference is due to the time it takes to download the training data and to the size of the training container.
+        public let trainingStartTime: TimeStamp?
+        /// A timestamp that indicates when the training job was created.
+        public let creationTime: TimeStamp
+        /// The status of the training job.  For the InProgress status, Amazon SageMaker can return these secondary statuses:   Starting - Preparing for training.   Downloading - Optional stage for algorithms that support File training input mode. It indicates data is being downloaded to ML storage volumes.   Training - Training is in progress.   Uploading - Training is complete and model upload is in progress.   For the Stopped training status, Amazon SageMaker can return these secondary statuses:   MaxRuntimeExceeded - Job stopped as a result of maximum allowed runtime exceeded.  
+        public let trainingJobStatus: TrainingJobStatus
+        /// Resources, including ML compute instances and ML storage volumes, that are configured for model training. 
+        public let resourceConfig: ResourceConfig
+        ///  Name of the model training job. 
+        public let trainingJobName: String
+        /// An array of Channel objects that describes each data input channel. 
+        public let inputDataConfig: [Channel]
+        /// A timestamp that indicates when the status of the training job was last modified.
+        public let lastModifiedTime: TimeStamp?
+        /// Information about the Amazon S3 location that is configured for storing model artifacts. 
+        public let modelArtifacts: ModelArtifacts
+        /// The S3 path where model artifacts that you configured when creating the job are stored. Amazon SageMaker creates subfolders for model artifacts. 
+        public let outputDataConfig: OutputDataConfig?
+        /// The Amazon Resource Name (ARN) of the training job.
+        public let trainingJobArn: String
+        /// Algorithm-specific parameters. 
+        public let hyperParameters: [String: String]?
+        /// Indicates the time when the training job ends on training instances. You are billed for the time interval between the value of TrainingStartTime and this time. For successful jobs and stopped jobs, this is the time after model artifacts are uploaded. For failed jobs, this is the time when Amazon SageMaker detects a job failure.
+        public let trainingEndTime: TimeStamp?
+        /// The AWS Identity and Access Management (IAM) role configured for the training job. 
+        public let roleArn: String?
+        /// The condition under which to stop the training job. 
+        public let stoppingCondition: StoppingCondition
+        /// If the training job failed, the reason it failed. 
+        public let failureReason: String?
+        /// To give an overview of the training job lifecycle, SecondaryStatusTransitions is a log of time-ordered secondary statuses that a training job has transitioned.
+        public let secondaryStatusTransitions: [SecondaryStatusTransition]?
+
+        public init(tuningJobArn: String? = nil, algorithmSpecification: AlgorithmSpecification, vpcConfig: VpcConfig? = nil, secondaryStatus: SecondaryStatus, trainingStartTime: TimeStamp? = nil, creationTime: TimeStamp, trainingJobStatus: TrainingJobStatus, resourceConfig: ResourceConfig, trainingJobName: String, inputDataConfig: [Channel], lastModifiedTime: TimeStamp? = nil, modelArtifacts: ModelArtifacts, outputDataConfig: OutputDataConfig? = nil, trainingJobArn: String, hyperParameters: [String: String]? = nil, trainingEndTime: TimeStamp? = nil, roleArn: String? = nil, stoppingCondition: StoppingCondition, failureReason: String? = nil, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil) {
+            self.tuningJobArn = tuningJobArn
+            self.algorithmSpecification = algorithmSpecification
+            self.vpcConfig = vpcConfig
+            self.secondaryStatus = secondaryStatus
+            self.trainingStartTime = trainingStartTime
+            self.creationTime = creationTime
+            self.trainingJobStatus = trainingJobStatus
+            self.resourceConfig = resourceConfig
+            self.trainingJobName = trainingJobName
+            self.inputDataConfig = inputDataConfig
+            self.lastModifiedTime = lastModifiedTime
+            self.modelArtifacts = modelArtifacts
+            self.outputDataConfig = outputDataConfig
+            self.trainingJobArn = trainingJobArn
+            self.hyperParameters = hyperParameters
+            self.trainingEndTime = trainingEndTime
+            self.roleArn = roleArn
+            self.stoppingCondition = stoppingCondition
+            self.failureReason = failureReason
+            self.secondaryStatusTransitions = secondaryStatusTransitions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tuningJobArn = "TuningJobArn"
+            case algorithmSpecification = "AlgorithmSpecification"
+            case vpcConfig = "VpcConfig"
+            case secondaryStatus = "SecondaryStatus"
+            case trainingStartTime = "TrainingStartTime"
+            case creationTime = "CreationTime"
+            case trainingJobStatus = "TrainingJobStatus"
+            case resourceConfig = "ResourceConfig"
+            case trainingJobName = "TrainingJobName"
+            case inputDataConfig = "InputDataConfig"
+            case lastModifiedTime = "LastModifiedTime"
+            case modelArtifacts = "ModelArtifacts"
+            case outputDataConfig = "OutputDataConfig"
+            case trainingJobArn = "TrainingJobArn"
+            case hyperParameters = "HyperParameters"
+            case trainingEndTime = "TrainingEndTime"
+            case roleArn = "RoleArn"
+            case stoppingCondition = "StoppingCondition"
+            case failureReason = "FailureReason"
+            case secondaryStatusTransitions = "SecondaryStatusTransitions"
+        }
+    }
+
+    public struct ListNotebookInstanceLifecycleConfigsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotebookInstanceLifecycleConfigs", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// An array of NotebookInstanceLifecycleConfiguration objects, each listing a lifecycle configuration.
+        public let notebookInstanceLifecycleConfigs: [NotebookInstanceLifecycleConfigSummary]?
+        /// If the response is truncated, Amazon SageMaker returns this token. To get the next set of lifecycle configurations, use it in the next request. 
+        public let nextToken: String?
+
+        public init(notebookInstanceLifecycleConfigs: [NotebookInstanceLifecycleConfigSummary]? = nil, nextToken: String? = nil) {
+            self.notebookInstanceLifecycleConfigs = notebookInstanceLifecycleConfigs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookInstanceLifecycleConfigs = "NotebookInstanceLifecycleConfigs"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public enum HyperParameterTuningJobObjectiveType: String, CustomStringConvertible, Codable {
+        case maximize = "Maximize"
+        case minimize = "Minimize"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ContinuousParameterRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "MaxValue", required: true, type: .string), 
+            AWSShapeMember(label: "MinValue", required: true, type: .string)
+        ]
+        /// The name of the continuous hyperparameter to tune.
+        public let name: String
+        /// The maximum value for the hyperparameter. The tuning job uses floating-point values between MinValue value and this value for tuning.
+        public let maxValue: String
+        /// The minimum value for the hyperparameter. The tuning job uses floating-point values between this value and MaxValuefor tuning.
+        public let minValue: String
+
+        public init(name: String, maxValue: String, minValue: String) {
+            self.name = name
+            self.maxValue = maxValue
+            self.minValue = minValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case maxValue = "MaxValue"
+            case minValue = "MinValue"
+        }
+    }
+
+    public struct VpcConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subnets", required: true, type: .list), 
+            AWSShapeMember(label: "SecurityGroupIds", required: true, type: .list)
+        ]
+        /// The ID of the subnets in the VPC to which you want to connect your training job or model.
+        public let subnets: [String]
+        /// The VPC security group IDs, in the form sg-xxxxxxxx. Specify the security groups for the VPC that is specified in the Subnets field.
+        public let securityGroupIds: [String]
+
+        public init(subnets: [String], securityGroupIds: [String]) {
+            self.subnets = subnets
+            self.securityGroupIds = securityGroupIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnets = "Subnets"
+            case securityGroupIds = "SecurityGroupIds"
+        }
+    }
+
+    public struct ResourceConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeSizeInGB", required: true, type: .integer), 
+            AWSShapeMember(label: "InstanceCount", required: true, type: .integer), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .enum), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string)
+        ]
+        /// The size of the ML storage volume that you want to provision.  ML storage volumes store model artifacts and incremental states. Training algorithms might also use the ML storage volume for scratch space. If you want to store the training data in the ML storage volume, choose File as the TrainingInputMode in the algorithm specification.  You must specify sufficient ML storage for your scenario.    Amazon SageMaker supports only the General Purpose SSD (gp2) ML storage volume type.  
+        public let volumeSizeInGB: Int32
+        /// The number of ML compute instances to use. For distributed training, provide a value greater than 1. 
+        public let instanceCount: Int32
+        /// The ML compute instance type. 
+        public let instanceType: TrainingInstanceType
+        /// The Amazon Resource Name (ARN) of a AWS Key Management Service key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the training job.
+        public let volumeKmsKeyId: String?
+
+        public init(volumeSizeInGB: Int32, instanceCount: Int32, instanceType: TrainingInstanceType, volumeKmsKeyId: String? = nil) {
+            self.volumeSizeInGB = volumeSizeInGB
+            self.instanceCount = instanceCount
+            self.instanceType = instanceType
+            self.volumeKmsKeyId = volumeKmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeSizeInGB = "VolumeSizeInGB"
+            case instanceCount = "InstanceCount"
+            case instanceType = "InstanceType"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+        }
+    }
+
+    public struct EndpointSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "EndpointName", required: true, type: .string), 
+            AWSShapeMember(label: "EndpointStatus", required: true, type: .enum)
+        ]
+        /// A timestamp that shows when the endpoint was last modified.
+        public let lastModifiedTime: TimeStamp
+        /// The Amazon Resource Name (ARN) of the endpoint.
+        public let endpointArn: String
+        /// A timestamp that shows when the endpoint was created.
+        public let creationTime: TimeStamp
+        /// The name of the endpoint.
+        public let endpointName: String
+        /// The status of the endpoint.
+        public let endpointStatus: EndpointStatus
+
+        public init(lastModifiedTime: TimeStamp, endpointArn: String, creationTime: TimeStamp, endpointName: String, endpointStatus: EndpointStatus) {
+            self.lastModifiedTime = lastModifiedTime
+            self.endpointArn = endpointArn
+            self.creationTime = creationTime
+            self.endpointName = endpointName
+            self.endpointStatus = endpointStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedTime = "LastModifiedTime"
+            case endpointArn = "EndpointArn"
+            case creationTime = "CreationTime"
+            case endpointName = "EndpointName"
+            case endpointStatus = "EndpointStatus"
+        }
+    }
+
+    public struct IntegerParameterRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "MaxValue", required: true, type: .string), 
+            AWSShapeMember(label: "MinValue", required: true, type: .string)
+        ]
+        /// The name of the hyperparameter to search.
+        public let name: String
+        /// The maximum value of the hyperparameter to search.
+        public let maxValue: String
+        /// The minimum value of the hyperparameter to search.
+        public let minValue: String
+
+        public init(name: String, maxValue: String, minValue: String) {
+            self.name = name
+            self.maxValue = maxValue
+            self.minValue = minValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case maxValue = "MaxValue"
+            case minValue = "MinValue"
+        }
+    }
+
+    public struct HyperParameterTrainingJobDefinition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "AlgorithmSpecification", required: true, type: .structure), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "InputDataConfig", required: true, type: .list), 
+            AWSShapeMember(label: "StaticHyperParameters", required: false, type: .map), 
+            AWSShapeMember(label: "ResourceConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "StoppingCondition", required: true, type: .structure)
+        ]
+        /// Specifies the path to the Amazon S3 bucket where you store model artifacts from the training jobs that the tuning job launches.
+        public let outputDataConfig: OutputDataConfig
+        /// The HyperParameterAlgorithmSpecification object that specifies the algorithm to use for the training jobs that the tuning job launches.
+        public let algorithmSpecification: HyperParameterAlgorithmSpecification
+        /// The VpcConfig object that specifies the VPC that you want the training jobs that this hyperparameter tuning job launches to connect to. Control access to and from your training container by configuring the VPC. For more information, see train-vpc.
+        public let vpcConfig: VpcConfig?
+        /// An array of Channel objects that specify the input for the training jobs that the tuning job launches.
+        public let inputDataConfig: [Channel]
+        /// Specifies the values of hyperparameters that do not change for the tuning job.
+        public let staticHyperParameters: [String: String]?
+        /// The resources, including the compute instances and storage volumes, to use for the training jobs that the tuning job launches. Storage volumes store model artifacts and incremental states. Training algorithms might also use storage volumes for scratch space. If you want Amazon SageMaker to use the storage volume to store the training data, choose File as the TrainingInputMode in the algorithm specification. For distributed training algorithms, specify an instance count greater than 1.
+        public let resourceConfig: ResourceConfig
+        /// The Amazon Resource Name (ARN) of the IAM role associated with the training jobs that the tuning job launches.
+        public let roleArn: String
+        /// Sets a maximum duration for the training jobs that the tuning job launches. Use this parameter to limit model training costs.  To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal. This delays job termination for 120 seconds. Algorithms might use this 120-second window to save the model artifacts. When Amazon SageMaker terminates a job because the stopping condition has been met, training algorithms provided by Amazon SageMaker save the intermediate results of the job.
+        public let stoppingCondition: StoppingCondition
+
+        public init(outputDataConfig: OutputDataConfig, algorithmSpecification: HyperParameterAlgorithmSpecification, vpcConfig: VpcConfig? = nil, inputDataConfig: [Channel], staticHyperParameters: [String: String]? = nil, resourceConfig: ResourceConfig, roleArn: String, stoppingCondition: StoppingCondition) {
+            self.outputDataConfig = outputDataConfig
+            self.algorithmSpecification = algorithmSpecification
+            self.vpcConfig = vpcConfig
+            self.inputDataConfig = inputDataConfig
+            self.staticHyperParameters = staticHyperParameters
+            self.resourceConfig = resourceConfig
+            self.roleArn = roleArn
+            self.stoppingCondition = stoppingCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputDataConfig = "OutputDataConfig"
+            case algorithmSpecification = "AlgorithmSpecification"
+            case vpcConfig = "VpcConfig"
+            case inputDataConfig = "InputDataConfig"
+            case staticHyperParameters = "StaticHyperParameters"
+            case resourceConfig = "ResourceConfig"
+            case roleArn = "RoleArn"
+            case stoppingCondition = "StoppingCondition"
+        }
+    }
+
+    public struct NotebookInstanceLifecycleHook: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Content", required: false, type: .string)
+        ]
+        /// A base64-encoded string that contains a shell script for a notebook instance lifecycle configuration.
+        public let content: String?
+
+        public init(content: String? = nil) {
+            self.content = content
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+        }
+    }
+
+    public enum DirectInternetAccess: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransformJobStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case completed = "Completed"
+        case failed = "Failed"
+        case stopping = "Stopping"
+        case stopped = "Stopped"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotebookInstanceStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case inservice = "InService"
+        case stopping = "Stopping"
+        case stopped = "Stopped"
+        case failed = "Failed"
+        case deleting = "Deleting"
+        case updating = "Updating"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateTransformJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TransformJobName", required: true, type: .string), 
+            AWSShapeMember(label: "TransformInput", required: true, type: .structure), 
+            AWSShapeMember(label: "BatchStrategy", required: false, type: .enum), 
+            AWSShapeMember(label: "TransformResources", required: true, type: .structure), 
+            AWSShapeMember(label: "TransformOutput", required: true, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "ModelName", required: true, type: .string), 
+            AWSShapeMember(label: "Environment", required: false, type: .map), 
+            AWSShapeMember(label: "MaxPayloadInMB", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxConcurrentTransforms", required: false, type: .integer)
+        ]
+        /// The name of the transform job. The name must be unique within an AWS Region in an AWS account. 
+        public let transformJobName: String
+        /// Describes the input source and the way the transform job consumes it.
+        public let transformInput: TransformInput
+        /// Determines the number of records included in a single mini-batch. SingleRecord means only one record is used per mini-batch. MultiRecord means a mini-batch is set to contain as many records that can fit within the MaxPayloadInMB limit. Batch transform will automatically split your input data into whatever payload size is specified if you set SplitType to Line and BatchStrategy to MultiRecord. There's no need to split the dataset into smaller files or to use larger payload sizes unless the records in your dataset are very large.
+        public let batchStrategy: BatchStrategy?
+        /// Describes the resources, including ML instance types and ML instance count, to use for the transform job.
+        public let transformResources: TransformResources
+        /// Describes the results of the transform job.
+        public let transformOutput: TransformOutput
+        /// An array of key-value pairs. Adding tags is optional. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        public let tags: [Tag]?
+        /// The name of the model that you want to use for the transform job. ModelName must be the name of an existing Amazon SageMaker model within an AWS Region in an AWS account.
+        public let modelName: String
+        /// The environment variables to set in the Docker container. We support up to 16 key and values entries in the map.
+        public let environment: [String: String]?
+        /// The maximum payload size allowed, in MB. A payload is the data portion of a record (without metadata). The value in MaxPayloadInMB must be greater or equal to the size of a single record. You can approximate the size of a record by dividing the size of your dataset by the number of records. Then multiply this value by the number of records you want in a mini-batch. It is recommended to enter a value slightly larger than this to ensure the records fit within the maximum payload size. The default value is 6 MB. For an unlimited payload size, set the value to 0.
+        public let maxPayloadInMB: Int32?
+        /// The maximum number of parallel requests that can be sent to each instance in a transform job. This is good for algorithms that implement multiple workers on larger instances . The default value is 1. To allow Amazon SageMaker to determine the appropriate number for MaxConcurrentTransforms, set the value to 0.
+        public let maxConcurrentTransforms: Int32?
+
+        public init(transformJobName: String, transformInput: TransformInput, batchStrategy: BatchStrategy? = nil, transformResources: TransformResources, transformOutput: TransformOutput, tags: [Tag]? = nil, modelName: String, environment: [String: String]? = nil, maxPayloadInMB: Int32? = nil, maxConcurrentTransforms: Int32? = nil) {
+            self.transformJobName = transformJobName
+            self.transformInput = transformInput
+            self.batchStrategy = batchStrategy
+            self.transformResources = transformResources
+            self.transformOutput = transformOutput
+            self.tags = tags
+            self.modelName = modelName
+            self.environment = environment
+            self.maxPayloadInMB = maxPayloadInMB
+            self.maxConcurrentTransforms = maxConcurrentTransforms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transformJobName = "TransformJobName"
+            case transformInput = "TransformInput"
+            case batchStrategy = "BatchStrategy"
+            case transformResources = "TransformResources"
+            case transformOutput = "TransformOutput"
+            case tags = "Tags"
+            case modelName = "ModelName"
+            case environment = "Environment"
+            case maxPayloadInMB = "MaxPayloadInMB"
+            case maxConcurrentTransforms = "MaxConcurrentTransforms"
+        }
+    }
+
+    public enum SortBy: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AlgorithmSpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrainingInputMode", required: true, type: .enum), 
+            AWSShapeMember(label: "TrainingImage", required: true, type: .string)
+        ]
+        /// The input mode that the algorithm supports. For the input modes that Amazon SageMaker algorithms support, see Algorithms. If an algorithm supports the File input mode, Amazon SageMaker downloads the training data from S3 to the provisioned ML storage Volume, and mounts the directory to docker volume for training container. If an algorithm supports the Pipe input mode, Amazon SageMaker streams data directly from S3 to the container.   In File mode, make sure you provision ML storage volume with sufficient capacity to accommodate the data download from S3. In addition to the training data, the ML storage volume also stores the output model. The algorithm container use ML storage volume to also store intermediate information, if any.   For distributed algorithms using File mode, training data is distributed uniformly, and your training duration is predictable if the input data objects size is approximately same. Amazon SageMaker does not split the files any further for model training. If the object sizes are skewed, training won't be optimal as the data distribution is also skewed where one host in a training cluster is overloaded, thus becoming bottleneck in training. 
+        public let trainingInputMode: TrainingInputMode
+        /// The registry path of the Docker image that contains the training algorithm. For information about docker registry paths for built-in algorithms, see sagemaker-algo-docker-registry-paths.
+        public let trainingImage: String
+
+        public init(trainingInputMode: TrainingInputMode, trainingImage: String) {
+            self.trainingInputMode = trainingInputMode
+            self.trainingImage = trainingImage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trainingInputMode = "TrainingInputMode"
+            case trainingImage = "TrainingImage"
+        }
+    }
+
+    public enum BatchStrategy: String, CustomStringConvertible, Codable {
+        case multirecord = "MultiRecord"
+        case singlerecord = "SingleRecord"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateEndpointInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointConfigName", required: true, type: .string), 
+            AWSShapeMember(label: "EndpointName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// The name of an endpoint configuration. For more information, see CreateEndpointConfig. 
+        public let endpointConfigName: String
+        /// The name of the endpoint. The name must be unique within an AWS Region in your AWS account.
+        public let endpointName: String
+        /// An array of key-value pairs. For more information, see Using Cost Allocation Tagsin the AWS Billing and Cost Management User Guide. 
+        public let tags: [Tag]?
+
+        public init(endpointConfigName: String, endpointName: String, tags: [Tag]? = nil) {
+            self.endpointConfigName = endpointConfigName
+            self.endpointName = endpointName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointConfigName = "EndpointConfigName"
+            case endpointName = "EndpointName"
+            case tags = "Tags"
+        }
+    }
+
+    public enum NotebookInstanceSortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "Ascending"
+        case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrainingJobStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case completed = "Completed"
+        case failed = "Failed"
+        case stopping = "Stopping"
+        case stopped = "Stopped"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListTagsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        ///  If response is truncated, Amazon SageMaker includes a token in the response. You can use this token in your subsequent request to fetch next set of tokens. 
+        public let nextToken: String?
+        /// An array of Tag objects, each with a tag key and a value.
+        public let tags: [Tag]?
+
+        public init(nextToken: String? = nil, tags: [Tag]? = nil) {
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tags = "Tags"
+        }
+    }
+
+    public struct UpdateNotebookInstanceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
+        ]
+        /// The Amazon ML compute instance type.
+        public let instanceType: InstanceType?
+        /// The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker can assume to access the notebook instance. For more information, see Amazon SageMaker Roles.   To be able to pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission. 
+        public let roleArn: String?
+        /// The name of the notebook instance to update.
+        public let notebookInstanceName: String
+
+        public init(instanceType: InstanceType? = nil, roleArn: String? = nil, notebookInstanceName: String) {
+            self.instanceType = instanceType
+            self.roleArn = roleArn
+            self.notebookInstanceName = notebookInstanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceType = "InstanceType"
+            case roleArn = "RoleArn"
+            case notebookInstanceName = "NotebookInstanceName"
+        }
+    }
+
+    public struct CreateNotebookInstanceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LifecycleConfigName", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "DirectInternetAccess", required: false, type: .enum), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .enum), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
+        ]
+        /// The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see notebook-lifecycle-config.
+        public let lifecycleConfigName: String?
+        /// The ID of the subnet in a VPC to which you would like to have a connectivity from your ML compute instance. 
+        public let subnetId: String?
+        /// The name of the new notebook instance.
+        public let notebookInstanceName: String
+        /// A list of tags to associate with the notebook instance. You can add tags later by using the CreateTags API.
+        public let tags: [Tag]?
+        /// Sets whether Amazon SageMaker provides internet access to the notebook instance. If you set this to Disabled this notebook instance will be able to access resources only in your VPC, and will not be able to connect to Amazon SageMaker training and endpoint services unless your configure a NAT Gateway in your VPC. For more information, see appendix-notebook-and-internet-access. You can set the value of this parameter to Disabled only if you set a value for the SubnetId parameter.
+        public let directInternetAccess: DirectInternetAccess?
+        /// The VPC security group IDs, in the form sg-xxxxxxxx. The security groups must be for the same VPC as specified in the subnet. 
+        public let securityGroupIds: [String]?
+        ///  When you send any requests to AWS resources from the notebook instance, Amazon SageMaker assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so Amazon SageMaker can perform these tasks. The policy must allow the Amazon SageMaker service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see Amazon SageMaker Roles.   To be able to pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission. 
+        public let roleArn: String
+        /// The type of ML compute instance to launch for the notebook instance.
+        public let instanceType: InstanceType
+        ///  If you provide a AWS KMS key ID, Amazon SageMaker uses it to encrypt data at rest on the ML storage volume that is attached to your notebook instance. 
+        public let kmsKeyId: String?
+
+        public init(lifecycleConfigName: String? = nil, subnetId: String? = nil, notebookInstanceName: String, tags: [Tag]? = nil, directInternetAccess: DirectInternetAccess? = nil, securityGroupIds: [String]? = nil, roleArn: String, instanceType: InstanceType, kmsKeyId: String? = nil) {
+            self.lifecycleConfigName = lifecycleConfigName
+            self.subnetId = subnetId
+            self.notebookInstanceName = notebookInstanceName
+            self.tags = tags
+            self.directInternetAccess = directInternetAccess
+            self.securityGroupIds = securityGroupIds
+            self.roleArn = roleArn
+            self.instanceType = instanceType
+            self.kmsKeyId = kmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleConfigName = "LifecycleConfigName"
+            case subnetId = "SubnetId"
+            case notebookInstanceName = "NotebookInstanceName"
+            case tags = "Tags"
+            case directInternetAccess = "DirectInternetAccess"
+            case securityGroupIds = "SecurityGroupIds"
+            case roleArn = "RoleArn"
+            case instanceType = "InstanceType"
+            case kmsKeyId = "KmsKeyId"
+        }
+    }
+
+    public struct StopNotebookInstanceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
+        ]
+        /// The name of the notebook instance to terminate.
+        public let notebookInstanceName: String
+
+        public init(notebookInstanceName: String) {
+            self.notebookInstanceName = notebookInstanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookInstanceName = "NotebookInstanceName"
+        }
+    }
+
+    public struct UpdateNotebookInstanceOutput: AWSShape {
+
+    }
+
+    public struct ListTrainingJobsForHyperParameterTuningJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TrainingJobSummaries", required: true, type: .list)
+        ]
+        /// If the result of this ListTrainingJobsForHyperParameterTuningJob request was truncated, the response includes a NextToken. To retrieve the next set of training jobs, use the token in the next request.
+        public let nextToken: String?
+        /// A list of TrainingJobSummary objects that describe the training jobs that the ListTrainingJobsForHyperParameterTuningJob request returned.
+        public let trainingJobSummaries: [HyperParameterTrainingJobSummary]
+
+        public init(nextToken: String? = nil, trainingJobSummaries: [HyperParameterTrainingJobSummary]) {
+            self.nextToken = nextToken
+            self.trainingJobSummaries = trainingJobSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case trainingJobSummaries = "TrainingJobSummaries"
+        }
+    }
+
+    public struct UpdateNotebookInstanceLifecycleConfigInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OnCreate", required: false, type: .list), 
+            AWSShapeMember(label: "NotebookInstanceLifecycleConfigName", required: true, type: .string), 
+            AWSShapeMember(label: "OnStart", required: false, type: .list)
+        ]
+        /// The shell script that runs only once, when you create a notebook instance
+        public let onCreate: [NotebookInstanceLifecycleHook]?
+        /// The name of the lifecycle configuration.
+        public let notebookInstanceLifecycleConfigName: String
+        /// The shell script that runs every time you start a notebook instance, including when you create the notebook instance.
+        public let onStart: [NotebookInstanceLifecycleHook]?
+
+        public init(onCreate: [NotebookInstanceLifecycleHook]? = nil, notebookInstanceLifecycleConfigName: String, onStart: [NotebookInstanceLifecycleHook]? = nil) {
+            self.onCreate = onCreate
+            self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
+            self.onStart = onStart
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case onCreate = "OnCreate"
+            case notebookInstanceLifecycleConfigName = "NotebookInstanceLifecycleConfigName"
+            case onStart = "OnStart"
+        }
+    }
+
+    public struct NotebookInstanceSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string), 
+            AWSShapeMember(label: "Url", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NotebookInstanceArn", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
+            AWSShapeMember(label: "NotebookInstanceStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "NotebookInstanceLifecycleConfigName", required: false, type: .string)
+        ]
+        /// A timestamp that shows when the notebook instance was last modified.
+        public let lastModifiedTime: TimeStamp?
+        /// The name of the notebook instance that you want a summary for.
+        public let notebookInstanceName: String
+        /// The URL that you use to connect to the Jupyter instance running in your notebook instance. 
+        public let url: String?
+        /// A timestamp that shows when the notebook instance was created.
+        public let creationTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the notebook instance.
+        public let notebookInstanceArn: String
+        /// The type of ML compute instance that the notebook instance is running on.
+        public let instanceType: InstanceType?
+        /// The status of the notebook instance.
+        public let notebookInstanceStatus: NotebookInstanceStatus?
+        /// The name of a notebook instance lifecycle configuration associated with this notebook instance. For information about notebook instance lifestyle configurations, see notebook-lifecycle-config.
+        public let notebookInstanceLifecycleConfigName: String?
+
+        public init(lastModifiedTime: TimeStamp? = nil, notebookInstanceName: String, url: String? = nil, creationTime: TimeStamp? = nil, notebookInstanceArn: String, instanceType: InstanceType? = nil, notebookInstanceStatus: NotebookInstanceStatus? = nil, notebookInstanceLifecycleConfigName: String? = nil) {
+            self.lastModifiedTime = lastModifiedTime
+            self.notebookInstanceName = notebookInstanceName
+            self.url = url
+            self.creationTime = creationTime
+            self.notebookInstanceArn = notebookInstanceArn
+            self.instanceType = instanceType
+            self.notebookInstanceStatus = notebookInstanceStatus
+            self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedTime = "LastModifiedTime"
+            case notebookInstanceName = "NotebookInstanceName"
+            case url = "Url"
+            case creationTime = "CreationTime"
+            case notebookInstanceArn = "NotebookInstanceArn"
+            case instanceType = "InstanceType"
+            case notebookInstanceStatus = "NotebookInstanceStatus"
+            case notebookInstanceLifecycleConfigName = "NotebookInstanceLifecycleConfigName"
+        }
+    }
+
+    public struct DeleteEndpointConfigInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointConfigName", required: true, type: .string)
+        ]
+        /// The name of the endpoint configuration that you want to delete.
+        public let endpointConfigName: String
+
+        public init(endpointConfigName: String) {
+            self.endpointConfigName = endpointConfigName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointConfigName = "EndpointConfigName"
+        }
+    }
+
+    public enum HyperParameterTuningJobStatus: String, CustomStringConvertible, Codable {
+        case completed = "Completed"
+        case inprogress = "InProgress"
+        case failed = "Failed"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteNotebookInstanceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
+        ]
+        /// The name of the Amazon SageMaker notebook instance to delete.
+        public let notebookInstanceName: String
+
+        public init(notebookInstanceName: String) {
+            self.notebookInstanceName = notebookInstanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookInstanceName = "NotebookInstanceName"
+        }
+    }
+
+    public enum HyperParameterTuningJobStrategyType: String, CustomStringConvertible, Codable {
+        case bayesian = "Bayesian"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndpointConfigSortKey: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeEndpointOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "ProductionVariants", required: false, type: .list), 
+            AWSShapeMember(label: "EndpointConfigName", required: true, type: .string), 
+            AWSShapeMember(label: "EndpointName", required: true, type: .string), 
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointStatus", required: true, type: .enum)
+        ]
+        /// A timestamp that shows when the endpoint was last modified.
+        public let lastModifiedTime: TimeStamp
+        ///  An array of ProductionVariantSummary objects, one for each model hosted behind this endpoint. 
+        public let productionVariants: [ProductionVariantSummary]?
+        /// The name of the endpoint configuration associated with this endpoint.
+        public let endpointConfigName: String
+        /// Name of the endpoint.
+        public let endpointName: String
+        /// The Amazon Resource Name (ARN) of the endpoint.
+        public let endpointArn: String
+        /// A timestamp that shows when the endpoint was created.
+        public let creationTime: TimeStamp
+        /// If the status of the endpoint is Failed, the reason why it failed. 
+        public let failureReason: String?
+        /// The status of the endpoint.
+        public let endpointStatus: EndpointStatus
+
+        public init(lastModifiedTime: TimeStamp, productionVariants: [ProductionVariantSummary]? = nil, endpointConfigName: String, endpointName: String, endpointArn: String, creationTime: TimeStamp, failureReason: String? = nil, endpointStatus: EndpointStatus) {
+            self.lastModifiedTime = lastModifiedTime
+            self.productionVariants = productionVariants
+            self.endpointConfigName = endpointConfigName
+            self.endpointName = endpointName
+            self.endpointArn = endpointArn
+            self.creationTime = creationTime
+            self.failureReason = failureReason
+            self.endpointStatus = endpointStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedTime = "LastModifiedTime"
+            case productionVariants = "ProductionVariants"
+            case endpointConfigName = "EndpointConfigName"
+            case endpointName = "EndpointName"
+            case endpointArn = "EndpointArn"
+            case creationTime = "CreationTime"
+            case failureReason = "FailureReason"
+            case endpointStatus = "EndpointStatus"
+        }
+    }
+
+    public struct ListNotebookInstancesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "NotebookInstanceLifecycleConfigNameContains", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NameContains", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StatusEquals", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// The field to sort results by. The default is Name.
+        public let sortBy: NotebookInstanceSortKey?
+        /// A filter that returns only notebook instances that were modified after the specified time (timestamp).
+        public let lastModifiedTimeAfter: TimeStamp?
+        ///  If the previous call to the ListNotebookInstances is truncated, the response includes a NextToken. You can use this token in your subsequent ListNotebookInstances request to fetch the next set of notebook instances.    You might specify a filter or a sort order in your request. When response is truncated, you must use the same values for the filer and sort order in the next request.  
+        public let nextToken: String?
+        /// A string in the name of a notebook instances lifecycle configuration associated with this notebook instance. This filter returns only notebook instances associated with a lifecycle configuration with a name that contains the specified string.
+        public let notebookInstanceLifecycleConfigNameContains: String?
+        /// A filter that returns only notebook instances that were created after the specified time (timestamp).
+        public let creationTimeAfter: TimeStamp?
+        /// A string in the notebook instances' name. This filter returns only notebook instances whose name contains the specified string.
+        public let nameContains: String?
+        /// The sort order for results. 
+        public let sortOrder: NotebookInstanceSortOrder?
+        /// A filter that returns only notebook instances that were modified before the specified time (timestamp).
+        public let lastModifiedTimeBefore: TimeStamp?
+        /// A filter that returns only notebook instances with the specified status.
+        public let statusEquals: NotebookInstanceStatus?
+        /// A filter that returns only notebook instances that were created before the specified time (timestamp). 
+        public let creationTimeBefore: TimeStamp?
+        /// The maximum number of notebook instances to return.
+        public let maxResults: Int32?
+
+        public init(sortBy: NotebookInstanceSortKey? = nil, lastModifiedTimeAfter: TimeStamp? = nil, nextToken: String? = nil, notebookInstanceLifecycleConfigNameContains: String? = nil, creationTimeAfter: TimeStamp? = nil, nameContains: String? = nil, sortOrder: NotebookInstanceSortOrder? = nil, lastModifiedTimeBefore: TimeStamp? = nil, statusEquals: NotebookInstanceStatus? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil) {
+            self.sortBy = sortBy
+            self.lastModifiedTimeAfter = lastModifiedTimeAfter
+            self.nextToken = nextToken
+            self.notebookInstanceLifecycleConfigNameContains = notebookInstanceLifecycleConfigNameContains
+            self.creationTimeAfter = creationTimeAfter
+            self.nameContains = nameContains
+            self.sortOrder = sortOrder
+            self.lastModifiedTimeBefore = lastModifiedTimeBefore
+            self.statusEquals = statusEquals
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case lastModifiedTimeAfter = "LastModifiedTimeAfter"
+            case nextToken = "NextToken"
+            case notebookInstanceLifecycleConfigNameContains = "NotebookInstanceLifecycleConfigNameContains"
+            case creationTimeAfter = "CreationTimeAfter"
+            case nameContains = "NameContains"
+            case sortOrder = "SortOrder"
+            case lastModifiedTimeBefore = "LastModifiedTimeBefore"
+            case statusEquals = "StatusEquals"
+            case creationTimeBefore = "CreationTimeBefore"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct ListEndpointConfigsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NameContains", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// The field to sort results by. The default is CreationTime.
+        public let sortBy: EndpointConfigSortKey?
+        /// A filter that returns only endpoint configurations created after the specified time (timestamp).
+        public let creationTimeAfter: TimeStamp?
+        /// A string in the endpoint configuration name. This filter returns only endpoint configurations whose name contains the specified string. 
+        public let nameContains: String?
+        /// The sort order for results. The default is Ascending.
+        public let sortOrder: OrderKey?
+        /// If the result of the previous ListEndpointConfig request was truncated, the response includes a NextToken. To retrieve the next set of endpoint configurations, use the token in the next request. 
+        public let nextToken: String?
+        /// A filter that returns only endpoint configurations created before the specified time (timestamp).
+        public let creationTimeBefore: TimeStamp?
+        /// The maximum number of training jobs to return in the response.
+        public let maxResults: Int32?
+
+        public init(sortBy: EndpointConfigSortKey? = nil, creationTimeAfter: TimeStamp? = nil, nameContains: String? = nil, sortOrder: OrderKey? = nil, nextToken: String? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil) {
+            self.sortBy = sortBy
+            self.creationTimeAfter = creationTimeAfter
+            self.nameContains = nameContains
+            self.sortOrder = sortOrder
+            self.nextToken = nextToken
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case creationTimeAfter = "CreationTimeAfter"
+            case nameContains = "NameContains"
+            case sortOrder = "SortOrder"
+            case nextToken = "NextToken"
+            case creationTimeBefore = "CreationTimeBefore"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct UpdateNotebookInstanceLifecycleConfigOutput: AWSShape {
+
+    }
+
+    public struct MetricDefinition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Regex", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// A regular expression that searches the output of a training job and gets the value of the metric. For more information about using regular expressions to define metrics, see automatic-model-tuning-define-metrics.
+        public let regex: String
+        /// The name of the metric.
+        public let name: String
+
+        public init(regex: String, name: String) {
+            self.regex = regex
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regex = "Regex"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateEndpointOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the endpoint.
+        public let endpointArn: String
+
+        public init(endpointArn: String) {
+            self.endpointArn = endpointArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
+        }
+    }
+
+    public struct TrainingJobStatusCounters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InProgress", required: false, type: .integer), 
+            AWSShapeMember(label: "Completed", required: false, type: .integer), 
+            AWSShapeMember(label: "NonRetryableError", required: false, type: .integer), 
+            AWSShapeMember(label: "RetryableError", required: false, type: .integer), 
+            AWSShapeMember(label: "Stopped", required: false, type: .integer)
+        ]
+        /// The number of in-progress training jobs launched by a hyperparameter tuning job.
+        public let inProgress: Int32?
+        /// The number of completed training jobs launched by a hyperparameter tuning job.
+        public let completed: Int32?
+        /// The number of training jobs that failed and can't be retried. A failed training job can't be retried if it failed because a client error occurred.
+        public let nonRetryableError: Int32?
+        /// The number of training jobs that failed, but can be retried. A failed training job can be retried only if it failed because an internal service error occurred.
+        public let retryableError: Int32?
+        /// The number of training jobs launched by a hyperparameter tuning job that were manually stopped.
+        public let stopped: Int32?
+
+        public init(inProgress: Int32? = nil, completed: Int32? = nil, nonRetryableError: Int32? = nil, retryableError: Int32? = nil, stopped: Int32? = nil) {
+            self.inProgress = inProgress
+            self.completed = completed
+            self.nonRetryableError = nonRetryableError
+            self.retryableError = retryableError
+            self.stopped = stopped
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inProgress = "InProgress"
+            case completed = "Completed"
+            case nonRetryableError = "NonRetryableError"
+            case retryableError = "RetryableError"
+            case stopped = "Stopped"
+        }
+    }
+
+    public enum NotebookInstanceSortKey: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeNotebookInstanceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
+        ]
+        /// The name of the notebook instance that you want information about.
+        public let notebookInstanceName: String
+
+        public init(notebookInstanceName: String) {
+            self.notebookInstanceName = notebookInstanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookInstanceName = "NotebookInstanceName"
+        }
+    }
+
+    public struct HyperParameterTuningJobConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterRanges", required: true, type: .structure), 
+            AWSShapeMember(label: "Strategy", required: true, type: .enum), 
+            AWSShapeMember(label: "HyperParameterTuningJobObjective", required: true, type: .structure), 
+            AWSShapeMember(label: "ResourceLimits", required: true, type: .structure)
+        ]
+        /// The ParameterRanges object that specifies the ranges of hyperparameters that this tuning job searches.
+        public let parameterRanges: ParameterRanges
+        /// Specifies the search strategy for hyperparameters. Currently, the only valid value is Bayesian.
+        public let strategy: HyperParameterTuningJobStrategyType
+        /// The HyperParameterTuningJobObjective object that specifies the objective metric for this tuning job.
+        public let hyperParameterTuningJobObjective: HyperParameterTuningJobObjective
+        /// The ResourceLimits object that specifies the maximum number of training jobs and parallel training jobs for this tuning job.
+        public let resourceLimits: ResourceLimits
+
+        public init(parameterRanges: ParameterRanges, strategy: HyperParameterTuningJobStrategyType, hyperParameterTuningJobObjective: HyperParameterTuningJobObjective, resourceLimits: ResourceLimits) {
+            self.parameterRanges = parameterRanges
+            self.strategy = strategy
+            self.hyperParameterTuningJobObjective = hyperParameterTuningJobObjective
+            self.resourceLimits = resourceLimits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterRanges = "ParameterRanges"
+            case strategy = "Strategy"
+            case hyperParameterTuningJobObjective = "HyperParameterTuningJobObjective"
+            case resourceLimits = "ResourceLimits"
+        }
+    }
+
+    public enum S3DataType: String, CustomStringConvertible, Codable {
+        case manifestfile = "ManifestFile"
+        case s3prefix = "S3Prefix"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ResourceLimits: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxParallelTrainingJobs", required: true, type: .integer), 
+            AWSShapeMember(label: "MaxNumberOfTrainingJobs", required: true, type: .integer)
+        ]
+        /// The maximum number of concurrent training jobs that a hyperparameter tuning job can launch.
+        public let maxParallelTrainingJobs: Int32
+        /// The maximum number of training jobs that a hyperparameter tuning job can launch.
+        public let maxNumberOfTrainingJobs: Int32
+
+        public init(maxParallelTrainingJobs: Int32, maxNumberOfTrainingJobs: Int32) {
+            self.maxParallelTrainingJobs = maxParallelTrainingJobs
+            self.maxNumberOfTrainingJobs = maxNumberOfTrainingJobs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxParallelTrainingJobs = "MaxParallelTrainingJobs"
+            case maxNumberOfTrainingJobs = "MaxNumberOfTrainingJobs"
+        }
+    }
+
+    public enum TrainingInputMode: String, CustomStringConvertible, Codable {
+        case pipe = "Pipe"
+        case file = "File"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct NotebookInstanceLifecycleConfigSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NotebookInstanceLifecycleConfigArn", required: true, type: .string), 
+            AWSShapeMember(label: "NotebookInstanceLifecycleConfigName", required: true, type: .string)
+        ]
+        /// A timestamp that tells when the lifecycle configuration was last modified.
+        public let lastModifiedTime: TimeStamp?
+        /// A timestamp that tells when the lifecycle configuration was created.
+        public let creationTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the lifecycle configuration.
+        public let notebookInstanceLifecycleConfigArn: String
+        /// The name of the lifecycle configuration.
+        public let notebookInstanceLifecycleConfigName: String
+
+        public init(lastModifiedTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, notebookInstanceLifecycleConfigArn: String, notebookInstanceLifecycleConfigName: String) {
+            self.lastModifiedTime = lastModifiedTime
+            self.creationTime = creationTime
+            self.notebookInstanceLifecycleConfigArn = notebookInstanceLifecycleConfigArn
+            self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedTime = "LastModifiedTime"
+            case creationTime = "CreationTime"
+            case notebookInstanceLifecycleConfigArn = "NotebookInstanceLifecycleConfigArn"
+            case notebookInstanceLifecycleConfigName = "NotebookInstanceLifecycleConfigName"
+        }
+    }
+
+    public struct DeleteModelInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ModelName", required: true, type: .string)
+        ]
+        /// The name of the model to delete.
+        public let modelName: String
+
+        public init(modelName: String) {
+            self.modelName = modelName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelName = "ModelName"
+        }
+    }
+
+    public struct UpdateEndpointWeightsAndCapacitiesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointName", required: true, type: .string), 
+            AWSShapeMember(label: "DesiredWeightsAndCapacities", required: true, type: .list)
+        ]
+        /// The name of an existing Amazon SageMaker endpoint.
+        public let endpointName: String
+        /// An object that provides new capacity and weight values for a variant.
+        public let desiredWeightsAndCapacities: [DesiredWeightAndCapacity]
+
+        public init(endpointName: String, desiredWeightsAndCapacities: [DesiredWeightAndCapacity]) {
+            self.endpointName = endpointName
+            self.desiredWeightsAndCapacities = desiredWeightsAndCapacities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointName = "EndpointName"
+            case desiredWeightsAndCapacities = "DesiredWeightsAndCapacities"
+        }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "Ascending"
+        case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CategoricalParameterRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Values", required: true, type: .list)
+        ]
+        /// The name of the categorical hyperparameter to tune.
+        public let name: String
+        /// A list of the categories for the hyperparameter.
+        public let values: [String]
+
+        public init(name: String, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct Channel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContentType", required: false, type: .string), 
+            AWSShapeMember(label: "DataSource", required: true, type: .structure), 
+            AWSShapeMember(label: "CompressionType", required: false, type: .enum), 
+            AWSShapeMember(label: "ChannelName", required: true, type: .string), 
+            AWSShapeMember(label: "RecordWrapperType", required: false, type: .enum)
+        ]
+        /// The MIME type of the data.
+        public let contentType: String?
+        /// The location of the channel data.
+        public let dataSource: DataSource
+        /// If training data is compressed, the compression type. The default value is None. CompressionType is used only in Pipe input mode. In File mode, leave this field unset or set it to None.
+        public let compressionType: CompressionType?
+        /// The name of the channel. 
+        public let channelName: String
+        ///  Specify RecordIO as the value when input data is in raw format but the training algorithm requires the RecordIO format, in which case, Amazon SageMaker wraps each individual S3 object in a RecordIO record. If the input data is already in RecordIO format, you don't need to set this attribute. For more information, see Create a Dataset Using RecordIO.  In FILE mode, leave this field unset or set it to None. 
+        public let recordWrapperType: RecordWrapper?
+
+        public init(contentType: String? = nil, dataSource: DataSource, compressionType: CompressionType? = nil, channelName: String, recordWrapperType: RecordWrapper? = nil) {
+            self.contentType = contentType
+            self.dataSource = dataSource
+            self.compressionType = compressionType
+            self.channelName = channelName
+            self.recordWrapperType = recordWrapperType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentType = "ContentType"
+            case dataSource = "DataSource"
+            case compressionType = "CompressionType"
+            case channelName = "ChannelName"
+            case recordWrapperType = "RecordWrapperType"
+        }
+    }
+
+    public struct ContainerDefinition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Environment", required: false, type: .map), 
+            AWSShapeMember(label: "Image", required: true, type: .string), 
+            AWSShapeMember(label: "ModelDataUrl", required: false, type: .string), 
+            AWSShapeMember(label: "ContainerHostname", required: false, type: .string)
+        ]
+        /// The environment variables to set in the Docker container. Each key and value in the Environment string to string map can have length of up to 1024. We support up to 16 entries in the map. 
+        public let environment: [String: String]?
+        /// The Amazon EC2 Container Registry (Amazon ECR) path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by Amazon SageMaker, the inference code must meet Amazon SageMaker requirements. Amazon SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see Using Your Own Algorithms with Amazon SageMaker 
+        public let image: String
+        /// The S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).  If you provide a value for this parameter, Amazon SageMaker uses AWS Security Token Service to download model artifacts from the S3 path you provide. AWS STS is activated in your IAM user account by default. If you previously deactivated AWS STS for a region, you need to reactivate AWS STS for that region. For more information, see Activating and Deactivating AWS STS i an AWS Region in the AWS Identity and Access Management User Guide.
+        public let modelDataUrl: String?
+        /// The DNS host name for the container after Amazon SageMaker deploys it.
+        public let containerHostname: String?
+
+        public init(environment: [String: String]? = nil, image: String, modelDataUrl: String? = nil, containerHostname: String? = nil) {
+            self.environment = environment
+            self.image = image
+            self.modelDataUrl = modelDataUrl
+            self.containerHostname = containerHostname
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environment = "Environment"
+            case image = "Image"
+            case modelDataUrl = "ModelDataUrl"
+            case containerHostname = "ContainerHostname"
+        }
+    }
+
+    public struct CreateEndpointConfigInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductionVariants", required: true, type: .list), 
+            AWSShapeMember(label: "EndpointConfigName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
+        ]
+        /// An array of ProductionVariant objects, one for each model that you want to host at this endpoint.
+        public let productionVariants: [ProductionVariant]
+        /// The name of the endpoint configuration. You specify this name in a CreateEndpoint request. 
+        public let endpointConfigName: String
+        /// An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide. 
+        public let tags: [Tag]?
+        /// The Amazon Resource Name (ARN) of a AWS Key Management Service key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint.
+        public let kmsKeyId: String?
+
+        public init(productionVariants: [ProductionVariant], endpointConfigName: String, tags: [Tag]? = nil, kmsKeyId: String? = nil) {
+            self.productionVariants = productionVariants
+            self.endpointConfigName = endpointConfigName
+            self.tags = tags
+            self.kmsKeyId = kmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productionVariants = "ProductionVariants"
+            case endpointConfigName = "EndpointConfigName"
+            case tags = "Tags"
+            case kmsKeyId = "KmsKeyId"
+        }
+    }
+
+    public struct DescribeNotebookInstanceLifecycleConfigOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "OnStart", required: false, type: .list), 
+            AWSShapeMember(label: "OnCreate", required: false, type: .list), 
+            AWSShapeMember(label: "NotebookInstanceLifecycleConfigArn", required: false, type: .string), 
+            AWSShapeMember(label: "NotebookInstanceLifecycleConfigName", required: false, type: .string)
+        ]
+        /// A timestamp that tells when the lifecycle configuration was last modified.
+        public let lastModifiedTime: TimeStamp?
+        /// A timestamp that tells when the lifecycle configuration was created.
+        public let creationTime: TimeStamp?
+        /// The shell script that runs every time you start a notebook instance, including when you create the notebook instance.
+        public let onStart: [NotebookInstanceLifecycleHook]?
+        /// The shell script that runs only once, when you create a notebook instance.
+        public let onCreate: [NotebookInstanceLifecycleHook]?
+        /// The Amazon Resource Name (ARN) of the lifecycle configuration.
+        public let notebookInstanceLifecycleConfigArn: String?
+        /// The name of the lifecycle configuration.
+        public let notebookInstanceLifecycleConfigName: String?
+
+        public init(lastModifiedTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, onStart: [NotebookInstanceLifecycleHook]? = nil, onCreate: [NotebookInstanceLifecycleHook]? = nil, notebookInstanceLifecycleConfigArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil) {
+            self.lastModifiedTime = lastModifiedTime
+            self.creationTime = creationTime
+            self.onStart = onStart
+            self.onCreate = onCreate
+            self.notebookInstanceLifecycleConfigArn = notebookInstanceLifecycleConfigArn
+            self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedTime = "LastModifiedTime"
+            case creationTime = "CreationTime"
+            case onStart = "OnStart"
+            case onCreate = "OnCreate"
+            case notebookInstanceLifecycleConfigArn = "NotebookInstanceLifecycleConfigArn"
+            case notebookInstanceLifecycleConfigName = "NotebookInstanceLifecycleConfigName"
+        }
+    }
+
+    public struct ListHyperParameterTuningJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NameContains", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StatusEquals", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// The field to sort results by. The default is Name.
+        public let sortBy: HyperParameterTuningJobSortByOptions?
+        /// A filter that returns only tuning jobs that were modified after the specified time.
+        public let lastModifiedTimeAfter: TimeStamp?
+        /// If the result of the previous ListHyperParameterTuningJobs request was truncated, the response includes a NextToken. To retrieve the next set of tuning jobs, use the token in the next request.
+        public let nextToken: String?
+        /// A filter that returns only tuning jobs that were created after the specified time.
+        public let creationTimeAfter: TimeStamp?
+        /// A string in the tuning job name. This filter returns only tuning jobs whose name contains the specified string.
+        public let nameContains: String?
+        /// The sort order for results. The default is Ascending.
+        public let sortOrder: SortOrder?
+        /// A filter that returns only tuning jobs that were modified before the specified time.
+        public let lastModifiedTimeBefore: TimeStamp?
+        /// A filter that returns only tuning jobs with the specified status.
+        public let statusEquals: HyperParameterTuningJobStatus?
+        /// A filter that returns only tuning jobs that were created before the specified time.
+        public let creationTimeBefore: TimeStamp?
+        /// The maximum number of tuning jobs to return. The default value is 10.
+        public let maxResults: Int32?
+
+        public init(sortBy: HyperParameterTuningJobSortByOptions? = nil, lastModifiedTimeAfter: TimeStamp? = nil, nextToken: String? = nil, creationTimeAfter: TimeStamp? = nil, nameContains: String? = nil, sortOrder: SortOrder? = nil, lastModifiedTimeBefore: TimeStamp? = nil, statusEquals: HyperParameterTuningJobStatus? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil) {
+            self.sortBy = sortBy
+            self.lastModifiedTimeAfter = lastModifiedTimeAfter
+            self.nextToken = nextToken
+            self.creationTimeAfter = creationTimeAfter
+            self.nameContains = nameContains
+            self.sortOrder = sortOrder
+            self.lastModifiedTimeBefore = lastModifiedTimeBefore
+            self.statusEquals = statusEquals
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case lastModifiedTimeAfter = "LastModifiedTimeAfter"
+            case nextToken = "NextToken"
+            case creationTimeAfter = "CreationTimeAfter"
+            case nameContains = "NameContains"
+            case sortOrder = "SortOrder"
+            case lastModifiedTimeBefore = "LastModifiedTimeBefore"
+            case statusEquals = "StatusEquals"
+            case creationTimeBefore = "CreationTimeBefore"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public enum RecordWrapper: String, CustomStringConvertible, Codable {
+        case none = "None"
+        case recordio = "RecordIO"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TransformOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "Accept", required: false, type: .string), 
+            AWSShapeMember(label: "S3OutputPath", required: true, type: .string), 
+            AWSShapeMember(label: "AssembleWith", required: false, type: .enum)
+        ]
+        /// The AWS Key Management Service (AWS KMS) key for Amazon S3 server-side encryption that Amazon SageMaker uses to encrypt the transformed data. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateTramsformJob request. For more information, see Using Key Policies in AWS KMS in the AWS Key Management Service Developer Guide.
+        public let kmsKeyId: String?
+        /// The MIME type used to specify the output data. Amazon SageMaker uses the MIME type with each http call to transfer data from the transform job.
+        public let accept: String?
+        /// The Amazon S3 path where you want Amazon SageMaker to store the results of the transform job. For example, s3://bucket-name/key-name-prefix. For every S3 object used as input for the transform job, the transformed data is stored in a corresponding subfolder in the location under the output prefix. For example, the input data s3://bucket-name/input-name-prefix/dataset01/data.csv will have the transformed data stored at s3://bucket-name/key-name-prefix/dataset01/, based on the original name, as a series of .part files (.part0001, part0002, etc).
+        public let s3OutputPath: String
+        /// Defines how to assemble the results of the transform job as a single S3 object. You should select a format that is most convenient to you. To concatenate the results in binary format, specify None. To add a newline character at the end of every transformed record, specify Line. To assemble the output in RecordIO format, specify RecordIO. The default value is None. For information about the RecordIO format, see Data Format.
+        public let assembleWith: AssemblyType?
+
+        public init(kmsKeyId: String? = nil, accept: String? = nil, s3OutputPath: String, assembleWith: AssemblyType? = nil) {
+            self.kmsKeyId = kmsKeyId
+            self.accept = accept
+            self.s3OutputPath = s3OutputPath
+            self.assembleWith = assembleWith
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case accept = "Accept"
+            case s3OutputPath = "S3OutputPath"
+            case assembleWith = "AssembleWith"
+        }
+    }
+
+    public enum SplitType: String, CustomStringConvertible, Codable {
+        case none = "None"
+        case line = "Line"
+        case recordio = "RecordIO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrderKey: String, CustomStringConvertible, Codable {
+        case ascending = "Ascending"
+        case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrainingInstanceType: String, CustomStringConvertible, Codable {
+        case mlM4Xlarge = "ml.m4.xlarge"
+        case mlM42Xlarge = "ml.m4.2xlarge"
+        case mlM44Xlarge = "ml.m4.4xlarge"
+        case mlM410Xlarge = "ml.m4.10xlarge"
+        case mlM416Xlarge = "ml.m4.16xlarge"
+        case mlM5Large = "ml.m5.large"
+        case mlM5Xlarge = "ml.m5.xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM512Xlarge = "ml.m5.12xlarge"
+        case mlM524Xlarge = "ml.m5.24xlarge"
+        case mlC4Xlarge = "ml.c4.xlarge"
+        case mlC42Xlarge = "ml.c4.2xlarge"
+        case mlC44Xlarge = "ml.c4.4xlarge"
+        case mlC48Xlarge = "ml.c4.8xlarge"
+        case mlP2Xlarge = "ml.p2.xlarge"
+        case mlP28Xlarge = "ml.p2.8xlarge"
+        case mlP216Xlarge = "ml.p2.16xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC52Xlarge = "ml.c5.2xlarge"
+        case mlC54Xlarge = "ml.c5.4xlarge"
+        case mlC59Xlarge = "ml.c5.9xlarge"
+        case mlC518Xlarge = "ml.c5.18xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListNotebookInstanceLifecycleConfigsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NameContains", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// Sorts the list of results. The default is CreationTime.
+        public let sortBy: NotebookInstanceLifecycleConfigSortKey?
+        /// A filter that returns only lifecycle configurations that were modified after the specified time (timestamp).
+        public let lastModifiedTimeAfter: TimeStamp?
+        /// A filter that returns only lifecycle configurations that were created after the specified time (timestamp).
+        public let creationTimeAfter: TimeStamp?
+        /// A string in the lifecycle configuration name. This filter returns only lifecycle configurations whose name contains the specified string.
+        public let nameContains: String?
+        /// The sort order for results.
+        public let sortOrder: NotebookInstanceLifecycleConfigSortOrder?
+        /// A filter that returns only lifecycle configurations that were modified before the specified time (timestamp).
+        public let lastModifiedTimeBefore: TimeStamp?
+        /// If the result of a ListNotebookInstanceLifecycleConfigs request was truncated, the response includes a NextToken. To get the next set of lifecycle configurations, use the token in the next request.
+        public let nextToken: String?
+        /// A filter that returns only lifecycle configurations that were created before the specified time (timestamp).
+        public let creationTimeBefore: TimeStamp?
+        /// The maximum number of lifecycle configurations to return in the response.
+        public let maxResults: Int32?
+
+        public init(sortBy: NotebookInstanceLifecycleConfigSortKey? = nil, lastModifiedTimeAfter: TimeStamp? = nil, creationTimeAfter: TimeStamp? = nil, nameContains: String? = nil, sortOrder: NotebookInstanceLifecycleConfigSortOrder? = nil, lastModifiedTimeBefore: TimeStamp? = nil, nextToken: String? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil) {
+            self.sortBy = sortBy
+            self.lastModifiedTimeAfter = lastModifiedTimeAfter
+            self.creationTimeAfter = creationTimeAfter
+            self.nameContains = nameContains
+            self.sortOrder = sortOrder
+            self.lastModifiedTimeBefore = lastModifiedTimeBefore
+            self.nextToken = nextToken
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case lastModifiedTimeAfter = "LastModifiedTimeAfter"
+            case creationTimeAfter = "CreationTimeAfter"
+            case nameContains = "NameContains"
+            case sortOrder = "SortOrder"
+            case lastModifiedTimeBefore = "LastModifiedTimeBefore"
+            case nextToken = "NextToken"
+            case creationTimeBefore = "CreationTimeBefore"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct DescribeTrainingJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrainingJobName", required: true, type: .string)
+        ]
+        /// The name of the training job.
+        public let trainingJobName: String
+
+        public init(trainingJobName: String) {
+            self.trainingJobName = trainingJobName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trainingJobName = "TrainingJobName"
+        }
+    }
+
+    public enum NotebookInstanceLifecycleConfigSortKey: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        case lastmodifiedtime = "LastModifiedTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrainingJobSortByOptions: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        case status = "Status"
+        case finalobjectivemetricvalue = "FinalObjectiveMetricValue"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeEndpointConfigOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointConfigArn", required: true, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "ProductionVariants", required: true, type: .list), 
+            AWSShapeMember(label: "EndpointConfigName", required: true, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the endpoint configuration.
+        public let endpointConfigArn: String
+        /// A timestamp that shows when the endpoint configuration was created.
+        public let creationTime: TimeStamp
+        /// An array of ProductionVariant objects, one for each model that you want to host at this endpoint.
+        public let productionVariants: [ProductionVariant]
+        /// Name of the Amazon SageMaker endpoint configuration.
+        public let endpointConfigName: String
+        /// AWS KMS key ID Amazon SageMaker uses to encrypt data when storing it on the ML storage volume attached to the instance.
+        public let kmsKeyId: String?
+
+        public init(endpointConfigArn: String, creationTime: TimeStamp, productionVariants: [ProductionVariant], endpointConfigName: String, kmsKeyId: String? = nil) {
+            self.endpointConfigArn = endpointConfigArn
+            self.creationTime = creationTime
+            self.productionVariants = productionVariants
+            self.endpointConfigName = endpointConfigName
+            self.kmsKeyId = kmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointConfigArn = "EndpointConfigArn"
+            case creationTime = "CreationTime"
+            case productionVariants = "ProductionVariants"
+            case endpointConfigName = "EndpointConfigName"
+            case kmsKeyId = "KmsKeyId"
+        }
+    }
+
+    public struct CreatePresignedNotebookInstanceUrlInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SessionExpirationDurationInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
+        ]
+        /// The duration of the session, in seconds. The default is 12 hours.
+        public let sessionExpirationDurationInSeconds: Int32?
+        /// The name of the notebook instance.
+        public let notebookInstanceName: String
+
+        public init(sessionExpirationDurationInSeconds: Int32? = nil, notebookInstanceName: String) {
+            self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
+            self.notebookInstanceName = notebookInstanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionExpirationDurationInSeconds = "SessionExpirationDurationInSeconds"
+            case notebookInstanceName = "NotebookInstanceName"
+        }
+    }
+
+    public struct CreateEndpointConfigOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointConfigArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the endpoint configuration. 
+        public let endpointConfigArn: String
+
+        public init(endpointConfigArn: String) {
+            self.endpointConfigArn = endpointConfigArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointConfigArn = "EndpointConfigArn"
+        }
+    }
+
+    public struct StoppingCondition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRuntimeInSeconds", required: false, type: .integer)
+        ]
+        /// The maximum length of time, in seconds, that the training job can run. If model training does not complete during this time, Amazon SageMaker ends the job. If value is not specified, default value is 1 day. Maximum value is 5 days.
+        public let maxRuntimeInSeconds: Int32?
+
+        public init(maxRuntimeInSeconds: Int32? = nil) {
+            self.maxRuntimeInSeconds = maxRuntimeInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRuntimeInSeconds = "MaxRuntimeInSeconds"
+        }
+    }
+
+    public struct StopHyperParameterTuningJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HyperParameterTuningJobName", required: true, type: .string)
+        ]
+        /// The name of the tuning job to stop.
+        public let hyperParameterTuningJobName: String
+
+        public init(hyperParameterTuningJobName: String) {
+            self.hyperParameterTuningJobName = hyperParameterTuningJobName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hyperParameterTuningJobName = "HyperParameterTuningJobName"
+        }
+    }
+
+    public struct TransformResources: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceType", required: true, type: .enum), 
+            AWSShapeMember(label: "InstanceCount", required: true, type: .integer)
+        ]
+        /// The ML compute instance type for the transform job. For using built-in algorithms to transform moderately sized datasets, ml.m4.xlarge or ml.m5.large should suffice. There is no default value for InstanceType.
+        public let instanceType: TransformInstanceType
+        /// The number of ML compute instances to use in the transform job. For distributed transform, provide a value greater than 1. The default value is 1.
+        public let instanceCount: Int32
+
+        public init(instanceType: TransformInstanceType, instanceCount: Int32) {
+            self.instanceType = instanceType
+            self.instanceCount = instanceCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceType = "InstanceType"
+            case instanceCount = "InstanceCount"
+        }
+    }
+
+    public struct ListTrainingJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TrainingJobSummaries", required: true, type: .list)
+        ]
+        /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of training jobs, use it in the subsequent request.
+        public let nextToken: String?
+        /// An array of TrainingJobSummary objects, each listing a training job.
+        public let trainingJobSummaries: [TrainingJobSummary]
+
+        public init(nextToken: String? = nil, trainingJobSummaries: [TrainingJobSummary]) {
+            self.nextToken = nextToken
+            self.trainingJobSummaries = trainingJobSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case trainingJobSummaries = "TrainingJobSummaries"
+        }
+    }
+
     public struct CreateTrainingJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
             AWSShapeMember(label: "AlgorithmSpecification", required: true, type: .structure), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
             AWSShapeMember(label: "HyperParameters", required: false, type: .map), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "InputDataConfig", required: true, type: .list), 
@@ -1247,9 +3058,11 @@ extension SageMaker {
         ]
         /// Specifies the path to the S3 bucket where you want to store model artifacts. Amazon SageMaker creates subfolders for the artifacts. 
         public let outputDataConfig: OutputDataConfig
-        /// The registry path of the Docker image that contains the training algorithm and algorithm-specific metadata, including the input mode. For more information about algorithms provided by Amazon SageMaker, see Algorithms. For information about providing your own algorithms, see Bring Your Own Algorithms . 
+        /// The registry path of the Docker image that contains the training algorithm and algorithm-specific metadata, including the input mode. For more information about algorithms provided by Amazon SageMaker, see Algorithms. For information about providing your own algorithms, see your-algorithms. 
         public let algorithmSpecification: AlgorithmSpecification
-        /// Algorithm-specific parameters. You set hyperparameters before you start the learning process. Hyperparameters influence the quality of the model. For a list of hyperparameters for each training algorithm provided by Amazon SageMaker, see Algorithms.  You can specify a maximum of 100 hyperparameters. Each hyperparameter is a key-value pair. Each key and value is limited to 256 characters, as specified by the Length Constraint. 
+        /// A VpcConfig object that specifies the VPC that you want your training job to connect to. Control access to and from your training container by configuring the VPC. For more information, see train-vpc 
+        public let vpcConfig: VpcConfig?
+        /// Algorithm-specific parameters that influence the quality of the model. You set hyperparameters before you start the learning process. For a list of hyperparameters for each training algorithm provided by Amazon SageMaker, see Algorithms.  You can specify a maximum of 100 hyperparameters. Each hyperparameter is a key-value pair. Each key and value is limited to 256 characters, as specified by the Length Constraint. 
         public let hyperParameters: [String: String]?
         /// An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide. 
         public let tags: [Tag]?
@@ -1257,16 +3070,17 @@ extension SageMaker {
         public let inputDataConfig: [Channel]
         /// The resources, including the ML compute instances and ML storage volumes, to use for model training.  ML storage volumes store model artifacts and incremental states. Training algorithms might also use ML storage volumes for scratch space. If you want Amazon SageMaker to use the ML storage volume to store the training data, choose File as the TrainingInputMode in the algorithm specification. For distributed training algorithms, specify an instance count greater than 1.
         public let resourceConfig: ResourceConfig
-        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.  During model training, Amazon SageMaker needs your permission to read input data from an S3 bucket, download a Docker image that contains training code, write model artifacts to an S3 bucket, write logs to Amazon CloudWatch Logs, and publish metrics to Amazon CloudWatch. You grant permissions for all of these tasks to an IAM role. For more information, see Amazon SageMaker Roles. 
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.  During model training, Amazon SageMaker needs your permission to read input data from an S3 bucket, download a Docker image that contains training code, write model artifacts to an S3 bucket, write logs to Amazon CloudWatch Logs, and publish metrics to Amazon CloudWatch. You grant permissions for all of these tasks to an IAM role. For more information, see Amazon SageMaker Roles.   To be able to pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission. 
         public let roleArn: String
-        /// The name of the training job. The name must be unique within an AWS Region in an AWS account. It appears in the Amazon SageMaker console. 
+        /// The name of the training job. The name must be unique within an AWS Region in an AWS account. 
         public let trainingJobName: String
         /// Sets a duration for training. Use this parameter to cap model training costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms might use this 120-second window to save the model artifacts.  When Amazon SageMaker terminates a job because the stopping condition has been met, training algorithms provided by Amazon SageMaker save the intermediate results of the job. This intermediate data is a valid model artifact. You can use it to create a model using the CreateModel API. 
         public let stoppingCondition: StoppingCondition
 
-        public init(outputDataConfig: OutputDataConfig, algorithmSpecification: AlgorithmSpecification, hyperParameters: [String: String]? = nil, tags: [Tag]? = nil, inputDataConfig: [Channel], resourceConfig: ResourceConfig, roleArn: String, trainingJobName: String, stoppingCondition: StoppingCondition) {
+        public init(outputDataConfig: OutputDataConfig, algorithmSpecification: AlgorithmSpecification, vpcConfig: VpcConfig? = nil, hyperParameters: [String: String]? = nil, tags: [Tag]? = nil, inputDataConfig: [Channel], resourceConfig: ResourceConfig, roleArn: String, trainingJobName: String, stoppingCondition: StoppingCondition) {
             self.outputDataConfig = outputDataConfig
             self.algorithmSpecification = algorithmSpecification
+            self.vpcConfig = vpcConfig
             self.hyperParameters = hyperParameters
             self.tags = tags
             self.inputDataConfig = inputDataConfig
@@ -1279,6 +3093,7 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case outputDataConfig = "OutputDataConfig"
             case algorithmSpecification = "AlgorithmSpecification"
+            case vpcConfig = "VpcConfig"
             case hyperParameters = "HyperParameters"
             case tags = "Tags"
             case inputDataConfig = "InputDataConfig"
@@ -1315,100 +3130,34 @@ extension SageMaker {
         }
     }
 
-    public struct DescribeTrainingJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlgorithmSpecification", required: true, type: .structure), 
-            AWSShapeMember(label: "InputDataConfig", required: true, type: .list), 
-            AWSShapeMember(label: "TrainingStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TrainingJobStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "ResourceConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "SecondaryStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "TrainingJobName", required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "TrainingJobArn", required: true, type: .string), 
-            AWSShapeMember(label: "ModelArtifacts", required: true, type: .structure), 
-            AWSShapeMember(label: "HyperParameters", required: false, type: .map), 
-            AWSShapeMember(label: "TrainingEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "StoppingCondition", required: true, type: .structure), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string)
-        ]
-        /// Information about the algorithm used for training, and algorithm metadata. 
-        public let algorithmSpecification: AlgorithmSpecification
-        /// An array of Channel objects that describes each data input channel. 
-        public let inputDataConfig: [Channel]
-        /// A timestamp that indicates when training started.
-        public let trainingStartTime: TimeStamp?
-        /// The status of the training job.  For the InProgress status, Amazon SageMaker can return these secondary statuses:   Starting - Preparing for training.   Downloading - Optional stage for algorithms that support File training input mode. It indicates data is being downloaded to ML storage volumes.   Training - Training is in progress.   Uploading - Training is complete and model upload is in progress.   For the Stopped training status, Amazon SageMaker can return these secondary statuses:   MaxRuntimeExceeded - Job stopped as a result of maximum allowed runtime exceeded.  
-        public let trainingJobStatus: TrainingJobStatus
-        /// Resources, including ML compute instances and ML storage volumes, that are configured for model training. 
-        public let resourceConfig: ResourceConfig
-        ///  Provides granular information about the system state. For more information, see TrainingJobStatus. 
-        public let secondaryStatus: SecondaryStatus
-        ///  Name of the model training job. 
-        public let trainingJobName: String
-        /// A timestamp that indicates when the training job was created.
-        public let creationTime: TimeStamp
-        /// A timestamp that indicates when the status of the training job was last modified.
-        public let lastModifiedTime: TimeStamp?
-        /// The S3 path where model artifacts that you configured when creating the job are stored. Amazon SageMaker creates subfolders for model artifacts. 
-        public let outputDataConfig: OutputDataConfig?
-        /// The Amazon Resource Name (ARN) of the training job.
-        public let trainingJobArn: String
-        /// Information about the Amazon S3 location that is configured for storing model artifacts. 
-        public let modelArtifacts: ModelArtifacts
-        /// Algorithm-specific parameters. 
-        public let hyperParameters: [String: String]?
-        /// A timestamp that indicates when model training ended.
-        public let trainingEndTime: TimeStamp?
-        /// If the training job failed, the reason it failed. 
-        public let failureReason: String?
-        /// The condition under which to stop the training job. 
-        public let stoppingCondition: StoppingCondition
-        /// The AWS Identity and Access Management (IAM) role configured for the training job. 
-        public let roleArn: String?
-
-        public init(algorithmSpecification: AlgorithmSpecification, inputDataConfig: [Channel], trainingStartTime: TimeStamp? = nil, trainingJobStatus: TrainingJobStatus, resourceConfig: ResourceConfig, secondaryStatus: SecondaryStatus, trainingJobName: String, creationTime: TimeStamp, lastModifiedTime: TimeStamp? = nil, outputDataConfig: OutputDataConfig? = nil, trainingJobArn: String, modelArtifacts: ModelArtifacts, hyperParameters: [String: String]? = nil, trainingEndTime: TimeStamp? = nil, failureReason: String? = nil, stoppingCondition: StoppingCondition, roleArn: String? = nil) {
-            self.algorithmSpecification = algorithmSpecification
-            self.inputDataConfig = inputDataConfig
-            self.trainingStartTime = trainingStartTime
-            self.trainingJobStatus = trainingJobStatus
-            self.resourceConfig = resourceConfig
-            self.secondaryStatus = secondaryStatus
-            self.trainingJobName = trainingJobName
-            self.creationTime = creationTime
-            self.lastModifiedTime = lastModifiedTime
-            self.outputDataConfig = outputDataConfig
-            self.trainingJobArn = trainingJobArn
-            self.modelArtifacts = modelArtifacts
-            self.hyperParameters = hyperParameters
-            self.trainingEndTime = trainingEndTime
-            self.failureReason = failureReason
-            self.stoppingCondition = stoppingCondition
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case algorithmSpecification = "AlgorithmSpecification"
-            case inputDataConfig = "InputDataConfig"
-            case trainingStartTime = "TrainingStartTime"
-            case trainingJobStatus = "TrainingJobStatus"
-            case resourceConfig = "ResourceConfig"
-            case secondaryStatus = "SecondaryStatus"
-            case trainingJobName = "TrainingJobName"
-            case creationTime = "CreationTime"
-            case lastModifiedTime = "LastModifiedTime"
-            case outputDataConfig = "OutputDataConfig"
-            case trainingJobArn = "TrainingJobArn"
-            case modelArtifacts = "ModelArtifacts"
-            case hyperParameters = "HyperParameters"
-            case trainingEndTime = "TrainingEndTime"
-            case failureReason = "FailureReason"
-            case stoppingCondition = "StoppingCondition"
-            case roleArn = "RoleArn"
-        }
+    public enum TransformInstanceType: String, CustomStringConvertible, Codable {
+        case mlM4Xlarge = "ml.m4.xlarge"
+        case mlM42Xlarge = "ml.m4.2xlarge"
+        case mlM44Xlarge = "ml.m4.4xlarge"
+        case mlM410Xlarge = "ml.m4.10xlarge"
+        case mlM416Xlarge = "ml.m4.16xlarge"
+        case mlC4Xlarge = "ml.c4.xlarge"
+        case mlC42Xlarge = "ml.c4.2xlarge"
+        case mlC44Xlarge = "ml.c4.4xlarge"
+        case mlC48Xlarge = "ml.c4.8xlarge"
+        case mlP2Xlarge = "ml.p2.xlarge"
+        case mlP28Xlarge = "ml.p2.8xlarge"
+        case mlP216Xlarge = "ml.p2.16xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC52Xlarge = "ml.c5.2xlarge"
+        case mlC54Xlarge = "ml.c5.4xlarge"
+        case mlC59Xlarge = "ml.c5.9xlarge"
+        case mlC518Xlarge = "ml.c5.18xlarge"
+        case mlM5Large = "ml.m5.large"
+        case mlM5Xlarge = "ml.m5.xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM512Xlarge = "ml.m5.12xlarge"
+        case mlM524Xlarge = "ml.m5.24xlarge"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListNotebookInstancesOutput: AWSShape {
@@ -1451,9 +3200,9 @@ extension SageMaker {
         public let lastModifiedTimeAfter: TimeStamp?
         /// If the result of the previous ListTrainingJobs request was truncated, the response includes a NextToken. To retrieve the next set of training jobs, use the token in the next request. 
         public let nextToken: String?
-        /// A filter that only training jobs created after the specified time (timestamp).
+        /// A filter that returns only training jobs created after the specified time (timestamp).
         public let creationTimeAfter: TimeStamp?
-        /// A string in the training job name. This filter returns only models whose name contains the specified string.
+        /// A string in the training job name. This filter returns only training jobs whose name contains the specified string.
         public let nameContains: String?
         /// The sort order for results. The default is Ascending.
         public let sortOrder: SortOrder?
@@ -1490,6 +3239,92 @@ extension SageMaker {
             case statusEquals = "StatusEquals"
             case creationTimeBefore = "CreationTimeBefore"
             case maxResults = "MaxResults"
+        }
+    }
+
+    public struct DescribeNotebookInstanceOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "NetworkInterfaceId", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
+            AWSShapeMember(label: "NotebookInstanceLifecycleConfigName", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "NotebookInstanceName", required: false, type: .string), 
+            AWSShapeMember(label: "Url", required: false, type: .string), 
+            AWSShapeMember(label: "DirectInternetAccess", required: false, type: .enum), 
+            AWSShapeMember(label: "NotebookInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "NotebookInstanceStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
+        ]
+        /// The ID of the VPC subnet.
+        public let subnetId: String?
+        ///  Network interface IDs that Amazon SageMaker created at the time of creating the instance. 
+        public let networkInterfaceId: String?
+        /// A timestamp. Use this parameter to return the time when the notebook instance was created
+        public let creationTime: TimeStamp?
+        /// The type of ML compute instance running on the notebook instance.
+        public let instanceType: InstanceType?
+        /// Returns the name of a notebook instance lifecycle configuration. For information about notebook instance lifestyle configurations, see notebook-lifecycle-config.
+        public let notebookInstanceLifecycleConfigName: String?
+        /// A timestamp. Use this parameter to retrieve the time when the notebook instance was last modified. 
+        public let lastModifiedTime: TimeStamp?
+        /// The IDs of the VPC security groups.
+        public let securityGroups: [String]?
+        ///  Name of the Amazon SageMaker notebook instance. 
+        public let notebookInstanceName: String?
+        /// The URL that you use to connect to the Jupyter notebook that is running in your notebook instance. 
+        public let url: String?
+        /// Describes whether Amazon SageMaker provides internet access to the notebook instance. If this value is set to Disabled, he notebook instance does not have internet access, and cannot connect to Amazon SageMaker training and endpoint services. For more information, see appendix-notebook-and-internet-access.
+        public let directInternetAccess: DirectInternetAccess?
+        /// The Amazon Resource Name (ARN) of the notebook instance.
+        public let notebookInstanceArn: String?
+        /// If status is failed, the reason it failed.
+        public let failureReason: String?
+        /// The status of the notebook instance.
+        public let notebookInstanceStatus: NotebookInstanceStatus?
+        ///  Amazon Resource Name (ARN) of the IAM role associated with the instance. 
+        public let roleArn: String?
+        ///  AWS KMS key ID Amazon SageMaker uses to encrypt data when storing it on the ML storage volume attached to the instance. 
+        public let kmsKeyId: String?
+
+        public init(subnetId: String? = nil, networkInterfaceId: String? = nil, creationTime: TimeStamp? = nil, instanceType: InstanceType? = nil, notebookInstanceLifecycleConfigName: String? = nil, lastModifiedTime: TimeStamp? = nil, securityGroups: [String]? = nil, notebookInstanceName: String? = nil, url: String? = nil, directInternetAccess: DirectInternetAccess? = nil, notebookInstanceArn: String? = nil, failureReason: String? = nil, notebookInstanceStatus: NotebookInstanceStatus? = nil, roleArn: String? = nil, kmsKeyId: String? = nil) {
+            self.subnetId = subnetId
+            self.networkInterfaceId = networkInterfaceId
+            self.creationTime = creationTime
+            self.instanceType = instanceType
+            self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
+            self.lastModifiedTime = lastModifiedTime
+            self.securityGroups = securityGroups
+            self.notebookInstanceName = notebookInstanceName
+            self.url = url
+            self.directInternetAccess = directInternetAccess
+            self.notebookInstanceArn = notebookInstanceArn
+            self.failureReason = failureReason
+            self.notebookInstanceStatus = notebookInstanceStatus
+            self.roleArn = roleArn
+            self.kmsKeyId = kmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetId = "SubnetId"
+            case networkInterfaceId = "NetworkInterfaceId"
+            case creationTime = "CreationTime"
+            case instanceType = "InstanceType"
+            case notebookInstanceLifecycleConfigName = "NotebookInstanceLifecycleConfigName"
+            case lastModifiedTime = "LastModifiedTime"
+            case securityGroups = "SecurityGroups"
+            case notebookInstanceName = "NotebookInstanceName"
+            case url = "Url"
+            case directInternetAccess = "DirectInternetAccess"
+            case notebookInstanceArn = "NotebookInstanceArn"
+            case failureReason = "FailureReason"
+            case notebookInstanceStatus = "NotebookInstanceStatus"
+            case roleArn = "RoleArn"
+            case kmsKeyId = "KmsKeyId"
         }
     }
 
@@ -1555,80 +3390,139 @@ extension SageMaker {
         }
     }
 
-    public struct DescribeNotebookInstanceOutput: AWSShape {
+    public struct HyperParameterTrainingJobSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "NetworkInterfaceId", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "NotebookInstanceName", required: false, type: .string), 
-            AWSShapeMember(label: "Url", required: false, type: .string), 
-            AWSShapeMember(label: "NotebookInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "NotebookInstanceStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "TrainingJobArn", required: true, type: .string), 
+            AWSShapeMember(label: "TunedHyperParameters", required: true, type: .map), 
+            AWSShapeMember(label: "ObjectiveStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "TrainingJobStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "TrainingStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TrainingEndTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
+            AWSShapeMember(label: "TrainingJobName", required: true, type: .string), 
+            AWSShapeMember(label: "FinalHyperParameterTuningJobObjectiveMetric", required: false, type: .structure)
         ]
-        /// The ID of the VPC subnet.
-        public let subnetId: String?
-        ///  Network interface IDs that Amazon SageMaker created at the time of creating the instance. 
-        public let networkInterfaceId: String?
-        /// A timestamp. Use this parameter to return the time when the notebook instance was created
-        public let creationTime: TimeStamp?
-        /// The type of ML compute instance running on the notebook instance.
-        public let instanceType: InstanceType?
-        /// A timestamp. Use this parameter to retrieve the time when the notebook instance was last modified. 
-        public let lastModifiedTime: TimeStamp?
-        /// The IDs of the VPC security groups.
-        public let securityGroups: [String]?
-        ///  Name of the Amazon SageMaker notebook instance. 
-        public let notebookInstanceName: String?
-        /// The URL that you use to connect to the Jupyter notebook that is running in your notebook instance. 
-        public let url: String?
-        /// The Amazon Resource Name (ARN) of the notebook instance.
-        public let notebookInstanceArn: String?
-        ///  Amazon Resource Name (ARN) of the IAM role associated with the instance. 
-        public let roleArn: String?
-        /// The status of the notebook instance.
-        public let notebookInstanceStatus: NotebookInstanceStatus?
-        /// If staus is failed, the reason it failed.
+        /// The Amazon Resource Name (ARN) of the training job.
+        public let trainingJobArn: String
+        /// A list of the hyperparameters for which you specified ranges to search.
+        public let tunedHyperParameters: [String: String]
+        /// The status of the objective metric for the training job:   Succeeded: The final objective metric for the training job was evaluated by the hyperparameter tuning job and used in the hyperparameter tuning process.     Pending: The training job is in progress and evaluation of its final objective metric is pending.     Failed: The final objective metric for the training job was not evaluated, and was not used in the hyperparameter tuning process. This typically occurs when the training job failed or did not emit an objective metric.  
+        public let objectiveStatus: ObjectiveStatus?
+        /// The status of the training job.
+        public let trainingJobStatus: TrainingJobStatus
+        /// The date and time that the training job was created.
+        public let creationTime: TimeStamp
+        /// The date and time that the training job started.
+        public let trainingStartTime: TimeStamp?
+        /// The date and time that the training job ended.
+        public let trainingEndTime: TimeStamp?
+        /// The reason that the training job failed. 
         public let failureReason: String?
-        ///  AWS KMS key ID Amazon SageMaker uses to encrypt data when storing it on the ML storage volume attached to the instance. 
-        public let kmsKeyId: String?
+        /// The name of the training job.
+        public let trainingJobName: String
+        /// The FinalHyperParameterTuningJobObjectiveMetric object that specifies the value of the objective metric of the tuning job that launched this training job.
+        public let finalHyperParameterTuningJobObjectiveMetric: FinalHyperParameterTuningJobObjectiveMetric?
 
-        public init(subnetId: String? = nil, networkInterfaceId: String? = nil, creationTime: TimeStamp? = nil, instanceType: InstanceType? = nil, lastModifiedTime: TimeStamp? = nil, securityGroups: [String]? = nil, notebookInstanceName: String? = nil, url: String? = nil, notebookInstanceArn: String? = nil, roleArn: String? = nil, notebookInstanceStatus: NotebookInstanceStatus? = nil, failureReason: String? = nil, kmsKeyId: String? = nil) {
-            self.subnetId = subnetId
-            self.networkInterfaceId = networkInterfaceId
+        public init(trainingJobArn: String, tunedHyperParameters: [String: String], objectiveStatus: ObjectiveStatus? = nil, trainingJobStatus: TrainingJobStatus, creationTime: TimeStamp, trainingStartTime: TimeStamp? = nil, trainingEndTime: TimeStamp? = nil, failureReason: String? = nil, trainingJobName: String, finalHyperParameterTuningJobObjectiveMetric: FinalHyperParameterTuningJobObjectiveMetric? = nil) {
+            self.trainingJobArn = trainingJobArn
+            self.tunedHyperParameters = tunedHyperParameters
+            self.objectiveStatus = objectiveStatus
+            self.trainingJobStatus = trainingJobStatus
             self.creationTime = creationTime
-            self.instanceType = instanceType
-            self.lastModifiedTime = lastModifiedTime
-            self.securityGroups = securityGroups
-            self.notebookInstanceName = notebookInstanceName
-            self.url = url
-            self.notebookInstanceArn = notebookInstanceArn
-            self.roleArn = roleArn
-            self.notebookInstanceStatus = notebookInstanceStatus
+            self.trainingStartTime = trainingStartTime
+            self.trainingEndTime = trainingEndTime
             self.failureReason = failureReason
-            self.kmsKeyId = kmsKeyId
+            self.trainingJobName = trainingJobName
+            self.finalHyperParameterTuningJobObjectiveMetric = finalHyperParameterTuningJobObjectiveMetric
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subnetId = "SubnetId"
-            case networkInterfaceId = "NetworkInterfaceId"
+            case trainingJobArn = "TrainingJobArn"
+            case tunedHyperParameters = "TunedHyperParameters"
+            case objectiveStatus = "ObjectiveStatus"
+            case trainingJobStatus = "TrainingJobStatus"
             case creationTime = "CreationTime"
-            case instanceType = "InstanceType"
-            case lastModifiedTime = "LastModifiedTime"
-            case securityGroups = "SecurityGroups"
-            case notebookInstanceName = "NotebookInstanceName"
-            case url = "Url"
-            case notebookInstanceArn = "NotebookInstanceArn"
-            case roleArn = "RoleArn"
-            case notebookInstanceStatus = "NotebookInstanceStatus"
+            case trainingStartTime = "TrainingStartTime"
+            case trainingEndTime = "TrainingEndTime"
             case failureReason = "FailureReason"
-            case kmsKeyId = "KmsKeyId"
+            case trainingJobName = "TrainingJobName"
+            case finalHyperParameterTuningJobObjectiveMetric = "FinalHyperParameterTuningJobObjectiveMetric"
         }
+    }
+
+    public enum ObjectiveStatus: String, CustomStringConvertible, Codable {
+        case succeeded = "Succeeded"
+        case pending = "Pending"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListTransformJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NameContains", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StatusEquals", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// The field to sort results by. The default is CreationTime.
+        public let sortBy: SortBy?
+        /// A filter that returns only transform jobs modified after the specified time.
+        public let lastModifiedTimeAfter: TimeStamp?
+        /// If the result of the previous ListTransformJobs request was truncated, the response includes a NextToken. To retrieve the next set of transform jobs, use the token in the next request.
+        public let nextToken: String?
+        /// A filter that returns only transform jobs created after the specified time.
+        public let creationTimeAfter: TimeStamp?
+        /// A string in the transform job name. This filter returns only transform jobs whose name contains the specified string.
+        public let nameContains: String?
+        /// The sort order for results. The default is Descending.
+        public let sortOrder: SortOrder?
+        /// A filter that returns only transform jobs modified before the specified time.
+        public let lastModifiedTimeBefore: TimeStamp?
+        /// A filter that retrieves only transform jobs with a specific status.
+        public let statusEquals: TransformJobStatus?
+        /// A filter that returns only transform jobs created before the specified time.
+        public let creationTimeBefore: TimeStamp?
+        /// The maximum number of transform jobs to return in the response. The default value is 10.
+        public let maxResults: Int32?
+
+        public init(sortBy: SortBy? = nil, lastModifiedTimeAfter: TimeStamp? = nil, nextToken: String? = nil, creationTimeAfter: TimeStamp? = nil, nameContains: String? = nil, sortOrder: SortOrder? = nil, lastModifiedTimeBefore: TimeStamp? = nil, statusEquals: TransformJobStatus? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil) {
+            self.sortBy = sortBy
+            self.lastModifiedTimeAfter = lastModifiedTimeAfter
+            self.nextToken = nextToken
+            self.creationTimeAfter = creationTimeAfter
+            self.nameContains = nameContains
+            self.sortOrder = sortOrder
+            self.lastModifiedTimeBefore = lastModifiedTimeBefore
+            self.statusEquals = statusEquals
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case lastModifiedTimeAfter = "LastModifiedTimeAfter"
+            case nextToken = "NextToken"
+            case creationTimeAfter = "CreationTimeAfter"
+            case nameContains = "NameContains"
+            case sortOrder = "SortOrder"
+            case lastModifiedTimeBefore = "LastModifiedTimeBefore"
+            case statusEquals = "StatusEquals"
+            case creationTimeBefore = "CreationTimeBefore"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public enum AssemblyType: String, CustomStringConvertible, Codable {
+        case none = "None"
+        case line = "Line"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteTagsInput: AWSShape {
@@ -1686,7 +3580,10 @@ extension SageMaker {
 
     public enum SecondaryStatus: String, CustomStringConvertible, Codable {
         case starting = "Starting"
+        case launchingmlinstances = "LaunchingMLInstances"
+        case preparingtrainingstack = "PreparingTrainingStack"
         case downloading = "Downloading"
+        case downloadingtrainingimage = "DownloadingTrainingImage"
         case training = "Training"
         case uploading = "Uploading"
         case stopping = "Stopping"
@@ -1695,68 +3592,6 @@ extension SageMaker {
         case completed = "Completed"
         case failed = "Failed"
         public var description: String { return self.rawValue }
-    }
-
-    public struct ResourceConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceType", required: true, type: .enum), 
-            AWSShapeMember(label: "VolumeSizeInGB", required: true, type: .integer), 
-            AWSShapeMember(label: "InstanceCount", required: true, type: .integer)
-        ]
-        /// The ML compute instance type. 
-        public let instanceType: TrainingInstanceType
-        /// The size of the ML storage volume that you want to provision.  ML storage volumes store model artifacts and incremental states. Training algorithms might also use the ML storage volume for scratch space. If you want to store the training data in the ML storage volume, choose File as the TrainingInputMode in the algorithm specification.  You must specify sufficient ML storage for your scenario.    Amazon SageMaker supports only the General Purpose SSD (gp2) ML storage volume type.  
-        public let volumeSizeInGB: Int32
-        /// The number of ML compute instances to use. For distributed training, provide a value greater than 1. 
-        public let instanceCount: Int32
-
-        public init(instanceType: TrainingInstanceType, volumeSizeInGB: Int32, instanceCount: Int32) {
-            self.instanceType = instanceType
-            self.volumeSizeInGB = volumeSizeInGB
-            self.instanceCount = instanceCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceType = "InstanceType"
-            case volumeSizeInGB = "VolumeSizeInGB"
-            case instanceCount = "InstanceCount"
-        }
-    }
-
-    public struct EndpointSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "EndpointName", required: true, type: .string), 
-            AWSShapeMember(label: "EndpointStatus", required: true, type: .enum)
-        ]
-        /// A timestamp that shows when the endpoint was last modified.
-        public let lastModifiedTime: TimeStamp
-        /// The Amazon Resource Name (ARN) of the endpoint.
-        public let endpointArn: String
-        /// A timestamp that shows when the endpoint was created.
-        public let creationTime: TimeStamp
-        /// The name of the endpoint.
-        public let endpointName: String
-        /// The status of the endpoint.
-        public let endpointStatus: EndpointStatus
-
-        public init(lastModifiedTime: TimeStamp, endpointArn: String, creationTime: TimeStamp, endpointName: String, endpointStatus: EndpointStatus) {
-            self.lastModifiedTime = lastModifiedTime
-            self.endpointArn = endpointArn
-            self.creationTime = creationTime
-            self.endpointName = endpointName
-            self.endpointStatus = endpointStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastModifiedTime = "LastModifiedTime"
-            case endpointArn = "EndpointArn"
-            case creationTime = "CreationTime"
-            case endpointName = "EndpointName"
-            case endpointStatus = "EndpointStatus"
-        }
     }
 
     public struct EndpointConfigSummary: AWSShape {
@@ -1785,6 +3620,48 @@ extension SageMaker {
         }
     }
 
+    public struct StopTransformJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TransformJobName", required: true, type: .string)
+        ]
+        /// The name of the transform job to stop.
+        public let transformJobName: String
+
+        public init(transformJobName: String) {
+            self.transformJobName = transformJobName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transformJobName = "TransformJobName"
+        }
+    }
+
+    public struct ParameterRanges: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IntegerParameterRanges", required: false, type: .list), 
+            AWSShapeMember(label: "CategoricalParameterRanges", required: false, type: .list), 
+            AWSShapeMember(label: "ContinuousParameterRanges", required: false, type: .list)
+        ]
+        /// The array of IntegerParameterRange objects that specify ranges of integer hyperparameters that a hyperparameter tuning job searches.
+        public let integerParameterRanges: [IntegerParameterRange]?
+        /// The array of CategoricalParameterRange objects that specify ranges of categorical hyperparameters that a hyperparameter tuning job searches.
+        public let categoricalParameterRanges: [CategoricalParameterRange]?
+        /// The array of ContinuousParameterRange objects that specify ranges of continuous hyperparameters that a hyperparameter tuning job searches.
+        public let continuousParameterRanges: [ContinuousParameterRange]?
+
+        public init(integerParameterRanges: [IntegerParameterRange]? = nil, categoricalParameterRanges: [CategoricalParameterRange]? = nil, continuousParameterRanges: [ContinuousParameterRange]? = nil) {
+            self.integerParameterRanges = integerParameterRanges
+            self.categoricalParameterRanges = categoricalParameterRanges
+            self.continuousParameterRanges = continuousParameterRanges
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integerParameterRanges = "IntegerParameterRanges"
+            case categoricalParameterRanges = "CategoricalParameterRanges"
+            case continuousParameterRanges = "ContinuousParameterRanges"
+        }
+    }
+
     public struct ListEndpointConfigsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -1806,42 +3683,41 @@ extension SageMaker {
         }
     }
 
-    public enum NotebookInstanceStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inservice = "InService"
-        case stopping = "Stopping"
-        case stopped = "Stopped"
-        case failed = "Failed"
-        case deleting = "Deleting"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SortBy: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        case status = "Status"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AlgorithmSpecification: AWSShape {
+    public struct SecondaryStatusTransition: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrainingInputMode", required: true, type: .enum), 
-            AWSShapeMember(label: "TrainingImage", required: true, type: .string)
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
         ]
-        /// The input mode that the algorithm supports. For the input modes that Amazon SageMaker algorithms support, see Algorithms. If an algorithm supports the File input mode, Amazon SageMaker downloads the training data from S3 to the provisioned ML storage Volume, and mounts the directory to docker volume for training container. If an algorithm supports the Pipe input mode, Amazon SageMaker streams data directly from S3 to the container.   In File mode, make sure you provision ML storage volume with sufficient capacity to accomodate the data download from S3. In addition to the training data, the ML storage volume also stores the output model. The algorithm container use ML storage volume to also store intermediate information, if any.   For distributed algorithms using File mode, training data is distributed uniformly, and your training duration is predictable if the input data objects size is approximately same. Amazon SageMaker does not split the files any further for model training. If the object sizes are skewed, training won't be optimal as the data distribution is also skewed where one host in a training cluster is overloaded, thus becoming bottleneck in training. 
-        public let trainingInputMode: TrainingInputMode
-        /// The registry path of the Docker image that contains the training algorithm. For information about using your own algorithms, see Docker Registry Paths for Algorithms Provided by Amazon SageMaker . 
-        public let trainingImage: String
+        /// A timestamp that shows when the training job has entered this secondary status.
+        public let startTime: TimeStamp
+        /// Provides granular information about the system state. For more information, see SecondaryStatus under the DescribeTrainingJob response elements.
+        public let status: SecondaryStatus
+        /// A timestamp that shows when the secondary status has ended and the job has transitioned into another secondary status. The EndTime timestamp is also set after the training job has ended.
+        public let endTime: TimeStamp?
+        /// Shows a brief description and other information about the secondary status. For example, the LaunchingMLInstances secondary status could show a status message of "Insufficent capacity error while launching instances".
+        public let statusMessage: String?
 
-        public init(trainingInputMode: TrainingInputMode, trainingImage: String) {
-            self.trainingInputMode = trainingInputMode
-            self.trainingImage = trainingImage
+        public init(startTime: TimeStamp, status: SecondaryStatus, endTime: TimeStamp? = nil, statusMessage: String? = nil) {
+            self.startTime = startTime
+            self.status = status
+            self.endTime = endTime
+            self.statusMessage = statusMessage
         }
 
         private enum CodingKeys: String, CodingKey {
-            case trainingInputMode = "TrainingInputMode"
-            case trainingImage = "TrainingImage"
+            case startTime = "StartTime"
+            case status = "Status"
+            case endTime = "EndTime"
+            case statusMessage = "StatusMessage"
         }
+    }
+
+    public enum CompressionType: String, CustomStringConvertible, Codable {
+        case none = "None"
+        case gzip = "Gzip"
+        public var description: String { return self.rawValue }
     }
 
     public struct AddTagsInput: AWSShape {
@@ -1849,7 +3725,7 @@ extension SageMaker {
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
-        /// The Amazon Resource Name (ARN) of the resource that you want to tag. 
+        /// The Amazon Resource Name (ARN) of the resource that you want to tag.
         public let resourceArn: String
         /// An array of Tag objects. Each tag is a key-value pair. Only the key parameter is required. If you don't specify a value, Amazon SageMaker sets the value to an empty string. 
         public let tags: [Tag]
@@ -1865,143 +3741,86 @@ extension SageMaker {
         }
     }
 
-    public enum CompressionType: String, CustomStringConvertible, Codable {
-        case none = "None"
-        case gzip = "Gzip"
-        public var description: String { return self.rawValue }
+    public struct TransformJobSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "TransformJobArn", required: true, type: .string), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "TransformJobStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "TransformEndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TransformJobName", required: true, type: .string)
+        ]
+        /// Indicates when the transform job was last modified.
+        public let lastModifiedTime: TimeStamp?
+        /// A timestamp that shows when the transform Job was created.
+        public let creationTime: TimeStamp
+        /// The Amazon Resource Name (ARN) of the transform job.
+        public let transformJobArn: String
+        /// If the transform job failed, the reason it failed.
+        public let failureReason: String?
+        /// The status of the transform job.
+        public let transformJobStatus: TransformJobStatus
+        /// Indicates when the transform job ends on compute instances. For successful jobs and stopped jobs, this is the exact time recorded after the results are uploaded. For failed jobs, this is when Amazon SageMaker detected that the job failed.
+        public let transformEndTime: TimeStamp?
+        /// The name of the transform job.
+        public let transformJobName: String
+
+        public init(lastModifiedTime: TimeStamp? = nil, creationTime: TimeStamp, transformJobArn: String, failureReason: String? = nil, transformJobStatus: TransformJobStatus, transformEndTime: TimeStamp? = nil, transformJobName: String) {
+            self.lastModifiedTime = lastModifiedTime
+            self.creationTime = creationTime
+            self.transformJobArn = transformJobArn
+            self.failureReason = failureReason
+            self.transformJobStatus = transformJobStatus
+            self.transformEndTime = transformEndTime
+            self.transformJobName = transformJobName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedTime = "LastModifiedTime"
+            case creationTime = "CreationTime"
+            case transformJobArn = "TransformJobArn"
+            case failureReason = "FailureReason"
+            case transformJobStatus = "TransformJobStatus"
+            case transformEndTime = "TransformEndTime"
+            case transformJobName = "TransformJobName"
+        }
     }
 
-    public enum NotebookInstanceSortOrder: String, CustomStringConvertible, Codable {
-        case ascending = "Ascending"
-        case descending = "Descending"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TrainingJobStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case completed = "Completed"
-        case failed = "Failed"
-        case stopping = "Stopping"
-        case stopped = "Stopped"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListTagsOutput: AWSShape {
+    public struct ListTransformJobsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
+            AWSShapeMember(label: "TransformJobSummaries", required: true, type: .list)
         ]
-        ///  If response is truncated, Amazon SageMaker includes a token in the response. You can use this token in your subsequent request to fetch next set of tokens. 
+        /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of transform jobs, use it in the next request.
         public let nextToken: String?
-        /// An array of Tag objects, each with a tag key and a value.
-        public let tags: [Tag]?
+        /// An array of TransformJobSummary objects.
+        public let transformJobSummaries: [TransformJobSummary]
 
-        public init(nextToken: String? = nil, tags: [Tag]? = nil) {
+        public init(nextToken: String? = nil, transformJobSummaries: [TransformJobSummary]) {
             self.nextToken = nextToken
-            self.tags = tags
+            self.transformJobSummaries = transformJobSummaries
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
-            case tags = "Tags"
+            case transformJobSummaries = "TransformJobSummaries"
         }
     }
 
-    public struct CreateEndpointInput: AWSShape {
+    public struct TransformDataSource: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointConfigName", required: true, type: .string), 
-            AWSShapeMember(label: "EndpointName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
+            AWSShapeMember(label: "S3DataSource", required: true, type: .structure)
         ]
-        /// The name of an endpoint configuration. For more information, see CreateEndpointConfig. 
-        public let endpointConfigName: String
-        /// The name of the endpoint. The name must be unique within an AWS Region in your AWS account.
-        public let endpointName: String
-        /// An array of key-value pairs. For more information, see Using Cost Allocation Tagsin the AWS Billing and Cost Management User Guide. 
-        public let tags: [Tag]?
+        /// The S3 location of the data source that is associated with a channel.
+        public let s3DataSource: TransformS3DataSource
 
-        public init(endpointConfigName: String, endpointName: String, tags: [Tag]? = nil) {
-            self.endpointConfigName = endpointConfigName
-            self.endpointName = endpointName
-            self.tags = tags
+        public init(s3DataSource: TransformS3DataSource) {
+            self.s3DataSource = s3DataSource
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpointConfigName = "EndpointConfigName"
-            case endpointName = "EndpointName"
-            case tags = "Tags"
-        }
-    }
-
-    public struct UpdateNotebookInstanceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
-        ]
-        /// The Amazon ML compute instance type.
-        public let instanceType: InstanceType?
-        /// Amazon Resource Name (ARN) of the IAM role to associate with the instance.
-        public let roleArn: String?
-        /// The name of the notebook instance to update.
-        public let notebookInstanceName: String
-
-        public init(instanceType: InstanceType? = nil, roleArn: String? = nil, notebookInstanceName: String) {
-            self.instanceType = instanceType
-            self.roleArn = roleArn
-            self.notebookInstanceName = notebookInstanceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceType = "InstanceType"
-            case roleArn = "RoleArn"
-            case notebookInstanceName = "NotebookInstanceName"
-        }
-    }
-
-    public struct CreateNotebookInstanceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .enum), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
-        ]
-        /// The ID of the subnet in a VPC to which you would like to have a connectivity from your ML compute instance. 
-        public let subnetId: String?
-        /// The name of the new notebook instance.
-        public let notebookInstanceName: String
-        /// A list of tags to associate with the notebook instance. You can add tags later by using the CreateTags API.
-        public let tags: [Tag]?
-        /// The VPC security group IDs, in the form sg-xxxxxxxx. The security groups must be for the same VPC as specified in the subnet. 
-        public let securityGroupIds: [String]?
-        ///  When you send any requests to AWS resources from the notebook instance, Amazon SageMaker assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so Amazon SageMaker can perform these tasks. The policy must allow the Amazon SageMaker service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see Amazon SageMaker Roles. 
-        public let roleArn: String
-        /// The type of ML compute instance to launch for the notebook instance.
-        public let instanceType: InstanceType
-        ///  If you provide a AWS KMS key ID, Amazon SageMaker uses it to encrypt data at rest on the ML storage volume that is attached to your notebook instance. 
-        public let kmsKeyId: String?
-
-        public init(subnetId: String? = nil, notebookInstanceName: String, tags: [Tag]? = nil, securityGroupIds: [String]? = nil, roleArn: String, instanceType: InstanceType, kmsKeyId: String? = nil) {
-            self.subnetId = subnetId
-            self.notebookInstanceName = notebookInstanceName
-            self.tags = tags
-            self.securityGroupIds = securityGroupIds
-            self.roleArn = roleArn
-            self.instanceType = instanceType
-            self.kmsKeyId = kmsKeyId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnetId = "SubnetId"
-            case notebookInstanceName = "NotebookInstanceName"
-            case tags = "Tags"
-            case securityGroupIds = "SecurityGroupIds"
-            case roleArn = "RoleArn"
-            case instanceType = "InstanceType"
-            case kmsKeyId = "KmsKeyId"
+            case s3DataSource = "S3DataSource"
         }
     }
 
@@ -2019,26 +3838,6 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case trainingJobName = "TrainingJobName"
         }
-    }
-
-    public struct StopNotebookInstanceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
-        ]
-        /// The name of the notebook instance to terminate.
-        public let notebookInstanceName: String
-
-        public init(notebookInstanceName: String) {
-            self.notebookInstanceName = notebookInstanceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notebookInstanceName = "NotebookInstanceName"
-        }
-    }
-
-    public struct UpdateNotebookInstanceOutput: AWSShape {
-
     }
 
     public struct DeleteTagsOutput: AWSShape {

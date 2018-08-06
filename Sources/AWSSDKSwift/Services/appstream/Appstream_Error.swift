@@ -6,6 +6,7 @@ import AWSSDKSwiftCore
 public enum AppstreamError: AWSErrorType {
     case resourceInUseException(message: String?)
     case limitExceededException(message: String?)
+    case invalidAccountStatusException(message: String?)
     case invalidRoleException(message: String?)
     case resourceNotFoundException(message: String?)
     case resourceNotAvailableException(message: String?)
@@ -27,6 +28,8 @@ extension AppstreamError {
             self = .resourceInUseException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "InvalidAccountStatusException":
+            self = .invalidAccountStatusException(message: message)
         case "InvalidRoleException":
             self = .invalidRoleException(message: message)
         case "ResourceNotFoundException":
