@@ -187,8 +187,8 @@ extension Workdocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
             AWSShapeMember(label: "ParentId", required: false, type: .string), 
-            AWSShapeMember(label: "ThreadId", required: false, type: .string), 
             AWSShapeMember(label: "Text", required: true, type: .string), 
+            AWSShapeMember(label: "ThreadId", required: false, type: .string), 
             AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
             AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
             AWSShapeMember(label: "Visibility", required: false, type: .enum), 
@@ -198,10 +198,10 @@ extension Workdocs {
         public let authenticationToken: String?
         /// The ID of the parent comment.
         public let parentId: String?
-        /// The ID of the root comment in the thread.
-        public let threadId: String?
         /// The text of the comment.
         public let text: String
+        /// The ID of the root comment in the thread.
+        public let threadId: String?
         /// The ID of the document version.
         public let versionId: String
         /// The ID of the document.
@@ -211,11 +211,11 @@ extension Workdocs {
         /// Set this parameter to TRUE to send an email out to the document collaborators after the comment is created.
         public let notifyCollaborators: Bool?
 
-        public init(authenticationToken: String? = nil, parentId: String? = nil, threadId: String? = nil, text: String, versionId: String, documentId: String, visibility: CommentVisibilityType? = nil, notifyCollaborators: Bool? = nil) {
+        public init(authenticationToken: String? = nil, parentId: String? = nil, text: String, threadId: String? = nil, versionId: String, documentId: String, visibility: CommentVisibilityType? = nil, notifyCollaborators: Bool? = nil) {
             self.authenticationToken = authenticationToken
             self.parentId = parentId
-            self.threadId = threadId
             self.text = text
+            self.threadId = threadId
             self.versionId = versionId
             self.documentId = documentId
             self.visibility = visibility
@@ -225,8 +225,8 @@ extension Workdocs {
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case parentId = "ParentId"
-            case threadId = "ThreadId"
             case text = "Text"
+            case threadId = "ThreadId"
             case versionId = "VersionId"
             case documentId = "DocumentId"
             case visibility = "Visibility"
@@ -810,17 +810,17 @@ extension Workdocs {
 
     public struct InitiateDocumentVersionUploadRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentSizeInBytes", required: false, type: .long), 
             AWSShapeMember(label: "ContentModifiedTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "ContentType", required: false, type: .string), 
             AWSShapeMember(label: "ParentFolderId", required: true, type: .string), 
             AWSShapeMember(label: "ContentCreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DocumentSizeInBytes", required: false, type: .long)
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// The ID of the document.
-        public let id: String?
+        /// The size of the document, in bytes.
+        public let documentSizeInBytes: Int64?
         /// The timestamp when the content of the document was modified.
         public let contentModifiedTimestamp: TimeStamp?
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -833,29 +833,29 @@ extension Workdocs {
         public let parentFolderId: String
         /// The timestamp when the content of the document was originally created.
         public let contentCreatedTimestamp: TimeStamp?
-        /// The size of the document, in bytes.
-        public let documentSizeInBytes: Int64?
+        /// The ID of the document.
+        public let id: String?
 
-        public init(id: String? = nil, contentModifiedTimestamp: TimeStamp? = nil, authenticationToken: String? = nil, name: String? = nil, contentType: String? = nil, parentFolderId: String, contentCreatedTimestamp: TimeStamp? = nil, documentSizeInBytes: Int64? = nil) {
-            self.id = id
+        public init(documentSizeInBytes: Int64? = nil, contentModifiedTimestamp: TimeStamp? = nil, authenticationToken: String? = nil, name: String? = nil, contentType: String? = nil, parentFolderId: String, contentCreatedTimestamp: TimeStamp? = nil, id: String? = nil) {
+            self.documentSizeInBytes = documentSizeInBytes
             self.contentModifiedTimestamp = contentModifiedTimestamp
             self.authenticationToken = authenticationToken
             self.name = name
             self.contentType = contentType
             self.parentFolderId = parentFolderId
             self.contentCreatedTimestamp = contentCreatedTimestamp
-            self.documentSizeInBytes = documentSizeInBytes
+            self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
+            case documentSizeInBytes = "DocumentSizeInBytes"
             case contentModifiedTimestamp = "ContentModifiedTimestamp"
             case authenticationToken = "Authentication"
             case name = "Name"
             case contentType = "ContentType"
             case parentFolderId = "ParentFolderId"
             case contentCreatedTimestamp = "ContentCreatedTimestamp"
-            case documentSizeInBytes = "DocumentSizeInBytes"
+            case id = "Id"
         }
     }
 
@@ -1016,17 +1016,17 @@ extension Workdocs {
 
     public struct Activity: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OriginalParent", required: false, type: .structure), 
+            AWSShapeMember(label: "Participants", required: false, type: .structure), 
             AWSShapeMember(label: "CommentMetadata", required: false, type: .structure), 
             AWSShapeMember(label: "ResourceMetadata", required: false, type: .structure), 
             AWSShapeMember(label: "Initiator", required: false, type: .structure), 
             AWSShapeMember(label: "TimeStamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Participants", required: false, type: .structure), 
             AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "OriginalParent", required: false, type: .structure)
         ]
-        /// The original parent of the resource. This is an optional field and is filled for move activities.
-        public let originalParent: ResourceMetadata?
+        /// The list of users or groups impacted by this action. This is an optional field and is filled for the following sharing activities: DOCUMENT_SHARED, DOCUMENT_SHARED, DOCUMENT_UNSHARED, FOLDER_SHARED, FOLDER_UNSHARED.
+        public let participants: Participants?
         /// Metadata of the commenting activity. This is an optional field and is filled for commenting activities.
         public let commentMetadata: CommentMetadata?
         /// The metadata of the resource involved in the user action.
@@ -1035,33 +1035,33 @@ extension Workdocs {
         public let initiator: UserMetadata?
         /// The timestamp when the action was performed.
         public let timeStamp: TimeStamp?
-        /// The list of users or groups impacted by this action. This is an optional field and is filled for the following sharing activities: DOCUMENT_SHARED, DOCUMENT_SHARED, DOCUMENT_UNSHARED, FOLDER_SHARED, FOLDER_UNSHARED.
-        public let participants: Participants?
         /// The ID of the organization.
         public let organizationId: String?
         /// The activity type.
         public let `type`: ActivityType?
+        /// The original parent of the resource. This is an optional field and is filled for move activities.
+        public let originalParent: ResourceMetadata?
 
-        public init(originalParent: ResourceMetadata? = nil, commentMetadata: CommentMetadata? = nil, resourceMetadata: ResourceMetadata? = nil, initiator: UserMetadata? = nil, timeStamp: TimeStamp? = nil, participants: Participants? = nil, organizationId: String? = nil, type: ActivityType? = nil) {
-            self.originalParent = originalParent
+        public init(participants: Participants? = nil, commentMetadata: CommentMetadata? = nil, resourceMetadata: ResourceMetadata? = nil, initiator: UserMetadata? = nil, timeStamp: TimeStamp? = nil, organizationId: String? = nil, type: ActivityType? = nil, originalParent: ResourceMetadata? = nil) {
+            self.participants = participants
             self.commentMetadata = commentMetadata
             self.resourceMetadata = resourceMetadata
             self.initiator = initiator
             self.timeStamp = timeStamp
-            self.participants = participants
             self.organizationId = organizationId
             self.`type` = `type`
+            self.originalParent = originalParent
         }
 
         private enum CodingKeys: String, CodingKey {
-            case originalParent = "OriginalParent"
+            case participants = "Participants"
             case commentMetadata = "CommentMetadata"
             case resourceMetadata = "ResourceMetadata"
             case initiator = "Initiator"
             case timeStamp = "TimeStamp"
-            case participants = "Participants"
             case organizationId = "OrganizationId"
             case `type` = "Type"
+            case originalParent = "OriginalParent"
         }
     }
 

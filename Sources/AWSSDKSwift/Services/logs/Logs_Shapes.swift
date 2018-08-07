@@ -657,31 +657,31 @@ extension Logs {
 
     public struct DescribeSubscriptionFiltersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filterNamePrefix", required: false, type: .string), 
             AWSShapeMember(label: "limit", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "filterNamePrefix", required: false, type: .string), 
             AWSShapeMember(label: "logGroupName", required: true, type: .string)
         ]
-        /// The prefix to match. If you don't specify a value, no prefix filter is applied.
-        public let filterNamePrefix: String?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
+        /// The prefix to match. If you don't specify a value, no prefix filter is applied.
+        public let filterNamePrefix: String?
         /// The name of the log group.
         public let logGroupName: String
 
-        public init(filterNamePrefix: String? = nil, limit: Int32? = nil, nextToken: String? = nil, logGroupName: String) {
-            self.filterNamePrefix = filterNamePrefix
+        public init(limit: Int32? = nil, nextToken: String? = nil, filterNamePrefix: String? = nil, logGroupName: String) {
             self.limit = limit
             self.nextToken = nextToken
+            self.filterNamePrefix = filterNamePrefix
             self.logGroupName = logGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterNamePrefix = "filterNamePrefix"
             case limit = "limit"
             case nextToken = "nextToken"
+            case filterNamePrefix = "filterNamePrefix"
             case logGroupName = "logGroupName"
         }
     }
@@ -776,30 +776,30 @@ extension Logs {
     public struct DescribeExportTasksRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "statusCode", required: false, type: .enum), 
             AWSShapeMember(label: "taskId", required: false, type: .string), 
+            AWSShapeMember(label: "statusCode", required: false, type: .enum), 
             AWSShapeMember(label: "limit", required: false, type: .integer)
         ]
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        /// The status code of the export task. Specifying a status code filters the results to zero or more export tasks.
-        public let statusCode: ExportTaskStatusCode?
         /// The ID of the export task. Specifying a task ID filters the results to zero or one export tasks.
         public let taskId: String?
+        /// The status code of the export task. Specifying a status code filters the results to zero or more export tasks.
+        public let statusCode: ExportTaskStatusCode?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int32?
 
-        public init(nextToken: String? = nil, statusCode: ExportTaskStatusCode? = nil, taskId: String? = nil, limit: Int32? = nil) {
+        public init(nextToken: String? = nil, taskId: String? = nil, statusCode: ExportTaskStatusCode? = nil, limit: Int32? = nil) {
             self.nextToken = nextToken
-            self.statusCode = statusCode
             self.taskId = taskId
+            self.statusCode = statusCode
             self.limit = limit
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
-            case statusCode = "statusCode"
             case taskId = "taskId"
+            case statusCode = "statusCode"
             case limit = "limit"
         }
     }

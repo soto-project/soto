@@ -5,6 +5,22 @@ import AWSSDKSwiftCore
 
 extension Xray {
 
+    public struct PutEncryptionConfigResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionConfig", required: false, type: .structure)
+        ]
+        /// The new encryption configuration.
+        public let encryptionConfig: EncryptionConfig?
+
+        public init(encryptionConfig: EncryptionConfig? = nil) {
+            self.encryptionConfig = encryptionConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConfig = "EncryptionConfig"
+        }
+    }
+
     public struct BatchGetTracesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -67,12 +83,18 @@ extension Xray {
         }
     }
 
+    public enum EncryptionType: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case kms = "KMS"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Segment: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Document", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// The segment document
+        /// The segment document.
         public let document: String?
         /// The segment's ID.
         public let id: String?
@@ -114,6 +136,12 @@ extension Xray {
         }
     }
 
+    public enum EncryptionStatus: String, CustomStringConvertible, Codable {
+        case updating = "UPDATING"
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ValueWithServiceIds: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceIds", required: false, type: .list), 
@@ -132,6 +160,32 @@ extension Xray {
         private enum CodingKeys: String, CodingKey {
             case serviceIds = "ServiceIds"
             case annotationValue = "AnnotationValue"
+        }
+    }
+
+    public struct EncryptionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string)
+        ]
+        /// The type of encryption. Set to KMS for encryption with CMKs. Set to NONE for default encryption.
+        public let `type`: EncryptionType?
+        /// The encryption status. After modifying encryption configuration with PutEncryptionConfig, the status can be UPDATING for up to one hour before X-Ray starts encrypting data with the new key.
+        public let status: EncryptionStatus?
+        /// The ID of the customer master key (CMK) used for encryption, if applicable.
+        public let keyId: String?
+
+        public init(type: EncryptionType? = nil, status: EncryptionStatus? = nil, keyId: String? = nil) {
+            self.`type` = `type`
+            self.status = status
+            self.keyId = keyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case status = "Status"
+            case keyId = "KeyId"
         }
     }
 
@@ -189,7 +243,7 @@ extension Xray {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ApproximateTime", required: false, type: .timestamp)
         ]
-        /// The number of traces that were processed to get this set of summaries.
+        /// The total number of traces processed, including traces that did not match the specified filter expression.
         public let tracesProcessedCount: Int64?
         /// Trace IDs and metadata for traces that were found in the specified time frame.
         public let traceSummaries: [TraceSummary]?
@@ -280,6 +334,22 @@ extension Xray {
         }
     }
 
+    public struct GetEncryptionConfigResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionConfig", required: false, type: .structure)
+        ]
+        /// The encryption configuration document.
+        public let encryptionConfig: EncryptionConfig?
+
+        public init(encryptionConfig: EncryptionConfig? = nil) {
+            self.encryptionConfig = encryptionConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConfig = "EncryptionConfig"
+        }
+    }
+
     public struct ErrorStatistics: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TotalCount", required: false, type: .long), 
@@ -303,6 +373,27 @@ extension Xray {
             case totalCount = "TotalCount"
             case otherCount = "OtherCount"
             case throttleCount = "ThrottleCount"
+        }
+    }
+
+    public struct PutEncryptionConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string)
+        ]
+        /// The type of encryption. Set to KMS to use your own key for encryption. Set to NONE for default encryption.
+        public let `type`: EncryptionType
+        /// An AWS KMS customer master key (CMK) in one of the following formats:    Alias - The name of the key. For example, alias/MyKey.    Key ID - The KMS key ID of the key. For example, ae4aa6d49-a4d8-9df9-a475-4ff6d7898456.    ARN - The full Amazon Resource Name of the key ID or alias. For example, arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. Use this format to specify a key in a different account.   Omit this key if you set Type to NONE.
+        public let keyId: String?
+
+        public init(type: EncryptionType, keyId: String? = nil) {
+            self.`type` = `type`
+            self.keyId = keyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case keyId = "KeyId"
         }
     }
 
@@ -379,24 +470,39 @@ extension Xray {
         }
     }
 
-    public struct TraceUser: AWSShape {
+    public struct ServiceStatistics: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceIds", required: false, type: .list), 
-            AWSShapeMember(label: "UserName", required: false, type: .string)
+            AWSShapeMember(label: "TotalResponseTime", required: false, type: .double), 
+            AWSShapeMember(label: "FaultStatistics", required: false, type: .structure), 
+            AWSShapeMember(label: "OkCount", required: false, type: .long), 
+            AWSShapeMember(label: "ErrorStatistics", required: false, type: .structure), 
+            AWSShapeMember(label: "TotalCount", required: false, type: .long)
         ]
-        /// Services that the user's request hit.
-        public let serviceIds: [ServiceId]?
-        /// The user's name.
-        public let userName: String?
+        /// The aggregate response time of completed requests.
+        public let totalResponseTime: Double?
+        /// Information about requests that failed with a 5xx Server Error status code.
+        public let faultStatistics: FaultStatistics?
+        /// The number of requests that completed with a 2xx Success status code.
+        public let okCount: Int64?
+        /// Information about requests that failed with a 4xx Client Error status code.
+        public let errorStatistics: ErrorStatistics?
+        /// The total number of completed requests.
+        public let totalCount: Int64?
 
-        public init(serviceIds: [ServiceId]? = nil, userName: String? = nil) {
-            self.serviceIds = serviceIds
-            self.userName = userName
+        public init(totalResponseTime: Double? = nil, faultStatistics: FaultStatistics? = nil, okCount: Int64? = nil, errorStatistics: ErrorStatistics? = nil, totalCount: Int64? = nil) {
+            self.totalResponseTime = totalResponseTime
+            self.faultStatistics = faultStatistics
+            self.okCount = okCount
+            self.errorStatistics = errorStatistics
+            self.totalCount = totalCount
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceIds = "ServiceIds"
-            case userName = "UserName"
+            case totalResponseTime = "TotalResponseTime"
+            case faultStatistics = "FaultStatistics"
+            case okCount = "OkCount"
+            case errorStatistics = "ErrorStatistics"
+            case totalCount = "TotalCount"
         }
     }
 
@@ -457,39 +563,24 @@ extension Xray {
         }
     }
 
-    public struct ServiceStatistics: AWSShape {
+    public struct TraceUser: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TotalResponseTime", required: false, type: .double), 
-            AWSShapeMember(label: "FaultStatistics", required: false, type: .structure), 
-            AWSShapeMember(label: "OkCount", required: false, type: .long), 
-            AWSShapeMember(label: "ErrorStatistics", required: false, type: .structure), 
-            AWSShapeMember(label: "TotalCount", required: false, type: .long)
+            AWSShapeMember(label: "ServiceIds", required: false, type: .list), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
         ]
-        /// The aggregate response time of completed requests.
-        public let totalResponseTime: Double?
-        /// Information about requests that failed with a 5xx Server Error status code.
-        public let faultStatistics: FaultStatistics?
-        /// The number of requests that completed with a 2xx Success status code.
-        public let okCount: Int64?
-        /// Information about requests that failed with a 4xx Client Error status code.
-        public let errorStatistics: ErrorStatistics?
-        /// The total number of completed requests.
-        public let totalCount: Int64?
+        /// Services that the user's request hit.
+        public let serviceIds: [ServiceId]?
+        /// The user's name.
+        public let userName: String?
 
-        public init(totalResponseTime: Double? = nil, faultStatistics: FaultStatistics? = nil, okCount: Int64? = nil, errorStatistics: ErrorStatistics? = nil, totalCount: Int64? = nil) {
-            self.totalResponseTime = totalResponseTime
-            self.faultStatistics = faultStatistics
-            self.okCount = okCount
-            self.errorStatistics = errorStatistics
-            self.totalCount = totalCount
+        public init(serviceIds: [ServiceId]? = nil, userName: String? = nil) {
+            self.serviceIds = serviceIds
+            self.userName = userName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case totalResponseTime = "TotalResponseTime"
-            case faultStatistics = "FaultStatistics"
-            case okCount = "OkCount"
-            case errorStatistics = "ErrorStatistics"
-            case totalCount = "TotalCount"
+            case serviceIds = "ServiceIds"
+            case userName = "UserName"
         }
     }
 
@@ -745,6 +836,10 @@ extension Xray {
             case `type` = "Type"
             case name = "Name"
         }
+    }
+
+    public struct GetEncryptionConfigRequest: AWSShape {
+
     }
 
     public struct BackendConnectionErrors: AWSShape {

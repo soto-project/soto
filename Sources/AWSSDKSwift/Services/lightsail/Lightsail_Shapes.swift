@@ -121,7 +121,7 @@ extension Lightsail {
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String
-        /// An array of strings representing the instance name(s) you want to attach to your load balancer.
+        /// An array of strings representing the instance name(s) you want to attach to your load balancer. An instance must be running before you can attach it to your load balancer. There are no additional limits on the number of instances you can attach to your load balancer, aside from the limit of Lightsail instances you can create in your account (20).
         public let instanceNames: [String]
 
         public init(loadBalancerName: String, instanceNames: [String]) {
@@ -302,7 +302,7 @@ extension Lightsail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "operations", required: false, type: .list)
         ]
-        /// An object representing the API operations.
+        /// An object representing the API operations. These SSL/TLS certificates are only usable by Lightsail load balancers. You can't get the certificate and use it for another purpose.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -325,15 +325,15 @@ extension Lightsail {
         ]
         /// The instance port where you're creating your load balancer.
         public let instancePort: Int32
-        /// The name of the TLS/SSL certificate. If you specify certificateName, then certificateDomainName is required (and vice-versa).
+        /// The name of the SSL/TLS certificate. If you specify certificateName, then certificateDomainName is required (and vice-versa).
         public let certificateName: String?
-        /// The alternative domain names to use with your TLS/SSL certificate (e.g., www.example.com, www.ejemplo.com, ejemplo.com).
+        /// The optional alternative domains and subdomains to use with your SSL/TLS certificate (e.g., www.example.com, example.com, m.example.com, blog.example.com).
         public let certificateAlternativeNames: [String]?
         /// The domain name with which your certificate is associated (e.g., example.com). If you specify certificateDomainName, then certificateName is required (and vice-versa).
         public let certificateDomainName: String?
         /// The name of your load balancer.
         public let loadBalancerName: String
-        /// The path you provided to perform the load balancer health check. If you didn't specify a health check path, Lightsail uses the root path of your website (e.g., "/").
+        /// The path you provided to perform the load balancer health check. If you didn't specify a health check path, Lightsail uses the root path of your website (e.g., "/"). You may want to specify a custom health check path other than the root of your application if your home page loads slowly or has a lot of media or scripting on it.
         public let healthCheckPath: String?
 
         public init(instancePort: Int32, certificateName: String? = nil, certificateAlternativeNames: [String]? = nil, certificateDomainName: String? = nil, loadBalancerName: String, healthCheckPath: String? = nil) {
@@ -996,9 +996,9 @@ extension Lightsail {
             AWSShapeMember(label: "certificateName", required: true, type: .string), 
             AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
         ]
-        /// When true, forces the deletion of a TLS/SSL certificate.
+        /// When true, forces the deletion of an SSL/TLS certificate. There can be two certificates associated with a Lightsail load balancer: the primary and the backup. The force parameter is required when the primary SSL/TLS certificate is in use by an instance attached to the load balancer.
         public let force: Bool?
-        /// The TLS/SSL certificate name.
+        /// The SSL/TLS certificate name.
         public let certificateName: String
         /// The load balancer name.
         public let loadBalancerName: String
@@ -1053,9 +1053,9 @@ extension Lightsail {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "isAttached", required: false, type: .boolean)
         ]
-        /// The name of the TLS/SSL certificate.
+        /// The name of the SSL/TLS certificate.
         public let name: String?
-        /// When true, the TLS/SSL certificate is attached to the Lightsail load balancer.
+        /// When true, the SSL/TLS certificate is attached to the Lightsail load balancer.
         public let isAttached: Bool?
 
         public init(name: String? = nil, isAttached: Bool? = nil) {
@@ -1098,11 +1098,11 @@ extension Lightsail {
         public let options: [String: String]?
         /// The name of the domain.
         public let name: String?
-        /// The target AWS name server (e.g., ns-111.awsdns-22.com.).
+        /// The target AWS name server (e.g., ns-111.awsdns-22.com.). For Lightsail load balancers, the value looks like ab1234c56789c6b86aba6fb203d443bc-123456789.us-east-2.elb.amazonaws.com. Be sure to also set isAlias to true when setting up an A record for a load balancer.
         public let target: String?
         /// The ID of the domain recordset entry.
         public let id: String?
-        /// When true, specifies whether the domain entry is an alias used by the Lightsail load balancer.
+        /// When true, specifies whether the domain entry is an alias used by the Lightsail load balancer. You can include an alias (A type) record in your request, which points to a load balancer DNS name and routes traffic to your load balancer
         public let isAlias: Bool?
         /// The type of domain entry (e.g., SOA or NS).
         public let `type`: String?
@@ -1152,7 +1152,7 @@ extension Lightsail {
         public let resourceType: ResourceType?
         /// The date when your load balancer was created.
         public let createdAt: TimeStamp?
-        /// The instance port where the load balancer is listening.
+        /// The port where the load balancer will direct traffic to your Lightsail instances. For HTTP traffic, it's port 80. For HTTPS traffic, it's port 443.
         public let instancePort: Int32?
         /// The support code. Include this code in your email to support when you have questions about your Lightsail load balancer. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
@@ -1164,15 +1164,15 @@ extension Lightsail {
         public let configurationOptions: [LoadBalancerAttributeName: String]?
         /// The path you specified to perform your health checks. If no path is specified, the load balancer tries to make a request to the default (root) page.
         public let healthCheckPath: String?
-        /// The AWS Region and Availability Zone where your load balancer was created (e.g., us-east-2a).
+        /// The AWS Region where your load balancer was created (e.g., us-east-2a). Lightsail automatically creates your load balancer across Availability Zones.
         public let location: ResourceLocation?
-        /// The protocol you have enabled for your load balancer. Valid values are below.
+        /// The protocol you have enabled for your load balancer. Valid values are below. You can't just have HTTP_HTTPS, but you can have just HTTP.
         public let `protocol`: LoadBalancerProtocol?
         /// An array of InstanceHealthSummary objects describing the health of the load balancer.
         public let instanceHealthSummary: [InstanceHealthSummary]?
-        /// An array of public port settings for your load balancer.
+        /// An array of public port settings for your load balancer. For HTTP, use port 80. For HTTPS, use port 443.
         public let publicPorts: [Int32]?
-        /// An array of LoadBalancerTlsCertificateSummary objects that provide additional information about the TLS/SSL certificates.
+        /// An array of LoadBalancerTlsCertificateSummary objects that provide additional information about the SSL/TLS certificates. For example, if true, the certificate is attached to the load balancer.
         public let tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]?
 
         public init(state: LoadBalancerState? = nil, name: String? = nil, resourceType: ResourceType? = nil, createdAt: TimeStamp? = nil, instancePort: Int32? = nil, supportCode: String? = nil, dnsName: String? = nil, arn: String? = nil, configurationOptions: [LoadBalancerAttributeName: String]? = nil, healthCheckPath: String? = nil, location: ResourceLocation? = nil, protocol: LoadBalancerProtocol? = nil, instanceHealthSummary: [InstanceHealthSummary]? = nil, publicPorts: [Int32]? = nil, tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]? = nil) {
@@ -1434,7 +1434,7 @@ extension Lightsail {
             AWSShapeMember(label: "instanceHealth", required: false, type: .enum), 
             AWSShapeMember(label: "instanceName", required: false, type: .string)
         ]
-        /// More information about the instance health. Valid values are below.
+        /// More information about the instance health. If the instanceHealth is healthy, then an instanceHealthReason value is not provided. If  instanceHealth  is initial, the  instanceHealthReason  value can be one of the following:     Lb.RegistrationInProgress  - The target instance is in the process of being registered with the load balancer.     Lb.InitialHealthChecking  - The Lightsail load balancer is still sending the target instance the minimum number of health checks required to determine its health status.   If  instanceHealth  is unhealthy, the  instanceHealthReason  value can be one of the following:     Instance.ResponseCodeMismatch  - The health checks did not return an expected HTTP code.     Instance.Timeout  - The health check requests timed out.     Instance.FailedHealthChecks  - The health checks failed because the connection to the target instance timed out, the target instance response was malformed, or the target instance failed the health check for an unknown reason.     Lb.InternalError  - The health checks failed due to an internal error.   If  instanceHealth  is unused, the  instanceHealthReason  value can be one of the following:     Instance.NotRegistered  - The target instance is not registered with the target group.     Instance.NotInUse  - The target group is not used by any load balancer, or the target instance is in an Availability Zone that is not enabled for its load balancer.     Instance.IpUnusable  - The target IP address is reserved for use by a Lightsail load balancer.     Instance.InvalidState  - The target is in the stopped or terminated state.   If  instanceHealth  is draining, the  instanceHealthReason  value can be one of the following:     Instance.DeregistrationInProgress  - The target instance is in the process of being deregistered and the deregistration delay period has not expired.  
         public let instanceHealthReason: InstanceHealthReason?
         /// Describes the overall instance health. Valid values are below.
         public let instanceHealth: InstanceHealthState?
@@ -1536,7 +1536,7 @@ extension Lightsail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tlsCertificates", required: false, type: .list)
         ]
-        /// An array of LoadBalancerTlsCertificate objects describing your TLS/SSL certificates.
+        /// An array of LoadBalancerTlsCertificate objects describing your SSL/TLS certificates.
         public let tlsCertificates: [LoadBalancerTlsCertificate]?
 
         public init(tlsCertificates: [LoadBalancerTlsCertificate]? = nil) {
@@ -1705,7 +1705,7 @@ extension Lightsail {
         ]
         /// The value that you want to specify for the attribute name.
         public let attributeValue: String
-        /// The name of the load balancer that you want to modify.
+        /// The name of the load balancer that you want to modify (e.g., my-load-balancer.
         public let loadBalancerName: String
         /// The name of the attribute you want to update. Valid values are below.
         public let attributeName: LoadBalancerAttributeName
@@ -1737,7 +1737,7 @@ extension Lightsail {
         public let validationStatus: LoadBalancerTlsCertificateDomainStatus?
         /// The value for that type.
         public let value: String?
-        /// The domain name against which your TLS/SSL certificate was validated.
+        /// The domain name against which your SSL/TLS certificate was validated.
         public let domainName: String?
         /// The type of validation record. For example, CNAME for domain validation.
         public let `type`: String?
@@ -2236,6 +2236,7 @@ extension Lightsail {
         case started = "Started"
         case failed = "Failed"
         case completed = "Completed"
+        case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
     }
 
@@ -2423,7 +2424,7 @@ extension Lightsail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
         ]
-        /// The name of the load balancer where you stored your TLS/SSL certificate.
+        /// The name of the load balancer you associated with your SSL/TLS certificate.
         public let loadBalancerName: String
 
         public init(loadBalancerName: String) {
@@ -2510,44 +2511,44 @@ extension Lightsail {
             AWSShapeMember(label: "unit", required: true, type: .enum), 
             AWSShapeMember(label: "statistics", required: true, type: .list), 
             AWSShapeMember(label: "endTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string), 
-            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "period", required: true, type: .integer), 
-            AWSShapeMember(label: "metricName", required: true, type: .enum)
+            AWSShapeMember(label: "loadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "metricName", required: true, type: .enum), 
+            AWSShapeMember(label: "startTime", required: true, type: .timestamp)
         ]
         /// The unit for the time period request. Valid values are listed below.
         public let unit: MetricUnit
-        /// An array of statistics that you want to request metrics for. Valid values are listed below.
+        /// An array of statistics that you want to request metrics for. Valid values are listed below.     SampleCount  - The count (number) of data points used for the statistical calculation.     Average  - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum. This comparison helps you to know when to increase or decrease your resources as needed.     Sum  - All values submitted for the matching metric added together. This statistic can be useful for determining the total volume of a metric.     Minimum  - The lowest value observed during the specified period. You can use this value to determine low volumes of activity for your application.     Maximum  - The highest value observed during the specified period. You can use this value to determine high volumes of activity for your application.  
         public let statistics: [MetricStatistic]
         /// The end time of the period.
         public let endTime: TimeStamp
-        /// The name of the load balancer.
-        public let loadBalancerName: String
-        /// The start time of the period.
-        public let startTime: TimeStamp
         /// The time period duration for your health data request.
         public let period: Int32
+        /// The name of the load balancer.
+        public let loadBalancerName: String
         /// The metric about which you want to return information. Valid values are listed below, along with the most useful statistics to include in your request.     ClientTLSNegotiationErrorCount  - The number of TLS connections initiated by the client that did not establish a session with the load balancer. Possible causes include a mismatch of ciphers or protocols.  Statistics: The most useful statistic is Sum.     HealthyHostCount  - The number of target instances that are considered healthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.     UnhealthyHostCount  - The number of target instances that are considered unhealthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.     HTTPCode_LB_4XX_Count  - The number of HTTP 4XX client error codes that originate from the load balancer. Client errors are generated when requests are malformed or incomplete. These requests have not been received by the target instance. This count does not include any response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_LB_5XX_Count  - The number of HTTP 5XX server error codes that originate from the load balancer. This count does not include any response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_2XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_3XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.   Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_4XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_5XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     InstanceResponseTime  - The time elapsed, in seconds, after the request leaves the load balancer until a response from the target instance is received.  Statistics: The most useful statistic is Average.     RejectedConnectionCount  - The number of connections that were rejected because the load balancer had reached its maximum number of connections.  Statistics: The most useful statistic is Sum.     RequestCount  - The number of requests processed over IPv4. This count includes only the requests with a response generated by a target instance of the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  
         public let metricName: LoadBalancerMetricName
+        /// The start time of the period.
+        public let startTime: TimeStamp
 
-        public init(unit: MetricUnit, statistics: [MetricStatistic], endTime: TimeStamp, loadBalancerName: String, startTime: TimeStamp, period: Int32, metricName: LoadBalancerMetricName) {
+        public init(unit: MetricUnit, statistics: [MetricStatistic], endTime: TimeStamp, period: Int32, loadBalancerName: String, metricName: LoadBalancerMetricName, startTime: TimeStamp) {
             self.unit = unit
             self.statistics = statistics
             self.endTime = endTime
-            self.loadBalancerName = loadBalancerName
-            self.startTime = startTime
             self.period = period
+            self.loadBalancerName = loadBalancerName
             self.metricName = metricName
+            self.startTime = startTime
         }
 
         private enum CodingKeys: String, CodingKey {
             case unit = "unit"
             case statistics = "statistics"
             case endTime = "endTime"
-            case loadBalancerName = "loadBalancerName"
-            case startTime = "startTime"
             case period = "period"
+            case loadBalancerName = "loadBalancerName"
             case metricName = "metricName"
+            case startTime = "startTime"
         }
     }
 
@@ -2572,8 +2573,9 @@ extension Lightsail {
         case usEast2 = "us-east-2"
         case usWest1 = "us-west-1"
         case usWest2 = "us-west-2"
-        case euWest1 = "eu-west-1"
         case euCentral1 = "eu-central-1"
+        case euWest1 = "eu-west-1"
+        case euWest2 = "eu-west-2"
         case apSouth1 = "ap-south-1"
         case apSoutheast1 = "ap-southeast-1"
         case apSoutheast2 = "ap-southeast-2"
@@ -2645,7 +2647,7 @@ extension Lightsail {
             AWSShapeMember(label: "domainName", required: false, type: .string), 
             AWSShapeMember(label: "validationStatus", required: false, type: .enum)
         ]
-        /// A fully qualified domain name in the certificate request.
+        /// The fully qualified domain name in the certificate request.
         public let domainName: String?
         /// The status of the domain validation. Valid values are listed below.
         public let validationStatus: LoadBalancerTlsCertificateDomainStatus?
@@ -2809,7 +2811,7 @@ extension Lightsail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "operations", required: false, type: .list)
         ]
-        /// An array of key-value pairs containing information about the request operation.
+        /// An array of key-value pairs containing information about the request operations.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2906,7 +2908,7 @@ extension Lightsail {
         ]
         /// An array of metric datapoint objects.
         public let metricData: [MetricDatapoint]?
-        /// The metric about which you are receiving information. Valid values are listed below.
+        /// The metric about which you are receiving information. Valid values are listed below, along with the most useful statistics to include in your request.     ClientTLSNegotiationErrorCount  - The number of TLS connections initiated by the client that did not establish a session with the load balancer. Possible causes include a mismatch of ciphers or protocols.  Statistics: The most useful statistic is Sum.     HealthyHostCount  - The number of target instances that are considered healthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.     UnhealthyHostCount  - The number of target instances that are considered unhealthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.     HTTPCode_LB_4XX_Count  - The number of HTTP 4XX client error codes that originate from the load balancer. Client errors are generated when requests are malformed or incomplete. These requests have not been received by the target instance. This count does not include any response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_LB_5XX_Count  - The number of HTTP 5XX server error codes that originate from the load balancer. This count does not include any response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_2XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_3XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.   Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_4XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_5XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     InstanceResponseTime  - The time elapsed, in seconds, after the request leaves the load balancer until a response from the target instance is received.  Statistics: The most useful statistic is Average.     RejectedConnectionCount  - The number of connections that were rejected because the load balancer had reached its maximum number of connections.  Statistics: The most useful statistic is Sum.     RequestCount  - The number of requests processed over IPv4. This count includes only the requests with a response generated by a target instance of the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  
         public let metricName: LoadBalancerMetricName?
 
         public init(metricData: [MetricDatapoint]? = nil, metricName: LoadBalancerMetricName? = nil) {
@@ -3220,9 +3222,9 @@ extension Lightsail {
             AWSShapeMember(label: "loadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "certificateName", required: true, type: .string)
         ]
-        /// The name of the load balancer to which you want to associate the TLS/SSL certificate.
+        /// The name of the load balancer to which you want to associate the SSL/TLS certificate.
         public let loadBalancerName: String
-        /// The name of your TLS/SSL certificate.
+        /// The name of your SSL/TLS certificate.
         public let certificateName: String
 
         public init(loadBalancerName: String, certificateName: String) {
@@ -3690,13 +3692,13 @@ extension Lightsail {
             AWSShapeMember(label: "certificateDomainName", required: true, type: .string), 
             AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
         ]
-        /// The TLS/SSL certificate name.
+        /// The SSL/TLS certificate name. You can have up to 10 certificates in your account at one time. Each Lightsail load balancer can have up to 2 certificates associated with it at one time. There is also an overall limit to the number of certificates that can be issue in a 365-day period. For more information, see Limits.
         public let certificateName: String
-        /// An array of strings listing alternative domain names for your TLS/SSL certificate.
+        /// An array of strings listing alternative domains and subdomains for your SSL/TLS certificate. Lightsail will de-dupe the names for you. You can have a maximum of 9 alternative names (in addition to the 1 primary domain). We do not support wildcards (e.g., *.example.com).
         public let certificateAlternativeNames: [String]?
-        /// The domain name (e.g., example.com) for your TLS/SSL certificate.
+        /// The domain name (e.g., example.com) for your SSL/TLS certificate.
         public let certificateDomainName: String
-        /// The load balancer name where you want to create the TLS/SSL certificate.
+        /// The load balancer name where you want to create the SSL/TLS certificate.
         public let loadBalancerName: String
 
         public init(certificateName: String, certificateAlternativeNames: [String]? = nil, certificateDomainName: String, loadBalancerName: String) {
@@ -3769,16 +3771,16 @@ extension Lightsail {
 
     public struct InstancePortInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessFrom", required: false, type: .string), 
+            AWSShapeMember(label: "toPort", required: false, type: .integer), 
             AWSShapeMember(label: "fromPort", required: false, type: .integer), 
             AWSShapeMember(label: "commonName", required: false, type: .string), 
             AWSShapeMember(label: "protocol", required: false, type: .enum), 
             AWSShapeMember(label: "accessDirection", required: false, type: .enum), 
             AWSShapeMember(label: "accessType", required: false, type: .enum), 
-            AWSShapeMember(label: "toPort", required: false, type: .integer)
+            AWSShapeMember(label: "accessFrom", required: false, type: .string)
         ]
-        /// The location from which access is allowed (e.g., Anywhere (0.0.0.0/0)).
-        public let accessFrom: String?
+        /// The last port in the range.
+        public let toPort: Int32?
         /// The first port in the range.
         public let fromPort: Int32?
         /// The common name.
@@ -3789,27 +3791,27 @@ extension Lightsail {
         public let accessDirection: AccessDirection?
         /// The type of access (Public or Private).
         public let accessType: PortAccessType?
-        /// The last port in the range.
-        public let toPort: Int32?
+        /// The location from which access is allowed (e.g., Anywhere (0.0.0.0/0)).
+        public let accessFrom: String?
 
-        public init(accessFrom: String? = nil, fromPort: Int32? = nil, commonName: String? = nil, protocol: NetworkProtocol? = nil, accessDirection: AccessDirection? = nil, accessType: PortAccessType? = nil, toPort: Int32? = nil) {
-            self.accessFrom = accessFrom
+        public init(toPort: Int32? = nil, fromPort: Int32? = nil, commonName: String? = nil, protocol: NetworkProtocol? = nil, accessDirection: AccessDirection? = nil, accessType: PortAccessType? = nil, accessFrom: String? = nil) {
+            self.toPort = toPort
             self.fromPort = fromPort
             self.commonName = commonName
             self.`protocol` = `protocol`
             self.accessDirection = accessDirection
             self.accessType = accessType
-            self.toPort = toPort
+            self.accessFrom = accessFrom
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessFrom = "accessFrom"
+            case toPort = "toPort"
             case fromPort = "fromPort"
             case commonName = "commonName"
             case `protocol` = "protocol"
             case accessDirection = "accessDirection"
             case accessType = "accessType"
-            case toPort = "toPort"
+            case accessFrom = "accessFrom"
         }
     }
 
@@ -4301,53 +4303,53 @@ extension Lightsail {
             AWSShapeMember(label: "loadBalancerName", required: false, type: .string), 
             AWSShapeMember(label: "failureReason", required: false, type: .enum)
         ]
-        /// The name of the TLS/SSL certificate (e.g., my-certificate).
+        /// The name of the SSL/TLS certificate (e.g., my-certificate).
         public let name: String?
         /// The issuer of the certificate.
         public let issuer: String?
-        /// The resource type (e.g., LoadBalancerTlsCertificate.
+        /// The resource type (e.g., LoadBalancerTlsCertificate).     Instance  - A Lightsail instance (a virtual private server)     StaticIp  - A static IP address     KeyPair  - The key pair used to connect to a Lightsail instance     InstanceSnapshot  - A Lightsail instance snapshot     Domain  - A DNS zone     PeeredVpc  - A peered VPC     LoadBalancer  - A Lightsail load balancer     LoadBalancerTlsCertificate  - An SSL/TLS certificate associated with a Lightsail load balancer     Disk  - A Lightsail block storage disk     DiskSnapshot  - A block storage disk snapshot  
         public let resourceType: ResourceType?
-        /// When true, the TLS/SSL certificate is attached to the Lightsail load balancer.
+        /// When true, the SSL/TLS certificate is attached to the Lightsail load balancer.
         public let isAttached: Bool?
-        /// The timestamp when the TLS/SSL certificate was revoked.
+        /// The timestamp when the SSL/TLS certificate was revoked.
         public let revokedAt: TimeStamp?
-        /// The time when you created your TLS/SSL certificate.
+        /// The time when you created your SSL/TLS certificate.
         public let createdAt: TimeStamp?
         /// The algorithm that was used to sign the certificate.
         public let signatureAlgorithm: String?
-        /// The time when the TLS/SSL certificate was issued.
+        /// The time when the SSL/TLS certificate was issued.
         public let issuedAt: TimeStamp?
-        /// The support code. Include this code in your email to support when you have questions about your Lightsail load balancer or TLS/SSL certificate. This code enables our support team to look up your Lightsail information more easily.
+        /// The support code. Include this code in your email to support when you have questions about your Lightsail load balancer or SSL/TLS certificate. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
         /// An object containing information about the status of Lightsail's managed renewal for the certificate.
         public let renewalSummary: LoadBalancerTlsCertificateRenewalSummary?
-        /// One or more domain names (subject alternative names) included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website.
+        /// One or more domains or subdomains included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CNAME) of the certificate and additional domain names that can be used to connect to the website, such as example.com, www.example.com, or m.example.com.
         public let subjectAlternativeNames: [String]?
-        /// The timestamp when the TLS/SSL certificate is first valid.
+        /// The timestamp when the SSL/TLS certificate is first valid.
         public let notBefore: TimeStamp?
         /// The name of the entity that is associated with the public key contained in the certificate.
         public let subject: String?
-        /// The Amazon Resource Name (ARN) of the TLS/SSL certificate.
+        /// The Amazon Resource Name (ARN) of the SSL/TLS certificate.
         public let arn: String?
-        /// The status of the TLS/SSL certificate. Valid values are below.
+        /// The status of the SSL/TLS certificate. Valid values are below.
         public let status: LoadBalancerTlsCertificateStatus?
         /// The AWS Region and Availability Zone where you created your certificate.
         public let location: ResourceLocation?
         /// The serial number of the certificate.
         public let serial: String?
-        /// The timestamp when the TLS/SSL certificate expires.
+        /// The timestamp when the SSL/TLS certificate expires.
         public let notAfter: TimeStamp?
         /// The reason the certificate was revoked. Valid values are below.
         public let revocationReason: LoadBalancerTlsCertificateRevocationReason?
-        /// The domain name for your TLS/SSL certificate.
+        /// The domain name for your SSL/TLS certificate.
         public let domainName: String?
         /// An array of LoadBalancerTlsCertificateDomainValidationRecord objects describing the records.
         public let domainValidationRecords: [LoadBalancerTlsCertificateDomainValidationRecord]?
         /// The algorithm that was used to generate the key pair (the public and private key).
         public let keyAlgorithm: String?
-        /// The load balancer name where your TLS/SSL certificate is attached.
+        /// The load balancer name where your SSL/TLS certificate is attached.
         public let loadBalancerName: String?
-        /// The reason for the TLS/SSL certificate validation failure.
+        /// The reason for the SSL/TLS certificate validation failure.
         public let failureReason: LoadBalancerTlsCertificateFailureReason?
 
         public init(name: String? = nil, issuer: String? = nil, resourceType: ResourceType? = nil, isAttached: Bool? = nil, revokedAt: TimeStamp? = nil, createdAt: TimeStamp? = nil, signatureAlgorithm: String? = nil, issuedAt: TimeStamp? = nil, supportCode: String? = nil, renewalSummary: LoadBalancerTlsCertificateRenewalSummary? = nil, subjectAlternativeNames: [String]? = nil, notBefore: TimeStamp? = nil, subject: String? = nil, arn: String? = nil, status: LoadBalancerTlsCertificateStatus? = nil, location: ResourceLocation? = nil, serial: String? = nil, notAfter: TimeStamp? = nil, revocationReason: LoadBalancerTlsCertificateRevocationReason? = nil, domainName: String? = nil, domainValidationRecords: [LoadBalancerTlsCertificateDomainValidationRecord]? = nil, keyAlgorithm: String? = nil, loadBalancerName: String? = nil, failureReason: LoadBalancerTlsCertificateFailureReason? = nil) {

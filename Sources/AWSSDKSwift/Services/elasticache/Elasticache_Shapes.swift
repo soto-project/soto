@@ -1338,30 +1338,30 @@ extension Elasticache {
 
     public struct Event: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "SourceType", required: false, type: .enum), 
             AWSShapeMember(label: "Date", required: false, type: .timestamp)
         ]
-        /// The identifier for the source of the event. For example, if the event occurred at the cluster level, the identifier would be the name of the cluster.
-        public let sourceIdentifier: String?
         /// The text of the event.
         public let message: String?
+        /// The identifier for the source of the event. For example, if the event occurred at the cluster level, the identifier would be the name of the cluster.
+        public let sourceIdentifier: String?
         /// Specifies the origin of this event - a cluster, a parameter group, a security group, etc.
         public let sourceType: SourceType?
         /// The date and time when the event occurred.
         public let date: TimeStamp?
 
-        public init(sourceIdentifier: String? = nil, message: String? = nil, sourceType: SourceType? = nil, date: TimeStamp? = nil) {
-            self.sourceIdentifier = sourceIdentifier
+        public init(message: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, date: TimeStamp? = nil) {
             self.message = message
+            self.sourceIdentifier = sourceIdentifier
             self.sourceType = sourceType
             self.date = date
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceIdentifier = "SourceIdentifier"
             case message = "Message"
+            case sourceIdentifier = "SourceIdentifier"
             case sourceType = "SourceType"
             case date = "Date"
         }
@@ -1424,12 +1424,12 @@ extension Elasticache {
             AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
             AWSShapeMember(label: "ConfigurationEndpoint", required: false, type: .structure), 
             AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
-            AWSShapeMember(label: "NotificationConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredAvailabilityZone", required: false, type: .string), 
             AWSShapeMember(label: "AuthTokenEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredAvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer), 
             AWSShapeMember(label: "CacheClusterStatus", required: false, type: .string), 
             AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
@@ -1442,8 +1442,8 @@ extension Elasticache {
             AWSShapeMember(label: "ClientDownloadLandingPage", required: false, type: .string), 
             AWSShapeMember(label: "CacheParameterGroup", required: false, type: .structure), 
             AWSShapeMember(label: "CacheSecurityGroups", required: false, type: .structure), 
-            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
             AWSShapeMember(label: "AtRestEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
             AWSShapeMember(label: "TransitEncryptionEnabled", required: false, type: .boolean)
         ]
         /// The number of cache nodes in the cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
@@ -1454,18 +1454,18 @@ extension Elasticache {
         public let configurationEndpoint: Endpoint?
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your cluster. Example: 05:00-09:00 
         public let snapshotWindow: String?
-        /// Describes a notification topic and its status. Notification topics are used for publishing ElastiCache events to subscribers using Amazon Simple Notification Service (SNS). 
-        public let notificationConfiguration: NotificationConfiguration?
         /// The version of the cache engine that is used in this cluster.
         public let engineVersion: String?
+        /// The replication group to which this cluster belongs. If this field is empty, the cluster is not associated with any replication group.
+        public let replicationGroupId: String?
+        /// The name of the Availability Zone in which the cluster is located or "Multiple" if the cache nodes are located in different Availability Zones.
+        public let preferredAvailabilityZone: String?
         /// A flag that enables using an AuthToken (password) when issuing Redis commands. Default: false 
         public let authTokenEnabled: Bool?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30 
         public let preferredMaintenanceWindow: String?
-        /// The name of the Availability Zone in which the cluster is located or "Multiple" if the cache nodes are located in different Availability Zones.
-        public let preferredAvailabilityZone: String?
-        /// The replication group to which this cluster belongs. If this field is empty, the cluster is not associated with any replication group.
-        public let replicationGroupId: String?
+        /// Describes a notification topic and its status. Notification topics are used for publishing ElastiCache events to subscribers using Amazon Simple Notification Service (SNS). 
+        public let notificationConfiguration: NotificationConfiguration?
         /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. 
         public let snapshotRetentionLimit: Int32?
         /// The current state of this cluster, one of the following values: available, creating, deleted, deleting, incompatible-network, modifying, rebooting cluster nodes, restore-failed, or snapshotting.
@@ -1489,24 +1489,24 @@ extension Elasticache {
         public let cacheParameterGroup: CacheParameterGroupStatus?
         /// A list of cache security group elements, composed of name and status sub-elements.
         public let cacheSecurityGroups: CacheSecurityGroupMembershipList?
-        /// The user-supplied identifier of the cluster. This identifier is a unique key that identifies a cluster.
-        public let cacheClusterId: String?
         /// A flag that enables encryption at-rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the cluster is created. To enable at-rest encryption on a cluster you must set AtRestEncryptionEnabled to true when you create a cluster. Default: false 
         public let atRestEncryptionEnabled: Bool?
+        /// The user-supplied identifier of the cluster. This identifier is a unique key that identifies a cluster.
+        public let cacheClusterId: String?
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster. Default: false 
         public let transitEncryptionEnabled: Bool?
 
-        public init(numCacheNodes: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, configurationEndpoint: Endpoint? = nil, snapshotWindow: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, engineVersion: String? = nil, authTokenEnabled: Bool? = nil, preferredMaintenanceWindow: String? = nil, preferredAvailabilityZone: String? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int32? = nil, cacheClusterStatus: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, cacheClusterCreateTime: TimeStamp? = nil, cacheNodes: CacheNodeList? = nil, securityGroups: [SecurityGroupMembership]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, cacheNodeType: String? = nil, clientDownloadLandingPage: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: CacheSecurityGroupMembershipList? = nil, cacheClusterId: String? = nil, atRestEncryptionEnabled: Bool? = nil, transitEncryptionEnabled: Bool? = nil) {
+        public init(numCacheNodes: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, configurationEndpoint: Endpoint? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, replicationGroupId: String? = nil, preferredAvailabilityZone: String? = nil, authTokenEnabled: Bool? = nil, preferredMaintenanceWindow: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, snapshotRetentionLimit: Int32? = nil, cacheClusterStatus: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, cacheClusterCreateTime: TimeStamp? = nil, cacheNodes: CacheNodeList? = nil, securityGroups: [SecurityGroupMembership]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, cacheNodeType: String? = nil, clientDownloadLandingPage: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: CacheSecurityGroupMembershipList? = nil, atRestEncryptionEnabled: Bool? = nil, cacheClusterId: String? = nil, transitEncryptionEnabled: Bool? = nil) {
             self.numCacheNodes = numCacheNodes
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.configurationEndpoint = configurationEndpoint
             self.snapshotWindow = snapshotWindow
-            self.notificationConfiguration = notificationConfiguration
             self.engineVersion = engineVersion
+            self.replicationGroupId = replicationGroupId
+            self.preferredAvailabilityZone = preferredAvailabilityZone
             self.authTokenEnabled = authTokenEnabled
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.preferredAvailabilityZone = preferredAvailabilityZone
-            self.replicationGroupId = replicationGroupId
+            self.notificationConfiguration = notificationConfiguration
             self.snapshotRetentionLimit = snapshotRetentionLimit
             self.cacheClusterStatus = cacheClusterStatus
             self.pendingModifiedValues = pendingModifiedValues
@@ -1519,8 +1519,8 @@ extension Elasticache {
             self.clientDownloadLandingPage = clientDownloadLandingPage
             self.cacheParameterGroup = cacheParameterGroup
             self.cacheSecurityGroups = cacheSecurityGroups
-            self.cacheClusterId = cacheClusterId
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
+            self.cacheClusterId = cacheClusterId
             self.transitEncryptionEnabled = transitEncryptionEnabled
         }
 
@@ -1529,12 +1529,12 @@ extension Elasticache {
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case configurationEndpoint = "ConfigurationEndpoint"
             case snapshotWindow = "SnapshotWindow"
-            case notificationConfiguration = "NotificationConfiguration"
             case engineVersion = "EngineVersion"
+            case replicationGroupId = "ReplicationGroupId"
+            case preferredAvailabilityZone = "PreferredAvailabilityZone"
             case authTokenEnabled = "AuthTokenEnabled"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case preferredAvailabilityZone = "PreferredAvailabilityZone"
-            case replicationGroupId = "ReplicationGroupId"
+            case notificationConfiguration = "NotificationConfiguration"
             case snapshotRetentionLimit = "SnapshotRetentionLimit"
             case cacheClusterStatus = "CacheClusterStatus"
             case pendingModifiedValues = "PendingModifiedValues"
@@ -1547,8 +1547,8 @@ extension Elasticache {
             case clientDownloadLandingPage = "ClientDownloadLandingPage"
             case cacheParameterGroup = "CacheParameterGroup"
             case cacheSecurityGroups = "CacheSecurityGroups"
-            case cacheClusterId = "CacheClusterId"
             case atRestEncryptionEnabled = "AtRestEncryptionEnabled"
+            case cacheClusterId = "CacheClusterId"
             case transitEncryptionEnabled = "TransitEncryptionEnabled"
         }
     }
@@ -2087,9 +2087,9 @@ extension Elasticache {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
             AWSShapeMember(label: "Duration", required: false, type: .string), 
-            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
             AWSShapeMember(label: "ReservedCacheNodesOfferingId", required: false, type: .string), 
-            AWSShapeMember(label: "ProductDescription", required: false, type: .string)
+            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
+            AWSShapeMember(label: "OfferingType", required: false, type: .string)
         ]
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int32?
@@ -2099,21 +2099,21 @@ extension Elasticache {
         public let cacheNodeType: String?
         /// Duration filter value, specified in years or seconds. Use this parameter to show only reservations for a given duration. Valid Values: 1 | 3 | 31536000 | 94608000 
         public let duration: String?
-        /// The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid Values: "Light Utilization"|"Medium Utilization"|"Heavy Utilization" 
-        public let offeringType: String?
         /// The offering identifier filter value. Use this parameter to show only the available offering that matches the specified reservation identifier. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706 
         public let reservedCacheNodesOfferingId: String?
         /// The product description filter value. Use this parameter to show only the available offerings matching the specified product description.
         public let productDescription: String?
+        /// The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid Values: "Light Utilization"|"Medium Utilization"|"Heavy Utilization" 
+        public let offeringType: String?
 
-        public init(maxRecords: Int32? = nil, marker: String? = nil, cacheNodeType: String? = nil, duration: String? = nil, offeringType: String? = nil, reservedCacheNodesOfferingId: String? = nil, productDescription: String? = nil) {
+        public init(maxRecords: Int32? = nil, marker: String? = nil, cacheNodeType: String? = nil, duration: String? = nil, reservedCacheNodesOfferingId: String? = nil, productDescription: String? = nil, offeringType: String? = nil) {
             self.maxRecords = maxRecords
             self.marker = marker
             self.cacheNodeType = cacheNodeType
             self.duration = duration
-            self.offeringType = offeringType
             self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
             self.productDescription = productDescription
+            self.offeringType = offeringType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2121,9 +2121,9 @@ extension Elasticache {
             case marker = "Marker"
             case cacheNodeType = "CacheNodeType"
             case duration = "Duration"
-            case offeringType = "OfferingType"
             case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
             case productDescription = "ProductDescription"
+            case offeringType = "OfferingType"
         }
     }
 
@@ -2609,9 +2609,9 @@ extension Elasticache {
             AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
             AWSShapeMember(label: "ReservedCacheNodeId", required: false, type: .string), 
             AWSShapeMember(label: "Duration", required: false, type: .string), 
-            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
             AWSShapeMember(label: "ReservedCacheNodesOfferingId", required: false, type: .string), 
-            AWSShapeMember(label: "ProductDescription", required: false, type: .string)
+            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
+            AWSShapeMember(label: "OfferingType", required: false, type: .string)
         ]
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int32?
@@ -2623,22 +2623,22 @@ extension Elasticache {
         public let reservedCacheNodeId: String?
         /// The duration filter value, specified in years or seconds. Use this parameter to show only reservations for this duration. Valid Values: 1 | 3 | 31536000 | 94608000 
         public let duration: String?
-        /// The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid values: "Light Utilization"|"Medium Utilization"|"Heavy Utilization" 
-        public let offeringType: String?
         /// The offering identifier filter value. Use this parameter to show only purchased reservations matching the specified offering identifier.
         public let reservedCacheNodesOfferingId: String?
         /// The product description filter value. Use this parameter to show only those reservations matching the specified product description.
         public let productDescription: String?
+        /// The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid values: "Light Utilization"|"Medium Utilization"|"Heavy Utilization" 
+        public let offeringType: String?
 
-        public init(maxRecords: Int32? = nil, marker: String? = nil, cacheNodeType: String? = nil, reservedCacheNodeId: String? = nil, duration: String? = nil, offeringType: String? = nil, reservedCacheNodesOfferingId: String? = nil, productDescription: String? = nil) {
+        public init(maxRecords: Int32? = nil, marker: String? = nil, cacheNodeType: String? = nil, reservedCacheNodeId: String? = nil, duration: String? = nil, reservedCacheNodesOfferingId: String? = nil, productDescription: String? = nil, offeringType: String? = nil) {
             self.maxRecords = maxRecords
             self.marker = marker
             self.cacheNodeType = cacheNodeType
             self.reservedCacheNodeId = reservedCacheNodeId
             self.duration = duration
-            self.offeringType = offeringType
             self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
             self.productDescription = productDescription
+            self.offeringType = offeringType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2647,9 +2647,9 @@ extension Elasticache {
             case cacheNodeType = "CacheNodeType"
             case reservedCacheNodeId = "ReservedCacheNodeId"
             case duration = "Duration"
-            case offeringType = "OfferingType"
             case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
             case productDescription = "ProductDescription"
+            case offeringType = "OfferingType"
         }
     }
 
@@ -2763,7 +2763,7 @@ extension Elasticache {
 
     public struct CreateReplicationGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthToken", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "SnapshotArns", required: false, type: .structure), 
             AWSShapeMember(label: "CacheSecurityGroupNames", required: false, type: .structure), 
             AWSShapeMember(label: "ReplicasPerNodeGroup", required: false, type: .integer), 
@@ -2789,11 +2789,11 @@ extension Elasticache {
             AWSShapeMember(label: "Engine", required: false, type: .string), 
             AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
             AWSShapeMember(label: "AtRestEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "AuthToken", required: false, type: .string), 
             AWSShapeMember(label: "TransitEncryptionEnabled", required: false, type: .boolean)
         ]
-        ///  Reserved parameter. The password used to access a password protected server. This parameter is valid only if:   The parameter TransitEncryptionEnabled was set to true when the cluster was created.   The line requirepass was added to the database configuration file.   Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   Cannot contain any of the following characters: '/', '"', or '@'.    For more information, see AUTH password at http://redis.io/commands/AUTH.
-        public let authToken: String?
+        /// The port number on which each member of the replication group accepts connections.
+        public let port: Int32?
         /// A list of Amazon Resource Names (ARN) that uniquely identify the Redis RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new replication group. The Amazon S3 object name in the ARN cannot contain any commas. The new replication group will have the number of node groups (console: shards) specified by the parameter NumNodeGroups or the number of node groups configured by NodeGroupConfiguration regardless of the number of ARNs specified here. Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb 
         public let snapshotArns: SnapshotArnsList?
         /// A list of cache security group names to associate with this replication group.
@@ -2844,13 +2844,13 @@ extension Elasticache {
         public let cacheNodeType: String?
         /// A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group.   This parameter is valid only if the Engine parameter is redis and the cluster is being created in an Amazon VPC.  Default: false 
         public let atRestEncryptionEnabled: Bool?
-        /// The port number on which each member of the replication group accepts connections.
-        public let port: Int32?
+        ///  Reserved parameter. The password used to access a password protected server. This parameter is valid only if:   The parameter TransitEncryptionEnabled was set to true when the cluster was created.   The line requirepass was added to the database configuration file.   Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   Cannot contain any of the following characters: '/', '"', or '@'.    For more information, see AUTH password at http://redis.io/commands/AUTH.
+        public let authToken: String?
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster. This parameter is valid only if the Engine parameter is redis, the EngineVersion parameter is 3.2.4 or later, and the cluster is being created in an Amazon VPC. If you enable in-transit encryption, you must also specify a value for CacheSubnetGroup. Default: false 
         public let transitEncryptionEnabled: Bool?
 
-        public init(authToken: String? = nil, snapshotArns: SnapshotArnsList? = nil, cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, replicasPerNodeGroup: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, nodeGroupConfiguration: NodeGroupConfigurationList? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, replicationGroupId: String, primaryClusterId: String? = nil, preferredMaintenanceWindow: String? = nil, automaticFailoverEnabled: Bool? = nil, snapshotRetentionLimit: Int32? = nil, preferredCacheClusterAZs: AvailabilityZonesList? = nil, tags: TagList? = nil, numCacheClusters: Int32? = nil, securityGroupIds: SecurityGroupIdsList? = nil, snapshotName: String? = nil, notificationTopicArn: String? = nil, cacheSubnetGroupName: String? = nil, cacheParameterGroupName: String? = nil, numNodeGroups: Int32? = nil, replicationGroupDescription: String, engine: String? = nil, cacheNodeType: String? = nil, atRestEncryptionEnabled: Bool? = nil, port: Int32? = nil, transitEncryptionEnabled: Bool? = nil) {
-            self.authToken = authToken
+        public init(port: Int32? = nil, snapshotArns: SnapshotArnsList? = nil, cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, replicasPerNodeGroup: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, nodeGroupConfiguration: NodeGroupConfigurationList? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, replicationGroupId: String, primaryClusterId: String? = nil, preferredMaintenanceWindow: String? = nil, automaticFailoverEnabled: Bool? = nil, snapshotRetentionLimit: Int32? = nil, preferredCacheClusterAZs: AvailabilityZonesList? = nil, tags: TagList? = nil, numCacheClusters: Int32? = nil, securityGroupIds: SecurityGroupIdsList? = nil, snapshotName: String? = nil, notificationTopicArn: String? = nil, cacheSubnetGroupName: String? = nil, cacheParameterGroupName: String? = nil, numNodeGroups: Int32? = nil, replicationGroupDescription: String, engine: String? = nil, cacheNodeType: String? = nil, atRestEncryptionEnabled: Bool? = nil, authToken: String? = nil, transitEncryptionEnabled: Bool? = nil) {
+            self.port = port
             self.snapshotArns = snapshotArns
             self.cacheSecurityGroupNames = cacheSecurityGroupNames
             self.replicasPerNodeGroup = replicasPerNodeGroup
@@ -2876,12 +2876,12 @@ extension Elasticache {
             self.engine = engine
             self.cacheNodeType = cacheNodeType
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
-            self.port = port
+            self.authToken = authToken
             self.transitEncryptionEnabled = transitEncryptionEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authToken = "AuthToken"
+            case port = "Port"
             case snapshotArns = "SnapshotArns"
             case cacheSecurityGroupNames = "CacheSecurityGroupNames"
             case replicasPerNodeGroup = "ReplicasPerNodeGroup"
@@ -2907,7 +2907,7 @@ extension Elasticache {
             case engine = "Engine"
             case cacheNodeType = "CacheNodeType"
             case atRestEncryptionEnabled = "AtRestEncryptionEnabled"
-            case port = "Port"
+            case authToken = "AuthToken"
             case transitEncryptionEnabled = "TransitEncryptionEnabled"
         }
     }

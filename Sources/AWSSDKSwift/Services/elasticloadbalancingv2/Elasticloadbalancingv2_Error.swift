@@ -24,6 +24,9 @@ public enum Elasticloadbalancingv2Error: AWSErrorType {
     case incompatibleProtocolsException(message: String?)
     case tooManyRegistrationsForTargetIdException(message: String?)
     case tooManyTargetsException(message: String?)
+    case unsupportedProtocolException(message: String?)
+    case tooManyActionsException(message: String?)
+    case invalidLoadBalancerActionException(message: String?)
     case priorityInUseException(message: String?)
     case tooManyTargetGroupsException(message: String?)
     case tooManyRulesException(message: String?)
@@ -35,7 +38,6 @@ public enum Elasticloadbalancingv2Error: AWSErrorType {
     case duplicateTagKeysException(message: String?)
     case duplicateListenerException(message: String?)
     case tooManyListenersException(message: String?)
-    case unsupportedProtocolException(message: String?)
     case duplicateTargetGroupNameException(message: String?)
 }
 
@@ -86,6 +88,12 @@ extension Elasticloadbalancingv2Error {
             self = .tooManyRegistrationsForTargetIdException(message: message)
         case "TooManyTargetsException":
             self = .tooManyTargetsException(message: message)
+        case "UnsupportedProtocolException":
+            self = .unsupportedProtocolException(message: message)
+        case "TooManyActionsException":
+            self = .tooManyActionsException(message: message)
+        case "InvalidLoadBalancerActionException":
+            self = .invalidLoadBalancerActionException(message: message)
         case "PriorityInUseException":
             self = .priorityInUseException(message: message)
         case "TooManyTargetGroupsException":
@@ -108,8 +116,6 @@ extension Elasticloadbalancingv2Error {
             self = .duplicateListenerException(message: message)
         case "TooManyListenersException":
             self = .tooManyListenersException(message: message)
-        case "UnsupportedProtocolException":
-            self = .unsupportedProtocolException(message: message)
         case "DuplicateTargetGroupNameException":
             self = .duplicateTargetGroupNameException(message: message)
         default:

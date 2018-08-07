@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-Elastic Load Balancing A load balancer distributes incoming traffic across your EC2 instances. This enables you to increase the availability of your application. The load balancer also monitors the health of its registered instances and ensures that it routes traffic only to healthy instances. You configure your load balancer to accept incoming traffic by specifying one or more listeners, which are configured with a protocol and port number for connections from clients to the load balancer and a protocol and port number for connections from the load balancer to the instances. Elastic Load Balancing supports two types of load balancers: Classic Load Balancers and Application Load Balancers (new). A Classic Load Balancer makes routing and load balancing decisions either at the transport layer (TCP/SSL) or the application layer (HTTP/HTTPS), and supports either EC2-Classic or a VPC. An Application Load Balancer makes routing and load balancing decisions at the application layer (HTTP/HTTPS), supports path-based routing, and can route requests to one or more ports on each EC2 instance or container instance in your virtual private cloud (VPC). For more information, see the Elastic Load Balancing User Guide. This reference covers the 2012-06-01 API, which supports Classic Load Balancers. The 2015-12-01 API supports Application Load Balancers. To get started, create a load balancer with one or more listeners using CreateLoadBalancer. Register your instances with the load balancer using RegisterInstancesWithLoadBalancer. All Elastic Load Balancing operations are idempotent, which means that they complete at most one time. If you repeat an operation, it succeeds with a 200 OK response code.
+Elastic Load Balancing A load balancer can distribute incoming traffic across your EC2 instances. This enables you to increase the availability of your application. The load balancer also monitors the health of its registered instances and ensures that it routes traffic only to healthy instances. You configure your load balancer to accept incoming traffic by specifying one or more listeners, which are configured with a protocol and port number for connections from clients to the load balancer and a protocol and port number for connections from the load balancer to the instances. Elastic Load Balancing supports three types of load balancers: Application Load Balancers, Network Load Balancers, and Classic Load Balancers. You can select a load balancer based on your application needs. For more information, see the Elastic Load Balancing User Guide. This reference covers the 2012-06-01 API, which supports Classic Load Balancers. The 2015-12-01 API supports Application Load Balancers and Network Load Balancers. To get started, create a load balancer with one or more listeners using CreateLoadBalancer. Register your instances with the load balancer using RegisterInstancesWithLoadBalancer. All Elastic Load Balancing operations are idempotent, which means that they complete at most one time. If you repeat an operation, it succeeds with a 200 OK response code.
 */
 public struct Elasticloadbalancing {
 
@@ -109,9 +109,9 @@ public struct Elasticloadbalancing {
         return try client.send(operation: "DeleteLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the specified load balancer policy types or all load balancer policy types. The description of each type indicates how it can be used. For example, some policies can be used only with layer 7 listeners, some policies can be used only with layer 4 listeners, and some policies can be used only with your EC2 instances. You can use CreateLoadBalancerPolicy to create a policy configuration for any of these policy types. Then, depending on the policy type, use either SetLoadBalancerPoliciesOfListener or SetLoadBalancerPoliciesForBackendServer to set the policy.
-    public func describeLoadBalancerPolicyTypes(_ input: DescribeLoadBalancerPolicyTypesInput) throws -> DescribeLoadBalancerPolicyTypesOutput {
-        return try client.send(operation: "DescribeLoadBalancerPolicyTypes", path: "/", httpMethod: "POST", input: input)
+    ///  Sets the certificate that terminates the specified listener's SSL connections. The specified certificate replaces any prior certificate that was used on the same load balancer and port. For more information about updating your SSL certificate, see Replace the SSL Certificate for Your Load Balancer in the Classic Load Balancer Guide.
+    public func setLoadBalancerListenerSSLCertificate(_ input: SetLoadBalancerListenerSSLCertificateInput) throws -> SetLoadBalancerListenerSSLCertificateOutput {
+        return try client.send(operation: "SetLoadBalancerListenerSSLCertificate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds one or more subnets to the set of configured subnets for the specified load balancer. The load balancer evenly distributes requests across all registered subnets. For more information, see Add or Remove Subnets for Your Load Balancer in a VPC in the Classic Load Balancer Guide.
@@ -119,14 +119,14 @@ public struct Elasticloadbalancing {
         return try client.send(operation: "AttachLoadBalancerToSubnets", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sets the certificate that terminates the specified listener's SSL connections. The specified certificate replaces any prior certificate that was used on the same load balancer and port. For more information about updating your SSL certificate, see Replace the SSL Certificate for Your Load Balancer in the Classic Load Balancer Guide.
-    public func setLoadBalancerListenerSSLCertificate(_ input: SetLoadBalancerListenerSSLCertificateInput) throws -> SetLoadBalancerListenerSSLCertificateOutput {
-        return try client.send(operation: "SetLoadBalancerListenerSSLCertificate", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Specifies the health check settings to use when evaluating the health state of your EC2 instances. For more information, see Configure Health Checks for Your Load Balancer in the Classic Load Balancer Guide.
     public func configureHealthCheck(_ input: ConfigureHealthCheckInput) throws -> ConfigureHealthCheckOutput {
         return try client.send(operation: "ConfigureHealthCheck", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the specified load balancer policy types or all load balancer policy types. The description of each type indicates how it can be used. For example, some policies can be used only with layer 7 listeners, some policies can be used only with layer 4 listeners, and some policies can be used only with your EC2 instances. You can use CreateLoadBalancerPolicy to create a policy configuration for any of these policy types. Then, depending on the policy type, use either SetLoadBalancerPoliciesOfListener or SetLoadBalancerPoliciesForBackendServer to set the policy.
+    public func describeLoadBalancerPolicyTypes(_ input: DescribeLoadBalancerPolicyTypesInput) throws -> DescribeLoadBalancerPolicyTypesOutput {
+        return try client.send(operation: "DescribeLoadBalancerPolicyTypes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes the specified subnets from the set of configured subnets for the load balancer. After a subnet is removed, all EC2 instances registered with the load balancer in the removed subnet go into the OutOfService state. Then, the load balancer balances the traffic among the remaining routable subnets.

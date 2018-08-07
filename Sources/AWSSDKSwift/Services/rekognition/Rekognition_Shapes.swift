@@ -152,7 +152,7 @@ extension Rekognition {
         public let clientRequestToken: String?
         /// ID of the collection that contains the faces you want to search for.
         public let collectionId: String
-        /// The ARN of the Amazon SNS topic to which you want Rekognition Video to publish the completion status of the search. 
+        /// The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video to publish the completion status of the search. 
         public let notificationChannel: NotificationChannel?
         /// The video you want to search. The video must be stored in an Amazon S3 bucket. 
         public let video: Video
@@ -307,7 +307,7 @@ extension Rekognition {
         public let orientationCorrection: OrientationCorrection?
         /// Version number of the face detection model associated with the input collection (CollectionId).
         public let faceModelVersion: String?
-        /// An array of faces detected and added to the collection. For more information, see collections-index-faces. 
+        /// An array of faces detected and added to the collection. For more information, see Searching Faces in a Collection in the Amazon Rekognition Developer Guide. 
         public let faceRecords: [FaceRecord]?
 
         public init(orientationCorrection: OrientationCorrection? = nil, faceModelVersion: String? = nil, faceRecords: [FaceRecord]? = nil) {
@@ -337,8 +337,8 @@ extension Rekognition {
             AWSShapeMember(label: "Landmarks", required: false, type: .list), 
             AWSShapeMember(label: "Beard", required: false, type: .structure), 
             AWSShapeMember(label: "Quality", required: false, type: .structure), 
-            AWSShapeMember(label: "Confidence", required: false, type: .float), 
             AWSShapeMember(label: "Mustache", required: false, type: .structure), 
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
             AWSShapeMember(label: "Emotions", required: false, type: .list)
         ]
         /// Indicates whether or not the face is wearing sunglasses, and the confidence level in the determination.
@@ -351,28 +351,28 @@ extension Rekognition {
         public let smile: Smile?
         /// Indicates whether or not the mouth on the face is open, and the confidence level in the determination.
         public let mouthOpen: MouthOpen?
-        /// Bounding box of the face.
+        /// Bounding box of the face. Default attribute.
         public let boundingBox: BoundingBox?
-        /// Indicates the pose of the face as determined by its pitch, roll, and yaw.
+        /// Indicates the pose of the face as determined by its pitch, roll, and yaw. Default attribute.
         public let pose: Pose?
         /// The estimated age range, in years, for the face. Low represents the lowest estimated age and High represents the highest estimated age.
         public let ageRange: AgeRange?
         /// Indicates whether or not the face is wearing eye glasses, and the confidence level in the determination.
         public let eyeglasses: Eyeglasses?
-        /// Indicates the location of landmarks on the face.
+        /// Indicates the location of landmarks on the face. Default attribute.
         public let landmarks: [Landmark]?
         /// Indicates whether or not the face has a beard, and the confidence level in the determination.
         public let beard: Beard?
-        /// Identifies image brightness and sharpness.
+        /// Identifies image brightness and sharpness. Default attribute.
         public let quality: ImageQuality?
-        /// Confidence level that the bounding box contains a face (and not a different object such as a tree).
-        public let confidence: Float?
         /// Indicates whether or not the face has a mustache, and the confidence level in the determination.
         public let mustache: Mustache?
+        /// Confidence level that the bounding box contains a face (and not a different object such as a tree). Default attribute.
+        public let confidence: Float?
         /// The emotions detected on the face, and the confidence level in the determination. For example, HAPPY, SAD, and ANGRY. 
         public let emotions: [Emotion]?
 
-        public init(sunglasses: Sunglasses? = nil, gender: Gender? = nil, eyesOpen: EyeOpen? = nil, smile: Smile? = nil, mouthOpen: MouthOpen? = nil, boundingBox: BoundingBox? = nil, pose: Pose? = nil, ageRange: AgeRange? = nil, eyeglasses: Eyeglasses? = nil, landmarks: [Landmark]? = nil, beard: Beard? = nil, quality: ImageQuality? = nil, confidence: Float? = nil, mustache: Mustache? = nil, emotions: [Emotion]? = nil) {
+        public init(sunglasses: Sunglasses? = nil, gender: Gender? = nil, eyesOpen: EyeOpen? = nil, smile: Smile? = nil, mouthOpen: MouthOpen? = nil, boundingBox: BoundingBox? = nil, pose: Pose? = nil, ageRange: AgeRange? = nil, eyeglasses: Eyeglasses? = nil, landmarks: [Landmark]? = nil, beard: Beard? = nil, quality: ImageQuality? = nil, mustache: Mustache? = nil, confidence: Float? = nil, emotions: [Emotion]? = nil) {
             self.sunglasses = sunglasses
             self.gender = gender
             self.eyesOpen = eyesOpen
@@ -385,8 +385,8 @@ extension Rekognition {
             self.landmarks = landmarks
             self.beard = beard
             self.quality = quality
-            self.confidence = confidence
             self.mustache = mustache
+            self.confidence = confidence
             self.emotions = emotions
         }
 
@@ -403,8 +403,8 @@ extension Rekognition {
             case landmarks = "Landmarks"
             case beard = "Beard"
             case quality = "Quality"
-            case confidence = "Confidence"
             case mustache = "Mustache"
+            case confidence = "Confidence"
             case emotions = "Emotions"
         }
     }
@@ -596,7 +596,7 @@ extension Rekognition {
         public let clientRequestToken: String?
         /// Specifies the minimum confidence that Amazon Rekognition must have in order to return a moderated content label. Confidence represents how certain Amazon Rekognition is that the moderated content is correctly identified. 0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition doesn't return any moderated content labels with a confidence level lower than this specified value.
         public let minConfidence: Float?
-        /// The Amazon SNS topic ARN that you want Rekognition Video to publish the completion status of the content moderation analysis to.
+        /// The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish the completion status of the content moderation analysis to.
         public let notificationChannel: NotificationChannel?
         /// The video in which you want to moderate content. The video must be stored in an Amazon S3 bucket.
         public let video: Video
@@ -660,9 +660,9 @@ extension Rekognition {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
-        /// If the previous response was incomplete (because there are more stream processors to retrieve), Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of stream processors. 
+        /// If the previous response was incomplete (because there are more stream processors to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of stream processors. 
         public let nextToken: String?
-        /// Maximum number of stream processors you want Rekognition Video to return in the response. The default is 1000. 
+        /// Maximum number of stream processors you want Amazon Rekognition Video to return in the response. The default is 1000. 
         public let maxResults: Int32?
 
         public init(nextToken: String? = nil, maxResults: Int32? = nil) {
@@ -1000,7 +1000,7 @@ extension Rekognition {
         public let name: String?
         /// The time, in Unix format, the stream processor was last updated. For example, when the stream processor moves from a running state to a failed state, or when the user starts or stops the stream processor.
         public let lastUpdateTimestamp: TimeStamp?
-        /// Kinesis data stream to which Rekognition Video puts the analysis results.
+        /// Kinesis data stream to which Amazon Rekognition Video puts the analysis results.
         public let output: StreamProcessorOutput?
         /// Face recognition input parameters that are being used by the stream processor. Includes the collection to use for face recognition and the face attributes to detect.
         public let settings: StreamProcessorSettings?
@@ -1050,9 +1050,9 @@ extension Rekognition {
         public let labels: [LabelDetection]?
         /// The current status of the label detection job.
         public let jobStatus: VideoJobStatus?
-        /// Information about a video that Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition video operation.
+        /// Information about a video that Amazon Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition video operation.
         public let videoMetadata: VideoMetadata?
-        /// If the response is truncated, Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of labels.
+        /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of labels.
         public let nextToken: String?
         /// If the job fails, StatusMessage provides a descriptive error message.
         public let statusMessage: String?
@@ -1114,9 +1114,9 @@ extension Rekognition {
         public let jobStatus: VideoJobStatus?
         /// An array of persons, , in the video whose face(s) match the face(s) in an Amazon Rekognition collection. It also includes time information for when persons are matched in the video. You specify the input collection in an initial call to StartFaceSearch. Each Persons element includes a time the person was matched, face match details (FaceMatches) for matching faces in the collection, and person information (Person) for the matched person. 
         public let persons: [PersonMatch]?
-        /// Information about a video that Amazon Rekognition analyzed. Videometadata is returned in every page of paginated responses from a Rekognition Video operation. 
+        /// Information about a video that Amazon Rekognition analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition Video operation. 
         public let videoMetadata: VideoMetadata?
-        /// If the response is truncated, Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of search results. 
+        /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of search results. 
         public let nextToken: String?
         /// If the job fails, StatusMessage provides a descriptive error message.
         public let statusMessage: String?
@@ -1171,9 +1171,9 @@ extension Rekognition {
         public let jobTag: String?
         /// Idempotent token used to identify the start request. If you use the same token with multiple StartLabelDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
         public let clientRequestToken: String?
-        /// Specifies the minimum confidence that Rekognition Video must have in order to return a detected label. Confidence represents how certain Amazon Rekognition is that a label is correctly identified.0 is the lowest confidence. 100 is the highest confidence. Rekognition Video doesn't return any labels with a confidence level lower than this specified value. If you don't specify MinConfidence, the operation returns labels with confidence values greater than or equal to 50 percent.
+        /// Specifies the minimum confidence that Amazon Rekognition Video must have in order to return a detected label. Confidence represents how certain Amazon Rekognition is that a label is correctly identified.0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't return any labels with a confidence level lower than this specified value. If you don't specify MinConfidence, the operation returns labels with confidence values greater than or equal to 50 percent.
         public let minConfidence: Float?
-        /// The Amazon SNS topic ARN you want Rekognition Video to publish the completion status of the label detection operation to. 
+        /// The Amazon SNS topic ARN you want Amazon Rekognition Video to publish the completion status of the label detection operation to. 
         public let notificationChannel: NotificationChannel?
         /// The video in which you want to detect labels. The video must be stored in an Amazon S3 bucket.
         public let video: Video
@@ -1204,11 +1204,11 @@ extension Rekognition {
         ]
         /// Sort to use for grouping faces in the response. Use TIMESTAMP to group faces by the time that they are recognized. Use INDEX to sort by recognized faces. 
         public let sortBy: FaceSearchSortBy?
-        /// If the previous response was incomplete (because there is more search results to retrieve), Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of search results. 
+        /// If the previous response was incomplete (because there is more search results to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of search results. 
         public let nextToken: String?
         /// The job identifer for the search request. You get the job identifier from an initial call to StartFaceSearch.
         public let jobId: String
-        /// Maximum number of search results you want Rekognition Video to return in the response. The default is 1000.
+        /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
         public let maxResults: Int32?
 
         public init(sortBy: FaceSearchSortBy? = nil, nextToken: String? = nil, jobId: String, maxResults: Int32? = nil) {
@@ -1256,11 +1256,11 @@ extension Rekognition {
         ]
         /// Sort to use for celebrities returned in Celebrities field. Specify ID to sort by the celebrity identifier, specify TIMESTAMP to sort by the time the celebrity was recognized.
         public let sortBy: CelebrityRecognitionSortBy?
-        /// If the previous response was incomplete (because there is more recognized celebrities to retrieve), Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of celebrities. 
+        /// If the previous response was incomplete (because there is more recognized celebrities to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of celebrities. 
         public let nextToken: String?
         /// Job identifier for the required celebrity recognition analysis. You can get the job identifer from a call to StartCelebrityRecognition.
         public let jobId: String
-        /// Maximum number of celebrities you want Rekognition Video to return in the response. The default is 1000.
+        /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
         public let maxResults: Int32?
 
         public init(sortBy: CelebrityRecognitionSortBy? = nil, nextToken: String? = nil, jobId: String, maxResults: Int32? = nil) {
@@ -1429,7 +1429,7 @@ extension Rekognition {
         public let name: String
         /// Kinesis video stream stream that provides the source streaming video. If you are using the AWS CLI, the parameter name is StreamProcessorInput.
         public let input: StreamProcessorInput
-        /// Kinesis data stream stream to which Rekognition Video puts the analysis results. If you are using the AWS CLI, the parameter name is StreamProcessorOutput.
+        /// Kinesis data stream stream to which Amazon Rekognition Video puts the analysis results. If you are using the AWS CLI, the parameter name is StreamProcessorOutput.
         public let output: StreamProcessorOutput
 
         public init(settings: StreamProcessorSettings, roleArn: String, name: String, input: StreamProcessorInput, output: StreamProcessorOutput) {
@@ -1527,22 +1527,6 @@ extension Rekognition {
 
     }
 
-    public struct StartContentModerationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: false, type: .string)
-        ]
-        /// The identifier for the content moderation analysis job. Use JobId to identify the job in a subsequent call to GetContentModeration.
-        public let jobId: String?
-
-        public init(jobId: String? = nil) {
-            self.jobId = jobId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-        }
-    }
-
     public struct IndexFacesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Image", required: true, type: .structure), 
@@ -1574,18 +1558,6 @@ extension Rekognition {
         }
     }
 
-    public enum EmotionName: String, CustomStringConvertible, Codable {
-        case happy = "HAPPY"
-        case sad = "SAD"
-        case angry = "ANGRY"
-        case confused = "CONFUSED"
-        case disgusted = "DISGUSTED"
-        case surprised = "SURPRISED"
-        case calm = "CALM"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DetectTextRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Image", required: true, type: .structure)
@@ -1599,6 +1571,34 @@ extension Rekognition {
 
         private enum CodingKeys: String, CodingKey {
             case image = "Image"
+        }
+    }
+
+    public enum EmotionName: String, CustomStringConvertible, Codable {
+        case happy = "HAPPY"
+        case sad = "SAD"
+        case angry = "ANGRY"
+        case confused = "CONFUSED"
+        case disgusted = "DISGUSTED"
+        case surprised = "SURPRISED"
+        case calm = "CALM"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StartContentModerationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+        /// The identifier for the content moderation analysis job. Use JobId to identify the job in a subsequent call to GetContentModeration.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
         }
     }
 
@@ -1658,7 +1658,7 @@ extension Rekognition {
         public let clientRequestToken: String?
         /// The face attributes you want returned.  DEFAULT - The following subset of facial attributes are returned: BoundingBox, Confidence, Pose, Quality and Landmarks.   ALL - All facial attributes are returned.
         public let faceAttributes: FaceAttributes?
-        /// The ARN of the Amazon SNS topic to which you want Rekognition Video to publish the completion status of the face detection operation.
+        /// The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video to publish the completion status of the face detection operation.
         public let notificationChannel: NotificationChannel?
         /// The video in which you want to detect faces. The video must be stored in an Amazon S3 bucket.
         public let video: Video
@@ -1708,9 +1708,9 @@ extension Rekognition {
         public let statusMessage: String?
         /// The current status of the celebrity recognition job.
         public let jobStatus: VideoJobStatus?
-        /// Information about a video that Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Rekognition Video operation.
+        /// Information about a video that Amazon Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition Video operation.
         public let videoMetadata: VideoMetadata?
-        /// If the response is truncated, Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of celebrities.
+        /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of celebrities.
         public let nextToken: String?
         /// Array of celebrities recognized in the video.
         public let celebrities: [CelebrityRecognition]?
@@ -1807,7 +1807,7 @@ extension Rekognition {
         public let jobTag: String?
         /// Idempotent token used to identify the start request. If you use the same token with multiple StartCelebrityRecognition requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
         public let clientRequestToken: String?
-        /// The Amazon SNS topic ARN that you want Rekognition Video to publish the completion status of the celebrity recognition analysis to.
+        /// The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish the completion status of the celebrity recognition analysis to.
         public let notificationChannel: NotificationChannel?
         /// The video in which you want to recognize celebrities. The video must be stored in an Amazon S3 bucket.
         public let video: Video
@@ -1912,9 +1912,9 @@ extension Rekognition {
         public let jobStatus: VideoJobStatus?
         /// An array of the persons detected in the video and the times they are tracked throughout the video. An array element will exist for each time the person is tracked. 
         public let persons: [PersonDetection]?
-        /// Information about a video that Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Rekognition Video operation.
+        /// Information about a video that Amazon Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition Video operation.
         public let videoMetadata: VideoMetadata?
-        /// If the response is truncated, Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of persons. 
+        /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of persons. 
         public let nextToken: String?
         /// If the job fails, StatusMessage provides a descriptive error message.
         public let statusMessage: String?
@@ -1950,7 +1950,7 @@ extension Rekognition {
         public let jobStatus: VideoJobStatus?
         /// An array of faces detected in the video. Each element contains a detected face's details and the time, in milliseconds from the start of the video, the face was detected. 
         public let faces: [FaceDetection]?
-        /// Information about a video that Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition video operation.
+        /// Information about a video that Amazon Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition video operation.
         public let videoMetadata: VideoMetadata?
         /// If the response is truncated, Amazon Rekognition returns this token that you can use in the subsequent request to retrieve the next set of faces. 
         public let nextToken: String?
@@ -1998,7 +1998,7 @@ extension Rekognition {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StreamProcessors", required: false, type: .list)
         ]
-        /// If the response is truncated, Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of stream processors. 
+        /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of stream processors. 
         public let nextToken: String?
         /// List of stream processors that you have created.
         public let streamProcessors: [StreamProcessor]?
@@ -2060,11 +2060,11 @@ extension Rekognition {
         ]
         /// Sort to use for elements in the Labels array. Use TIMESTAMP to sort array elements by the time labels are detected. Use NAME to alphabetically group elements for a label together. Within each label group, the array element are sorted by detection confidence. The default sort is by TIMESTAMP.
         public let sortBy: LabelDetectionSortBy?
-        /// If the previous response was incomplete (because there are more labels to retrieve), Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of labels. 
+        /// If the previous response was incomplete (because there are more labels to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of labels. 
         public let nextToken: String?
         /// Job identifier for the label detection operation for which you want results returned. You get the job identifer from an initial call to StartlabelDetection.
         public let jobId: String
-        /// Maximum number of labels you want Amazon Rekognition to return in the response. The default is 1000.
+        /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
         public let maxResults: Int32?
 
         public init(sortBy: LabelDetectionSortBy? = nil, nextToken: String? = nil, jobId: String, maxResults: Int32? = nil) {
@@ -2093,7 +2093,7 @@ extension Rekognition {
         public let jobTag: String?
         /// Idempotent token used to identify the start request. If you use the same token with multiple StartPersonTracking requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
         public let clientRequestToken: String?
-        /// The Amazon SNS topic ARN you want Rekognition Video to publish the completion status of the people detection operation to.
+        /// The Amazon SNS topic ARN you want Amazon Rekognition Video to publish the completion status of the people detection operation to.
         public let notificationChannel: NotificationChannel?
         /// The video in which you want to detect people. The video must be stored in an Amazon S3 bucket.
         public let video: Video
@@ -2119,11 +2119,11 @@ extension Rekognition {
             AWSShapeMember(label: "JobId", required: true, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
-        /// If the previous response was incomplete (because there are more faces to retrieve), Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of faces.
+        /// If the previous response was incomplete (because there are more faces to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of faces.
         public let nextToken: String?
         /// Unique identifier for the face detection job. The JobId is returned from StartFaceDetection.
         public let jobId: String
-        /// Maximum number of detected faces to return. The default is 1000.
+        /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
         public let maxResults: Int32?
 
         public init(nextToken: String? = nil, jobId: String, maxResults: Int32? = nil) {
@@ -2445,7 +2445,7 @@ extension Rekognition {
         public let nextToken: String?
         /// The identifier for the content moderation job. Use JobId to identify the job in a subsequent call to GetContentModeration.
         public let jobId: String
-        /// Maximum number of content moderation labels to return. The default is 1000.
+        /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
         public let maxResults: Int32?
 
         public init(sortBy: ContentModerationSortBy? = nil, nextToken: String? = nil, jobId: String, maxResults: Int32? = nil) {
@@ -2530,7 +2530,7 @@ extension Rekognition {
         public let moderationLabels: [ContentModerationDetection]?
         /// Information about a video that Amazon Rekognition analyzed. Videometadata is returned in every page of paginated responses from GetContentModeration. 
         public let videoMetadata: VideoMetadata?
-        /// If the response is truncated, Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of moderation labels. 
+        /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of moderation labels. 
         public let nextToken: String?
         /// If the job fails, StatusMessage provides a descriptive error message.
         public let statusMessage: String?
@@ -2709,11 +2709,11 @@ extension Rekognition {
         ]
         /// Sort to use for elements in the Persons array. Use TIMESTAMP to sort array elements by the time persons are detected. Use INDEX to sort by the tracked persons. If you sort by INDEX, the array elements for each person are sorted by detection confidence. The default sort is by TIMESTAMP.
         public let sortBy: PersonTrackingSortBy?
-        /// If the previous response was incomplete (because there are more persons to retrieve), Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of persons. 
+        /// If the previous response was incomplete (because there are more persons to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of persons. 
         public let nextToken: String?
         /// The identifier for a job that tracks persons in a video. You get the JobId from a call to StartPersonTracking. 
         public let jobId: String
-        /// Maximum number of tracked persons to return. The default is 1000. 
+        /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
         public let maxResults: Int32?
 
         public init(sortBy: PersonTrackingSortBy? = nil, nextToken: String? = nil, jobId: String, maxResults: Int32? = nil) {

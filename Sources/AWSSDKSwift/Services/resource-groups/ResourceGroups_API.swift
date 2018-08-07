@@ -61,12 +61,12 @@ public struct ResourceGroups {
 
     ///  Returns a list of existing resource groups in your account.
     public func listGroups(_ input: ListGroupsInput) throws -> ListGroupsOutput {
-        return try client.send(operation: "ListGroups", path: "/groups", httpMethod: "GET", input: input)
+        return try client.send(operation: "ListGroups", path: "/groups-list", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of ARNs of resources that are members of a specified resource group.
     public func listGroupResources(_ input: ListGroupResourcesInput) throws -> ListGroupResourcesOutput {
-        return try client.send(operation: "ListGroupResources", path: "/groups/{GroupName}/resource-identifiers", httpMethod: "GET", input: input)
+        return try client.send(operation: "ListGroupResources", path: "/groups/{GroupName}/resource-identifiers-list", httpMethod: "POST", input: input)
     }
 
     ///  Deletes specified tags from a specified resource.

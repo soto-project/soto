@@ -11,6 +11,7 @@ public enum GlueError: AWSErrorType {
     case idempotentParameterMismatchException(message: String?)
     case alreadyExistsException(message: String?)
     case resourceNumberLimitExceededException(message: String?)
+    case concurrentModificationException(message: String?)
     case versionMismatchException(message: String?)
     case schedulerTransitioningException(message: String?)
     case accessDeniedException(message: String?)
@@ -22,7 +23,6 @@ public enum GlueError: AWSErrorType {
     case crawlerNotRunningException(message: String?)
     case crawlerStoppingException(message: String?)
     case schedulerNotRunningException(message: String?)
-    case concurrentModificationException(message: String?)
 }
 
 extension GlueError {
@@ -46,6 +46,8 @@ extension GlueError {
             self = .alreadyExistsException(message: message)
         case "ResourceNumberLimitExceededException":
             self = .resourceNumberLimitExceededException(message: message)
+        case "ConcurrentModificationException":
+            self = .concurrentModificationException(message: message)
         case "VersionMismatchException":
             self = .versionMismatchException(message: message)
         case "SchedulerTransitioningException":
@@ -68,8 +70,6 @@ extension GlueError {
             self = .crawlerStoppingException(message: message)
         case "SchedulerNotRunningException":
             self = .schedulerNotRunningException(message: message)
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
         default:
             return nil
         }

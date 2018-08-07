@@ -1512,8 +1512,8 @@ extension Elasticloadbalancing {
             AWSShapeMember(label: "BackendServerDescriptions", required: false, type: .list), 
             AWSShapeMember(label: "Subnets", required: false, type: .list), 
             AWSShapeMember(label: "Policies", required: false, type: .structure), 
-            AWSShapeMember(label: "CanonicalHostedZoneNameID", required: false, type: .string), 
             AWSShapeMember(label: "DNSName", required: false, type: .string), 
+            AWSShapeMember(label: "CanonicalHostedZoneNameID", required: false, type: .string), 
             AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "CanonicalHostedZoneName", required: false, type: .string), 
@@ -1534,10 +1534,10 @@ extension Elasticloadbalancing {
         public let subnets: [String]?
         /// The policies defined for the load balancer.
         public let policies: Policies?
-        /// The ID of the Amazon Route 53 hosted zone for the load balancer.
-        public let canonicalHostedZoneNameID: String?
         /// The DNS name of the load balancer.
         public let dNSName: String?
+        /// The ID of the Amazon Route 53 hosted zone for the load balancer.
+        public let canonicalHostedZoneNameID: String?
         /// The name of the load balancer.
         public let loadBalancerName: String?
         /// The date and time the load balancer was created.
@@ -1557,14 +1557,14 @@ extension Elasticloadbalancing {
         /// The type of load balancer. Valid only for load balancers in a VPC. If Scheme is internet-facing, the load balancer has a public DNS name that resolves to a public IP address. If Scheme is internal, the load balancer has a public DNS name that resolves to a private IP address.
         public let scheme: String?
 
-        public init(availabilityZones: [String]? = nil, vPCId: String? = nil, backendServerDescriptions: [BackendServerDescription]? = nil, subnets: [String]? = nil, policies: Policies? = nil, canonicalHostedZoneNameID: String? = nil, dNSName: String? = nil, loadBalancerName: String? = nil, createdTime: TimeStamp? = nil, canonicalHostedZoneName: String? = nil, securityGroups: [String]? = nil, listenerDescriptions: [ListenerDescription]? = nil, sourceSecurityGroup: SourceSecurityGroup? = nil, healthCheck: HealthCheck? = nil, instances: [Instance]? = nil, scheme: String? = nil) {
+        public init(availabilityZones: [String]? = nil, vPCId: String? = nil, backendServerDescriptions: [BackendServerDescription]? = nil, subnets: [String]? = nil, policies: Policies? = nil, dNSName: String? = nil, canonicalHostedZoneNameID: String? = nil, loadBalancerName: String? = nil, createdTime: TimeStamp? = nil, canonicalHostedZoneName: String? = nil, securityGroups: [String]? = nil, listenerDescriptions: [ListenerDescription]? = nil, sourceSecurityGroup: SourceSecurityGroup? = nil, healthCheck: HealthCheck? = nil, instances: [Instance]? = nil, scheme: String? = nil) {
             self.availabilityZones = availabilityZones
             self.vPCId = vPCId
             self.backendServerDescriptions = backendServerDescriptions
             self.subnets = subnets
             self.policies = policies
-            self.canonicalHostedZoneNameID = canonicalHostedZoneNameID
             self.dNSName = dNSName
+            self.canonicalHostedZoneNameID = canonicalHostedZoneNameID
             self.loadBalancerName = loadBalancerName
             self.createdTime = createdTime
             self.canonicalHostedZoneName = canonicalHostedZoneName
@@ -1582,8 +1582,8 @@ extension Elasticloadbalancing {
             case backendServerDescriptions = "BackendServerDescriptions"
             case subnets = "Subnets"
             case policies = "Policies"
-            case canonicalHostedZoneNameID = "CanonicalHostedZoneNameID"
             case dNSName = "DNSName"
+            case canonicalHostedZoneNameID = "CanonicalHostedZoneNameID"
             case loadBalancerName = "LoadBalancerName"
             case createdTime = "CreatedTime"
             case canonicalHostedZoneName = "CanonicalHostedZoneName"

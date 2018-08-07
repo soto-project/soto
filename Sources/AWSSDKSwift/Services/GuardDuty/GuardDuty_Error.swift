@@ -2,13 +2,13 @@
 
 import AWSSDKSwiftCore
 
-/// Error enum for GuardDuty
-public enum GuardDutyError: AWSErrorType {
+/// Error enum for Guardduty
+public enum GuarddutyError: AWSErrorType {
     case badRequestException(message: String?)
     case internalServerErrorException(message: String?)
 }
 
-extension GuardDutyError {
+extension GuarddutyError {
     public init?(errorCode: String, message: String?){
         var errorCode = errorCode
         if let index = errorCode.index(of: "#") {

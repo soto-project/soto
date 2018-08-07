@@ -51,7 +51,7 @@ public struct MturkRequester {
         return try client.send(operation: "DisassociateQualificationFromWorker", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   The GetFileUploadURL operation generates and returns a temporary URL. You use the temporary URL to retrieve a file uploaded by a Worker as an answer to a FileUploadAnswer question for a HIT. The temporary URL is generated the instant the GetFileUploadURL operation is called, and is valid for 60 seconds. You can get a temporary file upload URL any time until the HIT is disposed. After the HIT is disposed, any uploaded files are deleted, and cannot be retrieved. 
+    ///   The GetFileUploadURL operation generates and returns a temporary URL. You use the temporary URL to retrieve a file uploaded by a Worker as an answer to a FileUploadAnswer question for a HIT. The temporary URL is generated the instant the GetFileUploadURL operation is called, and is valid for 60 seconds. You can get a temporary file upload URL any time until the HIT is disposed. After the HIT is disposed, any uploaded files are deleted, and cannot be retrieved. Pending Deprecation on December 12, 2017. The Answer Specification structure will no longer support the FileUploadAnswer element to be used for the QuestionForm data structure. Instead, we recommend that Requesters who want to create HITs asking Workers to upload files to use Amazon S3. 
     public func getFileUploadURL(_ input: GetFileUploadURLRequest) throws -> GetFileUploadURLResponse {
         return try client.send(operation: "GetFileUploadURL", path: "/", httpMethod: "POST", input: input)
     }
@@ -91,7 +91,7 @@ public struct MturkRequester {
         return try client.send(operation: "ListReviewPolicyResultsForHIT", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   The ListQualificationRequests operation retrieves requests for Qualifications of a particular Qualification type. The owner of the Qualification type calls this operation to poll for pending requests, and accepts them using the AcceptQualification operation. 
+    ///   The ListQualificationTypes operation returns a list of Qualification types, filtered by an optional search term. 
     public func listQualificationTypes(_ input: ListQualificationTypesRequest) throws -> ListQualificationTypesResponse {
         return try client.send(operation: "ListQualificationTypes", path: "/", httpMethod: "POST", input: input)
     }

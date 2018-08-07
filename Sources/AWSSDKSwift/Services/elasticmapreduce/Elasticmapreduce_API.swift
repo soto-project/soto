@@ -55,7 +55,7 @@ public struct Elasticmapreduce {
         return try client.send(operation: "AddInstanceGroups", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Provides cluster-level details including status, hardware and software configuration, VPC settings, and so on. For information about the cluster steps, see ListSteps.
+    ///  Provides cluster-level details including status, hardware and software configuration, VPC settings, and so on. 
     public func describeCluster(_ input: DescribeClusterInput) throws -> DescribeClusterOutput {
         return try client.send(operation: "DescribeCluster", path: "/", httpMethod: "POST", input: input)
     }

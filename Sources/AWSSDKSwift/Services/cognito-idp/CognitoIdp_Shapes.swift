@@ -550,9 +550,9 @@ extension CognitoIdp {
         ]
         /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
         public let contextData: ContextDataType?
-        /// The authentication parameters. These are inputs corresponding to the AuthFlow that you are invoking. The required values depend on the value of AuthFlow:   For USER_SRP_AUTH: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY    For REFRESH_TOKEN_AUTH/REFRESH_TOKEN: USERNAME (required), SECRET_HASH (required if the app client is configured with a client secret), REFRESH_TOKEN (required), DEVICE_KEY    For ADMIN_NO_SRP_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), PASSWORD (required), DEVICE_KEY    For CUSTOM_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY   
+        /// The authentication parameters. These are inputs corresponding to the AuthFlow that you are invoking. The required values depend on the value of AuthFlow:   For USER_SRP_AUTH: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY    For REFRESH_TOKEN_AUTH/REFRESH_TOKEN: REFRESH_TOKEN (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY    For ADMIN_NO_SRP_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), PASSWORD (required), DEVICE_KEY    For CUSTOM_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY   
         public let authParameters: [String: String]?
-        /// The authentication flow for this call to execute. The API action will depend on this value. For example:    REFRESH_TOKEN_AUTH will take in a valid refresh token and return new tokens.    USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP variables to be used for next challenge execution.   Valid values include:    USER_SRP_AUTH: Authentication flow for the Secure Remote Password (SRP) protocol.    REFRESH_TOKEN_AUTH/REFRESH_TOKEN: Authentication flow for refreshing the access token and ID token by supplying a valid refresh token.    CUSTOM_AUTH: Custom authentication flow.    ADMIN_NO_SRP_AUTH: Non-SRP authentication flow; you can pass in the USERNAME and PASSWORD directly if the flow is enabled for calling the app client.  
+        /// The authentication flow for this call to execute. The API action will depend on this value. For example:    REFRESH_TOKEN_AUTH will take in a valid refresh token and return new tokens.    USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP variables to be used for next challenge execution.    USER_PASSWORD_AUTH will take in USERNAME and PASSWORD and return the next challenge or tokens.   Valid values include:    USER_SRP_AUTH: Authentication flow for the Secure Remote Password (SRP) protocol.    REFRESH_TOKEN_AUTH/REFRESH_TOKEN: Authentication flow for refreshing the access token and ID token by supplying a valid refresh token.    CUSTOM_AUTH: Custom authentication flow.    ADMIN_NO_SRP_AUTH: Non-SRP authentication flow; you can pass in the USERNAME and PASSWORD directly if the flow is enabled for calling the app client.    USER_PASSWORD_AUTH: Non-SRP authentication flow; USERNAME and PASSWORD are passed directly. If a user migration Lambda trigger is set, this flow will invoke the user migration Lambda if the USERNAME is not found in the user pool.   
         public let authFlow: AuthFlowType
         /// The app client ID.
         public let clientId: String
@@ -767,7 +767,7 @@ extension CognitoIdp {
         public let analyticsConfiguration: AnalyticsConfigurationType?
         /// The client secret from the user pool request of the client type.
         public let clientSecret: String?
-        /// A list of allowed callback URLs for the identity providers.
+        /// A list of allowed redirect (callback) URLs for the identity providers. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not use HTTP without TLS (i.e. use HTTPS instead of HTTP).   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint.
         public let callbackURLs: [String]?
         /// The user pool ID for the user pool client.
         public let userPoolId: String?
@@ -781,7 +781,7 @@ extension CognitoIdp {
         public let allowedOAuthFlows: [OAuthFlowType]?
         /// The date the user pool client was last modified.
         public let lastModifiedDate: TimeStamp?
-        /// The default redirect URI. Must be in the CallbackURLs list.
+        /// The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not use HTTP without TLS (i.e. use HTTPS instead of HTTP).   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint.
         public let defaultRedirectURI: String?
         /// The ID of the client associated with the user pool.
         public let clientId: String?
@@ -908,6 +908,7 @@ extension CognitoIdp {
         case refreshToken = "REFRESH_TOKEN"
         case customAuth = "CUSTOM_AUTH"
         case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
+        case userPasswordAuth = "USER_PASSWORD_AUTH"
         public var description: String { return self.rawValue }
     }
 
@@ -1050,9 +1051,9 @@ extension CognitoIdp {
             AWSShapeMember(label: "AuthenticationResult", required: false, type: .structure), 
             AWSShapeMember(label: "Session", required: false, type: .string)
         ]
-        /// The name of the challenge which you are responding to with this call. This is returned to you in the AdminInitiateAuth response if you need to pass another challenge.    SMS_MFA: Next challenge is to supply an SMS_MFA_CODE, delivered via SMS.    PASSWORD_VERIFIER: Next challenge is to supply PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after the client-side SRP calculations.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued.    DEVICE_SRP_AUTH: If device tracking was enabled on your user pool and the previous challenges were passed, this challenge is returned so that Amazon Cognito can start tracking this device.    DEVICE_PASSWORD_VERIFIER: Similar to PASSWORD_VERIFIER, but for devices only.    ADMIN_NO_SRP_AUTH: This is returned if you need to authenticate with USERNAME and PASSWORD directly. An app client must be enabled to use this flow.    NEW_PASSWORD_REQUIRED: For users which are required to change their passwords after successful first login. This challenge should be passed with NEW_PASSWORD and any other required attributes.  
+        /// The name of the challenge which you are responding to with this call. This is returned to you in the AdminInitiateAuth response if you need to pass another challenge.    MFA_SETUP: If MFA is required, users who do not have at least one of the MFA methods set up are presented with an MFA_SETUP challenge. The user must set up at least one MFA type to continue to authenticate.    SELECT_MFA_TYPE: Selects the MFA type. Valid MFA options are SMS_MFA for text SMS MFA, and SOFTWARE_TOKEN_MFA for TOTP software token MFA.    SMS_MFA: Next challenge is to supply an SMS_MFA_CODE, delivered via SMS.    PASSWORD_VERIFIER: Next challenge is to supply PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after the client-side SRP calculations.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued.    DEVICE_SRP_AUTH: If device tracking was enabled on your user pool and the previous challenges were passed, this challenge is returned so that Amazon Cognito can start tracking this device.    DEVICE_PASSWORD_VERIFIER: Similar to PASSWORD_VERIFIER, but for devices only.    ADMIN_NO_SRP_AUTH: This is returned if you need to authenticate with USERNAME and PASSWORD directly. An app client must be enabled to use this flow.    NEW_PASSWORD_REQUIRED: For users which are required to change their passwords after successful first login. This challenge should be passed with NEW_PASSWORD and any other required attributes.  
         public let challengeName: ChallengeNameType?
-        /// The challenge parameters. These are returned to you in the AdminInitiateAuth response if you need to pass another challenge. The responses in this parameter should be used to compute inputs to the next call (AdminRespondToAuthChallenge). All challenges require USERNAME and SECRET_HASH (if applicable). The value of the USER_IF_FOR_SRP attribute will be the user's actual username, not an alias (such as email address or phone number), even if you specified an alias in your call to AdminInitiateAuth. This is because, in the AdminRespondToAuthChallenge API ChallengeResponses, the USERNAME attribute cannot be an alias.
+        /// The challenge parameters. These are returned to you in the AdminInitiateAuth response if you need to pass another challenge. The responses in this parameter should be used to compute inputs to the next call (AdminRespondToAuthChallenge). All challenges require USERNAME and SECRET_HASH (if applicable). The value of the USER_ID_FOR_SRP attribute will be the user's actual username, not an alias (such as email address or phone number), even if you specified an alias in your call to AdminInitiateAuth. This is because, in the AdminRespondToAuthChallenge API ChallengeResponses, the USERNAME attribute cannot be an alias.
         public let challengeParameters: [String: String]?
         /// The result of the authentication response. This is only returned if the caller does not need to pass another challenge. If the caller does need to pass another challenge before it gets tokens, ChallengeName, ChallengeParameters, and Session are returned.
         public let authenticationResult: AuthenticationResultType?
@@ -1217,7 +1218,9 @@ extension CognitoIdp {
         ]
         /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   ARCHIVED - User is no longer active.   COMPROMISED - User is disabled due to a potential security threat.   UNKNOWN - User status is not known.  
         public let userStatus: UserStatusType?
+        /// The list of the user's MFA settings.
         public let userMFASettingList: [String]?
+        /// The user's preferred MFA setting.
         public let preferredMfaSetting: String?
         /// Indicates that the status is enabled.
         public let enabled: Bool?
@@ -1381,6 +1384,22 @@ extension CognitoIdp {
 
         private enum CodingKeys: String, CodingKey {
             case userConfirmationNecessary = "UserConfirmationNecessary"
+        }
+    }
+
+    public struct GetSigningCertificateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: false, type: .string)
+        ]
+        /// The signing certificate.
+        public let certificate: String?
+
+        public init(certificate: String? = nil) {
+            self.certificate = certificate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
         }
     }
 
@@ -2002,32 +2021,32 @@ extension CognitoIdp {
 
     public struct VerifySoftwareTokenRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: false, type: .string), 
+            AWSShapeMember(label: "FriendlyDeviceName", required: false, type: .string), 
             AWSShapeMember(label: "UserCode", required: true, type: .string), 
             AWSShapeMember(label: "Session", required: false, type: .string), 
-            AWSShapeMember(label: "FriendlyDeviceName", required: false, type: .string)
+            AWSShapeMember(label: "AccessToken", required: false, type: .string)
         ]
-        /// The access token.
-        public let accessToken: String?
+        /// The friendly device name.
+        public let friendlyDeviceName: String?
         /// The one time password computed using the secret code returned by 
         public let userCode: String
         /// The session which should be passed both ways in challenge-response calls to the service.
         public let session: String?
-        /// The friendly device name.
-        public let friendlyDeviceName: String?
+        /// The access token.
+        public let accessToken: String?
 
-        public init(accessToken: String? = nil, userCode: String, session: String? = nil, friendlyDeviceName: String? = nil) {
-            self.accessToken = accessToken
+        public init(friendlyDeviceName: String? = nil, userCode: String, session: String? = nil, accessToken: String? = nil) {
+            self.friendlyDeviceName = friendlyDeviceName
             self.userCode = userCode
             self.session = session
-            self.friendlyDeviceName = friendlyDeviceName
+            self.accessToken = accessToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessToken = "AccessToken"
+            case friendlyDeviceName = "FriendlyDeviceName"
             case userCode = "UserCode"
             case session = "Session"
-            case friendlyDeviceName = "FriendlyDeviceName"
+            case accessToken = "AccessToken"
         }
     }
 
@@ -2108,6 +2127,7 @@ extension CognitoIdp {
         case facebook = "Facebook"
         case google = "Google"
         case loginwithamazon = "LoginWithAmazon"
+        case oidc = "OIDC"
         public var description: String { return self.rawValue }
     }
 
@@ -2339,7 +2359,7 @@ extension CognitoIdp {
             AWSShapeMember(label: "SoftwareTokenMfaSettings", required: false, type: .structure), 
             AWSShapeMember(label: "UserPoolId", required: true, type: .string)
         ]
-        /// The user pool username.
+        /// The user pool username or alias.
         public let username: String
         /// The SMS text message MFA settings.
         public let sMSMfaSettings: SMSMfaSettingsType?
@@ -2369,6 +2389,22 @@ extension CognitoIdp {
 
     public struct AdminDeleteUserAttributesResponse: AWSShape {
 
+    }
+
+    public struct GetSigningCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
+        ]
+        /// The user pool ID.
+        public let userPoolId: String
+
+        public init(userPoolId: String) {
+            self.userPoolId = userPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+        }
     }
 
     public struct DeleteUserPoolDomainRequest: AWSShape {
@@ -2651,13 +2687,13 @@ extension CognitoIdp {
         public let clientMetadata: [String: String]?
         /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
         public let userContextData: UserContextDataType?
-        /// The authentication parameters. These are inputs corresponding to the AuthFlow that you are invoking. The required values depend on the value of AuthFlow:   For USER_SRP_AUTH: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY    For REFRESH_TOKEN_AUTH/REFRESH_TOKEN: USERNAME (required), SECRET_HASH (required if the app client is configured with a client secret), REFRESH_TOKEN (required), DEVICE_KEY    For CUSTOM_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY   
+        /// The authentication parameters. These are inputs corresponding to the AuthFlow that you are invoking. The required values depend on the value of AuthFlow:   For USER_SRP_AUTH: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY    For REFRESH_TOKEN_AUTH/REFRESH_TOKEN: REFRESH_TOKEN (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY    For CUSTOM_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY   
         public let authParameters: [String: String]?
         /// The app client ID.
         public let clientId: String
         /// The Amazon Pinpoint analytics metadata for collecting metrics for InitiateAuth calls.
         public let analyticsMetadata: AnalyticsMetadataType?
-        /// The authentication flow for this call to execute. The API action will depend on this value. For example:     REFRESH_TOKEN_AUTH will take in a valid refresh token and return new tokens.    USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP variables to be used for next challenge execution.   Valid values include:    USER_SRP_AUTH: Authentication flow for the Secure Remote Password (SRP) protocol.    REFRESH_TOKEN_AUTH/REFRESH_TOKEN: Authentication flow for refreshing the access token and ID token by supplying a valid refresh token.    CUSTOM_AUTH: Custom authentication flow.    ADMIN_NO_SRP_AUTH is not a valid value.
+        /// The authentication flow for this call to execute. The API action will depend on this value. For example:     REFRESH_TOKEN_AUTH will take in a valid refresh token and return new tokens.    USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP variables to be used for next challenge execution.    USER_PASSWORD_AUTH will take in USERNAME and PASSWORD and return the next challenge or tokens.   Valid values include:    USER_SRP_AUTH: Authentication flow for the Secure Remote Password (SRP) protocol.    REFRESH_TOKEN_AUTH/REFRESH_TOKEN: Authentication flow for refreshing the access token and ID token by supplying a valid refresh token.    CUSTOM_AUTH: Custom authentication flow.    USER_PASSWORD_AUTH: Non-SRP authentication flow; USERNAME and PASSWORD are passed directly. If a user migration Lambda trigger is set, this flow will invoke the user migration Lambda if the USERNAME is not found in the user pool.     ADMIN_NO_SRP_AUTH is not a valid value.
         public let authFlow: AuthFlowType
 
         public init(clientMetadata: [String: String]? = nil, userContextData: UserContextDataType? = nil, authParameters: [String: String]? = nil, clientId: String, analyticsMetadata: AnalyticsMetadataType? = nil, authFlow: AuthFlowType) {
@@ -2861,7 +2897,7 @@ extension CognitoIdp {
         public let policies: UserPoolPolicyType?
         /// Attributes supported as an alias for this user pool. Possible values: phone_number, email, or preferred_username.
         public let aliasAttributes: [AliasAttributeType]?
-        /// The Lambda trigger configuration information for the new user pool.
+        /// The Lambda trigger configuration information for the new user pool.  In a push model, event sources (such as Amazon S3 and custom applications) need permission to invoke a function. So you will need to make an extra call to add permission for these event sources to invoke your Lambda function.  For more information on using the Lambda API to add permission, see  AddPermission .  For adding permission using the AWS CLI, see  add-permission . 
         public let lambdaConfig: LambdaConfigType?
         /// Specifies MFA configuration details.
         public let mfaConfiguration: UserPoolMfaType?
@@ -3395,30 +3431,30 @@ extension CognitoIdp {
 
     public struct AdminListUserAuthEventsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: true, type: .string), 
             AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
-        /// The user pool username.
-        public let username: String
         /// The user pool ID.
         public let userPoolId: String
+        /// The user pool username or an alias.
+        public let username: String
         /// A pagination token.
         public let nextToken: String?
         /// The maximum number of authentication events to return.
         public let maxResults: Int32?
 
-        public init(username: String, userPoolId: String, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.username = username
+        public init(userPoolId: String, username: String, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.userPoolId = userPoolId
+            self.username = username
             self.nextToken = nextToken
             self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case username = "Username"
             case userPoolId = "UserPoolId"
+            case username = "Username"
             case nextToken = "NextToken"
             case maxResults = "MaxResults"
         }
@@ -3605,7 +3641,7 @@ extension CognitoIdp {
         public let analyticsConfiguration: AnalyticsConfigurationType?
         /// The explicit authentication flows.
         public let explicitAuthFlows: [ExplicitAuthFlowsType]?
-        /// A list of allowed callback URLs for the identity providers.
+        /// A list of allowed redirect (callback) URLs for the identity providers. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not use HTTP without TLS (i.e. use HTTPS instead of HTTP).   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint.
         public let callbackURLs: [String]?
         /// The user pool ID for the user pool where you want to create a user pool client.
         public let userPoolId: String
@@ -3617,7 +3653,7 @@ extension CognitoIdp {
         public let logoutURLs: [String]?
         /// Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to token to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly.
         public let allowedOAuthFlows: [OAuthFlowType]?
-        /// The default redirect URI. Must be in the CallbackURLs list.
+        /// The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not use HTTP without TLS (i.e. use HTTPS instead of HTTP).   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint.
         public let defaultRedirectURI: String?
         /// Boolean to specify whether you want to generate a secret for the user pool client being created.
         public let generateSecret: Bool?
@@ -3842,7 +3878,7 @@ extension CognitoIdp {
         public let stringAttributeConstraints: StringAttributeConstraintsType?
         /// Specifies whether a user pool attribute is required. If the attribute is required and the user does not provide a value, registration or sign-in will fail.
         public let required: Bool?
-        /// Specifies whether the attribute can be changed once it has been created.
+        /// Specifies whether the value of the attribute can be changed.
         public let mutable: Bool?
 
         public init(numberAttributeConstraints: NumberAttributeConstraintsType? = nil, developerOnlyAttribute: Bool? = nil, name: String? = nil, attributeDataType: AttributeDataType? = nil, stringAttributeConstraints: StringAttributeConstraintsType? = nil, required: Bool? = nil, mutable: Bool? = nil) {
@@ -4466,11 +4502,13 @@ extension CognitoIdp {
             AWSShapeMember(label: "PreferredMfaSetting", required: false, type: .string), 
             AWSShapeMember(label: "UserAttributes", required: true, type: .list)
         ]
+        /// The list of the user's MFA settings.
         public let userMFASettingList: [String]?
         /// Specifies the options for MFA (e.g., email or phone number).
         public let mFAOptions: [MFAOptionType]?
         /// The user name of the user you wish to retrieve from the get user request.
         public let username: String
+        /// The user's preferred MFA setting.
         public let preferredMfaSetting: String?
         /// An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name.
         public let userAttributes: [AttributeType]
@@ -4553,7 +4591,7 @@ extension CognitoIdp {
         public let analyticsConfiguration: AnalyticsConfigurationType?
         /// Explicit authentication flows.
         public let explicitAuthFlows: [ExplicitAuthFlowsType]?
-        /// A list of allowed callback URLs for the identity providers.
+        /// A list of allowed redirect (callback) URLs for the identity providers. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not use HTTP without TLS (i.e. use HTTPS instead of HTTP).   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint.
         public let callbackURLs: [String]?
         /// The user pool ID for the user pool where you want to update the user pool client.
         public let userPoolId: String
@@ -4565,7 +4603,7 @@ extension CognitoIdp {
         public let logoutURLs: [String]?
         /// Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to token to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly.
         public let allowedOAuthFlows: [OAuthFlowType]?
-        /// The default redirect URI. Must be in the CallbackURLs list.
+        /// The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not use HTTP without TLS (i.e. use HTTPS instead of HTTP).   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint.
         public let defaultRedirectURI: String?
         /// The ID of the client associated with the user pool.
         public let clientId: String
@@ -4817,10 +4855,11 @@ extension CognitoIdp {
 
     public struct UserPoolType: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "UserPoolTags", required: false, type: .map), 
-            AWSShapeMember(label: "VerificationMessageTemplate", required: false, type: .structure), 
             AWSShapeMember(label: "EmailVerificationSubject", required: false, type: .string), 
             AWSShapeMember(label: "UsernameAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "VerificationMessageTemplate", required: false, type: .structure), 
             AWSShapeMember(label: "EstimatedNumberOfUsers", required: false, type: .integer), 
             AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum), 
@@ -4831,6 +4870,7 @@ extension CognitoIdp {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "EmailVerificationMessage", required: false, type: .string), 
             AWSShapeMember(label: "DeviceConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Domain", required: false, type: .string), 
             AWSShapeMember(label: "EmailConfigurationFailure", required: false, type: .string), 
             AWSShapeMember(label: "AdminCreateUserConfig", required: false, type: .structure), 
             AWSShapeMember(label: "UserPoolAddOns", required: false, type: .structure), 
@@ -4844,14 +4884,16 @@ extension CognitoIdp {
             AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "AutoVerifiedAttributes", required: false, type: .list)
         ]
+        /// The Amazon Resource Name (ARN) for the user pool.
+        public let arn: String?
         /// The cost allocation tags for the user pool. For more information, see Adding Cost Allocation Tags to Your User Pool 
         public let userPoolTags: [String: String]?
-        /// The template for verification messages.
-        public let verificationMessageTemplate: VerificationMessageTemplateType?
         /// The subject of the email verification message.
         public let emailVerificationSubject: String?
         /// Specifies whether email addresses or phone numbers can be specified as usernames when a user signs up.
         public let usernameAttributes: [UsernameAttributeType]?
+        /// The template for verification messages.
+        public let verificationMessageTemplate: VerificationMessageTemplateType?
         /// A number estimating the size of the user pool.
         public let estimatedNumberOfUsers: Int32?
         /// The date the user pool was created.
@@ -4872,6 +4914,8 @@ extension CognitoIdp {
         public let emailVerificationMessage: String?
         /// The device configuration.
         public let deviceConfiguration: DeviceConfigurationType?
+        /// Holds the domain prefix if the user pool has a domain associated with it.
+        public let domain: String?
         /// The reason why the email configuration cannot send the messages to your users.
         public let emailConfigurationFailure: String?
         /// The configuration for AdminCreateUser requests.
@@ -4884,7 +4928,7 @@ extension CognitoIdp {
         public let schemaAttributes: [SchemaAttributeType]?
         /// The reason why the SMS configuration cannot send the messages to your users.
         public let smsConfigurationFailure: String?
-        /// The AWS Lambda triggers associated with tue user pool.
+        /// The AWS Lambda triggers associated with the user pool.
         public let lambdaConfig: LambdaConfigType?
         /// The policies associated with the user pool.
         public let policies: UserPoolPolicyType?
@@ -4897,11 +4941,12 @@ extension CognitoIdp {
         /// Specifies the attributes that are auto-verified in a user pool.
         public let autoVerifiedAttributes: [VerifiedAttributeType]?
 
-        public init(userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil, emailVerificationSubject: String? = nil, usernameAttributes: [UsernameAttributeType]? = nil, estimatedNumberOfUsers: Int32? = nil, creationDate: TimeStamp? = nil, mfaConfiguration: UserPoolMfaType? = nil, id: String? = nil, status: StatusType? = nil, smsConfiguration: SmsConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, name: String? = nil, emailVerificationMessage: String? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfigurationFailure: String? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, aliasAttributes: [AliasAttributeType]? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsConfigurationFailure: String? = nil, lambdaConfig: LambdaConfigType? = nil, policies: UserPoolPolicyType? = nil, smsVerificationMessage: String? = nil, smsAuthenticationMessage: String? = nil, lastModifiedDate: TimeStamp? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil) {
+        public init(arn: String? = nil, userPoolTags: [String: String]? = nil, emailVerificationSubject: String? = nil, usernameAttributes: [UsernameAttributeType]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil, estimatedNumberOfUsers: Int32? = nil, creationDate: TimeStamp? = nil, mfaConfiguration: UserPoolMfaType? = nil, id: String? = nil, status: StatusType? = nil, smsConfiguration: SmsConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, name: String? = nil, emailVerificationMessage: String? = nil, deviceConfiguration: DeviceConfigurationType? = nil, domain: String? = nil, emailConfigurationFailure: String? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, aliasAttributes: [AliasAttributeType]? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsConfigurationFailure: String? = nil, lambdaConfig: LambdaConfigType? = nil, policies: UserPoolPolicyType? = nil, smsVerificationMessage: String? = nil, smsAuthenticationMessage: String? = nil, lastModifiedDate: TimeStamp? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil) {
+            self.arn = arn
             self.userPoolTags = userPoolTags
-            self.verificationMessageTemplate = verificationMessageTemplate
             self.emailVerificationSubject = emailVerificationSubject
             self.usernameAttributes = usernameAttributes
+            self.verificationMessageTemplate = verificationMessageTemplate
             self.estimatedNumberOfUsers = estimatedNumberOfUsers
             self.creationDate = creationDate
             self.mfaConfiguration = mfaConfiguration
@@ -4912,6 +4957,7 @@ extension CognitoIdp {
             self.name = name
             self.emailVerificationMessage = emailVerificationMessage
             self.deviceConfiguration = deviceConfiguration
+            self.domain = domain
             self.emailConfigurationFailure = emailConfigurationFailure
             self.adminCreateUserConfig = adminCreateUserConfig
             self.userPoolAddOns = userPoolAddOns
@@ -4927,10 +4973,11 @@ extension CognitoIdp {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
             case userPoolTags = "UserPoolTags"
-            case verificationMessageTemplate = "VerificationMessageTemplate"
             case emailVerificationSubject = "EmailVerificationSubject"
             case usernameAttributes = "UsernameAttributes"
+            case verificationMessageTemplate = "VerificationMessageTemplate"
             case estimatedNumberOfUsers = "EstimatedNumberOfUsers"
             case creationDate = "CreationDate"
             case mfaConfiguration = "MfaConfiguration"
@@ -4941,6 +4988,7 @@ extension CognitoIdp {
             case name = "Name"
             case emailVerificationMessage = "EmailVerificationMessage"
             case deviceConfiguration = "DeviceConfiguration"
+            case domain = "Domain"
             case emailConfigurationFailure = "EmailConfigurationFailure"
             case adminCreateUserConfig = "AdminCreateUserConfig"
             case userPoolAddOns = "UserPoolAddOns"
@@ -5053,6 +5101,7 @@ extension CognitoIdp {
             AWSShapeMember(label: "CreateAuthChallenge", required: false, type: .string), 
             AWSShapeMember(label: "PreAuthentication", required: false, type: .string), 
             AWSShapeMember(label: "PreTokenGeneration", required: false, type: .string), 
+            AWSShapeMember(label: "UserMigration", required: false, type: .string), 
             AWSShapeMember(label: "PostConfirmation", required: false, type: .string)
         ]
         /// A post-authentication AWS Lambda trigger.
@@ -5071,10 +5120,12 @@ extension CognitoIdp {
         public let preAuthentication: String?
         /// A Lambda trigger that is invoked before token generation.
         public let preTokenGeneration: String?
+        /// The user migration Lambda config type.
+        public let userMigration: String?
         /// A post-confirmation AWS Lambda trigger.
         public let postConfirmation: String?
 
-        public init(postAuthentication: String? = nil, customMessage: String? = nil, preSignUp: String? = nil, verifyAuthChallengeResponse: String? = nil, defineAuthChallenge: String? = nil, createAuthChallenge: String? = nil, preAuthentication: String? = nil, preTokenGeneration: String? = nil, postConfirmation: String? = nil) {
+        public init(postAuthentication: String? = nil, customMessage: String? = nil, preSignUp: String? = nil, verifyAuthChallengeResponse: String? = nil, defineAuthChallenge: String? = nil, createAuthChallenge: String? = nil, preAuthentication: String? = nil, preTokenGeneration: String? = nil, userMigration: String? = nil, postConfirmation: String? = nil) {
             self.postAuthentication = postAuthentication
             self.customMessage = customMessage
             self.preSignUp = preSignUp
@@ -5083,6 +5134,7 @@ extension CognitoIdp {
             self.createAuthChallenge = createAuthChallenge
             self.preAuthentication = preAuthentication
             self.preTokenGeneration = preTokenGeneration
+            self.userMigration = userMigration
             self.postConfirmation = postConfirmation
         }
 
@@ -5095,6 +5147,7 @@ extension CognitoIdp {
             case createAuthChallenge = "CreateAuthChallenge"
             case preAuthentication = "PreAuthentication"
             case preTokenGeneration = "PreTokenGeneration"
+            case userMigration = "UserMigration"
             case postConfirmation = "PostConfirmation"
         }
     }
@@ -5170,7 +5223,7 @@ extension CognitoIdp {
             AWSShapeMember(label: "RefreshToken", required: false, type: .string), 
             AWSShapeMember(label: "AccessToken", required: false, type: .string)
         ]
-        /// The expiration period of the authentication result.
+        /// The expiration period of the authentication result in seconds.
         public let expiresIn: Int32?
         /// The new device metadata from an authentication result.
         public let newDeviceMetadata: NewDeviceMetadataType?
@@ -5274,6 +5327,7 @@ extension CognitoIdp {
     public enum ExplicitAuthFlowsType: String, CustomStringConvertible, Codable {
         case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
         case customAuthFlowOnly = "CUSTOM_AUTH_FLOW_ONLY"
+        case userPasswordAuth = "USER_PASSWORD_AUTH"
         public var description: String { return self.rawValue }
     }
 
@@ -5652,8 +5706,8 @@ extension CognitoIdp {
     public struct UserType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "Username", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "UserCreateDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "Attributes", required: false, type: .list), 
             AWSShapeMember(label: "UserLastModifiedDate", required: false, type: .timestamp), 
@@ -5661,10 +5715,10 @@ extension CognitoIdp {
         ]
         /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   ARCHIVED - User is no longer active.   COMPROMISED - User is disabled due to a potential security threat.   UNKNOWN - User status is not known.  
         public let userStatus: UserStatusType?
-        /// Specifies whether the user is enabled.
-        public let enabled: Bool?
         /// The user name of the user you wish to describe.
         public let username: String?
+        /// Specifies whether the user is enabled.
+        public let enabled: Bool?
         /// The creation date of the user.
         public let userCreateDate: TimeStamp?
         /// A container with information about the user type attributes.
@@ -5674,10 +5728,10 @@ extension CognitoIdp {
         /// The MFA options for the user.
         public let mFAOptions: [MFAOptionType]?
 
-        public init(userStatus: UserStatusType? = nil, enabled: Bool? = nil, username: String? = nil, userCreateDate: TimeStamp? = nil, attributes: [AttributeType]? = nil, userLastModifiedDate: TimeStamp? = nil, mFAOptions: [MFAOptionType]? = nil) {
+        public init(userStatus: UserStatusType? = nil, username: String? = nil, enabled: Bool? = nil, userCreateDate: TimeStamp? = nil, attributes: [AttributeType]? = nil, userLastModifiedDate: TimeStamp? = nil, mFAOptions: [MFAOptionType]? = nil) {
             self.userStatus = userStatus
-            self.enabled = enabled
             self.username = username
+            self.enabled = enabled
             self.userCreateDate = userCreateDate
             self.attributes = attributes
             self.userLastModifiedDate = userLastModifiedDate
@@ -5686,8 +5740,8 @@ extension CognitoIdp {
 
         private enum CodingKeys: String, CodingKey {
             case userStatus = "UserStatus"
-            case enabled = "Enabled"
             case username = "Username"
+            case enabled = "Enabled"
             case userCreateDate = "UserCreateDate"
             case attributes = "Attributes"
             case userLastModifiedDate = "UserLastModifiedDate"
@@ -5816,32 +5870,32 @@ extension CognitoIdp {
 
     public struct SetUserPoolMfaConfigRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "SoftwareTokenMfaConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "SmsMfaConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum)
+            AWSShapeMember(label: "SoftwareTokenMfaConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
         ]
-        /// The user pool ID.
-        public let userPoolId: String
-        /// The software token MFA configuration.
-        public let softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType?
         /// The SMS text message MFA configuration.
         public let smsMfaConfiguration: SmsMfaConfigType?
+        /// The software token MFA configuration.
+        public let softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType?
         /// The MFA configuration.
         public let mfaConfiguration: UserPoolMfaType?
+        /// The user pool ID.
+        public let userPoolId: String
 
-        public init(userPoolId: String, softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType? = nil, smsMfaConfiguration: SmsMfaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil) {
-            self.userPoolId = userPoolId
-            self.softwareTokenMfaConfiguration = softwareTokenMfaConfiguration
+        public init(smsMfaConfiguration: SmsMfaConfigType? = nil, softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, userPoolId: String) {
             self.smsMfaConfiguration = smsMfaConfiguration
+            self.softwareTokenMfaConfiguration = softwareTokenMfaConfiguration
             self.mfaConfiguration = mfaConfiguration
+            self.userPoolId = userPoolId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case softwareTokenMfaConfiguration = "SoftwareTokenMfaConfiguration"
             case smsMfaConfiguration = "SmsMfaConfiguration"
+            case softwareTokenMfaConfiguration = "SoftwareTokenMfaConfiguration"
             case mfaConfiguration = "MfaConfiguration"
+            case userPoolId = "UserPoolId"
         }
     }
 
@@ -5849,30 +5903,30 @@ extension CognitoIdp {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceKey", required: true, type: .string), 
             AWSShapeMember(label: "DeviceRememberedStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
+            AWSShapeMember(label: "Username", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
         ]
         /// The device key.
         public let deviceKey: String
         /// The status indicating whether a device has been remembered or not.
         public let deviceRememberedStatus: DeviceRememberedStatusType?
-        /// The user pool ID.
-        public let userPoolId: String
         /// The user name.
         public let username: String
+        /// The user pool ID.
+        public let userPoolId: String
 
-        public init(deviceKey: String, deviceRememberedStatus: DeviceRememberedStatusType? = nil, userPoolId: String, username: String) {
+        public init(deviceKey: String, deviceRememberedStatus: DeviceRememberedStatusType? = nil, username: String, userPoolId: String) {
             self.deviceKey = deviceKey
             self.deviceRememberedStatus = deviceRememberedStatus
-            self.userPoolId = userPoolId
             self.username = username
+            self.userPoolId = userPoolId
         }
 
         private enum CodingKeys: String, CodingKey {
             case deviceKey = "DeviceKey"
             case deviceRememberedStatus = "DeviceRememberedStatus"
-            case userPoolId = "UserPoolId"
             case username = "Username"
+            case userPoolId = "UserPoolId"
         }
     }
 

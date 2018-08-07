@@ -8,6 +8,7 @@ public enum TranslateError: AWSErrorType {
     case textSizeLimitExceededException(message: String?)
     case tooManyRequestsException(message: String?)
     case unsupportedLanguagePairException(message: String?)
+    case detectedLanguageLowConfidenceException(message: String?)
     case internalServerException(message: String?)
     case serviceUnavailableException(message: String?)
 }
@@ -27,6 +28,8 @@ extension TranslateError {
             self = .tooManyRequestsException(message: message)
         case "UnsupportedLanguagePairException":
             self = .unsupportedLanguagePairException(message: message)
+        case "DetectedLanguageLowConfidenceException":
+            self = .detectedLanguageLowConfidenceException(message: message)
         case "InternalServerException":
             self = .internalServerException(message: message)
         case "ServiceUnavailableException":

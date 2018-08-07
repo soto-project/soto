@@ -39,9 +39,8 @@ public struct Apigateway {
         return try client.send(operation: "GetBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: "GET", input: input)
     }
 
-    ///  Represents a put integration.
-    public func putIntegrationResponse(_ input: PutIntegrationResponseRequest) throws -> IntegrationResponse {
-        return try client.send(operation: "PutIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "PUT", input: input)
+    public func getDocumentationVersion(_ input: GetDocumentationVersionRequest) throws -> DocumentationVersion {
+        return try client.send(operation: "GetDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about the current Account resource.
@@ -54,13 +53,9 @@ public struct Apigateway {
         return try client.send(operation: "GetApiKeys", path: "/apikeys", httpMethod: "GET", input: input)
     }
 
-    public func getDocumentationVersion(_ input: GetDocumentationVersionRequest) throws -> DocumentationVersion {
-        return try client.send(operation: "GetDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "GET", input: input)
-    }
-
-    ///  Deletes an existing VpcLink of a specified identifier.
-    public func deleteVpcLink(_ input: DeleteVpcLinkRequest) throws {
-        _ = try client.send(operation: "DeleteVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: "DELETE", input: input)
+    ///  Represents a put integration.
+    public func putIntegrationResponse(_ input: PutIntegrationResponseRequest) throws -> IntegrationResponse {
+        return try client.send(operation: "PutIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "PUT", input: input)
     }
 
     ///  Changes information about a Resource resource.
@@ -68,14 +63,18 @@ public struct Apigateway {
         return try client.send(operation: "UpdateResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: "PATCH", input: input)
     }
 
-    ///  Changes information about the BasePathMapping resource.
-    public func updateBasePathMapping(_ input: UpdateBasePathMappingRequest) throws -> BasePathMapping {
-        return try client.send(operation: "UpdateBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: "PATCH", input: input)
+    ///  Deletes an existing VpcLink of a specified identifier.
+    public func deleteVpcLink(_ input: DeleteVpcLinkRequest) throws {
+        _ = try client.send(operation: "DeleteVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Updates an existing Authorizer resource. AWS CLI
-    public func updateAuthorizer(_ input: UpdateAuthorizerRequest) throws -> Authorizer {
-        return try client.send(operation: "UpdateAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "PATCH", input: input)
+    ///  Gets the Tags collection for a given resource.
+    public func getTags(_ input: GetTagsRequest) throws -> Tags {
+        return try client.send(operation: "GetTags", path: "/tags/{resource_arn}", httpMethod: "GET", input: input)
+    }
+
+    public func deleteDocumentationVersion(_ input: DeleteDocumentationVersionRequest) throws {
+        _ = try client.send(operation: "DeleteDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "DELETE", input: input)
     }
 
     ///  Represents a delete integration.
@@ -106,8 +105,14 @@ public struct Apigateway {
         return try client.send(operation: "GetMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "GET", input: input)
     }
 
-    public func deleteDocumentationVersion(_ input: DeleteDocumentationVersionRequest) throws {
-        _ = try client.send(operation: "DeleteDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "DELETE", input: input)
+    ///  Updates an existing Authorizer resource. AWS CLI
+    public func updateAuthorizer(_ input: UpdateAuthorizerRequest) throws -> Authorizer {
+        return try client.send(operation: "UpdateAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "PATCH", input: input)
+    }
+
+    ///  Changes information about the BasePathMapping resource.
+    public func updateBasePathMapping(_ input: UpdateBasePathMappingRequest) throws -> BasePathMapping {
+        return try client.send(operation: "UpdateBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: "PATCH", input: input)
     }
 
     public func getDocumentationPart(_ input: GetDocumentationPartRequest) throws -> DocumentationPart {
@@ -142,6 +147,11 @@ public struct Apigateway {
     ///  Generates a ClientCertificate resource.
     public func generateClientCertificate(_ input: GenerateClientCertificateRequest) throws -> ClientCertificate {
         return try client.send(operation: "GenerateClientCertificate", path: "/clientcertificates", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds or updates a tag on a given resource.
+    public func tagResource(_ input: TagResourceRequest) throws {
+        _ = try client.send(operation: "TagResource", path: "/tags/{resource_arn}", httpMethod: "PUT", input: input)
     }
 
     ///  Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload. 
@@ -295,11 +305,6 @@ public struct Apigateway {
         return try client.send(operation: "GetAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "GET", input: input)
     }
 
-    ///  Deletes an existing MethodResponse resource.
-    public func deleteMethodResponse(_ input: DeleteMethodResponseRequest) throws {
-        _ = try client.send(operation: "DeleteMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "DELETE", input: input)
-    }
-
     ///  Describe an existing Authorizers resource. AWS CLI
     public func getAuthorizers(_ input: GetAuthorizersRequest) throws -> Authorizers {
         return try client.send(operation: "GetAuthorizers", path: "/restapis/{restapi_id}/authorizers", httpMethod: "GET", input: input)
@@ -315,19 +320,18 @@ public struct Apigateway {
         return try client.send(operation: "UpdateMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "PATCH", input: input)
     }
 
+    ///  Deletes an existing MethodResponse resource.
+    public func deleteMethodResponse(_ input: DeleteMethodResponseRequest) throws {
+        _ = try client.send(operation: "DeleteMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "DELETE", input: input)
+    }
+
     ///  Deletes an existing Authorizer resource. AWS CLI
     public func deleteAuthorizer(_ input: DeleteAuthorizerRequest) throws {
         _ = try client.send(operation: "DeleteAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Deletes the specified API.
-    public func deleteRestApi(_ input: DeleteRestApiRequest) throws {
-        _ = try client.send(operation: "DeleteRestApi", path: "/restapis/{restapi_id}", httpMethod: "DELETE", input: input)
-    }
-
-    ///  Changes information about an ApiKey resource.
-    public func updateApiKey(_ input: UpdateApiKeyRequest) throws -> ApiKey {
-        return try client.send(operation: "UpdateApiKey", path: "/apikeys/{api_Key}", httpMethod: "PATCH", input: input)
+    public func createDocumentationVersion(_ input: CreateDocumentationVersionRequest) throws -> DocumentationVersion {
+        return try client.send(operation: "CreateDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions", httpMethod: "POST", input: input)
     }
 
     ///  Creates a Resource resource.
@@ -335,8 +339,14 @@ public struct Apigateway {
         return try client.send(operation: "CreateResource", path: "/restapis/{restapi_id}/resources/{parent_id}", httpMethod: "POST", input: input)
     }
 
-    public func createDocumentationVersion(_ input: CreateDocumentationVersionRequest) throws -> DocumentationVersion {
-        return try client.send(operation: "CreateDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions", httpMethod: "POST", input: input)
+    ///  Deletes the specified API.
+    public func deleteRestApi(_ input: DeleteRestApiRequest) throws {
+        _ = try client.send(operation: "DeleteRestApi", path: "/restapis/{restapi_id}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Represents a get integration response.
+    public func getIntegrationResponse(_ input: GetIntegrationResponseRequest) throws -> IntegrationResponse {
+        return try client.send(operation: "GetIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "GET", input: input)
     }
 
     ///  Adds a new Authorizer resource to an existing RestApi resource. AWS CLI
@@ -344,9 +354,9 @@ public struct Apigateway {
         return try client.send(operation: "CreateAuthorizer", path: "/restapis/{restapi_id}/authorizers", httpMethod: "POST", input: input)
     }
 
-    ///  Represents a get integration response.
-    public func getIntegrationResponse(_ input: GetIntegrationResponseRequest) throws -> IntegrationResponse {
-        return try client.send(operation: "GetIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "GET", input: input)
+    ///  Changes information about an ApiKey resource.
+    public func updateApiKey(_ input: UpdateApiKeyRequest) throws -> ApiKey {
+        return try client.send(operation: "UpdateApiKey", path: "/apikeys/{api_Key}", httpMethod: "PATCH", input: input)
     }
 
     ///  Gets the usage data of a usage plan in a specified time interval.
@@ -383,9 +393,9 @@ public struct Apigateway {
         return try client.send(operation: "CreateRequestValidator", path: "/restapis/{restapi_id}/requestvalidators", httpMethod: "POST", input: input)
     }
 
-    ///  Flushes a stage's cache.
-    public func flushStageCache(_ input: FlushStageCacheRequest) throws {
-        _ = try client.send(operation: "FlushStageCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/data", httpMethod: "DELETE", input: input)
+    ///  Get the integration settings.
+    public func getIntegration(_ input: GetIntegrationRequest) throws -> Integration {
+        return try client.send(operation: "GetIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "GET", input: input)
     }
 
     ///  Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
@@ -393,9 +403,9 @@ public struct Apigateway {
         return try client.send(operation: "CreateVpcLink", path: "/vpclinks", httpMethod: "POST", input: input)
     }
 
-    ///  Get the integration settings.
-    public func getIntegration(_ input: GetIntegrationRequest) throws -> Integration {
-        return try client.send(operation: "GetIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "GET", input: input)
+    ///  Flushes a stage's cache.
+    public func flushStageCache(_ input: FlushStageCacheRequest) throws {
+        _ = try client.send(operation: "FlushStageCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/data", httpMethod: "DELETE", input: input)
     }
 
     ///  Creates a new domain name.
@@ -453,9 +463,9 @@ public struct Apigateway {
         return try client.send(operation: "GetClientCertificates", path: "/clientcertificates", httpMethod: "GET", input: input)
     }
 
-    ///  Represents an update integration response.
-    public func updateIntegrationResponse(_ input: UpdateIntegrationResponseRequest) throws -> IntegrationResponse {
-        return try client.send(operation: "UpdateIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "PATCH", input: input)
+    ///  Changes information about the specified API.
+    public func updateRestApi(_ input: UpdateRestApiRequest) throws -> RestApi {
+        return try client.send(operation: "UpdateRestApi", path: "/restapis/{restapi_id}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates an existing VpcLink of a specified identifier.
@@ -463,9 +473,9 @@ public struct Apigateway {
         return try client.send(operation: "UpdateVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: "PATCH", input: input)
     }
 
-    ///  Changes information about the specified API.
-    public func updateRestApi(_ input: UpdateRestApiRequest) throws -> RestApi {
-        return try client.send(operation: "UpdateRestApi", path: "/restapis/{restapi_id}", httpMethod: "PATCH", input: input)
+    ///  Represents an update integration response.
+    public func updateIntegrationResponse(_ input: UpdateIntegrationResponseRequest) throws -> IntegrationResponse {
+        return try client.send(operation: "UpdateIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "PATCH", input: input)
     }
 
     ///  Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
@@ -508,14 +518,14 @@ public struct Apigateway {
         return try client.send(operation: "CreateRestApi", path: "/restapis", httpMethod: "POST", input: input)
     }
 
-    ///  Updates an existing MethodResponse resource.
-    public func updateMethodResponse(_ input: UpdateMethodResponseRequest) throws -> MethodResponse {
-        return try client.send(operation: "UpdateMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "PATCH", input: input)
-    }
-
     ///  Deletes the BasePathMapping resource.
     public func deleteBasePathMapping(_ input: DeleteBasePathMappingRequest) throws {
         _ = try client.send(operation: "DeleteBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Updates an existing MethodResponse resource.
+    public func updateMethodResponse(_ input: UpdateMethodResponseRequest) throws -> MethodResponse {
+        return try client.send(operation: "UpdateMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "PATCH", input: input)
     }
 
     ///  Gets information about a Deployments collection.
@@ -552,24 +562,29 @@ public struct Apigateway {
         return try client.send(operation: "UpdateStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: "PATCH", input: input)
     }
 
-    ///  Deletes the ClientCertificate resource.
-    public func deleteClientCertificate(_ input: DeleteClientCertificateRequest) throws {
-        _ = try client.send(operation: "DeleteClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "DELETE", input: input)
-    }
-
     ///  Gets the RequestValidators collection of a given RestApi.
     public func getRequestValidators(_ input: GetRequestValidatorsRequest) throws -> RequestValidators {
         return try client.send(operation: "GetRequestValidators", path: "/restapis/{restapi_id}/requestvalidators", httpMethod: "GET", input: input)
     }
 
-    ///  Lists information about a resource.
-    public func getResource(_ input: GetResourceRequest) throws -> Resource {
-        return try client.send(operation: "GetResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: "GET", input: input)
+    ///  Deletes the ClientCertificate resource.
+    public func deleteClientCertificate(_ input: DeleteClientCertificateRequest) throws {
+        _ = try client.send(operation: "DeleteClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Removes a tag from a given resource.
+    public func untagResource(_ input: UntagResourceRequest) throws {
+        _ = try client.send(operation: "UntagResource", path: "/tags/{resource_arn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Gets information about the current ClientCertificate resource.
     public func getClientCertificate(_ input: GetClientCertificateRequest) throws -> ClientCertificate {
         return try client.send(operation: "GetClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists information about a resource.
+    public func getResource(_ input: GetResourceRequest) throws -> Resource {
+        return try client.send(operation: "GetResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: "GET", input: input)
     }
 
     ///  Updates a GatewayResponse of a specified response type on the given RestApi.

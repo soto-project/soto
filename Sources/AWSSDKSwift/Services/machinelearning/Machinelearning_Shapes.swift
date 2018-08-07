@@ -683,28 +683,28 @@ extension Machinelearning {
     public struct Prediction: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .map), 
-            AWSShapeMember(label: "predictedScores", required: false, type: .map), 
             AWSShapeMember(label: "predictedLabel", required: false, type: .string), 
+            AWSShapeMember(label: "predictedScores", required: false, type: .map), 
             AWSShapeMember(label: "predictedValue", required: false, type: .float)
         ]
         public let details: [DetailsAttributes: String]?
-        public let predictedScores: [String: Float]?
         /// The prediction label for either a BINARY or MULTICLASS MLModel.
         public let predictedLabel: String?
+        public let predictedScores: [String: Float]?
         /// The prediction value for REGRESSION MLModel.
         public let predictedValue: Float?
 
-        public init(details: [DetailsAttributes: String]? = nil, predictedScores: [String: Float]? = nil, predictedLabel: String? = nil, predictedValue: Float? = nil) {
+        public init(details: [DetailsAttributes: String]? = nil, predictedLabel: String? = nil, predictedScores: [String: Float]? = nil, predictedValue: Float? = nil) {
             self.details = details
-            self.predictedScores = predictedScores
             self.predictedLabel = predictedLabel
+            self.predictedScores = predictedScores
             self.predictedValue = predictedValue
         }
 
         private enum CodingKeys: String, CodingKey {
             case details = "details"
-            case predictedScores = "predictedScores"
             case predictedLabel = "predictedLabel"
+            case predictedScores = "predictedScores"
             case predictedValue = "predictedValue"
         }
     }

@@ -23,47 +23,47 @@ extension Health {
 
     public struct AffectedEntity: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "entityValue", required: false, type: .string), 
             AWSShapeMember(label: "statusCode", required: false, type: .enum), 
             AWSShapeMember(label: "entityArn", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "awsAccountId", required: false, type: .string), 
             AWSShapeMember(label: "eventArn", required: false, type: .string), 
-            AWSShapeMember(label: "entityValue", required: false, type: .string)
+            AWSShapeMember(label: "awsAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp)
         ]
-        /// The most recent time that the entity was updated.
-        public let lastUpdatedTime: TimeStamp?
+        /// The ID of the affected entity.
+        public let entityValue: String?
         /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, and UNKNOWN.
         public let statusCode: EntityStatusCode?
         /// The unique identifier for the entity. Format: arn:aws:health:entity-region:aws-account:entity/entity-id . Example: arn:aws:health:us-east-1:111222333444:entity/AVh5GGT7ul1arKr1sE1K 
         public let entityArn: String?
         /// A map of entity tags attached to the affected entity.
         public let tags: [String: String]?
-        /// The 12-digit AWS account number that contains the affected entity.
-        public let awsAccountId: String?
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
         public let eventArn: String?
-        /// The ID of the affected entity.
-        public let entityValue: String?
+        /// The 12-digit AWS account number that contains the affected entity.
+        public let awsAccountId: String?
+        /// The most recent time that the entity was updated.
+        public let lastUpdatedTime: TimeStamp?
 
-        public init(lastUpdatedTime: TimeStamp? = nil, statusCode: EntityStatusCode? = nil, entityArn: String? = nil, tags: [String: String]? = nil, awsAccountId: String? = nil, eventArn: String? = nil, entityValue: String? = nil) {
-            self.lastUpdatedTime = lastUpdatedTime
+        public init(entityValue: String? = nil, statusCode: EntityStatusCode? = nil, entityArn: String? = nil, tags: [String: String]? = nil, eventArn: String? = nil, awsAccountId: String? = nil, lastUpdatedTime: TimeStamp? = nil) {
+            self.entityValue = entityValue
             self.statusCode = statusCode
             self.entityArn = entityArn
             self.tags = tags
-            self.awsAccountId = awsAccountId
             self.eventArn = eventArn
-            self.entityValue = entityValue
+            self.awsAccountId = awsAccountId
+            self.lastUpdatedTime = lastUpdatedTime
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastUpdatedTime = "lastUpdatedTime"
+            case entityValue = "entityValue"
             case statusCode = "statusCode"
             case entityArn = "entityArn"
             case tags = "tags"
-            case awsAccountId = "awsAccountId"
             case eventArn = "eventArn"
-            case entityValue = "entityValue"
+            case awsAccountId = "awsAccountId"
+            case lastUpdatedTime = "lastUpdatedTime"
         }
     }
 
@@ -296,31 +296,31 @@ extension Health {
 
     public struct DescribeEventAggregatesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "filter", required: false, type: .structure), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "aggregateField", required: true, type: .enum)
         ]
-        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        public let nextToken: String?
         /// Values to narrow the results returned.
         public let filter: EventFilter?
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
         public let maxResults: Int32?
+        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+        public let nextToken: String?
         /// The only currently supported value is eventTypeCategory.
         public let aggregateField: EventAggregateField
 
-        public init(nextToken: String? = nil, filter: EventFilter? = nil, maxResults: Int32? = nil, aggregateField: EventAggregateField) {
-            self.nextToken = nextToken
+        public init(filter: EventFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil, aggregateField: EventAggregateField) {
             self.filter = filter
             self.maxResults = maxResults
+            self.nextToken = nextToken
             self.aggregateField = aggregateField
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
             case filter = "filter"
             case maxResults = "maxResults"
+            case nextToken = "nextToken"
             case aggregateField = "aggregateField"
         }
     }
@@ -540,61 +540,61 @@ extension Health {
     public struct DescribeAffectedEntitiesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "filter", required: true, type: .structure), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "filter", required: true, type: .structure), 
             AWSShapeMember(label: "locale", required: false, type: .string)
         ]
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
         public let maxResults: Int32?
-        /// Values to narrow the results returned. At least one event ARN is required. 
-        public let filter: EntityFilter
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
+        /// Values to narrow the results returned. At least one event ARN is required. 
+        public let filter: EntityFilter
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
         public let locale: String?
 
-        public init(maxResults: Int32? = nil, filter: EntityFilter, nextToken: String? = nil, locale: String? = nil) {
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, filter: EntityFilter, locale: String? = nil) {
             self.maxResults = maxResults
-            self.filter = filter
             self.nextToken = nextToken
+            self.filter = filter
             self.locale = locale
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
-            case filter = "filter"
             case nextToken = "nextToken"
+            case filter = "filter"
             case locale = "locale"
         }
     }
 
     public struct DescribeEventsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "filter", required: false, type: .structure), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "locale", required: false, type: .string)
         ]
-        /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
-        public let maxResults: Int32?
         /// Values to narrow the results returned.
         public let filter: EventFilter?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
+        /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
+        public let maxResults: Int32?
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
         public let locale: String?
 
-        public init(maxResults: Int32? = nil, filter: EventFilter? = nil, nextToken: String? = nil, locale: String? = nil) {
-            self.maxResults = maxResults
+        public init(filter: EventFilter? = nil, nextToken: String? = nil, maxResults: Int32? = nil, locale: String? = nil) {
             self.filter = filter
             self.nextToken = nextToken
+            self.maxResults = maxResults
             self.locale = locale
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
             case filter = "filter"
             case nextToken = "nextToken"
+            case maxResults = "maxResults"
             case locale = "locale"
         }
     }
@@ -671,30 +671,30 @@ extension Health {
     public struct DescribeEventTypesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
             AWSShapeMember(label: "locale", required: false, type: .string)
         ]
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
         public let maxResults: Int32?
-        /// Values to narrow the results returned.
-        public let filter: EventTypeFilter?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
+        /// Values to narrow the results returned.
+        public let filter: EventTypeFilter?
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
         public let locale: String?
 
-        public init(maxResults: Int32? = nil, filter: EventTypeFilter? = nil, nextToken: String? = nil, locale: String? = nil) {
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, filter: EventTypeFilter? = nil, locale: String? = nil) {
             self.maxResults = maxResults
-            self.filter = filter
             self.nextToken = nextToken
+            self.filter = filter
             self.locale = locale
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
-            case filter = "filter"
             case nextToken = "nextToken"
+            case filter = "filter"
             case locale = "locale"
         }
     }

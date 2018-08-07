@@ -24,27 +24,27 @@ public struct Greengrass {
         )
     }
 
-    ///  Disassociates the service role from the account. Without a service role, deployments will not work.
+    ///  Disassociates the service role from your account. Without a service role, deployments will not work.
     public func disassociateServiceRoleFromAccount(_ input: DisassociateServiceRoleFromAccountRequest) throws -> DisassociateServiceRoleFromAccountResponse {
         return try client.send(operation: "DisassociateServiceRoleFromAccount", path: "/greengrass/servicerole", httpMethod: "DELETE", input: input)
     }
 
-    ///  Creates a version of a core definition that has already been defined. AWS Greengrass Groups must each contain exactly 1 AWS Greengrass Core.
+    ///  Creates a version of a core definition that has already been defined. AWS Greengrass groups must each contain exactly one AWS Greengrass core.
     public func createCoreDefinitionVersion(_ input: CreateCoreDefinitionVersionRequest) throws -> CreateCoreDefinitionVersionResponse {
         return try client.send(operation: "CreateCoreDefinitionVersion", path: "/greengrass/definition/cores/{CoreDefinitionId}/versions", httpMethod: "POST", input: input)
     }
 
-    ///  Create a version of a resource definition that has already been defined.
+    ///  Creates a version of a resource definition that has already been defined.
     public func createResourceDefinitionVersion(_ input: CreateResourceDefinitionVersionRequest) throws -> CreateResourceDefinitionVersionResponse {
         return try client.send(operation: "CreateResourceDefinitionVersion", path: "/greengrass/definition/resources/{ResourceDefinitionId}/versions", httpMethod: "POST", input: input)
     }
 
-    ///  Associates a role which is used by AWS Greengrass. AWS Greengrass uses the role to access your Lambda functions and AWS IoT resources. This is necessary for deployments to succeed. It needs to have minimum permissions in policy ``AWSGreengrassResourceAccessRolePolicy``
+    ///  Associates a role with your account. AWS Greengrass will use the role to access your Lambda functions and AWS IoT resources. This is necessary for deployments to succeed. The role must have at least minimum permissions in the policy ''AWSGreengrassResourceAccessRolePolicy''.
     public func associateServiceRoleToAccount(_ input: AssociateServiceRoleToAccountRequest) throws -> AssociateServiceRoleToAccountResponse {
         return try client.send(operation: "AssociateServiceRoleToAccount", path: "/greengrass/servicerole", httpMethod: "PUT", input: input)
     }
 
-    ///  Creates a resource definition which contains a list of resources to be used in a group. You can create an initial version of the definition by providing a list of resources now, or use ``CreateResourceDefinitionVersion`` later.
+    ///  Creates a resource definition which contains a list of resources to be used in a group. You can create an initial version of the definition by providing a list of resources now, or use ''CreateResourceDefinitionVersion'' later.
     public func createResourceDefinition(_ input: CreateResourceDefinitionRequest) throws -> CreateResourceDefinitionResponse {
         return try client.send(operation: "CreateResourceDefinition", path: "/greengrass/definition/resources", httpMethod: "POST", input: input)
     }
@@ -69,12 +69,12 @@ public struct Greengrass {
         return try client.send(operation: "UpdateResourceDefinition", path: "/greengrass/definition/resources/{ResourceDefinitionId}", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates the Cert expiry time for a group.
+    ///  Updates the Certificate expiry time for a group.
     public func updateGroupCertificateConfiguration(_ input: UpdateGroupCertificateConfigurationRequest) throws -> UpdateGroupCertificateConfigurationResponse {
         return try client.send(operation: "UpdateGroupCertificateConfiguration", path: "/greengrass/groups/{GroupId}/certificateauthorities/configuration/expiry", httpMethod: "PUT", input: input)
     }
 
-    ///  Deletes a device definition. The device definition must not have been used in a deployment.
+    ///  Deletes a device definition.
     public func deleteDeviceDefinition(_ input: DeleteDeviceDefinitionRequest) throws -> DeleteDeviceDefinitionResponse {
         return try client.send(operation: "DeleteDeviceDefinition", path: "/greengrass/definition/devices/{DeviceDefinitionId}", httpMethod: "DELETE", input: input)
     }
@@ -84,17 +84,17 @@ public struct Greengrass {
         return try client.send(operation: "ListDeviceDefinitions", path: "/greengrass/definition/devices", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves the service role that is attached to the account.
+    ///  Retrieves the service role that is attached to your account.
     public func getServiceRoleForAccount(_ input: GetServiceRoleForAccountRequest) throws -> GetServiceRoleForAccountResponse {
         return try client.send(operation: "GetServiceRoleForAccount", path: "/greengrass/servicerole", httpMethod: "GET", input: input)
     }
 
-    ///  Deletes a Lambda function definition. The Lambda function definition must not have been used in a deployment.
+    ///  Deletes a Lambda function definition.
     public func deleteFunctionDefinition(_ input: DeleteFunctionDefinitionRequest) throws -> DeleteFunctionDefinitionResponse {
         return try client.send(operation: "DeleteFunctionDefinition", path: "/greengrass/definition/functions/{FunctionDefinitionId}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Creates an Iot Job that will trigger your Greengrass Cores to update the software they are running.
+    ///  Creates a software update for a core or group of cores (specified as an IoT thing group.) Use this to update the OTA Agent as well as the Greengrass core software. It makes use of the IoT Jobs feature which provides additional commands to manage a Greengrass core software update job.
     public func createSoftwareUpdateJob(_ input: CreateSoftwareUpdateJobRequest) throws -> CreateSoftwareUpdateJobResponse {
         return try client.send(operation: "CreateSoftwareUpdateJob", path: "/greengrass/updates", httpMethod: "POST", input: input)
     }
@@ -104,7 +104,7 @@ public struct Greengrass {
         return try client.send(operation: "CreateGroupCertificateAuthority", path: "/greengrass/groups/{GroupId}/certificateauthorities", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves information about a resource definition version, such as which resources are included in the version.
+    ///  Retrieves information about a resource definition version, including which resources are included in the version.
     public func getResourceDefinitionVersion(_ input: GetResourceDefinitionVersionRequest) throws -> GetResourceDefinitionVersionResponse {
         return try client.send(operation: "GetResourceDefinitionVersion", path: "/greengrass/definition/resources/{ResourceDefinitionId}/versions/{ResourceDefinitionVersionId}", httpMethod: "GET", input: input)
     }
@@ -119,7 +119,7 @@ public struct Greengrass {
         return try client.send(operation: "CreateLoggerDefinitionVersion", path: "/greengrass/definition/loggers/{LoggerDefinitionId}/versions", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves information about a Lambda function definition version, such as which Lambda functions are included in the version and their configurations.
+    ///  Retrieves information about a Lambda function definition version, including which Lambda functions are included in the version and their configurations.
     public func getFunctionDefinitionVersion(_ input: GetFunctionDefinitionVersionRequest) throws -> GetFunctionDefinitionVersionResponse {
         return try client.send(operation: "GetFunctionDefinitionVersion", path: "/greengrass/definition/functions/{FunctionDefinitionId}/versions/{FunctionDefinitionVersionId}", httpMethod: "GET", input: input)
     }
@@ -134,7 +134,7 @@ public struct Greengrass {
         return try client.send(operation: "ListLoggerDefinitions", path: "/greengrass/definition/loggers", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves information about a resource definition, such as its creation time and latest version.
+    ///  Retrieves information about a resource definition, including its creation time and latest version.
     public func getResourceDefinition(_ input: GetResourceDefinitionRequest) throws -> GetResourceDefinitionResponse {
         return try client.send(operation: "GetResourceDefinition", path: "/greengrass/definition/resources/{ResourceDefinitionId}", httpMethod: "GET", input: input)
     }
@@ -154,12 +154,12 @@ public struct Greengrass {
         return try client.send(operation: "GetCoreDefinition", path: "/greengrass/definition/cores/{CoreDefinitionId}", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves information about a Lambda function definition, such as its creation time and latest version.
+    ///  Retrieves information about a Lambda function definition, including its creation time and latest version.
     public func getFunctionDefinition(_ input: GetFunctionDefinitionRequest) throws -> GetFunctionDefinitionResponse {
         return try client.send(operation: "GetFunctionDefinition", path: "/greengrass/definition/functions/{FunctionDefinitionId}", httpMethod: "GET", input: input)
     }
 
-    ///  Create a version of a Lambda function definition that has already been defined.
+    ///  Creates a version of a Lambda function definition that has already been defined.
     public func createFunctionDefinitionVersion(_ input: CreateFunctionDefinitionVersionRequest) throws -> CreateFunctionDefinitionVersionResponse {
         return try client.send(operation: "CreateFunctionDefinitionVersion", path: "/greengrass/definition/functions/{FunctionDefinitionId}/versions", httpMethod: "POST", input: input)
     }
@@ -169,7 +169,7 @@ public struct Greengrass {
         return try client.send(operation: "UpdateDeviceDefinition", path: "/greengrass/definition/devices/{DeviceDefinitionId}", httpMethod: "PUT", input: input)
     }
 
-    ///  Creates a device definition. You may optinally provide the initial version of the device definition or use ``CreateDeviceDefinitionVersion`` at a later time.
+    ///  Creates a device definition. You may provide the initial version of the device definition now or use ''CreateDeviceDefinitionVersion'' at a later time.
     public func createDeviceDefinition(_ input: CreateDeviceDefinitionRequest) throws -> CreateDeviceDefinitionResponse {
         return try client.send(operation: "CreateDeviceDefinition", path: "/greengrass/definition/devices", httpMethod: "POST", input: input)
     }
@@ -204,7 +204,7 @@ public struct Greengrass {
         return try client.send(operation: "GetLoggerDefinition", path: "/greengrass/definition/loggers/{LoggerDefinitionId}", httpMethod: "GET", input: input)
     }
 
-    ///  Creates a group. You may optionally provide the initial version of the group or use ''CreateGroupVersion'' at a later time.
+    ///  Creates a group. You may provide the initial version of the group or use ''CreateGroupVersion'' at a later time.
     public func createGroup(_ input: CreateGroupRequest) throws -> CreateGroupResponse {
         return try client.send(operation: "CreateGroup", path: "/greengrass/groups", httpMethod: "POST", input: input)
     }
@@ -219,7 +219,7 @@ public struct Greengrass {
         return try client.send(operation: "GetConnectivityInfo", path: "/greengrass/things/{ThingName}/connectivityInfo", httpMethod: "GET", input: input)
     }
 
-    ///  Deletes a logger definition. The logger definition must not have been used in a deployment.
+    ///  Deletes a logger definition.
     public func deleteLoggerDefinition(_ input: DeleteLoggerDefinitionRequest) throws -> DeleteLoggerDefinitionResponse {
         return try client.send(operation: "DeleteLoggerDefinition", path: "/greengrass/definition/loggers/{LoggerDefinitionId}", httpMethod: "DELETE", input: input)
     }
@@ -234,7 +234,7 @@ public struct Greengrass {
         return try client.send(operation: "ListDeviceDefinitionVersions", path: "/greengrass/definition/devices/{DeviceDefinitionId}/versions", httpMethod: "GET", input: input)
     }
 
-    ///  Deletes a subscription definition. The subscription definition must not have been used in a deployment.
+    ///  Deletes a subscription definition.
     public func deleteSubscriptionDefinition(_ input: DeleteSubscriptionDefinitionRequest) throws -> DeleteSubscriptionDefinitionResponse {
         return try client.send(operation: "DeleteSubscriptionDefinition", path: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}", httpMethod: "DELETE", input: input)
     }
@@ -249,12 +249,12 @@ public struct Greengrass {
         return try client.send(operation: "UpdateSubscriptionDefinition", path: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}", httpMethod: "PUT", input: input)
     }
 
-    ///  Deletes a core definition. The core definition must not have been used in a deployment.
+    ///  Deletes a core definition.
     public func deleteCoreDefinition(_ input: DeleteCoreDefinitionRequest) throws -> DeleteCoreDefinitionResponse {
         return try client.send(operation: "DeleteCoreDefinition", path: "/greengrass/definition/cores/{CoreDefinitionId}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Creates a logger definition. You may optionally provide the initial version of the logger definition or use ``CreateLoggerDefinitionVersion`` at a later time.
+    ///  Creates a logger definition. You may provide the initial version of the logger definition now or use ''CreateLoggerDefinitionVersion'' at a later time.
     public func createLoggerDefinition(_ input: CreateLoggerDefinitionRequest) throws -> CreateLoggerDefinitionResponse {
         return try client.send(operation: "CreateLoggerDefinition", path: "/greengrass/definition/loggers", httpMethod: "POST", input: input)
     }
@@ -264,12 +264,12 @@ public struct Greengrass {
         return try client.send(operation: "GetDeviceDefinition", path: "/greengrass/definition/devices/{DeviceDefinitionId}", httpMethod: "GET", input: input)
     }
 
-    ///  Creates a Lambda function definition which contains a list of Lambda functions and their configurations to be used in a group. You can create an initial version of the definition by providing a list of Lambda functions and their configurations now, or use ``CreateFunctionDefinitionVersion`` later.
+    ///  Creates a Lambda function definition which contains a list of Lambda functions and their configurations to be used in a group. You can create an initial version of the definition by providing a list of Lambda functions and their configurations now, or use ''CreateFunctionDefinitionVersion'' later.
     public func createFunctionDefinition(_ input: CreateFunctionDefinitionRequest) throws -> CreateFunctionDefinitionResponse {
         return try client.send(operation: "CreateFunctionDefinition", path: "/greengrass/definition/functions", httpMethod: "POST", input: input)
     }
 
-    ///  List the versions of a group.
+    ///  Lists the versions of a group.
     public func listGroupVersions(_ input: ListGroupVersionsRequest) throws -> ListGroupVersionsResponse {
         return try client.send(operation: "ListGroupVersions", path: "/greengrass/groups/{GroupId}/versions", httpMethod: "GET", input: input)
     }
@@ -284,7 +284,7 @@ public struct Greengrass {
         return try client.send(operation: "ListResourceDefinitionVersions", path: "/greengrass/definition/resources/{ResourceDefinitionId}/versions", httpMethod: "GET", input: input)
     }
 
-    ///  Deletes a group. The group must not have been used in deployment.
+    ///  Deletes a group.
     public func deleteGroup(_ input: DeleteGroupRequest) throws -> DeleteGroupResponse {
         return try client.send(operation: "DeleteGroup", path: "/greengrass/groups/{GroupId}", httpMethod: "DELETE", input: input)
     }
@@ -309,7 +309,7 @@ public struct Greengrass {
         return try client.send(operation: "ListCoreDefinitions", path: "/greengrass/definition/cores", httpMethod: "GET", input: input)
     }
 
-    ///  Creates a subscription definition. You may optionally provide the initial version of the subscription definition or use ``CreateSubscriptionDefinitionVersion`` at a later time.
+    ///  Creates a subscription definition. You may provide the initial version of the subscription definition now or use ''CreateSubscriptionDefinitionVersion'' at a later time.
     public func createSubscriptionDefinition(_ input: CreateSubscriptionDefinitionRequest) throws -> CreateSubscriptionDefinitionResponse {
         return try client.send(operation: "CreateSubscriptionDefinition", path: "/greengrass/definition/subscriptions", httpMethod: "POST", input: input)
     }
@@ -324,7 +324,7 @@ public struct Greengrass {
         return try client.send(operation: "GetLoggerDefinitionVersion", path: "/greengrass/definition/loggers/{LoggerDefinitionId}/versions/{LoggerDefinitionVersionId}", httpMethod: "GET", input: input)
     }
 
-    ///  Associates a role with a group. The role will be used by the AWS Greengrass core in order to access AWS cloud services. The role's permissions will allow Greengrass core Lambda functions to perform actions against the cloud.
+    ///  Associates a role with a group. Your AWS Greengrass core will use the role to access AWS cloud services. The role's permissions should allow Greengrass core Lambda functions to perform actions against the cloud.
     public func associateRoleToGroup(_ input: AssociateRoleToGroupRequest) throws -> AssociateRoleToGroupResponse {
         return try client.send(operation: "AssociateRoleToGroup", path: "/greengrass/groups/{GroupId}/role", httpMethod: "PUT", input: input)
     }
@@ -339,7 +339,7 @@ public struct Greengrass {
         return try client.send(operation: "DeleteResourceDefinition", path: "/greengrass/definition/resources/{ResourceDefinitionId}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Lists versions of a core definition.
+    ///  Lists the versions of a core definition.
     public func listCoreDefinitionVersions(_ input: ListCoreDefinitionVersionsRequest) throws -> ListCoreDefinitionVersionsResponse {
         return try client.send(operation: "ListCoreDefinitionVersions", path: "/greengrass/definition/cores/{CoreDefinitionId}/versions", httpMethod: "GET", input: input)
     }
@@ -364,7 +364,7 @@ public struct Greengrass {
         return try client.send(operation: "UpdateFunctionDefinition", path: "/greengrass/definition/functions/{FunctionDefinitionId}", httpMethod: "PUT", input: input)
     }
 
-    ///  Creates a core definition. You may optionally provide the initial version of the core definition or use ''CreateCoreDefinitionVersion'' at a later time. AWS Greengrass Groups must each contain exactly 1 AWS Greengrass Core.
+    ///  Creates a core definition. You may provide the initial version of the core definition now or use ''CreateCoreDefinitionVersion'' at a later time. AWS Greengrass groups must each contain exactly one AWS Greengrass core.
     public func createCoreDefinition(_ input: CreateCoreDefinitionRequest) throws -> CreateCoreDefinitionResponse {
         return try client.send(operation: "CreateCoreDefinition", path: "/greengrass/definition/cores", httpMethod: "POST", input: input)
     }

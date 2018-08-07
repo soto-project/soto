@@ -84,7 +84,7 @@ public struct Mq {
         return try client.send(operation: "DescribeConfigurationRevision", path: "/v1/configurations/{configuration-id}/revisions/{configuration-revision}", httpMethod: "GET", input: input)
     }
 
-    ///  Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version). Note: If the configuration name already exists, Amazon MQ doesn't create a configuration.
+    ///  Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
     public func createConfiguration(_ input: CreateConfigurationRequest) throws -> CreateConfigurationResponse {
         return try client.send(operation: "CreateConfiguration", path: "/v1/configurations", httpMethod: "POST", input: input)
     }

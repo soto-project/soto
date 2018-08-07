@@ -164,11 +164,11 @@ extension Batch {
         ]
         /// A short, human-readable string to provide additional details about the current status of the job attempt.
         public let statusReason: String?
-        /// The Unix time stamp for when the attempt was started (when the attempt transitioned from the STARTING state to the RUNNING state).
+        /// The Unix time stamp (in seconds and milliseconds) for when the attempt was started (when the attempt transitioned from the STARTING state to the RUNNING state).
         public let startedAt: Int64?
         /// Details about the container in this job attempt.
         public let container: AttemptContainerDetail?
-        /// The Unix time stamp for when the attempt was stopped (when the attempt transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED).
+        /// The Unix time stamp (in seconds and milliseconds) for when the attempt was stopped (when the attempt transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED).
         public let stoppedAt: Int64?
 
         public init(statusReason: String? = nil, startedAt: Int64? = nil, container: AttemptContainerDetail? = nil, stoppedAt: Int64? = nil) {
@@ -290,7 +290,7 @@ extension Batch {
         public let jobRoleArn: String?
         /// A list of ulimits to set in the container. This parameter maps to Ulimits in the Create a container section of the Docker Remote API and the --ulimit option to docker run.
         public let ulimits: [Ulimit]?
-        /// The hard limit (in MiB) of memory to present to the container. If your container attempts to exceed the memory specified here, the container is killed. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run. You must specify at least 4 MiB of memory for a job.
+        /// The hard limit (in MiB) of memory to present to the container. If your container attempts to exceed the memory specified here, the container is killed. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run. You must specify at least 4 MiB of memory for a job.  If you are trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see Memory Management in the AWS Batch User Guide. 
         public let memory: Int32
 
         public init(user: String? = nil, readonlyRootFilesystem: Bool? = nil, mountPoints: [MountPoint]? = nil, image: String, volumes: [Volume]? = nil, vcpus: Int32, privileged: Bool? = nil, environment: [KeyValuePair]? = nil, command: [String]? = nil, jobRoleArn: String? = nil, ulimits: [Ulimit]? = nil, memory: Int32) {
@@ -933,15 +933,16 @@ extension Batch {
             AWSShapeMember(label: "attempts", required: false, type: .list), 
             AWSShapeMember(label: "parameters", required: false, type: .map), 
             AWSShapeMember(label: "stoppedAt", required: false, type: .long), 
+            AWSShapeMember(label: "timeout", required: false, type: .structure), 
             AWSShapeMember(label: "retryStrategy", required: false, type: .structure), 
             AWSShapeMember(label: "jobDefinition", required: true, type: .string), 
             AWSShapeMember(label: "jobId", required: true, type: .string)
         ]
         /// The name of the job.
         public let jobName: String
-        /// The Unix time stamp for when the job was created. For non-array jobs and parent array jobs, this is when the job entered the SUBMITTED state (at the time SubmitJob was called). For array child jobs, this is when the child job was spawned by its parent and entered the PENDING state.
+        /// The Unix time stamp (in seconds and milliseconds) for when the job was created. For non-array jobs and parent array jobs, this is when the job entered the SUBMITTED state (at the time SubmitJob was called). For array child jobs, this is when the child job was spawned by its parent and entered the PENDING state.
         public let createdAt: Int64?
-        /// The Unix time stamp for when the job was started (when the job transitioned from the STARTING state to the RUNNING state).
+        /// The Unix time stamp (in seconds and milliseconds) for when the job was started (when the job transitioned from the STARTING state to the RUNNING state).
         public let startedAt: Int64
         /// A short, human-readable string to provide additional details about the current status of the job. 
         public let statusReason: String?
@@ -959,8 +960,10 @@ extension Batch {
         public let attempts: [AttemptDetail]?
         /// Additional parameters passed to the job that replace parameter substitution placeholders or override any corresponding parameter defaults from the job definition. 
         public let parameters: [String: String]?
-        /// The Unix time stamp for when the job was stopped (when the job transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED).
+        /// The Unix time stamp (in seconds and milliseconds) for when the job was stopped (when the job transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED).
         public let stoppedAt: Int64?
+        /// The timeout configuration for the job. 
+        public let timeout: JobTimeout?
         /// The retry strategy to use for this job if an attempt fails.
         public let retryStrategy: RetryStrategy?
         /// The job definition that is used by this job.
@@ -968,7 +971,7 @@ extension Batch {
         /// The ID for the job.
         public let jobId: String
 
-        public init(jobName: String, createdAt: Int64? = nil, startedAt: Int64, statusReason: String? = nil, container: ContainerDetail? = nil, dependsOn: [JobDependency]? = nil, jobQueue: String, arrayProperties: ArrayPropertiesDetail? = nil, status: JobStatus, attempts: [AttemptDetail]? = nil, parameters: [String: String]? = nil, stoppedAt: Int64? = nil, retryStrategy: RetryStrategy? = nil, jobDefinition: String, jobId: String) {
+        public init(jobName: String, createdAt: Int64? = nil, startedAt: Int64, statusReason: String? = nil, container: ContainerDetail? = nil, dependsOn: [JobDependency]? = nil, jobQueue: String, arrayProperties: ArrayPropertiesDetail? = nil, status: JobStatus, attempts: [AttemptDetail]? = nil, parameters: [String: String]? = nil, stoppedAt: Int64? = nil, timeout: JobTimeout? = nil, retryStrategy: RetryStrategy? = nil, jobDefinition: String, jobId: String) {
             self.jobName = jobName
             self.createdAt = createdAt
             self.startedAt = startedAt
@@ -981,6 +984,7 @@ extension Batch {
             self.attempts = attempts
             self.parameters = parameters
             self.stoppedAt = stoppedAt
+            self.timeout = timeout
             self.retryStrategy = retryStrategy
             self.jobDefinition = jobDefinition
             self.jobId = jobId
@@ -999,6 +1003,7 @@ extension Batch {
             case attempts = "attempts"
             case parameters = "parameters"
             case stoppedAt = "stoppedAt"
+            case timeout = "timeout"
             case retryStrategy = "retryStrategy"
             case jobDefinition = "jobDefinition"
             case jobId = "jobId"
@@ -1042,6 +1047,7 @@ extension Batch {
             AWSShapeMember(label: "arrayProperties", required: false, type: .structure), 
             AWSShapeMember(label: "jobName", required: true, type: .string), 
             AWSShapeMember(label: "parameters", required: false, type: .map), 
+            AWSShapeMember(label: "timeout", required: false, type: .structure), 
             AWSShapeMember(label: "retryStrategy", required: false, type: .structure), 
             AWSShapeMember(label: "jobDefinition", required: true, type: .string), 
             AWSShapeMember(label: "containerOverrides", required: false, type: .structure), 
@@ -1055,6 +1061,8 @@ extension Batch {
         public let jobName: String
         /// Additional parameters passed to the job that replace parameter substitution placeholders that are set in the job definition. Parameters are specified as a key and value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
         public let parameters: [String: String]?
+        /// The timeout configuration for this SubmitJob operation. You can specify a timeout duration after which AWS Batch terminates your jobs if they have not finished. If a job is terminated due to a timeout, it is not retried. The minimum value for the timeout is 60 seconds. This configuration overrides any timeout configuration specified in the job definition. For array jobs, child jobs have the same timeout configuration as the parent job. For more information, see Job Timeouts in the Amazon Elastic Container Service Developer Guide.
+        public let timeout: JobTimeout?
         /// The retry strategy to use for failed jobs from this SubmitJob operation. When a retry strategy is specified here, it overrides the retry strategy defined in the job definition.
         public let retryStrategy: RetryStrategy?
         /// The job definition used by this job. This value can be either a name:revision or the Amazon Resource Name (ARN) for the job definition.
@@ -1064,11 +1072,12 @@ extension Batch {
         /// A list of dependencies for the job. A job can depend upon a maximum of 20 jobs. You can specify a SEQUENTIAL type dependency without specifying a job ID for array jobs so that each child array job completes sequentially, starting at index 0. You can also specify an N_TO_N type dependency with a job ID for array jobs so that each index child of this job must wait for the corresponding index child of each dependency to complete before it can begin.
         public let dependsOn: [JobDependency]?
 
-        public init(jobQueue: String, arrayProperties: ArrayProperties? = nil, jobName: String, parameters: [String: String]? = nil, retryStrategy: RetryStrategy? = nil, jobDefinition: String, containerOverrides: ContainerOverrides? = nil, dependsOn: [JobDependency]? = nil) {
+        public init(jobQueue: String, arrayProperties: ArrayProperties? = nil, jobName: String, parameters: [String: String]? = nil, timeout: JobTimeout? = nil, retryStrategy: RetryStrategy? = nil, jobDefinition: String, containerOverrides: ContainerOverrides? = nil, dependsOn: [JobDependency]? = nil) {
             self.jobQueue = jobQueue
             self.arrayProperties = arrayProperties
             self.jobName = jobName
             self.parameters = parameters
+            self.timeout = timeout
             self.retryStrategy = retryStrategy
             self.jobDefinition = jobDefinition
             self.containerOverrides = containerOverrides
@@ -1080,6 +1089,7 @@ extension Batch {
             case arrayProperties = "arrayProperties"
             case jobName = "jobName"
             case parameters = "parameters"
+            case timeout = "timeout"
             case retryStrategy = "retryStrategy"
             case jobDefinition = "jobDefinition"
             case containerOverrides = "containerOverrides"
@@ -1131,6 +1141,7 @@ extension Batch {
     public struct RegisterJobDefinitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "jobDefinitionName", required: true, type: .string), 
+            AWSShapeMember(label: "timeout", required: false, type: .structure), 
             AWSShapeMember(label: "retryStrategy", required: false, type: .structure), 
             AWSShapeMember(label: "type", required: true, type: .enum), 
             AWSShapeMember(label: "containerProperties", required: false, type: .structure), 
@@ -1138,7 +1149,9 @@ extension Batch {
         ]
         /// The name of the job definition to register. Up to 128 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
         public let jobDefinitionName: String
-        /// The retry strategy to use for failed jobs that are submitted with this job definition. Any retry strategy that is specified during a SubmitJob operation overrides the retry strategy defined here.
+        /// The timeout configuration for jobs that are submitted with this job definition, after which AWS Batch terminates your jobs if they have not finished. If a job is terminated due to a timeout, it is not retried. The minimum value for the timeout is 60 seconds. Any timeout configuration that is specified during a SubmitJob operation overrides the timeout configuration defined here. For more information, see Job Timeouts in the Amazon Elastic Container Service Developer Guide.
+        public let timeout: JobTimeout?
+        /// The retry strategy to use for failed jobs that are submitted with this job definition. Any retry strategy that is specified during a SubmitJob operation overrides the retry strategy defined here. If a job is terminated due to a timeout, it is not retried. 
         public let retryStrategy: RetryStrategy?
         /// The type of job definition.
         public let `type`: JobDefinitionType
@@ -1147,8 +1160,9 @@ extension Batch {
         /// Default parameter substitution placeholders to set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
         public let parameters: [String: String]?
 
-        public init(jobDefinitionName: String, retryStrategy: RetryStrategy? = nil, type: JobDefinitionType, containerProperties: ContainerProperties? = nil, parameters: [String: String]? = nil) {
+        public init(jobDefinitionName: String, timeout: JobTimeout? = nil, retryStrategy: RetryStrategy? = nil, type: JobDefinitionType, containerProperties: ContainerProperties? = nil, parameters: [String: String]? = nil) {
             self.jobDefinitionName = jobDefinitionName
+            self.timeout = timeout
             self.retryStrategy = retryStrategy
             self.`type` = `type`
             self.containerProperties = containerProperties
@@ -1157,6 +1171,7 @@ extension Batch {
 
         private enum CodingKeys: String, CodingKey {
             case jobDefinitionName = "jobDefinitionName"
+            case timeout = "timeout"
             case retryStrategy = "retryStrategy"
             case `type` = "type"
             case containerProperties = "containerProperties"
@@ -1376,6 +1391,7 @@ extension Batch {
             AWSShapeMember(label: "jobDefinitionName", required: true, type: .string), 
             AWSShapeMember(label: "parameters", required: false, type: .map), 
             AWSShapeMember(label: "jobDefinitionArn", required: true, type: .string), 
+            AWSShapeMember(label: "timeout", required: false, type: .structure), 
             AWSShapeMember(label: "retryStrategy", required: false, type: .structure), 
             AWSShapeMember(label: "type", required: true, type: .string), 
             AWSShapeMember(label: "containerProperties", required: false, type: .structure)
@@ -1390,6 +1406,8 @@ extension Batch {
         public let parameters: [String: String]?
         /// The Amazon Resource Name (ARN) for the job definition. 
         public let jobDefinitionArn: String
+        /// The timeout configuration for jobs that are submitted with this job definition. You can specify a timeout duration after which AWS Batch terminates your jobs if they have not finished.
+        public let timeout: JobTimeout?
         /// The retry strategy to use for failed jobs that are submitted with this job definition.
         public let retryStrategy: RetryStrategy?
         /// The type of job definition.
@@ -1397,12 +1415,13 @@ extension Batch {
         /// An object with various properties specific to container-based jobs. 
         public let containerProperties: ContainerProperties?
 
-        public init(revision: Int32, status: String? = nil, jobDefinitionName: String, parameters: [String: String]? = nil, jobDefinitionArn: String, retryStrategy: RetryStrategy? = nil, type: String, containerProperties: ContainerProperties? = nil) {
+        public init(revision: Int32, status: String? = nil, jobDefinitionName: String, parameters: [String: String]? = nil, jobDefinitionArn: String, timeout: JobTimeout? = nil, retryStrategy: RetryStrategy? = nil, type: String, containerProperties: ContainerProperties? = nil) {
             self.revision = revision
             self.status = status
             self.jobDefinitionName = jobDefinitionName
             self.parameters = parameters
             self.jobDefinitionArn = jobDefinitionArn
+            self.timeout = timeout
             self.retryStrategy = retryStrategy
             self.`type` = `type`
             self.containerProperties = containerProperties
@@ -1414,6 +1433,7 @@ extension Batch {
             case jobDefinitionName = "jobDefinitionName"
             case parameters = "parameters"
             case jobDefinitionArn = "jobDefinitionArn"
+            case timeout = "timeout"
             case retryStrategy = "retryStrategy"
             case `type` = "type"
             case containerProperties = "containerProperties"
@@ -1469,6 +1489,22 @@ extension Batch {
             case computeEnvironmentOrder = "computeEnvironmentOrder"
             case priority = "priority"
             case jobQueueName = "jobQueueName"
+        }
+    }
+
+    public struct JobTimeout: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attemptDurationSeconds", required: false, type: .integer)
+        ]
+        /// The time duration in seconds (measured from the job attempt's startedAt timestamp) after which AWS Batch terminates your jobs if they have not finished.
+        public let attemptDurationSeconds: Int32?
+
+        public init(attemptDurationSeconds: Int32? = nil) {
+            self.attemptDurationSeconds = attemptDurationSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attemptDurationSeconds = "attemptDurationSeconds"
         }
     }
 

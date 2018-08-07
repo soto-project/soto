@@ -30,18 +30,19 @@ public struct Appstream {
         return try client.send(operation: "UpdateFleet", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Retrieves a list that describes one or more specified image builders, if the image builder names are provided. Otherwise, all image builders in the account are described.
     public func describeImageBuilders(_ input: DescribeImageBuildersRequest) throws -> DescribeImageBuildersResult {
         return try client.send(operation: "DescribeImageBuilders", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the fleets associated with the specified stack.
-    public func listAssociatedFleets(_ input: ListAssociatedFleetsRequest) throws -> ListAssociatedFleetsResult {
-        return try client.send(operation: "ListAssociatedFleets", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates the specified directory configuration.
+    ///  Updates the specified Directory Config object in AppStream 2.0. This object includes the information required to join streaming instances to an Active Directory domain.
     public func updateDirectoryConfig(_ input: UpdateDirectoryConfigRequest) throws -> UpdateDirectoryConfigResult {
         return try client.send(operation: "UpdateDirectoryConfig", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves a list that describes the permissions for a private image that you own. 
+    public func describeImagePermissions(_ input: DescribeImagePermissionsRequest) throws -> DescribeImagePermissionsResult {
+        return try client.send(operation: "DescribeImagePermissions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops the specified fleet.
@@ -54,12 +55,19 @@ public struct Appstream {
         return try client.send(operation: "AssociateFleet", path: "/", httpMethod: "POST", input: input)
     }
 
-    public func stopImageBuilder(_ input: StopImageBuilderRequest) throws -> StopImageBuilderResult {
-        return try client.send(operation: "StopImageBuilder", path: "/", httpMethod: "POST", input: input)
+    ///  Retrieves the name of the fleet that is associated with the specified stack.
+    public func listAssociatedFleets(_ input: ListAssociatedFleetsRequest) throws -> ListAssociatedFleetsResult {
+        return try client.send(operation: "ListAssociatedFleets", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Starts the specified image builder.
     public func startImageBuilder(_ input: StartImageBuilderRequest) throws -> StartImageBuilderResult {
         return try client.send(operation: "StartImageBuilder", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a URL to start an image builder streaming session.
+    public func createImageBuilderStreamingURL(_ input: CreateImageBuilderStreamingURLRequest) throws -> CreateImageBuilderStreamingURLResult {
+        return try client.send(operation: "CreateImageBuilderStreamingURL", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified fleet.
@@ -72,60 +80,72 @@ public struct Appstream {
         return try client.send(operation: "DisassociateFleet", path: "/", httpMethod: "POST", input: input)
     }
 
-    public func createImageBuilderStreamingURL(_ input: CreateImageBuilderStreamingURLRequest) throws -> CreateImageBuilderStreamingURLResult {
-        return try client.send(operation: "CreateImageBuilderStreamingURL", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes permissions for the specified private image. After you delete permissions for an image, AWS accounts to which you previously granted these permissions can no longer use the image.
+    public func deleteImagePermissions(_ input: DeleteImagePermissionsRequest) throws -> DeleteImagePermissionsResult {
+        return try client.send(operation: "DeleteImagePermissions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a directory configuration.
+    ///  Creates a Directory Config object in AppStream 2.0. This object includes the information required to join streaming instances to an Active Directory domain.
     public func createDirectoryConfig(_ input: CreateDirectoryConfigRequest) throws -> CreateDirectoryConfigResult {
         return try client.send(operation: "CreateDirectoryConfig", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the streaming sessions for the specified stack and fleet. If a user ID is provided, only the streaming sessions for only that user are returned. If an authentication type is not provided, the default is to authenticate users using a streaming URL.
-    public func describeSessions(_ input: DescribeSessionsRequest) throws -> DescribeSessionsResult {
-        return try client.send(operation: "DescribeSessions", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a fleet.
+    ///  Creates a fleet. A fleet consists of streaming instances that run a specified image.
     public func createFleet(_ input: CreateFleetRequest) throws -> CreateFleetResult {
         return try client.send(operation: "CreateFleet", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the stacks associated with the specified fleet.
+    ///  Retrieves a list that describes the streaming sessions for a specified stack and fleet. If a user ID is provided for the stack and fleet, only streaming sessions for that user are described. If an authentication type is not provided, the default is to authenticate users using a streaming URL.
+    public func describeSessions(_ input: DescribeSessionsRequest) throws -> DescribeSessionsResult {
+        return try client.send(operation: "DescribeSessions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the name of the stack with which the specified fleet is associated.
     public func listAssociatedStacks(_ input: ListAssociatedStacksRequest) throws -> ListAssociatedStacksResult {
         return try client.send(operation: "ListAssociatedStacks", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the specified fleets or all fleets in the account.
+    ///  Retrieves a list of all tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Developer Guide.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> ListTagsForResourceResponse {
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops the specified image builder.
+    public func stopImageBuilder(_ input: StopImageBuilderRequest) throws -> StopImageBuilderResult {
+        return try client.send(operation: "StopImageBuilder", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves a list that describes one or more specified fleets, if the fleet names are provided. Otherwise, all fleets in the account are described.
     public func describeFleets(_ input: DescribeFleetsRequest) throws -> DescribeFleetsResult {
         return try client.send(operation: "DescribeFleets", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified stack. After this operation completes, the environment can no longer be activated and any reservations made for the stack are released.
-    public func deleteStack(_ input: DeleteStackRequest) throws -> DeleteStackResult {
-        return try client.send(operation: "DeleteStack", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Describes the specified images or all images in the account.
+    ///  Retrieves a list that describes one or more specified images, if the image names are provided. Otherwise, all images in the account are described.
     public func describeImages(_ input: DescribeImagesRequest) throws -> DescribeImagesResult {
         return try client.send(operation: "DescribeImages", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a URL to start a streaming session for the specified user. By default, the URL is valid only for one minute from the time that it is generated.
+    ///  Deletes the specified stack. After the stack is deleted, the application streaming environment provided by the stack is no longer available to users. Also, any reservations made for application streaming sessions for the stack are released.
+    public func deleteStack(_ input: DeleteStackRequest) throws -> DeleteStackResult {
+        return try client.send(operation: "DeleteStack", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a temporary URL to start an AppStream 2.0 streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup. 
     public func createStreamingURL(_ input: CreateStreamingURLRequest) throws -> CreateStreamingURLResult {
         return try client.send(operation: "CreateStreamingURL", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified directory configuration.
+    ///  Deletes the specified Directory Config object from AppStream 2.0. This object includes the information required to join streaming instances to an Active Directory domain.
     public func deleteDirectoryConfig(_ input: DeleteDirectoryConfigRequest) throws -> DeleteDirectoryConfigResult {
         return try client.send(operation: "DeleteDirectoryConfig", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates an image builder. An image builder is a virtual machine that is used to create an image. The initial state of the builder is PENDING. When it is ready, the state is RUNNING.
     public func createImageBuilder(_ input: CreateImageBuilderRequest) throws -> CreateImageBuilderResult {
         return try client.send(operation: "CreateImageBuilder", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a stack.
+    ///  Creates a stack to start streaming applications to users. A stack consists of an associated fleet, user access policies, and storage configurations. 
     public func createStack(_ input: CreateStackRequest) throws -> CreateStackResult {
         return try client.send(operation: "CreateStack", path: "/", httpMethod: "POST", input: input)
     }
@@ -135,32 +155,54 @@ public struct Appstream {
         return try client.send(operation: "StartFleet", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the specified image. You cannot delete an image when it is in use. After you delete an image, you cannot provision new capacity using the image.
     public func deleteImage(_ input: DeleteImageRequest) throws -> DeleteImageResult {
         return try client.send(operation: "DeleteImage", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Stops the specified streaming session.
+    ///  Immediately stops the specified streaming session.
     public func expireSession(_ input: ExpireSessionRequest) throws -> ExpireSessionResult {
         return try client.send(operation: "ExpireSession", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the specified stacks or all stacks in the account.
+    ///  Retrieves a list that describes one or more specified stacks, if the stack names are provided. Otherwise, all stacks in the account are described.
     public func describeStacks(_ input: DescribeStacksRequest) throws -> DescribeStacksResult {
         return try client.send(operation: "DescribeStacks", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the specified directory configurations.
+    ///  Disassociates one or more specified tags from the specified AppStream 2.0 resource. To list the current tags for your resources, use ListTagsForResource. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Developer Guide.
+    public func untagResource(_ input: UntagResourceRequest) throws -> UntagResourceResponse {
+        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves a list that describes one or more specified Directory Config objects for AppStream 2.0, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the information required to join streaming instances to an Active Directory domain.  Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
     public func describeDirectoryConfigs(_ input: DescribeDirectoryConfigsRequest) throws -> DescribeDirectoryConfigsResult {
         return try client.send(operation: "DescribeDirectoryConfigs", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Adds or updates permissions for the specified private image. 
+    public func updateImagePermissions(_ input: UpdateImagePermissionsRequest) throws -> UpdateImagePermissionsResult {
+        return try client.send(operation: "UpdateImagePermissions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified image builder and releases the capacity.
     public func deleteImageBuilder(_ input: DeleteImageBuilderRequest) throws -> DeleteImageBuilderResult {
         return try client.send(operation: "DeleteImageBuilder", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified stack.
+    ///  Adds or overwrites one or more tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, this operation updates its value. To list the current tags for your resources, use ListTagsForResource. To disassociate tags from your resources, use UntagResource. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Developer Guide.
+    public func tagResource(_ input: TagResourceRequest) throws -> TagResourceResponse {
+        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the specified fields for the specified stack.
     public func updateStack(_ input: UpdateStackRequest) throws -> UpdateStackResult {
         return try client.send(operation: "UpdateStack", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Copies the image within the same region or to a new region within the same AWS account. Note that any tags you added to the image will not be copied.
+    public func copyImage(_ input: CopyImageRequest) throws -> CopyImageResponse {
+        return try client.send(operation: "CopyImage", path: "/", httpMethod: "POST", input: input)
     }
 
 

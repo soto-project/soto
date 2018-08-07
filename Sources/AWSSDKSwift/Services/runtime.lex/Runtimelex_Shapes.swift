@@ -80,8 +80,9 @@ extension Runtimelex {
     public struct PostTextResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "slotToElicit", required: false, type: .string), 
-            AWSShapeMember(label: "slots", required: false, type: .map), 
+            AWSShapeMember(label: "messageFormat", required: false, type: .enum), 
             AWSShapeMember(label: "sessionAttributes", required: false, type: .map), 
+            AWSShapeMember(label: "slots", required: false, type: .map), 
             AWSShapeMember(label: "message", required: false, type: .string), 
             AWSShapeMember(label: "dialogState", required: false, type: .enum), 
             AWSShapeMember(label: "intentName", required: false, type: .string), 
@@ -89,11 +90,13 @@ extension Runtimelex {
         ]
         /// If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value. 
         public let slotToElicit: String?
-        ///  The intent slots that Amazon Lex detected from the user input in the conversation.  Amazon Lex creates a resolution list containing likely values for a slot. The value that it returns is determined by the valueSelectionStrategy selected when the slot type was created or updated. If valueSelectionStrategy is set to ORIGINAL_VALUE, the value provided by the user is returned, if the user value is similar to the slot values. If valueSelectionStrategy is set to TOP_RESOLUTION Amazon Lex returns the first value in the resolution list or, if there is no resolution list, null. If you don't specify a valueSelectionStrategy, the default is ORIGINAL_VALUE.
-        public let slots: [String: String]?
+        /// The format of the response message. One of the following values:    PlainText - The message contains plain UTF-8 text.    CustomPayload - The message is a custom format defined by the Lambda function.    SSML - The message contains text formatted for voice output.    Composite - The message contains an escaped JSON object containing one or more messages from the groups that messages were assigned to when the intent was created.  
+        public let messageFormat: MessageFormatType?
         /// A map of key-value pairs representing the session-specific context information.
         public let sessionAttributes: [String: String]?
-        ///  A message to convey to the user. It can come from the bot's configuration or a code hook (Lambda function). If the current intent is not configured with a code hook or the code hook returned Delegate as the dialogAction.type in its response, then Amazon Lex decides the next course of action and selects an appropriate message from the bot configuration based on the current user interaction context. For example, if Amazon Lex is not able to understand the user input, it uses a clarification prompt message (for more information, see the Error Handling section in the Amazon Lex console). Another example: if the intent requires confirmation before fulfillment, then Amazon Lex uses the confirmation prompt message in the intent configuration. If the code hook returns a message, Amazon Lex passes it as-is in its response to the client. 
+        ///  The intent slots that Amazon Lex detected from the user input in the conversation.  Amazon Lex creates a resolution list containing likely values for a slot. The value that it returns is determined by the valueSelectionStrategy selected when the slot type was created or updated. If valueSelectionStrategy is set to ORIGINAL_VALUE, the value provided by the user is returned, if the user value is similar to the slot values. If valueSelectionStrategy is set to TOP_RESOLUTION Amazon Lex returns the first value in the resolution list or, if there is no resolution list, null. If you don't specify a valueSelectionStrategy, the default is ORIGINAL_VALUE.
+        public let slots: [String: String]?
+        /// The message to convey to the user. The message can come from the bot's configuration or from a Lambda function. If the intent is not configured with a Lambda function, or if the Lambda function returned Delegate as the dialogAction.type its response, Amazon Lex decides on the next course of action and selects an appropriate message from the bot's configuration based on the current interaction context. For example, if Amazon Lex isn't able to understand user input, it uses a clarification prompt message. When you create an intent you can assign messages to groups. When messages are assigned to groups Amazon Lex returns one message from each group in the response. The message field is an escaped JSON string containing the messages. For more information about the structure of the JSON string returned, see msg-prompts-formats. If the Lambda function returns a message, Amazon Lex passes it to the client in its response.
         public let message: String?
         ///  Identifies the current state of the user interaction. Amazon Lex returns one of the following values as dialogState. The client can optionally use this information to customize the user interface.     ElicitIntent - Amazon Lex wants to elicit user intent.  For example, a user might utter an intent ("I want to order a pizza"). If Amazon Lex cannot infer the user intent from this utterance, it will return this dialogState.    ConfirmIntent - Amazon Lex is expecting a "yes" or "no" response.   For example, Amazon Lex wants user confirmation before fulfilling an intent.  Instead of a simple "yes" or "no," a user might respond with additional information. For example, "yes, but make it thick crust pizza" or "no, I want to order a drink". Amazon Lex can process such additional information (in these examples, update the crust type slot value, or change intent from OrderPizza to OrderDrink).    ElicitSlot - Amazon Lex is expecting a slot value for the current intent.  For example, suppose that in the response Amazon Lex sends this message: "What size pizza would you like?". A user might reply with the slot value (e.g., "medium"). The user might also provide additional information in the response (e.g., "medium thick crust pizza"). Amazon Lex can process such additional information appropriately.     Fulfilled - Conveys that the Lambda function configured for the intent has successfully fulfilled the intent.     ReadyForFulfillment - Conveys that the client has to fulfill the intent.     Failed - Conveys that the conversation with the user failed.   This can happen for various reasons including that the user did not provide an appropriate response to prompts from the service (you can configure how many times Amazon Lex can prompt a user for specific information), or the Lambda function failed to fulfill the intent.   
         public let dialogState: DialogState?
@@ -102,10 +105,11 @@ extension Runtimelex {
         /// Represents the options that the user has to respond to the current prompt. Response Card can come from the bot configuration (in the Amazon Lex console, choose the settings button next to a slot) or from a code hook (Lambda function). 
         public let responseCard: ResponseCard?
 
-        public init(slotToElicit: String? = nil, slots: [String: String]? = nil, sessionAttributes: [String: String]? = nil, message: String? = nil, dialogState: DialogState? = nil, intentName: String? = nil, responseCard: ResponseCard? = nil) {
+        public init(slotToElicit: String? = nil, messageFormat: MessageFormatType? = nil, sessionAttributes: [String: String]? = nil, slots: [String: String]? = nil, message: String? = nil, dialogState: DialogState? = nil, intentName: String? = nil, responseCard: ResponseCard? = nil) {
             self.slotToElicit = slotToElicit
-            self.slots = slots
+            self.messageFormat = messageFormat
             self.sessionAttributes = sessionAttributes
+            self.slots = slots
             self.message = message
             self.dialogState = dialogState
             self.intentName = intentName
@@ -114,8 +118,9 @@ extension Runtimelex {
 
         private enum CodingKeys: String, CodingKey {
             case slotToElicit = "slotToElicit"
-            case slots = "slots"
+            case messageFormat = "messageFormat"
             case sessionAttributes = "sessionAttributes"
+            case slots = "slots"
             case message = "message"
             case dialogState = "dialogState"
             case intentName = "intentName"
@@ -217,12 +222,21 @@ extension Runtimelex {
         }
     }
 
+    public enum MessageFormatType: String, CustomStringConvertible, Codable {
+        case plaintext = "PlainText"
+        case custompayload = "CustomPayload"
+        case ssml = "SSML"
+        case composite = "Composite"
+        public var description: String { return self.rawValue }
+    }
+
     public struct PostContentResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "audioStream"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
             AWSShapeMember(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"), required: false, type: .string), 
+            AWSShapeMember(label: "messageFormat", location: .header(locationName: "x-amz-lex-message-format"), required: false, type: .enum), 
             AWSShapeMember(label: "audioStream", required: false, type: .blob), 
             AWSShapeMember(label: "inputTranscript", location: .header(locationName: "x-amz-lex-input-transcript"), required: false, type: .string), 
             AWSShapeMember(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes"), required: false, type: .string), 
@@ -235,6 +249,8 @@ extension Runtimelex {
         public let contentType: String?
         ///  If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value. 
         public let slotToElicit: String?
+        /// The format of the response message. One of the following values:    PlainText - The message contains plain UTF-8 text.    CustomPayload - The message is a custom format for the client.    SSML - The message contains text formatted for voice output.    Composite - The message contains an escaped JSON object containing one or more messages from the groups that messages were assigned to when the intent was created.  
+        public let messageFormat: MessageFormatType?
         /// The prompt (or statement) to convey to the user. This is based on the bot configuration and context. For example, if Amazon Lex did not understand the user intent, it sends the clarificationPrompt configured for the bot. If the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Another example: Suppose that the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. Then Amazon Lex sends that message in the response. 
         public let audioStream: Data?
         /// The text used to process the request. If the input was an audio stream, the inputTranscript field contains the text extracted from the audio stream. This is the text that is actually processed to recognize intents and slot values. You can use this information to determine if Amazon Lex is correctly processing the audio that you send.
@@ -243,16 +259,17 @@ extension Runtimelex {
         public let sessionAttributes: String?
         /// Map of zero or more intent slots (name/value pairs) Amazon Lex detected from the user input during the conversation. Amazon Lex creates a resolution list containing likely values for a slot. The value that it returns is determined by the valueSelectionStrategy selected when the slot type was created or updated. If valueSelectionStrategy is set to ORIGINAL_VALUE, the value provided by the user is returned, if the user value is similar to the slot values. If valueSelectionStrategy is set to TOP_RESOLUTION Amazon Lex returns the first value in the resolution list or, if there is no resolution list, null. If you don't specify a valueSelectionStrategy, the default is ORIGINAL_VALUE.
         public let slots: String?
-        ///  Message to convey to the user. It can come from the bot's configuration or a code hook (Lambda function). If the current intent is not configured with a code hook or if the code hook returned Delegate as the dialogAction.type in its response, then Amazon Lex decides the next course of action and selects an appropriate message from the bot configuration based on the current user interaction context. For example, if Amazon Lex is not able to understand the user input, it uses a clarification prompt message (For more information, see the Error Handling section in the Amazon Lex console). Another example: if the intent requires confirmation before fulfillment, then Amazon Lex uses the confirmation prompt message in the intent configuration. If the code hook returns a message, Amazon Lex passes it as-is in its response to the client. 
+        /// The message to convey to the user. The message can come from the bot's configuration or from a Lambda function. If the intent is not configured with a Lambda function, or if the Lambda function returned Delegate as the dialogAction.type its response, Amazon Lex decides on the next course of action and selects an appropriate message from the bot's configuration based on the current interaction context. For example, if Amazon Lex isn't able to understand user input, it uses a clarification prompt message. When you create an intent you can assign messages to groups. When messages are assigned to groups Amazon Lex returns one message from each group in the response. The message field is an escaped JSON string containing the messages. For more information about the structure of the JSON string returned, see msg-prompts-formats. If the Lambda function returns a message, Amazon Lex passes it to the client in its response.
         public let message: String?
         /// Identifies the current state of the user interaction. Amazon Lex returns one of the following values as dialogState. The client can optionally use this information to customize the user interface.     ElicitIntent - Amazon Lex wants to elicit the user's intent. Consider the following examples:   For example, a user might utter an intent ("I want to order a pizza"). If Amazon Lex cannot infer the user intent from this utterance, it will return this dialog state.     ConfirmIntent - Amazon Lex is expecting a "yes" or "no" response.  For example, Amazon Lex wants user confirmation before fulfilling an intent. Instead of a simple "yes" or "no" response, a user might respond with additional information. For example, "yes, but make it a thick crust pizza" or "no, I want to order a drink." Amazon Lex can process such additional information (in these examples, update the crust type slot or change the intent from OrderPizza to OrderDrink).     ElicitSlot - Amazon Lex is expecting the value of a slot for the current intent.   For example, suppose that in the response Amazon Lex sends this message: "What size pizza would you like?". A user might reply with the slot value (e.g., "medium"). The user might also provide additional information in the response (e.g., "medium thick crust pizza"). Amazon Lex can process such additional information appropriately.     Fulfilled - Conveys that the Lambda function has successfully fulfilled the intent.     ReadyForFulfillment - Conveys that the client has to fulfill the request.     Failed - Conveys that the conversation with the user failed.   This can happen for various reasons, including that the user does not provide an appropriate response to prompts from the service (you can configure how many times Amazon Lex can prompt a user for specific information), or if the Lambda function fails to fulfill the intent.   
         public let dialogState: DialogState?
         /// Current user intent that Amazon Lex is aware of.
         public let intentName: String?
 
-        public init(contentType: String? = nil, slotToElicit: String? = nil, audioStream: Data? = nil, inputTranscript: String? = nil, sessionAttributes: String? = nil, slots: String? = nil, message: String? = nil, dialogState: DialogState? = nil, intentName: String? = nil) {
+        public init(contentType: String? = nil, slotToElicit: String? = nil, messageFormat: MessageFormatType? = nil, audioStream: Data? = nil, inputTranscript: String? = nil, sessionAttributes: String? = nil, slots: String? = nil, message: String? = nil, dialogState: DialogState? = nil, intentName: String? = nil) {
             self.contentType = contentType
             self.slotToElicit = slotToElicit
+            self.messageFormat = messageFormat
             self.audioStream = audioStream
             self.inputTranscript = inputTranscript
             self.sessionAttributes = sessionAttributes
@@ -265,6 +282,7 @@ extension Runtimelex {
         private enum CodingKeys: String, CodingKey {
             case contentType = "Content-Type"
             case slotToElicit = "x-amz-lex-slot-to-elicit"
+            case messageFormat = "x-amz-lex-message-format"
             case audioStream = "audioStream"
             case inputTranscript = "x-amz-lex-input-transcript"
             case sessionAttributes = "x-amz-lex-session-attributes"

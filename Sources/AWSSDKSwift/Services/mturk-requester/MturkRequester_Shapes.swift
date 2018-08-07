@@ -60,7 +60,7 @@ extension MturkRequester {
         public let hITStatus: HITStatus?
         /// The date and time the HIT expires.
         public let expiration: TimeStamp?
-        ///  A condition that a Worker's Qualifications must meet in order to accept the HIT. A HIT can have between zero and ten Qualification requirements. All requirements must be met by a Worker's Qualifications for the Worker to accept the HIT.
+        ///  Conditions that a Worker's Qualifications must meet in order to accept the HIT. A HIT can have between zero and ten Qualification requirements. All requirements must be met in order for a Worker to accept the HIT. Additionally, other actions can be restricted using the ActionsGuarded field on each QualificationRequirement structure. 
         public let qualificationRequirements: [QualificationRequirement]?
         ///  One or more words or phrases that describe the HIT, separated by commas. Search terms similar to the keywords of a HIT are more likely to have the HIT in the search results.
         public let keywords: String?
@@ -634,8 +634,8 @@ extension MturkRequester {
             AWSShapeMember(label: "HITLayoutParameters", required: false, type: .list), 
             AWSShapeMember(label: "HITLayoutId", required: false, type: .string), 
             AWSShapeMember(label: "Title", required: true, type: .string), 
-            AWSShapeMember(label: "HITReviewPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "AssignmentDurationInSeconds", required: true, type: .long), 
+            AWSShapeMember(label: "HITReviewPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "Reward", required: true, type: .string), 
             AWSShapeMember(label: "UniqueRequestToken", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: true, type: .string), 
@@ -655,10 +655,10 @@ extension MturkRequester {
         public let hITLayoutId: String?
         ///  The title of the HIT. A title should be short and descriptive about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT title appears in search results, and everywhere the HIT is mentioned. 
         public let title: String
-        ///  The HIT-level Review Policy applies to the HIT. You can specify for Mechanical Turk to take various actions based on the policy. 
-        public let hITReviewPolicy: ReviewPolicy?
         ///  The amount of time, in seconds, that a Worker has to complete the HIT after accepting it. If a Worker does not complete the assignment within the specified duration, the assignment is considered abandoned. If the HIT is still active (that is, its lifetime has not elapsed), the assignment becomes available for other users to find and accept. 
         public let assignmentDurationInSeconds: Int64
+        ///  The HIT-level Review Policy applies to the HIT. You can specify for Mechanical Turk to take various actions based on the policy. 
+        public let hITReviewPolicy: ReviewPolicy?
         ///  The amount of money the Requester will pay a Worker for successfully completing the HIT. 
         public let reward: String
         ///  A unique identifier for this request which allows you to retry the call on error without creating duplicate HITs. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return a AWS.MechanicalTurk.HitAlreadyExists error with a message containing the HITId.    Note: It is your responsibility to ensure uniqueness of the token. The unique token expires after 24 hours. Subsequent calls using the same UniqueRequestToken made after the 24 hour limit could create duplicate HITs.  
@@ -667,7 +667,7 @@ extension MturkRequester {
         public let description: String
         ///  The number of times the HIT can be accepted and completed before the HIT becomes unavailable. 
         public let maxAssignments: Int32?
-        ///  A condition that a Worker's Qualifications must meet before the Worker is allowed to accept and complete the HIT. 
+        ///  Conditions that a Worker's Qualifications must meet in order to accept the HIT. A HIT can have between zero and ten Qualification requirements. All requirements must be met in order for a Worker to accept the HIT. Additionally, other actions can be restricted using the ActionsGuarded field on each QualificationRequirement structure. 
         public let qualificationRequirements: [QualificationRequirement]?
         ///  One or more words or phrases that describe the HIT, separated by commas. These words are used in searches to find HITs. 
         public let keywords: String?
@@ -680,13 +680,13 @@ extension MturkRequester {
         ///  An arbitrary data field. The RequesterAnnotation parameter lets your application attach arbitrary data to the HIT for tracking purposes. For example, this parameter could be an identifier internal to the Requester's application that corresponds with the HIT.   The RequesterAnnotation parameter for a HIT is only visible to the Requester who created the HIT. It is not shown to the Worker, or any other Requester.   The RequesterAnnotation parameter may be different for each HIT you submit. It does not affect how your HITs are grouped. 
         public let requesterAnnotation: String?
 
-        public init(autoApprovalDelayInSeconds: Int64? = nil, hITLayoutParameters: [HITLayoutParameter]? = nil, hITLayoutId: String? = nil, title: String, hITReviewPolicy: ReviewPolicy? = nil, assignmentDurationInSeconds: Int64, reward: String, uniqueRequestToken: String? = nil, description: String, maxAssignments: Int32? = nil, qualificationRequirements: [QualificationRequirement]? = nil, keywords: String? = nil, question: String? = nil, lifetimeInSeconds: Int64, assignmentReviewPolicy: ReviewPolicy? = nil, requesterAnnotation: String? = nil) {
+        public init(autoApprovalDelayInSeconds: Int64? = nil, hITLayoutParameters: [HITLayoutParameter]? = nil, hITLayoutId: String? = nil, title: String, assignmentDurationInSeconds: Int64, hITReviewPolicy: ReviewPolicy? = nil, reward: String, uniqueRequestToken: String? = nil, description: String, maxAssignments: Int32? = nil, qualificationRequirements: [QualificationRequirement]? = nil, keywords: String? = nil, question: String? = nil, lifetimeInSeconds: Int64, assignmentReviewPolicy: ReviewPolicy? = nil, requesterAnnotation: String? = nil) {
             self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
             self.hITLayoutParameters = hITLayoutParameters
             self.hITLayoutId = hITLayoutId
             self.title = title
-            self.hITReviewPolicy = hITReviewPolicy
             self.assignmentDurationInSeconds = assignmentDurationInSeconds
+            self.hITReviewPolicy = hITReviewPolicy
             self.reward = reward
             self.uniqueRequestToken = uniqueRequestToken
             self.description = description
@@ -704,8 +704,8 @@ extension MturkRequester {
             case hITLayoutParameters = "HITLayoutParameters"
             case hITLayoutId = "HITLayoutId"
             case title = "Title"
-            case hITReviewPolicy = "HITReviewPolicy"
             case assignmentDurationInSeconds = "AssignmentDurationInSeconds"
+            case hITReviewPolicy = "HITReviewPolicy"
             case reward = "Reward"
             case uniqueRequestToken = "UniqueRequestToken"
             case description = "Description"
@@ -1131,6 +1131,7 @@ extension MturkRequester {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
             AWSShapeMember(label: "IntegerValues", required: false, type: .list), 
+            AWSShapeMember(label: "ActionsGuarded", required: false, type: .enum), 
             AWSShapeMember(label: "RequiredToPreview", required: false, type: .boolean), 
             AWSShapeMember(label: "Comparator", required: true, type: .enum), 
             AWSShapeMember(label: "LocaleValues", required: false, type: .list)
@@ -1139,16 +1140,19 @@ extension MturkRequester {
         public let qualificationTypeId: String
         ///  The integer value to compare against the Qualification's value. IntegerValue must not be present if Comparator is Exists or DoesNotExist. IntegerValue can only be used if the Qualification type has an integer value; it cannot be used with the Worker_Locale QualificationType ID. When performing a set comparison by using the In or the NotIn comparator, you can use up to 15 IntegerValue elements in a QualificationRequirement data structure. 
         public let integerValues: [Int32]?
-        ///  If true, the question data for the HIT will not be shown when a Worker whose Qualifications do not meet this requirement tries to preview the HIT. That is, a Worker's Qualifications must meet all of the requirements for which RequiredToPreview is true in order to preview the HIT. If a Worker meets all of the requirements where RequiredToPreview is true (or if there are no such requirements), but does not meet all of the requirements for the HIT, the Worker will be allowed to preview the HIT's question data, but will not be allowed to accept and complete the HIT. The default is false. 
+        ///  Setting this attribute prevents Workers whose Qualifications do not meet this QualificationRequirement from taking the specified action. Valid arguments include "Accept" (Worker cannot accept the HIT, but can preview the HIT and see it in their search results), "PreviewAndAccept" (Worker cannot accept or preview the HIT, but can see the HIT in their search results), and "DiscoverPreviewAndAccept" (Worker cannot accept, preview, or see the HIT in their search results). It's possible for you to create a HIT with multiple QualificationRequirements (which can have different values for the ActionGuarded attribute). In this case, the Worker is only permitted to perform an action when they have met all QualificationRequirements guarding the action. The actions in the order of least restrictive to most restrictive are Discover, Preview and Accept. For example, if a Worker meets all QualificationRequirements that are set to DiscoverPreviewAndAccept, but do not meet all requirements that are set with PreviewAndAccept, then the Worker will be able to Discover, i.e. see the HIT in their search result, but will not be able to Preview or Accept the HIT. ActionsGuarded should not be used in combination with the RequiredToPreview field. 
+        public let actionsGuarded: HITAccessActions?
+        ///  DEPRECATED: Use the ActionsGuarded field instead. If RequiredToPreview is true, the question data for the HIT will not be shown when a Worker whose Qualifications do not meet this requirement tries to preview the HIT. That is, a Worker's Qualifications must meet all of the requirements for which RequiredToPreview is true in order to preview the HIT. If a Worker meets all of the requirements where RequiredToPreview is true (or if there are no such requirements), but does not meet all of the requirements for the HIT, the Worker will be allowed to preview the HIT's question data, but will not be allowed to accept and complete the HIT. The default is false. This should not be used in combination with the ActionsGuarded field. 
         public let requiredToPreview: Bool?
         /// The kind of comparison to make against a Qualification's value. You can compare a Qualification's value to an IntegerValue to see if it is LessThan, LessThanOrEqualTo, GreaterThan, GreaterThanOrEqualTo, EqualTo, or NotEqualTo the IntegerValue. You can compare it to a LocaleValue to see if it is EqualTo, or NotEqualTo the LocaleValue. You can check to see if the value is In or NotIn a set of IntegerValue or LocaleValue values. Lastly, a Qualification requirement can also test if a Qualification Exists or DoesNotExist in the user's profile, regardless of its value. 
         public let comparator: Comparator
         ///  The locale value to compare against the Qualification's value. The local value must be a valid ISO 3166 country code or supports ISO 3166-2 subdivisions. LocaleValue can only be used with a Worker_Locale QualificationType ID. LocaleValue can only be used with the EqualTo, NotEqualTo, In, and NotIn comparators. You must only use a single LocaleValue element when using the EqualTo or NotEqualTo comparators. When performing a set comparison by using the In or the NotIn comparator, you can use up to 30 LocaleValue elements in a QualificationRequirement data structure. 
         public let localeValues: [Locale]?
 
-        public init(qualificationTypeId: String, integerValues: [Int32]? = nil, requiredToPreview: Bool? = nil, comparator: Comparator, localeValues: [Locale]? = nil) {
+        public init(qualificationTypeId: String, integerValues: [Int32]? = nil, actionsGuarded: HITAccessActions? = nil, requiredToPreview: Bool? = nil, comparator: Comparator, localeValues: [Locale]? = nil) {
             self.qualificationTypeId = qualificationTypeId
             self.integerValues = integerValues
+            self.actionsGuarded = actionsGuarded
             self.requiredToPreview = requiredToPreview
             self.comparator = comparator
             self.localeValues = localeValues
@@ -1157,6 +1161,7 @@ extension MturkRequester {
         private enum CodingKeys: String, CodingKey {
             case qualificationTypeId = "QualificationTypeId"
             case integerValues = "IntegerValues"
+            case actionsGuarded = "ActionsGuarded"
             case requiredToPreview = "RequiredToPreview"
             case comparator = "Comparator"
             case localeValues = "LocaleValues"
@@ -1457,7 +1462,7 @@ extension MturkRequester {
         ]
         ///  The number of seconds after an assignment for the HIT has been submitted, after which the assignment is considered Approved automatically unless the Requester explicitly rejects it. 
         public let autoApprovalDelayInSeconds: Int64?
-        ///  A condition that a Worker's Qualifications must meet before the Worker is allowed to accept and complete the HIT. 
+        ///  Conditions that a Worker's Qualifications must meet in order to accept the HIT. A HIT can have between zero and ten Qualification requirements. All requirements must be met in order for a Worker to accept the HIT. Additionally, other actions can be restricted using the ActionsGuarded field on each QualificationRequirement structure. 
         public let qualificationRequirements: [QualificationRequirement]?
         ///  The amount of time, in seconds, that a Worker has to complete the HIT after accepting it. If a Worker does not complete the assignment within the specified duration, the assignment is considered abandoned. If the HIT is still active (that is, its lifetime has not elapsed), the assignment becomes available for other users to find and accept. 
         public let assignmentDurationInSeconds: Int64
@@ -1489,6 +1494,53 @@ extension MturkRequester {
             case keywords = "Keywords"
             case description = "Description"
         }
+    }
+
+    public enum HITAccessActions: String, CustomStringConvertible, Codable {
+        case accept = "Accept"
+        case previewandaccept = "PreviewAndAccept"
+        case discoverpreviewandaccept = "DiscoverPreviewAndAccept"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SendBonusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentId", required: true, type: .string), 
+            AWSShapeMember(label: "UniqueRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "Reason", required: true, type: .string), 
+            AWSShapeMember(label: "WorkerId", required: true, type: .string), 
+            AWSShapeMember(label: "BonusAmount", required: true, type: .string)
+        ]
+        /// The ID of the assignment for which this bonus is paid.
+        public let assignmentId: String
+        /// A unique identifier for this request, which allows you to retry the call on error without granting multiple bonuses. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the bonus already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return an error with a message containing the request ID.
+        public let uniqueRequestToken: String?
+        /// A message that explains the reason for the bonus payment. The Worker receiving the bonus can see this message.
+        public let reason: String
+        /// The ID of the Worker being paid the bonus.
+        public let workerId: String
+        ///  The Bonus amount is a US Dollar amount specified using a string (for example, "5" represents $5.00 USD and "101.42" represents $101.42 USD). Do not include currency symbols or currency codes. 
+        public let bonusAmount: String
+
+        public init(assignmentId: String, uniqueRequestToken: String? = nil, reason: String, workerId: String, bonusAmount: String) {
+            self.assignmentId = assignmentId
+            self.uniqueRequestToken = uniqueRequestToken
+            self.reason = reason
+            self.workerId = workerId
+            self.bonusAmount = bonusAmount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignmentId = "AssignmentId"
+            case uniqueRequestToken = "UniqueRequestToken"
+            case reason = "Reason"
+            case workerId = "WorkerId"
+            case bonusAmount = "BonusAmount"
+        }
+    }
+
+    public struct CreateWorkerBlockResponse: AWSShape {
+
     }
 
     public struct Assignment: AWSShape {
@@ -1560,46 +1612,6 @@ extension MturkRequester {
             case workerId = "WorkerId"
             case answer = "Answer"
         }
-    }
-
-    public struct SendBonusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssignmentId", required: true, type: .string), 
-            AWSShapeMember(label: "UniqueRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "Reason", required: true, type: .string), 
-            AWSShapeMember(label: "WorkerId", required: true, type: .string), 
-            AWSShapeMember(label: "BonusAmount", required: true, type: .string)
-        ]
-        /// The ID of the assignment for which this bonus is paid.
-        public let assignmentId: String
-        /// A unique identifier for this request, which allows you to retry the call on error without granting multiple bonuses. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the bonus already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return an error with a message containing the request ID.
-        public let uniqueRequestToken: String?
-        /// A message that explains the reason for the bonus payment. The Worker receiving the bonus can see this message.
-        public let reason: String
-        /// The ID of the Worker being paid the bonus.
-        public let workerId: String
-        ///  The Bonus amount is a US Dollar amount specified using a string (for example, "5" represents $5.00 USD and "101.42" represents $101.42 USD). Do not include currency symbols or currency codes. 
-        public let bonusAmount: String
-
-        public init(assignmentId: String, uniqueRequestToken: String? = nil, reason: String, workerId: String, bonusAmount: String) {
-            self.assignmentId = assignmentId
-            self.uniqueRequestToken = uniqueRequestToken
-            self.reason = reason
-            self.workerId = workerId
-            self.bonusAmount = bonusAmount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case assignmentId = "AssignmentId"
-            case uniqueRequestToken = "UniqueRequestToken"
-            case reason = "Reason"
-            case workerId = "WorkerId"
-            case bonusAmount = "BonusAmount"
-        }
-    }
-
-    public struct CreateWorkerBlockResponse: AWSShape {
-
     }
 
     public struct CreateQualificationTypeResponse: AWSShape {

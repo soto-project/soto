@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-Amazon EC2 Container Registry (Amazon ECR) is a managed Docker registry service. Customers can use the familiar Docker CLI to push, pull, and manage images. Amazon ECR provides a secure, scalable, and reliable registry. Amazon ECR supports private Docker repositories with resource-based permissions using IAM so that specific users or Amazon EC2 instances can access repositories and images. Developers can use the Docker CLI to author and manage images.
+Amazon Elastic Container Registry (Amazon ECR) is a managed Docker registry service. Customers can use the familiar Docker CLI to push, pull, and manage images. Amazon ECR provides a secure, scalable, and reliable registry. Amazon ECR supports private Docker repositories with resource-based permissions using IAM so that specific users or Amazon EC2 instances can access repositories and images. Developers can use the Docker CLI to author and manage images.
 */
 public struct Ecr {
 
@@ -125,7 +125,7 @@ public struct Ecr {
         return try client.send(operation: "BatchDeleteImage", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates or updates a lifecycle policy.
+    ///  Creates or updates a lifecycle policy. For information about lifecycle policy syntax, see Lifecycle Policy Template.
     public func putLifecyclePolicy(_ input: PutLifecyclePolicyRequest) throws -> PutLifecyclePolicyResponse {
         return try client.send(operation: "PutLifecyclePolicy", path: "/", httpMethod: "POST", input: input)
     }

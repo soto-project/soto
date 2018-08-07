@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-AWS Config AWS Config provides a way to keep track of the configurations of all the AWS resources associated with your AWS account. You can use AWS Config to get the current and historical configurations of each AWS resource and also to get information about the relationship between the resources. An AWS resource can be an Amazon Compute Cloud (Amazon EC2) instance, an Elastic Block Store (EBS) volume, an Elastic network Interface (ENI), or a security group. For a complete list of resources currently supported by AWS Config, see Supported AWS Resources. You can access and manage AWS Config through the AWS Management Console, the AWS Command Line Interface (AWS CLI), the AWS Config API, or the AWS SDKs for AWS Config This reference guide contains documentation for the AWS Config API and the AWS CLI commands that you can use to manage AWS Config. The AWS Config API uses the Signature Version 4 protocol for signing requests. For more information about how to sign a request with this protocol, see Signature Version 4 Signing Process. For detailed information about AWS Config features and their associated actions or commands, as well as how to work with AWS Management Console, see What Is AWS Config? in the AWS Config Developer Guide.
+AWS Config AWS Config provides a way to keep track of the configurations of all the AWS resources associated with your AWS account. You can use AWS Config to get the current and historical configurations of each AWS resource and also to get information about the relationship between the resources. An AWS resource can be an Amazon Compute Cloud (Amazon EC2) instance, an Elastic Block Store (EBS) volume, an elastic network Interface (ENI), or a security group. For a complete list of resources currently supported by AWS Config, see Supported AWS Resources. You can access and manage AWS Config through the AWS Management Console, the AWS Command Line Interface (AWS CLI), the AWS Config API, or the AWS SDKs for AWS Config. This reference guide contains documentation for the AWS Config API and the AWS CLI commands that you can use to manage AWS Config. The AWS Config API uses the Signature Version 4 protocol for signing requests. For more information about how to sign a request with this protocol, see Signature Version 4 Signing Process. For detailed information about AWS Config features and their associated actions or commands, as well as how to work with AWS Management Console, see What Is AWS Config in the AWS Config Developer Guide.
 */
 public struct Config {
 
@@ -25,6 +25,11 @@ public struct Config {
         )
     }
 
+    ///  Returns a list of all pending aggregation requests.
+    public func describePendingAggregationRequests(_ input: DescribePendingAggregationRequestsRequest) throws -> DescribePendingAggregationRequestsResponse {
+        return try client.send(operation: "DescribePendingAggregationRequests", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns the current status of the specified delivery channel. If a delivery channel is not specified, this action returns the current status of all delivery channels associated with the account.  Currently, you can specify only one delivery channel per region in your account. 
     public func describeDeliveryChannelStatus(_ input: DescribeDeliveryChannelStatusRequest) throws -> DescribeDeliveryChannelStatusResponse {
         return try client.send(operation: "DescribeDeliveryChannelStatus", path: "/", httpMethod: "POST", input: input)
@@ -35,14 +40,29 @@ public struct Config {
         return try client.send(operation: "DescribeComplianceByResource", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Authorizes the aggregator account and region to collect data from the source account and region. 
+    public func putAggregationAuthorization(_ input: PutAggregationAuthorizationRequest) throws -> PutAggregationAuthorizationResponse {
+        return try client.send(operation: "PutAggregationAuthorization", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns the number of AWS Config rules that are compliant and noncompliant, up to a maximum of 25 for each.
     public func getComplianceSummaryByConfigRule() throws -> GetComplianceSummaryByConfigRuleResponse {
         return try client.send(operation: "GetComplianceSummaryByConfigRule", path: "/", httpMethod: "POST")
     }
 
+    ///  Returns the resource types, the number of each resource type, and the total number of resources that AWS Config is recording in this region for your AWS account.   Example    AWS Config is recording three resource types in the US East (Ohio) Region for your account: 25 EC2 instances, 20 IAM users, and 15 S3 buckets.   You make a call to the GetDiscoveredResourceCounts action and specify that you want all resource types.    AWS Config returns the following:   The resource types (EC2 instances, IAM users, and S3 buckets).   The number of each resource type (25, 20, and 15).   The total number of all resources (60).     The response is paginated. By default, AWS Config lists 100 ResourceCount objects on each page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter.  If you make a call to the GetDiscoveredResourceCounts action, you might not immediately receive resource counts in the following situations:   You are a new AWS Config customer.   You just enabled resource recording.   It might take a few minutes for AWS Config to record and count your resources. Wait a few minutes and then retry the GetDiscoveredResourceCounts action.  
+    public func getDiscoveredResourceCounts(_ input: GetDiscoveredResourceCountsRequest) throws -> GetDiscoveredResourceCountsResponse {
+        return try client.send(operation: "GetDiscoveredResourceCounts", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a delivery channel object to deliver configuration information to an Amazon S3 bucket and Amazon SNS topic. Before you can create a delivery channel, you must create a configuration recorder. You can use this action to change the Amazon S3 bucket or an Amazon SNS topic of the existing delivery channel. To change the Amazon S3 bucket or an Amazon SNS topic, call this action and specify the changed values for the S3 bucket and the SNS topic. If you specify a different value for either the S3 bucket or the SNS topic, this action will keep the existing value for the parameter that is not changed.  You can have only one delivery channel per region in your account. 
     public func putDeliveryChannel(_ input: PutDeliveryChannelRequest) throws {
         _ = try client.send(operation: "PutDeliveryChannel", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns status information for sources within an aggregator. The status includes information about the last time AWS Config aggregated data from source accounts or AWS Config failed to aggregate data from source accounts with the related error code or message. 
+    public func describeConfigurationAggregatorSourcesStatus(_ input: DescribeConfigurationAggregatorSourcesStatusRequest) throws -> DescribeConfigurationAggregatorSourcesStatusResponse {
+        return try client.send(operation: "DescribeConfigurationAggregatorSourcesStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the evaluation results for the specified AWS Config rule. The results indicate which AWS resources were evaluated by the rule, when each resource was last evaluated, and whether each resource complies with the rule.
@@ -65,19 +85,34 @@ public struct Config {
         return try client.send(operation: "DescribeConfigRuleEvaluationStatus", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Schedules delivery of a configuration snapshot to the Amazon S3 bucket in the specified delivery channel. After the delivery has started, AWS Config sends following notifications using an Amazon SNS topic that you have specified.   Notification of starting the delivery.   Notification of delivery completed, if the delivery was successfully completed.   Notification of delivery failure, if the delivery failed to complete.  
-    public func deliverConfigSnapshot(_ input: DeliverConfigSnapshotRequest) throws -> DeliverConfigSnapshotResponse {
-        return try client.send(operation: "DeliverConfigSnapshot", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns a list of configuration items for the specified resource. The list contains details about each state of the resource during the specified time interval. The response is paginated. By default, AWS Config returns a limit of 10 configuration items per page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter.  Each call to the API is limited to span a duration of seven days. It is likely that the number of records returned is smaller than the specified limit. In such cases, you can make another call, using the nextToken. 
+    ///  Returns a list of configuration items for the specified resource. The list contains details about each state of the resource during the specified time interval. If you specified a retention period to retain your ConfigurationItems between a minimum of 30 days and a maximum of 7 years (2557 days), AWS Config returns the ConfigurationItems for the specified retention period.  The response is paginated. By default, AWS Config returns a limit of 10 configuration items per page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter.  Each call to the API is limited to span a duration of seven days. It is likely that the number of records returned is smaller than the specified limit. In such cases, you can make another call, using the nextToken. 
     public func getResourceConfigHistory(_ input: GetResourceConfigHistoryRequest) throws -> GetResourceConfigHistoryResponse {
         return try client.send(operation: "GetResourceConfigHistory", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new configuration recorder to record the selected resource configurations. You can use this action to change the role roleARN and/or the recordingGroup of an existing recorder. To change the role, call the action on the existing configuration recorder and specify a role.  Currently, you can specify only one configuration recorder per region in your account. If ConfigurationRecorder does not have the recordingGroup parameter specified, the default is to record all supported resource types. 
+    ///  Schedules delivery of a configuration snapshot to the Amazon S3 bucket in the specified delivery channel. After the delivery has started, AWS Config sends the following notifications using an Amazon SNS topic that you have specified.   Notification of the start of the delivery.   Notification of the completion of the delivery, if the delivery was successfully completed.   Notification of delivery failure, if the delivery failed.  
+    public func deliverConfigSnapshot(_ input: DeliverConfigSnapshotRequest) throws -> DeliverConfigSnapshotResponse {
+        return try client.send(operation: "DeliverConfigSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the retention configuration.
+    public func deleteRetentionConfiguration(_ input: DeleteRetentionConfigurationRequest) throws {
+        _ = try client.send(operation: "DeleteRetentionConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of authorizations granted to various aggregator accounts and regions.
+    public func describeAggregationAuthorizations(_ input: DescribeAggregationAuthorizationsRequest) throws -> DescribeAggregationAuthorizationsResponse {
+        return try client.send(operation: "DescribeAggregationAuthorizations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a new configuration recorder to record the selected resource configurations. You can use this action to change the role roleARN or the recordingGroup of an existing recorder. To change the role, call the action on the existing configuration recorder and specify a role.  Currently, you can specify only one configuration recorder per region in your account. If ConfigurationRecorder does not have the recordingGroup parameter specified, the default is to record all supported resource types. 
     public func putConfigurationRecorder(_ input: PutConfigurationRecorderRequest) throws {
         _ = try client.send(operation: "PutConfigurationRecorder", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes pending authorization requests for a specified aggregator account in a specified region.
+    public func deletePendingAggregationRequest(_ input: DeletePendingAggregationRequestRequest) throws {
+        _ = try client.send(operation: "DeletePendingAggregationRequest", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the details for the specified configuration recorders. If the configuration recorder is not specified, this action returns the details for all configuration recorders associated with the account.  Currently, you can specify only one configuration recorder per region in your account. 
@@ -85,14 +120,24 @@ public struct Config {
         return try client.send(operation: "DescribeConfigurationRecorders", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the specified configuration aggregator and the aggregated data associated with the aggregator.
+    public func deleteConfigurationAggregator(_ input: DeleteConfigurationAggregatorRequest) throws {
+        _ = try client.send(operation: "DeleteConfigurationAggregator", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds or updates an AWS Config rule for evaluating whether your AWS resources comply with your desired configurations. You can use this action for custom AWS Config rules and AWS managed Config rules. A custom AWS Config rule is a rule that you develop and maintain. An AWS managed Config rule is a customizable, predefined rule that AWS Config provides. If you are adding a new custom AWS Config rule, you must first create the AWS Lambda function that the rule invokes to evaluate your resources. When you use the PutConfigRule action to add the rule to AWS Config, you must specify the Amazon Resource Name (ARN) that AWS Lambda assigns to the function. Specify the ARN for the SourceIdentifier key. This key is part of the Source object, which is part of the ConfigRule object.  If you are adding an AWS managed Config rule, specify the rule's identifier for the SourceIdentifier key. To reference AWS managed Config rule identifiers, see About AWS Managed Config Rules. For any new rule that you add, specify the ConfigRuleName in the ConfigRule object. Do not specify the ConfigRuleArn or the ConfigRuleId. These values are generated by AWS Config for new rules. If you are updating a rule that you added previously, you can specify the rule by ConfigRuleName, ConfigRuleId, or ConfigRuleArn in the ConfigRule data type that you use in this request. The maximum number of rules that AWS Config supports is 50. For information about requesting a rule limit increase, see AWS Config Limits in the AWS General Reference Guide. For more information about developing and using AWS Config rules, see Evaluating AWS Resource Configurations with AWS Config in the AWS Config Developer Guide.
+    public func putConfigRule(_ input: PutConfigRuleRequest) throws {
+        _ = try client.send(operation: "PutConfigRule", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns details about the specified delivery channel. If a delivery channel is not specified, this action returns the details of all delivery channels associated with the account.  Currently, you can specify only one delivery channel per region in your account. 
     public func describeDeliveryChannels(_ input: DescribeDeliveryChannelsRequest) throws -> DescribeDeliveryChannelsResponse {
         return try client.send(operation: "DescribeDeliveryChannels", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds or updates an AWS Config rule for evaluating whether your AWS resources comply with your desired configurations. You can use this action for custom Config rules and AWS managed Config rules. A custom Config rule is a rule that you develop and maintain. An AWS managed Config rule is a customizable, predefined rule that AWS Config provides. If you are adding a new custom Config rule, you must first create the AWS Lambda function that the rule invokes to evaluate your resources. When you use the PutConfigRule action to add the rule to AWS Config, you must specify the Amazon Resource Name (ARN) that AWS Lambda assigns to the function. Specify the ARN for the SourceIdentifier key. This key is part of the Source object, which is part of the ConfigRule object.  If you are adding an AWS managed Config rule, specify the rule's identifier for the SourceIdentifier key. To reference AWS managed Config rule identifiers, see About AWS Managed Config Rules. For any new rule that you add, specify the ConfigRuleName in the ConfigRule object. Do not specify the ConfigRuleArn or the ConfigRuleId. These values are generated by AWS Config for new rules. If you are updating a rule that you added previously, you can specify the rule by ConfigRuleName, ConfigRuleId, or ConfigRuleArn in the ConfigRule data type that you use in this request. The maximum number of rules that AWS Config supports is 50. For more information about requesting a rule limit increase, see AWS Config Limits in the AWS General Reference Guide. For more information about developing and using AWS Config rules, see Evaluating AWS Resource Configurations with AWS Config in the AWS Config Developer Guide.
-    public func putConfigRule(_ input: PutConfigRuleRequest) throws {
-        _ = try client.send(operation: "PutConfigRule", path: "/", httpMethod: "POST", input: input)
+    ///  Returns the evaluation results for the specified AWS Config rule for a specific resource in a rule. The results indicate which AWS resources were evaluated by the rule, when each resource was last evaluated, and whether each resource complies with the rule.   The results can return an empty result page. But if you have a nextToken, the results are displayed on the next page. 
+    public func getAggregateComplianceDetailsByConfigRule(_ input: GetAggregateComplianceDetailsByConfigRuleRequest) throws -> GetAggregateComplianceDetailsByConfigRuleResponse {
+        return try client.send(operation: "GetAggregateComplianceDetailsByConfigRule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts recording configurations of the AWS resources you have selected to record in your AWS account. You must have created at least one delivery channel to successfully start the configuration recorder.
@@ -100,7 +145,7 @@ public struct Config {
         _ = try client.send(operation: "StartConfigurationRecorder", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Indicates whether the specified AWS Config rules are compliant. If a rule is noncompliant, this action returns the number of AWS resources that do not comply with the rule. A rule is compliant if all of the evaluated resources comply with it, and it is noncompliant if any of these resources do not comply. If AWS Config has no current evaluation results for the rule, it returns INSUFFICIENT_DATA. This result might indicate one of the following conditions:   AWS Config has never invoked an evaluation for the rule. To check whether it has, use the DescribeConfigRuleEvaluationStatus action to get the LastSuccessfulInvocationTime and LastFailedInvocationTime.   The rule's AWS Lambda function is failing to send evaluation results to AWS Config. Verify that the role that you assigned to your configuration recorder includes the config:PutEvaluations permission. If the rule is a custom rule, verify that the AWS Lambda execution role includes the config:PutEvaluations permission.   The rule's AWS Lambda function has returned NOT_APPLICABLE for all evaluation results. This can occur if the resources were deleted or removed from the rule's scope.  
+    ///  Indicates whether the specified AWS Config rules are compliant. If a rule is noncompliant, this action returns the number of AWS resources that do not comply with the rule. A rule is compliant if all of the evaluated resources comply with it. It is noncompliant if any of these resources do not comply. If AWS Config has no current evaluation results for the rule, it returns INSUFFICIENT_DATA. This result might indicate one of the following conditions:   AWS Config has never invoked an evaluation for the rule. To check whether it has, use the DescribeConfigRuleEvaluationStatus action to get the LastSuccessfulInvocationTime and LastFailedInvocationTime.   The rule's AWS Lambda function is failing to send evaluation results to AWS Config. Verify that the role you assigned to your configuration recorder includes the config:PutEvaluations permission. If the rule is a custom rule, verify that the AWS Lambda execution role includes the config:PutEvaluations permission.   The rule's AWS Lambda function has returned NOT_APPLICABLE for all evaluation results. This can occur if the resources were deleted or removed from the rule's scope.  
     public func describeComplianceByConfigRule(_ input: DescribeComplianceByConfigRuleRequest) throws -> DescribeComplianceByConfigRuleResponse {
         return try client.send(operation: "DescribeComplianceByConfigRule", path: "/", httpMethod: "POST", input: input)
     }
@@ -110,17 +155,22 @@ public struct Config {
         _ = try client.send(operation: "StopConfigurationRecorder", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns the details of one or more retention configurations. If the retention configuration name is not specified, this action returns the details for all the retention configurations for that account.  Currently, AWS Config supports only one retention configuration per region in your account. 
+    public func describeRetentionConfigurations(_ input: DescribeRetentionConfigurationsRequest) throws -> DescribeRetentionConfigurationsResponse {
+        return try client.send(operation: "DescribeRetentionConfigurations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the number of resources that are compliant and the number that are noncompliant. You can specify one or more resource types to get these numbers for each resource type. The maximum number returned is 100.
+    public func getComplianceSummaryByResourceType(_ input: GetComplianceSummaryByResourceTypeRequest) throws -> GetComplianceSummaryByResourceTypeResponse {
+        return try client.send(operation: "GetComplianceSummaryByResourceType", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Used by an AWS Lambda function to deliver evaluation results to AWS Config. This action is required in every AWS Lambda function that is invoked by an AWS Config rule.
     public func putEvaluations(_ input: PutEvaluationsRequest) throws -> PutEvaluationsResponse {
         return try client.send(operation: "PutEvaluations", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns details about your AWS Config rules.
-    public func describeConfigRules(_ input: DescribeConfigRulesRequest) throws -> DescribeConfigRulesResponse {
-        return try client.send(operation: "DescribeConfigRules", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns the current status of the specified configuration recorder. If a configuration recorder is not specified, this action returns the status of all configuration recorder associated with the account.  Currently, you can specify only one configuration recorder per region in your account. 
+    ///  Returns the current status of the specified configuration recorder. If a configuration recorder is not specified, this action returns the status of all configuration recorders associated with the account.  Currently, you can specify only one configuration recorder per region in your account. 
     public func describeConfigurationRecorderStatus(_ input: DescribeConfigurationRecorderStatusRequest) throws -> DescribeConfigurationRecorderStatusResponse {
         return try client.send(operation: "DescribeConfigurationRecorderStatus", path: "/", httpMethod: "POST", input: input)
     }
@@ -130,19 +180,49 @@ public struct Config {
         _ = try client.send(operation: "DeleteConfigurationRecorder", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the evaluation results for the specified Config rule. You can specify one Config rule per request. After you delete the evaluation results, you can call the StartConfigRulesEvaluation API to start evaluating your AWS resources against the rule.
+    ///  Deletes the evaluation results for the specified AWS Config rule. You can specify one AWS Config rule per request. After you delete the evaluation results, you can call the StartConfigRulesEvaluation API to start evaluating your AWS resources against the rule.
     public func deleteEvaluationResults(_ input: DeleteEvaluationResultsRequest) throws -> DeleteEvaluationResultsResponse {
         return try client.send(operation: "DeleteEvaluationResults", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the number of resources that are compliant and the number that are noncompliant. You can specify one or more resource types to get these numbers for each resource type. The maximum number returned is 100.
-    public func getComplianceSummaryByResourceType(_ input: GetComplianceSummaryByResourceTypeRequest) throws -> GetComplianceSummaryByResourceTypeResponse {
-        return try client.send(operation: "GetComplianceSummaryByResourceType", path: "/", httpMethod: "POST", input: input)
+    ///  Returns details about your AWS Config rules.
+    public func describeConfigRules(_ input: DescribeConfigRulesRequest) throws -> DescribeConfigRulesResponse {
+        return try client.send(operation: "DescribeConfigRules", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Accepts a resource type and returns a list of resource identifiers for the resources of that type. A resource identifier includes the resource type, ID, and (if available) the custom resource name. The results consist of resources that AWS Config has discovered, including those that AWS Config is not currently recording. You can narrow the results to include only resources that have specific resource IDs or a resource name.  You can specify either resource IDs or a resource name but not both in the same request.  The response is paginated. By default, AWS Config lists 100 resource identifiers on each page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter.
+    ///  Deletes the authorization granted to the specified configuration aggregator account in a specified region.
+    public func deleteAggregationAuthorization(_ input: DeleteAggregationAuthorizationRequest) throws {
+        _ = try client.send(operation: "DeleteAggregationAuthorization", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the current configuration for one or more requested resources. The operation also returns a list of resources that are not processed in the current request. If there are no unprocessed resources, the operation returns an empty unprocessedResourceKeys list.     The API does not return results for deleted resources.    The API does not return any tags for the requested resources. This information is filtered out of the supplementaryConfiguration section of the API response.   
+    public func batchGetResourceConfig(_ input: BatchGetResourceConfigRequest) throws -> BatchGetResourceConfigResponse {
+        return try client.send(operation: "BatchGetResourceConfig", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of compliant and noncompliant rules with the number of resources for compliant and noncompliant rules.   The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page. 
+    public func describeAggregateComplianceByConfigRules(_ input: DescribeAggregateComplianceByConfigRulesRequest) throws -> DescribeAggregateComplianceByConfigRulesResponse {
+        return try client.send(operation: "DescribeAggregateComplianceByConfigRules", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates and updates the retention configuration with details about retention period (number of days) that AWS Config stores your historical information. The API creates the RetentionConfiguration object and names the object as default. When you have a RetentionConfiguration object named default, calling the API modifies the default object.   Currently, AWS Config supports only one retention configuration per region in your account. 
+    public func putRetentionConfiguration(_ input: PutRetentionConfigurationRequest) throws -> PutRetentionConfigurationResponse {
+        return try client.send(operation: "PutRetentionConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Accepts a resource type and returns a list of resource identifiers for the resources of that type. A resource identifier includes the resource type, ID, and (if available) the custom resource name. The results consist of resources that AWS Config has discovered, including those that AWS Config is not currently recording. You can narrow the results to include only resources that have specific resource IDs or a resource name.  You can specify either resource IDs or a resource name, but not both, in the same request.  The response is paginated. By default, AWS Config lists 100 resource identifiers on each page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter.
     public func listDiscoveredResources(_ input: ListDiscoveredResourcesRequest) throws -> ListDiscoveredResourcesResponse {
         return try client.send(operation: "ListDiscoveredResources", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates and updates the configuration aggregator with the selected source accounts and regions. The source account can be individual account(s) or an organization.  AWS Config should be enabled in source accounts and regions you want to aggregate. If your source type is an organization, you must be signed in to the master account and all features must be enabled in your organization. AWS Config calls EnableAwsServiceAccess API to enable integration between AWS Config and AWS Organizations.  
+    public func putConfigurationAggregator(_ input: PutConfigurationAggregatorRequest) throws -> PutConfigurationAggregatorResponse {
+        return try client.send(operation: "PutConfigurationAggregator", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Runs an on-demand evaluation for the specified AWS Config rules against the last known configuration state of the resources. Use StartConfigRulesEvaluation when you want to test that a rule you updated is working as expected. StartConfigRulesEvaluation does not re-record the latest configuration state for your resources. It re-runs an evaluation against the last known state of your resources.  You can specify up to 25 AWS Config rules per request.  An existing StartConfigRulesEvaluation call for the specified rules must complete before you can call the API again. If you chose to have AWS Config stream to an Amazon SNS topic, you will receive a ConfigRuleEvaluationStarted notification when the evaluation starts.  You don't need to call the StartConfigRulesEvaluation API to run an evaluation for a new rule. When you create a rule, AWS Config evaluates your resources against the rule automatically.   The StartConfigRulesEvaluation API is useful if you want to run on-demand evaluations, such as the following example:   You have a custom rule that evaluates your IAM resources every 24 hours.   You update your Lambda function to add additional conditions to your rule.   Instead of waiting for the next periodic evaluation, you call the StartConfigRulesEvaluation API.   AWS Config invokes your Lambda function and evaluates your IAM resources.   Your custom rule will still run periodic evaluations every 24 hours.  
+    public func startConfigRulesEvaluation(_ input: StartConfigRulesEvaluationRequest) throws -> StartConfigRulesEvaluationResponse {
+        return try client.send(operation: "StartConfigRulesEvaluation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified AWS Config rule and all of its evaluation results. AWS Config sets the state of a rule to DELETING until the deletion is complete. You cannot update a rule while it is in this state. If you make a PutConfigRule or DeleteConfigRule request for the rule, you will receive a ResourceInUseException. You can check the state of a rule by using the DescribeConfigRules request.
@@ -150,14 +230,14 @@ public struct Config {
         _ = try client.send(operation: "DeleteConfigRule", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Runs an on-demand evaluation for the specified Config rules against the last known configuration state of the resources. Use StartConfigRulesEvaluation when you want to test a rule that you updated is working as expected. StartConfigRulesEvaluation does not re-record the latest configuration state for your resources; it re-runs an evaluation against the last known state of your resources.  You can specify up to 25 Config rules per request.  An existing StartConfigRulesEvaluation call must complete for the specified rules before you can call the API again. If you chose to have AWS Config stream to an Amazon SNS topic, you will receive a ConfigRuleEvaluationStarted notification when the evaluation starts.  You don't need to call the StartConfigRulesEvaluation API to run an evaluation for a new rule. When you create a new rule, AWS Config automatically evaluates your resources against the rule.   The StartConfigRulesEvaluation API is useful if you want to run on-demand evaluations, such as the following example:   You have a custom rule that evaluates your IAM resources every 24 hours.   You update your Lambda function to add additional conditions to your rule.   Instead of waiting for the next periodic evaluation, you call the StartConfigRulesEvaluation API.   AWS Config invokes your Lambda function and evaluates your IAM resources.   Your custom rule will still run periodic evaluations every 24 hours.  
-    public func startConfigRulesEvaluation(_ input: StartConfigRulesEvaluationRequest) throws -> StartConfigRulesEvaluationResponse {
-        return try client.send(operation: "StartConfigRulesEvaluation", path: "/", httpMethod: "POST", input: input)
+    ///  Returns the details of one or more configuration aggregators. If the configuration aggregator is not specified, this action returns the details for all the configuration aggregators associated with the account. 
+    public func describeConfigurationAggregators(_ input: DescribeConfigurationAggregatorsRequest) throws -> DescribeConfigurationAggregatorsResponse {
+        return try client.send(operation: "DescribeConfigurationAggregators", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the resource types, the number of each resource type, and the total number of resources that AWS Config is recording in this region for your AWS account.   Example    AWS Config is recording three resource types in the US East (Ohio) Region for your account: 25 EC2 instances, 20 IAM users, and 15 S3 buckets.   You make a call to the GetDiscoveredResourceCounts action and specify that you want all resource types.    AWS Config returns the following:   The resource types (EC2 instances, IAM users, and S3 buckets)   The number of each resource type (25, 20, and 15)   The total number of all resources (60)     The response is paginated. By default, AWS Config lists 100 ResourceCount objects on each page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter.  If you make a call to the GetDiscoveredResourceCounts action, you may not immediately receive resource counts in the following situations:   You are a new AWS Config customer   You just enabled resource recording   It may take a few minutes for AWS Config to record and count your resources. Wait a few minutes and then retry the GetDiscoveredResourceCounts action.  
-    public func getDiscoveredResourceCounts(_ input: GetDiscoveredResourceCountsRequest) throws -> GetDiscoveredResourceCountsResponse {
-        return try client.send(operation: "GetDiscoveredResourceCounts", path: "/", httpMethod: "POST", input: input)
+    ///  Returns the number of compliant and noncompliant rules for one or more accounts and regions in an aggregator.  The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page. 
+    public func getAggregateConfigRuleComplianceSummary(_ input: GetAggregateConfigRuleComplianceSummaryRequest) throws -> GetAggregateConfigRuleComplianceSummaryResponse {
+        return try client.send(operation: "GetAggregateConfigRuleComplianceSummary", path: "/", httpMethod: "POST", input: input)
     }
 
 

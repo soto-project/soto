@@ -55,7 +55,7 @@ extension Autoscaling {
         public let predefinedMetricSpecification: PredefinedMetricSpecification?
         /// A customized metric.
         public let customizedMetricSpecification: CustomizedMetricSpecification?
-        /// Indicates whether scale in by the target tracking policy is disabled. If the value is true, scale in is disabled and the target tracking policy won't remove instances from the Auto Scaling group. Otherwise, scale in is enabled and the target tracking policy can remove instances from the Auto Scaling group. The default value is false.
+        /// Indicates whether scale in by the target tracking policy is disabled. If scale in is disabled, the target tracking policy won't remove instances from the Auto Scaling group. Otherwise, the target tracking policy can remove instances from the Auto Scaling group. The default is disabled.
         public let disableScaleIn: Bool?
 
         public init(targetValue: Double, predefinedMetricSpecification: PredefinedMetricSpecification? = nil, customizedMetricSpecification: CustomizedMetricSpecification? = nil, disableScaleIn: Bool? = nil) {
@@ -277,7 +277,7 @@ extension Autoscaling {
             AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list), 
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
-        /// One or more load balancer names.
+        /// The names of the load balancers. You can specify up to 10 load balancers.
         public let loadBalancerNames: [String]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -518,7 +518,7 @@ extension Autoscaling {
         public let breachThreshold: Double?
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
-        /// If this parameter is true, Auto Scaling waits for the cooldown period to complete before executing the policy. Otherwise, Auto Scaling executes the policy without waiting for the cooldown period to complete. This parameter is not supported if the policy type is StepScaling. For more information, see Auto Scaling Cooldowns in the Auto Scaling User Guide.
+        /// Indicates whether Auto Scaling waits for the cooldown period to complete before executing the policy. This parameter is not supported if the policy type is StepScaling. For more information, see Auto Scaling Cooldowns in the Auto Scaling User Guide.
         public let honorCooldown: Bool?
         /// The metric value to compare to BreachThreshold. This enables you to execute a policy of type StepScaling and determine which step adjustment to use. For example, if the breach threshold is 50 and you want to use a step adjustment with a lower bound of 0 and an upper bound of 10, you can set the metric value to 59. If you specify a metric value that doesn't correspond to a step adjustment for the policy, the call returns an error. This parameter is required if the policy type is StepScaling and not supported otherwise.
         public let metricValue: Double?
@@ -618,7 +618,7 @@ extension Autoscaling {
             AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list), 
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
-        /// One or more load balancer names.
+        /// The names of the load balancers. You can specify up to 10 load balancers.
         public let loadBalancerNames: [String]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -850,7 +850,7 @@ extension Autoscaling {
             AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
-        /// One or more instance IDs. You must specify at least one instance ID.
+        /// The IDs of the instances. You can specify up to 20 instances.
         public let instanceIds: [String]?
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -881,12 +881,13 @@ extension Autoscaling {
             AWSShapeMember(label: "PlacementGroup", required: false, type: .string), 
             AWSShapeMember(label: "InstanceId", required: false, type: .string), 
             AWSShapeMember(label: "DefaultCooldown", required: false, type: .integer), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "HealthCheckGracePeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "ServiceLinkedRoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "TerminationPolicies", required: false, type: .list), 
             AWSShapeMember(label: "LaunchTemplate", required: false, type: .structure), 
+            AWSShapeMember(label: "HealthCheckGracePeriod", required: false, type: .integer), 
             AWSShapeMember(label: "LoadBalancerNames", required: false, type: .list), 
             AWSShapeMember(label: "HealthCheckType", required: false, type: .string), 
-            AWSShapeMember(label: "TerminationPolicies", required: false, type: .list)
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
         /// One or more Availability Zones for the group. This parameter is optional if you specify one or more subnets.
         public let availabilityZones: [String]?
@@ -914,20 +915,22 @@ extension Autoscaling {
         public let instanceId: String?
         /// The amount of time, in seconds, after a scaling activity completes before another scaling activity can start. The default is 300. For more information, see Auto Scaling Cooldowns in the Auto Scaling User Guide.
         public let defaultCooldown: Int32?
-        /// The name of the Auto Scaling group. This name must be unique within the scope of your AWS account.
-        public let autoScalingGroupName: String
-        /// The amount of time, in seconds, that Auto Scaling waits before checking the health status of an EC2 instance that has come into service. During this time, any health check failures for the instance are ignored. The default is 0. This parameter is required if you are adding an ELB health check. For more information, see Health Checks in the Auto Scaling User Guide.
-        public let healthCheckGracePeriod: Int32?
+        /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other AWS services on your behalf. By default, Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates if it does not exist.
+        public let serviceLinkedRoleARN: String?
+        /// One or more termination policies used to select the instance to terminate. These policies are executed in the order that they are listed. For more information, see Controlling Which Instances Auto Scaling Terminates During Scale In in the Auto Scaling User Guide.
+        public let terminationPolicies: [String]?
         /// The launch template to use to launch instances. You must specify one of the following: a launch template, a launch configuration, or an EC2 instance.
         public let launchTemplate: LaunchTemplateSpecification?
+        /// The amount of time, in seconds, that Auto Scaling waits before checking the health status of an EC2 instance that has come into service. During this time, any health check failures for the instance are ignored. The default is 0. This parameter is required if you are adding an ELB health check. For more information, see Health Checks in the Auto Scaling User Guide.
+        public let healthCheckGracePeriod: Int32?
         /// One or more Classic Load Balancers. To specify an Application Load Balancer, use TargetGroupARNs instead. For more information, see Using a Load Balancer With an Auto Scaling Group in the Auto Scaling User Guide.
         public let loadBalancerNames: [String]?
         /// The service to use for the health checks. The valid values are EC2 and ELB. By default, health checks use Amazon EC2 instance status checks to determine the health of an instance. For more information, see Health Checks in the Auto Scaling User Guide.
         public let healthCheckType: String?
-        /// One or more termination policies used to select the instance to terminate. These policies are executed in the order that they are listed. For more information, see Controlling Which Instances Auto Scaling Terminates During Scale In in the Auto Scaling User Guide.
-        public let terminationPolicies: [String]?
+        /// The name of the Auto Scaling group. This name must be unique within the scope of your AWS account.
+        public let autoScalingGroupName: String
 
-        public init(availabilityZones: [String]? = nil, launchConfigurationName: String? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, vPCZoneIdentifier: String? = nil, tags: [Tag]? = nil, maxSize: Int32, targetGroupARNs: [String]? = nil, minSize: Int32, desiredCapacity: Int32? = nil, placementGroup: String? = nil, instanceId: String? = nil, defaultCooldown: Int32? = nil, autoScalingGroupName: String, healthCheckGracePeriod: Int32? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, healthCheckType: String? = nil, terminationPolicies: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, launchConfigurationName: String? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, vPCZoneIdentifier: String? = nil, tags: [Tag]? = nil, maxSize: Int32, targetGroupARNs: [String]? = nil, minSize: Int32, desiredCapacity: Int32? = nil, placementGroup: String? = nil, instanceId: String? = nil, defaultCooldown: Int32? = nil, serviceLinkedRoleARN: String? = nil, terminationPolicies: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, healthCheckGracePeriod: Int32? = nil, loadBalancerNames: [String]? = nil, healthCheckType: String? = nil, autoScalingGroupName: String) {
             self.availabilityZones = availabilityZones
             self.launchConfigurationName = launchConfigurationName
             self.newInstancesProtectedFromScaleIn = newInstancesProtectedFromScaleIn
@@ -941,12 +944,13 @@ extension Autoscaling {
             self.placementGroup = placementGroup
             self.instanceId = instanceId
             self.defaultCooldown = defaultCooldown
-            self.autoScalingGroupName = autoScalingGroupName
-            self.healthCheckGracePeriod = healthCheckGracePeriod
+            self.serviceLinkedRoleARN = serviceLinkedRoleARN
+            self.terminationPolicies = terminationPolicies
             self.launchTemplate = launchTemplate
+            self.healthCheckGracePeriod = healthCheckGracePeriod
             self.loadBalancerNames = loadBalancerNames
             self.healthCheckType = healthCheckType
-            self.terminationPolicies = terminationPolicies
+            self.autoScalingGroupName = autoScalingGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -963,12 +967,13 @@ extension Autoscaling {
             case placementGroup = "PlacementGroup"
             case instanceId = "InstanceId"
             case defaultCooldown = "DefaultCooldown"
-            case autoScalingGroupName = "AutoScalingGroupName"
-            case healthCheckGracePeriod = "HealthCheckGracePeriod"
+            case serviceLinkedRoleARN = "ServiceLinkedRoleARN"
+            case terminationPolicies = "TerminationPolicies"
             case launchTemplate = "LaunchTemplate"
+            case healthCheckGracePeriod = "HealthCheckGracePeriod"
             case loadBalancerNames = "LoadBalancerNames"
             case healthCheckType = "HealthCheckType"
-            case terminationPolicies = "TerminationPolicies"
+            case autoScalingGroupName = "AutoScalingGroupName"
         }
     }
 
@@ -1180,7 +1185,7 @@ extension Autoscaling {
             AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
-        /// One or more instance IDs.
+        /// The IDs of the instances. You can specify up to 20 instances.
         public let instanceIds: [String]?
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -1227,6 +1232,7 @@ extension Autoscaling {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "MaxSize", required: true, type: .integer), 
             AWSShapeMember(label: "SuspendedProcesses", required: false, type: .list), 
+            AWSShapeMember(label: "TerminationPolicies", required: false, type: .list), 
             AWSShapeMember(label: "TargetGroupARNs", required: false, type: .list), 
             AWSShapeMember(label: "CreatedTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "Status", required: false, type: .string), 
@@ -1235,13 +1241,13 @@ extension Autoscaling {
             AWSShapeMember(label: "AutoScalingGroupARN", required: false, type: .string), 
             AWSShapeMember(label: "PlacementGroup", required: false, type: .string), 
             AWSShapeMember(label: "DefaultCooldown", required: true, type: .integer), 
+            AWSShapeMember(label: "ServiceLinkedRoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "Instances", required: false, type: .list), 
-            AWSShapeMember(label: "TerminationPolicies", required: false, type: .list), 
             AWSShapeMember(label: "LaunchTemplate", required: false, type: .structure), 
             AWSShapeMember(label: "HealthCheckGracePeriod", required: false, type: .integer), 
             AWSShapeMember(label: "LoadBalancerNames", required: false, type: .list), 
-            AWSShapeMember(label: "HealthCheckType", required: true, type: .string), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
+            AWSShapeMember(label: "HealthCheckType", required: true, type: .string)
         ]
         /// One or more Availability Zones for the group.
         public let availabilityZones: [String]
@@ -1259,6 +1265,8 @@ extension Autoscaling {
         public let maxSize: Int32
         /// The suspended processes associated with the group.
         public let suspendedProcesses: [SuspendedProcess]?
+        /// The termination policies for the group.
+        public let terminationPolicies: [String]?
         /// The Amazon Resource Names (ARN) of the target groups for your load balancer.
         public let targetGroupARNs: [String]?
         /// The date and time the group was created.
@@ -1275,10 +1283,12 @@ extension Autoscaling {
         public let placementGroup: String?
         /// The amount of time, in seconds, after a scaling activity completes before another scaling activity can start.
         public let defaultCooldown: Int32
+        /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other AWS services on your behalf.
+        public let serviceLinkedRoleARN: String?
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
         /// The EC2 instances associated with the group.
         public let instances: [Instance]?
-        /// The termination policies for the group.
-        public let terminationPolicies: [String]?
         /// The launch template for the group.
         public let launchTemplate: LaunchTemplateSpecification?
         /// The amount of time, in seconds, that Auto Scaling waits before checking the health status of an EC2 instance that has come into service.
@@ -1287,10 +1297,8 @@ extension Autoscaling {
         public let loadBalancerNames: [String]?
         /// The service to use for the health checks. The valid values are EC2 and ELB.
         public let healthCheckType: String
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
 
-        public init(availabilityZones: [String], enabledMetrics: [EnabledMetric]? = nil, launchConfigurationName: String? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, vPCZoneIdentifier: String? = nil, tags: [TagDescription]? = nil, maxSize: Int32, suspendedProcesses: [SuspendedProcess]? = nil, targetGroupARNs: [String]? = nil, createdTime: TimeStamp, status: String? = nil, minSize: Int32, desiredCapacity: Int32, autoScalingGroupARN: String? = nil, placementGroup: String? = nil, defaultCooldown: Int32, instances: [Instance]? = nil, terminationPolicies: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, healthCheckGracePeriod: Int32? = nil, loadBalancerNames: [String]? = nil, healthCheckType: String, autoScalingGroupName: String) {
+        public init(availabilityZones: [String], enabledMetrics: [EnabledMetric]? = nil, launchConfigurationName: String? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, vPCZoneIdentifier: String? = nil, tags: [TagDescription]? = nil, maxSize: Int32, suspendedProcesses: [SuspendedProcess]? = nil, terminationPolicies: [String]? = nil, targetGroupARNs: [String]? = nil, createdTime: TimeStamp, status: String? = nil, minSize: Int32, desiredCapacity: Int32, autoScalingGroupARN: String? = nil, placementGroup: String? = nil, defaultCooldown: Int32, serviceLinkedRoleARN: String? = nil, autoScalingGroupName: String, instances: [Instance]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, healthCheckGracePeriod: Int32? = nil, loadBalancerNames: [String]? = nil, healthCheckType: String) {
             self.availabilityZones = availabilityZones
             self.enabledMetrics = enabledMetrics
             self.launchConfigurationName = launchConfigurationName
@@ -1299,6 +1307,7 @@ extension Autoscaling {
             self.tags = tags
             self.maxSize = maxSize
             self.suspendedProcesses = suspendedProcesses
+            self.terminationPolicies = terminationPolicies
             self.targetGroupARNs = targetGroupARNs
             self.createdTime = createdTime
             self.status = status
@@ -1307,13 +1316,13 @@ extension Autoscaling {
             self.autoScalingGroupARN = autoScalingGroupARN
             self.placementGroup = placementGroup
             self.defaultCooldown = defaultCooldown
+            self.serviceLinkedRoleARN = serviceLinkedRoleARN
+            self.autoScalingGroupName = autoScalingGroupName
             self.instances = instances
-            self.terminationPolicies = terminationPolicies
             self.launchTemplate = launchTemplate
             self.healthCheckGracePeriod = healthCheckGracePeriod
             self.loadBalancerNames = loadBalancerNames
             self.healthCheckType = healthCheckType
-            self.autoScalingGroupName = autoScalingGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1325,6 +1334,7 @@ extension Autoscaling {
             case tags = "Tags"
             case maxSize = "MaxSize"
             case suspendedProcesses = "SuspendedProcesses"
+            case terminationPolicies = "TerminationPolicies"
             case targetGroupARNs = "TargetGroupARNs"
             case createdTime = "CreatedTime"
             case status = "Status"
@@ -1333,13 +1343,13 @@ extension Autoscaling {
             case autoScalingGroupARN = "AutoScalingGroupARN"
             case placementGroup = "PlacementGroup"
             case defaultCooldown = "DefaultCooldown"
+            case serviceLinkedRoleARN = "ServiceLinkedRoleARN"
+            case autoScalingGroupName = "AutoScalingGroupName"
             case instances = "Instances"
-            case terminationPolicies = "TerminationPolicies"
             case launchTemplate = "LaunchTemplate"
             case healthCheckGracePeriod = "HealthCheckGracePeriod"
             case loadBalancerNames = "LoadBalancerNames"
             case healthCheckType = "HealthCheckType"
-            case autoScalingGroupName = "AutoScalingGroupName"
         }
     }
 
@@ -1432,7 +1442,7 @@ extension Autoscaling {
         ]
         /// The ID of the snapshot.
         public let snapshotId: String?
-        /// Indicates whether the volume is deleted on instance termination. Default: true 
+        /// Indicates whether the volume is deleted on instance termination. The default is true.
         public let deleteOnTermination: Bool?
         /// The volume type. For more information, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. Valid values: standard | io1 | gp2  Default: standard 
         public let volumeType: String?
@@ -1468,7 +1478,7 @@ extension Autoscaling {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
-        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+        /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
         public let maxRecords: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -1511,7 +1521,7 @@ extension Autoscaling {
             AWSShapeMember(label: "ActivityIds", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The maximum number of items to return with this call. The default value is 100.
+        /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
         public let maxRecords: Int32?
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
@@ -1541,11 +1551,11 @@ extension Autoscaling {
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "InstanceIds", required: false, type: .list)
         ]
-        /// If True, the Auto Scaling group decrements the desired capacity value by the number of instances detached.
+        /// Indicates whether the Auto Scaling group decrements the desired capacity value by the number of instances detached.
         public let shouldDecrementDesiredCapacity: Bool
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// One or more instance IDs.
+        /// The IDs of the instances. You can specify up to 20 instances.
         public let instanceIds: [String]?
 
         public init(shouldDecrementDesiredCapacity: Bool, autoScalingGroupName: String, instanceIds: [String]? = nil) {
@@ -1707,32 +1717,32 @@ extension Autoscaling {
 
     public struct DescribeAccountLimitsAnswer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxNumberOfLaunchConfigurations", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxNumberOfAutoScalingGroups", required: false, type: .integer), 
             AWSShapeMember(label: "NumberOfLaunchConfigurations", required: false, type: .integer), 
             AWSShapeMember(label: "NumberOfAutoScalingGroups", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxNumberOfAutoScalingGroups", required: false, type: .integer)
+            AWSShapeMember(label: "MaxNumberOfLaunchConfigurations", required: false, type: .integer)
         ]
-        /// The maximum number of launch configurations allowed for your AWS account. The default limit is 100 per region.
-        public let maxNumberOfLaunchConfigurations: Int32?
+        /// The maximum number of groups allowed for your AWS account. The default limit is 20 per region.
+        public let maxNumberOfAutoScalingGroups: Int32?
         /// The current number of launch configurations for your AWS account.
         public let numberOfLaunchConfigurations: Int32?
         /// The current number of groups for your AWS account.
         public let numberOfAutoScalingGroups: Int32?
-        /// The maximum number of groups allowed for your AWS account. The default limit is 20 per region.
-        public let maxNumberOfAutoScalingGroups: Int32?
+        /// The maximum number of launch configurations allowed for your AWS account. The default limit is 100 per region.
+        public let maxNumberOfLaunchConfigurations: Int32?
 
-        public init(maxNumberOfLaunchConfigurations: Int32? = nil, numberOfLaunchConfigurations: Int32? = nil, numberOfAutoScalingGroups: Int32? = nil, maxNumberOfAutoScalingGroups: Int32? = nil) {
-            self.maxNumberOfLaunchConfigurations = maxNumberOfLaunchConfigurations
+        public init(maxNumberOfAutoScalingGroups: Int32? = nil, numberOfLaunchConfigurations: Int32? = nil, numberOfAutoScalingGroups: Int32? = nil, maxNumberOfLaunchConfigurations: Int32? = nil) {
+            self.maxNumberOfAutoScalingGroups = maxNumberOfAutoScalingGroups
             self.numberOfLaunchConfigurations = numberOfLaunchConfigurations
             self.numberOfAutoScalingGroups = numberOfAutoScalingGroups
-            self.maxNumberOfAutoScalingGroups = maxNumberOfAutoScalingGroups
+            self.maxNumberOfLaunchConfigurations = maxNumberOfLaunchConfigurations
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxNumberOfLaunchConfigurations = "MaxNumberOfLaunchConfigurations"
+            case maxNumberOfAutoScalingGroups = "MaxNumberOfAutoScalingGroups"
             case numberOfLaunchConfigurations = "NumberOfLaunchConfigurations"
             case numberOfAutoScalingGroups = "NumberOfAutoScalingGroups"
-            case maxNumberOfAutoScalingGroups = "MaxNumberOfAutoScalingGroups"
+            case maxNumberOfLaunchConfigurations = "MaxNumberOfLaunchConfigurations"
         }
     }
 
@@ -1835,7 +1845,7 @@ extension Autoscaling {
         public let iamInstanceProfile: String?
         /// The ID of the Amazon Machine Image (AMI) to use to launch your EC2 instances. If you do not specify InstanceId, you must specify ImageId. For more information, see Finding an AMI in the Amazon Elastic Compute Cloud User Guide.
         public let imageId: String?
-        /// Used for groups that launch instances into a virtual private cloud (VPC). Specifies whether to assign a public IP address to each instance. For more information, see Launching Auto Scaling Instances in a VPC in the Auto Scaling User Guide. If you specify this parameter, be sure to specify at least one subnet when you create your group. Default: If the instance is launched into a default subnet, the default is true. If the instance is launched into a nondefault subnet, the default is false. For more information, see Supported Platforms in the Amazon Elastic Compute Cloud User Guide.
+        /// Used for groups that launch instances into a virtual private cloud (VPC). Specifies whether to assign a public IP address to each instance. For more information, see Launching Auto Scaling Instances in a VPC in the Auto Scaling User Guide. If you specify this parameter, be sure to specify at least one subnet when you create your group. Default: If the instance is launched into a default subnet, the default is to assign a public IP address. If the instance is launched into a nondefault subnet, the default is not to assign a public IP address.
         public let associatePublicIpAddress: Bool?
         /// The ID of the RAM disk associated with the AMI.
         public let ramdiskId: String?
@@ -1905,7 +1915,7 @@ extension Autoscaling {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "InstanceIds", required: false, type: .list)
         ]
-        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 50.
         public let maxRecords: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -2054,7 +2064,7 @@ extension Autoscaling {
             AWSShapeMember(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean), 
             AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
-        /// If true, terminating the instance also decrements the size of the Auto Scaling group.
+        /// Indicates whether terminating the instance also decrements the size of the Auto Scaling group.
         public let shouldDecrementDesiredCapacity: Bool
         /// The ID of the instance.
         public let instanceId: String
@@ -2080,7 +2090,7 @@ extension Autoscaling {
         public let desiredCapacity: Int32
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// By default, SetDesiredCapacity overrides any cooldown period associated with the Auto Scaling group. Specify True to make Auto Scaling to wait for the cool-down period associated with the Auto Scaling group to complete before initiating a scaling activity to set your Auto Scaling group to its new capacity.
+        /// Indicates whether Auto Scaling waits for the cooldown period to complete before initiating a scaling activity to set your Auto Scaling group to its new capacity. By default, Auto Scaling does not honor the cooldown period during manual scaling activities.
         public let honorCooldown: Bool?
 
         public init(desiredCapacity: Int32, autoScalingGroupName: String, honorCooldown: Bool? = nil) {
@@ -2304,6 +2314,7 @@ extension Autoscaling {
             AWSShapeMember(label: "DesiredCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "PlacementGroup", required: false, type: .string), 
             AWSShapeMember(label: "DefaultCooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "ServiceLinkedRoleARN", required: false, type: .string), 
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "HealthCheckGracePeriod", required: false, type: .integer), 
             AWSShapeMember(label: "LaunchTemplate", required: false, type: .structure), 
@@ -2312,7 +2323,7 @@ extension Autoscaling {
         ]
         /// One or more Availability Zones for the group.
         public let availabilityZones: [String]?
-        /// The name of the launch configuration. You must specify either a launch configuration or a launch template.
+        /// The name of the launch configuration. If you specify a launch configuration, you can't specify a launch template.
         public let launchConfigurationName: String?
         /// Indicates whether newly launched instances are protected from termination by Auto Scaling when scaling in.
         public let newInstancesProtectedFromScaleIn: Bool?
@@ -2328,18 +2339,20 @@ extension Autoscaling {
         public let placementGroup: String?
         /// The amount of time, in seconds, after a scaling activity completes before another scaling activity can start. The default is 300. For more information, see Auto Scaling Cooldowns in the Auto Scaling User Guide.
         public let defaultCooldown: Int32?
+        /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other AWS services on your behalf.
+        public let serviceLinkedRoleARN: String?
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The amount of time, in seconds, that Auto Scaling waits before checking the health status of an EC2 instance that has come into service. The default is 0. For more information, see Health Checks in the Auto Scaling User Guide.
         public let healthCheckGracePeriod: Int32?
-        /// The launch template to use to specify the updates. You must specify a launch configuration or a launch template.
+        /// The launch template to use to specify the updates. If you specify a launch template, you can't specify a launch configuration.
         public let launchTemplate: LaunchTemplateSpecification?
         /// A standalone termination policy or a list of termination policies used to select the instance to terminate. The policies are executed in the order that they are listed. For more information, see Controlling Which Instances Auto Scaling Terminates During Scale In in the Auto Scaling User Guide.
         public let terminationPolicies: [String]?
         /// The service to use for the health checks. The valid values are EC2 and ELB.
         public let healthCheckType: String?
 
-        public init(availabilityZones: [String]? = nil, launchConfigurationName: String? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, vPCZoneIdentifier: String? = nil, maxSize: Int32? = nil, minSize: Int32? = nil, desiredCapacity: Int32? = nil, placementGroup: String? = nil, defaultCooldown: Int32? = nil, autoScalingGroupName: String, healthCheckGracePeriod: Int32? = nil, launchTemplate: LaunchTemplateSpecification? = nil, terminationPolicies: [String]? = nil, healthCheckType: String? = nil) {
+        public init(availabilityZones: [String]? = nil, launchConfigurationName: String? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, vPCZoneIdentifier: String? = nil, maxSize: Int32? = nil, minSize: Int32? = nil, desiredCapacity: Int32? = nil, placementGroup: String? = nil, defaultCooldown: Int32? = nil, serviceLinkedRoleARN: String? = nil, autoScalingGroupName: String, healthCheckGracePeriod: Int32? = nil, launchTemplate: LaunchTemplateSpecification? = nil, terminationPolicies: [String]? = nil, healthCheckType: String? = nil) {
             self.availabilityZones = availabilityZones
             self.launchConfigurationName = launchConfigurationName
             self.newInstancesProtectedFromScaleIn = newInstancesProtectedFromScaleIn
@@ -2349,6 +2362,7 @@ extension Autoscaling {
             self.desiredCapacity = desiredCapacity
             self.placementGroup = placementGroup
             self.defaultCooldown = defaultCooldown
+            self.serviceLinkedRoleARN = serviceLinkedRoleARN
             self.autoScalingGroupName = autoScalingGroupName
             self.healthCheckGracePeriod = healthCheckGracePeriod
             self.launchTemplate = launchTemplate
@@ -2366,6 +2380,7 @@ extension Autoscaling {
             case desiredCapacity = "DesiredCapacity"
             case placementGroup = "PlacementGroup"
             case defaultCooldown = "DefaultCooldown"
+            case serviceLinkedRoleARN = "ServiceLinkedRoleARN"
             case autoScalingGroupName = "AutoScalingGroupName"
             case healthCheckGracePeriod = "HealthCheckGracePeriod"
             case launchTemplate = "LaunchTemplate"
@@ -2463,11 +2478,11 @@ extension Autoscaling {
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "InstanceIds", required: false, type: .list)
         ]
-        /// Specifies whether the instances moved to Standby mode count as part of the Auto Scaling group's desired capacity. If set, the desired capacity for the Auto Scaling group decrements by the number of instances moved to Standby mode.
+        /// Indicates whether to decrement the desired capacity of the Auto Scaling group by the number of instances moved to Standby mode.
         public let shouldDecrementDesiredCapacity: Bool
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// One or more instances to move into Standby mode. You must specify at least one instance ID.
+        /// The IDs of the instances. You can specify up to 20 instances.
         public let instanceIds: [String]?
 
         public init(shouldDecrementDesiredCapacity: Bool, autoScalingGroupName: String, instanceIds: [String]? = nil) {
@@ -2488,7 +2503,7 @@ extension Autoscaling {
             AWSShapeMember(label: "TargetGroupARNs", required: true, type: .list), 
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
-        /// The Amazon Resource Names (ARN) of the target groups.
+        /// The Amazon Resource Names (ARN) of the target groups. You can specify up to 10 target groups.
         public let targetGroupARNs: [String]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -2517,7 +2532,7 @@ extension Autoscaling {
             AWSShapeMember(label: "TargetGroupARNs", required: true, type: .list), 
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
-        /// The Amazon Resource Names (ARN) of the target groups.
+        /// The Amazon Resource Names (ARN) of the target groups. You can specify up to 10 target groups.
         public let targetGroupARNs: [String]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -2877,7 +2892,7 @@ extension Autoscaling {
         public let launchTemplateName: String?
         /// The ID of the launch template. You must specify either a template ID or a template name.
         public let launchTemplateId: String?
-        /// The version number. By default, the default version of the launch template is used.
+        /// The version number, $Latest, or $Default. If the value is $Latest, Auto Scaling selects the latest version of the launch template when launching instances. If the value is $Default, Auto Scaling selects the default version of the launch template when launching instances. The default value is $Default.
         public let version: String?
 
         public init(launchTemplateName: String? = nil, launchTemplateId: String? = nil, version: String? = nil) {
@@ -2930,7 +2945,7 @@ extension Autoscaling {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
-        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+        /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
         public let maxRecords: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?

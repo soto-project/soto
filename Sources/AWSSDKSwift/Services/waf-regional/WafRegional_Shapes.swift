@@ -151,11 +151,11 @@ extension WafRegional {
         ]
         /// Specifies the order in which the Rules in a WebACL are evaluated. Rules with a lower value for Priority are evaluated before Rules with a higher value. The value must be a unique integer. If you add multiple Rules to a WebACL, the values don't need to be consecutive.
         public let priority: Int32
-        /// Use the OverrideAction to test your RuleGroup. Any rule in a RuleGroup can potentially block a request. If you set the OverrideAction to None, the RuleGroup will block a request if any individual rule in the RuleGroup matches the request and is configured to block that request. However if you first want to test the RuleGroup, set the OverrideAction to Count. The RuleGroup will then override any block action specified by individual rules contained within the group. Instead of blocking matching requests, those requests will be counted. You can view a record of counted requests using GetSampledRequests.  The OverrideAction data type within ActivatedRule is used only when submitting an UpdateRuleGroup request. ActivatedRule|OverrideAction is not applicable and therefore not available for UpdateWebACL.
+        /// Use the OverrideAction to test your RuleGroup. Any rule in a RuleGroup can potentially block a request. If you set the OverrideAction to None, the RuleGroup will block a request if any individual rule in the RuleGroup matches the request and is configured to block that request. However if you first want to test the RuleGroup, set the OverrideAction to Count. The RuleGroup will then override any block action specified by individual rules contained within the group. Instead of blocking matching requests, those requests will be counted. You can view a record of counted requests using GetSampledRequests.   ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a WebACL. In this case you do not use ActivatedRule|Action. For all other update requests, ActivatedRule|Action is used instead of ActivatedRule|OverrideAction.
         public let overrideAction: WafOverrideAction?
         /// The rule type, either REGULAR, as defined by Rule, RATE_BASED, as defined by RateBasedRule, or GROUP, as defined by RuleGroup. The default is REGULAR. Although this field is optional, be aware that if you try to add a RATE_BASED rule to a web ACL without setting the type, the UpdateWebACL request will fail because the request tries to add a REGULAR rule with the specified ID, which does not exist. 
         public let `type`: WafRuleType?
-        /// Specifies the action that CloudFront or AWS WAF takes when a web request matches the conditions in the Rule. Valid values for Action include the following:    ALLOW: CloudFront responds with the requested object.    BLOCK: CloudFront responds with an HTTP 403 (Forbidden) status code.    COUNT: AWS WAF increments a counter of requests that match the conditions in the rule and then continues to inspect the web request based on the remaining rules in the web ACL.    The Action data type within ActivatedRule is used only when submitting an UpdateWebACL request. ActivatedRule|Action is not applicable and therefore not available for UpdateRuleGroup.
+        /// Specifies the action that CloudFront or AWS WAF takes when a web request matches the conditions in the Rule. Valid values for Action include the following:    ALLOW: CloudFront responds with the requested object.    BLOCK: CloudFront responds with an HTTP 403 (Forbidden) status code.    COUNT: AWS WAF increments a counter of requests that match the conditions in the rule and then continues to inspect the web request based on the remaining rules in the web ACL.     ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a WebACL. In this case you do not use ActivatedRule|Action. For all other update requests, ActivatedRule|Action is used instead of ActivatedRule|OverrideAction.
         public let action: WafAction?
         /// The RuleId for a Rule. You use RuleId to get more information about a Rule (see GetRule), update a Rule (see UpdateRule), insert a Rule into a WebACL or delete a one from a WebACL (see UpdateWebACL), or delete a Rule from AWS WAF (see DeleteRule).  RuleId is returned by CreateRule and by ListRules.
         public let ruleId: String
@@ -935,6 +935,27 @@ extension WafRegional {
         }
     }
 
+    public struct PutPermissionPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// The policy to attach to the specified RuleGroup.
+        public let policy: String
+        /// The Amazon Resource Name (ARN) of the RuleGroup to which you want to attach the policy.
+        public let resourceArn: String
+
+        public init(policy: String, resourceArn: String) {
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
     public struct UpdateRuleGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
@@ -943,7 +964,7 @@ extension WafRegional {
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
-        /// An array of RuleGroupUpdate objects that you want to insert into or delete from a RuleGroup. You can only insert REGULAR rules into a rule group. The Action data type within ActivatedRule is used only when submitting an UpdateWebACL request. ActivatedRule|Action is not applicable and therefore not available for UpdateRuleGroup.
+        /// An array of RuleGroupUpdate objects that you want to insert into or delete from a RuleGroup. You can only insert REGULAR rules into a rule group.  ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a WebACL. In this case you do not use ActivatedRule|Action. For all other update requests, ActivatedRule|Action is used instead of ActivatedRule|OverrideAction.
         public let updates: [RuleGroupUpdate]
         /// The RuleGroupId of the RuleGroup that you want to update. RuleGroupId is returned by CreateRuleGroup and by ListRuleGroups.
         public let ruleGroupId: String
@@ -1230,22 +1251,6 @@ extension WafRegional {
         public var description: String { return self.rawValue }
     }
 
-    public struct ListResourcesForWebACLResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArns", required: false, type: .list)
-        ]
-        /// An array of ARNs (Amazon Resource Names) of the resources associated with the specified web ACL. An array with zero elements is returned if there are no resources associated with the web ACL.
-        public let resourceArns: [String]?
-
-        public init(resourceArns: [String]? = nil) {
-            self.resourceArns = resourceArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArns = "ResourceArns"
-        }
-    }
-
     public struct XssMatchSetSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "XssMatchSetId", required: true, type: .string), 
@@ -1264,6 +1269,22 @@ extension WafRegional {
         private enum CodingKeys: String, CodingKey {
             case xssMatchSetId = "XssMatchSetId"
             case name = "Name"
+        }
+    }
+
+    public struct ListResourcesForWebACLResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArns", required: false, type: .list)
+        ]
+        /// An array of ARNs (Amazon Resource Names) of the resources associated with the specified web ACL. An array with zero elements is returned if there are no resources associated with the web ACL.
+        public let resourceArns: [String]?
+
+        public init(resourceArns: [String]? = nil) {
+            self.resourceArns = resourceArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArns = "ResourceArns"
         }
     }
 
@@ -1449,6 +1470,10 @@ extension WafRegional {
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
         }
+    }
+
+    public struct PutPermissionPolicyResponse: AWSShape {
+
     }
 
     public struct CreateXssMatchSetRequest: AWSShape {
@@ -1823,6 +1848,22 @@ extension WafRegional {
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case byteMatchSet = "ByteMatchSet"
+        }
+    }
+
+    public struct DeletePermissionPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the RuleGroup from which you want to delete the policy. The user making the request must be the owner of the RuleGroup.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
         }
     }
 
@@ -2480,6 +2521,22 @@ extension WafRegional {
         }
     }
 
+    public struct GetPermissionPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .string)
+        ]
+        /// The IAM policy attached to the specified RuleGroup.
+        public let policy: String?
+
+        public init(policy: String? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
     public struct WebACLUpdate: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Action", required: true, type: .enum), 
@@ -2962,6 +3019,22 @@ extension WafRegional {
         }
     }
 
+    public struct GetPermissionPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the RuleGroup for which you want to get the policy.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
     public enum IPSetDescriptorType: String, CustomStringConvertible, Codable {
         case ipv4 = "IPV4"
         case ipv6 = "IPV6"
@@ -3288,24 +3361,24 @@ extension WafRegional {
         }
     }
 
-    public struct DeleteSqlInjectionMatchSetRequest: AWSShape {
+    public struct CreateWebACLResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeMember(label: "SqlInjectionMatchSetId", required: true, type: .string)
+            AWSShapeMember(label: "ChangeToken", required: false, type: .string), 
+            AWSShapeMember(label: "WebACL", required: false, type: .structure)
         ]
-        /// The value returned by the most recent call to GetChangeToken.
-        public let changeToken: String
-        /// The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to delete. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
-        public let sqlInjectionMatchSetId: String
+        /// The ChangeToken that you used to submit the CreateWebACL request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
+        public let changeToken: String?
+        /// The WebACL returned in the CreateWebACL response.
+        public let webACL: WebACL?
 
-        public init(changeToken: String, sqlInjectionMatchSetId: String) {
+        public init(changeToken: String? = nil, webACL: WebACL? = nil) {
             self.changeToken = changeToken
-            self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
+            self.webACL = webACL
         }
 
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
-            case sqlInjectionMatchSetId = "SqlInjectionMatchSetId"
+            case webACL = "WebACL"
         }
     }
 
@@ -3330,54 +3403,54 @@ extension WafRegional {
         }
     }
 
-    public struct CreateWebACLResponse: AWSShape {
+    public struct DeleteSqlInjectionMatchSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeToken", required: false, type: .string), 
-            AWSShapeMember(label: "WebACL", required: false, type: .structure)
+            AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
+            AWSShapeMember(label: "SqlInjectionMatchSetId", required: true, type: .string)
         ]
-        /// The ChangeToken that you used to submit the CreateWebACL request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
-        public let changeToken: String?
-        /// The WebACL returned in the CreateWebACL response.
-        public let webACL: WebACL?
+        /// The value returned by the most recent call to GetChangeToken.
+        public let changeToken: String
+        /// The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to delete. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
+        public let sqlInjectionMatchSetId: String
 
-        public init(changeToken: String? = nil, webACL: WebACL? = nil) {
+        public init(changeToken: String, sqlInjectionMatchSetId: String) {
             self.changeToken = changeToken
-            self.webACL = webACL
+            self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
         }
 
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
-            case webACL = "WebACL"
+            case sqlInjectionMatchSetId = "SqlInjectionMatchSetId"
         }
     }
 
     public struct ByteMatchTuple: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FieldToMatch", required: true, type: .structure), 
-            AWSShapeMember(label: "TargetString", required: true, type: .blob), 
             AWSShapeMember(label: "TextTransformation", required: true, type: .enum), 
+            AWSShapeMember(label: "TargetString", required: true, type: .blob), 
             AWSShapeMember(label: "PositionalConstraint", required: true, type: .enum)
         ]
         /// The part of a web request that you want AWS WAF to search, such as a specified header or a query string. For more information, see FieldToMatch.
         public let fieldToMatch: FieldToMatch
-        /// The value that you want AWS WAF to search for. AWS WAF searches for the specified string in the part of web requests that you specified in FieldToMatch. The maximum length of the value is 50 bytes. Valid values depend on the values that you specified for FieldToMatch:    HEADER: The value that you want AWS WAF to search for in the request header that you specified in FieldToMatch, for example, the value of the User-Agent or Referer header.    METHOD: The HTTP method, which indicates the type of operation specified in the request. CloudFront supports the following methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, and PUT.    QUERY_STRING: The value that you want AWS WAF to search for in the query string, which is the part of a URL that appears after a ? character.    URI: The value that you want AWS WAF to search for in the part of a URL that identifies a resource, for example, /images/daily-ad.jpg.    BODY: The part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. The request body immediately follows the request headers. Note that only the first 8192 bytes of the request body are forwarded to AWS WAF for inspection. To allow or block requests based on the length of the body, you can create a size constraint set. For more information, see CreateSizeConstraintSet.    If TargetString includes alphabetic characters A-Z and a-z, note that the value is case sensitive.  If you're using the AWS WAF API  Specify a base64-encoded version of the value. The maximum length of the value before you base64-encode it is 50 bytes. For example, suppose the value of Type is HEADER and the value of Data is User-Agent. If you want to search the User-Agent header for the value BadBot, you base64-encode BadBot using MIME base64 encoding and include the resulting value, QmFkQm90, in the value of TargetString.  If you're using the AWS CLI or one of the AWS SDKs  The value that you want AWS WAF to search for. The SDK automatically base64 encodes the value.
-        public let targetString: Data
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on TargetString before inspecting a request for a match.  CMD_LINE  When you're concerned that attackers are injecting an operating system commandline command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.  NONE  Specify NONE if you don't want to perform any text transformations.
         public let textTransformation: TextTransformation
+        /// The value that you want AWS WAF to search for. AWS WAF searches for the specified string in the part of web requests that you specified in FieldToMatch. The maximum length of the value is 50 bytes. Valid values depend on the values that you specified for FieldToMatch:    HEADER: The value that you want AWS WAF to search for in the request header that you specified in FieldToMatch, for example, the value of the User-Agent or Referer header.    METHOD: The HTTP method, which indicates the type of operation specified in the request. CloudFront supports the following methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, and PUT.    QUERY_STRING: The value that you want AWS WAF to search for in the query string, which is the part of a URL that appears after a ? character.    URI: The value that you want AWS WAF to search for in the part of a URL that identifies a resource, for example, /images/daily-ad.jpg.    BODY: The part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. The request body immediately follows the request headers. Note that only the first 8192 bytes of the request body are forwarded to AWS WAF for inspection. To allow or block requests based on the length of the body, you can create a size constraint set. For more information, see CreateSizeConstraintSet.    If TargetString includes alphabetic characters A-Z and a-z, note that the value is case sensitive.  If you're using the AWS WAF API  Specify a base64-encoded version of the value. The maximum length of the value before you base64-encode it is 50 bytes. For example, suppose the value of Type is HEADER and the value of Data is User-Agent. If you want to search the User-Agent header for the value BadBot, you base64-encode BadBot using MIME base64 encoding and include the resulting value, QmFkQm90, in the value of TargetString.  If you're using the AWS CLI or one of the AWS SDKs  The value that you want AWS WAF to search for. The SDK automatically base64 encodes the value.
+        public let targetString: Data
         /// Within the portion of a web request that you want to search (for example, in the query string, if any), specify where you want AWS WAF to search. Valid values include the following:  CONTAINS  The specified part of the web request must include the value of TargetString, but the location doesn't matter.  CONTAINS_WORD  The specified part of the web request must include the value of TargetString, and TargetString must contain only alphanumeric characters or underscore (A-Z, a-z, 0-9, or _). In addition, TargetString must be a word, which means one of the following:    TargetString exactly matches the value of the specified part of the web request, such as the value of a header.    TargetString is at the beginning of the specified part of the web request and is followed by a character other than an alphanumeric character or underscore (_), for example, BadBot;.    TargetString is at the end of the specified part of the web request and is preceded by a character other than an alphanumeric character or underscore (_), for example, ;BadBot.    TargetString is in the middle of the specified part of the web request and is preceded and followed by characters other than alphanumeric characters or underscore (_), for example, -BadBot;.    EXACTLY  The value of the specified part of the web request must exactly match the value of TargetString.  STARTS_WITH  The value of TargetString must appear at the beginning of the specified part of the web request.  ENDS_WITH  The value of TargetString must appear at the end of the specified part of the web request.
         public let positionalConstraint: PositionalConstraint
 
-        public init(fieldToMatch: FieldToMatch, targetString: Data, textTransformation: TextTransformation, positionalConstraint: PositionalConstraint) {
+        public init(fieldToMatch: FieldToMatch, textTransformation: TextTransformation, targetString: Data, positionalConstraint: PositionalConstraint) {
             self.fieldToMatch = fieldToMatch
-            self.targetString = targetString
             self.textTransformation = textTransformation
+            self.targetString = targetString
             self.positionalConstraint = positionalConstraint
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldToMatch = "FieldToMatch"
-            case targetString = "TargetString"
             case textTransformation = "TextTransformation"
+            case targetString = "TargetString"
             case positionalConstraint = "PositionalConstraint"
         }
     }
@@ -3703,6 +3776,10 @@ extension WafRegional {
         }
     }
 
+    public struct DeletePermissionPolicyResponse: AWSShape {
+
+    }
+
     public struct SampledHTTPRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RuleWithinRuleGroup", required: false, type: .string), 
@@ -3889,7 +3966,7 @@ extension WafRegional {
         ]
         /// A default action for the web ACL, either ALLOW or BLOCK. AWS WAF performs the default action if a request doesn't match the criteria in any of the rules in a web ACL.
         public let defaultAction: WafAction?
-        /// An array of updates to make to the WebACL. An array of WebACLUpdate objects that you want to insert into or delete from a WebACL. For more information, see the applicable data types:    WebACLUpdate: Contains Action and ActivatedRule     ActivatedRule: Contains Action, Priority, RuleId, and Type. The OverrideAction data type within ActivatedRule is used only when submitting an UpdateRuleGroup request. ActivatedRule|OverrideAction is not applicable and therefore not available for UpdateWebACL.     WafAction: Contains Type   
+        /// An array of updates to make to the WebACL. An array of WebACLUpdate objects that you want to insert into or delete from a WebACL. For more information, see the applicable data types:    WebACLUpdate: Contains Action and ActivatedRule     ActivatedRule: Contains Action, OverrideAction, Priority, RuleId, and Type. ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a WebACL. In this case you do not use ActivatedRule|Action. For all other update requests, ActivatedRule|Action is used instead of ActivatedRule|OverrideAction.     WafAction: Contains Type   
         public let updates: [WebACLUpdate]?
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String

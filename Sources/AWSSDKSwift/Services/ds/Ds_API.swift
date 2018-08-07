@@ -50,6 +50,11 @@ public struct Ds {
         return try client.send(operation: "EnableSso", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Resets the password for any user in your AWS Managed Microsoft AD or Simple AD directory.
+    public func resetUserPassword(_ input: ResetUserPasswordRequest) throws -> ResetUserPasswordResult {
+        return try client.send(operation: "ResetUserPassword", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  AWS Directory Service for Microsoft Active Directory allows you to configure trust relationships. For example, you can establish a trust between your Microsoft AD in the AWS cloud, and your existing on-premises Microsoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of credentials. This action initiates the creation of the AWS side of a trust relationship between a Microsoft AD in the AWS cloud and an external domain.
     public func createTrust(_ input: CreateTrustRequest) throws -> CreateTrustResult {
         return try client.send(operation: "CreateTrust", path: "/", httpMethod: "POST", input: input)
@@ -58,11 +63,6 @@ public struct Ds {
     ///  Provides information about any domain controllers in your directory.
     public func describeDomainControllers(_ input: DescribeDomainControllersRequest) throws -> DescribeDomainControllersResult {
         return try client.send(operation: "DescribeDomainControllers", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists all tags on a directory.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> ListTagsForResourceResult {
-        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector directory.
@@ -83,6 +83,11 @@ public struct Ds {
     ///  Restores a directory using an existing directory snapshot. When you restore a directory from a snapshot, any changes made to the directory after the snapshot date are overwritten. This action returns as soon as the restore operation is initiated. You can monitor the progress of the restore operation by calling the DescribeDirectories operation with the directory identifier. When the DirectoryDescription.Stage value changes to Active, the restore operation is complete.
     public func restoreFromSnapshot(_ input: RestoreFromSnapshotRequest) throws -> RestoreFromSnapshotResult {
         return try client.send(operation: "RestoreFromSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists all tags on a directory.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> ListTagsForResourceResult {
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disables single-sign on for a directory.

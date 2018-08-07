@@ -10,6 +10,10 @@ import Foundation
 import SwiftyJSON
 import AWSSDKSwiftCore
 
+enum AWSServiceError: Error {
+    case eventStreamingCodeGenerationsAreUnsupported
+}
+
 struct AWSService {
     let apiJSON: JSON
     let docJSON: JSON
@@ -86,6 +90,10 @@ struct AWSService {
         // TODO 10 is unspecific number to break
         if level > 10 {
             return .unhandledType
+        }
+        
+        if let isEventstream = json["eventstream"].bool, isEventstream {
+            throw AWSServiceError.eventStreamingCodeGenerationsAreUnsupported
         }
         
         let type: ShapeType
@@ -226,8 +234,16 @@ struct AWSService {
     private func parseShapes() throws -> [Shape] {
         var shapes = [Shape]()
         for (key, json) in apiJSON["shapes"].dictionaryValue {
-            let shape = try Shape(name: key, type: shapeType(from: json))
-            shapes.append(shape)
+            do {
+                let shape = try Shape(name: key, type: shapeType(from: json))
+                shapes.append(shape)
+            } catch AWSServiceError.eventStreamingCodeGenerationsAreUnsupported {
+                // Skip to generate code.
+                // Becase eventstream is outside the scope of existing code generation rules.
+                // It should be implemented manually.
+            } catch {
+                throw error
+            }
         }
         return shapes
     }

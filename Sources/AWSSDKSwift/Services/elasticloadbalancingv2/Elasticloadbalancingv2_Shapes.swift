@@ -21,6 +21,13 @@ extension Elasticloadbalancingv2 {
         }
     }
 
+    public enum AuthenticateOidcActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable {
+        case deny = "deny"
+        case allow = "allow"
+        case authenticate = "authenticate"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ModifyTargetGroupAttributesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attributes", required: false, type: .list)
@@ -75,22 +82,47 @@ extension Elasticloadbalancingv2 {
 
     public struct Action: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RedirectConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "TargetGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "AuthenticateOidcConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "AuthenticateCognitoConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "TargetGroupArn", required: true, type: .string)
+            AWSShapeMember(label: "Order", required: false, type: .integer), 
+            AWSShapeMember(label: "FixedResponseConfig", required: false, type: .structure)
         ]
-        /// The type of action.
+        /// [Application Load Balancer] Information for creating a redirect action. Specify only when Type is redirect.
+        public let redirectConfig: RedirectActionConfig?
+        /// The Amazon Resource Name (ARN) of the target group. Specify only when Type is forward.
+        public let targetGroupArn: String?
+        /// [HTTPS listener] Information about an identity provider that is compliant with OpenID Connect (OIDC). Specify only when Type is authenticate-oidc.
+        public let authenticateOidcConfig: AuthenticateOidcActionConfig?
+        /// [HTTPS listener] Information for using Amazon Cognito to authenticate users. Specify only when Type is authenticate-cognito.
+        public let authenticateCognitoConfig: AuthenticateCognitoActionConfig?
+        /// The type of action. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect.
         public let `type`: ActionTypeEnum
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
+        /// The order for the action. This value is required for rules with multiple actions. The action with the lowest value for order is performed first. The final action to be performed must be a forward or a fixed-response action.
+        public let order: Int32?
+        /// [Application Load Balancer] Information for creating an action that returns a custom HTTP response. Specify only when Type is fixed-response.
+        public let fixedResponseConfig: FixedResponseActionConfig?
 
-        public init(type: ActionTypeEnum, targetGroupArn: String) {
-            self.`type` = `type`
+        public init(redirectConfig: RedirectActionConfig? = nil, targetGroupArn: String? = nil, authenticateOidcConfig: AuthenticateOidcActionConfig? = nil, authenticateCognitoConfig: AuthenticateCognitoActionConfig? = nil, type: ActionTypeEnum, order: Int32? = nil, fixedResponseConfig: FixedResponseActionConfig? = nil) {
+            self.redirectConfig = redirectConfig
             self.targetGroupArn = targetGroupArn
+            self.authenticateOidcConfig = authenticateOidcConfig
+            self.authenticateCognitoConfig = authenticateCognitoConfig
+            self.`type` = `type`
+            self.order = order
+            self.fixedResponseConfig = fixedResponseConfig
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case redirectConfig = "RedirectConfig"
             case targetGroupArn = "TargetGroupArn"
+            case authenticateOidcConfig = "AuthenticateOidcConfig"
+            case authenticateCognitoConfig = "AuthenticateCognitoConfig"
+            case `type` = "Type"
+            case order = "Order"
+            case fixedResponseConfig = "FixedResponseConfig"
         }
     }
 
@@ -190,9 +222,9 @@ extension Elasticloadbalancingv2 {
         public let `protocol`: ProtocolEnum
         /// [HTTPS listeners] The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
         public let sslPolicy: String?
-        /// [HTTPS listeners] The SSL server certificate. You must provide exactly one certificate.
+        /// [HTTPS listeners] The default SSL server certificate. You must provide exactly one default certificate. To create a certificate list, use AddListenerCertificates.
         public let certificates: [Certificate]?
-        /// The default action for the listener. For Application Load Balancers, the protocol of the specified target group must be HTTP or HTTPS. For Network Load Balancers, the protocol of the specified target group must be TCP.
+        /// The actions for the default rule. The rule must include one forward action or one or more fixed-response actions. If the action type is forward, you can specify a single target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer or TCP for a Network Load Balancer. [HTTPS listener] If the action type is authenticate-oidc, you can use an identity provider that is OpenID Connect (OIDC) compliant to authenticate users as they access your application. [HTTPS listener] If the action type is authenticate-cognito, you can use Amazon Cognito to authenticate users as they access your application. [Application Load Balancer] If the action type is redirect, you can redirect HTTP and HTTPS requests. [Application Load Balancer] If the action type is fixed-response, you can return a custom HTTP response.
         public let defaultActions: [Action]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
@@ -553,7 +585,7 @@ extension Elasticloadbalancingv2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Rules", required: false, type: .list)
         ]
-        /// Information about the rule.
+        /// Information about the modified rule.
         public let rules: [Rule]?
 
         public init(rules: [Rule]? = nil) {
@@ -661,7 +693,7 @@ extension Elasticloadbalancingv2 {
         public let dNSName: String?
         /// The name of the load balancer.
         public let loadBalancerName: String?
-        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the Internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can only route requests from clients with access to the VPC for the load balancer.
+        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can only route requests from clients with access to the VPC for the load balancer.
         public let scheme: LoadBalancerSchemeEnum?
         /// The type of load balancer.
         public let `type`: LoadBalancerTypeEnum?
@@ -699,19 +731,24 @@ extension Elasticloadbalancingv2 {
         }
     }
 
-    public struct SetSecurityGroupsOutput: AWSShape {
+    public struct DescribeTargetGroupsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list)
+            AWSShapeMember(label: "TargetGroups", required: false, type: .list), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
-        /// The IDs of the security groups associated with the load balancer.
-        public let securityGroupIds: [String]?
+        /// Information about the target groups.
+        public let targetGroups: [TargetGroup]?
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let nextMarker: String?
 
-        public init(securityGroupIds: [String]? = nil) {
-            self.securityGroupIds = securityGroupIds
+        public init(targetGroups: [TargetGroup]? = nil, nextMarker: String? = nil) {
+            self.targetGroups = targetGroups
+            self.nextMarker = nextMarker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityGroupIds = "SecurityGroupIds"
+            case targetGroups = "TargetGroups"
+            case nextMarker = "NextMarker"
         }
     }
 
@@ -751,24 +788,19 @@ extension Elasticloadbalancingv2 {
         }
     }
 
-    public struct DescribeTargetGroupsOutput: AWSShape {
+    public struct SetSecurityGroupsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetGroups", required: false, type: .list), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string)
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list)
         ]
-        /// Information about the target groups.
-        public let targetGroups: [TargetGroup]?
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let nextMarker: String?
+        /// The IDs of the security groups associated with the load balancer.
+        public let securityGroupIds: [String]?
 
-        public init(targetGroups: [TargetGroup]? = nil, nextMarker: String? = nil) {
-            self.targetGroups = targetGroups
-            self.nextMarker = nextMarker
+        public init(securityGroupIds: [String]? = nil) {
+            self.securityGroupIds = securityGroupIds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetGroups = "TargetGroups"
-            case nextMarker = "NextMarker"
+            case securityGroupIds = "SecurityGroupIds"
         }
     }
 
@@ -779,11 +811,11 @@ extension Elasticloadbalancingv2 {
             AWSShapeMember(label: "Conditions", required: true, type: .list), 
             AWSShapeMember(label: "ListenerArn", required: true, type: .string)
         ]
-        /// The priority for the rule. A listener can't have multiple rules with the same priority.
+        /// The rule priority. A listener can't have multiple rules with the same priority.
         public let priority: Int32
-        /// An action. Each action has the type forward and specifies a target group.
+        /// The actions. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect. If the action type is forward, you can specify a single target group. [HTTPS listener] If the action type is authenticate-oidc, you can use an identity provider that is OpenID Connect (OIDC) compliant to authenticate users as they access your application. [HTTPS listener] If the action type is authenticate-cognito, you can use Amazon Cognito to authenticate users as they access your application. [Application Load Balancer] If the action type is redirect, you can redirect HTTP and HTTPS requests. [Application Load Balancer] If the action type is fixed-response, you can return a custom HTTP response.
         public let actions: [Action]
-        /// The conditions. Each condition specifies a field name and a single value. If the field name is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If the field name is path-pattern, you can specify a single path pattern. A path pattern is case sensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
+        /// The conditions. Each condition specifies a field name and a single value. If the field name is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If the field name is path-pattern, you can specify a single path pattern. A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
         public let conditions: [RuleCondition]
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
@@ -805,18 +837,18 @@ extension Elasticloadbalancingv2 {
 
     public struct SetSubnetsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subnets", required: true, type: .list), 
+            AWSShapeMember(label: "Subnets", required: false, type: .list), 
             AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
             AWSShapeMember(label: "SubnetMappings", required: false, type: .list)
         ]
-        /// The IDs of the subnets. You must specify subnets from at least two Availability Zones. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings.
-        public let subnets: [String]
+        /// The IDs of the public subnets. You must specify subnets from at least two Availability Zones. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings.
+        public let subnets: [String]?
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
-        /// The IDs of the subnets. You must specify subnets from at least two Availability Zones. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. You cannot specify Elastic IP addresses for your subnets.
+        /// The IDs of the public subnets. You must specify subnets from at least two Availability Zones. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. You cannot specify Elastic IP addresses for your subnets.
         public let subnetMappings: [SubnetMapping]?
 
-        public init(subnets: [String], loadBalancerArn: String, subnetMappings: [SubnetMapping]? = nil) {
+        public init(subnets: [String]? = nil, loadBalancerArn: String, subnetMappings: [SubnetMapping]? = nil) {
             self.subnets = subnets
             self.loadBalancerArn = loadBalancerArn
             self.subnetMappings = subnetMappings
@@ -861,7 +893,7 @@ extension Elasticloadbalancingv2 {
         ]
         /// The value of the attribute.
         public let value: String?
-        /// The name of the attribute.    deregistration_delay.timeout_seconds - The amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds.    proxy_protocol_v2.enabled - [Network Load Balancers] Indicates whether Proxy Protocol version 2 is enabled.    stickiness.enabled - [Application Load Balancers] Indicates whether sticky sessions are enabled. The value is true or false.    stickiness.type - [Application Load Balancers] The type of sticky sessions. The possible value is lb_cookie.    stickiness.lb_cookie.duration_seconds - [Application Load Balancers] The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).  
+        /// The name of the attribute. The following attributes are supported by both Application Load Balancers and Network Load Balancers:    deregistration_delay.timeout_seconds - The amount of time, in seconds, for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds.   The following attributes are supported by only Application Load Balancers:    slow_start.duration_seconds - The time period, in seconds, during which a newly registered target receives a linearly increasing share of the traffic to the target group. After this time period ends, the target receives its full share of traffic. The range is 30-900 seconds (15 minutes). Slow start mode is disabled by default.    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false. The default is false.    stickiness.type - The type of sticky sessions. The possible value is lb_cookie.    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).   The following attributes are supported by only Network Load Balancers:    proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.  
         public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
@@ -872,6 +904,32 @@ extension Elasticloadbalancingv2 {
         private enum CodingKeys: String, CodingKey {
             case value = "Value"
             case key = "Key"
+        }
+    }
+
+    public struct FixedResponseActionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StatusCode", required: true, type: .string), 
+            AWSShapeMember(label: "MessageBody", required: false, type: .string), 
+            AWSShapeMember(label: "ContentType", required: false, type: .string)
+        ]
+        /// The HTTP response code (2XX, 4XX, or 5XX).
+        public let statusCode: String
+        /// The message.
+        public let messageBody: String?
+        /// The content type. Valid Values: text/plain | text/css | text/html | application/javascript | application/json
+        public let contentType: String?
+
+        public init(statusCode: String, messageBody: String? = nil, contentType: String? = nil) {
+            self.statusCode = statusCode
+            self.messageBody = messageBody
+            self.contentType = contentType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusCode = "StatusCode"
+            case messageBody = "MessageBody"
+            case contentType = "ContentType"
         }
     }
 
@@ -985,9 +1043,9 @@ extension Elasticloadbalancingv2 {
             AWSShapeMember(label: "Conditions", required: false, type: .list), 
             AWSShapeMember(label: "RuleArn", required: true, type: .string)
         ]
-        /// The actions. The target group must use the HTTP or HTTPS protocol.
+        /// The actions. If the action type is forward, you can specify a single target group. If the action type is authenticate-oidc, you can use an identity provider that is OpenID Connect (OIDC) compliant to authenticate users as they access your application. If the action type is authenticate-cognito, you can use Amazon Cognito to authenticate users as they access your application.
         public let actions: [Action]?
-        /// The conditions.
+        /// The conditions. Each condition specifies a field name and a single value. If the field name is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If the field name is path-pattern, you can specify a single path pattern. A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
         public let conditions: [RuleCondition]?
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String
@@ -1033,6 +1091,10 @@ extension Elasticloadbalancingv2 {
 
     public enum ActionTypeEnum: String, CustomStringConvertible, Codable {
         case forward = "forward"
+        case authenticateOidc = "authenticate-oidc"
+        case authenticateCognito = "authenticate-cognito"
+        case redirect = "redirect"
+        case fixedResponse = "fixed-response"
         public var description: String { return self.rawValue }
     }
 
@@ -1088,22 +1150,6 @@ extension Elasticloadbalancingv2 {
         }
     }
 
-    public struct ModifyListenerOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Listeners", required: false, type: .list)
-        ]
-        /// Information about the modified listeners.
-        public let listeners: [Listener]?
-
-        public init(listeners: [Listener]? = nil) {
-            self.listeners = listeners
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case listeners = "Listeners"
-        }
-    }
-
     public struct SetSubnetsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list)
@@ -1118,6 +1164,77 @@ extension Elasticloadbalancingv2 {
         private enum CodingKeys: String, CodingKey {
             case availabilityZones = "AvailabilityZones"
         }
+    }
+
+    public struct ModifyListenerOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Listeners", required: false, type: .list)
+        ]
+        /// Information about the modified listener.
+        public let listeners: [Listener]?
+
+        public init(listeners: [Listener]? = nil) {
+            self.listeners = listeners
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listeners = "Listeners"
+        }
+    }
+
+    public struct AuthenticateCognitoActionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OnUnauthenticatedRequest", required: false, type: .enum), 
+            AWSShapeMember(label: "SessionTimeout", required: false, type: .long), 
+            AWSShapeMember(label: "UserPoolArn", required: true, type: .string), 
+            AWSShapeMember(label: "SessionCookieName", required: false, type: .string), 
+            AWSShapeMember(label: "AuthenticationRequestExtraParams", required: false, type: .map), 
+            AWSShapeMember(label: "Scope", required: false, type: .string), 
+            AWSShapeMember(label: "UserPoolClientId", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolDomain", required: true, type: .string)
+        ]
+        /// The behavior if the user is not authenticated. The following are possible values:   deny - Return an HTTP 401 Unauthorized error.   allow - Allow the request to be forwarded to the target.   authenticate - Redirect the request to the IdP authorization endpoint. This is the default value.  
+        public let onUnauthenticatedRequest: AuthenticateCognitoActionConditionalBehaviorEnum?
+        /// The maximum duration of the authentication session, in seconds. The default is 604800 seconds (7 days).
+        public let sessionTimeout: Int64?
+        /// The Amazon Resource Name (ARN) of the Amazon Cognito user pool.
+        public let userPoolArn: String
+        /// The name of the cookie used to maintain session information. The default is AWSELBAuthSessionCookie.
+        public let sessionCookieName: String?
+        /// The query parameters (up to 10) to include in the redirect request to the authorization endpoint.
+        public let authenticationRequestExtraParams: [String: String]?
+        /// The set of user claims to be requested from the IdP. The default is openid. To verify which scope values your IdP supports and how to separate multiple values, see the documentation for your IdP.
+        public let scope: String?
+        /// The ID of the Amazon Cognito user pool client.
+        public let userPoolClientId: String
+        /// The domain prefix or fully-qualified domain name of the Amazon Cognito user pool.
+        public let userPoolDomain: String
+
+        public init(onUnauthenticatedRequest: AuthenticateCognitoActionConditionalBehaviorEnum? = nil, sessionTimeout: Int64? = nil, userPoolArn: String, sessionCookieName: String? = nil, authenticationRequestExtraParams: [String: String]? = nil, scope: String? = nil, userPoolClientId: String, userPoolDomain: String) {
+            self.onUnauthenticatedRequest = onUnauthenticatedRequest
+            self.sessionTimeout = sessionTimeout
+            self.userPoolArn = userPoolArn
+            self.sessionCookieName = sessionCookieName
+            self.authenticationRequestExtraParams = authenticationRequestExtraParams
+            self.scope = scope
+            self.userPoolClientId = userPoolClientId
+            self.userPoolDomain = userPoolDomain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case onUnauthenticatedRequest = "OnUnauthenticatedRequest"
+            case sessionTimeout = "SessionTimeout"
+            case userPoolArn = "UserPoolArn"
+            case sessionCookieName = "SessionCookieName"
+            case authenticationRequestExtraParams = "AuthenticationRequestExtraParams"
+            case scope = "Scope"
+            case userPoolClientId = "UserPoolClientId"
+            case userPoolDomain = "UserPoolDomain"
+        }
+    }
+
+    public struct DeleteTargetGroupOutput: AWSShape {
+
     }
 
     public struct DescribeAccountLimitsOutput: AWSShape {
@@ -1141,15 +1258,11 @@ extension Elasticloadbalancingv2 {
         }
     }
 
-    public struct DeleteTargetGroupOutput: AWSShape {
-
-    }
-
     public struct ModifyTargetGroupOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetGroups", required: false, type: .list)
         ]
-        /// Information about the target group.
+        /// Information about the modified target group.
         public let targetGroups: [TargetGroup]?
 
         public init(targetGroups: [TargetGroup]? = nil) {
@@ -1214,8 +1327,70 @@ extension Elasticloadbalancingv2 {
         }
     }
 
-    public struct DeleteLoadBalancerOutput: AWSShape {
+    public struct AuthenticateOidcActionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OnUnauthenticatedRequest", required: false, type: .enum), 
+            AWSShapeMember(label: "SessionTimeout", required: false, type: .long), 
+            AWSShapeMember(label: "UserInfoEndpoint", required: true, type: .string), 
+            AWSShapeMember(label: "AuthorizationEndpoint", required: true, type: .string), 
+            AWSShapeMember(label: "ClientId", required: true, type: .string), 
+            AWSShapeMember(label: "ClientSecret", required: true, type: .string), 
+            AWSShapeMember(label: "SessionCookieName", required: false, type: .string), 
+            AWSShapeMember(label: "AuthenticationRequestExtraParams", required: false, type: .map), 
+            AWSShapeMember(label: "TokenEndpoint", required: true, type: .string), 
+            AWSShapeMember(label: "Scope", required: false, type: .string), 
+            AWSShapeMember(label: "Issuer", required: true, type: .string)
+        ]
+        /// The behavior if the user is not authenticated. The following are possible values:   deny - Return an HTTP 401 Unauthorized error.   allow - Allow the request to be forwarded to the target.   authenticate - Redirect the request to the IdP authorization endpoint. This is the default value.  
+        public let onUnauthenticatedRequest: AuthenticateOidcActionConditionalBehaviorEnum?
+        /// The maximum duration of the authentication session, in seconds. The default is 604800 seconds (7 days).
+        public let sessionTimeout: Int64?
+        /// The user info endpoint of the IdP. This must be a full URL, including the HTTPS protocol, the domain, and the path.
+        public let userInfoEndpoint: String
+        /// The authorization endpoint of the IdP. This must be a full URL, including the HTTPS protocol, the domain, and the path.
+        public let authorizationEndpoint: String
+        /// The OAuth 2.0 client identifier.
+        public let clientId: String
+        /// The OAuth 2.0 client secret.
+        public let clientSecret: String
+        /// The name of the cookie used to maintain session information. The default is AWSELBAuthSessionCookie.
+        public let sessionCookieName: String?
+        /// The query parameters (up to 10) to include in the redirect request to the authorization endpoint.
+        public let authenticationRequestExtraParams: [String: String]?
+        /// The token endpoint of the IdP. This must be a full URL, including the HTTPS protocol, the domain, and the path.
+        public let tokenEndpoint: String
+        /// The set of user claims to be requested from the IdP. The default is openid. To verify which scope values your IdP supports and how to separate multiple values, see the documentation for your IdP.
+        public let scope: String?
+        /// The OIDC issuer identifier of the IdP. This must be a full URL, including the HTTPS protocol, the domain, and the path.
+        public let issuer: String
 
+        public init(onUnauthenticatedRequest: AuthenticateOidcActionConditionalBehaviorEnum? = nil, sessionTimeout: Int64? = nil, userInfoEndpoint: String, authorizationEndpoint: String, clientId: String, clientSecret: String, sessionCookieName: String? = nil, authenticationRequestExtraParams: [String: String]? = nil, tokenEndpoint: String, scope: String? = nil, issuer: String) {
+            self.onUnauthenticatedRequest = onUnauthenticatedRequest
+            self.sessionTimeout = sessionTimeout
+            self.userInfoEndpoint = userInfoEndpoint
+            self.authorizationEndpoint = authorizationEndpoint
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.sessionCookieName = sessionCookieName
+            self.authenticationRequestExtraParams = authenticationRequestExtraParams
+            self.tokenEndpoint = tokenEndpoint
+            self.scope = scope
+            self.issuer = issuer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case onUnauthenticatedRequest = "OnUnauthenticatedRequest"
+            case sessionTimeout = "SessionTimeout"
+            case userInfoEndpoint = "UserInfoEndpoint"
+            case authorizationEndpoint = "AuthorizationEndpoint"
+            case clientId = "ClientId"
+            case clientSecret = "ClientSecret"
+            case sessionCookieName = "SessionCookieName"
+            case authenticationRequestExtraParams = "AuthenticationRequestExtraParams"
+            case tokenEndpoint = "TokenEndpoint"
+            case scope = "Scope"
+            case issuer = "Issuer"
+        }
     }
 
     public struct AddListenerCertificatesInput: AWSShape {
@@ -1237,6 +1412,10 @@ extension Elasticloadbalancingv2 {
             case listenerArn = "ListenerArn"
             case certificates = "Certificates"
         }
+    }
+
+    public struct DeleteLoadBalancerOutput: AWSShape {
+
     }
 
     public struct ModifyTargetGroupAttributesInput: AWSShape {
@@ -1267,7 +1446,7 @@ extension Elasticloadbalancingv2 {
         ]
         /// The name of the field. The possible values are host-header and path-pattern.
         public let field: String?
-        /// The condition value. If the field name is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If the field name is path-pattern, you can specify a single path pattern (for example, /img/*). A path pattern is case sensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
+        /// The condition value. If the field name is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If the field name is path-pattern, you can specify a single path pattern (for example, /img/*). A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
         public let values: [String]?
 
         public init(field: String? = nil, values: [String]? = nil) {
@@ -1327,62 +1506,6 @@ extension Elasticloadbalancingv2 {
         }
     }
 
-    public struct ModifyTargetGroupInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
-            AWSShapeMember(label: "HealthyThresholdCount", required: false, type: .integer), 
-            AWSShapeMember(label: "TargetGroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "Matcher", required: false, type: .structure), 
-            AWSShapeMember(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckTimeoutSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckPort", required: false, type: .string), 
-            AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
-            AWSShapeMember(label: "UnhealthyThresholdCount", required: false, type: .integer)
-        ]
-        /// The protocol the load balancer uses when performing health checks on targets. The TCP protocol is supported only if the protocol of the target group is TCP.
-        public let healthCheckProtocol: ProtocolEnum?
-        /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
-        public let healthyThresholdCount: Int32?
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
-        /// [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response from a target.
-        public let matcher: Matcher?
-        /// The approximate amount of time, in seconds, between health checks of an individual target. For Application Load Balancers, the range is 5 to 300 seconds. For Network Load Balancers, the supported values are 10 or 30 seconds.
-        public let healthCheckIntervalSeconds: Int32?
-        /// [HTTP/HTTPS health checks] The amount of time, in seconds, during which no response means a failed health check.
-        public let healthCheckTimeoutSeconds: Int32?
-        /// The port the load balancer uses when performing health checks on targets.
-        public let healthCheckPort: String?
-        /// [HTTP/HTTPS health checks] The ping path that is the destination for the health check request.
-        public let healthCheckPath: String?
-        /// The number of consecutive health check failures required before considering the target unhealthy. For Network Load Balancers, this value must be the same as the healthy threshold count.
-        public let unhealthyThresholdCount: Int32?
-
-        public init(healthCheckProtocol: ProtocolEnum? = nil, healthyThresholdCount: Int32? = nil, targetGroupArn: String, matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckTimeoutSeconds: Int32? = nil, healthCheckPort: String? = nil, healthCheckPath: String? = nil, unhealthyThresholdCount: Int32? = nil) {
-            self.healthCheckProtocol = healthCheckProtocol
-            self.healthyThresholdCount = healthyThresholdCount
-            self.targetGroupArn = targetGroupArn
-            self.matcher = matcher
-            self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
-            self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
-            self.healthCheckPort = healthCheckPort
-            self.healthCheckPath = healthCheckPath
-            self.unhealthyThresholdCount = unhealthyThresholdCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case healthCheckProtocol = "HealthCheckProtocol"
-            case healthyThresholdCount = "HealthyThresholdCount"
-            case targetGroupArn = "TargetGroupArn"
-            case matcher = "Matcher"
-            case healthCheckIntervalSeconds = "HealthCheckIntervalSeconds"
-            case healthCheckTimeoutSeconds = "HealthCheckTimeoutSeconds"
-            case healthCheckPort = "HealthCheckPort"
-            case healthCheckPath = "HealthCheckPath"
-            case unhealthyThresholdCount = "UnhealthyThresholdCount"
-        }
-    }
-
     public struct CreateLoadBalancerInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
@@ -1394,21 +1517,21 @@ extension Elasticloadbalancingv2 {
             AWSShapeMember(label: "Scheme", required: false, type: .enum), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
-        /// [Application Load Balancers] The IDs of the security groups to assign to the load balancer.
+        /// [Application Load Balancers] The IDs of the security groups for the load balancer.
         public let securityGroups: [String]?
-        /// The name of the load balancer. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
+        /// The name of the load balancer. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, must not begin or end with a hyphen, and must not begin with "internal-".
         public let name: String
         /// [Application Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
         public let ipAddressType: IpAddressType?
         /// One or more tags to assign to the load balancer.
         public let tags: [Tag]?
-        /// The IDs of the subnets to attach to the load balancer. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones.
+        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones.
         public let subnets: [String]?
-        /// The IDs of the subnets to attach to the load balancer. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet.
+        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet.
         public let subnetMappings: [SubnetMapping]?
-        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the Internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can only route requests from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer.
+        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can only route requests from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer.
         public let scheme: LoadBalancerSchemeEnum?
-        /// The type of load balancer to create. The default is application.
+        /// The type of load balancer. The default is application.
         public let `type`: LoadBalancerTypeEnum?
 
         public init(securityGroups: [String]? = nil, name: String, ipAddressType: IpAddressType? = nil, tags: [Tag]? = nil, subnets: [String]? = nil, subnetMappings: [SubnetMapping]? = nil, scheme: LoadBalancerSchemeEnum? = nil, type: LoadBalancerTypeEnum? = nil) {
@@ -1455,6 +1578,62 @@ extension Elasticloadbalancingv2 {
         }
     }
 
+    public struct ModifyTargetGroupInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
+            AWSShapeMember(label: "HealthyThresholdCount", required: false, type: .integer), 
+            AWSShapeMember(label: "TargetGroupArn", required: true, type: .string), 
+            AWSShapeMember(label: "Matcher", required: false, type: .structure), 
+            AWSShapeMember(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "HealthCheckTimeoutSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "HealthCheckPort", required: false, type: .string), 
+            AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
+            AWSShapeMember(label: "UnhealthyThresholdCount", required: false, type: .integer)
+        ]
+        /// The protocol the load balancer uses when performing health checks on targets. The TCP protocol is supported only if the protocol of the target group is TCP.
+        public let healthCheckProtocol: ProtocolEnum?
+        /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
+        public let healthyThresholdCount: Int32?
+        /// The Amazon Resource Name (ARN) of the target group.
+        public let targetGroupArn: String
+        /// [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response from a target.
+        public let matcher: Matcher?
+        /// The approximate amount of time, in seconds, between health checks of an individual target. For Application Load Balancers, the range is 5–300 seconds. For Network Load Balancers, the supported values are 10 or 30 seconds.
+        public let healthCheckIntervalSeconds: Int32?
+        /// [HTTP/HTTPS health checks] The amount of time, in seconds, during which no response means a failed health check.
+        public let healthCheckTimeoutSeconds: Int32?
+        /// The port the load balancer uses when performing health checks on targets.
+        public let healthCheckPort: String?
+        /// [HTTP/HTTPS health checks] The ping path that is the destination for the health check request.
+        public let healthCheckPath: String?
+        /// The number of consecutive health check failures required before considering the target unhealthy. For Network Load Balancers, this value must be the same as the healthy threshold count.
+        public let unhealthyThresholdCount: Int32?
+
+        public init(healthCheckProtocol: ProtocolEnum? = nil, healthyThresholdCount: Int32? = nil, targetGroupArn: String, matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckTimeoutSeconds: Int32? = nil, healthCheckPort: String? = nil, healthCheckPath: String? = nil, unhealthyThresholdCount: Int32? = nil) {
+            self.healthCheckProtocol = healthCheckProtocol
+            self.healthyThresholdCount = healthyThresholdCount
+            self.targetGroupArn = targetGroupArn
+            self.matcher = matcher
+            self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
+            self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
+            self.healthCheckPort = healthCheckPort
+            self.healthCheckPath = healthCheckPath
+            self.unhealthyThresholdCount = unhealthyThresholdCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthCheckProtocol = "HealthCheckProtocol"
+            case healthyThresholdCount = "HealthyThresholdCount"
+            case targetGroupArn = "TargetGroupArn"
+            case matcher = "Matcher"
+            case healthCheckIntervalSeconds = "HealthCheckIntervalSeconds"
+            case healthCheckTimeoutSeconds = "HealthCheckTimeoutSeconds"
+            case healthCheckPort = "HealthCheckPort"
+            case healthCheckPath = "HealthCheckPath"
+            case unhealthyThresholdCount = "UnhealthyThresholdCount"
+        }
+    }
+
     public struct SetSecurityGroupsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecurityGroups", required: true, type: .list), 
@@ -1483,7 +1662,7 @@ extension Elasticloadbalancingv2 {
         ]
         /// The value of the attribute.
         public let value: String?
-        /// The name of the attribute.    access_logs.s3.enabled - [Application Load Balancers] Indicates whether access logs stored in Amazon S3 are enabled. The value is true or false.    access_logs.s3.bucket - [Application Load Balancers] The name of the S3 bucket for the access logs. This attribute is required if access logs in Amazon S3 are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permission to write to the bucket.    access_logs.s3.prefix - [Application Load Balancers] The prefix for the location in the S3 bucket. If you don't specify a prefix, the access logs are stored in the root of the bucket.    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false.    idle_timeout.timeout_seconds - [Application Load Balancers] The idle timeout value, in seconds. The valid range is 1-4000. The default is 60 seconds.  
+        /// The name of the attribute. The following attributes are supported by both Application Load Balancers and Network Load Balancers:    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.   The following attributes are supported by only Application Load Balancers:    access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false. The default is false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs.    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds.    routing.http2.enabled - Indicates whether HTTP/2 is enabled. The value is true or false. The default is true.   The following attributes are supported by only Network Load Balancers:    load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The value is true or false. The default is false.  
         public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
@@ -1728,11 +1907,11 @@ extension Elasticloadbalancingv2 {
         ]
         /// The protocol for connections from clients to the load balancer. Application Load Balancers support HTTP and HTTPS and Network Load Balancers support TCP.
         public let `protocol`: ProtocolEnum?
-        /// The security policy that defines which protocols and ciphers are supported. For more information, see Security Policies in the Application Load Balancers Guide.
+        /// [HTTPS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see Security Policies in the Application Load Balancers Guide.
         public let sslPolicy: String?
-        /// The default SSL server certificate.
+        /// [HTTPS listeners] The default SSL server certificate. You must provide exactly one default certificate. To create a certificate list, use AddListenerCertificates.
         public let certificates: [Certificate]?
-        /// The default action. For Application Load Balancers, the protocol of the specified target group must be HTTP or HTTPS. For Network Load Balancers, the protocol of the specified target group must be TCP.
+        /// The actions for the default rule. The rule must include one forward action or one or more fixed-response actions. If the action type is forward, you can specify a single target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer or TCP for a Network Load Balancer. [HTTPS listener] If the action type is authenticate-oidc, you can use an identity provider that is OpenID Connect (OIDC) compliant to authenticate users as they access your application. [HTTPS listener] If the action type is authenticate-cognito, you can use Amazon Cognito to authenticate users as they access your application. [Application Load Balancer] If the action type is redirect, you can redirect HTTP and HTTPS requests. [Application Load Balancer] If the action type is fixed-response, you can return a custom HTTP response.
         public let defaultActions: [Action]?
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
@@ -1801,11 +1980,17 @@ extension Elasticloadbalancingv2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum RedirectActionStatusCodeEnum: String, CustomStringConvertible, Codable {
+        case http301 = "HTTP_301"
+        case http302 = "HTTP_302"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Matcher: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HttpCode", required: true, type: .string)
         ]
-        /// The HTTP codes. For Application Load Balancers, you can specify values between 200 and 499, and the default value is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers, this is 200 to 399.
+        /// The HTTP codes. For Application Load Balancers, you can specify values between 200 and 499, and the default value is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers, this is 200–399.
         public let httpCode: String
 
         public init(httpCode: String) {
@@ -1840,6 +2025,47 @@ extension Elasticloadbalancingv2 {
             case marker = "Marker"
             case pageSize = "PageSize"
             case names = "Names"
+        }
+    }
+
+    public struct RedirectActionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Port", required: false, type: .string), 
+            AWSShapeMember(label: "StatusCode", required: true, type: .enum), 
+            AWSShapeMember(label: "Host", required: false, type: .string), 
+            AWSShapeMember(label: "Query", required: false, type: .string), 
+            AWSShapeMember(label: "Protocol", required: false, type: .string), 
+            AWSShapeMember(label: "Path", required: false, type: .string)
+        ]
+        /// The port. You can specify a value from 1 to 65535 or #{port}.
+        public let port: String?
+        /// The HTTP redirect code. The redirect is either permanent (HTTP 301) or temporary (HTTP 302).
+        public let statusCode: RedirectActionStatusCodeEnum
+        /// The hostname. This component is not percent-encoded. The hostname can contain #{host}.
+        public let host: String?
+        /// The query parameters, URL-encoded when necessary, but not percent-encoded. Do not include the leading "?", as it is automatically added. You can specify any of the reserved keywords.
+        public let query: String?
+        /// The protocol. You can specify HTTP, HTTPS, or #{protocol}. You can redirect HTTP to HTTP, HTTP to HTTPS, and HTTPS to HTTPS. You cannot redirect HTTPS to HTTP.
+        public let `protocol`: String?
+        /// The absolute path, starting with the leading "/". This component is not percent-encoded. The path can contain #{host}, #{path}, and #{port}.
+        public let path: String?
+
+        public init(port: String? = nil, statusCode: RedirectActionStatusCodeEnum, host: String? = nil, query: String? = nil, protocol: String? = nil, path: String? = nil) {
+            self.port = port
+            self.statusCode = statusCode
+            self.host = host
+            self.query = query
+            self.`protocol` = `protocol`
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case port = "Port"
+            case statusCode = "StatusCode"
+            case host = "Host"
+            case query = "Query"
+            case `protocol` = "Protocol"
+            case path = "Path"
         }
     }
 
@@ -1938,6 +2164,29 @@ extension Elasticloadbalancingv2 {
 
     }
 
+    public struct DescribeTargetHealthOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetHealthDescriptions", required: false, type: .list)
+        ]
+        /// Information about the health of the targets.
+        public let targetHealthDescriptions: [TargetHealthDescription]?
+
+        public init(targetHealthDescriptions: [TargetHealthDescription]? = nil) {
+            self.targetHealthDescriptions = targetHealthDescriptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetHealthDescriptions = "TargetHealthDescriptions"
+        }
+    }
+
+    public enum AuthenticateCognitoActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable {
+        case deny = "deny"
+        case allow = "allow"
+        case authenticate = "authenticate"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AddTagsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArns", required: true, type: .list), 
@@ -1959,43 +2208,6 @@ extension Elasticloadbalancingv2 {
         }
     }
 
-    public struct DescribeTargetHealthOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetHealthDescriptions", required: false, type: .list)
-        ]
-        /// Information about the health of the targets.
-        public let targetHealthDescriptions: [TargetHealthDescription]?
-
-        public init(targetHealthDescriptions: [TargetHealthDescription]? = nil) {
-            self.targetHealthDescriptions = targetHealthDescriptions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetHealthDescriptions = "TargetHealthDescriptions"
-        }
-    }
-
-    public struct SetIpAddressTypeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
-            AWSShapeMember(label: "IpAddressType", required: true, type: .enum)
-        ]
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String
-        /// The IP address type. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
-        public let ipAddressType: IpAddressType
-
-        public init(loadBalancerArn: String, ipAddressType: IpAddressType) {
-            self.loadBalancerArn = loadBalancerArn
-            self.ipAddressType = ipAddressType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBalancerArn = "LoadBalancerArn"
-            case ipAddressType = "IpAddressType"
-        }
-    }
-
     public struct CreateTargetGroupInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Matcher", required: false, type: .structure), 
@@ -2014,9 +2226,9 @@ extension Elasticloadbalancingv2 {
         ]
         /// [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response from a target.
         public let matcher: Matcher?
-        /// The approximate amount of time, in seconds, between health checks of an individual target. For Application Load Balancers, the range is 5 to 300 seconds. For Network Load Balancers, the supported values are 10 or 30 seconds. The default is 30 seconds.
+        /// The approximate amount of time, in seconds, between health checks of an individual target. For Application Load Balancers, the range is 5–300 seconds. For Network Load Balancers, the supported values are 10 or 30 seconds. The default is 30 seconds.
         public let healthCheckIntervalSeconds: Int32?
-        /// The amount of time, in seconds, during which no response from a target means a failed health check. For Application Load Balancers, the range is 2 to 60 seconds and the default is 5 seconds. For Network Load Balancers, this is 10 seconds for TCP and HTTPS health checks and 6 seconds for HTTP health checks.
+        /// The amount of time, in seconds, during which no response from a target means a failed health check. For Application Load Balancers, the range is 2–60 seconds and the default is 5 seconds. For Network Load Balancers, this is 10 seconds for TCP and HTTPS health checks and 6 seconds for HTTP health checks.
         public let healthCheckTimeoutSeconds: Int32?
         /// The number of consecutive health check failures required before considering a target unhealthy. For Application Load Balancers, the default is 2. For Network Load Balancers, this value must be the same as the healthy threshold count.
         public let unhealthyThresholdCount: Int32?
@@ -2030,7 +2242,7 @@ extension Elasticloadbalancingv2 {
         public let `protocol`: ProtocolEnum
         /// The identifier of the virtual private cloud (VPC).
         public let vpcId: String
-        /// The type of target that you must specify when registering targets with this target group. The possible values are instance (targets are specified by instance ID) or ip (targets are specified by IP address). The default is instance. Note that you can't specify targets for a target group using both instance IDs and IP addresses. If the target type is ip, specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.
+        /// The type of target that you must specify when registering targets with this target group. The possible values are instance (targets are specified by instance ID) or ip (targets are specified by IP address). The default is instance. You can't specify targets for a target group using both instance IDs and IP addresses. If the target type is ip, specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.
         public let targetType: TargetTypeEnum?
         /// [HTTP/HTTPS health checks] The ping path that is the destination on the targets for health checks. The default is /.
         public let healthCheckPath: String?
@@ -2069,6 +2281,27 @@ extension Elasticloadbalancingv2 {
             case healthCheckPath = "HealthCheckPath"
             case healthCheckPort = "HealthCheckPort"
             case port = "Port"
+        }
+    }
+
+    public struct SetIpAddressTypeInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
+            AWSShapeMember(label: "IpAddressType", required: true, type: .enum)
+        ]
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String
+        /// The IP address type. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
+        public let ipAddressType: IpAddressType
+
+        public init(loadBalancerArn: String, ipAddressType: IpAddressType) {
+            self.loadBalancerArn = loadBalancerArn
+            self.ipAddressType = ipAddressType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerArn = "LoadBalancerArn"
+            case ipAddressType = "IpAddressType"
         }
     }
 

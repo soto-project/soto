@@ -17,14 +17,14 @@ public struct Clouddirectory {
             region: region,
             service: "clouddirectory",
             serviceProtocol: ServiceProtocol(type: .restjson),
-            apiVersion: "2016-05-10",
+            apiVersion: "2017-01-11",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [ClouddirectoryError.self]
         )
     }
 
-    ///  Publishes a development schema with a version. If description and attributes are specified, PublishSchema overrides the development schema description and attributes. If not, the development schema description and attributes are used.
+    ///  Publishes a development schema with a major version and a recommended minor version.
     public func publishSchema(_ input: PublishSchemaRequest) throws -> PublishSchemaResponse {
         return try client.send(operation: "PublishSchema", path: "/amazonclouddirectory/2017-01-11/schema/publish", httpMethod: "PUT", input: input)
     }
@@ -44,7 +44,7 @@ public struct Clouddirectory {
         return try client.send(operation: "AttachObject", path: "/amazonclouddirectory/2017-01-11/object/attach", httpMethod: "PUT", input: input)
     }
 
-    ///  Copies the input published schema into the Directory with the same name and version as that of the published schema .
+    ///  Copies the input published schema, at the specified version, into the Directory with the same name and version as that of the published schema.
     public func applySchema(_ input: ApplySchemaRequest) throws -> ApplySchemaResponse {
         return try client.send(operation: "ApplySchema", path: "/amazonclouddirectory/2017-01-11/schema/apply", httpMethod: "PUT", input: input)
     }
@@ -62,6 +62,11 @@ public struct Clouddirectory {
     ///  Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see Directory Structure. Use this API to evaluate all parents for an object. The call returns all objects from the root of the directory up to the requested object. The API returns the number of paths based on user-defined MaxResults, in case there are multiple paths to the parent. The order of the paths and nodes returned is consistent among multiple API calls unless the objects are deleted or moved. Paths not leading to the directory root are ignored from the target object.
     public func listObjectParentPaths(_ input: ListObjectParentPathsRequest) throws -> ListObjectParentPathsResponse {
         return try client.send(operation: "ListObjectParentPaths", path: "/amazonclouddirectory/2017-01-11/object/parentpaths", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns current applied schema version ARN, including the minor version in use.
+    public func getAppliedSchemaVersion(_ input: GetAppliedSchemaVersionRequest) throws -> GetAppliedSchemaVersionResponse {
+        return try client.send(operation: "GetAppliedSchemaVersion", path: "/amazonclouddirectory/2017-01-11/schema/getappliedschema", httpMethod: "POST", input: input)
     }
 
     ///  Returns tags for a resource. Tagging is currently supported only for directories with a limit of 50 tags per directory. All 50 tags are returned for a given directory with this API call.
@@ -84,7 +89,7 @@ public struct Clouddirectory {
         return try client.send(operation: "ListDevelopmentSchemaArns", path: "/amazonclouddirectory/2017-01-11/schema/development", httpMethod: "POST", input: input)
     }
 
-    ///  Lists indices attached to an object.
+    ///  Lists indices attached to the specified object.
     public func listAttachedIndices(_ input: ListAttachedIndicesRequest) throws -> ListAttachedIndicesResponse {
         return try client.send(operation: "ListAttachedIndices", path: "/amazonclouddirectory/2017-01-11/object/indices", httpMethod: "POST", input: input)
     }
@@ -109,7 +114,7 @@ public struct Clouddirectory {
         return try client.send(operation: "BatchRead", path: "/amazonclouddirectory/2017-01-11/batchread", httpMethod: "POST", input: input)
     }
 
-    ///  Adds a new Facet to an object.
+    ///  Adds a new Facet to an object. An object can have more than one facet applied on it.
     public func addFacetToObject(_ input: AddFacetToObjectRequest) throws -> AddFacetToObjectResponse {
         return try client.send(operation: "AddFacetToObject", path: "/amazonclouddirectory/2017-01-11/object/facets", httpMethod: "PUT", input: input)
     }
@@ -129,7 +134,7 @@ public struct Clouddirectory {
         return try client.send(operation: "DetachObject", path: "/amazonclouddirectory/2017-01-11/object/detach", httpMethod: "PUT", input: input)
     }
 
-    ///  Retrieves each published schema Amazon Resource Name (ARN).
+    ///  Lists the major version families of each published schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
     public func listPublishedSchemaArns(_ input: ListPublishedSchemaArnsRequest) throws -> ListPublishedSchemaArnsResponse {
         return try client.send(operation: "ListPublishedSchemaArns", path: "/amazonclouddirectory/2017-01-11/schema/published", httpMethod: "POST", input: input)
     }
@@ -144,6 +149,11 @@ public struct Clouddirectory {
         return try client.send(operation: "DisableDirectory", path: "/amazonclouddirectory/2017-01-11/directory/disable", httpMethod: "PUT", input: input)
     }
 
+    ///  Updates a given typed link’s attributes. Attributes to be updated must not contribute to the typed link’s identity, as defined by its IdentityAttributeOrder.
+    public func updateLinkAttributes(_ input: UpdateLinkAttributesRequest) throws -> UpdateLinkAttributesResponse {
+        return try client.send(operation: "UpdateLinkAttributes", path: "/amazonclouddirectory/2017-01-11/typedlink/attributes/update", httpMethod: "POST", input: input)
+    }
+
     ///  Updates a given object's attributes.
     public func updateObjectAttributes(_ input: UpdateObjectAttributesRequest) throws -> UpdateObjectAttributesResponse {
         return try client.send(operation: "UpdateObjectAttributes", path: "/amazonclouddirectory/2017-01-11/object/update", httpMethod: "PUT", input: input)
@@ -152,6 +162,16 @@ public struct Clouddirectory {
     ///  Deletes a given schema. Schemas in a development and published state can only be deleted. 
     public func deleteSchema(_ input: DeleteSchemaRequest) throws -> DeleteSchemaResponse {
         return try client.send(operation: "DeleteSchema", path: "/amazonclouddirectory/2017-01-11/schema", httpMethod: "PUT", input: input)
+    }
+
+    ///  Lists the major version families of each managed schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
+    public func listManagedSchemaArns(_ input: ListManagedSchemaArnsRequest) throws -> ListManagedSchemaArnsResponse {
+        return try client.send(operation: "ListManagedSchemaArns", path: "/amazonclouddirectory/2017-01-11/schema/managed", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves attributes within a facet that are associated with an object.
+    public func getObjectAttributes(_ input: GetObjectAttributesRequest) throws -> GetObjectAttributesResponse {
+        return try client.send(operation: "GetObjectAttributes", path: "/amazonclouddirectory/2017-01-11/object/attributes/get", httpMethod: "POST", input: input)
     }
 
     ///  An API operation for adding tags to a resource.
@@ -189,6 +209,16 @@ public struct Clouddirectory {
         return try client.send(operation: "ListTypedLinkFacetNames", path: "/amazonclouddirectory/2017-01-11/typedlink/facet/list", httpMethod: "POST", input: input)
     }
 
+    ///  Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found in MinorVersion. Backwards-compatible minor version upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple directories from one schema, you would need to call this API on each directory.
+    public func upgradeAppliedSchema(_ input: UpgradeAppliedSchemaRequest) throws -> UpgradeAppliedSchemaResponse {
+        return try client.send(operation: "UpgradeAppliedSchema", path: "/amazonclouddirectory/2017-01-11/schema/upgradeapplied", httpMethod: "PUT", input: input)
+    }
+
+    ///  Upgrades a published schema under a new minor version revision using the current contents of DevelopmentSchemaArn.
+    public func upgradePublishedSchema(_ input: UpgradePublishedSchemaRequest) throws -> UpgradePublishedSchemaResponse {
+        return try client.send(operation: "UpgradePublishedSchema", path: "/amazonclouddirectory/2017-01-11/schema/upgradepublished", httpMethod: "PUT", input: input)
+    }
+
     ///  Lists all attributes that are associated with an object. 
     public func listObjectAttributes(_ input: ListObjectAttributesRequest) throws -> ListObjectAttributesResponse {
         return try client.send(operation: "ListObjectAttributes", path: "/amazonclouddirectory/2017-01-11/object/attributes", httpMethod: "POST", input: input)
@@ -209,7 +239,7 @@ public struct Clouddirectory {
         return try client.send(operation: "ListPolicyAttachments", path: "/amazonclouddirectory/2017-01-11/policy/attachment", httpMethod: "POST", input: input)
     }
 
-    ///  Lists schemas applied to a directory.
+    ///  Lists schema major versions applied to a directory. If SchemaArn is provided, lists the minor version.
     public func listAppliedSchemaArns(_ input: ListAppliedSchemaArnsRequest) throws -> ListAppliedSchemaArnsResponse {
         return try client.send(operation: "ListAppliedSchemaArns", path: "/amazonclouddirectory/2017-01-11/schema/applied", httpMethod: "POST", input: input)
     }
@@ -234,7 +264,7 @@ public struct Clouddirectory {
         return try client.send(operation: "DeleteTypedLinkFacet", path: "/amazonclouddirectory/2017-01-11/typedlink/facet/delete", httpMethod: "PUT", input: input)
     }
 
-    ///  Performs all the write operations in a batch. Either all the operations succeed or none. Batch writes supports only object-related operations.
+    ///  Performs all the write operations in a batch. Either all the operations succeed or none.
     public func batchWrite(_ input: BatchWriteRequest) throws -> BatchWriteResponse {
         return try client.send(operation: "BatchWrite", path: "/amazonclouddirectory/2017-01-11/batchwrite", httpMethod: "PUT", input: input)
     }
@@ -282,6 +312,11 @@ public struct Clouddirectory {
     ///  An API operation for removing tags from a resource.
     public func untagResource(_ input: UntagResourceRequest) throws -> UntagResourceResponse {
         return try client.send(operation: "UntagResource", path: "/amazonclouddirectory/2017-01-11/tags/remove", httpMethod: "PUT", input: input)
+    }
+
+    ///  Retrieves attributes that are associated with a typed link.
+    public func getLinkAttributes(_ input: GetLinkAttributesRequest) throws -> GetLinkAttributesResponse {
+        return try client.send(operation: "GetLinkAttributes", path: "/amazonclouddirectory/2017-01-11/typedlink/attributes/get", httpMethod: "POST", input: input)
     }
 
     ///  Returns a paginated list of all the outgoing TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed link.

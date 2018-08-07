@@ -110,30 +110,30 @@ extension Redshift {
 
     public struct AuthorizeClusterSecurityGroupIngressMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CIDRIP", required: false, type: .string), 
             AWSShapeMember(label: "EC2SecurityGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "CIDRIP", required: false, type: .string), 
             AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
             AWSShapeMember(label: "ClusterSecurityGroupName", required: true, type: .string)
         ]
-        /// The IP range to be added the Amazon Redshift security group.
-        public let cidrip: String?
         /// The EC2 security group to be added the Amazon Redshift security group.
         public let eC2SecurityGroupName: String?
+        /// The IP range to be added the Amazon Redshift security group.
+        public let cidrip: String?
         /// The AWS account number of the owner of the security group specified by the EC2SecurityGroupName parameter. The AWS Access Key ID is not an acceptable value.  Example: 111122223333 
         public let eC2SecurityGroupOwnerId: String?
         /// The name of the security group to which the ingress rule is added.
         public let clusterSecurityGroupName: String
 
-        public init(cidrip: String? = nil, eC2SecurityGroupName: String? = nil, eC2SecurityGroupOwnerId: String? = nil, clusterSecurityGroupName: String) {
-            self.cidrip = cidrip
+        public init(eC2SecurityGroupName: String? = nil, cidrip: String? = nil, eC2SecurityGroupOwnerId: String? = nil, clusterSecurityGroupName: String) {
             self.eC2SecurityGroupName = eC2SecurityGroupName
+            self.cidrip = cidrip
             self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
             self.clusterSecurityGroupName = clusterSecurityGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cidrip = "CIDRIP"
             case eC2SecurityGroupName = "EC2SecurityGroupName"
+            case cidrip = "CIDRIP"
             case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
             case clusterSecurityGroupName = "ClusterSecurityGroupName"
         }
@@ -158,7 +158,7 @@ extension Redshift {
         public let durationSeconds: Int32?
         /// Create a database user with the name specified for the user named in DbUser if one does not exist.
         public let autoCreate: Bool?
-        /// The name of a database user. If a user name matching DbUser exists in the database, the temporary user credentials have the same permissions as the existing user. If DbUser doesn't exist in the database and Autocreate is True, a new user is created using the value for DbUser with PUBLIC permissions. If a database user matching the value for DbUser doesn't exist and Autocreate is False, then the command succeeds but the connection attempt will fail because the user doesn't exist in the database. For more information, see CREATE USER in the Amazon Redshift Database Developer Guide.  Constraints:   Must be 1 to 64 alphanumeric characters or hyphens   Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   First character must be a letter.   Must not contain a colon ( : ) or slash ( / ).    Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.  
+        /// The name of a database user. If a user name matching DbUser exists in the database, the temporary user credentials have the same permissions as the existing user. If DbUser doesn't exist in the database and Autocreate is True, a new user is created using the value for DbUser with PUBLIC permissions. If a database user matching the value for DbUser doesn't exist and Autocreate is False, then the command succeeds but the connection attempt will fail because the user doesn't exist in the database. For more information, see CREATE USER in the Amazon Redshift Database Developer Guide.  Constraints:   Must be 1 to 64 alphanumeric characters or hyphens. The user name can't be PUBLIC.   Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   First character must be a letter.   Must not contain a colon ( : ) or slash ( / ).    Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.  
         public let dbUser: String
 
         public init(clusterIdentifier: String, dbGroups: DbGroupList? = nil, dbName: String? = nil, durationSeconds: Int32? = nil, autoCreate: Bool? = nil, dbUser: String) {
@@ -554,6 +554,21 @@ extension Redshift {
         }
     }
 
+    public struct ClusterDbRevisionsList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterDbRevision", required: false, type: .list)
+        ]
+        public let clusterDbRevision: [ClusterDbRevision]?
+
+        public init(clusterDbRevision: [ClusterDbRevision]? = nil) {
+            self.clusterDbRevision = clusterDbRevision
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterDbRevision = "ClusterDbRevision"
+        }
+    }
+
     public struct TableRestoreStatusList: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TableRestoreStatus", required: false, type: .list)
@@ -622,6 +637,21 @@ extension Redshift {
             case tags = "Tags"
             case clusterSubnetGroupName = "ClusterSubnetGroupName"
             case description = "Description"
+        }
+    }
+
+    public struct SupportedPlatform: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
@@ -755,6 +785,21 @@ extension Redshift {
         private enum CodingKeys: String, CodingKey {
             case value = "Value"
             case key = "Key"
+        }
+    }
+
+    public struct SupportedPlatformsList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SupportedPlatform", required: false, type: .list)
+        ]
+        public let supportedPlatform: [SupportedPlatform]?
+
+        public init(supportedPlatform: [SupportedPlatform]? = nil) {
+            self.supportedPlatform = supportedPlatform
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case supportedPlatform = "SupportedPlatform"
         }
     }
 
@@ -911,6 +956,27 @@ extension Redshift {
         }
     }
 
+    public struct TrackListMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaintenanceTracks", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// A list of maintenance tracks output by the DescribeClusterTracks operation. 
+        public let maintenanceTracks: TrackList?
+        /// The starting point to return a set of response tracklist records. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
+        public let marker: String?
+
+        public init(maintenanceTracks: TrackList? = nil, marker: String? = nil) {
+            self.maintenanceTracks = maintenanceTracks
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maintenanceTracks = "MaintenanceTracks"
+            case marker = "Marker"
+        }
+    }
+
     public struct ClusterIamRoleList: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterIamRole", required: false, type: .list)
@@ -996,6 +1062,21 @@ extension Redshift {
         private enum CodingKeys: String, CodingKey {
             case marker = "Marker"
             case hsmClientCertificates = "HsmClientCertificates"
+        }
+    }
+
+    public struct EligibleTracksToUpdateList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UpdateTarget", required: false, type: .list)
+        ]
+        public let updateTarget: [UpdateTarget]?
+
+        public init(updateTarget: [UpdateTarget]? = nil) {
+            self.updateTarget = updateTarget
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case updateTarget = "UpdateTarget"
         }
     }
 
@@ -1236,30 +1317,30 @@ extension Redshift {
 
     public struct ClusterParameterGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterGroupName", required: false, type: .string), 
             AWSShapeMember(label: "ParameterGroupFamily", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterGroupName", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .structure), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        /// The name of the cluster parameter group.
-        public let parameterGroupName: String?
         /// The name of the cluster parameter group family that this cluster parameter group is compatible with.
         public let parameterGroupFamily: String?
+        /// The name of the cluster parameter group.
+        public let parameterGroupName: String?
         /// The list of tags for the cluster parameter group.
         public let tags: TagList?
         /// The description of the parameter group.
         public let description: String?
 
-        public init(parameterGroupName: String? = nil, parameterGroupFamily: String? = nil, tags: TagList? = nil, description: String? = nil) {
-            self.parameterGroupName = parameterGroupName
+        public init(parameterGroupFamily: String? = nil, parameterGroupName: String? = nil, tags: TagList? = nil, description: String? = nil) {
             self.parameterGroupFamily = parameterGroupFamily
+            self.parameterGroupName = parameterGroupName
             self.tags = tags
             self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameterGroupName = "ParameterGroupName"
             case parameterGroupFamily = "ParameterGroupFamily"
+            case parameterGroupName = "ParameterGroupName"
             case tags = "Tags"
             case description = "Description"
         }
@@ -1267,71 +1348,75 @@ extension Redshift {
 
     public struct ReservedNode: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "RecurringCharges", required: false, type: .structure), 
-            AWSShapeMember(label: "NodeCount", required: false, type: .integer), 
             AWSShapeMember(label: "UsagePrice", required: false, type: .double), 
             AWSShapeMember(label: "State", required: false, type: .string), 
             AWSShapeMember(label: "NodeType", required: false, type: .string), 
+            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NodeCount", required: false, type: .integer), 
             AWSShapeMember(label: "ReservedNodeId", required: false, type: .string), 
             AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
             AWSShapeMember(label: "ReservedNodeOfferingId", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedNodeOfferingType", required: false, type: .enum), 
             AWSShapeMember(label: "Duration", required: false, type: .integer), 
-            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
             AWSShapeMember(label: "FixedPrice", required: false, type: .double)
         ]
-        /// The time the reservation started. You purchase a reserved node offering for a duration. This is the start time of that duration.
-        public let startTime: TimeStamp?
         /// The recurring charges for the reserved node.
         public let recurringCharges: RecurringChargeList?
-        /// The number of reserved compute nodes.
-        public let nodeCount: Int32?
         /// The hourly rate Amazon Redshift charges you for this reserved node.
         public let usagePrice: Double?
-        /// The state of the reserved compute node. Possible Values:   pending-payment-This reserved node has recently been purchased, and the sale has been approved, but payment has not yet been confirmed.   active-This reserved node is owned by the caller and is available for use.   payment-failed-Payment failed for the purchase attempt.  
+        /// The state of the reserved compute node. Possible Values:   pending-payment-This reserved node has recently been purchased, and the sale has been approved, but payment has not yet been confirmed.   active-This reserved node is owned by the caller and is available for use.   payment-failed-Payment failed for the purchase attempt.   retired-The reserved node is no longer available.    exchanging-The owner is exchanging the reserved node for another reserved node.  
         public let state: String?
         /// The node type of the reserved node.
         public let nodeType: String?
+        /// The anticipated utilization of the reserved node, as defined in the reserved node offering.
+        public let offeringType: String?
+        /// The time the reservation started. You purchase a reserved node offering for a duration. This is the start time of that duration.
+        public let startTime: TimeStamp?
+        /// The number of reserved compute nodes.
+        public let nodeCount: Int32?
         /// The unique identifier for the reservation.
         public let reservedNodeId: String?
         /// The currency code for the reserved cluster.
         public let currencyCode: String?
         /// The identifier for the reserved node offering.
         public let reservedNodeOfferingId: String?
+        public let reservedNodeOfferingType: ReservedNodeOfferingType?
         /// The duration of the node reservation in seconds.
         public let duration: Int32?
-        /// The anticipated utilization of the reserved node, as defined in the reserved node offering.
-        public let offeringType: String?
         /// The fixed cost Amazon Redshift charges you for this reserved node.
         public let fixedPrice: Double?
 
-        public init(startTime: TimeStamp? = nil, recurringCharges: RecurringChargeList? = nil, nodeCount: Int32? = nil, usagePrice: Double? = nil, state: String? = nil, nodeType: String? = nil, reservedNodeId: String? = nil, currencyCode: String? = nil, reservedNodeOfferingId: String? = nil, duration: Int32? = nil, offeringType: String? = nil, fixedPrice: Double? = nil) {
-            self.startTime = startTime
+        public init(recurringCharges: RecurringChargeList? = nil, usagePrice: Double? = nil, state: String? = nil, nodeType: String? = nil, offeringType: String? = nil, startTime: TimeStamp? = nil, nodeCount: Int32? = nil, reservedNodeId: String? = nil, currencyCode: String? = nil, reservedNodeOfferingId: String? = nil, reservedNodeOfferingType: ReservedNodeOfferingType? = nil, duration: Int32? = nil, fixedPrice: Double? = nil) {
             self.recurringCharges = recurringCharges
-            self.nodeCount = nodeCount
             self.usagePrice = usagePrice
             self.state = state
             self.nodeType = nodeType
+            self.offeringType = offeringType
+            self.startTime = startTime
+            self.nodeCount = nodeCount
             self.reservedNodeId = reservedNodeId
             self.currencyCode = currencyCode
             self.reservedNodeOfferingId = reservedNodeOfferingId
+            self.reservedNodeOfferingType = reservedNodeOfferingType
             self.duration = duration
-            self.offeringType = offeringType
             self.fixedPrice = fixedPrice
         }
 
         private enum CodingKeys: String, CodingKey {
-            case startTime = "StartTime"
             case recurringCharges = "RecurringCharges"
-            case nodeCount = "NodeCount"
             case usagePrice = "UsagePrice"
             case state = "State"
             case nodeType = "NodeType"
+            case offeringType = "OfferingType"
+            case startTime = "StartTime"
+            case nodeCount = "NodeCount"
             case reservedNodeId = "ReservedNodeId"
             case currencyCode = "CurrencyCode"
             case reservedNodeOfferingId = "ReservedNodeOfferingId"
+            case reservedNodeOfferingType = "ReservedNodeOfferingType"
             case duration = "Duration"
-            case offeringType = "OfferingType"
             case fixedPrice = "FixedPrice"
         }
     }
@@ -1391,14 +1476,15 @@ extension Redshift {
             AWSShapeMember(label: "AutomatedSnapshotRetentionPeriod", required: false, type: .integer), 
             AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
             AWSShapeMember(label: "HsmConfigurationIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "IamRoles", required: false, type: .structure), 
+            AWSShapeMember(label: "MaintenanceTrackName", required: false, type: .string), 
             AWSShapeMember(label: "SnapshotIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "HsmClientCertificateIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "ElasticIp", required: false, type: .string), 
             AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "ClusterSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "IamRoles", required: false, type: .structure), 
             AWSShapeMember(label: "AdditionalInfo", required: false, type: .string), 
             AWSShapeMember(label: "AllowVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "ClusterSubnetGroupName", required: false, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
         ]
@@ -1412,7 +1498,7 @@ extension Redshift {
         public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled.  Default: false
         public let enhancedVpcRouting: Bool?
-        /// The node type that the restored cluster will be provisioned with. Default: The node type of the cluster from which the snapshot was taken. You can modify this if you are using any DS node type. In that case, you can choose to restore into another DS node type of the same size. For example, you can restore ds1.8xlarge into ds2.8xlarge, or ds2.xlarge into ds1.xlarge. If you have a DC instance type, you must restore into that same instance type and size. In other words, you can only restore a dc1.large instance type into another dc1.large instance type. For more information about node types, see  About Clusters and Nodes in the Amazon Redshift Cluster Management Guide 
+        /// The node type that the restored cluster will be provisioned with. Default: The node type of the cluster from which the snapshot was taken. You can modify this if you are using any DS node type. In that case, you can choose to restore into another DS node type of the same size. For example, you can restore ds1.8xlarge into ds2.8xlarge, or ds1.xlarge into ds2.xlarge. If you have a DC instance type, you must restore into that same instance type and size. In other words, you can only restore a dc1.large instance type into another dc1.large instance type or dc2.large instance type. You can't restore dc1.8xlarge to dc2.8xlarge. First restore to a dc1.8xlareg cluster, then resize to a dc2.8large cluster. For more information about node types, see  About Clusters and Nodes in the Amazon Redshift Cluster Management Guide. 
         public let nodeType: String?
         /// The identifier of the cluster that will be created from restoring the snapshot. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an AWS account.  
         public let clusterIdentifier: String
@@ -1426,8 +1512,8 @@ extension Redshift {
         public let publiclyAccessible: Bool?
         /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
         public let hsmConfigurationIdentifier: String?
-        /// A list of AWS Identity and Access Management (IAM) roles that can be used by the cluster to access other AWS services. You must supply the IAM roles in their Amazon Resource Name (ARN) format. You can supply up to 10 IAM roles in a single request. A cluster can have up to 10 IAM roles associated at any time.
-        public let iamRoles: IamRoleArnList?
+        /// The name of the maintenance track for the restored cluster. When you take a snapshot, the snapshot inherits the MaintenanceTrack value from the cluster. The snapshot might be on a different track than the cluster that was the source for the snapshot. For example, suppose that you take a snapshot of a cluster that is on the current track and then change the cluster to be on the trailing track. In this case, the snapshot and the source cluster are on different tracks.
+        public let maintenanceTrackName: String?
         /// The name of the snapshot from which to create the new cluster. This parameter isn't case sensitive. Example: my-snapshot-id 
         public let snapshotIdentifier: String
         /// Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
@@ -1436,18 +1522,20 @@ extension Redshift {
         public let elasticIp: String?
         /// The weekly time range (in UTC) during which automated cluster maintenance can occur.  Format: ddd:hh24:mi-ddd:hh24:mi   Default: The value selected for the cluster from which the snapshot was taken. For more information about the time blocks for each region, see Maintenance Windows in Amazon Redshift Cluster Management Guide.  Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
-        /// The name of the subnet group where you want to cluster restored. A snapshot of cluster in VPC can be restored only in VPC. Therefore, you must provide subnet group name where you want the cluster restored.
-        public let clusterSubnetGroupName: String?
+        /// A list of AWS Identity and Access Management (IAM) roles that can be used by the cluster to access other AWS services. You must supply the IAM roles in their Amazon Resource Name (ARN) format. You can supply up to 10 IAM roles in a single request. A cluster can have up to 10 IAM roles associated at any time.
+        public let iamRoles: IamRoleArnList?
         /// Reserved.
         public let additionalInfo: String?
         /// If true, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster.  Default: true 
         public let allowVersionUpgrade: Bool?
+        /// The name of the subnet group where you want to cluster restored. A snapshot of cluster in VPC can be restored only in VPC. Therefore, you must provide subnet group name where you want the cluster restored.
+        public let clusterSubnetGroupName: String?
         /// The port number on which the cluster accepts connections. Default: The same port as the original cluster. Constraints: Must be between 1115 and 65535.
         public let port: Int32?
         /// The AWS Key Management Service (KMS) key ID of the encryption key that you want to use to encrypt data in the cluster that you restore from a shared snapshot.
         public let kmsKeyId: String?
 
-        public init(clusterSecurityGroups: ClusterSecurityGroupNameList? = nil, snapshotClusterIdentifier: String? = nil, ownerAccount: String? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, enhancedVpcRouting: Bool? = nil, nodeType: String? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, availabilityZone: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, publiclyAccessible: Bool? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: IamRoleArnList? = nil, snapshotIdentifier: String, hsmClientCertificateIdentifier: String? = nil, elasticIp: String? = nil, preferredMaintenanceWindow: String? = nil, clusterSubnetGroupName: String? = nil, additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, port: Int32? = nil, kmsKeyId: String? = nil) {
+        public init(clusterSecurityGroups: ClusterSecurityGroupNameList? = nil, snapshotClusterIdentifier: String? = nil, ownerAccount: String? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, enhancedVpcRouting: Bool? = nil, nodeType: String? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, availabilityZone: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, publiclyAccessible: Bool? = nil, hsmConfigurationIdentifier: String? = nil, maintenanceTrackName: String? = nil, snapshotIdentifier: String, hsmClientCertificateIdentifier: String? = nil, elasticIp: String? = nil, preferredMaintenanceWindow: String? = nil, iamRoles: IamRoleArnList? = nil, additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, clusterSubnetGroupName: String? = nil, port: Int32? = nil, kmsKeyId: String? = nil) {
             self.clusterSecurityGroups = clusterSecurityGroups
             self.snapshotClusterIdentifier = snapshotClusterIdentifier
             self.ownerAccount = ownerAccount
@@ -1460,14 +1548,15 @@ extension Redshift {
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.publiclyAccessible = publiclyAccessible
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
-            self.iamRoles = iamRoles
+            self.maintenanceTrackName = maintenanceTrackName
             self.snapshotIdentifier = snapshotIdentifier
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
             self.elasticIp = elasticIp
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.clusterSubnetGroupName = clusterSubnetGroupName
+            self.iamRoles = iamRoles
             self.additionalInfo = additionalInfo
             self.allowVersionUpgrade = allowVersionUpgrade
+            self.clusterSubnetGroupName = clusterSubnetGroupName
             self.port = port
             self.kmsKeyId = kmsKeyId
         }
@@ -1485,14 +1574,15 @@ extension Redshift {
             case automatedSnapshotRetentionPeriod = "AutomatedSnapshotRetentionPeriod"
             case publiclyAccessible = "PubliclyAccessible"
             case hsmConfigurationIdentifier = "HsmConfigurationIdentifier"
-            case iamRoles = "IamRoles"
+            case maintenanceTrackName = "MaintenanceTrackName"
             case snapshotIdentifier = "SnapshotIdentifier"
             case hsmClientCertificateIdentifier = "HsmClientCertificateIdentifier"
             case elasticIp = "ElasticIp"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case clusterSubnetGroupName = "ClusterSubnetGroupName"
+            case iamRoles = "IamRoles"
             case additionalInfo = "AdditionalInfo"
             case allowVersionUpgrade = "AllowVersionUpgrade"
+            case clusterSubnetGroupName = "ClusterSubnetGroupName"
             case port = "Port"
             case kmsKeyId = "KmsKeyId"
         }
@@ -1675,6 +1765,32 @@ extension Redshift {
         }
     }
 
+    public struct DescribeClusterTracksMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaintenanceTrackName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        ]
+        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterTracks request exceed the value specified in MaxRecords, Amazon Redshift returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
+        public let marker: String?
+        /// The name of the maintenance track. 
+        public let maintenanceTrackName: String?
+        /// An integer value for the maximum number of maintenance tracks to return.
+        public let maxRecords: Int32?
+
+        public init(marker: String? = nil, maintenanceTrackName: String? = nil, maxRecords: Int32? = nil) {
+            self.marker = marker
+            self.maintenanceTrackName = maintenanceTrackName
+            self.maxRecords = maxRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maintenanceTrackName = "MaintenanceTrackName"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
     public struct ClusterVersion: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterVersion", required: false, type: .string), 
@@ -1697,6 +1813,32 @@ extension Redshift {
         private enum CodingKeys: String, CodingKey {
             case clusterVersion = "ClusterVersion"
             case clusterParameterGroupFamily = "ClusterParameterGroupFamily"
+            case description = "Description"
+        }
+    }
+
+    public struct RevisionTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DatabaseRevisionReleaseDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DatabaseRevision", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// The date on which the database revision was released.
+        public let databaseRevisionReleaseDate: TimeStamp?
+        /// A unique string that identifies the version to update the cluster to. You can use this value in ModifyClusterDbRevision.
+        public let databaseRevision: String?
+        /// A string that describes the changes and features that will be applied to the cluster when it is updated to the corresponding ClusterDbRevision.
+        public let description: String?
+
+        public init(databaseRevisionReleaseDate: TimeStamp? = nil, databaseRevision: String? = nil, description: String? = nil) {
+            self.databaseRevisionReleaseDate = databaseRevisionReleaseDate
+            self.databaseRevision = databaseRevision
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseRevisionReleaseDate = "DatabaseRevisionReleaseDate"
+            case databaseRevision = "DatabaseRevision"
             case description = "Description"
         }
     }
@@ -1828,6 +1970,27 @@ extension Redshift {
         }
     }
 
+    public struct ModifyClusterDbRevisionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "RevisionTarget", required: true, type: .string)
+        ]
+        /// The unique identifier of a cluster whose database revision you want to modify.  Example: examplecluster 
+        public let clusterIdentifier: String
+        /// The identifier of the database revision. You can retrieve this value from the response to the DescribeClusterDbRevisions request.
+        public let revisionTarget: String
+
+        public init(clusterIdentifier: String, revisionTarget: String) {
+            self.clusterIdentifier = clusterIdentifier
+            self.revisionTarget = revisionTarget
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case revisionTarget = "RevisionTarget"
+        }
+    }
+
     public struct ClusterCredentials: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DbPassword", required: false, type: .string), 
@@ -1856,30 +2019,30 @@ extension Redshift {
 
     public struct CreateClusterParameterGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterGroupName", required: true, type: .string), 
             AWSShapeMember(label: "ParameterGroupFamily", required: true, type: .string), 
+            AWSShapeMember(label: "ParameterGroupName", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .structure), 
             AWSShapeMember(label: "Description", required: true, type: .string)
         ]
-        /// The name of the cluster parameter group. Constraints:   Must be 1 to 255 alphanumeric characters or hyphens   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique withing your AWS account.    This value is stored as a lower-case string. 
-        public let parameterGroupName: String
         /// The Amazon Redshift engine version to which the cluster parameter group applies. The cluster engine version determines the set of parameters. To get a list of valid parameter group family names, you can call DescribeClusterParameterGroups. By default, Amazon Redshift returns a list of all the parameter groups that are owned by your AWS account, including the default parameter groups for each Amazon Redshift engine version. The parameter group family names associated with the default parameter groups provide you the valid values. For example, a valid family name is "redshift-1.0". 
         public let parameterGroupFamily: String
+        /// The name of the cluster parameter group. Constraints:   Must be 1 to 255 alphanumeric characters or hyphens   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique withing your AWS account.    This value is stored as a lower-case string. 
+        public let parameterGroupName: String
         /// A list of tag instances.
         public let tags: TagList?
         /// A description of the parameter group.
         public let description: String
 
-        public init(parameterGroupName: String, parameterGroupFamily: String, tags: TagList? = nil, description: String) {
-            self.parameterGroupName = parameterGroupName
+        public init(parameterGroupFamily: String, parameterGroupName: String, tags: TagList? = nil, description: String) {
             self.parameterGroupFamily = parameterGroupFamily
+            self.parameterGroupName = parameterGroupName
             self.tags = tags
             self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameterGroupName = "ParameterGroupName"
             case parameterGroupFamily = "ParameterGroupFamily"
+            case parameterGroupName = "ParameterGroupName"
             case tags = "Tags"
             case description = "Description"
         }
@@ -1977,9 +2140,9 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Severity", required: false, type: .string), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
             AWSShapeMember(label: "EventId", required: false, type: .string), 
             AWSShapeMember(label: "EventCategories", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
             AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Date", required: false, type: .timestamp)
         ]
@@ -1987,23 +2150,23 @@ extension Redshift {
         public let severity: String?
         /// The text of this event.
         public let message: String?
-        /// The source type for this event.
-        public let sourceType: SourceType?
         /// The identifier of the event.
         public let eventId: String?
         /// A list of the event categories. Values: Configuration, Management, Monitoring, Security
         public let eventCategories: EventCategoriesList?
+        /// The source type for this event.
+        public let sourceType: SourceType?
         /// The identifier for the source of the event.
         public let sourceIdentifier: String?
         /// The date and time of the event.
         public let date: TimeStamp?
 
-        public init(severity: String? = nil, message: String? = nil, sourceType: SourceType? = nil, eventId: String? = nil, eventCategories: EventCategoriesList? = nil, sourceIdentifier: String? = nil, date: TimeStamp? = nil) {
+        public init(severity: String? = nil, message: String? = nil, eventId: String? = nil, eventCategories: EventCategoriesList? = nil, sourceType: SourceType? = nil, sourceIdentifier: String? = nil, date: TimeStamp? = nil) {
             self.severity = severity
             self.message = message
-            self.sourceType = sourceType
             self.eventId = eventId
             self.eventCategories = eventCategories
+            self.sourceType = sourceType
             self.sourceIdentifier = sourceIdentifier
             self.date = date
         }
@@ -2011,9 +2174,9 @@ extension Redshift {
         private enum CodingKeys: String, CodingKey {
             case severity = "Severity"
             case message = "Message"
-            case sourceType = "SourceType"
             case eventId = "EventId"
             case eventCategories = "EventCategories"
+            case sourceType = "SourceType"
             case sourceIdentifier = "SourceIdentifier"
             case date = "Date"
         }
@@ -2043,7 +2206,8 @@ extension Redshift {
             AWSShapeMember(label: "ReservedNodeOfferingId", required: false, type: .string), 
             AWSShapeMember(label: "Duration", required: false, type: .integer), 
             AWSShapeMember(label: "OfferingType", required: false, type: .string), 
-            AWSShapeMember(label: "FixedPrice", required: false, type: .double)
+            AWSShapeMember(label: "FixedPrice", required: false, type: .double), 
+            AWSShapeMember(label: "ReservedNodeOfferingType", required: false, type: .enum)
         ]
         /// The charge to your account regardless of whether you are creating any clusters using the node offering. Recurring charges are only in effect for heavy-utilization reserved nodes.
         public let recurringCharges: RecurringChargeList?
@@ -2061,8 +2225,9 @@ extension Redshift {
         public let offeringType: String?
         /// The upfront fixed charge you will pay to purchase the specific reserved node offering.
         public let fixedPrice: Double?
+        public let reservedNodeOfferingType: ReservedNodeOfferingType?
 
-        public init(recurringCharges: RecurringChargeList? = nil, usagePrice: Double? = nil, nodeType: String? = nil, currencyCode: String? = nil, reservedNodeOfferingId: String? = nil, duration: Int32? = nil, offeringType: String? = nil, fixedPrice: Double? = nil) {
+        public init(recurringCharges: RecurringChargeList? = nil, usagePrice: Double? = nil, nodeType: String? = nil, currencyCode: String? = nil, reservedNodeOfferingId: String? = nil, duration: Int32? = nil, offeringType: String? = nil, fixedPrice: Double? = nil, reservedNodeOfferingType: ReservedNodeOfferingType? = nil) {
             self.recurringCharges = recurringCharges
             self.usagePrice = usagePrice
             self.nodeType = nodeType
@@ -2071,6 +2236,7 @@ extension Redshift {
             self.duration = duration
             self.offeringType = offeringType
             self.fixedPrice = fixedPrice
+            self.reservedNodeOfferingType = reservedNodeOfferingType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2082,6 +2248,7 @@ extension Redshift {
             case duration = "Duration"
             case offeringType = "OfferingType"
             case fixedPrice = "FixedPrice"
+            case reservedNodeOfferingType = "ReservedNodeOfferingType"
         }
     }
 
@@ -2412,6 +2579,32 @@ extension Redshift {
         }
     }
 
+    public struct MaintenanceTrack: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaintenanceTrackName", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseVersion", required: false, type: .string), 
+            AWSShapeMember(label: "UpdateTargets", required: false, type: .structure)
+        ]
+        /// The name of the maintenance track. Possible values are current and trailing.
+        public let maintenanceTrackName: String?
+        /// The version number for the cluster release.
+        public let databaseVersion: String?
+        /// An array of UpdateTarget objects to update with the maintenance track. 
+        public let updateTargets: EligibleTracksToUpdateList?
+
+        public init(maintenanceTrackName: String? = nil, databaseVersion: String? = nil, updateTargets: EligibleTracksToUpdateList? = nil) {
+            self.maintenanceTrackName = maintenanceTrackName
+            self.databaseVersion = databaseVersion
+            self.updateTargets = updateTargets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maintenanceTrackName = "MaintenanceTrackName"
+            case databaseVersion = "DatabaseVersion"
+            case updateTargets = "UpdateTargets"
+        }
+    }
+
     public struct DescribeClusterVersionsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
@@ -2481,6 +2674,52 @@ extension Redshift {
             case loggingEnabled = "LoggingEnabled"
             case lastFailureTime = "LastFailureTime"
             case lastSuccessfulDeliveryTime = "LastSuccessfulDeliveryTime"
+        }
+    }
+
+    public struct AcceptReservedNodeExchangeOutputMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExchangedReservedNode", required: false, type: .structure)
+        ]
+        public let exchangedReservedNode: ReservedNode?
+
+        public init(exchangedReservedNode: ReservedNode? = nil) {
+            self.exchangedReservedNode = exchangedReservedNode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exchangedReservedNode = "ExchangedReservedNode"
+        }
+    }
+
+    public struct ClusterDbRevision: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "CurrentDatabaseRevision", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseRevisionReleaseDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RevisionTargets", required: false, type: .structure)
+        ]
+        /// The unique identifier of the cluster.
+        public let clusterIdentifier: String?
+        /// A string representing the current cluster version.
+        public let currentDatabaseRevision: String?
+        /// The date on which the database revision was released.
+        public let databaseRevisionReleaseDate: TimeStamp?
+        /// A list of RevisionTarget objects, where each object describes the database revision that a cluster can be updated to.
+        public let revisionTargets: RevisionTargetsList?
+
+        public init(clusterIdentifier: String? = nil, currentDatabaseRevision: String? = nil, databaseRevisionReleaseDate: TimeStamp? = nil, revisionTargets: RevisionTargetsList? = nil) {
+            self.clusterIdentifier = clusterIdentifier
+            self.currentDatabaseRevision = currentDatabaseRevision
+            self.databaseRevisionReleaseDate = databaseRevisionReleaseDate
+            self.revisionTargets = revisionTargets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case currentDatabaseRevision = "CurrentDatabaseRevision"
+            case databaseRevisionReleaseDate = "DatabaseRevisionReleaseDate"
+            case revisionTargets = "RevisionTargets"
         }
     }
 
@@ -2756,6 +2995,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "ClusterExists", required: false, type: .boolean), 
             AWSShapeMember(label: "SnapshotIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "TagKeys", required: false, type: .structure), 
@@ -2769,6 +3009,8 @@ extension Redshift {
         public let startTime: TimeStamp?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
+        /// A value that indicates whether to return snapshots only for an existing cluster. Table-level restore can be performed only using a snapshot of an existing cluster, that is, a cluster that has not been deleted. If ClusterExists is set to true, ClusterIdentifier is required.
+        public let clusterExists: Bool?
         /// The snapshot identifier of the snapshot about which to return information.
         public let snapshotIdentifier: String?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterSnapshots request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
@@ -2786,9 +3028,10 @@ extension Redshift {
         /// The AWS customer account used to create or copy the snapshot. Use this field to filter the results to snapshots owned by a particular account. To describe snapshots you own, either specify your AWS customer account, or do not specify the parameter.
         public let ownerAccount: String?
 
-        public init(startTime: TimeStamp? = nil, maxRecords: Int32? = nil, snapshotIdentifier: String? = nil, marker: String? = nil, tagKeys: TagKeyList? = nil, clusterIdentifier: String? = nil, tagValues: TagValueList? = nil, snapshotType: String? = nil, endTime: TimeStamp? = nil, ownerAccount: String? = nil) {
+        public init(startTime: TimeStamp? = nil, maxRecords: Int32? = nil, clusterExists: Bool? = nil, snapshotIdentifier: String? = nil, marker: String? = nil, tagKeys: TagKeyList? = nil, clusterIdentifier: String? = nil, tagValues: TagValueList? = nil, snapshotType: String? = nil, endTime: TimeStamp? = nil, ownerAccount: String? = nil) {
             self.startTime = startTime
             self.maxRecords = maxRecords
+            self.clusterExists = clusterExists
             self.snapshotIdentifier = snapshotIdentifier
             self.marker = marker
             self.tagKeys = tagKeys
@@ -2802,6 +3045,7 @@ extension Redshift {
         private enum CodingKeys: String, CodingKey {
             case startTime = "StartTime"
             case maxRecords = "MaxRecords"
+            case clusterExists = "ClusterExists"
             case snapshotIdentifier = "SnapshotIdentifier"
             case marker = "Marker"
             case tagKeys = "TagKeys"
@@ -2903,6 +3147,27 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case recurringCharge = "RecurringCharge"
+        }
+    }
+
+    public struct GetReservedNodeExchangeOfferingsOutputMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedNodeOfferings", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// Returns an array of ReservedNodeOffering objects.
+        public let reservedNodeOfferings: ReservedNodeOfferingList?
+        /// An optional parameter that specifies the starting point for returning a set of response records. When the results of a GetReservedNodeExchangeOfferings request exceed the value specified in MaxRecords, Amazon Redshift returns a value in the marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the marker parameter and retrying the request. 
+        public let marker: String?
+
+        public init(reservedNodeOfferings: ReservedNodeOfferingList? = nil, marker: String? = nil) {
+            self.reservedNodeOfferings = reservedNodeOfferings
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedNodeOfferings = "ReservedNodeOfferings"
+            case marker = "Marker"
         }
     }
 
@@ -3085,6 +3350,7 @@ extension Redshift {
             AWSShapeMember(label: "Tags", required: false, type: .structure), 
             AWSShapeMember(label: "NodeType", required: false, type: .string), 
             AWSShapeMember(label: "SnapshotType", required: false, type: .string), 
+            AWSShapeMember(label: "MaintenanceTrackName", required: false, type: .string), 
             AWSShapeMember(label: "ClusterCreateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "SnapshotIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
@@ -3138,6 +3404,8 @@ extension Redshift {
         public let nodeType: String?
         /// The snapshot type. Snapshots created using CreateClusterSnapshot and CopyClusterSnapshot will be of type "manual". 
         public let snapshotType: String?
+        /// The name of the maintenance track for the snapshot.
+        public let maintenanceTrackName: String?
         /// The time (UTC) when the cluster was originally created.
         public let clusterCreateTime: TimeStamp?
         /// The snapshot identifier that is provided in the request.
@@ -3151,7 +3419,7 @@ extension Redshift {
         /// The port that the cluster is listening on.
         public let port: Int32?
 
-        public init(actualIncrementalBackupSizeInMegaBytes: Double? = nil, dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, ownerAccount: String? = nil, backupProgressInMegaBytes: Double? = nil, restorableNodeTypes: RestorableNodeTypeList? = nil, enhancedVpcRouting: Bool? = nil, encryptedWithHSM: Bool? = nil, clusterIdentifier: String? = nil, availabilityZone: String? = nil, status: String? = nil, estimatedSecondsToCompletion: Int64? = nil, vpcId: String? = nil, snapshotCreateTime: TimeStamp? = nil, accountsWithRestoreAccess: AccountsWithRestoreAccessList? = nil, numberOfNodes: Int32? = nil, kmsKeyId: String? = nil, sourceRegion: String? = nil, tags: TagList? = nil, nodeType: String? = nil, snapshotType: String? = nil, clusterCreateTime: TimeStamp? = nil, snapshotIdentifier: String? = nil, masterUsername: String? = nil, totalBackupSizeInMegaBytes: Double? = nil, elapsedTimeInSeconds: Int64? = nil, port: Int32? = nil) {
+        public init(actualIncrementalBackupSizeInMegaBytes: Double? = nil, dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, ownerAccount: String? = nil, backupProgressInMegaBytes: Double? = nil, restorableNodeTypes: RestorableNodeTypeList? = nil, enhancedVpcRouting: Bool? = nil, encryptedWithHSM: Bool? = nil, clusterIdentifier: String? = nil, availabilityZone: String? = nil, status: String? = nil, estimatedSecondsToCompletion: Int64? = nil, vpcId: String? = nil, snapshotCreateTime: TimeStamp? = nil, accountsWithRestoreAccess: AccountsWithRestoreAccessList? = nil, numberOfNodes: Int32? = nil, kmsKeyId: String? = nil, sourceRegion: String? = nil, tags: TagList? = nil, nodeType: String? = nil, snapshotType: String? = nil, maintenanceTrackName: String? = nil, clusterCreateTime: TimeStamp? = nil, snapshotIdentifier: String? = nil, masterUsername: String? = nil, totalBackupSizeInMegaBytes: Double? = nil, elapsedTimeInSeconds: Int64? = nil, port: Int32? = nil) {
             self.actualIncrementalBackupSizeInMegaBytes = actualIncrementalBackupSizeInMegaBytes
             self.dBName = dBName
             self.clusterVersion = clusterVersion
@@ -3175,6 +3443,7 @@ extension Redshift {
             self.tags = tags
             self.nodeType = nodeType
             self.snapshotType = snapshotType
+            self.maintenanceTrackName = maintenanceTrackName
             self.clusterCreateTime = clusterCreateTime
             self.snapshotIdentifier = snapshotIdentifier
             self.masterUsername = masterUsername
@@ -3207,6 +3476,7 @@ extension Redshift {
             case tags = "Tags"
             case nodeType = "NodeType"
             case snapshotType = "SnapshotType"
+            case maintenanceTrackName = "MaintenanceTrackName"
             case clusterCreateTime = "ClusterCreateTime"
             case snapshotIdentifier = "SnapshotIdentifier"
             case masterUsername = "MasterUsername"
@@ -3297,6 +3567,27 @@ extension Redshift {
         }
     }
 
+    public struct UpdateTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaintenanceTrackName", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseVersion", required: false, type: .string)
+        ]
+        /// The name of the new maintenance track.
+        public let maintenanceTrackName: String?
+        /// The cluster version for the new maintenance track.
+        public let databaseVersion: String?
+
+        public init(maintenanceTrackName: String? = nil, databaseVersion: String? = nil) {
+            self.maintenanceTrackName = maintenanceTrackName
+            self.databaseVersion = databaseVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maintenanceTrackName = "MaintenanceTrackName"
+            case databaseVersion = "DatabaseVersion"
+        }
+    }
+
     public struct CreateSnapshotCopyGrantMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotCopyGrantName", required: true, type: .string), 
@@ -3335,6 +3626,27 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case tag = "Tag"
+        }
+    }
+
+    public struct ClusterDbRevisionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterDbRevisions", required: false, type: .structure)
+        ]
+        /// A string representing the starting point for the next set of revisions. If a value is returned in a response, you can retrieve the next set of revisions by providing the value in the marker parameter and retrying the command. If the marker field is empty, all revisions have already been returned.
+        public let marker: String?
+        /// A list of revisions.
+        public let clusterDbRevisions: ClusterDbRevisionsList?
+
+        public init(marker: String? = nil, clusterDbRevisions: ClusterDbRevisionsList? = nil) {
+            self.marker = marker
+            self.clusterDbRevisions = clusterDbRevisions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case clusterDbRevisions = "ClusterDbRevisions"
         }
     }
 
@@ -3499,6 +3811,21 @@ extension Redshift {
         }
     }
 
+    public struct ModifyClusterDbRevisionResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
+        ]
+        public let cluster: Cluster?
+
+        public init(cluster: Cluster? = nil) {
+            self.cluster = cluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
+        }
+    }
+
     public struct PurchaseReservedNodeOfferingResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReservedNode", required: false, type: .structure)
@@ -3511,6 +3838,21 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case reservedNode = "ReservedNode"
+        }
+    }
+
+    public struct TrackList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaintenanceTrack", required: false, type: .list)
+        ]
+        public let maintenanceTrack: [MaintenanceTrack]?
+
+        public init(maintenanceTrack: [MaintenanceTrack]? = nil) {
+            self.maintenanceTrack = maintenanceTrack
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maintenanceTrack = "MaintenanceTrack"
         }
     }
 
@@ -3559,9 +3901,10 @@ extension Redshift {
             AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "EnhancedVpcRouting", required: false, type: .boolean), 
             AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "AutomatedSnapshotRetentionPeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "MaintenanceTrackName", required: false, type: .string), 
             AWSShapeMember(label: "HsmConfigurationIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutomatedSnapshotRetentionPeriod", required: false, type: .integer), 
             AWSShapeMember(label: "ClusterParameterGroupName", required: false, type: .string), 
             AWSShapeMember(label: "HsmClientCertificateIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "ElasticIp", required: false, type: .string), 
@@ -3575,9 +3918,9 @@ extension Redshift {
         public let clusterVersion: String?
         /// The new identifier for the cluster. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an AWS account.   Example: examplecluster 
         public let newClusterIdentifier: String?
-        /// A list of virtual private cloud (VPC) security groups to be associated with the cluster.
+        /// A list of virtual private cloud (VPC) security groups to be associated with the cluster. This change is asynchronously applied as soon as possible.
         public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
-        /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter. When you submit your request to resize a cluster, Amazon Redshift sets access permissions for the cluster to read-only. After Amazon Redshift provisions a new cluster according to your resize requirements, there will be a temporary outage while the old cluster is deleted and your connection is switched to the new cluster. When the new connection is complete, the original access permissions for the cluster are restored. You can use DescribeResize to track the progress of the resize request.  Valid Values:  ds1.xlarge | ds1.8xlarge |  ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge.
+        /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter. When you submit your request to resize a cluster, Amazon Redshift sets access permissions for the cluster to read-only. After Amazon Redshift provisions a new cluster according to your resize requirements, there will be a temporary outage while the old cluster is deleted and your connection is switched to the new cluster. When the new connection is complete, the original access permissions for the cluster are restored. You can use DescribeResize to track the progress of the resize request.  Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge 
         public let nodeType: String?
         /// The new cluster type. When you submit your cluster resize request, your existing cluster goes into a read-only mode. After Amazon Redshift provisions a new cluster based on your resize requirements, there will be outage for a period while the old cluster is deleted and your connection is switched to the new cluster. You can use DescribeResize to track the progress of the resize request.  Valid Values:  multi-node | single-node  
         public let clusterType: String?
@@ -3587,12 +3930,14 @@ extension Redshift {
         public let enhancedVpcRouting: Bool?
         /// The new password for the cluster master user. This change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.   Operations never return the password, so this operation provides a way to regain access to the master user account for a cluster if the password is lost.  Default: Uses existing setting. Constraints:   Must be between 8 and 64 characters in length.   Must contain at least one uppercase letter.   Must contain at least one lowercase letter.   Must contain one number.   Can be any printable ASCII character (ASCII code 33 to 126) except ' (single quote), " (double quote), \, /, @, or space.  
         public let masterUserPassword: String?
-        /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  If you decrease the automated snapshot retention period from its current value, existing automated snapshots that fall outside of the new retention period will be immediately deleted. Default: Uses existing setting. Constraints: Must be a value from 0 to 35.
-        public let automatedSnapshotRetentionPeriod: Int32?
+        /// The name for the maintenance track that you want to assign for the cluster. This name change is asynchronous. The new track name stays in the PendingModifiedValues for the cluster until the next maintenance window. When the maintenance track changes, the cluster is switched to the latest cluster release available for the maintenance track. At this point, the maintenance track name is applied.
+        public let maintenanceTrackName: String?
         /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
         public let hsmConfigurationIdentifier: String?
         /// If true, the cluster can be accessed from a public network. Only clusters in VPCs can be set to be publicly available.
         public let publiclyAccessible: Bool?
+        /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  If you decrease the automated snapshot retention period from its current value, existing automated snapshots that fall outside of the new retention period will be immediately deleted. Default: Uses existing setting. Constraints: Must be a value from 0 to 35.
+        public let automatedSnapshotRetentionPeriod: Int32?
         /// The name of the cluster parameter group to apply to this cluster. This change is applied only after the cluster is rebooted. To reboot a cluster use RebootCluster.  Default: Uses existing setting. Constraints: The cluster parameter group must be in the same parameter group family that matches the cluster version.
         public let clusterParameterGroupName: String?
         /// Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
@@ -3606,7 +3951,7 @@ extension Redshift {
         /// The new number of nodes of the cluster. If you specify a new number of nodes, you must also specify the node type parameter. When you submit your request to resize a cluster, Amazon Redshift sets access permissions for the cluster to read-only. After Amazon Redshift provisions a new cluster according to your resize requirements, there will be a temporary outage while the old cluster is deleted and your connection is switched to the new cluster. When the new connection is complete, the original access permissions for the cluster are restored. You can use DescribeResize to track the progress of the resize request.  Valid Values: Integer greater than 0.
         public let numberOfNodes: Int32?
 
-        public init(clusterSecurityGroups: ClusterSecurityGroupNameList? = nil, clusterVersion: String? = nil, newClusterIdentifier: String? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, nodeType: String? = nil, clusterType: String? = nil, clusterIdentifier: String, enhancedVpcRouting: Bool? = nil, masterUserPassword: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, hsmConfigurationIdentifier: String? = nil, publiclyAccessible: Bool? = nil, clusterParameterGroupName: String? = nil, hsmClientCertificateIdentifier: String? = nil, elasticIp: String? = nil, preferredMaintenanceWindow: String? = nil, allowVersionUpgrade: Bool? = nil, numberOfNodes: Int32? = nil) {
+        public init(clusterSecurityGroups: ClusterSecurityGroupNameList? = nil, clusterVersion: String? = nil, newClusterIdentifier: String? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, nodeType: String? = nil, clusterType: String? = nil, clusterIdentifier: String, enhancedVpcRouting: Bool? = nil, masterUserPassword: String? = nil, maintenanceTrackName: String? = nil, hsmConfigurationIdentifier: String? = nil, publiclyAccessible: Bool? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, clusterParameterGroupName: String? = nil, hsmClientCertificateIdentifier: String? = nil, elasticIp: String? = nil, preferredMaintenanceWindow: String? = nil, allowVersionUpgrade: Bool? = nil, numberOfNodes: Int32? = nil) {
             self.clusterSecurityGroups = clusterSecurityGroups
             self.clusterVersion = clusterVersion
             self.newClusterIdentifier = newClusterIdentifier
@@ -3616,9 +3961,10 @@ extension Redshift {
             self.clusterIdentifier = clusterIdentifier
             self.enhancedVpcRouting = enhancedVpcRouting
             self.masterUserPassword = masterUserPassword
-            self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
+            self.maintenanceTrackName = maintenanceTrackName
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
             self.publiclyAccessible = publiclyAccessible
+            self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.clusterParameterGroupName = clusterParameterGroupName
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
             self.elasticIp = elasticIp
@@ -3637,9 +3983,10 @@ extension Redshift {
             case clusterIdentifier = "ClusterIdentifier"
             case enhancedVpcRouting = "EnhancedVpcRouting"
             case masterUserPassword = "MasterUserPassword"
-            case automatedSnapshotRetentionPeriod = "AutomatedSnapshotRetentionPeriod"
+            case maintenanceTrackName = "MaintenanceTrackName"
             case hsmConfigurationIdentifier = "HsmConfigurationIdentifier"
             case publiclyAccessible = "PubliclyAccessible"
+            case automatedSnapshotRetentionPeriod = "AutomatedSnapshotRetentionPeriod"
             case clusterParameterGroupName = "ClusterParameterGroupName"
             case hsmClientCertificateIdentifier = "HsmClientCertificateIdentifier"
             case elasticIp = "ElasticIp"
@@ -4028,6 +4375,7 @@ extension Redshift {
             AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
             AWSShapeMember(label: "IamRoles", required: false, type: .structure), 
             AWSShapeMember(label: "ClusterStatus", required: false, type: .string), 
+            AWSShapeMember(label: "PendingActions", required: false, type: .list), 
             AWSShapeMember(label: "VpcId", required: false, type: .string), 
             AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
             AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
@@ -4041,6 +4389,7 @@ extension Redshift {
             AWSShapeMember(label: "NodeType", required: false, type: .string), 
             AWSShapeMember(label: "ClusterPublicKey", required: false, type: .string), 
             AWSShapeMember(label: "HsmStatus", required: false, type: .structure), 
+            AWSShapeMember(label: "MaintenanceTrackName", required: false, type: .string), 
             AWSShapeMember(label: "ClusterCreateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
             AWSShapeMember(label: "ElasticIpStatus", required: false, type: .structure), 
@@ -4074,6 +4423,8 @@ extension Redshift {
         public let iamRoles: ClusterIamRoleList?
         ///  The current state of the cluster. Possible values are the following:    available     creating     deleting     final-snapshot     hardware-failure     incompatible-hsm     incompatible-network     incompatible-parameters     incompatible-restore     modifying     rebooting     renaming     resizing     rotating-keys     storage-full     updating-hsm   
         public let clusterStatus: String?
+        /// Cluster operations that are waiting to be started.
+        public let pendingActions: [String]?
         /// The identifier of the VPC the cluster is in, if the cluster is in a VPC.
         public let vpcId: String?
         /// The weekly time range, in Universal Coordinated Time (UTC), during which system maintenance can occur.
@@ -4100,6 +4451,8 @@ extension Redshift {
         public let clusterPublicKey: String?
         /// A value that reports whether the Amazon Redshift cluster has finished applying any hardware security module (HSM) settings changes specified in a modify cluster command. Values: active, applying
         public let hsmStatus: HsmStatus?
+        /// The name of the maintenance track for the cluster.
+        public let maintenanceTrackName: String?
         /// The date and time that the cluster was created.
         public let clusterCreateTime: TimeStamp?
         /// A Boolean value that, if true, indicates that the cluster can be accessed from a public network.
@@ -4117,7 +4470,7 @@ extension Redshift {
         /// The status of a modify operation, if any, initiated for the cluster.
         public let modifyStatus: String?
 
-        public init(vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, clusterNodes: [ClusterNode]? = nil, dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, clusterIdentifier: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, enhancedVpcRouting: Bool? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, availabilityZone: String? = nil, iamRoles: ClusterIamRoleList? = nil, clusterStatus: String? = nil, vpcId: String? = nil, preferredMaintenanceWindow: String? = nil, numberOfNodes: Int32? = nil, endpoint: Endpoint? = nil, clusterRevisionNumber: String? = nil, kmsKeyId: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, clusterSecurityGroups: ClusterSecurityGroupMembershipList? = nil, clusterParameterGroups: ClusterParameterGroupStatusList? = nil, tags: TagList? = nil, nodeType: String? = nil, clusterPublicKey: String? = nil, hsmStatus: HsmStatus? = nil, clusterCreateTime: TimeStamp? = nil, publiclyAccessible: Bool? = nil, elasticIpStatus: ElasticIpStatus? = nil, restoreStatus: RestoreStatus? = nil, clusterSubnetGroupName: String? = nil, masterUsername: String? = nil, allowVersionUpgrade: Bool? = nil, modifyStatus: String? = nil) {
+        public init(vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, clusterNodes: [ClusterNode]? = nil, dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, clusterIdentifier: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, enhancedVpcRouting: Bool? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, availabilityZone: String? = nil, iamRoles: ClusterIamRoleList? = nil, clusterStatus: String? = nil, pendingActions: [String]? = nil, vpcId: String? = nil, preferredMaintenanceWindow: String? = nil, numberOfNodes: Int32? = nil, endpoint: Endpoint? = nil, clusterRevisionNumber: String? = nil, kmsKeyId: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, clusterSecurityGroups: ClusterSecurityGroupMembershipList? = nil, clusterParameterGroups: ClusterParameterGroupStatusList? = nil, tags: TagList? = nil, nodeType: String? = nil, clusterPublicKey: String? = nil, hsmStatus: HsmStatus? = nil, maintenanceTrackName: String? = nil, clusterCreateTime: TimeStamp? = nil, publiclyAccessible: Bool? = nil, elasticIpStatus: ElasticIpStatus? = nil, restoreStatus: RestoreStatus? = nil, clusterSubnetGroupName: String? = nil, masterUsername: String? = nil, allowVersionUpgrade: Bool? = nil, modifyStatus: String? = nil) {
             self.vpcSecurityGroups = vpcSecurityGroups
             self.clusterNodes = clusterNodes
             self.dBName = dBName
@@ -4130,6 +4483,7 @@ extension Redshift {
             self.availabilityZone = availabilityZone
             self.iamRoles = iamRoles
             self.clusterStatus = clusterStatus
+            self.pendingActions = pendingActions
             self.vpcId = vpcId
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.numberOfNodes = numberOfNodes
@@ -4143,6 +4497,7 @@ extension Redshift {
             self.nodeType = nodeType
             self.clusterPublicKey = clusterPublicKey
             self.hsmStatus = hsmStatus
+            self.maintenanceTrackName = maintenanceTrackName
             self.clusterCreateTime = clusterCreateTime
             self.publiclyAccessible = publiclyAccessible
             self.elasticIpStatus = elasticIpStatus
@@ -4166,6 +4521,7 @@ extension Redshift {
             case availabilityZone = "AvailabilityZone"
             case iamRoles = "IamRoles"
             case clusterStatus = "ClusterStatus"
+            case pendingActions = "PendingActions"
             case vpcId = "VpcId"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
             case numberOfNodes = "NumberOfNodes"
@@ -4179,6 +4535,7 @@ extension Redshift {
             case nodeType = "NodeType"
             case clusterPublicKey = "ClusterPublicKey"
             case hsmStatus = "HsmStatus"
+            case maintenanceTrackName = "MaintenanceTrackName"
             case clusterCreateTime = "ClusterCreateTime"
             case publiclyAccessible = "PubliclyAccessible"
             case elasticIpStatus = "ElasticIpStatus"
@@ -4279,32 +4636,21 @@ extension Redshift {
 
     public struct AvailabilityZone: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SupportedPlatforms", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+        public let supportedPlatforms: SupportedPlatformsList?
         /// The name of the availability zone.
         public let name: String?
 
-        public init(name: String? = nil) {
+        public init(supportedPlatforms: SupportedPlatformsList? = nil, name: String? = nil) {
+            self.supportedPlatforms = supportedPlatforms
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
+            case supportedPlatforms = "SupportedPlatforms"
             case name = "Name"
-        }
-    }
-
-    public struct ModifyClusterSubnetGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterSubnetGroup", required: false, type: .structure)
-        ]
-        public let clusterSubnetGroup: ClusterSubnetGroup?
-
-        public init(clusterSubnetGroup: ClusterSubnetGroup? = nil) {
-            self.clusterSubnetGroup = clusterSubnetGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusterSubnetGroup = "ClusterSubnetGroup"
         }
     }
 
@@ -4360,6 +4706,32 @@ extension Redshift {
         }
     }
 
+    public struct GetReservedNodeExchangeOfferingsInputMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedNodeId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        ]
+        /// A value that indicates the starting point for the next set of ReservedNodeOfferings.
+        public let marker: String?
+        /// A string representing the node identifier for the DC1 Reserved Node to be exchanged.
+        public let reservedNodeId: String
+        /// An integer setting the maximum number of ReservedNodeOfferings to retrieve.
+        public let maxRecords: Int32?
+
+        public init(marker: String? = nil, reservedNodeId: String, maxRecords: Int32? = nil) {
+            self.marker = marker
+            self.reservedNodeId = reservedNodeId
+            self.maxRecords = maxRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case reservedNodeId = "ReservedNodeId"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
     public struct HsmClientCertificateList: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HsmClientCertificate", required: false, type: .list)
@@ -4372,6 +4744,27 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case hsmClientCertificate = "HsmClientCertificate"
+        }
+    }
+
+    public enum ReservedNodeOfferingType: String, CustomStringConvertible, Codable {
+        case regular = "Regular"
+        case upgradable = "Upgradable"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ModifyClusterSubnetGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterSubnetGroup", required: false, type: .structure)
+        ]
+        public let clusterSubnetGroup: ClusterSubnetGroup?
+
+        public init(clusterSubnetGroup: ClusterSubnetGroup? = nil) {
+            self.clusterSubnetGroup = clusterSubnetGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterSubnetGroup = "ClusterSubnetGroup"
         }
     }
 
@@ -4411,6 +4804,32 @@ extension Redshift {
         }
     }
 
+    public struct DescribeClusterDbRevisionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// A unique identifier for a cluster whose ClusterDbRevisions you are requesting. This parameter is case sensitive. All clusters defined for an account are returned by default.
+        public let clusterIdentifier: String?
+        /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in the marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the marker parameter and retrying the request.  Default: 100 Constraints: minimum 20, maximum 100.
+        public let maxRecords: Int32?
+        /// An optional parameter that specifies the starting point for returning a set of response records. When the results of a DescribeClusterDbRevisions request exceed the value specified in MaxRecords, Amazon Redshift returns a value in the marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the marker parameter and retrying the request.  Constraints: You can specify either the ClusterIdentifier parameter, or the marker parameter, but not both.
+        public let marker: String?
+
+        public init(clusterIdentifier: String? = nil, maxRecords: Int32? = nil, marker: String? = nil) {
+            self.clusterIdentifier = clusterIdentifier
+            self.maxRecords = maxRecords
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+        }
+    }
+
     public struct RotateEncryptionKeyMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string)
@@ -4429,30 +4848,30 @@ extension Redshift {
 
     public struct RevokeClusterSecurityGroupIngressMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CIDRIP", required: false, type: .string), 
             AWSShapeMember(label: "EC2SecurityGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "CIDRIP", required: false, type: .string), 
             AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
             AWSShapeMember(label: "ClusterSecurityGroupName", required: true, type: .string)
         ]
-        /// The IP range for which to revoke access. This range must be a valid Classless Inter-Domain Routing (CIDR) block of IP addresses. If CIDRIP is specified, EC2SecurityGroupName and EC2SecurityGroupOwnerId cannot be provided. 
-        public let cidrip: String?
         /// The name of the EC2 Security Group whose access is to be revoked. If EC2SecurityGroupName is specified, EC2SecurityGroupOwnerId must also be provided and CIDRIP cannot be provided. 
         public let eC2SecurityGroupName: String?
+        /// The IP range for which to revoke access. This range must be a valid Classless Inter-Domain Routing (CIDR) block of IP addresses. If CIDRIP is specified, EC2SecurityGroupName and EC2SecurityGroupOwnerId cannot be provided. 
+        public let cidrip: String?
         /// The AWS account number of the owner of the security group specified in the EC2SecurityGroupName parameter. The AWS access key ID is not an acceptable value. If EC2SecurityGroupOwnerId is specified, EC2SecurityGroupName must also be provided. and CIDRIP cannot be provided.  Example: 111122223333 
         public let eC2SecurityGroupOwnerId: String?
         /// The name of the security Group from which to revoke the ingress rule.
         public let clusterSecurityGroupName: String
 
-        public init(cidrip: String? = nil, eC2SecurityGroupName: String? = nil, eC2SecurityGroupOwnerId: String? = nil, clusterSecurityGroupName: String) {
-            self.cidrip = cidrip
+        public init(eC2SecurityGroupName: String? = nil, cidrip: String? = nil, eC2SecurityGroupOwnerId: String? = nil, clusterSecurityGroupName: String) {
             self.eC2SecurityGroupName = eC2SecurityGroupName
+            self.cidrip = cidrip
             self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
             self.clusterSecurityGroupName = clusterSecurityGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cidrip = "CIDRIP"
             case eC2SecurityGroupName = "EC2SecurityGroupName"
+            case cidrip = "CIDRIP"
             case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
             case clusterSecurityGroupName = "ClusterSecurityGroupName"
         }
@@ -4537,6 +4956,7 @@ extension Redshift {
             AWSShapeMember(label: "NodeType", required: true, type: .string), 
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .structure), 
             AWSShapeMember(label: "ClusterParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "MaintenanceTrackName", required: false, type: .string), 
             AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
             AWSShapeMember(label: "MasterUsername", required: true, type: .string), 
             AWSShapeMember(label: "ClusterSubnetGroupName", required: false, type: .string), 
@@ -4580,15 +5000,17 @@ extension Redshift {
         public let clusterSecurityGroups: ClusterSecurityGroupNameList?
         /// A list of tag instances.
         public let tags: TagList?
-        /// The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values: ds1.xlarge | ds1.8xlarge | ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge. 
+        /// The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values: ds2.xlarge | ds2.8xlarge | ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge 
         public let nodeType: String
         /// A list of Virtual Private Cloud (VPC) security groups to be associated with the cluster. Default: The default VPC security group is associated with the cluster.
         public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
         /// The name of the parameter group to be associated with this cluster. Default: The default Amazon Redshift cluster parameter group. For information about the default parameter group, go to Working with Amazon Redshift Parameter Groups  Constraints:   Must be 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let clusterParameterGroupName: String?
+        /// An optional parameter for the name of the maintenance track for the cluster. If you don't provide a maintenance track name, the cluster is assigned to the current track.
+        public let maintenanceTrackName: String?
         /// If true, the cluster can be accessed from a public network. 
         public let publiclyAccessible: Bool?
-        /// The user name associated with the master user account for the cluster that is being created. Constraints:   Must be 1 - 128 alphanumeric characters.   First character must be a letter.   Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.   
+        /// The user name associated with the master user account for the cluster that is being created. Constraints:   Must be 1 - 128 alphanumeric characters. The user name can't be PUBLIC.   First character must be a letter.   Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.   
         public let masterUsername: String
         /// The name of a cluster subnet group to be associated with this cluster. If this parameter is not provided the resulting cluster will be deployed outside virtual private cloud (VPC).
         public let clusterSubnetGroupName: String?
@@ -4599,7 +5021,7 @@ extension Redshift {
         /// The port number on which the cluster accepts incoming connections. The cluster is accessible only via the JDBC and ODBC connection strings. Part of the connection string requires the port on which the cluster will listen for incoming connections. Default: 5439  Valid Values: 1150-65535 
         public let port: Int32?
 
-        public init(dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, clusterIdentifier: String, clusterType: String? = nil, enhancedVpcRouting: Bool? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, masterUserPassword: String, availabilityZone: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: IamRoleArnList? = nil, hsmClientCertificateIdentifier: String? = nil, elasticIp: String? = nil, preferredMaintenanceWindow: String? = nil, numberOfNodes: Int32? = nil, kmsKeyId: String? = nil, clusterSecurityGroups: ClusterSecurityGroupNameList? = nil, tags: TagList? = nil, nodeType: String, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, clusterParameterGroupName: String? = nil, publiclyAccessible: Bool? = nil, masterUsername: String, clusterSubnetGroupName: String? = nil, additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, port: Int32? = nil) {
+        public init(dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, clusterIdentifier: String, clusterType: String? = nil, enhancedVpcRouting: Bool? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, masterUserPassword: String, availabilityZone: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: IamRoleArnList? = nil, hsmClientCertificateIdentifier: String? = nil, elasticIp: String? = nil, preferredMaintenanceWindow: String? = nil, numberOfNodes: Int32? = nil, kmsKeyId: String? = nil, clusterSecurityGroups: ClusterSecurityGroupNameList? = nil, tags: TagList? = nil, nodeType: String, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, clusterParameterGroupName: String? = nil, maintenanceTrackName: String? = nil, publiclyAccessible: Bool? = nil, masterUsername: String, clusterSubnetGroupName: String? = nil, additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, port: Int32? = nil) {
             self.dBName = dBName
             self.clusterVersion = clusterVersion
             self.encrypted = encrypted
@@ -4621,6 +5043,7 @@ extension Redshift {
             self.nodeType = nodeType
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
             self.clusterParameterGroupName = clusterParameterGroupName
+            self.maintenanceTrackName = maintenanceTrackName
             self.publiclyAccessible = publiclyAccessible
             self.masterUsername = masterUsername
             self.clusterSubnetGroupName = clusterSubnetGroupName
@@ -4651,6 +5074,7 @@ extension Redshift {
             case nodeType = "NodeType"
             case vpcSecurityGroupIds = "VpcSecurityGroupIds"
             case clusterParameterGroupName = "ClusterParameterGroupName"
+            case maintenanceTrackName = "MaintenanceTrackName"
             case publiclyAccessible = "PubliclyAccessible"
             case masterUsername = "MasterUsername"
             case clusterSubnetGroupName = "ClusterSubnetGroupName"
@@ -4743,19 +5167,18 @@ extension Redshift {
         }
     }
 
-    public struct DeleteClusterSubnetGroupMessage: AWSShape {
+    public struct RevisionTargetsList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterSubnetGroupName", required: true, type: .string)
+            AWSShapeMember(label: "RevisionTarget", required: false, type: .list)
         ]
-        /// The name of the cluster subnet group name to be deleted.
-        public let clusterSubnetGroupName: String
+        public let revisionTarget: [RevisionTarget]?
 
-        public init(clusterSubnetGroupName: String) {
-            self.clusterSubnetGroupName = clusterSubnetGroupName
+        public init(revisionTarget: [RevisionTarget]? = nil) {
+            self.revisionTarget = revisionTarget
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterSubnetGroupName = "ClusterSubnetGroupName"
+            case revisionTarget = "RevisionTarget"
         }
     }
 
@@ -4782,6 +5205,43 @@ extension Redshift {
             case snapshotClusterIdentifier = "SnapshotClusterIdentifier"
             case snapshotIdentifier = "SnapshotIdentifier"
             case accountWithRestoreAccess = "AccountWithRestoreAccess"
+        }
+    }
+
+    public struct AcceptReservedNodeExchangeInputMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedNodeId", required: true, type: .string), 
+            AWSShapeMember(label: "TargetReservedNodeOfferingId", required: true, type: .string)
+        ]
+        /// A string representing the node identifier of the DC1 Reserved Node to be exchanged.
+        public let reservedNodeId: String
+        /// The unique identifier of the DC2 Reserved Node offering to be used for the exchange. You can obtain the value for the parameter by calling GetReservedNodeExchangeOfferings 
+        public let targetReservedNodeOfferingId: String
+
+        public init(reservedNodeId: String, targetReservedNodeOfferingId: String) {
+            self.reservedNodeId = reservedNodeId
+            self.targetReservedNodeOfferingId = targetReservedNodeOfferingId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedNodeId = "ReservedNodeId"
+            case targetReservedNodeOfferingId = "TargetReservedNodeOfferingId"
+        }
+    }
+
+    public struct DeleteClusterSubnetGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterSubnetGroupName", required: true, type: .string)
+        ]
+        /// The name of the cluster subnet group name to be deleted.
+        public let clusterSubnetGroupName: String
+
+        public init(clusterSubnetGroupName: String) {
+            self.clusterSubnetGroupName = clusterSubnetGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterSubnetGroupName = "ClusterSubnetGroupName"
         }
     }
 
@@ -4864,9 +5324,10 @@ extension Redshift {
             AWSShapeMember(label: "AutomatedSnapshotRetentionPeriod", required: false, type: .integer), 
             AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
             AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
+            AWSShapeMember(label: "MaintenanceTrackName", required: false, type: .string), 
             AWSShapeMember(label: "EnhancedVpcRouting", required: false, type: .boolean), 
-            AWSShapeMember(label: "ClusterType", required: false, type: .string), 
-            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean)
+            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "ClusterType", required: false, type: .string)
         ]
         /// The pending or in-progress change of the service version.
         public let clusterVersion: String?
@@ -4880,23 +5341,26 @@ extension Redshift {
         public let numberOfNodes: Int32?
         /// The pending or in-progress change of the master user password for the cluster.
         public let masterUserPassword: String?
+        /// The name of the maintenance track that the cluster will change to during the next maintenance window.
+        public let maintenanceTrackName: String?
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled.  Default: false
         public let enhancedVpcRouting: Bool?
-        /// The pending or in-progress change of the cluster type.
-        public let clusterType: String?
         /// The pending or in-progress change of the ability to connect to the cluster from the public network.
         public let publiclyAccessible: Bool?
+        /// The pending or in-progress change of the cluster type.
+        public let clusterType: String?
 
-        public init(clusterVersion: String? = nil, nodeType: String? = nil, clusterIdentifier: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, numberOfNodes: Int32? = nil, masterUserPassword: String? = nil, enhancedVpcRouting: Bool? = nil, clusterType: String? = nil, publiclyAccessible: Bool? = nil) {
+        public init(clusterVersion: String? = nil, nodeType: String? = nil, clusterIdentifier: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, numberOfNodes: Int32? = nil, masterUserPassword: String? = nil, maintenanceTrackName: String? = nil, enhancedVpcRouting: Bool? = nil, publiclyAccessible: Bool? = nil, clusterType: String? = nil) {
             self.clusterVersion = clusterVersion
             self.nodeType = nodeType
             self.clusterIdentifier = clusterIdentifier
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.numberOfNodes = numberOfNodes
             self.masterUserPassword = masterUserPassword
+            self.maintenanceTrackName = maintenanceTrackName
             self.enhancedVpcRouting = enhancedVpcRouting
-            self.clusterType = clusterType
             self.publiclyAccessible = publiclyAccessible
+            self.clusterType = clusterType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4906,9 +5370,10 @@ extension Redshift {
             case automatedSnapshotRetentionPeriod = "AutomatedSnapshotRetentionPeriod"
             case numberOfNodes = "NumberOfNodes"
             case masterUserPassword = "MasterUserPassword"
+            case maintenanceTrackName = "MaintenanceTrackName"
             case enhancedVpcRouting = "EnhancedVpcRouting"
-            case clusterType = "ClusterType"
             case publiclyAccessible = "PubliclyAccessible"
+            case clusterType = "ClusterType"
         }
     }
 
@@ -5117,30 +5582,30 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "ParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Source", required: false, type: .string)
+            AWSShapeMember(label: "Source", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
         /// The name of a cluster parameter group for which to return details.
         public let parameterGroupName: String
-        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterParameters request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
-        public let marker: String?
         /// The parameter types to return. Specify user to show parameters that are different form the default. Similarly, specify engine-default to show parameters that are the same as the default parameter group.  Default: All parameter types returned. Valid Values: user | engine-default 
         public let source: String?
+        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterParameters request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
+        public let marker: String?
 
-        public init(maxRecords: Int32? = nil, parameterGroupName: String, marker: String? = nil, source: String? = nil) {
+        public init(maxRecords: Int32? = nil, parameterGroupName: String, source: String? = nil, marker: String? = nil) {
             self.maxRecords = maxRecords
             self.parameterGroupName = parameterGroupName
-            self.marker = marker
             self.source = source
+            self.marker = marker
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxRecords = "MaxRecords"
             case parameterGroupName = "ParameterGroupName"
-            case marker = "Marker"
             case source = "Source"
+            case marker = "Marker"
         }
     }
 

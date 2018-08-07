@@ -9,6 +9,7 @@ public enum SnsError: AWSErrorType {
     case authorizationErrorException(message: String?)
     case invalidParameterException(message: String?)
     case notFoundException(message: String?)
+    case filterPolicyLimitExceededException(message: String?)
     case topicLimitExceededException(message: String?)
     case subscriptionLimitExceededException(message: String?)
     case invalidParameterValueException(message: String?)
@@ -33,6 +34,8 @@ extension SnsError {
             self = .invalidParameterException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
+        case "FilterPolicyLimitExceededException":
+            self = .filterPolicyLimitExceededException(message: message)
         case "TopicLimitExceededException":
             self = .topicLimitExceededException(message: message)
         case "SubscriptionLimitExceededException":

@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-Amazon Elastic Compute Cloud Amazon Elastic Compute Cloud (Amazon EC2) provides resizable computing capacity in the Amazon Web Services (AWS) cloud. Using Amazon EC2 eliminates your need to invest in hardware up front, so you can develop and deploy applications faster.
+Amazon Elastic Compute Cloud Amazon Elastic Compute Cloud (Amazon EC2) provides secure and resizable computing capacity in the AWS cloud. Using Amazon EC2 eliminates the need to invest in hardware up front, so you can develop and deploy applications faster. To learn more about Amazon EC2, Amazon EBS, and Amazon VPC, see the following resources:    Amazon EC2 product page     Amazon EC2 documentation     Amazon EBS product page     Amazon VPC product page     Amazon VPC documentation   
 */
 public struct Ec2 {
 
@@ -23,7 +23,7 @@ public struct Ec2 {
         )
     }
 
-    ///  Describes Dedicated Host Reservations which are associated with Dedicated Hosts in your account.
+    ///  Describes reservations that are associated with Dedicated Hosts in your account.
     public func describeHostReservations(_ input: DescribeHostReservationsRequest) throws -> DescribeHostReservationsResult {
         return try client.send(operation: "DescribeHostReservations", path: "/", httpMethod: "POST", input: input)
     }
@@ -38,22 +38,22 @@ public struct Ec2 {
         return try client.send(operation: "DescribeVolumeAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modify the auto-placement setting of a Dedicated Host. When auto-placement is enabled, AWS will place instances that you launch with a tenancy of host, but without targeting a specific host ID, onto any available Dedicated Host in your account which has auto-placement enabled. When auto-placement is disabled, you need to provide a host ID if you want the instance to launch onto a specific host. If no host ID is provided, the instance will be launched onto a suitable host which has auto-placement enabled.
+    ///  Modify the auto-placement setting of a Dedicated Host. When auto-placement is enabled, any instances that you launch with a tenancy of host but without a specific host ID are placed onto any available Dedicated Host in your account that has auto-placement enabled. When auto-placement is disabled, you need to provide a host ID ito have the instance launch onto a specific host. If no host ID is provided, the instance is launched onto a suitable host with auto-placement enabled.
     public func modifyHosts(_ input: ModifyHostsRequest) throws -> ModifyHostsResult {
         return try client.send(operation: "ModifyHosts", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Changes which network ACL a subnet is associated with. By default when you create a subnet, it's automatically associated with the default network ACL. For more information about network ACLs, see Network ACLs in the Amazon Virtual Private Cloud User Guide.
+    ///  Changes which network ACL a subnet is associated with. By default when you create a subnet, it's automatically associated with the default network ACL. For more information about network ACLs, see Network ACLs in the Amazon Virtual Private Cloud User Guide. This is an idempotent operation.
     public func replaceNetworkAclAssociation(_ input: ReplaceNetworkAclAssociationRequest) throws -> ReplaceNetworkAclAssociationResult {
         return try client.send(operation: "ReplaceNetworkAclAssociation", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes available AWS services in a prefix list format, which includes the prefix list name and prefix list ID of the service and the IP address range for the service. A prefix list ID is required for creating an outbound security group rule that allows traffic from a VPC to access an AWS service through a gateway VPC endpoint.
+    ///  Describes available AWS services in a prefix list format, which includes the prefix list name and prefix list ID of the service and the IP address range for the service. A prefix list ID is required for creating an outbound security group rule that allows traffic from a VPC to access an AWS service through a gateway VPC endpoint. Currently, the services that support this action are Amazon S3 and Amazon DynamoDB.
     public func describePrefixLists(_ input: DescribePrefixListsRequest) throws -> DescribePrefixListsResult {
         return try client.send(operation: "DescribePrefixLists", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the ID format of a resource for a specified IAM user, IAM role, or the root user for an account; or all IAM users, IAM roles, and the root user for an account. You can specify that resources should receive longer IDs (17-character IDs) when they are created.  The following resource types support longer IDs: instance | reservation | snapshot | volume. For more information, see Resource IDs in the Amazon Elastic Compute Cloud User Guide.  This setting applies to the principal specified in the request; it does not apply to the principal that makes the request.  Resources created with longer IDs are visible to all IAM roles and users, regardless of these settings and provided that they have permission to use the relevant Describe command for the resource type.
+    ///  Modifies the ID format of a resource for a specified IAM user, IAM role, or the root user for an account; or all IAM users, IAM roles, and the root user for an account. You can specify that resources should receive longer IDs (17-character IDs) when they are created.  This request can only be used to modify longer ID settings for resource types that are within the opt-in period. Resources currently in their opt-in period include: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | route-table | route-table-association | security-group | subnet | subnet-cidr-block-association | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway.  For more information, see Resource IDs in the Amazon Elastic Compute Cloud User Guide.  This setting applies to the principal specified in the request; it does not apply to the principal that makes the request.  Resources created with longer IDs are visible to all IAM roles and users, regardless of these settings and provided that they have permission to use the relevant Describe command for the resource type.
     public func modifyIdentityIdFormat(_ input: ModifyIdentityIdFormatRequest) throws {
         _ = try client.send(operation: "ModifyIdentityIdFormat", path: "/", httpMethod: "POST", input: input)
     }
@@ -73,12 +73,12 @@ public struct Ec2 {
         return try client.send(operation: "DescribeVpcEndpoints", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data inconsistencies on the volume. Volume events notify you if this occurs. Volume actions notify you if any action needs to be taken in response to the event. The DescribeVolumeStatus operation provides the following information about the specified volumes:  Status: Reflects the current status of the volume. The possible values are ok, impaired , warning, or insufficient-data. If all checks pass, the overall status of the volume is ok. If the check fails, the overall status is impaired. If the status is insufficient-data, then the checks may still be taking place on your volume at the time. We recommend that you retry the request. For more information on volume status, see Monitoring the Status of Your Volumes.  Events: Reflect the cause of a volume status and may require you to take action. For example, if your volume returns an impaired status, then the volume event might be potential-data-inconsistency. This means that your volume has been affected by an issue with the underlying host, has all I/O operations disabled, and may have inconsistent data.  Actions: Reflect the actions you may have to take in response to an event. For example, if the status of the volume is impaired and the volume event shows potential-data-inconsistency, then the action shows enable-volume-io. This means that you may want to enable the I/O operations for the volume by calling the EnableVolumeIO action and then check the volume for data consistency.  Volume status is based on the volume status checks, and does not reflect the volume state. Therefore, volume status does not indicate volumes in the error state (for example, when a volume is incapable of accepting I/O.) 
+    ///  Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data inconsistencies on the volume. Volume events notify you if this occurs. Volume actions notify you if any action needs to be taken in response to the event. The DescribeVolumeStatus operation provides the following information about the specified volumes:  Status: Reflects the current status of the volume. The possible values are ok, impaired , warning, or insufficient-data. If all checks pass, the overall status of the volume is ok. If the check fails, the overall status is impaired. If the status is insufficient-data, then the checks may still be taking place on your volume at the time. We recommend that you retry the request. For more information about volume status, see Monitoring the Status of Your Volumes in the Amazon Elastic Compute Cloud User Guide.  Events: Reflect the cause of a volume status and may require you to take action. For example, if your volume returns an impaired status, then the volume event might be potential-data-inconsistency. This means that your volume has been affected by an issue with the underlying host, has all I/O operations disabled, and may have inconsistent data.  Actions: Reflect the actions you may have to take in response to an event. For example, if the status of the volume is impaired and the volume event shows potential-data-inconsistency, then the action shows enable-volume-io. This means that you may want to enable the I/O operations for the volume by calling the EnableVolumeIO action and then check the volume for data consistency. Volume status is based on the volume status checks, and does not reflect the volume state. Therefore, volume status does not indicate volumes in the error state (for example, when a volume is incapable of accepting I/O.)
     public func describeVolumeStatus(_ input: DescribeVolumeStatusRequest) throws -> DescribeVolumeStatusResult {
         return try client.send(operation: "DescribeVolumeStatus", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a VPC peering connection. Either the owner of the requester VPC or the owner of the accepter VPC can delete the VPC peering connection if it's in the active state. The owner of the requester VPC can delete a VPC peering connection in the pending-acceptance state. 
+    ///  Deletes a VPC peering connection. Either the owner of the requester VPC or the owner of the accepter VPC can delete the VPC peering connection if it's in the active state. The owner of the requester VPC can delete a VPC peering connection in the pending-acceptance state. You cannot delete a VPC peering connection that's in the failed state.
     public func deleteVpcPeeringConnection(_ input: DeleteVpcPeeringConnectionRequest) throws -> DeleteVpcPeeringConnectionResult {
         return try client.send(operation: "DeleteVpcPeeringConnection", path: "/", httpMethod: "POST", input: input)
     }
@@ -128,7 +128,7 @@ public struct Ec2 {
         return try client.send(operation: "CreateKeyPair", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Cancels one or more Spot Instance requests. Spot Instances are instances that Amazon EC2 starts on your behalf when the maximum price that you specify exceeds the current Spot price. For more information, see Spot Instance Requests in the Amazon Elastic Compute Cloud User Guide.  Canceling a Spot Instance request does not terminate running Spot Instances associated with the request. 
+    ///  Cancels one or more Spot Instance requests.  Canceling a Spot Instance request does not terminate running Spot Instances associated with the request. 
     public func cancelSpotInstanceRequests(_ input: CancelSpotInstanceRequestsRequest) throws -> CancelSpotInstanceRequestsResult {
         return try client.send(operation: "CancelSpotInstanceRequests", path: "/", httpMethod: "POST", input: input)
     }
@@ -148,7 +148,7 @@ public struct Ec2 {
         _ = try client.send(operation: "DeleteVpc", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2 instance type, you may be able to apply these changes without stopping the instance or detaching the volume from it. For more information about modifying an EBS volume running Linux, see Modifying the Size, IOPS, or Type of an EBS Volume on Linux. For more information about modifying an EBS volume running Windows, see Modifying the Size, IOPS, or Type of an EBS Volume on Windows.   When you complete a resize operation on your volume, you need to extend the volume's file-system size to take advantage of the new storage capacity. For information about extending a Linux file system, see Extending a Linux File System. For information about extending a Windows file system, see Extending a Windows File System.   You can use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. You can also track the status of a modification using the DescribeVolumesModifications API. For information about tracking status changes using either method, see Monitoring Volume Modifications.   With previous-generation instance types, resizing an EBS volume may require detaching and reattaching the volume or stopping and restarting the instance. For more information about modifying an EBS volume running Linux, see Modifying the Size, IOPS, or Type of an EBS Volume on Linux. For more information about modifying an EBS volume running Windows, see Modifying the Size, IOPS, or Type of an EBS Volume on Windows.   If you reach the maximum volume modification rate per volume limit, you will need to wait at least six hours before applying further modifications to the affected EBS volume. 
+    ///  You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2 instance type, you may be able to apply these changes without stopping the instance or detaching the volume from it. For more information about modifying an EBS volume running Linux, see Modifying the Size, IOPS, or Type of an EBS Volume on Linux. For more information about modifying an EBS volume running Windows, see Modifying the Size, IOPS, or Type of an EBS Volume on Windows.   When you complete a resize operation on your volume, you need to extend the volume's file-system size to take advantage of the new storage capacity. For information about extending a Linux file system, see Extending a Linux File System. For information about extending a Windows file system, see Extending a Windows File System.   You can use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. You can also track the status of a modification using the DescribeVolumesModifications API. For information about tracking status changes using either method, see Monitoring Volume Modifications.  With previous-generation instance types, resizing an EBS volume may require detaching and reattaching the volume or stopping and restarting the instance. For more information, see Modifying the Size, IOPS, or Type of an EBS Volume on Linux and Modifying the Size, IOPS, or Type of an EBS Volume on Windows. If you reach the maximum volume modification rate per volume limit, you will need to wait at least six hours before applying further modifications to the affected EBS volume.
     public func modifyVolume(_ input: ModifyVolumeRequest) throws -> ModifyVolumeResult {
         return try client.send(operation: "ModifyVolume", path: "/", httpMethod: "POST", input: input)
     }
@@ -263,12 +263,12 @@ public struct Ec2 {
         _ = try client.send(operation: "UnassignPrivateIpAddresses", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Set the instance affinity value for a specific stopped instance and modify the instance tenancy setting. Instance affinity is disabled by default. When instance affinity is host and it is not associated with a specific Dedicated Host, the next time it is launched it will automatically be associated with the host it lands on. This relationship will persist if the instance is stopped/started, or rebooted. You can modify the host ID associated with a stopped instance. If a stopped instance has a new host ID association, the instance will target that host when restarted. You can modify the tenancy of a stopped instance with a tenancy of host or dedicated. Affinity, hostID, and tenancy are not required parameters, but at least one of them must be specified in the request. Affinity and tenancy can be modified in the same request, but tenancy can only be modified on instances that are stopped.
+    ///  Modifies the placement attributes for a specified instance. You can do the following:   Modify the affinity between an instance and a Dedicated Host. When affinity is set to host and the instance is not associated with a specific Dedicated Host, the next time the instance is launched, it is automatically associated with the host on which it lands. If the instance is restarted or rebooted, this relationship persists.   Change the Dedicated Host with which an instance is associated.   Change the instance tenancy of an instance from host to dedicated, or from dedicated to host.   Move an instance to or from a placement group.   At least one attribute for affinity, host ID, tenancy, or placement group name must be specified in the request. Affinity and tenancy can be modified in the same request. To modify the host ID, tenancy, or placement group for an instance, the instance must be in the stopped state.
     public func modifyInstancePlacement(_ input: ModifyInstancePlacementRequest) throws -> ModifyInstancePlacementResult {
         return try client.send(operation: "ModifyInstancePlacement", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified EBS volume. The volume must be in the available state (not attached to an instance).  The volume may remain in the deleting state for several minutes.  For more information, see Deleting an Amazon EBS Volume in the Amazon Elastic Compute Cloud User Guide.
+    ///  Deletes the specified EBS volume. The volume must be in the available state (not attached to an instance). The volume can remain in the deleting state for several minutes. For more information, see Deleting an Amazon EBS Volume in the Amazon Elastic Compute Cloud User Guide.
     public func deleteVolume(_ input: DeleteVolumeRequest) throws {
         _ = try client.send(operation: "DeleteVolume", path: "/", httpMethod: "POST", input: input)
     }
@@ -343,7 +343,7 @@ public struct Ec2 {
         return try client.send(operation: "DescribeNetworkInterfaces", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Grants an AWS authorized partner account permission to attach the specified network interface to an instance in their account. You can grant permission to a single AWS account only, and only one account at a time.
+    ///  Grants an AWS-authorized account permission to attach the specified network interface to an instance in their account. You can grant permission to a single AWS account only, and only one account at a time.
     public func createNetworkInterfacePermission(_ input: CreateNetworkInterfacePermissionRequest) throws -> CreateNetworkInterfacePermissionResult {
         return try client.send(operation: "CreateNetworkInterfacePermission", path: "/", httpMethod: "POST", input: input)
     }
@@ -413,12 +413,12 @@ public struct Ec2 {
         return try client.send(operation: "DescribeVpcClassicLinkDnsSupport", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the ID format settings for your resources on a per-region basis, for example, to view which resource types are enabled for longer IDs. This request only returns information about resource types whose ID formats can be modified; it does not return information about other resource types. The following resource types support longer IDs: instance | reservation | snapshot | volume.  These settings apply to the IAM user who makes the request; they do not apply to the entire AWS account. By default, an IAM user defaults to the same settings as the root user, unless they explicitly override the settings by running the ModifyIdFormat command. Resources created with longer IDs are visible to all IAM users, regardless of these settings and provided that they have permission to use the relevant Describe command for the resource type.
+    ///  Describes the ID format settings for your resources on a per-region basis, for example, to view which resource types are enabled for longer IDs. This request only returns information about resource types whose ID formats can be modified; it does not return information about other resource types. The following resource types support longer IDs: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway.  These settings apply to the IAM user who makes the request; they do not apply to the entire AWS account. By default, an IAM user defaults to the same settings as the root user, unless they explicitly override the settings by running the ModifyIdFormat command. Resources created with longer IDs are visible to all IAM users, regardless of these settings and provided that they have permission to use the relevant Describe command for the resource type.
     public func describeIdFormat(_ input: DescribeIdFormatRequest) throws -> DescribeIdFormatResult {
         return try client.send(operation: "DescribeIdFormat", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the data feed for Spot Instances. For more information, see Spot Instance Data Feed in the Amazon Elastic Compute Cloud User Guide.
+    ///  Describes the data feed for Spot Instances. For more information, see Spot Instance Data Feed in the Amazon EC2 User Guide for Linux Instances.
     public func describeSpotDatafeedSubscription(_ input: DescribeSpotDatafeedSubscriptionRequest) throws -> DescribeSpotDatafeedSubscriptionResult {
         return try client.send(operation: "DescribeSpotDatafeedSubscription", path: "/", httpMethod: "POST", input: input)
     }
@@ -438,7 +438,7 @@ public struct Ec2 {
         _ = try client.send(operation: "DeleteSpotDatafeedSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a NAT gateway in the specified subnet. A NAT gateway can be used to enable instances in a private subnet to connect to the Internet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. For more information, see NAT Gateways in the Amazon Virtual Private Cloud User Guide.
+    ///  Creates a NAT gateway in the specified public subnet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. Internet-bound traffic from a private subnet can be routed to the NAT gateway, therefore enabling instances in the private subnet to connect to the internet. For more information, see NAT Gateways in the Amazon Virtual Private Cloud User Guide.
     public func createNatGateway(_ input: CreateNatGatewayRequest) throws -> CreateNatGatewayResult {
         return try client.send(operation: "CreateNatGateway", path: "/", httpMethod: "POST", input: input)
     }
@@ -446,6 +446,11 @@ public struct Ec2 {
     ///  Starts an Amazon EBS-backed instance that you've previously stopped. Instances that use Amazon EBS volumes as their root devices can be quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for instance usage. However, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. You can restart your instance at any time. Every time you start your Windows instance, Amazon EC2 charges you for a full instance hour. If you stop and restart your Windows instance, a new instance hour begins and Amazon EC2 charges you for another full instance hour even if you are still within the same 60-minute period when it was stopped. Every time you start your Linux instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. Before stopping an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM. Performing this operation on an instance that uses an instance store as its root device returns an error. For more information, see Stopping Instances in the Amazon Elastic Compute Cloud User Guide.
     public func startInstances(_ input: StartInstancesRequest) throws -> StartInstancesResult {
         return try client.send(operation: "StartInstances", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified EC2 Fleet. After you delete an EC2 Fleet, it launches no new instances. You must specify whether an EC2 Fleet should also terminate its instances. If you terminate the instances, the EC2 Fleet enters the deleted_terminating state. Otherwise, the EC2 Fleet enters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. 
+    public func deleteFleets(_ input: DeleteFleetsRequest) throws -> DeleteFleetsResult {
+        return try client.send(operation: "DeleteFleets", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your VPN connections. For more information about VPN connections, see AWS Managed VPN Connections in the Amazon Virtual Private Cloud User Guide.
@@ -458,14 +463,19 @@ public struct Ec2 {
         return try client.send(operation: "AssociateVpcCidrBlock", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy the snapshot within the same region or from one region to another. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs). The snapshot is copied to the regional endpoint that you send the HTTP request to. Copies of encrypted EBS snapshots remain encrypted. Copies of unencrypted snapshots remain unencrypted, unless the Encrypted flag is specified during the snapshot copy operation. By default, encrypted snapshot copies use the default AWS Key Management Service (AWS KMS) customer master key (CMK); however, you can specify a non-default CMK with the KmsKeyId parameter.   To copy an encrypted snapshot that has been shared from another account, you must have permissions for the CMK used to encrypt the snapshot.   Snapshots created by the CopySnapshot action have an arbitrary volume ID that should not be used for any purpose.  For more information, see Copying an Amazon EBS Snapshot in the Amazon Elastic Compute Cloud User Guide.
+    ///  Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy the snapshot within the same region or from one region to another. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs). The snapshot is copied to the regional endpoint that you send the HTTP request to. Copies of encrypted EBS snapshots remain encrypted. Copies of unencrypted snapshots remain unencrypted, unless the Encrypted flag is specified during the snapshot copy operation. By default, encrypted snapshot copies use the default AWS Key Management Service (AWS KMS) customer master key (CMK); however, you can specify a non-default CMK with the KmsKeyId parameter.  To copy an encrypted snapshot that has been shared from another account, you must have permissions for the CMK used to encrypt the snapshot. Snapshots created by copying another snapshot have an arbitrary volume ID that should not be used for any purpose. For more information, see Copying an Amazon EBS Snapshot in the Amazon Elastic Compute Cloud User Guide.
     public func copySnapshot(_ input: CopySnapshotRequest) throws -> CopySnapshotResult {
         return try client.send(operation: "CopySnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a Spot Instance request. Spot Instances are instances that Amazon EC2 launches when the maximum price that you specify exceeds the current Spot price. For more information, see Spot Instance Requests in the Amazon Elastic Compute Cloud User Guide.
+    ///  Creates a Spot Instance request. For more information, see Spot Instance Requests in the Amazon EC2 User Guide for Linux Instances.
     public func requestSpotInstances(_ input: RequestSpotInstancesRequest) throws -> RequestSpotInstancesResult {
         return try client.send(operation: "RequestSpotInstances", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the running instances for the specified EC2 Fleet.
+    public func describeFleetInstances(_ input: DescribeFleetInstancesRequest) throws -> DescribeFleetInstancesResult {
+        return try client.send(operation: "DescribeFleetInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associates a subnet with a route table. The subnet and route table must be in the same VPC. This association causes traffic originating from the subnet to be routed according to the routes in the route table. The action returns an association ID, which you need in order to disassociate the route table from the subnet later. A route table can be associated with multiple subnets. For more information about route tables, see Route Tables in the Amazon Virtual Private Cloud User Guide.
@@ -513,7 +523,7 @@ public struct Ec2 {
         return try client.send(operation: "DescribeFpgaImages", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the ID format for the specified resource on a per-region basis. You can specify that resources should receive longer IDs (17-character IDs) when they are created. The following resource types support longer IDs: instance | reservation | snapshot | volume. This setting applies to the IAM user who makes the request; it does not apply to the entire AWS account. By default, an IAM user defaults to the same settings as the root user. If you're using this action as the root user, then these settings apply to the entire account, unless an IAM user explicitly overrides these settings for themselves. For more information, see Resource IDs in the Amazon Elastic Compute Cloud User Guide.  Resources created with longer IDs are visible to all IAM roles and users, regardless of these settings and provided that they have permission to use the relevant Describe command for the resource type.
+    ///  Modifies the ID format for the specified resource on a per-region basis. You can specify that resources should receive longer IDs (17-character IDs) when they are created. This request can only be used to modify longer ID settings for resource types that are within the opt-in period. Resources currently in their opt-in period include: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | route-table | route-table-association | security-group | subnet | subnet-cidr-block-association | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway. This setting applies to the IAM user who makes the request; it does not apply to the entire AWS account. By default, an IAM user defaults to the same settings as the root user. If you're using this action as the root user, then these settings apply to the entire account, unless an IAM user explicitly overrides these settings for themselves. For more information, see Resource IDs in the Amazon Elastic Compute Cloud User Guide.  Resources created with longer IDs are visible to all IAM roles and users, regardless of these settings and provided that they have permission to use the relevant Describe command for the resource type.
     public func modifyIdFormat(_ input: ModifyIdFormatRequest) throws {
         _ = try client.send(operation: "ModifyIdFormat", path: "/", httpMethod: "POST", input: input)
     }
@@ -523,7 +533,7 @@ public struct Ec2 {
         return try client.send(operation: "DescribeEgressOnlyInternetGateways", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the ID format settings for resources for the specified IAM user, IAM role, or root user. For example, you can view the resource types that are enabled for longer IDs. This request only returns information about resource types whose ID formats can be modified; it does not return information about other resource types. For more information, see Resource IDs in the Amazon Elastic Compute Cloud User Guide.  The following resource types support longer IDs: instance | reservation | snapshot | volume.  These settings apply to the principal specified in the request. They do not apply to the principal that makes the request.
+    ///  Describes the ID format settings for resources for the specified IAM user, IAM role, or root user. For example, you can view the resource types that are enabled for longer IDs. This request only returns information about resource types whose ID formats can be modified; it does not return information about other resource types. For more information, see Resource IDs in the Amazon Elastic Compute Cloud User Guide.  The following resource types support longer IDs: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway.  These settings apply to the principal specified in the request. They do not apply to the principal that makes the request.
     public func describeIdentityIdFormat(_ input: DescribeIdentityIdFormatRequest) throws -> DescribeIdentityIdFormatResult {
         return try client.send(operation: "DescribeIdentityIdFormat", path: "/", httpMethod: "POST", input: input)
     }
@@ -548,7 +558,7 @@ public struct Ec2 {
         return try client.send(operation: "AssociateAddress", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets the console output for the specified instance. Instances do not have a physical monitor through which you can view their console output. They also lack physical controls that allow you to power up, reboot, or shut them down. To allow these actions, we provide them through the Amazon EC2 API and command line interface. Instance console output is buffered and posted shortly after instance boot, reboot, and termination. Amazon EC2 preserves the most recent 64 KB output, which is available for at least one hour after the most recent post. For Linux instances, the instance console output displays the exact console output that would normally be displayed on a physical monitor attached to a computer. This output is buffered because the instance produces it and then posts it to a store where the instance's owner can retrieve it. For Windows instances, the instance console output includes output from the EC2Config service.
+    ///  Gets the console output for the specified instance. For Linux instances, the instance console output displays the exact console output that would normally be displayed on a physical monitor attached to a computer. For Windows instances, the instance console output includes output from the EC2Config service.  GetConsoleOutput returns up to 64 KB of console output shortly after it's generated by the instance. By default, the console output returns buffered information that was posted shortly after an instance transition state (start, stop, reboot, or terminate). This information is available for at least one hour after the most recent post. You can optionally retrieve the latest serial console output at any time during the instance lifecycle. This option is only supported on C5, M5, and i3.metal instances.
     public func getConsoleOutput(_ input: GetConsoleOutputRequest) throws -> GetConsoleOutputResult {
         return try client.send(operation: "GetConsoleOutput", path: "/", httpMethod: "POST", input: input)
     }
@@ -586,6 +596,11 @@ public struct Ec2 {
     ///  Modifies a subnet attribute. You can only modify one attribute at a time.
     public func modifySubnetAttribute(_ input: ModifySubnetAttributeRequest) throws {
         _ = try client.send(operation: "ModifySubnetAttribute", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the longer ID format settings for all resource types in a specific region. This request is useful for performing a quick audit to determine whether a specific region is fully opted in for longer IDs (17-character IDs). This request only returns information about resource types that support longer IDs. The following resource types support longer IDs: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway.
+    public func describeAggregateIdFormat(_ input: DescribeAggregateIdFormatRequest) throws -> DescribeAggregateIdFormatResult {
+        return try client.send(operation: "DescribeAggregateIdFormat", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified Amazon FPGA Image (AFI).
@@ -648,7 +663,7 @@ public struct Ec2 {
         _ = try client.send(operation: "DeleteVpnConnectionRoute", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a data feed for Spot Instances, enabling you to view Spot Instance usage logs. You can create one data feed per AWS account. For more information, see Spot Instance Data Feed in the Amazon Elastic Compute Cloud User Guide.
+    ///  Creates a data feed for Spot Instances, enabling you to view Spot Instance usage logs. You can create one data feed per AWS account. For more information, see Spot Instance Data Feed in the Amazon EC2 User Guide for Linux Instances.
     public func createSpotDatafeedSubscription(_ input: CreateSpotDatafeedSubscriptionRequest) throws -> CreateSpotDatafeedSubscriptionResult {
         return try client.send(operation: "CreateSpotDatafeedSubscription", path: "/", httpMethod: "POST", input: input)
     }
@@ -658,9 +673,9 @@ public struct Ec2 {
         return try client.send(operation: "ReplaceRouteTableAssociation", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes one or more of your VPN customer gateways. For more information about VPN customer gateways, see AWS Managed VPN Connections in the Amazon Virtual Private Cloud User Guide.
-    public func describeCustomerGateways(_ input: DescribeCustomerGatewaysRequest) throws -> DescribeCustomerGatewaysResult {
-        return try client.send(operation: "DescribeCustomerGateways", path: "/", httpMethod: "POST", input: input)
+    ///  Launches an EC2 Fleet. You can create a single EC2 Fleet that includes multiple launch specifications that vary by instance type, AMI, Availability Zone, or subnet. For more information, see Launching an EC2 Fleet in the Amazon Elastic Compute Cloud User Guide.
+    public func createFleet(_ input: CreateFleetRequest) throws -> CreateFleetResult {
+        return try client.send(operation: "CreateFleet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more regions that are currently available to you. For a list of the regions supported by Amazon EC2, see Regions and Endpoints.
@@ -738,6 +753,11 @@ public struct Ec2 {
         return try client.send(operation: "AcceptReservedInstancesExchangeQuote", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Describes one or more of your VPN customer gateways. For more information about VPN customer gateways, see AWS Managed VPN Connections in the Amazon Virtual Private Cloud User Guide.
+    public func describeCustomerGateways(_ input: DescribeCustomerGatewaysRequest) throws -> DescribeCustomerGatewaysResult {
+        return try client.send(operation: "DescribeCustomerGateways", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Describes the ClassicLink status of one or more VPCs.
     public func describeVpcClassicLink(_ input: DescribeVpcClassicLinkRequest) throws -> DescribeVpcClassicLinkResult {
         return try client.send(operation: "DescribeVpcClassicLink", path: "/", httpMethod: "POST", input: input)
@@ -758,7 +778,7 @@ public struct Ec2 {
         return try client.send(operation: "DescribeSnapshotAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Resets permission settings for the specified snapshot. For more information on modifying snapshot permissions, see Sharing Snapshots in the Amazon Elastic Compute Cloud User Guide.
+    ///  Resets permission settings for the specified snapshot. For more information about modifying snapshot permissions, see Sharing Snapshots in the Amazon Elastic Compute Cloud User Guide.
     public func resetSnapshotAttribute(_ input: ResetSnapshotAttributeRequest) throws {
         _ = try client.send(operation: "ResetSnapshotAttribute", path: "/", httpMethod: "POST", input: input)
     }
@@ -843,7 +863,7 @@ public struct Ec2 {
         return try client.send(operation: "CreateInternetGateway", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snapshots for backups, to make copies of EBS volumes, and to save data before shutting down an instance. When a snapshot is created, any AWS Marketplace product codes that are associated with the source volume are propagated to the snapshot. You can take a snapshot of an attached volume that is in use. However, snapshots only capture data that has been written to your EBS volume at the time the snapshot command is issued; this may exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the volume long enough to take a snapshot, your snapshot should be complete. However, if you cannot pause all file writes to the volume, you should unmount the volume from within the instance, issue the snapshot command, and then remount the volume to ensure a consistent and complete snapshot. You may remount and use your volume while the snapshot status is pending. To create a snapshot for EBS volumes that serve as root devices, you should stop the instance before taking the snapshot. Snapshots that are taken from encrypted volumes are automatically encrypted. Volumes that are created from encrypted snapshots are also automatically encrypted. Your encrypted volumes and any associated snapshots always remain protected. For more information, see Amazon Elastic Block Store and Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
+    ///  Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snapshots for backups, to make copies of EBS volumes, and to save data before shutting down an instance. When a snapshot is created, any AWS Marketplace product codes that are associated with the source volume are propagated to the snapshot. You can take a snapshot of an attached volume that is in use. However, snapshots only capture data that has been written to your EBS volume at the time the snapshot command is issued; this may exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the volume long enough to take a snapshot, your snapshot should be complete. However, if you cannot pause all file writes to the volume, you should unmount the volume from within the instance, issue the snapshot command, and then remount the volume to ensure a consistent and complete snapshot. You may remount and use your volume while the snapshot status is pending. To create a snapshot for EBS volumes that serve as root devices, you should stop the instance before taking the snapshot. Snapshots that are taken from encrypted volumes are automatically encrypted. Volumes that are created from encrypted snapshots are also automatically encrypted. Your encrypted volumes and any associated snapshots always remain protected. You can tag your snapshots during creation. For more information, see Tagging Your Amazon EC2 Resources in the Amazon Elastic Compute Cloud User Guide. For more information, see Amazon Elastic Block Store and Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
     public func createSnapshot(_ input: CreateSnapshotRequest) throws -> Snapshot {
         return try client.send(operation: "CreateSnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -853,7 +873,7 @@ public struct Ec2 {
         return try client.send(operation: "DescribeNatGateways", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes attributes of your AWS account. The following are the supported account attributes:    supported-platforms: Indicates whether your account can launch instances into EC2-Classic and EC2-VPC, or only into EC2-VPC.    default-vpc: The ID of the default VPC for your account, or none.    max-instances: The maximum number of On-Demand instances that you can run.    vpc-max-security-groups-per-interface: The maximum number of security groups that you can assign to a network interface.    max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate for use with EC2-Classic.     vpc-max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate for use with EC2-VPC.  
+    ///  Describes attributes of your AWS account. The following are the supported account attributes:    supported-platforms: Indicates whether your account can launch instances into EC2-Classic and EC2-VPC, or only into EC2-VPC.    default-vpc: The ID of the default VPC for your account, or none.    max-instances: The maximum number of On-Demand Instances that you can run.    vpc-max-security-groups-per-interface: The maximum number of security groups that you can assign to a network interface.    max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate for use with EC2-Classic.     vpc-max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate for use with EC2-VPC.  
     public func describeAccountAttributes(_ input: DescribeAccountAttributesRequest) throws -> DescribeAccountAttributesResult {
         return try client.send(operation: "DescribeAccountAttributes", path: "/", httpMethod: "POST", input: input)
     }
@@ -868,14 +888,19 @@ public struct Ec2 {
         return try client.send(operation: "ImportImage", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:\) is bundled. Data on other instance store volumes is not preserved.  This action is not applicable for Linux/Unix instances or Windows instances that are backed by Amazon EBS.  For more information, see Creating an Instance Store-Backed Windows AMI.
+    ///  Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:\) is bundled. Data on other instance store volumes is not preserved.  This action is not applicable for Linux/Unix instances or Windows instances that are backed by Amazon EBS. 
     public func bundleInstance(_ input: BundleInstanceRequest) throws -> BundleInstanceResult {
         return try client.send(operation: "BundleInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Allocates a Dedicated Host to your account. At minimum you need to specify the instance size type, Availability Zone, and quantity of hosts you want to allocate.
+    ///  Allocates a Dedicated Host to your account. At a minimum, specify the instance size type, Availability Zone, and quantity of hosts to allocate.
     public func allocateHosts(_ input: AllocateHostsRequest) throws -> AllocateHostsResult {
         return try client.send(operation: "AllocateHosts", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes one or more of your EC2 Fleet.
+    public func describeFleets(_ input: DescribeFleetsRequest) throws -> DescribeFleetsResult {
+        return try client.send(operation: "DescribeFleets", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables a VPC to support DNS hostname resolution for ClassicLink. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. For more information about ClassicLink, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
@@ -893,7 +918,7 @@ public struct Ec2 {
         return try client.send(operation: "DescribeVpcEndpointServicePermissions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (IAM users, IAM roles, and AWS accounts) to discover your endpoint service.
+    ///  Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (IAM users, IAM roles, and AWS accounts) to connect to your endpoint service.
     public func modifyVpcEndpointServicePermissions(_ input: ModifyVpcEndpointServicePermissionsRequest) throws -> ModifyVpcEndpointServicePermissionsResult {
         return try client.send(operation: "ModifyVpcEndpointServicePermissions", path: "/", httpMethod: "POST", input: input)
     }
@@ -933,12 +958,12 @@ public struct Ec2 {
         return try client.send(operation: "DescribeNetworkAcls", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Reports the current modification status of EBS volumes. Current-generation EBS volumes support modification of attributes including type, size, and (for io1 volumes) IOPS provisioning while either attached to or detached from an instance. Following an action from the API or the console to modify a volume, the status of the modification may be modifying, optimizing, completed, or failed. If a volume has never been modified, then certain elements of the returned VolumeModification objects are null.   You can also use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. For more information, see Monitoring Volume Modifications". 
+    ///  Reports the current modification status of EBS volumes. Current-generation EBS volumes support modification of attributes including type, size, and (for io1 volumes) IOPS provisioning while either attached to or detached from an instance. Following an action from the API or the console to modify a volume, the status of the modification may be modifying, optimizing, completed, or failed. If a volume has never been modified, then certain elements of the returned VolumeModification objects are null.   You can also use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. For more information, see Monitoring Volume Modifications" in the Amazon Elastic Compute Cloud User Guide.
     public func describeVolumesModifications(_ input: DescribeVolumesModificationsRequest) throws -> DescribeVolumesModificationsResult {
         return try client.send(operation: "DescribeVolumesModifications", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the Spot Instance requests that belong to your account. Spot Instances are instances that Amazon EC2 launches when the Spot price that you specify exceeds the current Spot price. For more information, see Spot Instance Requests in the Amazon Elastic Compute Cloud User Guide. You can use DescribeSpotInstanceRequests to find a running Spot Instance by examining the response. If the status of the Spot Instance is fulfilled, the instance ID appears in the response and contains the identifier of the instance. Alternatively, you can use DescribeInstances with a filter to look for instances where the instance lifecycle is spot. Spot Instance requests are deleted 4 hours after they are canceled and their instances are terminated.
+    ///  Describes the specified Spot Instance requests. You can use DescribeSpotInstanceRequests to find a running Spot Instance by examining the response. If the status of the Spot Instance is fulfilled, the instance ID appears in the response and contains the identifier of the instance. Alternatively, you can use DescribeInstances with a filter to look for instances where the instance lifecycle is spot. Spot Instance requests are deleted four hours after they are canceled and their instances are terminated.
     public func describeSpotInstanceRequests(_ input: DescribeSpotInstanceRequestsRequest) throws -> DescribeSpotInstanceRequestsResult {
         return try client.send(operation: "DescribeSpotInstanceRequests", path: "/", httpMethod: "POST", input: input)
     }
@@ -948,12 +973,12 @@ public struct Ec2 {
         _ = try client.send(operation: "DeletePlacementGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Registers an AMI. When you're creating an AMI, this is the final step you must complete before you can launch an instance from the AMI. For more information about creating AMIs, see Creating Your Own AMIs in the Amazon Elastic Compute Cloud User Guide.  For Amazon EBS-backed instances, CreateImage creates and registers the AMI in a single request, so you don't have to register the AMI yourself.  You can also use RegisterImage to create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. You specify the snapshot using the block device mapping. For more information, see Launching a Linux Instance from a Backup in the Amazon Elastic Compute Cloud User Guide. You can't register an image where a secondary (non-root) snapshot has AWS Marketplace product codes. Some Linux distributions, such as Red Hat Enterprise Linux (RHEL) and SUSE Linux Enterprise Server (SLES), use the EC2 billing product code associated with an AMI to verify the subscription status for package updates. Creating an AMI from an EBS snapshot does not maintain this billing code, and subsequent instances launched from such an AMI will not be able to connect to package update infrastructure. To create an AMI that must retain billing codes, see CreateImage. If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its registration. If you make changes to an image, deregister the previous image and register the new image.
+    ///  Registers an AMI. When you're creating an AMI, this is the final step you must complete before you can launch an instance from the AMI. For more information about creating AMIs, see Creating Your Own AMIs in the Amazon Elastic Compute Cloud User Guide.  For Amazon EBS-backed instances, CreateImage creates and registers the AMI in a single request, so you don't have to register the AMI yourself.  You can also use RegisterImage to create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. You specify the snapshot using the block device mapping. For more information, see Launching a Linux Instance from a Backup in the Amazon Elastic Compute Cloud User Guide. You can't register an image where a secondary (non-root) snapshot has AWS Marketplace product codes. Some Linux distributions, such as Red Hat Enterprise Linux (RHEL) and SUSE Linux Enterprise Server (SLES), use the EC2 billing product code associated with an AMI to verify the subscription status for package updates. Creating an AMI from an EBS snapshot does not maintain this billing code, and instances launched from such an AMI are not able to connect to package update infrastructure. If you purchase a Reserved Instance offering for one of these Linux distributions and launch instances using an AMI that does not contain the required billing code, your Reserved Instance is not applied to these instances. To create an AMI for operating systems that require a billing code, see CreateImage. If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its registration. If you make changes to an image, deregister the previous image and register the new image.
     public func registerImage(_ input: RegisterImageRequest) throws -> RegisterImageResult {
         return try client.send(operation: "RegisterImage", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the Spot price history. For more information, see Spot Instance Pricing History in the Amazon Elastic Compute Cloud User Guide. When you specify a start and end time, this operation returns the prices of the instance types within the time range that you specified and the time when the price changed. The price is valid within the time period that you specified; the response merely indicates the last time that the price changed.
+    ///  Describes the Spot price history. For more information, see Spot Instance Pricing History in the Amazon EC2 User Guide for Linux Instances. When you specify a start and end time, this operation returns the prices of the instance types within the time range that you specified and the time when the price changed. The price is valid within the time period that you specified; the response merely indicates the last time that the price changed.
     public func describeSpotPriceHistory(_ input: DescribeSpotPriceHistoryRequest) throws -> DescribeSpotPriceHistoryResult {
         return try client.send(operation: "DescribeSpotPriceHistory", path: "/", httpMethod: "POST", input: input)
     }
@@ -1008,7 +1033,7 @@ public struct Ec2 {
         return try client.send(operation: "CreateInstanceExportTask", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an EBS volume that can be attached to an instance in the same Availability Zone. The volume is created in the regional endpoint that you send the HTTP request to. For more information see Regions and Endpoints. You can create a new empty volume or restore a volume from an EBS snapshot. Any AWS Marketplace product codes from the snapshot are propagated to the volume. You can create encrypted volumes with the Encrypted parameter. Encrypted volumes may only be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically encrypted. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. You can tag your volumes during creation. For more information, see Tagging Your Amazon EC2 Resources. For more information, see Creating an Amazon EBS Volume in the Amazon Elastic Compute Cloud User Guide.
+    ///  Creates an EBS volume that can be attached to an instance in the same Availability Zone. The volume is created in the regional endpoint that you send the HTTP request to. For more information see Regions and Endpoints. You can create a new empty volume or restore a volume from an EBS snapshot. Any AWS Marketplace product codes from the snapshot are propagated to the volume. You can create encrypted volumes with the Encrypted parameter. Encrypted volumes may only be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically encrypted. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. You can tag your volumes during creation. For more information, see Tagging Your Amazon EC2 Resources in the Amazon Elastic Compute Cloud User Guide. For more information, see Creating an Amazon EBS Volume in the Amazon Elastic Compute Cloud User Guide.
     public func createVolume(_ input: CreateVolumeRequest) throws -> Volume {
         return try client.send(operation: "CreateVolume", path: "/", httpMethod: "POST", input: input)
     }
@@ -1028,7 +1053,7 @@ public struct Ec2 {
         _ = try client.send(operation: "ResetInstanceAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the specified attribute of the specified instance. You can specify only one attribute at a time. To modify some attributes, the instance must be stopped. For more information, see Modifying Attributes of a Stopped Instance in the Amazon Elastic Compute Cloud User Guide.
+    ///  Modifies the specified attribute of the specified instance. You can specify only one attribute at a time.  Note: Using this action to change the security groups associated with an elastic network interface (ENI) attached to an instance in a VPC can result in an error if the instance has more than one ENI. To change the security groups associated with an ENI attached to an instance that has multiple ENIs, we recommend that you use the ModifyNetworkInterfaceAttribute action. To modify some attributes, the instance must be stopped. For more information, see Modifying Attributes of a Stopped Instance in the Amazon Elastic Compute Cloud User Guide.
     public func modifyInstanceAttribute(_ input: ModifyInstanceAttributeRequest) throws {
         _ = try client.send(operation: "ModifyInstanceAttribute", path: "/", httpMethod: "POST", input: input)
     }
@@ -1048,7 +1073,7 @@ public struct Ec2 {
         _ = try client.send(operation: "DisassociateAddress", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates one or more flow logs to capture IP traffic for a specific network interface, subnet, or VPC. Flow logs are delivered to a specified log group in Amazon CloudWatch Logs. If you specify a VPC or subnet in the request, a log stream is created in CloudWatch Logs for each network interface in the subnet or VPC. Log streams can include information about accepted and rejected traffic to a network interface. You can view the data in your log streams using Amazon CloudWatch Logs. In your request, you must also specify an IAM role that has permission to publish logs to CloudWatch Logs.
+    ///  Creates one or more flow logs to capture IP traffic for a specific network interface, subnet, or VPC. Flow logs are delivered to a specified log group in Amazon CloudWatch Logs. If you specify a VPC or subnet in the request, a log stream is created in CloudWatch Logs for each network interface in the subnet or VPC. Log streams can include information about accepted and rejected traffic to a network interface. You can view the data in your log streams using Amazon CloudWatch Logs. In your request, you must also specify an IAM role that has permission to publish logs to CloudWatch Logs. For more information, see VPC Flow Logs in the Amazon Virtual Private Cloud User Guide.
     public func createFlowLogs(_ input: CreateFlowLogsRequest) throws -> CreateFlowLogsResult {
         return try client.send(operation: "CreateFlowLogs", path: "/", httpMethod: "POST", input: input)
     }
@@ -1103,7 +1128,7 @@ public struct Ec2 {
         _ = try client.send(operation: "DeleteInternetGateway", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Requests a VPC peering connection between two VPCs: a requester VPC that you own and an accepter VPC with which to create the connection. The accepter VPC can belong to another AWS account and can be in a different region to the requester VPC. The requester VPC and accepter VPC cannot have overlapping CIDR blocks. The owner of the accepter VPC must accept the peering request to activate the peering connection. The VPC peering connection request expires after 7 days, after which it cannot be accepted or rejected. If you create a VPC peering connection request between VPCs with overlapping CIDR blocks, the VPC peering connection has a status of failed.
+    ///  Requests a VPC peering connection between two VPCs: a requester VPC that you own and an accepter VPC with which to create the connection. The accepter VPC can belong to another AWS account and can be in a different region to the requester VPC. The requester VPC and accepter VPC cannot have overlapping CIDR blocks.  Limitations and rules apply to a VPC peering connection. For more information, see the limitations section in the VPC Peering Guide.  The owner of the accepter VPC must accept the peering request to activate the peering connection. The VPC peering connection request expires after 7 days, after which it cannot be accepted or rejected. If you create a VPC peering connection request between VPCs with overlapping CIDR blocks, the VPC peering connection has a status of failed.
     public func createVpcPeeringConnection(_ input: CreateVpcPeeringConnectionRequest) throws -> CreateVpcPeeringConnectionResult {
         return try client.send(operation: "CreateVpcPeeringConnection", path: "/", httpMethod: "POST", input: input)
     }
@@ -1128,12 +1153,12 @@ public struct Ec2 {
         return try client.send(operation: "AttachNetworkInterface", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Attaches an EBS volume to a running or stopped instance and exposes it to the instance with the specified device name. Encrypted EBS volumes may only be attached to instances that support Amazon EBS encryption. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. For a list of supported device names, see Attaching an EBS Volume to an Instance. Any device names that aren't reserved for instance store volumes can be used for EBS volumes. For more information, see Amazon EC2 Instance Store in the Amazon Elastic Compute Cloud User Guide. If a volume has an AWS Marketplace product code:   The volume can be attached only to a stopped instance.   AWS Marketplace product codes are copied from the volume to the instance.   You must be subscribed to the product.   The instance type and operating system of the instance must support the product. For example, you can't detach a volume from a Windows instance and attach it to a Linux instance.   For an overview of the AWS Marketplace, see Introducing AWS Marketplace. For more information about EBS volumes, see Attaching Amazon EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
+    ///  Attaches an EBS volume to a running or stopped instance and exposes it to the instance with the specified device name. Encrypted EBS volumes may only be attached to instances that support Amazon EBS encryption. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. For a list of supported device names, see Attaching an EBS Volume to an Instance. Any device names that aren't reserved for instance store volumes can be used for EBS volumes. For more information, see Amazon EC2 Instance Store in the Amazon Elastic Compute Cloud User Guide. If a volume has an AWS Marketplace product code:   The volume can be attached only to a stopped instance.   AWS Marketplace product codes are copied from the volume to the instance.   You must be subscribed to the product.   The instance type and operating system of the instance must support the product. For example, you can't detach a volume from a Windows instance and attach it to a Linux instance.   For more information about EBS volumes, see Attaching Amazon EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
     public func attachVolume(_ input: AttachVolumeRequest) throws -> VolumeAttachment {
         return try client.send(operation: "AttachVolume", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the VPC peering connection options on one side of a VPC peering connection. You can do the following:   Enable/disable communication over the peering connection between an EC2-Classic instance that's linked to your VPC (using ClassicLink) and instances in the peer VPC.   Enable/disable communication over the peering connection between instances in your VPC and an EC2-Classic instance that's linked to the peer VPC.   Enable/disable a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC.   If the peered VPCs are in different accounts, each owner must initiate a separate request to modify the peering connection options, depending on whether their VPC was the requester or accepter for the VPC peering connection. If the peered VPCs are in the same account, you can modify the requester and accepter options in the same request. To confirm which VPC is the accepter and requester for a VPC peering connection, use the DescribeVpcPeeringConnections command.
+    ///  Modifies the VPC peering connection options on one side of a VPC peering connection. You can do the following:   Enable/disable communication over the peering connection between an EC2-Classic instance that's linked to your VPC (using ClassicLink) and instances in the peer VPC.   Enable/disable communication over the peering connection between instances in your VPC and an EC2-Classic instance that's linked to the peer VPC.   Enable/disable the ability to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC.   If the peered VPCs are in different accounts, each owner must initiate a separate request to modify the peering connection options, depending on whether their VPC was the requester or accepter for the VPC peering connection. If the peered VPCs are in the same account, you can modify the requester and accepter options in the same request. To confirm which VPC is the accepter and requester for a VPC peering connection, use the DescribeVpcPeeringConnections command.
     public func modifyVpcPeeringConnectionOptions(_ input: ModifyVpcPeeringConnectionOptionsRequest) throws -> ModifyVpcPeeringConnectionOptionsResult {
         return try client.send(operation: "ModifyVpcPeeringConnectionOptions", path: "/", httpMethod: "POST", input: input)
     }
@@ -1143,7 +1168,7 @@ public struct Ec2 {
         return try client.send(operation: "DescribeVpcEndpointServiceConfigurations", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a Spot Fleet request. You can submit a single request that includes multiple launch specifications that vary by instance type, AMI, Availability Zone, or subnet. By default, the Spot Fleet requests Spot Instances in the Spot pool where the price per unit is the lowest. Each launch specification can include its own instance weighting that reflects the value of the instance type to your application workload. Alternatively, you can specify that the Spot Fleet distribute the target capacity across the Spot pools included in its launch specifications. By ensuring that the Spot Instances in your Spot Fleet are in different Spot pools, you can improve the availability of your fleet. You can specify tags for the Spot Instances. You cannot tag other resource types in a Spot Fleet request; only the instance resource type is supported. For more information, see Spot Fleet Requests in the Amazon Elastic Compute Cloud User Guide.
+    ///  Creates a Spot Fleet request. The Spot Fleet request specifies the total target capacity and the On-Demand target capacity. Amazon EC2 calculates the difference between the total capacity and On-Demand capacity, and launches the difference as Spot capacity. You can submit a single request that includes multiple launch specifications that vary by instance type, AMI, Availability Zone, or subnet. By default, the Spot Fleet requests Spot Instances in the Spot pool where the price per unit is the lowest. Each launch specification can include its own instance weighting that reflects the value of the instance type to your application workload. Alternatively, you can specify that the Spot Fleet distribute the target capacity across the Spot pools included in its launch specifications. By ensuring that the Spot Instances in your Spot Fleet are in different Spot pools, you can improve the availability of your fleet. You can specify tags for the Spot Instances. You cannot tag other resource types in a Spot Fleet request because only the instance resource type is supported. For more information, see Spot Fleet Requests in the Amazon EC2 User Guide for Linux Instances.
     public func requestSpotFleet(_ input: RequestSpotFleetRequest) throws -> RequestSpotFleetResponse {
         return try client.send(operation: "RequestSpotFleet", path: "/", httpMethod: "POST", input: input)
     }
@@ -1178,7 +1203,7 @@ public struct Ec2 {
         return try client.send(operation: "TerminateInstances", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds or removes permission settings for the specified snapshot. You may add or remove specified AWS account IDs from a snapshot's list of create volume permissions, but you cannot do both in a single API call. If you need to both add and remove account IDs for a snapshot, you must use multiple API calls.  Encrypted snapshots and snapshots with AWS Marketplace product codes cannot be made public. Snapshots encrypted with your default CMK cannot be shared with other accounts.  For more information on modifying snapshot permissions, see Sharing Snapshots in the Amazon Elastic Compute Cloud User Guide.
+    ///  Adds or removes permission settings for the specified snapshot. You may add or remove specified AWS account IDs from a snapshot's list of create volume permissions, but you cannot do both in a single API call. If you need to both add and remove account IDs for a snapshot, you must use multiple API calls. Encrypted snapshots and snapshots with AWS Marketplace product codes cannot be made public. Snapshots encrypted with your default CMK cannot be shared with other accounts. For more information about modifying snapshot permissions, see Sharing Snapshots in the Amazon Elastic Compute Cloud User Guide.
     public func modifySnapshotAttribute(_ input: ModifySnapshotAttributeRequest) throws {
         _ = try client.send(operation: "ModifySnapshotAttribute", path: "/", httpMethod: "POST", input: input)
     }
@@ -1208,7 +1233,7 @@ public struct Ec2 {
         return try client.send(operation: "ModifySpotFleetRequest", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the Dedicated Host Reservations that are available to purchase. The results describe all the Dedicated Host Reservation offerings, including offerings that may not match the instance family and region of your Dedicated Hosts. When purchasing an offering, ensure that the the instance family and region of the offering matches that of the Dedicated Host/s it will be associated with. For an overview of supported instance types, see Dedicated Hosts Overview in the Amazon Elastic Compute Cloud User Guide. 
+    ///  Describes the Dedicated Host reservations that are available to purchase. The results describe all the Dedicated Host reservation offerings, including offerings that may not match the instance family and region of your Dedicated Hosts. When purchasing an offering, ensure that the instance family and Region of the offering matches that of the Dedicated Hosts with which it is to be associated . For more information about supported instance types, see Dedicated Hosts Overview in the Amazon Elastic Compute Cloud User Guide. 
     public func describeHostReservationOfferings(_ input: DescribeHostReservationOfferingsRequest) throws -> DescribeHostReservationOfferingsResult {
         return try client.send(operation: "DescribeHostReservationOfferings", path: "/", httpMethod: "POST", input: input)
     }
@@ -1233,12 +1258,17 @@ public struct Ec2 {
         return try client.send(operation: "DescribeExportTasks", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes one or more of your Dedicated Hosts. The results describe only the Dedicated Hosts in the region you're currently using. All listed instances consume capacity on your Dedicated Host. Dedicated Hosts that have recently been released will be listed with the state released.
+    ///  Describes the events for the specified EC2 Fleet during the specified time.
+    public func describeFleetHistory(_ input: DescribeFleetHistoryRequest) throws -> DescribeFleetHistoryResult {
+        return try client.send(operation: "DescribeFleetHistory", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes one or more of your Dedicated Hosts. The results describe only the Dedicated Hosts in the region you're currently using. All listed instances consume capacity on your Dedicated Host. Dedicated Hosts that have recently been released are listed with the state released.
     public func describeHosts(_ input: DescribeHostsRequest) throws -> DescribeHostsResult {
         return try client.send(operation: "DescribeHosts", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  When you no longer want to use an On-Demand Dedicated Host it can be released. On-Demand billing is stopped and the host goes into released state. The host ID of Dedicated Hosts that have been released can no longer be specified in another request, e.g., ModifyHosts. You must stop or terminate all instances on a host before it can be released. When Dedicated Hosts are released, it make take some time for them to stop counting toward your limit and you may receive capacity errors when trying to allocate new Dedicated hosts. Try waiting a few minutes, and then try again. Released hosts will still appear in a DescribeHosts response.
+    ///  When you no longer want to use an On-Demand Dedicated Host it can be released. On-Demand billing is stopped and the host goes into released state. The host ID of Dedicated Hosts that have been released can no longer be specified in another request, for example, ModifyHosts. You must stop or terminate all instances on a host before it can be released. When Dedicated Hosts are released, it may take some time for them to stop counting toward your limit and you may receive capacity errors when trying to allocate new Dedicated Hosts. Wait a few minutes and then try again. Released hosts still appear in a DescribeHosts response.
     public func releaseHosts(_ input: ReleaseHostsRequest) throws -> ReleaseHostsResult {
         return try client.send(operation: "ReleaseHosts", path: "/", httpMethod: "POST", input: input)
     }
@@ -1341,6 +1371,16 @@ public struct Ec2 {
     ///  Describes your import snapshot tasks.
     public func describeImportSnapshotTasks(_ input: DescribeImportSnapshotTasksRequest) throws -> DescribeImportSnapshotTasksResult {
         return try client.send(operation: "DescribeImportSnapshotTasks", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the ID format settings for the root user and all IAM roles and IAM users that have explicitly specified a longer ID (17-character ID) preference.  By default, all IAM roles and IAM users default to the same ID settings as the root user, unless they explicitly override the settings. This request is useful for identifying those IAM users and IAM roles that have overridden the default ID settings. The following resource types support longer IDs: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway. 
+    public func describePrincipalIdFormat(_ input: DescribePrincipalIdFormatRequest) throws -> DescribePrincipalIdFormatResult {
+        return try client.send(operation: "DescribePrincipalIdFormat", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Modifies the specified EC2 Fleet. While the EC2 Fleet is being modified, it is in the modifying state.
+    public func modifyFleet(_ input: ModifyFleetRequest) throws -> ModifyFleetResult {
+        return try client.send(operation: "ModifyFleet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the attributes of your VPC endpoint service configuration. You can change the Network Load Balancers for your service, and you can specify whether acceptance is required for requests to connect to your endpoint service through an interface VPC endpoint.

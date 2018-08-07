@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-All public APIs for AWS Budgets
+Budgets enable you to plan your service usage, service costs, and your RI utilization. You can also track how close your plan is to your budgeted amount or to the free tier limits. Budgets provide you with a quick way to see your usage-to-date and current estimated charges from AWS and to see how much your predicted usage accrues in charges by the end of the month. Budgets also compare current estimates and charges to the amount that you indicated you want to use or spend and lets you see how much of your budget has been used. AWS updates your budget status several times a day. Budgets track your unblended costs, subscriptions, and refunds. You can create the following types of budgets:   Cost budgets allow you to say how much you want to spend on a service.   Usage budgets allow you to say how many hours you want to use for one or more services.   RI utilization budgets allow you to define a utilization threshold and receive alerts when RIs are tracking below that threshold.   You can create up to 20,000 budgets per AWS master account. Your first two budgets are free of charge. Each additional budget costs $0.02 per day. You can set up optional notifications that warn you if you exceed, or are forecasted to exceed, your budgeted amount. You can have notifications sent to an Amazon SNS topic, to an email address, or to both. For more information, see Creating an Amazon SNS Topic for Budget Notifications. AWS Free Tier usage alerts via AWS Budgets are provided for you, and do not count toward your budget limits. Service Endpoint The AWS Budgets API provides the following endpoint:   https://budgets.amazonaws.com   For information about costs associated with the AWS Budgets API, see AWS Cost Management Pricing.
 */
 public struct Budgets {
 
@@ -27,67 +27,67 @@ public struct Budgets {
         )
     }
 
-    ///  Delete a notification and related subscribers
+    ///  Deletes a notification.  Deleting a notification also deletes the subscribers associated with the notification. 
     public func deleteNotification(_ input: DeleteNotificationRequest) throws -> DeleteNotificationResponse {
         return try client.send(operation: "DeleteNotification", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Create a new Notification with subscribers for a budget
+    ///  Creates a notification. You must create the budget before you create the associated notification.
     public func createNotification(_ input: CreateNotificationRequest) throws -> CreateNotificationResponse {
         return try client.send(operation: "CreateNotification", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Get a single budget
+    ///  Describes a budget.
     public func describeBudget(_ input: DescribeBudgetRequest) throws -> DescribeBudgetResponse {
         return try client.send(operation: "DescribeBudget", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Get all budgets for an account
+    ///  Lists the budgets associated with an account.
     public func describeBudgets(_ input: DescribeBudgetsRequest) throws -> DescribeBudgetsResponse {
         return try client.send(operation: "DescribeBudgets", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Update the information about a notification already created
+    ///  Updates a notification.
     public func updateNotification(_ input: UpdateNotificationRequest) throws -> UpdateNotificationResponse {
         return try client.send(operation: "UpdateNotification", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Get notifications of a budget
+    ///  Lists the notifications associated with a budget.
     public func describeNotificationsForBudget(_ input: DescribeNotificationsForBudgetRequest) throws -> DescribeNotificationsForBudgetResponse {
         return try client.send(operation: "DescribeNotificationsForBudget", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Update a subscriber
+    ///  Updates a subscriber.
     public func updateSubscriber(_ input: UpdateSubscriberRequest) throws -> UpdateSubscriberResponse {
         return try client.send(operation: "UpdateSubscriber", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Create a new Subscriber for a notification
+    ///  Creates a subscriber. You must create the associated budget and notification before you create the subscriber.
     public func createSubscriber(_ input: CreateSubscriberRequest) throws -> CreateSubscriberResponse {
         return try client.send(operation: "CreateSubscriber", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Delete a budget and related notifications
+    ///  Deletes a budget. You can delete your budget at any time.  Deleting a budget also deletes the notifications and subscribers associated with that budget. 
     public func deleteBudget(_ input: DeleteBudgetRequest) throws -> DeleteBudgetResponse {
         return try client.send(operation: "DeleteBudget", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Get subscribers of a notification
+    ///  Lists the subscribers associated with a notification.
     public func describeSubscribersForNotification(_ input: DescribeSubscribersForNotificationRequest) throws -> DescribeSubscribersForNotificationResponse {
         return try client.send(operation: "DescribeSubscribersForNotification", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Update the information of a budget already created
+    ///  Updates a budget. You can change every part of a budget except for the budgetName and the calculatedSpend. When a budget is modified, the calculatedSpend drops to zero until AWS has new usage data to use for forecasting.
     public func updateBudget(_ input: UpdateBudgetRequest) throws -> UpdateBudgetResponse {
         return try client.send(operation: "UpdateBudget", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Delete a Subscriber for a notification
+    ///  Deletes a subscriber.  Deleting the last subscriber to a notification also deletes the notification. 
     public func deleteSubscriber(_ input: DeleteSubscriberRequest) throws -> DeleteSubscriberResponse {
         return try client.send(operation: "DeleteSubscriber", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Create a new budget
+    ///  Creates a budget and, if included, notifications and subscribers. 
     public func createBudget(_ input: CreateBudgetRequest) throws -> CreateBudgetResponse {
         return try client.send(operation: "CreateBudget", path: "/", httpMethod: "POST", input: input)
     }

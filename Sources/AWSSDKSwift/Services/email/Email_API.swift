@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-Amazon Simple Email Service  This is the API Reference for Amazon Simple Email Service (Amazon SES). This documentation is intended to be used in conjunction with the Amazon SES Developer Guide.    For a list of Amazon SES endpoints to use in service requests, see Regions and Amazon SES in the Amazon SES Developer Guide.  
+Amazon Simple Email Service  This document contains reference information for the Amazon Simple Email Service (Amazon SES) API, version 2010-12-01. This document is best used in conjunction with the Amazon SES Developer Guide.    For a list of Amazon SES endpoints to use in service requests, see Regions and Amazon SES in the Amazon SES Developer Guide. 
 */
 public struct Email {
 
@@ -44,7 +44,7 @@ public struct Email {
         return try client.send(operation: "ListIdentityPolicies", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an association between a configuration set and a custom domain for open and click event tracking.  By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using configuration sets, see Configuring Custom Domains to Handle Open and Click Tracking in the Amazon SES Developer Guide.
+    ///  Creates an association between a configuration set and a custom domain for open and click event tracking.  By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide.
     public func createConfigurationSetTrackingOptions(_ input: CreateConfigurationSetTrackingOptionsRequest) throws -> CreateConfigurationSetTrackingOptionsResponse {
         return try client.send(operation: "CreateConfigurationSetTrackingOptions", path: "/", httpMethod: "POST", input: input)
     }
@@ -64,12 +64,12 @@ public struct Email {
         return try client.send(operation: "DescribeReceiptRule", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Composes an email message using an email template and immediately queues it for sending. In order to send email using the SendTemplatedEmail operation, your call to the API must meet the following requirements:   The call must refer to an existing email template. You can create email templates using the CreateTemplate operation.   The message must be sent from a verified email address or domain.   If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated with the Amazon SES Mailbox Simulator. For more information, see Verifying Email Addresses and Domains in the Amazon SES Developer Guide.    The total size of the message, including attachments, must be less than 10 MB.   Calls to the SendTemplatedEmail operation may only include one Destination parameter. A destination is a set of recipients who will receive the same version of the email. The Destination parameter can include up to 50 recipients, across the To:, CC: and BCC: fields.   The Destination parameter must include at least one recipient email address. The recipient address can be a To: address, a CC: address, or a BCC: address. If a recipient email address is invalid (that is, it is not in the format UserName@[SubDomain.]Domain.TopLevelDomain), the entire message will be rejected, even if the message contains other recipients that are valid.  
+    ///  Composes an email message using an email template and immediately queues it for sending. In order to send email using the SendTemplatedEmail operation, your call to the API must meet the following requirements:   The call must refer to an existing email template. You can create email templates using the CreateTemplate operation.   The message must be sent from a verified email address or domain.   If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated with the Amazon SES Mailbox Simulator. For more information, see Verifying Email Addresses and Domains in the Amazon SES Developer Guide.    The total size of the message, including attachments, must be less than 10 MB.   Calls to the SendTemplatedEmail operation may only include one Destination parameter. A destination is a set of recipients who will receive the same version of the email. The Destination parameter can include up to 50 recipients, across the To:, CC: and BCC: fields.   The Destination parameter must include at least one recipient email address. The recipient address can be a To: address, a CC: address, or a BCC: address. If a recipient email address is invalid (that is, it is not in the format UserName@[SubDomain.]Domain.TopLevelDomain), the entire message will be rejected, even if the message contains other recipients that are valid.    If your call to the SendTemplatedEmail operation includes all of the required parameters, Amazon SES accepts it and returns a Message ID. However, if Amazon SES can't render the email because the template contains errors, it doesn't send the email. Additionally, because it already accepted the message, Amazon SES doesn't return a message stating that it was unable to send the email. For these reasons, we highly recommend that you set up Amazon SES to send you notifications when Rendering Failure events occur. For more information, see Sending Personalized Email Using the Amazon SES API in the Amazon Simple Email Service Developer Guide. 
     public func sendTemplatedEmail(_ input: SendTemplatedEmailRequest) throws -> SendTemplatedEmailResponse {
         return try client.send(operation: "SendTemplatedEmail", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list containing all of the identities (email addresses and domains) for your AWS account, regardless of verification status. You can execute this operation no more than once per second.
+    ///  Returns a list containing all of the identities (email addresses and domains) for your AWS account in the current AWS Region, regardless of verification status. You can execute this operation no more than once per second.
     public func listIdentities(_ input: ListIdentitiesRequest) throws -> ListIdentitiesResponse {
         return try client.send(operation: "ListIdentities", path: "/", httpMethod: "POST", input: input)
     }
@@ -89,12 +89,17 @@ public struct Email {
         return try client.send(operation: "GetIdentityPolicies", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Updates an existing custom verification email template. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func updateCustomVerificationEmailTemplate(_ input: UpdateCustomVerificationEmailTemplateRequest) throws {
+        _ = try client.send(operation: "UpdateCustomVerificationEmailTemplate", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Given an identity (an email address or a domain), sets whether Amazon SES includes the original email headers in the Amazon Simple Notification Service (Amazon SNS) notifications of a specified type. You can execute this operation no more than once per second. For more information about using notifications with Amazon SES, see the Amazon SES Developer Guide.
     public func setIdentityHeadersInNotificationsEnabled(_ input: SetIdentityHeadersInNotificationsEnabledRequest) throws -> SetIdentityHeadersInNotificationsEnabledResponse {
         return try client.send(operation: "SetIdentityHeadersInNotificationsEnabled", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the email templates present in your Amazon SES account. You can execute this operation no more than once per second.
+    ///  Lists the email templates present in your Amazon SES account in the current AWS Region. You can execute this operation no more than once per second.
     public func listTemplates(_ input: ListTemplatesRequest) throws -> ListTemplatesResponse {
         return try client.send(operation: "ListTemplates", path: "/", httpMethod: "POST", input: input)
     }
@@ -109,9 +114,9 @@ public struct Email {
         _ = try client.send(operation: "VerifyEmailAddress", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a set of DKIM tokens for a domain. DKIM tokens are character strings that represent your domain's identity. Using these tokens, you will need to create DNS CNAME records that point to DKIM public keys hosted by Amazon SES. Amazon Web Services will eventually detect that you have updated your DNS records; this detection process may take up to 72 hours. Upon successful detection, Amazon SES will be able to DKIM-sign email originating from that domain. You can execute this operation no more than once per second. To enable or disable Easy DKIM signing for a domain, use the SetIdentityDkimEnabled operation. For more information about creating DNS records using DKIM tokens, go to the Amazon SES Developer Guide.
-    public func verifyDomainDkim(_ input: VerifyDomainDkimRequest) throws -> VerifyDomainDkimResponse {
-        return try client.send(operation: "VerifyDomainDkim", path: "/", httpMethod: "POST", input: input)
+    ///  Returns the custom email verification template for the template name you specify. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func getCustomVerificationEmailTemplate(_ input: GetCustomVerificationEmailTemplateRequest) throws -> GetCustomVerificationEmailTemplateResponse {
+        return try client.send(operation: "GetCustomVerificationEmailTemplate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
@@ -122,6 +127,16 @@ public struct Email {
     ///  Returns the current status of Easy DKIM signing for an entity. For domain name identities, this operation also returns the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES has successfully verified that these tokens have been published. This operation takes a list of identities as input and returns the following information for each:   Whether Easy DKIM signing is enabled or disabled.   A set of DKIM tokens that represent the identity. If the identity is an email address, the tokens represent the domain of that address.   Whether Amazon SES has successfully verified the DKIM tokens published in the domain's DNS. This information is only returned for domain name identities, not for email addresses.   This operation is throttled at one request per second and can only get DKIM attributes for up to 100 identities at a time. For more information about creating DNS records using DKIM tokens, go to the Amazon SES Developer Guide.
     public func getIdentityDkimAttributes(_ input: GetIdentityDkimAttributesRequest) throws -> GetIdentityDkimAttributesResponse {
         return try client.send(operation: "GetIdentityDkimAttributes", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a set of DKIM tokens for a domain. DKIM tokens are character strings that represent your domain's identity. Using these tokens, you will need to create DNS CNAME records that point to DKIM public keys hosted by Amazon SES. Amazon Web Services will eventually detect that you have updated your DNS records; this detection process may take up to 72 hours. Upon successful detection, Amazon SES will be able to DKIM-sign email originating from that domain. You can execute this operation no more than once per second. To enable or disable Easy DKIM signing for a domain, use the SetIdentityDkimEnabled operation. For more information about creating DNS records using DKIM tokens, go to the Amazon SES Developer Guide.
+    public func verifyDomainDkim(_ input: VerifyDomainDkimRequest) throws -> VerifyDomainDkimResponse {
+        return try client.send(operation: "VerifyDomainDkim", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a new custom verification email template. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func createCustomVerificationEmailTemplate(_ input: CreateCustomVerificationEmailTemplateRequest) throws {
+        _ = try client.send(operation: "CreateCustomVerificationEmailTemplate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Displays the template object (which includes the Subject line, HTML part and text part) for the template you specify. You can execute this operation no more than once per second.
@@ -164,7 +179,12 @@ public struct Email {
         return try client.send(operation: "ListVerifiedEmailAddresses", path: "/", httpMethod: "POST")
     }
 
-    ///  Provides sending statistics for the Amazon SES account. The result is a list of data points, representing the last two weeks of sending activity. Each data point in the list contains statistics for a 15-minute period of time. You can execute this operation no more than once per second.
+    ///  Deletes an existing custom verification email template.  For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func deleteCustomVerificationEmailTemplate(_ input: DeleteCustomVerificationEmailTemplateRequest) throws {
+        _ = try client.send(operation: "DeleteCustomVerificationEmailTemplate", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Provides sending statistics for the current AWS Region. The result is a list of data points, representing the last two weeks of sending activity. Each data point in the list contains statistics for a 15-minute period of time. You can execute this operation no more than once per second.
     public func getSendStatistics() throws -> GetSendStatisticsResponse {
         return try client.send(operation: "GetSendStatistics", path: "/", httpMethod: "POST")
     }
@@ -174,7 +194,7 @@ public struct Email {
         return try client.send(operation: "SendEmail", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds a domain to the list of identities for your Amazon SES account and attempts to verify it. For more information about verifying domains, see Verifying Email Addresses and Domains in the Amazon SES Developer Guide.  You can execute this operation no more than once per second.
+    ///  Adds a domain to the list of identities for your Amazon SES account in the current AWS Region and attempts to verify it. For more information about verifying domains, see Verifying Email Addresses and Domains in the Amazon SES Developer Guide.  You can execute this operation no more than once per second.
     public func verifyDomainIdentity(_ input: VerifyDomainIdentityRequest) throws -> VerifyDomainIdentityResponse {
         return try client.send(operation: "VerifyDomainIdentity", path: "/", httpMethod: "POST", input: input)
     }
@@ -209,7 +229,7 @@ public struct Email {
         return try client.send(operation: "PutIdentityPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Enables or disables the publishing of reputation metrics for emails sent using a specific configuration set. Reputation metrics include bounce and complaint rates. These metrics are published to Amazon CloudWatch. By using Amazon CloudWatch, you can create alarms when bounce or complaint rates exceed a certain threshold. You can execute this operation no more than once per second.
+    ///  Enables or disables the publishing of reputation metrics for emails sent using a specific configuration set in a given AWS Region. Reputation metrics include bounce and complaint rates. These metrics are published to Amazon CloudWatch. By using CloudWatch, you can create alarms when bounce or complaint rates exceed certain thresholds. You can execute this operation no more than once per second.
     public func updateConfigurationSetReputationMetricsEnabled(_ input: UpdateConfigurationSetReputationMetricsEnabledRequest) throws {
         _ = try client.send(operation: "UpdateConfigurationSetReputationMetricsEnabled", path: "/", httpMethod: "POST", input: input)
     }
@@ -239,7 +259,7 @@ public struct Email {
         return try client.send(operation: "DeleteReceiptRuleSet", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the receipt rule sets that exist under your AWS account. If there are additional receipt rule sets to be retrieved, you will receive a NextToken that you can provide to the next call to ListReceiptRuleSets to retrieve the additional entries. For information about managing receipt rule sets, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    ///  Lists the receipt rule sets that exist under your AWS account in the current AWS Region. If there are additional receipt rule sets to be retrieved, you will receive a NextToken that you can provide to the next call to ListReceiptRuleSets to retrieve the additional entries. For information about managing receipt rule sets, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     public func listReceiptRuleSets(_ input: ListReceiptRuleSetsRequest) throws -> ListReceiptRuleSetsResponse {
         return try client.send(operation: "ListReceiptRuleSets", path: "/", httpMethod: "POST", input: input)
     }
@@ -249,27 +269,32 @@ public struct Email {
         return try client.send(operation: "SetReceiptRulePosition", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Lists the existing custom verification email templates for your account in the current AWS Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func listCustomVerificationEmailTemplates(_ input: ListCustomVerificationEmailTemplatesRequest) throws -> ListCustomVerificationEmailTemplatesResponse {
+        return try client.send(operation: "ListCustomVerificationEmailTemplates", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Updates a receipt rule. For information about managing receipt rules, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     public func updateReceiptRule(_ input: UpdateReceiptRuleRequest) throws -> UpdateReceiptRuleResponse {
         return try client.send(operation: "UpdateReceiptRule", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies an association between a configuration set and a custom domain for open and click event tracking.  By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using configuration sets, see Configuring Custom Domains to Handle Open and Click Tracking in the Amazon SES Developer Guide.
+    ///  Modifies an association between a configuration set and a custom domain for open and click event tracking.  By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide.
     public func updateConfigurationSetTrackingOptions(_ input: UpdateConfigurationSetTrackingOptionsRequest) throws -> UpdateConfigurationSetTrackingOptionsResponse {
         return try client.send(operation: "UpdateConfigurationSetTrackingOptions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the IP address filters associated with your AWS account. For information about managing IP address filters, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    ///  Lists the IP address filters associated with your AWS account in the current AWS Region. For information about managing IP address filters, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     public func listReceiptFilters(_ input: ListReceiptFiltersRequest) throws -> ListReceiptFiltersResponse {
         return try client.send(operation: "ListReceiptFilters", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds an email address to the list of identities for your Amazon SES account and attempts to verify it. This operation causes a confirmation email message to be sent to the specified address. You can execute this operation no more than once per second.
+    ///  Adds an email address to the list of identities for your Amazon SES account in the current AWS region and attempts to verify it. As a result of executing this operation, a verification email is sent to the specified address. You can execute this operation no more than once per second.
     public func verifyEmailIdentity(_ input: VerifyEmailIdentityRequest) throws -> VerifyEmailIdentityResponse {
         return try client.send(operation: "VerifyEmailIdentity", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Enables or disables email sending for messages sent using a specific configuration set. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending for a configuration set when the reputation metrics for that configuration set (such as your bounce on complaint rate) reach certain thresholds. You can execute this operation no more than once per second.
+    ///  Enables or disables email sending for messages sent using a specific configuration set in a given AWS Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending for a configuration set when the reputation metrics for that configuration set (such as your bounce on complaint rate) exceed certain thresholds. You can execute this operation no more than once per second.
     public func updateConfigurationSetSendingEnabled(_ input: UpdateConfigurationSetSendingEnabledRequest) throws {
         _ = try client.send(operation: "UpdateConfigurationSetSendingEnabled", path: "/", httpMethod: "POST", input: input)
     }
@@ -279,12 +304,12 @@ public struct Email {
         return try client.send(operation: "DescribeConfigurationSet", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Enables or disables email sending across your entire Amazon SES account. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending across your Amazon SES account when reputation metrics (such as your bounce on complaint rate) reach certain thresholds. You can execute this operation no more than once per second.
+    ///  Enables or disables email sending across your entire Amazon SES account in the current AWS Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending across your Amazon SES account in a given AWS Region when reputation metrics (such as your bounce or complaint rates) reach certain thresholds. You can execute this operation no more than once per second.
     public func updateAccountSendingEnabled(_ input: UpdateAccountSendingEnabledRequest) throws {
         _ = try client.send(operation: "UpdateAccountSendingEnabled", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Provides a list of the configuration sets associated with your Amazon SES account. For information about using configuration sets, see Monitoring Your Amazon SES Sending Activity in the Amazon SES Developer Guide.  You can execute this operation no more than once per second. This operation will return up to 1,000 configuration sets each time it is run. If your Amazon SES account has more than 1,000 configuration sets, this operation will also return a NextToken element. You can then execute the ListConfigurationSets operation again, passing the NextToken parameter and the value of the NextToken element to retrieve additional results.
+    ///  Provides a list of the configuration sets associated with your Amazon SES account in the current AWS Region. For information about using configuration sets, see Monitoring Your Amazon SES Sending Activity in the Amazon SES Developer Guide.  You can execute this operation no more than once per second. This operation will return up to 1,000 configuration sets each time it is run. If your Amazon SES account has more than 1,000 configuration sets, this operation will also return a NextToken element. You can then execute the ListConfigurationSets operation again, passing the NextToken parameter and the value of the NextToken element to retrieve additional results.
     public func listConfigurationSets(_ input: ListConfigurationSetsRequest) throws -> ListConfigurationSetsResponse {
         return try client.send(operation: "ListConfigurationSets", path: "/", httpMethod: "POST", input: input)
     }
@@ -299,7 +324,12 @@ public struct Email {
         return try client.send(operation: "CreateReceiptRuleSet", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the email sending status of the Amazon SES account. You can execute this operation no more than once per second.
+    ///  Adds an email address to the list of identities for your Amazon SES account in the current AWS Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    public func sendCustomVerificationEmail(_ input: SendCustomVerificationEmailRequest) throws -> SendCustomVerificationEmailResponse {
+        return try client.send(operation: "SendCustomVerificationEmail", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the email sending status of the Amazon SES account for the current region. You can execute this operation no more than once per second.
     public func getAccountSendingEnabled() throws -> GetAccountSendingEnabledResponse {
         return try client.send(operation: "GetAccountSendingEnabled", path: "/", httpMethod: "POST")
     }
@@ -324,7 +354,7 @@ public struct Email {
         return try client.send(operation: "TestRenderTemplate", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using configuration sets, see Configuring Custom Domains to Handle Open and Click Tracking in the Amazon SES Developer Guide.  Deleting this kind of association will result in emails sent using the specified configuration set to capture open and click events using the standard, Amazon SES-operated domains. 
+    ///  Deletes an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide.  Deleting this kind of association will result in emails sent using the specified configuration set to capture open and click events using the standard, Amazon SES-operated domains. 
     public func deleteConfigurationSetTrackingOptions(_ input: DeleteConfigurationSetTrackingOptionsRequest) throws -> DeleteConfigurationSetTrackingOptionsResponse {
         return try client.send(operation: "DeleteConfigurationSetTrackingOptions", path: "/", httpMethod: "POST", input: input)
     }
@@ -334,7 +364,7 @@ public struct Email {
         return try client.send(operation: "DeleteConfigurationSetEventDestination", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a configuration set event destination.  When you create or update an event destination, you must provide one, and only one, destination. The destination can be Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS).  An event destination is the AWS service to which Amazon SES publishes the email sending events associated with a configuration set. For information about using configuration sets, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    ///  Creates a configuration set event destination.  When you create or update an event destination, you must provide one, and only one, destination. The destination can be CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS).  An event destination is the AWS service to which Amazon SES publishes the email sending events associated with a configuration set. For information about using configuration sets, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     public func createConfigurationSetEventDestination(_ input: CreateConfigurationSetEventDestinationRequest) throws -> CreateConfigurationSetEventDestinationResponse {
         return try client.send(operation: "CreateConfigurationSetEventDestination", path: "/", httpMethod: "POST", input: input)
     }

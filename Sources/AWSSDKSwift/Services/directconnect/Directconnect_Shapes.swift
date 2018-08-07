@@ -174,67 +174,72 @@ extension Directconnect {
 
     public struct Lag: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "connections", required: false, type: .list), 
-            AWSShapeMember(label: "location", required: false, type: .string), 
-            AWSShapeMember(label: "lagId", required: false, type: .string), 
             AWSShapeMember(label: "lagState", required: false, type: .enum), 
-            AWSShapeMember(label: "awsDevice", required: false, type: .string), 
+            AWSShapeMember(label: "allowsHostedConnections", required: false, type: .boolean), 
             AWSShapeMember(label: "numberOfConnections", required: false, type: .integer), 
             AWSShapeMember(label: "ownerAccount", required: false, type: .string), 
-            AWSShapeMember(label: "region", required: false, type: .string), 
             AWSShapeMember(label: "minimumLinks", required: false, type: .integer), 
-            AWSShapeMember(label: "allowsHostedConnections", required: false, type: .boolean), 
             AWSShapeMember(label: "connectionsBandwidth", required: false, type: .string), 
+            AWSShapeMember(label: "connections", required: false, type: .list), 
+            AWSShapeMember(label: "location", required: false, type: .string), 
+            AWSShapeMember(label: "awsDeviceV2", required: false, type: .string), 
+            AWSShapeMember(label: "lagId", required: false, type: .string), 
+            AWSShapeMember(label: "awsDevice", required: false, type: .string), 
+            AWSShapeMember(label: "region", required: false, type: .string), 
             AWSShapeMember(label: "lagName", required: false, type: .string)
         ]
-        /// A list of connections bundled by this LAG.
-        public let connections: [Connection]?
-        public let location: String?
-        public let lagId: String?
         public let lagState: LagState?
-        /// The AWS Direct Connection endpoint that hosts the LAG.
-        public let awsDevice: String?
+        /// Indicates whether the LAG can host other connections.  This is intended for use by AWS Direct Connect partners only. 
+        public let allowsHostedConnections: Bool?
         /// The number of physical connections bundled by the LAG, up to a maximum of 10.
         public let numberOfConnections: Int32?
         /// The owner of the LAG.
         public let ownerAccount: String?
-        public let region: String?
         /// The minimum number of physical connections that must be operational for the LAG itself to be operational. If the number of operational connections drops below this setting, the LAG state changes to down. This value can help to ensure that a LAG is not overutilized if a significant number of its bundled connections go down.
         public let minimumLinks: Int32?
-        /// Indicates whether the LAG can host other connections.  This is intended for use by AWS Direct Connect partners only. 
-        public let allowsHostedConnections: Bool?
         /// The individual bandwidth of the physical connections bundled by the LAG. Available values: 1Gbps, 10Gbps
         public let connectionsBandwidth: String?
+        /// A list of connections bundled by this LAG.
+        public let connections: [Connection]?
+        public let location: String?
+        /// The AWS Direct Connection endpoint that hosts the LAG.
+        public let awsDeviceV2: String?
+        public let lagId: String?
+        /// Deprecated in favor of awsDeviceV2. The AWS Direct Connection endpoint that hosts the LAG.
+        public let awsDevice: String?
+        public let region: String?
         /// The name of the LAG.
         public let lagName: String?
 
-        public init(connections: [Connection]? = nil, location: String? = nil, lagId: String? = nil, lagState: LagState? = nil, awsDevice: String? = nil, numberOfConnections: Int32? = nil, ownerAccount: String? = nil, region: String? = nil, minimumLinks: Int32? = nil, allowsHostedConnections: Bool? = nil, connectionsBandwidth: String? = nil, lagName: String? = nil) {
-            self.connections = connections
-            self.location = location
-            self.lagId = lagId
+        public init(lagState: LagState? = nil, allowsHostedConnections: Bool? = nil, numberOfConnections: Int32? = nil, ownerAccount: String? = nil, minimumLinks: Int32? = nil, connectionsBandwidth: String? = nil, connections: [Connection]? = nil, location: String? = nil, awsDeviceV2: String? = nil, lagId: String? = nil, awsDevice: String? = nil, region: String? = nil, lagName: String? = nil) {
             self.lagState = lagState
-            self.awsDevice = awsDevice
+            self.allowsHostedConnections = allowsHostedConnections
             self.numberOfConnections = numberOfConnections
             self.ownerAccount = ownerAccount
-            self.region = region
             self.minimumLinks = minimumLinks
-            self.allowsHostedConnections = allowsHostedConnections
             self.connectionsBandwidth = connectionsBandwidth
+            self.connections = connections
+            self.location = location
+            self.awsDeviceV2 = awsDeviceV2
+            self.lagId = lagId
+            self.awsDevice = awsDevice
+            self.region = region
             self.lagName = lagName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connections = "connections"
-            case location = "location"
-            case lagId = "lagId"
             case lagState = "lagState"
-            case awsDevice = "awsDevice"
+            case allowsHostedConnections = "allowsHostedConnections"
             case numberOfConnections = "numberOfConnections"
             case ownerAccount = "ownerAccount"
-            case region = "region"
             case minimumLinks = "minimumLinks"
-            case allowsHostedConnections = "allowsHostedConnections"
             case connectionsBandwidth = "connectionsBandwidth"
+            case connections = "connections"
+            case location = "location"
+            case awsDeviceV2 = "awsDeviceV2"
+            case lagId = "lagId"
+            case awsDevice = "awsDevice"
+            case region = "region"
             case lagName = "lagName"
         }
     }
@@ -425,6 +430,26 @@ extension Directconnect {
         public var description: String { return self.rawValue }
     }
 
+    public struct CreatePrivateVirtualInterfaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "newPrivateVirtualInterface", required: true, type: .structure)
+        ]
+        public let connectionId: String
+        /// Detailed information for the private virtual interface to be created. Default: None
+        public let newPrivateVirtualInterface: NewPrivateVirtualInterface
+
+        public init(connectionId: String, newPrivateVirtualInterface: NewPrivateVirtualInterface) {
+            self.connectionId = connectionId
+            self.newPrivateVirtualInterface = newPrivateVirtualInterface
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+            case newPrivateVirtualInterface = "newPrivateVirtualInterface"
+        }
+    }
+
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "key", required: true, type: .string), 
@@ -443,26 +468,6 @@ extension Directconnect {
         private enum CodingKeys: String, CodingKey {
             case key = "key"
             case value = "value"
-        }
-    }
-
-    public struct CreatePrivateVirtualInterfaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "connectionId", required: true, type: .string), 
-            AWSShapeMember(label: "newPrivateVirtualInterface", required: true, type: .structure)
-        ]
-        public let connectionId: String
-        /// Detailed information for the private virtual interface to be created. Default: None
-        public let newPrivateVirtualInterface: NewPrivateVirtualInterface
-
-        public init(connectionId: String, newPrivateVirtualInterface: NewPrivateVirtualInterface) {
-            self.connectionId = connectionId
-            self.newPrivateVirtualInterface = newPrivateVirtualInterface
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-            case newPrivateVirtualInterface = "newPrivateVirtualInterface"
         }
     }
 
@@ -940,30 +945,30 @@ extension Directconnect {
     public struct DescribeDirectConnectGatewayAssociationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
-            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The ID of the direct connect gateway. Example: "abcd1234-dcba-5678-be23-cdef9876ab45" Default: None
         public let directConnectGatewayId: String?
-        /// The ID of the virtual private gateway. Example: "vgw-abc123ef" Default: None
-        public let virtualGatewayId: String?
         /// The maximum number of direct connect gateway associations to return per page. Example: 15 Default: None
         public let maxResults: Int32?
+        /// The ID of the virtual private gateway. Example: "vgw-abc123ef" Default: None
+        public let virtualGatewayId: String?
         /// The token provided in the previous describe result to retrieve the next page of the result. Default: None
         public let nextToken: String?
 
-        public init(directConnectGatewayId: String? = nil, virtualGatewayId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(directConnectGatewayId: String? = nil, maxResults: Int32? = nil, virtualGatewayId: String? = nil, nextToken: String? = nil) {
             self.directConnectGatewayId = directConnectGatewayId
-            self.virtualGatewayId = virtualGatewayId
             self.maxResults = maxResults
+            self.virtualGatewayId = virtualGatewayId
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case directConnectGatewayId = "directConnectGatewayId"
-            case virtualGatewayId = "virtualGatewayId"
             case maxResults = "maxResults"
+            case virtualGatewayId = "virtualGatewayId"
             case nextToken = "nextToken"
         }
     }
@@ -1158,63 +1163,68 @@ extension Directconnect {
 
     public struct Connection: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loaIssueTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "bandwidth", required: false, type: .string), 
+            AWSShapeMember(label: "connectionId", required: false, type: .string), 
+            AWSShapeMember(label: "ownerAccount", required: false, type: .string), 
+            AWSShapeMember(label: "connectionName", required: false, type: .string), 
+            AWSShapeMember(label: "loaIssueTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "location", required: false, type: .string), 
+            AWSShapeMember(label: "awsDeviceV2", required: false, type: .string), 
             AWSShapeMember(label: "lagId", required: false, type: .string), 
             AWSShapeMember(label: "awsDevice", required: false, type: .string), 
-            AWSShapeMember(label: "connectionId", required: false, type: .string), 
             AWSShapeMember(label: "region", required: false, type: .string), 
-            AWSShapeMember(label: "ownerAccount", required: false, type: .string), 
             AWSShapeMember(label: "connectionState", required: false, type: .enum), 
-            AWSShapeMember(label: "connectionName", required: false, type: .string), 
             AWSShapeMember(label: "vlan", required: false, type: .integer), 
             AWSShapeMember(label: "partnerName", required: false, type: .string)
         ]
-        /// The time of the most recent call to DescribeLoa for this connection.
-        public let loaIssueTime: TimeStamp?
         /// Bandwidth of the connection. Example: 1Gbps (for regular connections), or 500Mbps (for hosted connections) Default: None
         public let bandwidth: String?
-        public let location: String?
-        public let lagId: String?
-        /// The Direct Connection endpoint which the physical connection terminates on.
-        public let awsDevice: String?
         public let connectionId: String?
-        public let region: String?
         /// The AWS account that will own the new connection.
         public let ownerAccount: String?
-        public let connectionState: ConnectionState?
         public let connectionName: String?
+        /// The time of the most recent call to DescribeLoa for this connection.
+        public let loaIssueTime: TimeStamp?
+        public let location: String?
+        /// The Direct Connection endpoint which the physical connection terminates on.
+        public let awsDeviceV2: String?
+        public let lagId: String?
+        /// Deprecated in favor of awsDeviceV2. The Direct Connection endpoint which the physical connection terminates on.
+        public let awsDevice: String?
+        public let region: String?
+        public let connectionState: ConnectionState?
         public let vlan: Int32?
         /// The name of the AWS Direct Connect service provider associated with the connection.
         public let partnerName: String?
 
-        public init(loaIssueTime: TimeStamp? = nil, bandwidth: String? = nil, location: String? = nil, lagId: String? = nil, awsDevice: String? = nil, connectionId: String? = nil, region: String? = nil, ownerAccount: String? = nil, connectionState: ConnectionState? = nil, connectionName: String? = nil, vlan: Int32? = nil, partnerName: String? = nil) {
-            self.loaIssueTime = loaIssueTime
+        public init(bandwidth: String? = nil, connectionId: String? = nil, ownerAccount: String? = nil, connectionName: String? = nil, loaIssueTime: TimeStamp? = nil, location: String? = nil, awsDeviceV2: String? = nil, lagId: String? = nil, awsDevice: String? = nil, region: String? = nil, connectionState: ConnectionState? = nil, vlan: Int32? = nil, partnerName: String? = nil) {
             self.bandwidth = bandwidth
+            self.connectionId = connectionId
+            self.ownerAccount = ownerAccount
+            self.connectionName = connectionName
+            self.loaIssueTime = loaIssueTime
             self.location = location
+            self.awsDeviceV2 = awsDeviceV2
             self.lagId = lagId
             self.awsDevice = awsDevice
-            self.connectionId = connectionId
             self.region = region
-            self.ownerAccount = ownerAccount
             self.connectionState = connectionState
-            self.connectionName = connectionName
             self.vlan = vlan
             self.partnerName = partnerName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loaIssueTime = "loaIssueTime"
             case bandwidth = "bandwidth"
+            case connectionId = "connectionId"
+            case ownerAccount = "ownerAccount"
+            case connectionName = "connectionName"
+            case loaIssueTime = "loaIssueTime"
             case location = "location"
+            case awsDeviceV2 = "awsDeviceV2"
             case lagId = "lagId"
             case awsDevice = "awsDevice"
-            case connectionId = "connectionId"
             case region = "region"
-            case ownerAccount = "ownerAccount"
             case connectionState = "connectionState"
-            case connectionName = "connectionName"
             case vlan = "vlan"
             case partnerName = "partnerName"
         }
@@ -1322,6 +1332,7 @@ extension Directconnect {
             AWSShapeMember(label: "bgpPeerState", required: false, type: .enum), 
             AWSShapeMember(label: "customerAddress", required: false, type: .string), 
             AWSShapeMember(label: "bgpStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "awsDeviceV2", required: false, type: .string), 
             AWSShapeMember(label: "authKey", required: false, type: .string), 
             AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
             AWSShapeMember(label: "asn", required: false, type: .integer), 
@@ -1330,15 +1341,18 @@ extension Directconnect {
         public let bgpPeerState: BGPPeerState?
         public let customerAddress: String?
         public let bgpStatus: BGPStatus?
+        /// The Direct Connection endpoint which the BGP peer terminates on.
+        public let awsDeviceV2: String?
         public let authKey: String?
         public let amazonAddress: String?
         public let asn: Int32?
         public let addressFamily: AddressFamily?
 
-        public init(bgpPeerState: BGPPeerState? = nil, customerAddress: String? = nil, bgpStatus: BGPStatus? = nil, authKey: String? = nil, amazonAddress: String? = nil, asn: Int32? = nil, addressFamily: AddressFamily? = nil) {
+        public init(bgpPeerState: BGPPeerState? = nil, customerAddress: String? = nil, bgpStatus: BGPStatus? = nil, awsDeviceV2: String? = nil, authKey: String? = nil, amazonAddress: String? = nil, asn: Int32? = nil, addressFamily: AddressFamily? = nil) {
             self.bgpPeerState = bgpPeerState
             self.customerAddress = customerAddress
             self.bgpStatus = bgpStatus
+            self.awsDeviceV2 = awsDeviceV2
             self.authKey = authKey
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -1349,6 +1363,7 @@ extension Directconnect {
             case bgpPeerState = "bgpPeerState"
             case customerAddress = "customerAddress"
             case bgpStatus = "bgpStatus"
+            case awsDeviceV2 = "awsDeviceV2"
             case authKey = "authKey"
             case amazonAddress = "amazonAddress"
             case asn = "asn"
@@ -1508,6 +1523,7 @@ extension Directconnect {
             AWSShapeMember(label: "interconnectState", required: false, type: .enum), 
             AWSShapeMember(label: "location", required: false, type: .string), 
             AWSShapeMember(label: "awsDevice", required: false, type: .string), 
+            AWSShapeMember(label: "awsDeviceV2", required: false, type: .string), 
             AWSShapeMember(label: "lagId", required: false, type: .string), 
             AWSShapeMember(label: "region", required: false, type: .string), 
             AWSShapeMember(label: "interconnectName", required: false, type: .string), 
@@ -1518,19 +1534,22 @@ extension Directconnect {
         public let loaIssueTime: TimeStamp?
         public let interconnectState: InterconnectState?
         public let location: String?
-        /// The Direct Connection endpoint which the physical connection terminates on.
+        /// Deprecated in favor of awsDeviceV2. The Direct Connection endpoint which the physical connection terminates on.
         public let awsDevice: String?
+        /// The Direct Connection endpoint which the physical connection terminates on.
+        public let awsDeviceV2: String?
         public let lagId: String?
         public let region: String?
         public let interconnectName: String?
         public let interconnectId: String?
         public let bandwidth: String?
 
-        public init(loaIssueTime: TimeStamp? = nil, interconnectState: InterconnectState? = nil, location: String? = nil, awsDevice: String? = nil, lagId: String? = nil, region: String? = nil, interconnectName: String? = nil, interconnectId: String? = nil, bandwidth: String? = nil) {
+        public init(loaIssueTime: TimeStamp? = nil, interconnectState: InterconnectState? = nil, location: String? = nil, awsDevice: String? = nil, awsDeviceV2: String? = nil, lagId: String? = nil, region: String? = nil, interconnectName: String? = nil, interconnectId: String? = nil, bandwidth: String? = nil) {
             self.loaIssueTime = loaIssueTime
             self.interconnectState = interconnectState
             self.location = location
             self.awsDevice = awsDevice
+            self.awsDeviceV2 = awsDeviceV2
             self.lagId = lagId
             self.region = region
             self.interconnectName = interconnectName
@@ -1543,6 +1562,7 @@ extension Directconnect {
             case interconnectState = "interconnectState"
             case location = "location"
             case awsDevice = "awsDevice"
+            case awsDeviceV2 = "awsDeviceV2"
             case lagId = "lagId"
             case region = "region"
             case interconnectName = "interconnectName"
@@ -1672,22 +1692,27 @@ extension Directconnect {
 
     public struct Location: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "locationCode", required: false, type: .string), 
-            AWSShapeMember(label: "locationName", required: false, type: .string)
+            AWSShapeMember(label: "locationName", required: false, type: .string), 
+            AWSShapeMember(label: "region", required: false, type: .string), 
+            AWSShapeMember(label: "locationCode", required: false, type: .string)
         ]
-        /// The code used to indicate the AWS Direct Connect location.
-        public let locationCode: String?
         /// The name of the AWS Direct Connect location. The name includes the colocation partner name and the physical site of the lit building.
         public let locationName: String?
+        /// The AWS region where the AWS Direct connect location is located. Example: us-east-1 Default: None
+        public let region: String?
+        /// The code used to indicate the AWS Direct Connect location.
+        public let locationCode: String?
 
-        public init(locationCode: String? = nil, locationName: String? = nil) {
-            self.locationCode = locationCode
+        public init(locationName: String? = nil, region: String? = nil, locationCode: String? = nil) {
             self.locationName = locationName
+            self.region = region
+            self.locationCode = locationCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case locationCode = "locationCode"
             case locationName = "locationName"
+            case region = "region"
+            case locationCode = "locationCode"
         }
     }
 
@@ -1722,15 +1747,17 @@ extension Directconnect {
             AWSShapeMember(label: "amazonSideAsn", required: false, type: .long), 
             AWSShapeMember(label: "location", required: false, type: .string), 
             AWSShapeMember(label: "virtualInterfaceName", required: false, type: .string), 
-            AWSShapeMember(label: "authKey", required: false, type: .string), 
+            AWSShapeMember(label: "awsDeviceV2", required: false, type: .string), 
+            AWSShapeMember(label: "region", required: false, type: .string), 
             AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
             AWSShapeMember(label: "customerRouterConfig", required: false, type: .string), 
-            AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum), 
+            AWSShapeMember(label: "authKey", required: false, type: .string), 
             AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
-            AWSShapeMember(label: "bgpPeers", required: false, type: .list), 
+            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string), 
             AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum), 
             AWSShapeMember(label: "vlan", required: false, type: .integer), 
-            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string)
+            AWSShapeMember(label: "bgpPeers", required: false, type: .list)
         ]
         public let customerAddress: String?
         public let virtualInterfaceType: String?
@@ -1744,18 +1771,22 @@ extension Directconnect {
         public let amazonSideAsn: Int64?
         public let location: String?
         public let virtualInterfaceName: String?
-        public let authKey: String?
+        /// The Direct Connection endpoint which the virtual interface terminates on.
+        public let awsDeviceV2: String?
+        /// The AWS region where the virtual interface is located. Example: us-east-1 Default: None
+        public let region: String?
         public let amazonAddress: String?
         /// Information for generating the customer router configuration.
         public let customerRouterConfig: String?
-        public let virtualInterfaceState: VirtualInterfaceState?
+        public let authKey: String?
         public let directConnectGatewayId: String?
-        public let bgpPeers: [BGPPeer]?
-        public let virtualInterfaceId: String?
-        public let vlan: Int32?
         public let virtualGatewayId: String?
+        public let virtualInterfaceId: String?
+        public let virtualInterfaceState: VirtualInterfaceState?
+        public let vlan: Int32?
+        public let bgpPeers: [BGPPeer]?
 
-        public init(customerAddress: String? = nil, virtualInterfaceType: String? = nil, connectionId: String? = nil, ownerAccount: String? = nil, asn: Int32? = nil, addressFamily: AddressFamily? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, amazonSideAsn: Int64? = nil, location: String? = nil, virtualInterfaceName: String? = nil, authKey: String? = nil, amazonAddress: String? = nil, customerRouterConfig: String? = nil, virtualInterfaceState: VirtualInterfaceState? = nil, directConnectGatewayId: String? = nil, bgpPeers: [BGPPeer]? = nil, virtualInterfaceId: String? = nil, vlan: Int32? = nil, virtualGatewayId: String? = nil) {
+        public init(customerAddress: String? = nil, virtualInterfaceType: String? = nil, connectionId: String? = nil, ownerAccount: String? = nil, asn: Int32? = nil, addressFamily: AddressFamily? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, amazonSideAsn: Int64? = nil, location: String? = nil, virtualInterfaceName: String? = nil, awsDeviceV2: String? = nil, region: String? = nil, amazonAddress: String? = nil, customerRouterConfig: String? = nil, authKey: String? = nil, directConnectGatewayId: String? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceState: VirtualInterfaceState? = nil, vlan: Int32? = nil, bgpPeers: [BGPPeer]? = nil) {
             self.customerAddress = customerAddress
             self.virtualInterfaceType = virtualInterfaceType
             self.connectionId = connectionId
@@ -1766,15 +1797,17 @@ extension Directconnect {
             self.amazonSideAsn = amazonSideAsn
             self.location = location
             self.virtualInterfaceName = virtualInterfaceName
-            self.authKey = authKey
+            self.awsDeviceV2 = awsDeviceV2
+            self.region = region
             self.amazonAddress = amazonAddress
             self.customerRouterConfig = customerRouterConfig
-            self.virtualInterfaceState = virtualInterfaceState
+            self.authKey = authKey
             self.directConnectGatewayId = directConnectGatewayId
-            self.bgpPeers = bgpPeers
-            self.virtualInterfaceId = virtualInterfaceId
-            self.vlan = vlan
             self.virtualGatewayId = virtualGatewayId
+            self.virtualInterfaceId = virtualInterfaceId
+            self.virtualInterfaceState = virtualInterfaceState
+            self.vlan = vlan
+            self.bgpPeers = bgpPeers
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1788,15 +1821,17 @@ extension Directconnect {
             case amazonSideAsn = "amazonSideAsn"
             case location = "location"
             case virtualInterfaceName = "virtualInterfaceName"
-            case authKey = "authKey"
+            case awsDeviceV2 = "awsDeviceV2"
+            case region = "region"
             case amazonAddress = "amazonAddress"
             case customerRouterConfig = "customerRouterConfig"
-            case virtualInterfaceState = "virtualInterfaceState"
+            case authKey = "authKey"
             case directConnectGatewayId = "directConnectGatewayId"
-            case bgpPeers = "bgpPeers"
-            case virtualInterfaceId = "virtualInterfaceId"
-            case vlan = "vlan"
             case virtualGatewayId = "virtualGatewayId"
+            case virtualInterfaceId = "virtualInterfaceId"
+            case virtualInterfaceState = "virtualInterfaceState"
+            case vlan = "vlan"
+            case bgpPeers = "bgpPeers"
         }
     }
 
@@ -1910,31 +1945,31 @@ extension Directconnect {
 
     public struct DescribeDirectConnectGatewayAttachmentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string)
         ]
-        /// The token provided in the previous describe result to retrieve the next page of the result. Default: None
-        public let nextToken: String?
         /// The ID of the direct connect gateway. Example: "abcd1234-dcba-5678-be23-cdef9876ab45" Default: None
         public let directConnectGatewayId: String?
         /// The maximum number of direct connect gateway attachments to return per page. Example: 15 Default: None
         public let maxResults: Int32?
+        /// The token provided in the previous describe result to retrieve the next page of the result. Default: None
+        public let nextToken: String?
         /// The ID of the virtual interface. Example: "dxvif-abc123ef" Default: None
         public let virtualInterfaceId: String?
 
-        public init(nextToken: String? = nil, directConnectGatewayId: String? = nil, maxResults: Int32? = nil, virtualInterfaceId: String? = nil) {
-            self.nextToken = nextToken
+        public init(directConnectGatewayId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, virtualInterfaceId: String? = nil) {
             self.directConnectGatewayId = directConnectGatewayId
             self.maxResults = maxResults
+            self.nextToken = nextToken
             self.virtualInterfaceId = virtualInterfaceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
             case directConnectGatewayId = "directConnectGatewayId"
             case maxResults = "maxResults"
+            case nextToken = "nextToken"
             case virtualInterfaceId = "virtualInterfaceId"
         }
     }
@@ -1982,27 +2017,27 @@ extension Directconnect {
 
     public struct CreateConnectionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "connectionName", required: true, type: .string), 
             AWSShapeMember(label: "location", required: true, type: .string), 
             AWSShapeMember(label: "lagId", required: false, type: .string), 
+            AWSShapeMember(label: "connectionName", required: true, type: .string), 
             AWSShapeMember(label: "bandwidth", required: true, type: .string)
         ]
-        public let connectionName: String
         public let location: String
         public let lagId: String?
+        public let connectionName: String
         public let bandwidth: String
 
-        public init(connectionName: String, location: String, lagId: String? = nil, bandwidth: String) {
-            self.connectionName = connectionName
+        public init(location: String, lagId: String? = nil, connectionName: String, bandwidth: String) {
             self.location = location
             self.lagId = lagId
+            self.connectionName = connectionName
             self.bandwidth = bandwidth
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionName = "connectionName"
             case location = "location"
             case lagId = "lagId"
+            case connectionName = "connectionName"
             case bandwidth = "bandwidth"
         }
     }

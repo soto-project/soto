@@ -244,8 +244,8 @@ extension Cloudformation {
             AWSShapeMember(label: "UsePreviousTemplate", required: false, type: .boolean), 
             AWSShapeMember(label: "RollbackConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "StackPolicyDuringUpdateURL", required: false, type: .string), 
-            AWSShapeMember(label: "StackPolicyURL", required: false, type: .string), 
             AWSShapeMember(label: "NotificationARNs", required: false, type: .list), 
+            AWSShapeMember(label: "StackPolicyURL", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .list), 
             AWSShapeMember(label: "ResourceTypes", required: false, type: .list), 
             AWSShapeMember(label: "TemplateURL", required: false, type: .string), 
@@ -269,10 +269,10 @@ extension Cloudformation {
         public let rollbackConfiguration: RollbackConfiguration?
         /// Location of a file containing the temporary overriding stack policy. The URL must point to a policy (max size: 16KB) located in an S3 bucket in the same region as the stack. You can specify either the StackPolicyDuringUpdateBody or the StackPolicyDuringUpdateURL parameter, but not both. If you want to update protected resources, specify a temporary overriding stack policy during this update. If you do not specify a stack policy, the current policy that is associated with the stack will be used.
         public let stackPolicyDuringUpdateURL: String?
-        /// Location of a file containing the updated stack policy. The URL must point to a policy (max size: 16KB) located in an S3 bucket in the same region as the stack. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both. You might update the stack policy, for example, in order to protect a new resource that you created during a stack update. If you do not specify a stack policy, the current policy that is associated with the stack is unchanged.
-        public let stackPolicyURL: String?
         /// Amazon Simple Notification Service topic Amazon Resource Names (ARNs) that AWS CloudFormation associates with the stack. Specify an empty list to remove all notification topics.
         public let notificationARNs: [String]?
+        /// Location of a file containing the updated stack policy. The URL must point to a policy (max size: 16KB) located in an S3 bucket in the same region as the stack. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both. You might update the stack policy, for example, in order to protect a new resource that you created during a stack update. If you do not specify a stack policy, the current policy that is associated with the stack is unchanged.
+        public let stackPolicyURL: String?
         /// A list of Parameter structures that specify input parameters for the stack. For more information, see the Parameter data type.
         public let parameters: [Parameter]?
         /// The template resource types that you have permissions to work with for this update stack action, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. If the list of resource types doesn't include a resource that you're updating, the stack update fails. By default, AWS CloudFormation grants permissions to all resource types. AWS Identity and Access Management (IAM) uses this parameter for AWS CloudFormation-specific condition keys in IAM policies. For more information, see Controlling Access with AWS Identity and Access Management.
@@ -286,7 +286,7 @@ extension Cloudformation {
         /// A list of values that you must specify before AWS CloudFormation can update certain stacks. Some stack templates might include resources that can affect permissions in your AWS account, for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge their capabilities by specifying this parameter. The only valid values are CAPABILITY_IAM and CAPABILITY_NAMED_IAM. The following resources require you to specify this parameter:  AWS::IAM::AccessKey,  AWS::IAM::Group,  AWS::IAM::InstanceProfile,  AWS::IAM::Policy,  AWS::IAM::Role,  AWS::IAM::User, and  AWS::IAM::UserToGroupAddition. If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary. If you have IAM resources, you can specify either capability. If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM. If you don't specify this parameter, this action returns an InsufficientCapabilities error. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.
         public let capabilities: [Capability]?
 
-        public init(stackPolicyBody: String? = nil, clientRequestToken: String? = nil, tags: [Tag]? = nil, roleARN: String? = nil, stackPolicyDuringUpdateBody: String? = nil, usePreviousTemplate: Bool? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackPolicyDuringUpdateURL: String? = nil, stackPolicyURL: String? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, templateURL: String? = nil, templateBody: String? = nil, stackName: String, capabilities: [Capability]? = nil) {
+        public init(stackPolicyBody: String? = nil, clientRequestToken: String? = nil, tags: [Tag]? = nil, roleARN: String? = nil, stackPolicyDuringUpdateBody: String? = nil, usePreviousTemplate: Bool? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackPolicyDuringUpdateURL: String? = nil, notificationARNs: [String]? = nil, stackPolicyURL: String? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, templateURL: String? = nil, templateBody: String? = nil, stackName: String, capabilities: [Capability]? = nil) {
             self.stackPolicyBody = stackPolicyBody
             self.clientRequestToken = clientRequestToken
             self.tags = tags
@@ -295,8 +295,8 @@ extension Cloudformation {
             self.usePreviousTemplate = usePreviousTemplate
             self.rollbackConfiguration = rollbackConfiguration
             self.stackPolicyDuringUpdateURL = stackPolicyDuringUpdateURL
-            self.stackPolicyURL = stackPolicyURL
             self.notificationARNs = notificationARNs
+            self.stackPolicyURL = stackPolicyURL
             self.parameters = parameters
             self.resourceTypes = resourceTypes
             self.templateURL = templateURL
@@ -314,8 +314,8 @@ extension Cloudformation {
             case usePreviousTemplate = "UsePreviousTemplate"
             case rollbackConfiguration = "RollbackConfiguration"
             case stackPolicyDuringUpdateURL = "StackPolicyDuringUpdateURL"
-            case stackPolicyURL = "StackPolicyURL"
             case notificationARNs = "NotificationARNs"
+            case stackPolicyURL = "StackPolicyURL"
             case parameters = "Parameters"
             case resourceTypes = "ResourceTypes"
             case templateURL = "TemplateURL"
@@ -850,31 +850,31 @@ extension Cloudformation {
     public struct Parameter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParameterValue", required: false, type: .string), 
+            AWSShapeMember(label: "ResolvedValue", required: false, type: .string), 
             AWSShapeMember(label: "UsePreviousValue", required: false, type: .boolean), 
-            AWSShapeMember(label: "ParameterKey", required: false, type: .string), 
-            AWSShapeMember(label: "ResolvedValue", required: false, type: .string)
+            AWSShapeMember(label: "ParameterKey", required: false, type: .string)
         ]
         /// The input value associated with the parameter.
         public let parameterValue: String?
+        /// Read-only. The value that corresponds to a Systems Manager parameter key. This field is returned only for  SSM parameter types in the template.
+        public let resolvedValue: String?
         /// During a stack update, use the existing parameter value that the stack is using for a given parameter key. If you specify true, do not specify a parameter value.
         public let usePreviousValue: Bool?
         /// The key associated with the parameter. If you don't specify a key and value for a particular parameter, AWS CloudFormation uses the default value that is specified in your template.
         public let parameterKey: String?
-        /// Read-only. The value that corresponds to a Systems Manager parameter key. This field is returned only for  SSM parameter types in the template.
-        public let resolvedValue: String?
 
-        public init(parameterValue: String? = nil, usePreviousValue: Bool? = nil, parameterKey: String? = nil, resolvedValue: String? = nil) {
+        public init(parameterValue: String? = nil, resolvedValue: String? = nil, usePreviousValue: Bool? = nil, parameterKey: String? = nil) {
             self.parameterValue = parameterValue
+            self.resolvedValue = resolvedValue
             self.usePreviousValue = usePreviousValue
             self.parameterKey = parameterKey
-            self.resolvedValue = resolvedValue
         }
 
         private enum CodingKeys: String, CodingKey {
             case parameterValue = "ParameterValue"
+            case resolvedValue = "ResolvedValue"
             case usePreviousValue = "UsePreviousValue"
             case parameterKey = "ParameterKey"
-            case resolvedValue = "ResolvedValue"
         }
     }
 
@@ -1045,9 +1045,9 @@ extension Cloudformation {
             AWSShapeMember(label: "RollbackTriggers", required: false, type: .list), 
             AWSShapeMember(label: "MonitoringTimeInMinutes", required: false, type: .integer)
         ]
-        /// The triggers to monitor during stack creation or update actions.  By default, AWS CloudFormation saves the rollback triggers specified for a stack and applies them to any subsequent update operations for the stack, unless you specify otherwise. If you do specify rollback triggers for this parameter, those triggers replace any list of triggers previously specified for the stack. This means:   If you don't specify this parameter, AWS CloudFormation uses the rollback triggers previously specified for this stack, if any.   If you specify any rollback triggers using this parameter, you must specify all the triggers that you want used for this stack, even triggers you've specifed before (for example, when creating the stack or during a previous stack update). Any triggers that you don't include in the updated list of triggers are no longer applied to the stack.   If you specify an empty list, AWS CloudFormation removes all currently specified triggers.   If a specified Cloudwatch alarm is missing, the entire stack operation fails and is rolled back. 
+        /// The triggers to monitor during stack creation or update actions.  By default, AWS CloudFormation saves the rollback triggers specified for a stack and applies them to any subsequent update operations for the stack, unless you specify otherwise. If you do specify rollback triggers for this parameter, those triggers replace any list of triggers previously specified for the stack. This means:   To use the rollback triggers previously specified for this stack, if any, don't specify this parameter.   To specify new or updated rollback triggers, you must specify all the triggers that you want used for this stack, even triggers you've specifed before (for example, when creating the stack or during a previous stack update). Any triggers that you don't include in the updated list of triggers are no longer applied to the stack.   To remove all currently specified triggers, specify an empty list for this parameter.   If a specified trigger is missing, the entire stack operation fails and is rolled back. 
         public let rollbackTriggers: [RollbackTrigger]?
-        /// The amount of time, in minutes, during which CloudFormation should monitor all the rollback triggers after the stack creation or update operation deploys all necessary resources. If any of the alarms goes to ALERT state during the stack operation or this monitoring period, CloudFormation rolls back the entire stack operation. Then, for update operations, if the monitoring period expires without any alarms going to ALERT state CloudFormation proceeds to dispose of old resources as usual. If you specify a monitoring period but do not specify any rollback triggers, CloudFormation still waits the specified period of time before cleaning up old resources for update operations. You can use this monitoring period to perform any manual stack validation desired, and manually cancel the stack creation or update (using CancelUpdateStack, for example) as necessary. If you specify 0 for this parameter, CloudFormation still monitors the specified rollback triggers during stack creation and update operations. Then, for update operations, it begins disposing of old resources immediately once the operation completes.
+        /// The amount of time, in minutes, during which CloudFormation should monitor all the rollback triggers after the stack creation or update operation deploys all necessary resources. The default is 0 minutes. If you specify a monitoring period but do not specify any rollback triggers, CloudFormation still waits the specified period of time before cleaning up old resources after update operations. You can use this monitoring period to perform any manual stack validation desired, and manually cancel the stack creation or update (using CancelUpdateStack, for example) as necessary. If you specify 0 for this parameter, CloudFormation still monitors the specified rollback triggers during stack creation and update operations. Then, for update operations, it begins disposing of old resources immediately once the operation completes.
         public let monitoringTimeInMinutes: Int32?
 
         public init(rollbackTriggers: [RollbackTrigger]? = nil, monitoringTimeInMinutes: Int32? = nil) {
@@ -1069,7 +1069,9 @@ extension Cloudformation {
             AWSShapeMember(label: "OperationPreferences", required: false, type: .structure), 
             AWSShapeMember(label: "Action", required: false, type: .enum), 
             AWSShapeMember(label: "CreationTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AdministrationRoleARN", required: false, type: .string), 
             AWSShapeMember(label: "OperationId", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionRoleName", required: false, type: .string), 
             AWSShapeMember(label: "EndTimestamp", required: false, type: .timestamp)
         ]
         /// For stack set operations of action type DELETE, specifies whether to remove the stack instances from the specified stack set, but doesn't delete the stacks. You can't reassociate a retained stack, or add an existing, saved stack to a new stack set.
@@ -1084,19 +1086,25 @@ extension Cloudformation {
         public let action: StackSetOperationAction?
         /// The time at which the operation was initiated. Note that the creation times for the stack set operation might differ from the creation time of the individual stacks themselves. This is because AWS CloudFormation needs to perform preparatory work for the operation, such as dispatching the work to the requested regions, before actually creating the first stacks.
         public let creationTimestamp: TimeStamp?
+        /// The Amazon Resource Number (ARN) of the IAM role used to perform this stack set operation.  Use customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Define Permissions for Multiple Administrators in the AWS CloudFormation User Guide.
+        public let administrationRoleARN: String?
         /// The unique ID of a stack set operation.
         public let operationId: String?
+        /// The name of the IAM execution role used to create or update the stack set. Use customized execution roles to control which stack resources users and groups can include in their stack sets. 
+        public let executionRoleName: String?
         /// The time at which the stack set operation ended, across all accounts and regions specified. Note that this doesn't necessarily mean that the stack set operation was successful, or even attempted, in each account or region.
         public let endTimestamp: TimeStamp?
 
-        public init(retainStacks: Bool? = nil, status: StackSetOperationStatus? = nil, stackSetId: String? = nil, operationPreferences: StackSetOperationPreferences? = nil, action: StackSetOperationAction? = nil, creationTimestamp: TimeStamp? = nil, operationId: String? = nil, endTimestamp: TimeStamp? = nil) {
+        public init(retainStacks: Bool? = nil, status: StackSetOperationStatus? = nil, stackSetId: String? = nil, operationPreferences: StackSetOperationPreferences? = nil, action: StackSetOperationAction? = nil, creationTimestamp: TimeStamp? = nil, administrationRoleARN: String? = nil, operationId: String? = nil, executionRoleName: String? = nil, endTimestamp: TimeStamp? = nil) {
             self.retainStacks = retainStacks
             self.status = status
             self.stackSetId = stackSetId
             self.operationPreferences = operationPreferences
             self.action = action
             self.creationTimestamp = creationTimestamp
+            self.administrationRoleARN = administrationRoleARN
             self.operationId = operationId
+            self.executionRoleName = executionRoleName
             self.endTimestamp = endTimestamp
         }
 
@@ -1107,7 +1115,9 @@ extension Cloudformation {
             case operationPreferences = "OperationPreferences"
             case action = "Action"
             case creationTimestamp = "CreationTimestamp"
+            case administrationRoleARN = "AdministrationRoleARN"
             case operationId = "OperationId"
+            case executionRoleName = "ExecutionRoleName"
             case endTimestamp = "EndTimestamp"
         }
     }
@@ -1145,8 +1155,8 @@ extension Cloudformation {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "RollbackConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "NotificationARNs", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "StatusReason", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "Parameters", required: false, type: .list), 
@@ -1167,10 +1177,10 @@ extension Cloudformation {
         public let creationTime: TimeStamp?
         /// The rollback triggers for AWS CloudFormation to monitor during stack creation and updating operations, and for the specified monitoring period afterwards.
         public let rollbackConfiguration: RollbackConfiguration?
-        /// Information about the change set.
-        public let description: String?
         /// The ARNs of the Amazon Simple Notification Service (Amazon SNS) topics that will be associated with the stack if you execute the change set.
         public let notificationARNs: [String]?
+        /// Information about the change set.
+        public let description: String?
         /// A description of the change set's status. For example, if your attempt to create a change set failed, AWS CloudFormation shows the error message.
         public let statusReason: String?
         /// The current status of the change set, such as CREATE_IN_PROGRESS, CREATE_COMPLETE, or FAILED.
@@ -1190,14 +1200,14 @@ extension Cloudformation {
         /// If you execute the change set, the list of capabilities that were explicitly acknowledged when the change set was created.
         public let capabilities: [Capability]?
 
-        public init(executionStatus: ExecutionStatus? = nil, changes: [Change]? = nil, tags: [Tag]? = nil, creationTime: TimeStamp? = nil, rollbackConfiguration: RollbackConfiguration? = nil, description: String? = nil, notificationARNs: [String]? = nil, statusReason: String? = nil, status: ChangeSetStatus? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, stackName: String? = nil, nextToken: String? = nil, capabilities: [Capability]? = nil) {
+        public init(executionStatus: ExecutionStatus? = nil, changes: [Change]? = nil, tags: [Tag]? = nil, creationTime: TimeStamp? = nil, rollbackConfiguration: RollbackConfiguration? = nil, notificationARNs: [String]? = nil, description: String? = nil, statusReason: String? = nil, status: ChangeSetStatus? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, stackName: String? = nil, nextToken: String? = nil, capabilities: [Capability]? = nil) {
             self.executionStatus = executionStatus
             self.changes = changes
             self.tags = tags
             self.creationTime = creationTime
             self.rollbackConfiguration = rollbackConfiguration
-            self.description = description
             self.notificationARNs = notificationARNs
+            self.description = description
             self.statusReason = statusReason
             self.status = status
             self.parameters = parameters
@@ -1215,8 +1225,8 @@ extension Cloudformation {
             case tags = "Tags"
             case creationTime = "CreationTime"
             case rollbackConfiguration = "RollbackConfiguration"
-            case description = "Description"
             case notificationARNs = "NotificationARNs"
+            case description = "Description"
             case statusReason = "StatusReason"
             case status = "Status"
             case parameters = "Parameters"
@@ -1258,8 +1268,8 @@ extension Cloudformation {
             AWSShapeMember(label: "RoleARN", required: false, type: .string), 
             AWSShapeMember(label: "UsePreviousTemplate", required: false, type: .boolean), 
             AWSShapeMember(label: "RollbackConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "NotificationARNs", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .list), 
             AWSShapeMember(label: "ChangeSetName", required: true, type: .string), 
             AWSShapeMember(label: "ResourceTypes", required: false, type: .list), 
@@ -1280,10 +1290,10 @@ extension Cloudformation {
         public let usePreviousTemplate: Bool?
         /// The rollback triggers for AWS CloudFormation to monitor during stack creation and updating operations, and for the specified monitoring period afterwards.
         public let rollbackConfiguration: RollbackConfiguration?
-        /// A description to help you identify this change set.
-        public let description: String?
         /// The Amazon Resource Names (ARNs) of Amazon Simple Notification Service (Amazon SNS) topics that AWS CloudFormation associates with the stack. To remove all associated notification topics, specify an empty list.
         public let notificationARNs: [String]?
+        /// A description to help you identify this change set.
+        public let description: String?
         /// A list of Parameter structures that specify input parameters for the change set. For more information, see the Parameter data type.
         public let parameters: [Parameter]?
         /// The name of the change set. The name must be unique among all change sets that are associated with the specified stack. A change set name can contain only alphanumeric, case sensitive characters and hyphens. It must start with an alphabetic character and cannot exceed 128 characters.
@@ -1299,15 +1309,15 @@ extension Cloudformation {
         /// A list of values that you must specify before AWS CloudFormation can update certain stacks. Some stack templates might include resources that can affect permissions in your AWS account, for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge their capabilities by specifying this parameter. The only valid values are CAPABILITY_IAM and CAPABILITY_NAMED_IAM. The following resources require you to specify this parameter:  AWS::IAM::AccessKey,  AWS::IAM::Group,  AWS::IAM::InstanceProfile,  AWS::IAM::Policy,  AWS::IAM::Role,  AWS::IAM::User, and  AWS::IAM::UserToGroupAddition. If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary. If you have IAM resources, you can specify either capability. If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM. If you don't specify this parameter, this action returns an InsufficientCapabilities error. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.
         public let capabilities: [Capability]?
 
-        public init(clientToken: String? = nil, changeSetType: ChangeSetType? = nil, tags: [Tag]? = nil, roleARN: String? = nil, usePreviousTemplate: Bool? = nil, rollbackConfiguration: RollbackConfiguration? = nil, description: String? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, changeSetName: String, resourceTypes: [String]? = nil, templateURL: String? = nil, templateBody: String? = nil, stackName: String, capabilities: [Capability]? = nil) {
+        public init(clientToken: String? = nil, changeSetType: ChangeSetType? = nil, tags: [Tag]? = nil, roleARN: String? = nil, usePreviousTemplate: Bool? = nil, rollbackConfiguration: RollbackConfiguration? = nil, notificationARNs: [String]? = nil, description: String? = nil, parameters: [Parameter]? = nil, changeSetName: String, resourceTypes: [String]? = nil, templateURL: String? = nil, templateBody: String? = nil, stackName: String, capabilities: [Capability]? = nil) {
             self.clientToken = clientToken
             self.changeSetType = changeSetType
             self.tags = tags
             self.roleARN = roleARN
             self.usePreviousTemplate = usePreviousTemplate
             self.rollbackConfiguration = rollbackConfiguration
-            self.description = description
             self.notificationARNs = notificationARNs
+            self.description = description
             self.parameters = parameters
             self.changeSetName = changeSetName
             self.resourceTypes = resourceTypes
@@ -1324,8 +1334,8 @@ extension Cloudformation {
             case roleARN = "RoleARN"
             case usePreviousTemplate = "UsePreviousTemplate"
             case rollbackConfiguration = "RollbackConfiguration"
-            case description = "Description"
             case notificationARNs = "NotificationARNs"
+            case description = "Description"
             case parameters = "Parameters"
             case changeSetName = "ChangeSetName"
             case resourceTypes = "ResourceTypes"
@@ -1825,62 +1835,82 @@ extension Cloudformation {
 
     public struct UpdateStackSetInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackSetName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "AdministrationRoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "UsePreviousTemplate", required: false, type: .boolean), 
+            AWSShapeMember(label: "Accounts", required: false, type: .list), 
+            AWSShapeMember(label: "OperationId", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "OperationPreferences", required: false, type: .structure), 
             AWSShapeMember(label: "Parameters", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "OperationId", required: false, type: .string), 
-            AWSShapeMember(label: "UsePreviousTemplate", required: false, type: .boolean), 
+            AWSShapeMember(label: "Regions", required: false, type: .list), 
+            AWSShapeMember(label: "ExecutionRoleName", required: false, type: .string), 
             AWSShapeMember(label: "TemplateURL", required: false, type: .string), 
             AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
             AWSShapeMember(label: "Capabilities", required: false, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
+            AWSShapeMember(label: "StackSetName", required: true, type: .string)
         ]
-        /// The name or unique ID of the stack set that you want to update.
-        public let stackSetName: String
+        /// The key-value pairs to associate with this stack set and the stacks created from it. AWS CloudFormation also propagates these tags to supported resources that are created in the stacks. You can specify a maximum number of 50 tags. If you specify tags for this parameter, those tags replace any list of tags that are currently associated with this stack set. This means:   If you don't specify this parameter, AWS CloudFormation doesn't modify the stack's tags.    If you specify any tags using this parameter, you must specify all the tags that you want associated with this stack set, even tags you've specifed before (for example, when creating the stack set or during a previous update of the stack set.). Any tags that you don't include in the updated list of tags are removed from the stack set, and therefore from the stacks and resources as well.    If you specify an empty value, AWS CloudFormation removes all currently associated tags.   If you specify new tags as part of an UpdateStackSet action, AWS CloudFormation checks to see if you have the required IAM permission to tag resources. If you omit tags that are currently associated with the stack set from the list of tags you specify, AWS CloudFormation assumes that you want to remove those tags from the stack set, and checks to see if you have permission to untag resources. If you don't have the necessary permission(s), the entire UpdateStackSet action fails with an access denied error, and the stack set is not updated.
+        public let tags: [Tag]?
+        /// The Amazon Resource Number (ARN) of the IAM role to use to update this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Define Permissions for Multiple Administrators in the AWS CloudFormation User Guide.  If you specify a customized administrator role, AWS CloudFormation uses that role to update the stack. If you do not specify a customized administrator role, AWS CloudFormation performs the update using the role previously associated with the stack set, so long as you have permissions to perform operations on the stack set.
+        public let administrationRoleARN: String?
+        /// Use the existing template that's associated with the stack set that you're updating. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true. 
+        public let usePreviousTemplate: Bool?
+        /// The accounts in which to update associated stack instances. If you specify accounts, you must also specify the regions in which to update stack set instances. To update all the stack instances associated with this stack set, do not specify the Accounts or Regions properties. If the stack set update includes changes to the template (that is, if the TemplateBody or TemplateURL properties are specified), or the Parameters property, AWS CloudFormation marks all stack instances with a status of OUTDATED prior to updating the stack instances in the specified accounts and regions. If the stack set update does not include changes to the template or parameters, AWS CloudFormation updates the stack instances in the specified accounts and regions, while leaving all other stack instances with their existing stack instance status. 
+        public let accounts: [String]?
+        /// The unique ID for this stack set operation.  The operation ID also functions as an idempotency token, to ensure that AWS CloudFormation performs the stack set operation only once, even if you retry the request multiple times. You might retry stack set operation requests to ensure that AWS CloudFormation successfully received them. If you don't specify an operation ID, AWS CloudFormation generates one automatically. Repeating this stack set operation with a new operation ID retries all stack instances whose status is OUTDATED. 
+        public let operationId: String?
+        /// A brief description of updates that you are making.
+        public let description: String?
         /// Preferences for how AWS CloudFormation performs this stack set operation.
         public let operationPreferences: StackSetOperationPreferences?
         /// A list of input parameters for the stack set template. 
         public let parameters: [Parameter]?
-        /// The key-value pairs to associate with this stack set and the stacks created from it. AWS CloudFormation also propagates these tags to supported resources that are created in the stacks. You can specify a maximum number of 50 tags. If you specify tags for this parameter, those tags replace any list of tags that are currently associated with this stack set. This means:   If you don't specify this parameter, AWS CloudFormation doesn't modify the stack's tags.    If you specify any tags using this parameter, you must specify all the tags that you want associated with this stack set, even tags you've specifed before (for example, when creating the stack set or during a previous update of the stack set.). Any tags that you don't include in the updated list of tags are removed from the stack set, and therefore from the stacks and resources as well.    If you specify an empty value, AWS CloudFormation removes all currently associated tags.   If you specify new tags as part of an UpdateStackSet action, AWS CloudFormation checks to see if you have the required IAM permission to tag resources. If you omit tags that are currently associated with the stack set from the list of tags you specify, AWS CloudFormation assumes that you want to remove those tags from the stack set, and checks to see if you have permission to untag resources. If you don't have the necessary permission(s), the entire UpdateStackSet action fails with an access denied error, and the stack set is not updated.
-        public let tags: [Tag]?
-        /// The unique ID for this stack set operation.  The operation ID also functions as an idempotency token, to ensure that AWS CloudFormation performs the stack set operation only once, even if you retry the request multiple times. You might retry stack set operation requests to ensure that AWS CloudFormation successfully received them. If you don't specify an operation ID, AWS CloudFormation generates one automatically. Repeating this stack set operation with a new operation ID retries all stack instances whose status is OUTDATED. 
-        public let operationId: String?
-        /// Use the existing template that's associated with the stack set that you're updating. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true. 
-        public let usePreviousTemplate: Bool?
+        /// The regions in which to update associated stack instances. If you specify regions, you must also specify accounts in which to update stack set instances. To update all the stack instances associated with this stack set, do not specify the Accounts or Regions properties. If the stack set update includes changes to the template (that is, if the TemplateBody or TemplateURL properties are specified), or the Parameters property, AWS CloudFormation marks all stack instances with a status of OUTDATED prior to updating the stack instances in the specified accounts and regions. If the stack set update does not include changes to the template or parameters, AWS CloudFormation updates the stack instances in the specified accounts and regions, while leaving all other stack instances with their existing stack instance status. 
+        public let regions: [String]?
+        /// The name of the IAM execution role to use to update the stack set. If you do not specify an execution role, AWS CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the stack set operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their stack sets.   If you specify a customized execution role, AWS CloudFormation uses that role to update the stack. If you do not specify a customized execution role, AWS CloudFormation performs the update using the role previously associated with the stack set, so long as you have permissions to perform operations on the stack set.
+        public let executionRoleName: String?
         /// The location of the file that contains the template body. The URL must point to a template (maximum size: 460,800 bytes) that is located in an Amazon S3 bucket. For more information, see Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true. 
         public let templateURL: String?
         /// The structure that contains the template body, with a minimum length of 1 byte and a maximum length of 51,200 bytes. For more information, see Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
         public let templateBody: String?
         /// A list of values that you must specify before AWS CloudFormation can create certain stack sets. Some stack set templates might include resources that can affect permissions in your AWS account—for example, by creating new AWS Identity and Access Management (IAM) users. For those stack sets, you must explicitly acknowledge their capabilities by specifying this parameter. The only valid values are CAPABILITY_IAM and CAPABILITY_NAMED_IAM. The following resources require you to specify this parameter:    AWS::IAM::AccessKey   AWS::IAM::Group   AWS::IAM::InstanceProfile   AWS::IAM::Policy   AWS::IAM::Role   AWS::IAM::User   AWS::IAM::UserToGroupAddition   If your stack template contains these resources, we recommend that you review all permissions that are associated with them and edit their permissions if necessary. If you have IAM resources, you can specify either capability. If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM. If you don't specify this parameter, this action returns an InsufficientCapabilities error. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates. 
         public let capabilities: [Capability]?
-        /// A brief description of updates that you are making.
-        public let description: String?
+        /// The name or unique ID of the stack set that you want to update.
+        public let stackSetName: String
 
-        public init(stackSetName: String, operationPreferences: StackSetOperationPreferences? = nil, parameters: [Parameter]? = nil, tags: [Tag]? = nil, operationId: String? = nil, usePreviousTemplate: Bool? = nil, templateURL: String? = nil, templateBody: String? = nil, capabilities: [Capability]? = nil, description: String? = nil) {
-            self.stackSetName = stackSetName
+        public init(tags: [Tag]? = nil, administrationRoleARN: String? = nil, usePreviousTemplate: Bool? = nil, accounts: [String]? = nil, operationId: String? = nil, description: String? = nil, operationPreferences: StackSetOperationPreferences? = nil, parameters: [Parameter]? = nil, regions: [String]? = nil, executionRoleName: String? = nil, templateURL: String? = nil, templateBody: String? = nil, capabilities: [Capability]? = nil, stackSetName: String) {
+            self.tags = tags
+            self.administrationRoleARN = administrationRoleARN
+            self.usePreviousTemplate = usePreviousTemplate
+            self.accounts = accounts
+            self.operationId = operationId
+            self.description = description
             self.operationPreferences = operationPreferences
             self.parameters = parameters
-            self.tags = tags
-            self.operationId = operationId
-            self.usePreviousTemplate = usePreviousTemplate
+            self.regions = regions
+            self.executionRoleName = executionRoleName
             self.templateURL = templateURL
             self.templateBody = templateBody
             self.capabilities = capabilities
-            self.description = description
+            self.stackSetName = stackSetName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stackSetName = "StackSetName"
+            case tags = "Tags"
+            case administrationRoleARN = "AdministrationRoleARN"
+            case usePreviousTemplate = "UsePreviousTemplate"
+            case accounts = "Accounts"
+            case operationId = "OperationId"
+            case description = "Description"
             case operationPreferences = "OperationPreferences"
             case parameters = "Parameters"
-            case tags = "Tags"
-            case operationId = "OperationId"
-            case usePreviousTemplate = "UsePreviousTemplate"
+            case regions = "Regions"
+            case executionRoleName = "ExecutionRoleName"
             case templateURL = "TemplateURL"
             case templateBody = "TemplateBody"
             case capabilities = "Capabilities"
-            case description = "Description"
+            case stackSetName = "StackSetName"
         }
     }
 
@@ -2115,44 +2145,44 @@ extension Cloudformation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Details", required: false, type: .list), 
             AWSShapeMember(label: "Action", required: false, type: .enum), 
-            AWSShapeMember(label: "LogicalResourceId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "Replacement", required: false, type: .enum), 
             AWSShapeMember(label: "PhysicalResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "Replacement", required: false, type: .enum), 
+            AWSShapeMember(label: "LogicalResourceId", required: false, type: .string), 
             AWSShapeMember(label: "Scope", required: false, type: .list)
         ]
         /// For the Modify action, a list of ResourceChangeDetail structures that describes the changes that AWS CloudFormation will make to the resource. 
         public let details: [ResourceChangeDetail]?
         /// The action that AWS CloudFormation takes on the resource, such as Add (adds a new resource), Modify (changes a resource), or Remove (deletes a resource).
         public let action: ChangeAction?
-        /// The resource's logical ID, which is defined in the stack's template.
-        public let logicalResourceId: String?
         /// The type of AWS CloudFormation resource, such as AWS::S3::Bucket.
         public let resourceType: String?
-        /// For the Modify action, indicates whether AWS CloudFormation will replace the resource by creating a new one and deleting the old one. This value depends on the value of the RequiresRecreation property in the ResourceTargetDefinition structure. For example, if the RequiresRecreation field is Always and the Evaluation field is Static, Replacement is True. If the RequiresRecreation field is Always and the Evaluation field is Dynamic, Replacement is Conditionally. If you have multiple changes with different RequiresRecreation values, the Replacement value depends on the change with the most impact. A RequiresRecreation value of Always has the most impact, followed by Conditionally, and then Never.
-        public let replacement: Replacement?
         /// The resource's physical ID (resource name). Resources that you are adding don't have physical IDs because they haven't been created.
         public let physicalResourceId: String?
+        /// For the Modify action, indicates whether AWS CloudFormation will replace the resource by creating a new one and deleting the old one. This value depends on the value of the RequiresRecreation property in the ResourceTargetDefinition structure. For example, if the RequiresRecreation field is Always and the Evaluation field is Static, Replacement is True. If the RequiresRecreation field is Always and the Evaluation field is Dynamic, Replacement is Conditionally. If you have multiple changes with different RequiresRecreation values, the Replacement value depends on the change with the most impact. A RequiresRecreation value of Always has the most impact, followed by Conditionally, and then Never.
+        public let replacement: Replacement?
+        /// The resource's logical ID, which is defined in the stack's template.
+        public let logicalResourceId: String?
         /// For the Modify action, indicates which resource attribute is triggering this update, such as a change in the resource attribute's Metadata, Properties, or Tags.
         public let scope: [ResourceAttribute]?
 
-        public init(details: [ResourceChangeDetail]? = nil, action: ChangeAction? = nil, logicalResourceId: String? = nil, resourceType: String? = nil, replacement: Replacement? = nil, physicalResourceId: String? = nil, scope: [ResourceAttribute]? = nil) {
+        public init(details: [ResourceChangeDetail]? = nil, action: ChangeAction? = nil, resourceType: String? = nil, physicalResourceId: String? = nil, replacement: Replacement? = nil, logicalResourceId: String? = nil, scope: [ResourceAttribute]? = nil) {
             self.details = details
             self.action = action
-            self.logicalResourceId = logicalResourceId
             self.resourceType = resourceType
-            self.replacement = replacement
             self.physicalResourceId = physicalResourceId
+            self.replacement = replacement
+            self.logicalResourceId = logicalResourceId
             self.scope = scope
         }
 
         private enum CodingKeys: String, CodingKey {
             case details = "Details"
             case action = "Action"
-            case logicalResourceId = "LogicalResourceId"
             case resourceType = "ResourceType"
-            case replacement = "Replacement"
             case physicalResourceId = "PhysicalResourceId"
+            case replacement = "Replacement"
+            case logicalResourceId = "LogicalResourceId"
             case scope = "Scope"
         }
     }
@@ -2580,7 +2610,7 @@ extension Cloudformation {
         ]
         /// The resource type of the rollback trigger. Currently, AWS::CloudWatch::Alarm is the only supported resource type.
         public let `type`: String
-        /// The Amazon Resource Name (ARN) of the rollback trigger.
+        /// The Amazon Resource Name (ARN) of the rollback trigger. If a specified trigger is missing, the entire stack operation fails and is rolled back. 
         public let arn: String
 
         public init(type: String, arn: String) {
@@ -2964,7 +2994,10 @@ extension Cloudformation {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "StackSetId", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "StackSetARN", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "AdministrationRoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionRoleName", required: false, type: .string), 
             AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
             AWSShapeMember(label: "Capabilities", required: false, type: .list), 
             AWSShapeMember(label: "Description", required: false, type: .string)
@@ -2977,8 +3010,14 @@ extension Cloudformation {
         public let stackSetId: String?
         /// A list of input parameters for a stack set.
         public let parameters: [Parameter]?
+        /// The Amazon Resource Number (ARN) of the stack set.
+        public let stackSetARN: String?
         /// A list of tags that specify information about the stack set. A maximum number of 50 tags can be specified.
         public let tags: [Tag]?
+        /// The Amazon Resource Number (ARN) of the IAM role used to create or update the stack set. Use customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Prerequisites: Granting Permissions for Stack Set Operations in the AWS CloudFormation User Guide.
+        public let administrationRoleARN: String?
+        /// The name of the IAM execution role used to create or update the stack set.  Use customized execution roles to control which stack resources users and groups can include in their stack sets. 
+        public let executionRoleName: String?
         /// The structure that contains the body of the template that was used to create or update the stack set.
         public let templateBody: String?
         /// The capabilities that are allowed in the stack set. Some stack set templates might include resources that can affect permissions in your AWS account—for example, by creating new AWS Identity and Access Management (IAM) users. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates. 
@@ -2986,12 +3025,15 @@ extension Cloudformation {
         /// A description of the stack set that you specify when the stack set is created or updated.
         public let description: String?
 
-        public init(stackSetName: String? = nil, status: StackSetStatus? = nil, stackSetId: String? = nil, parameters: [Parameter]? = nil, tags: [Tag]? = nil, templateBody: String? = nil, capabilities: [Capability]? = nil, description: String? = nil) {
+        public init(stackSetName: String? = nil, status: StackSetStatus? = nil, stackSetId: String? = nil, parameters: [Parameter]? = nil, stackSetARN: String? = nil, tags: [Tag]? = nil, administrationRoleARN: String? = nil, executionRoleName: String? = nil, templateBody: String? = nil, capabilities: [Capability]? = nil, description: String? = nil) {
             self.stackSetName = stackSetName
             self.status = status
             self.stackSetId = stackSetId
             self.parameters = parameters
+            self.stackSetARN = stackSetARN
             self.tags = tags
+            self.administrationRoleARN = administrationRoleARN
+            self.executionRoleName = executionRoleName
             self.templateBody = templateBody
             self.capabilities = capabilities
             self.description = description
@@ -3002,7 +3044,10 @@ extension Cloudformation {
             case status = "Status"
             case stackSetId = "StackSetId"
             case parameters = "Parameters"
+            case stackSetARN = "StackSetARN"
             case tags = "Tags"
+            case administrationRoleARN = "AdministrationRoleARN"
+            case executionRoleName = "ExecutionRoleName"
             case templateBody = "TemplateBody"
             case capabilities = "Capabilities"
             case description = "Description"
@@ -3130,6 +3175,8 @@ extension Cloudformation {
             AWSShapeMember(label: "Parameters", required: false, type: .list), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "AdministrationRoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionRoleName", required: false, type: .string), 
             AWSShapeMember(label: "TemplateURL", required: false, type: .string), 
             AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
             AWSShapeMember(label: "Capabilities", required: false, type: .list), 
@@ -3143,6 +3190,10 @@ extension Cloudformation {
         public let tags: [Tag]?
         /// A unique identifier for this CreateStackSet request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to create another stack set with the same name. You might retry CreateStackSet requests to ensure that AWS CloudFormation successfully received them. If you don't specify an operation ID, the SDK generates one automatically. 
         public let clientRequestToken: String?
+        /// The Amazon Resource Number (ARN) of the IAM role to use to create this stack set.  Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Prerequisites: Granting Permissions for Stack Set Operations in the AWS CloudFormation User Guide.
+        public let administrationRoleARN: String?
+        /// The name of the IAM execution role to use to create the stack set. If you do not specify an execution role, AWS CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the stack set operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their stack sets. 
+        public let executionRoleName: String?
         /// The location of the file that contains the template body. The URL must point to a template (maximum size: 460,800 bytes) that's located in an Amazon S3 bucket. For more information, see Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
         public let templateURL: String?
         /// The structure that contains the template body, with a minimum length of 1 byte and a maximum length of 51,200 bytes. For more information, see Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
@@ -3152,11 +3203,13 @@ extension Cloudformation {
         /// A description of the stack set. You can use the description to identify the stack set's purpose or other important information.
         public let description: String?
 
-        public init(stackSetName: String, parameters: [Parameter]? = nil, tags: [Tag]? = nil, clientRequestToken: String? = nil, templateURL: String? = nil, templateBody: String? = nil, capabilities: [Capability]? = nil, description: String? = nil) {
+        public init(stackSetName: String, parameters: [Parameter]? = nil, tags: [Tag]? = nil, clientRequestToken: String? = nil, administrationRoleARN: String? = nil, executionRoleName: String? = nil, templateURL: String? = nil, templateBody: String? = nil, capabilities: [Capability]? = nil, description: String? = nil) {
             self.stackSetName = stackSetName
             self.parameters = parameters
             self.tags = tags
             self.clientRequestToken = clientRequestToken
+            self.administrationRoleARN = administrationRoleARN
+            self.executionRoleName = executionRoleName
             self.templateURL = templateURL
             self.templateBody = templateBody
             self.capabilities = capabilities
@@ -3168,6 +3221,8 @@ extension Cloudformation {
             case parameters = "Parameters"
             case tags = "Tags"
             case clientRequestToken = "ClientRequestToken"
+            case administrationRoleARN = "AdministrationRoleARN"
+            case executionRoleName = "ExecutionRoleName"
             case templateURL = "TemplateURL"
             case templateBody = "TemplateBody"
             case capabilities = "Capabilities"

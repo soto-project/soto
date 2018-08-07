@@ -46,7 +46,7 @@ public struct S3 {
         return try client.send(operation: "GetBucketInventoryConfiguration", path: "/{Bucket}?inventory", httpMethod: "GET", input: input)
     }
 
-    ///  Aborts a multipart upload.To verify that all parts have been removed, so you don't get charged for the part storage, you should call the List Parts operation and ensure the parts list is empty.
+    ///  Aborts a multipart upload. To verify that all parts have been removed, so you don't get charged for the part storage, you should call the List Parts operation and ensure the parts list is empty.
     public func abortMultipartUpload(_ input: AbortMultipartUploadRequest) throws -> AbortMultipartUploadOutput {
         return try client.send(operation: "AbortMultipartUpload", path: "/{Bucket}/{Key+}", httpMethod: "DELETE", input: input)
     }
@@ -256,9 +256,9 @@ public struct S3 {
         return try client.send(operation: "GetBucketLifecycleConfiguration", path: "/{Bucket}?lifecycle", httpMethod: "GET", input: input)
     }
 
-    ///  This operation lists in-progress multipart uploads.
-    public func listMultipartUploads(_ input: ListMultipartUploadsRequest) throws -> ListMultipartUploadsOutput {
-        return try client.send(operation: "ListMultipartUploads", path: "/{Bucket}?uploads", httpMethod: "GET", input: input)
+    ///  This operation filters the contents of an Amazon S3 object based on a simple Structured Query Language (SQL) statement. In the request, along with the SQL expression, you must also specify a data serialization format (JSON or CSV) of the object. Amazon S3 uses this to parse object data into records, and returns only records that match the specified SQL expression. You must also specify the data serialization format for the response.
+    public func selectObjectContent(_ input: SelectObjectContentRequest) throws {
+        _ = try client.send(operation: "SelectObjectContent", path: "/{Bucket}/{Key+}?select&select-type=2", httpMethod: "POST", input: input)
     }
 
     ///  Adds an object to a bucket.
@@ -274,6 +274,11 @@ public struct S3 {
     ///  Sets the accelerate configuration of an existing bucket.
     public func putBucketAccelerateConfiguration(_ input: PutBucketAccelerateConfigurationRequest) throws {
         _ = try client.send(operation: "PutBucketAccelerateConfiguration", path: "/{Bucket}?accelerate", httpMethod: "PUT", input: input)
+    }
+
+    ///  This operation lists in-progress multipart uploads.
+    public func listMultipartUploads(_ input: ListMultipartUploadsRequest) throws -> ListMultipartUploadsOutput {
+        return try client.send(operation: "ListMultipartUploads", path: "/{Bucket}?uploads", httpMethod: "GET", input: input)
     }
 
     ///  This operation is useful to determine if a bucket exists and you have permission to access it.
@@ -311,7 +316,7 @@ public struct S3 {
         _ = try client.send(operation: "PutBucketAcl", path: "/{Bucket}?acl", httpMethod: "PUT", input: input)
     }
 
-    ///  Initiates a multipart upload and returns an upload ID.Note: After you initiate multipart upload and upload one or more parts, you must either complete or abort multipart upload in order to stop getting charged for storage of the uploaded parts. Only after you either complete or abort multipart upload, Amazon S3 frees up the parts storage and stops charging you for the parts storage.
+    ///  Initiates a multipart upload and returns an upload ID.  Note: After you initiate multipart upload and upload one or more parts, you must either complete or abort multipart upload in order to stop getting charged for storage of the uploaded parts. Only after you either complete or abort multipart upload, Amazon S3 frees up the parts storage and stops charging you for the parts storage.
     public func createMultipartUpload(_ input: CreateMultipartUploadRequest) throws -> CreateMultipartUploadOutput {
         return try client.send(operation: "CreateMultipartUpload", path: "/{Bucket}/{Key+}?uploads", httpMethod: "POST", input: input)
     }
@@ -356,7 +361,7 @@ public struct S3 {
         return try client.send(operation: "GetObjectAcl", path: "/{Bucket}/{Key+}?acl", httpMethod: "GET", input: input)
     }
 
-    ///  Uploads a part in a multipart upload.Note: After you initiate multipart upload and upload one or more parts, you must either complete or abort multipart upload in order to stop getting charged for storage of the uploaded parts. Only after you either complete or abort multipart upload, Amazon S3 frees up the parts storage and stops charging you for the parts storage.
+    ///  Uploads a part in a multipart upload.  Note: After you initiate multipart upload and upload one or more parts, you must either complete or abort multipart upload in order to stop getting charged for storage of the uploaded parts. Only after you either complete or abort multipart upload, Amazon S3 frees up the parts storage and stops charging you for the parts storage.
     public func uploadPart(_ input: UploadPartRequest) throws -> UploadPartOutput {
         return try client.send(operation: "UploadPart", path: "/{Bucket}/{Key+}", httpMethod: "PUT", input: input)
     }

@@ -60,6 +60,11 @@ public struct Opsworkscm {
         return try client.send(operation: "DisassociateNode", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///   Updates engine-specific attributes on a specified server. The server enters the MODIFYING state when this operation is in progress. Only one update can occur at a time. You can use this command to reset a Chef server's private key (CHEF_PIVOTAL_KEY), a Chef server's admin password (CHEF_DELIVERY_ADMIN_PASSWORD), or a Puppet server's admin password (PUPPET_ADMIN_PASSWORD).   This operation is asynchronous.   This operation can only be called for servers in HEALTHY or UNHEALTHY states. Otherwise, an InvalidStateException is raised. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid. 
+    public func updateServerEngineAttributes(_ input: UpdateServerEngineAttributesRequest) throws -> UpdateServerEngineAttributesResponse {
+        return try client.send(operation: "UpdateServerEngineAttributes", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///   Returns the current status of an existing association or disassociation request.   A ResourceNotFoundException is thrown when no recent association or disassociation request with the specified token is found, or when the server does not exist. A ValidationException is raised when parameters of the request are not valid. 
     public func describeNodeAssociationStatus(_ input: DescribeNodeAssociationStatusRequest) throws -> DescribeNodeAssociationStatusResponse {
         return try client.send(operation: "DescribeNodeAssociationStatus", path: "/", httpMethod: "POST", input: input)
@@ -68,11 +73,6 @@ public struct Opsworkscm {
     ///   Describes your account attributes, and creates requests to increase limits before they are reached or exceeded.   This operation is synchronous. 
     public func describeAccountAttributes(_ input: DescribeAccountAttributesRequest) throws -> DescribeAccountAttributesResponse {
         return try client.send(operation: "DescribeAccountAttributes", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///   Updates engine-specific attributes on a specified server. The server enters the MODIFYING state when this operation is in progress. Only one update can occur at a time. You can use this command to reset a Chef server's private key (CHEF_PIVOTAL_KEY), a Chef server's admin password (CHEF_DELIVERY_ADMIN_PASSWORD), or a Puppet server's admin password (PUPPET_ADMIN_PASSWORD).   This operation is asynchronous.   This operation can only be called for servers in HEALTHY or UNHEALTHY states. Otherwise, an InvalidStateException is raised. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid. 
-    public func updateServerEngineAttributes(_ input: UpdateServerEngineAttributesRequest) throws -> UpdateServerEngineAttributesResponse {
-        return try client.send(operation: "UpdateServerEngineAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Lists all configuration management servers that are identified with your account. Only the stored results from Amazon DynamoDB are returned. AWS OpsWorks CM does not query other services.   This operation is synchronous.   A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid. 

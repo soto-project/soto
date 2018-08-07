@@ -35,6 +35,10 @@ public struct Cloudhsmv2 {
         return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
+    public func copyBackupToRegion(_ input: CopyBackupToRegionRequest) throws -> CopyBackupToRegionResponse {
+        return try client.send(operation: "CopyBackupToRegion", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes the specified AWS CloudHSM cluster. Before you can delete a cluster, you must delete all HSMs in the cluster. To see if the cluster contains any HSMs, use DescribeClusters. To delete an HSM, use DeleteHsm.
     public func deleteCluster(_ input: DeleteClusterRequest) throws -> DeleteClusterResponse {
         return try client.send(operation: "DeleteCluster", path: "/", httpMethod: "POST", input: input)

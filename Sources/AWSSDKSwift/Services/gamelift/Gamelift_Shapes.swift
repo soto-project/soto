@@ -45,11 +45,11 @@ extension Gamelift {
             AWSShapeMember(label: "AliasId", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Instructions on how to sort the search results. If no sort expression is included, the request returns results in random order. A sort expression consists of the following elements:    Operand -- Name of a game session attribute. Valid values are gameSessionName, gameSessionId, creationTimeMillis, playerSessionCount, maximumSessions, hasAvailablePlayerSessions.    Order -- Valid sort orders are ASC (ascending) and DESC (descending).   For example, this sort expression returns the oldest active sessions first: "SortExpression": "creationTimeMillis ASC". Results with a null value for the sort operand are returned at the end of the list.
+        /// Instructions on how to sort the search results. If no sort expression is included, the request returns results in random order. A sort expression consists of the following elements:    Operand -- Name of a game session attribute. Valid values are gameSessionName, gameSessionId, gameSessionProperties, maximumSessions, creationTimeMillis, playerSessionCount, hasAvailablePlayerSessions.    Order -- Valid sort orders are ASC (ascending) and DESC (descending).   For example, this sort expression returns the oldest active sessions first: "SortExpression": "creationTimeMillis ASC". Results with a null value for the sort operand are returned at the end of the list.
         public let sortExpression: String?
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. The maximum number of results returned is 20, even if this value is not set or is set higher than 20. 
         public let limit: Int32?
-        /// String containing the search criteria for the session search. If no filter expression is included, the request returns results for all game sessions in the fleet that are in ACTIVE status. A filter expression can contain one or multiple conditions. Each condition consists of the following:    Operand -- Name of a game session attribute. Valid values are gameSessionName, gameSessionId, creationTimeMillis, playerSessionCount, maximumSessions, hasAvailablePlayerSessions.    Comparator -- Valid comparators are: =, &lt;&gt;, &lt;, &gt;, &lt;=, &gt;=.     Value -- Value to be searched for. Values can be numbers, boolean values (true/false) or strings. String values are case sensitive, enclosed in single quotes. Special characters must be escaped. Boolean and string values can only be used with the comparators = and &lt;&gt;. For example, the following filter expression searches on gameSessionName: "FilterExpression": "gameSessionName = 'Matt\\'s Awesome Game 1'".    To chain multiple conditions in a single expression, use the logical keywords AND, OR, and NOT and parentheses as needed. For example: x AND y AND NOT z, NOT (x OR y). Session search evaluates conditions from left to right using the following precedence rules:    =, &lt;&gt;, &lt;, &gt;, &lt;=, &gt;=    Parentheses   NOT   AND   OR   For example, this filter expression retrieves game sessions hosting at least ten players that have an open player slot: "maximumSessions&gt;=10 AND hasAvailablePlayerSessions=true". 
+        /// String containing the search criteria for the session search. If no filter expression is included, the request returns results for all game sessions in the fleet that are in ACTIVE status. A filter expression can contain one or multiple conditions. Each condition consists of the following:    Operand -- Name of a game session attribute. Valid values are gameSessionName, gameSessionId, gameSessionProperties, maximumSessions, creationTimeMillis, playerSessionCount, hasAvailablePlayerSessions.    Comparator -- Valid comparators are: =, &lt;&gt;, &lt;, &gt;, &lt;=, &gt;=.     Value -- Value to be searched for. Values may be numbers, boolean values (true/false) or strings depending on the operand. String values are case sensitive and must be enclosed in single quotes. Special characters must be escaped. Boolean and string values can only be used with the comparators = and &lt;&gt;. For example, the following filter expression searches on gameSessionName: "FilterExpression": "gameSessionName = 'Matt\\'s Awesome Game 1'".    To chain multiple conditions in a single expression, use the logical keywords AND, OR, and NOT and parentheses as needed. For example: x AND y AND NOT z, NOT (x OR y). Session search evaluates conditions from left to right using the following precedence rules:    =, &lt;&gt;, &lt;, &gt;, &lt;=, &gt;=    Parentheses   NOT   AND   OR   For example, this filter expression retrieves game sessions hosting at least ten players that have an open player slot: "maximumSessions&gt;=10 AND hasAvailablePlayerSessions=true". 
         public let filterExpression: String?
         /// Unique identifier for a fleet to search for active game sessions. Each request must reference either a fleet ID or alias ID, but not both.
         public let fleetId: String?
@@ -175,6 +175,53 @@ extension Gamelift {
         }
     }
 
+    public struct StartMatchBackfillInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TicketId", required: false, type: .string), 
+            AWSShapeMember(label: "Players", required: true, type: .list), 
+            AWSShapeMember(label: "ConfigurationName", required: true, type: .string), 
+            AWSShapeMember(label: "GameSessionArn", required: true, type: .string)
+        ]
+        /// Unique identifier for a matchmaking ticket. If no ticket ID is specified here, Amazon GameLift will generate one in the form of a UUID. Use this identifier to track the match backfill ticket status and retrieve match results.
+        public let ticketId: String?
+        /// Match information on all players that are currently assigned to the game session. This information is used by the matchmaker to find new players and add them to the existing game.   PlayerID, PlayerAttributes, Team -\\- This information is maintained in the GameSession object, MatchmakerData property, for all players who are currently assigned to the game session. The matchmaker data is in JSON syntax, formatted as a string. For more details, see  Match Data.    LatencyInMs -\\- If the matchmaker uses player latency, include a latency value, in milliseconds, for the region that the game session is currently in. Do not include latency values for any other region.  
+        public let players: [Player]
+        /// Name of the matchmaker to use for this request. The name of the matchmaker that was used with the original game session is listed in the GameSession object, MatchmakerData property. This property contains a matchmaking configuration ARN value, which includes the matchmaker name. (In the ARN value "arn:aws:gamelift:us-west-2:111122223333:matchmakingconfiguration/MM-4v4", the matchmaking configuration name is "MM-4v4".) Use only the name for this parameter.
+        public let configurationName: String
+        /// Amazon Resource Name (ARN) that is assigned to a game session and uniquely identifies it. 
+        public let gameSessionArn: String
+
+        public init(ticketId: String? = nil, players: [Player], configurationName: String, gameSessionArn: String) {
+            self.ticketId = ticketId
+            self.players = players
+            self.configurationName = configurationName
+            self.gameSessionArn = gameSessionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ticketId = "TicketId"
+            case players = "Players"
+            case configurationName = "ConfigurationName"
+            case gameSessionArn = "GameSessionArn"
+        }
+    }
+
+    public struct TargetConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetValue", required: true, type: .double)
+        ]
+        /// Desired value to use with a target-based scaling policy. The value must be relevant for whatever metric the scaling policy is using. For example, in a policy using the metric PercentAvailableGameSessions, the target value should be the preferred size of the fleet's buffer (the percent of capacity that should be idle and ready for new game sessions).
+        public let targetValue: Double
+
+        public init(targetValue: Double) {
+            self.targetValue = targetValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetValue = "TargetValue"
+        }
+    }
+
     public struct StopMatchmakingInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TicketId", required: true, type: .string)
@@ -256,6 +303,7 @@ extension Gamelift {
         case fleetVpcPeeringSucceeded = "FLEET_VPC_PEERING_SUCCEEDED"
         case fleetVpcPeeringFailed = "FLEET_VPC_PEERING_FAILED"
         case fleetVpcPeeringDeleted = "FLEET_VPC_PEERING_DELETED"
+        case instanceInterrupted = "INSTANCE_INTERRUPTED"
         public var description: String { return self.rawValue }
     }
 
@@ -265,20 +313,24 @@ extension Gamelift {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "MetricName", required: false, type: .enum), 
             AWSShapeMember(label: "EvaluationPeriods", required: false, type: .integer), 
+            AWSShapeMember(label: "PolicyType", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "ScalingAdjustment", required: false, type: .integer), 
             AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
             AWSShapeMember(label: "ScalingAdjustmentType", required: false, type: .enum), 
+            AWSShapeMember(label: "TargetConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "FleetId", required: false, type: .string)
         ]
         /// Metric value used to trigger a scaling event.
         public let threshold: Double?
-        /// Current status of the scaling policy. The scaling policy is only in force when in an ACTIVE status.    ACTIVE -- The scaling policy is currently in force.    UPDATE_REQUESTED -- A request to update the scaling policy has been received.    UPDATING -- A change is being made to the scaling policy.    DELETE_REQUESTED -- A request to delete the scaling policy has been received.    DELETING -- The scaling policy is being deleted.    DELETED -- The scaling policy has been deleted.    ERROR -- An error occurred in creating the policy. It should be removed and recreated.  
+        /// Current status of the scaling policy. The scaling policy can be in force only when in an ACTIVE status. Scaling policies can be suspended for individual fleets (see StopFleetActions; if suspended for a fleet, the policy status does not change. View a fleet's stopped actions by calling DescribeFleetCapacity.    ACTIVE -- The scaling policy can be used for auto-scaling a fleet.    UPDATE_REQUESTED -- A request to update the scaling policy has been received.    UPDATING -- A change is being made to the scaling policy.    DELETE_REQUESTED -- A request to delete the scaling policy has been received.    DELETING -- The scaling policy is being deleted.    DELETED -- The scaling policy has been deleted.    ERROR -- An error occurred in creating the policy. It should be removed and recreated.  
         public let status: ScalingStatusType?
-        /// Name of the Amazon GameLift-defined metric that is used to trigger an adjustment.    ActivatingGameSessions -- number of game sessions in the process of being created (game session status = ACTIVATING).    ActiveGameSessions -- number of game sessions currently running (game session status = ACTIVE).    CurrentPlayerSessions -- number of active or reserved player sessions (player session status = ACTIVE or RESERVED).     AvailablePlayerSessions -- number of player session slots currently available in active game sessions across the fleet, calculated by subtracting a game session's current player session count from its maximum player session count. This number does include game sessions that are not currently accepting players (game session PlayerSessionCreationPolicy = DENY_ALL).    ActiveInstances -- number of instances currently running a game session.    IdleInstances -- number of instances not currently running a game session.  
+        /// Name of the Amazon GameLift-defined metric that is used to trigger a scaling adjustment. For detailed descriptions of fleet metrics, see Monitor Amazon GameLift with Amazon CloudWatch.     ActivatingGameSessions -- Game sessions in the process of being created.    ActiveGameSessions -- Game sessions that are currently running.    ActiveInstances -- Fleet instances that are currently running at least one game session.    AvailableGameSessions -- Additional game sessions that fleet could host simultaneously, given current capacity.    AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included.    CurrentPlayerSessions -- Player slots in active game sessions that are being used by a player or are reserved for a player.     IdleInstances -- Active instances that are currently hosting zero game sessions.     PercentAvailableGameSessions -- Unused percentage of the total number of game sessions that a fleet could host simultaneously, given current capacity. Use this metric for a target-based scaling policy.    PercentIdleInstances -- Percentage of the total number of active instances that are hosting zero game sessions.    QueueDepth -- Pending game session placement requests, in any queue, where the current fleet is the top-priority destination.    WaitTime -- Current wait time for pending game session placement requests, in any queue, where the current fleet is the top-priority destination.   
         public let metricName: MetricName?
         /// Length of time (in minutes) the metric must be at or beyond the threshold before a scaling event is triggered.
         public let evaluationPeriods: Int32?
+        /// Type of scaling policy to create. For a target-based policy, set the parameter MetricName to 'PercentAvailableGameSessions' and specify a TargetConfiguration. For a rule-based policy set the following parameters: MetricName, ComparisonOperator, Threshold, EvaluationPeriods, ScalingAdjustmentType, and ScalingAdjustment.
+        public let policyType: PolicyType?
         /// Descriptive label that is associated with a scaling policy. Policy names do not need to be unique.
         public let name: String?
         /// Amount of adjustment to make, based on the scaling adjustment type.
@@ -287,18 +339,22 @@ extension Gamelift {
         public let comparisonOperator: ComparisonOperatorType?
         /// Type of adjustment to make to a fleet's instance count (see FleetCapacity):    ChangeInCapacity -- add (or subtract) the scaling adjustment value from the current instance count. Positive values scale up while negative values scale down.    ExactCapacity -- set the instance count to the scaling adjustment value.    PercentChangeInCapacity -- increase or reduce the current instance count by the scaling adjustment, read as a percentage. Positive values scale up while negative values scale down.  
         public let scalingAdjustmentType: ScalingAdjustmentType?
+        /// Object that contains settings for a target-based scaling policy.
+        public let targetConfiguration: TargetConfiguration?
         /// Unique identifier for a fleet that is associated with this scaling policy.
         public let fleetId: String?
 
-        public init(threshold: Double? = nil, status: ScalingStatusType? = nil, metricName: MetricName? = nil, evaluationPeriods: Int32? = nil, name: String? = nil, scalingAdjustment: Int32? = nil, comparisonOperator: ComparisonOperatorType? = nil, scalingAdjustmentType: ScalingAdjustmentType? = nil, fleetId: String? = nil) {
+        public init(threshold: Double? = nil, status: ScalingStatusType? = nil, metricName: MetricName? = nil, evaluationPeriods: Int32? = nil, policyType: PolicyType? = nil, name: String? = nil, scalingAdjustment: Int32? = nil, comparisonOperator: ComparisonOperatorType? = nil, scalingAdjustmentType: ScalingAdjustmentType? = nil, targetConfiguration: TargetConfiguration? = nil, fleetId: String? = nil) {
             self.threshold = threshold
             self.status = status
             self.metricName = metricName
             self.evaluationPeriods = evaluationPeriods
+            self.policyType = policyType
             self.name = name
             self.scalingAdjustment = scalingAdjustment
             self.comparisonOperator = comparisonOperator
             self.scalingAdjustmentType = scalingAdjustmentType
+            self.targetConfiguration = targetConfiguration
             self.fleetId = fleetId
         }
 
@@ -307,10 +363,12 @@ extension Gamelift {
             case status = "Status"
             case metricName = "MetricName"
             case evaluationPeriods = "EvaluationPeriods"
+            case policyType = "PolicyType"
             case name = "Name"
             case scalingAdjustment = "ScalingAdjustment"
             case comparisonOperator = "ComparisonOperator"
             case scalingAdjustmentType = "ScalingAdjustmentType"
+            case targetConfiguration = "TargetConfiguration"
             case fleetId = "FleetId"
         }
     }
@@ -577,7 +635,7 @@ extension Gamelift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TicketIds", required: true, type: .list)
         ]
-        /// Unique identifier for a matchmaking ticket. To request all existing tickets, leave this parameter empty.
+        /// Unique identifier for a matchmaking ticket. You can include up to 10 ID values. 
         public let ticketIds: [String]
 
         public init(ticketIds: [String]) {
@@ -633,17 +691,19 @@ extension Gamelift {
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
             AWSShapeMember(label: "MaximumPlayerSessionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "StatusReason", required: false, type: .enum), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "MatchmakerData", required: false, type: .string), 
             AWSShapeMember(label: "IpAddress", required: false, type: .string), 
             AWSShapeMember(label: "CreatorId", required: false, type: .string), 
             AWSShapeMember(label: "PlayerSessionCreationPolicy", required: false, type: .enum), 
             AWSShapeMember(label: "GameProperties", required: false, type: .list), 
-            AWSShapeMember(label: "CurrentPlayerSessionCount", required: false, type: .integer), 
             AWSShapeMember(label: "FleetId", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer)
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "CurrentPlayerSessionCount", required: false, type: .integer)
         ]
-        /// Set of developer-defined game session properties, formatted as a single string value. This data is included in the GameSession object, which is passed to the game server with a request to start a new game session (see Start a Game Session).
+        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
         public let gameSessionData: String?
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let terminationTime: TimeStamp?
@@ -653,40 +713,46 @@ extension Gamelift {
         public let gameSessionId: String?
         /// Maximum number of players that can be connected simultaneously to the game session.
         public let maximumPlayerSessionCount: Int32?
+        /// Provides additional information about game session status. INTERRUPTED indicates that the game session was hosted on a spot instance that was reclaimed, causing the active game session to be terminated.
+        public let statusReason: GameSessionStatusReason?
         /// Current status of the game session. A game session must have an ACTIVE status to have player sessions.
         public let status: GameSessionStatus?
         /// Descriptive label that is associated with a game session. Session names do not need to be unique.
         public let name: String?
+        /// Information about the matchmaking process that was used to create the game session. It is in JSON syntax, formatted as a string. In addition the matchmaking configuration used, it contains data on all players assigned to the match, including player attributes and team assignments. For more details on matchmaker data, see Match Data. Matchmaker data is useful when requesting match backfills, and is updated whenever new players are added during a successful backfill (see StartMatchBackfill). 
+        public let matchmakerData: String?
         /// IP address of the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
         public let ipAddress: String?
         /// Unique identifier for a player. This ID is used to enforce a resource protection policy (if one exists), that limits the number of game sessions a player can create.
         public let creatorId: String?
         /// Indicates whether or not the game session is accepting new players.
         public let playerSessionCreationPolicy: PlayerSessionCreationPolicy?
-        /// Set of developer-defined properties for a game session, formatted as a set of type:value pairs. These properties are included in the GameSession object, which is passed to the game server with a request to start a new game session (see Start a Game Session).
+        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). You can search for active game sessions based on this custom data with SearchGameSessions.
         public let gameProperties: [GameProperty]?
-        /// Number of players currently in the game session.
-        public let currentPlayerSessionCount: Int32?
         /// Unique identifier for a fleet that the game session is running on.
         public let fleetId: String?
         /// Port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
         public let port: Int32?
+        /// Number of players currently in the game session.
+        public let currentPlayerSessionCount: Int32?
 
-        public init(gameSessionData: String? = nil, terminationTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, gameSessionId: String? = nil, maximumPlayerSessionCount: Int32? = nil, status: GameSessionStatus? = nil, name: String? = nil, ipAddress: String? = nil, creatorId: String? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, gameProperties: [GameProperty]? = nil, currentPlayerSessionCount: Int32? = nil, fleetId: String? = nil, port: Int32? = nil) {
+        public init(gameSessionData: String? = nil, terminationTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, gameSessionId: String? = nil, maximumPlayerSessionCount: Int32? = nil, statusReason: GameSessionStatusReason? = nil, status: GameSessionStatus? = nil, name: String? = nil, matchmakerData: String? = nil, ipAddress: String? = nil, creatorId: String? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, gameProperties: [GameProperty]? = nil, fleetId: String? = nil, port: Int32? = nil, currentPlayerSessionCount: Int32? = nil) {
             self.gameSessionData = gameSessionData
             self.terminationTime = terminationTime
             self.creationTime = creationTime
             self.gameSessionId = gameSessionId
             self.maximumPlayerSessionCount = maximumPlayerSessionCount
+            self.statusReason = statusReason
             self.status = status
             self.name = name
+            self.matchmakerData = matchmakerData
             self.ipAddress = ipAddress
             self.creatorId = creatorId
             self.playerSessionCreationPolicy = playerSessionCreationPolicy
             self.gameProperties = gameProperties
-            self.currentPlayerSessionCount = currentPlayerSessionCount
             self.fleetId = fleetId
             self.port = port
+            self.currentPlayerSessionCount = currentPlayerSessionCount
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -695,15 +761,17 @@ extension Gamelift {
             case creationTime = "CreationTime"
             case gameSessionId = "GameSessionId"
             case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
+            case statusReason = "StatusReason"
             case status = "Status"
             case name = "Name"
+            case matchmakerData = "MatchmakerData"
             case ipAddress = "IpAddress"
             case creatorId = "CreatorId"
             case playerSessionCreationPolicy = "PlayerSessionCreationPolicy"
             case gameProperties = "GameProperties"
-            case currentPlayerSessionCount = "CurrentPlayerSessionCount"
             case fleetId = "FleetId"
             case port = "Port"
+            case currentPlayerSessionCount = "CurrentPlayerSessionCount"
         }
     }
 
@@ -765,11 +833,12 @@ extension Gamelift {
             AWSShapeMember(label: "PlacementId", required: false, type: .string), 
             AWSShapeMember(label: "PlayerLatencies", required: false, type: .list), 
             AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
-            AWSShapeMember(label: "GameSessionName", required: false, type: .string), 
             AWSShapeMember(label: "MaximumPlayerSessionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "GameSessionName", required: false, type: .string), 
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "GameSessionArn", required: false, type: .string), 
+            AWSShapeMember(label: "MatchmakerData", required: false, type: .string), 
             AWSShapeMember(label: "IpAddress", required: false, type: .string), 
             AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "GameSessionQueueName", required: false, type: .string), 
@@ -780,7 +849,7 @@ extension Gamelift {
         public let placedPlayerSessions: [PlacedPlayerSession]?
         /// Name of the region where the game session created by this placement request is running. This value is set once the new game session is placed (placement status is FULFILLED).
         public let gameSessionRegion: String?
-        /// Set of developer-defined game session properties, formatted as a single string value. This data is included in the GameSession object, which is passed to the game server with a request to start a new game session (see Start a Game Session).
+        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
         public let gameSessionData: String?
         /// Unique identifier for a game session placement.
         public let placementId: String?
@@ -788,39 +857,42 @@ extension Gamelift {
         public let playerLatencies: [PlayerLatency]?
         /// Unique identifier for the game session. This value is set once the new game session is placed (placement status is FULFILLED).
         public let gameSessionId: String?
-        /// Descriptive label that is associated with a game session. Session names do not need to be unique.
-        public let gameSessionName: String?
         /// Maximum number of players that can be connected simultaneously to the game session.
         public let maximumPlayerSessionCount: Int32?
+        /// Descriptive label that is associated with a game session. Session names do not need to be unique.
+        public let gameSessionName: String?
         /// Time stamp indicating when this request was placed in the queue. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let startTime: TimeStamp?
         /// Current status of the game session placement request.    PENDING -- The placement request is currently in the queue waiting to be processed.    FULFILLED -- A new game session and player sessions (if requested) have been successfully created. Values for GameSessionArn and GameSessionRegion are available.     CANCELLED -- The placement request was canceled with a call to StopGameSessionPlacement.    TIMED_OUT -- A new game session was not successfully created before the time limit expired. You can resubmit the placement request as needed.  
         public let status: GameSessionPlacementState?
         /// Identifier for the game session created by this placement request. This value is set once the new game session is placed (placement status is FULFILLED). This identifier is unique across all regions. You can use this value as a GameSessionId value as needed.
         public let gameSessionArn: String?
+        /// Information on the matchmaking process for this game. Data is in JSON syntax, formatted as a string. It identifies the matchmaking configuration used to create the match, and contains data on all players assigned to the match, including player attributes and team assignments. For more details on matchmaker data, see Match Data.
+        public let matchmakerData: String?
         /// IP address of the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value is set once the new game session is placed (placement status is FULFILLED). 
         public let ipAddress: String?
         /// Time stamp indicating when this request was completed, canceled, or timed out.
         public let endTime: TimeStamp?
         /// Descriptive label that is associated with game session queue. Queue names must be unique within each region.
         public let gameSessionQueueName: String?
-        /// Set of developer-defined properties for a game session, formatted as a set of type:value pairs. These properties are included in the GameSession object, which is passed to the game server with a request to start a new game session (see Start a Game Session).
+        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
         public let gameProperties: [GameProperty]?
         /// Port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value is set once the new game session is placed (placement status is FULFILLED).
         public let port: Int32?
 
-        public init(placedPlayerSessions: [PlacedPlayerSession]? = nil, gameSessionRegion: String? = nil, gameSessionData: String? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil, gameSessionId: String? = nil, gameSessionName: String? = nil, maximumPlayerSessionCount: Int32? = nil, startTime: TimeStamp? = nil, status: GameSessionPlacementState? = nil, gameSessionArn: String? = nil, ipAddress: String? = nil, endTime: TimeStamp? = nil, gameSessionQueueName: String? = nil, gameProperties: [GameProperty]? = nil, port: Int32? = nil) {
+        public init(placedPlayerSessions: [PlacedPlayerSession]? = nil, gameSessionRegion: String? = nil, gameSessionData: String? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil, gameSessionId: String? = nil, maximumPlayerSessionCount: Int32? = nil, gameSessionName: String? = nil, startTime: TimeStamp? = nil, status: GameSessionPlacementState? = nil, gameSessionArn: String? = nil, matchmakerData: String? = nil, ipAddress: String? = nil, endTime: TimeStamp? = nil, gameSessionQueueName: String? = nil, gameProperties: [GameProperty]? = nil, port: Int32? = nil) {
             self.placedPlayerSessions = placedPlayerSessions
             self.gameSessionRegion = gameSessionRegion
             self.gameSessionData = gameSessionData
             self.placementId = placementId
             self.playerLatencies = playerLatencies
             self.gameSessionId = gameSessionId
-            self.gameSessionName = gameSessionName
             self.maximumPlayerSessionCount = maximumPlayerSessionCount
+            self.gameSessionName = gameSessionName
             self.startTime = startTime
             self.status = status
             self.gameSessionArn = gameSessionArn
+            self.matchmakerData = matchmakerData
             self.ipAddress = ipAddress
             self.endTime = endTime
             self.gameSessionQueueName = gameSessionQueueName
@@ -835,11 +907,12 @@ extension Gamelift {
             case placementId = "PlacementId"
             case playerLatencies = "PlayerLatencies"
             case gameSessionId = "GameSessionId"
-            case gameSessionName = "GameSessionName"
             case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
+            case gameSessionName = "GameSessionName"
             case startTime = "StartTime"
             case status = "Status"
             case gameSessionArn = "GameSessionArn"
+            case matchmakerData = "MatchmakerData"
             case ipAddress = "IpAddress"
             case endTime = "EndTime"
             case gameSessionQueueName = "GameSessionQueueName"
@@ -958,6 +1031,22 @@ extension Gamelift {
         }
     }
 
+    public struct StartMatchBackfillOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MatchmakingTicket", required: false, type: .structure)
+        ]
+        /// Ticket representing the backfill matchmaking request. This object includes the information in the request, ticket status, and match results as generated during the matchmaking process.
+        public let matchmakingTicket: MatchmakingTicket?
+
+        public init(matchmakingTicket: MatchmakingTicket? = nil) {
+            self.matchmakingTicket = matchmakingTicket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchmakingTicket = "MatchmakingTicket"
+        }
+    }
+
     public struct Instance: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .enum), 
@@ -1028,6 +1117,10 @@ extension Gamelift {
             case eC2InstanceType = "EC2InstanceType"
             case instanceLimit = "InstanceLimit"
         }
+    }
+
+    public struct StartFleetActionsOutput: AWSShape {
+
     }
 
     public struct DeleteGameSessionQueueOutput: AWSShape {
@@ -1230,16 +1323,17 @@ extension Gamelift {
             AWSShapeMember(label: "EC2InboundPermissions", required: false, type: .list), 
             AWSShapeMember(label: "LogPaths", required: false, type: .list), 
             AWSShapeMember(label: "PeerVpcId", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "BuildId", required: true, type: .string), 
             AWSShapeMember(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "EC2InstanceType", required: true, type: .enum), 
             AWSShapeMember(label: "ServerLaunchPath", required: false, type: .string), 
-            AWSShapeMember(label: "BuildId", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ServerLaunchParameters", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "PeerVpcAwsAccountId", required: false, type: .string), 
             AWSShapeMember(label: "MetricGroups", required: false, type: .list), 
-            AWSShapeMember(label: "RuntimeConfiguration", required: false, type: .structure)
+            AWSShapeMember(label: "RuntimeConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "FleetType", required: false, type: .enum)
         ]
         /// Game session protection policy to apply to all instances in this fleet. If this parameter is not set, instances in this fleet default to no protection. You can change a fleet's protection policy using UpdateFleetAttributes, but this change will only affect sessions created after the policy change. You can also set protection for individual instances using UpdateGameSession.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
         public let newGameSessionProtectionPolicy: ProtectionPolicy?
@@ -1249,42 +1343,45 @@ extension Gamelift {
         public let logPaths: [String]?
         /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. To get VPC information, including IDs, use the Virtual Private Cloud service tools, including the VPC Dashboard in the AWS Management Console.
         public let peerVpcId: String?
-        /// Human-readable description of a fleet.
-        public let description: String?
+        /// Unique identifier for a build to be deployed on the new fleet. The build must have been successfully uploaded to Amazon GameLift and be in a READY status. This fleet setting cannot be changed once the fleet is created.
+        public let buildId: String
         /// Policy that limits the number of game sessions an individual player can create over a span of time for this fleet.
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
         /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
         public let eC2InstanceType: EC2InstanceType
         /// This parameter is no longer used. Instead, specify a server launch path using the RuntimeConfiguration parameter. (Requests that specify a server launch path and launch parameters instead of a run-time configuration will continue to work.)
         public let serverLaunchPath: String?
-        /// Unique identifier for a build to be deployed on the new fleet. The build must have been successfully uploaded to Amazon GameLift and be in a READY status. This fleet setting cannot be changed once the fleet is created.
-        public let buildId: String
+        /// Human-readable description of a fleet.
+        public let description: String?
         /// This parameter is no longer used. Instead, specify server launch parameters in the RuntimeConfiguration parameter. (Requests that specify a server launch path and launch parameters instead of a run-time configuration will continue to work.)
         public let serverLaunchParameters: String?
         /// Descriptive label that is associated with a fleet. Fleet names do not need to be unique.
         public let name: String
         /// Unique identifier for the AWS account with the VPC that you want to peer your Amazon GameLift fleet with. You can find your Account ID in the AWS Management Console under account settings.
         public let peerVpcAwsAccountId: String?
-        /// Names of metric groups to add this fleet to. Use an existing metric group name to add this fleet to the group. Or use a new name to create a new metric group. A fleet can only be included in one metric group at a time.
+        /// Name of a metric group to add this fleet to. A metric group tracks metrics across all fleets in the group. Use an existing metric group name to add this fleet to the group, or use a new name to create a new metric group. A fleet can only be included in one metric group at a time.
         public let metricGroups: [String]?
         /// Instructions for launching server processes on each instance in the fleet. The run-time configuration for a fleet has a collection of server process configurations, one for each type of server process to run on an instance. A server process configuration specifies the location of the server executable, launch parameters, and the number of concurrent processes with that configuration to maintain on each instance. A CreateFleet request must include a run-time configuration with at least one server process configuration; otherwise the request fails with an invalid request exception. (This parameter replaces the parameters ServerLaunchPath and ServerLaunchParameters; requests that contain values for these parameters instead of a run-time configuration will continue to work.) 
         public let runtimeConfiguration: RuntimeConfiguration?
+        /// Indicates whether to use on-demand instances or spot instances for this fleet. If empty, the default is ON_DEMAND. Both categories of instances use identical hardware and configurations, based on the instance type selected for this fleet. You can acquire on-demand instances at any time for a fixed price and keep them as long as you need them. Spot instances have lower prices, but spot pricing is variable, and while in use they can be interrupted (with a two-minute notification). Learn more about Amazon GameLift spot instances with at  Choose Computing Resources. 
+        public let fleetType: FleetType?
 
-        public init(newGameSessionProtectionPolicy: ProtectionPolicy? = nil, eC2InboundPermissions: [IpPermission]? = nil, logPaths: [String]? = nil, peerVpcId: String? = nil, description: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, eC2InstanceType: EC2InstanceType, serverLaunchPath: String? = nil, buildId: String, serverLaunchParameters: String? = nil, name: String, peerVpcAwsAccountId: String? = nil, metricGroups: [String]? = nil, runtimeConfiguration: RuntimeConfiguration? = nil) {
+        public init(newGameSessionProtectionPolicy: ProtectionPolicy? = nil, eC2InboundPermissions: [IpPermission]? = nil, logPaths: [String]? = nil, peerVpcId: String? = nil, buildId: String, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, eC2InstanceType: EC2InstanceType, serverLaunchPath: String? = nil, description: String? = nil, serverLaunchParameters: String? = nil, name: String, peerVpcAwsAccountId: String? = nil, metricGroups: [String]? = nil, runtimeConfiguration: RuntimeConfiguration? = nil, fleetType: FleetType? = nil) {
             self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
             self.eC2InboundPermissions = eC2InboundPermissions
             self.logPaths = logPaths
             self.peerVpcId = peerVpcId
-            self.description = description
+            self.buildId = buildId
             self.resourceCreationLimitPolicy = resourceCreationLimitPolicy
             self.eC2InstanceType = eC2InstanceType
             self.serverLaunchPath = serverLaunchPath
-            self.buildId = buildId
+            self.description = description
             self.serverLaunchParameters = serverLaunchParameters
             self.name = name
             self.peerVpcAwsAccountId = peerVpcAwsAccountId
             self.metricGroups = metricGroups
             self.runtimeConfiguration = runtimeConfiguration
+            self.fleetType = fleetType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1292,16 +1389,17 @@ extension Gamelift {
             case eC2InboundPermissions = "EC2InboundPermissions"
             case logPaths = "LogPaths"
             case peerVpcId = "PeerVpcId"
-            case description = "Description"
+            case buildId = "BuildId"
             case resourceCreationLimitPolicy = "ResourceCreationLimitPolicy"
             case eC2InstanceType = "EC2InstanceType"
             case serverLaunchPath = "ServerLaunchPath"
-            case buildId = "BuildId"
+            case description = "Description"
             case serverLaunchParameters = "ServerLaunchParameters"
             case name = "Name"
             case peerVpcAwsAccountId = "PeerVpcAwsAccountId"
             case metricGroups = "MetricGroups"
             case runtimeConfiguration = "RuntimeConfiguration"
+            case fleetType = "FleetType"
         }
     }
 
@@ -1311,7 +1409,7 @@ extension Gamelift {
             AWSShapeMember(label: "Players", required: true, type: .list), 
             AWSShapeMember(label: "ConfigurationName", required: true, type: .string)
         ]
-        /// Unique identifier for a matchmaking ticket. Use this identifier to track the matchmaking ticket status and retrieve match results.
+        /// Unique identifier for a matchmaking ticket. If no ticket ID is specified here, Amazon GameLift will generate one in the form of a UUID. Use this identifier to track the matchmaking ticket status and retrieve match results.
         public let ticketId: String?
         /// Information on each player to be matched. This information must include a player ID, and may contain player attributes and latency data to be used in the matchmaking process. After a successful match, Player objects contain the name of the team the player is assigned to.
         public let players: [Player]
@@ -1586,7 +1684,7 @@ extension Gamelift {
         public let message: String?
         /// Unique identifier for an event resource, such as a fleet ID.
         public let resourceId: String?
-        /// Type of event being logged. The following events are currently in use:  General events:     GENERIC_EVENT -- An unspecified event has occurred.    Fleet creation events:    FLEET_CREATED -- A fleet record was successfully created with a status of NEW. Event messaging includes the fleet ID.   FLEET_STATE_DOWNLOADING -- Fleet status changed from NEW to DOWNLOADING. The compressed build has started downloading to a fleet instance for installation.    FLEET_BINARY_DOWNLOAD_FAILED -- The build failed to download to the fleet instance.   FLEET_CREATION_EXTRACTING_BUILD – The game server build was successfully downloaded to an instance, and the build files are now being extracted from the uploaded build and saved to an instance. Failure at this stage prevents a fleet from moving to ACTIVE status. Logs for this stage display a list of the files that are extracted and saved on the instance. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_RUNNING_INSTALLER – The game server build files were successfully extracted, and the Amazon GameLift is now running the build's install script (if one is included). Failure in this stage prevents a fleet from moving to ACTIVE status. Logs for this stage list the installation steps and whether or not the install completed successfully. Access the logs by using the URL in PreSignedLogUrl.    FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was successful, and the Amazon GameLift is now verifying that the game server launch paths, which are specified in the fleet's run-time configuration, exist. If any listed launch path exists, Amazon GameLift tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the run-time configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl.    FLEET_STATE_VALIDATING -- Fleet status changed from DOWNLOADING to VALIDATING.    FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND -- Validation of the run-time configuration failed because the executable specified in a launch path does not exist on the instance.   FLEET_STATE_BUILDING -- Fleet status changed from VALIDATING to BUILDING.   FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE -- Validation of the run-time configuration failed because the executable specified in a launch path failed to run on the fleet instance.   FLEET_STATE_ACTIVATING -- Fleet status changed from BUILDING to ACTIVATING.     FLEET_ACTIVATION_FAILED - The fleet failed to successfully complete one of the steps in the fleet activation process. This event code indicates that the game build was successfully downloaded to a fleet instance, built, and validated, but was not able to start a server process. A possible reason for failure is that the game server is not reporting "process ready" to the Amazon GameLift service.   FLEET_STATE_ACTIVE -- The fleet's status changed from ACTIVATING to ACTIVE. The fleet is now ready to host game sessions.    VPC peering events:    FLEET_VPC_PEERING_SUCCEEDED -- A VPC peering connection has been established between the VPC for an Amazon GameLift fleet and a VPC in your AWS account.   FLEET_VPC_PEERING_FAILED -- A requested VPC peering connection has failed. Event details and status information (see DescribeVpcPeeringConnections) provide additional detail. A common reason for peering failure is that the two VPCs have overlapping CIDR blocks of IPv4 addresses. To resolve this, change the CIDR block for the VPC in your AWS account. For more information on VPC peering failures, see http://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/invalid-peering-configurations.html    FLEET_VPC_PEERING_DELETED -- A VPC peering connection has been successfully deleted.    Other fleet events:    FLEET_SCALING_EVENT -- A change was made to the fleet's capacity settings (desired instances, minimum/maximum scaling limits). Event messaging includes the new capacity settings.   FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED -- A change was made to the fleet's game session protection policy setting. Event messaging includes both the old and new policy setting.    FLEET_DELETED -- A request to delete a fleet was initiated.  
+        /// Type of event being logged. The following events are currently in use:  Fleet creation events:    FLEET_CREATED -- A fleet record was successfully created with a status of NEW. Event messaging includes the fleet ID.   FLEET_STATE_DOWNLOADING -- Fleet status changed from NEW to DOWNLOADING. The compressed build has started downloading to a fleet instance for installation.    FLEET_BINARY_DOWNLOAD_FAILED -- The build failed to download to the fleet instance.   FLEET_CREATION_EXTRACTING_BUILD – The game server build was successfully downloaded to an instance, and the build files are now being extracted from the uploaded build and saved to an instance. Failure at this stage prevents a fleet from moving to ACTIVE status. Logs for this stage display a list of the files that are extracted and saved on the instance. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_RUNNING_INSTALLER – The game server build files were successfully extracted, and the Amazon GameLift is now running the build's install script (if one is included). Failure in this stage prevents a fleet from moving to ACTIVE status. Logs for this stage list the installation steps and whether or not the install completed successfully. Access the logs by using the URL in PreSignedLogUrl.    FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was successful, and the Amazon GameLift is now verifying that the game server launch paths, which are specified in the fleet's run-time configuration, exist. If any listed launch path exists, Amazon GameLift tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the run-time configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl.    FLEET_STATE_VALIDATING -- Fleet status changed from DOWNLOADING to VALIDATING.    FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND -- Validation of the run-time configuration failed because the executable specified in a launch path does not exist on the instance.   FLEET_STATE_BUILDING -- Fleet status changed from VALIDATING to BUILDING.   FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE -- Validation of the run-time configuration failed because the executable specified in a launch path failed to run on the fleet instance.   FLEET_STATE_ACTIVATING -- Fleet status changed from BUILDING to ACTIVATING.     FLEET_ACTIVATION_FAILED - The fleet failed to successfully complete one of the steps in the fleet activation process. This event code indicates that the game build was successfully downloaded to a fleet instance, built, and validated, but was not able to start a server process. A possible reason for failure is that the game server is not reporting "process ready" to the Amazon GameLift service.   FLEET_STATE_ACTIVE -- The fleet's status changed from ACTIVATING to ACTIVE. The fleet is now ready to host game sessions.    VPC peering events:    FLEET_VPC_PEERING_SUCCEEDED -- A VPC peering connection has been established between the VPC for an Amazon GameLift fleet and a VPC in your AWS account.   FLEET_VPC_PEERING_FAILED -- A requested VPC peering connection has failed. Event details and status information (see DescribeVpcPeeringConnections) provide additional detail. A common reason for peering failure is that the two VPCs have overlapping CIDR blocks of IPv4 addresses. To resolve this, change the CIDR block for the VPC in your AWS account. For more information on VPC peering failures, see http://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/invalid-peering-configurations.html    FLEET_VPC_PEERING_DELETED -- A VPC peering connection has been successfully deleted.    Spot instance events:     INSTANCE_INTERRUPTED -- A spot instance was interrupted by EC2 with a two-minute notification.    Other fleet events:    FLEET_SCALING_EVENT -- A change was made to the fleet's capacity settings (desired instances, minimum/maximum scaling limits). Event messaging includes the new capacity settings.   FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED -- A change was made to the fleet's game session protection policy setting. Event messaging includes both the old and new policy setting.    FLEET_DELETED -- A request to delete a fleet was initiated.    GENERIC_EVENT -- An unspecified event has occurred.  
         public let eventCode: EventCode?
         /// Time stamp indicating when this event occurred. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let eventTime: TimeStamp?
@@ -1649,7 +1747,7 @@ extension Gamelift {
             AWSShapeMember(label: "RuleSetName", required: true, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        /// Set of developer-defined game session properties, formatted as a single string value. This data is included in the GameSession object, which is passed to the game server with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match.
+        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match.
         public let gameSessionData: String?
         /// SNS topic ARN that is set up to receive matchmaking notifications.
         public let notificationTarget: String?
@@ -1667,7 +1765,7 @@ extension Gamelift {
         public let acceptanceTimeoutSeconds: Int32?
         /// Maximum duration, in seconds, that a matchmaking ticket can remain in process before timing out. Requests that time out can be resubmitted as needed.
         public let requestTimeoutSeconds: Int32
-        /// Set of developer-defined properties for a game session, formatted as a set of type:value pairs. These properties are included in the GameSession object, which is passed to the game server with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
+        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
         public let gameProperties: [GameProperty]?
         /// Unique identifier for a matchmaking rule set to use with this configuration. A matchmaking configuration can only use rule sets that are defined in the same region.
         public let ruleSetName: String
@@ -1702,6 +1800,27 @@ extension Gamelift {
             case gameProperties = "GameProperties"
             case ruleSetName = "RuleSetName"
             case description = "Description"
+        }
+    }
+
+    public struct StopFleetActionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "Actions", required: true, type: .list)
+        ]
+        /// Unique identifier for a fleet
+        public let fleetId: String
+        /// List of actions to suspend on the fleet. 
+        public let actions: [FleetAction]
+
+        public init(fleetId: String, actions: [FleetAction]) {
+            self.fleetId = fleetId
+            self.actions = actions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+            case actions = "Actions"
         }
     }
 
@@ -1904,7 +2023,7 @@ extension Gamelift {
             AWSShapeMember(label: "RuleSetName", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        /// Set of developer-defined game session properties, formatted as a single string value. This data is included in the GameSession object, which is passed to the game server with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
+        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
         public let gameSessionData: String?
         /// SNS topic ARN that is set up to receive matchmaking notifications. See  Setting up Notifications for Matchmaking for more information.
         public let notificationTarget: String?
@@ -1922,7 +2041,7 @@ extension Gamelift {
         public let acceptanceTimeoutSeconds: Int32?
         /// Maximum duration, in seconds, that a matchmaking ticket can remain in process before timing out. Requests that time out can be resubmitted as needed.
         public let requestTimeoutSeconds: Int32?
-        /// Set of developer-defined properties for a game session, formatted as a set of type:value pairs. These properties are included in the GameSession object, which is passed to the game server with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
+        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
         public let gameProperties: [GameProperty]?
         /// Unique identifier for a matchmaking rule set to use with this configuration. A matchmaking configuration can only use rule sets that are defined in the same region.
         public let ruleSetName: String?
@@ -1962,40 +2081,48 @@ extension Gamelift {
 
     public struct PutScalingPolicyInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Threshold", required: true, type: .double), 
+            AWSShapeMember(label: "Threshold", required: false, type: .double), 
             AWSShapeMember(label: "MetricName", required: true, type: .enum), 
-            AWSShapeMember(label: "EvaluationPeriods", required: true, type: .integer), 
+            AWSShapeMember(label: "EvaluationPeriods", required: false, type: .integer), 
+            AWSShapeMember(label: "PolicyType", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "ScalingAdjustment", required: true, type: .integer), 
-            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
-            AWSShapeMember(label: "ScalingAdjustmentType", required: true, type: .enum), 
+            AWSShapeMember(label: "ScalingAdjustment", required: false, type: .integer), 
+            AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
+            AWSShapeMember(label: "ScalingAdjustmentType", required: false, type: .enum), 
+            AWSShapeMember(label: "TargetConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "FleetId", required: true, type: .string)
         ]
         /// Metric value used to trigger a scaling event.
-        public let threshold: Double
-        /// Name of the Amazon GameLift-defined metric that is used to trigger an adjustment.    ActivatingGameSessions -- number of game sessions in the process of being created (game session status = ACTIVATING).    ActiveGameSessions -- number of game sessions currently running (game session status = ACTIVE).    CurrentPlayerSessions -- number of active or reserved player sessions (player session status = ACTIVE or RESERVED).     AvailablePlayerSessions -- number of player session slots currently available in active game sessions across the fleet, calculated by subtracting a game session's current player session count from its maximum player session count. This number includes game sessions that are not currently accepting players (game session PlayerSessionCreationPolicy = DENY_ALL).    ActiveInstances -- number of instances currently running a game session.    IdleInstances -- number of instances not currently running a game session.  
+        public let threshold: Double?
+        /// Name of the Amazon GameLift-defined metric that is used to trigger a scaling adjustment. For detailed descriptions of fleet metrics, see Monitor Amazon GameLift with Amazon CloudWatch.     ActivatingGameSessions -- Game sessions in the process of being created.    ActiveGameSessions -- Game sessions that are currently running.    ActiveInstances -- Fleet instances that are currently running at least one game session.    AvailableGameSessions -- Additional game sessions that fleet could host simultaneously, given current capacity.    AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included.    CurrentPlayerSessions -- Player slots in active game sessions that are being used by a player or are reserved for a player.     IdleInstances -- Active instances that are currently hosting zero game sessions.     PercentAvailableGameSessions -- Unused percentage of the total number of game sessions that a fleet could host simultaneously, given current capacity. Use this metric for a target-based scaling policy.    PercentIdleInstances -- Percentage of the total number of active instances that are hosting zero game sessions.    QueueDepth -- Pending game session placement requests, in any queue, where the current fleet is the top-priority destination.    WaitTime -- Current wait time for pending game session placement requests, in any queue, where the current fleet is the top-priority destination.   
         public let metricName: MetricName
         /// Length of time (in minutes) the metric must be at or beyond the threshold before a scaling event is triggered.
-        public let evaluationPeriods: Int32
+        public let evaluationPeriods: Int32?
+        /// Type of scaling policy to create. For a target-based policy, set the parameter MetricName to 'PercentAvailableGameSessions' and specify a TargetConfiguration. For a rule-based policy set the following parameters: MetricName, ComparisonOperator, Threshold, EvaluationPeriods, ScalingAdjustmentType, and ScalingAdjustment.
+        public let policyType: PolicyType?
         /// Descriptive label that is associated with a scaling policy. Policy names do not need to be unique. A fleet can have only one scaling policy with the same name.
         public let name: String
         /// Amount of adjustment to make, based on the scaling adjustment type.
-        public let scalingAdjustment: Int32
+        public let scalingAdjustment: Int32?
         /// Comparison operator to use when measuring the metric against the threshold value.
-        public let comparisonOperator: ComparisonOperatorType
+        public let comparisonOperator: ComparisonOperatorType?
         /// Type of adjustment to make to a fleet's instance count (see FleetCapacity):    ChangeInCapacity -- add (or subtract) the scaling adjustment value from the current instance count. Positive values scale up while negative values scale down.    ExactCapacity -- set the instance count to the scaling adjustment value.    PercentChangeInCapacity -- increase or reduce the current instance count by the scaling adjustment, read as a percentage. Positive values scale up while negative values scale down; for example, a value of "-10" scales the fleet down by 10%.  
-        public let scalingAdjustmentType: ScalingAdjustmentType
-        /// Unique identifier for a fleet to apply this policy to.
+        public let scalingAdjustmentType: ScalingAdjustmentType?
+        /// Object that contains settings for a target-based scaling policy.
+        public let targetConfiguration: TargetConfiguration?
+        /// Unique identifier for a fleet to apply this policy to. The fleet cannot be in any of the following statuses: ERROR or DELETING.
         public let fleetId: String
 
-        public init(threshold: Double, metricName: MetricName, evaluationPeriods: Int32, name: String, scalingAdjustment: Int32, comparisonOperator: ComparisonOperatorType, scalingAdjustmentType: ScalingAdjustmentType, fleetId: String) {
+        public init(threshold: Double? = nil, metricName: MetricName, evaluationPeriods: Int32? = nil, policyType: PolicyType? = nil, name: String, scalingAdjustment: Int32? = nil, comparisonOperator: ComparisonOperatorType? = nil, scalingAdjustmentType: ScalingAdjustmentType? = nil, targetConfiguration: TargetConfiguration? = nil, fleetId: String) {
             self.threshold = threshold
             self.metricName = metricName
             self.evaluationPeriods = evaluationPeriods
+            self.policyType = policyType
             self.name = name
             self.scalingAdjustment = scalingAdjustment
             self.comparisonOperator = comparisonOperator
             self.scalingAdjustmentType = scalingAdjustmentType
+            self.targetConfiguration = targetConfiguration
             self.fleetId = fleetId
         }
 
@@ -2003,10 +2130,12 @@ extension Gamelift {
             case threshold = "Threshold"
             case metricName = "MetricName"
             case evaluationPeriods = "EvaluationPeriods"
+            case policyType = "PolicyType"
             case name = "Name"
             case scalingAdjustment = "ScalingAdjustment"
             case comparisonOperator = "ComparisonOperator"
             case scalingAdjustmentType = "ScalingAdjustmentType"
+            case targetConfiguration = "TargetConfiguration"
             case fleetId = "FleetId"
         }
     }
@@ -2613,8 +2742,8 @@ extension Gamelift {
     public struct EC2InstanceCounts: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TERMINATING", required: false, type: .integer), 
-            AWSShapeMember(label: "MINIMUM", required: false, type: .integer), 
             AWSShapeMember(label: "PENDING", required: false, type: .integer), 
+            AWSShapeMember(label: "MINIMUM", required: false, type: .integer), 
             AWSShapeMember(label: "MAXIMUM", required: false, type: .integer), 
             AWSShapeMember(label: "IDLE", required: false, type: .integer), 
             AWSShapeMember(label: "DESIRED", required: false, type: .integer), 
@@ -2622,10 +2751,10 @@ extension Gamelift {
         ]
         /// Number of instances in the fleet that are no longer active but haven't yet been terminated.
         public let terminating: Int32?
-        /// Minimum value allowed for the fleet's instance count.
-        public let minimum: Int32?
         /// Number of instances in the fleet that are starting but not yet active.
         public let pending: Int32?
+        /// Minimum value allowed for the fleet's instance count.
+        public let minimum: Int32?
         /// Maximum value allowed for the fleet's instance count.
         public let maximum: Int32?
         /// Number of active instances in the fleet that are not currently hosting a game session.
@@ -2635,10 +2764,10 @@ extension Gamelift {
         /// Actual number of active instances in the fleet.
         public let active: Int32?
 
-        public init(terminating: Int32? = nil, minimum: Int32? = nil, pending: Int32? = nil, maximum: Int32? = nil, idle: Int32? = nil, desired: Int32? = nil, active: Int32? = nil) {
+        public init(terminating: Int32? = nil, pending: Int32? = nil, minimum: Int32? = nil, maximum: Int32? = nil, idle: Int32? = nil, desired: Int32? = nil, active: Int32? = nil) {
             self.terminating = terminating
-            self.minimum = minimum
             self.pending = pending
+            self.minimum = minimum
             self.maximum = maximum
             self.idle = idle
             self.desired = desired
@@ -2647,8 +2776,8 @@ extension Gamelift {
 
         private enum CodingKeys: String, CodingKey {
             case terminating = "TERMINATING"
-            case minimum = "MINIMUM"
             case pending = "PENDING"
+            case minimum = "MINIMUM"
             case maximum = "MAXIMUM"
             case idle = "IDLE"
             case desired = "DESIRED"
@@ -2773,9 +2902,9 @@ extension Gamelift {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
-        /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build. If your game build contains multiple executables, they all must run on the same operating system.
+        /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build. If your game build contains multiple executables, they all must run on the same operating system. If an operating system is not specified when creating a build, Amazon GameLift uses the default value (WINDOWS_2012). This value cannot be changed later.
         public let operatingSystem: OperatingSystem?
-        /// Amazon S3 location of the game build files to be uploaded. The S3 bucket must be owned by the same AWS account that you're using to manage Amazon GameLift. It also must in the same region that you want to create a new build in. Before calling CreateBuild with this location, you must allow Amazon GameLift to access your Amazon S3 bucket (see Create a Build with Files in Amazon S3).
+        /// Information indicating where your game build files are stored. Use this parameter only when creating a build with files stored in an Amazon S3 bucket that you own. The storage location must specify an Amazon S3 bucket name and key, as well as a role ARN that you set up to allow Amazon GameLift to access your Amazon S3 bucket. The S3 bucket must be in the same region that you want to create a new build in.
         public let storageLocation: S3Location?
         /// Descriptive label that is associated with a build. Build names do not need to be unique. You can use UpdateBuild to change this value later. 
         public let name: String?
@@ -2811,6 +2940,11 @@ extension Gamelift {
         private enum CodingKeys: String, CodingKey {
             case ticketList = "TicketList"
         }
+    }
+
+    public enum FleetAction: String, CustomStringConvertible, Codable {
+        case autoScaling = "AUTO_SCALING"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeInstancesOutput: AWSShape {
@@ -3124,7 +3258,7 @@ extension Gamelift {
         public let playerId: String?
         /// Name of the team that the player is assigned to in a match. Team names are defined in a matchmaking rule set.
         public let team: String?
-        /// Collection of name:value pairs containing player information for use in matchmaking. Player attribute names need to match playerAttributes names in the rule set being used. Example: "PlayerAttributes": {"skill": {"N": "23"}, "gameMode": {"S": "deathmatch"}}.
+        /// Collection of key:value pairs containing player information for use in matchmaking. Player attribute keys must match the playerAttributes used in a matchmaking rule set. Example: "PlayerAttributes": {"skill": {"N": "23"}, "gameMode": {"S": "deathmatch"}}.
         public let playerAttributes: [String: AttributeValue]?
 
         public init(latencyInMs: [String: Int32]? = nil, playerId: String? = nil, team: String? = nil, playerAttributes: [String: AttributeValue]? = nil) {
@@ -3265,7 +3399,7 @@ extension Gamelift {
         ]
         /// Unique identifier for a fleet to create a game session in. Each request must reference either a fleet ID or alias ID, but not both.
         public let fleetId: String?
-        /// Set of developer-defined game session properties, formatted as a single string value. This data is included in the GameSession object, which is passed to the game server with a request to start a new game session (see Start a Game Session).
+        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
         public let gameSessionData: String?
         /// Descriptive label that is associated with a game session. Session names do not need to be unique.
         public let name: String?
@@ -3273,7 +3407,7 @@ extension Gamelift {
         public let idempotencyToken: String?
         /// Unique identifier for a player or entity creating the game session. This ID is used to enforce a resource protection policy (if one exists) that limits the number of concurrent active game sessions one player can have.
         public let creatorId: String?
-        /// Set of developer-defined properties for a game session, formatted as a set of type:value pairs. These properties are included in the GameSession object, which is passed to the game server with a request to start a new game session (see Start a Game Session).
+        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
         public let gameProperties: [GameProperty]?
         ///  This parameter is no longer preferred. Please use IdempotencyToken instead. Custom string that uniquely identifies a request for a new game session. Maximum token length is 48 characters. If provided, this string is included in the new game session's ID. (A game session ARN has the following format: arn:aws:gamelift:&lt;region&gt;::gamesession/&lt;fleet ID&gt;/&lt;custom ID string or idempotency token&gt;.) 
         public let gameSessionId: String?
@@ -3349,9 +3483,9 @@ extension Gamelift {
             AWSShapeMember(label: "UploadCredentials", required: false, type: .structure), 
             AWSShapeMember(label: "Build", required: false, type: .structure)
         ]
-        /// Amazon S3 location specified in the request.
+        /// Amazon S3 location for your game build file, including bucket name and key.
         public let storageLocation: S3Location?
-        /// This element is not currently in use.
+        /// This element is returned only when the operation is called without a storage location. It contains credentials to use when you are uploading a build file to an Amazon S3 bucket that is owned by Amazon GameLift. Credentials have a limited life span. To refresh these credentials, call RequestUploadCredentials. 
         public let uploadCredentials: AwsCredentials?
         /// The newly created build record, including a unique build ID and status. 
         public let build: Build?
@@ -3401,16 +3535,19 @@ extension Gamelift {
             AWSShapeMember(label: "FleetArn", required: false, type: .string), 
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "NewGameSessionProtectionPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
             AWSShapeMember(label: "LogPaths", required: false, type: .list), 
             AWSShapeMember(label: "ServerLaunchPath", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "BuildId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "MetricGroups", required: false, type: .list), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "BuildId", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ServerLaunchParameters", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "StoppedActions", required: false, type: .list), 
             AWSShapeMember(label: "OperatingSystem", required: false, type: .enum), 
+            AWSShapeMember(label: "FleetType", required: false, type: .enum), 
             AWSShapeMember(label: "FleetId", required: false, type: .string)
         ]
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
@@ -3421,44 +3558,53 @@ extension Gamelift {
         public let creationTime: TimeStamp?
         /// Type of game session protection to set for all new instances started in the fleet.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
         public let newGameSessionProtectionPolicy: ProtectionPolicy?
+        /// EC2 instance type indicating the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. See Amazon EC2 Instance Types for detailed descriptions.
+        public let instanceType: EC2InstanceType?
         /// Location of default log files. When a server process is shut down, Amazon GameLift captures and stores any log files in this location. These logs are in addition to game session logs; see more on game session logs in the Amazon GameLift Developer Guide. If no default log path for a fleet is specified, Amazon GameLift automatically uploads logs that are stored on each instance at C:\game\logs (for Windows) or /local/game/logs (for Linux). Use the Amazon GameLift console to access stored logs. 
         public let logPaths: [String]?
         /// Path to a game server executable in the fleet's build, specified for fleets created before 2016-08-04 (or AWS SDK v. 0.12.16). Server launch paths for fleets created after this date are specified in the fleet's RuntimeConfiguration.
         public let serverLaunchPath: String?
-        /// Human-readable description of the fleet.
-        public let description: String?
+        /// Unique identifier for a build.
+        public let buildId: String?
         /// Fleet policy to limit the number of game sessions an individual player can create over a span of time.
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
         /// Names of metric groups that this fleet is included in. In Amazon CloudWatch, you can view metrics for an individual fleet or aggregated metrics for fleets that are in a fleet metric group. A fleet can be included in only one metric group at a time.
         public let metricGroups: [String]?
         /// Current status of the fleet. Possible fleet statuses include the following:    NEW -- A new fleet has been defined and desired instances is set to 1.     DOWNLOADING/VALIDATING/BUILDING/ACTIVATING -- Amazon GameLift is setting up the new fleet, creating new instances with the game build and starting server processes.    ACTIVE -- Hosts can now accept game sessions.    ERROR -- An error occurred when downloading, validating, building, or activating the fleet.    DELETING -- Hosts are responding to a delete fleet request.    TERMINATED -- The fleet no longer exists.  
         public let status: FleetStatus?
-        /// Unique identifier for a build.
-        public let buildId: String?
+        /// Human-readable description of the fleet.
+        public let description: String?
         /// Game server launch parameters specified for fleets created before 2016-08-04 (or AWS SDK v. 0.12.16). Server launch parameters for fleets created after this date are specified in the fleet's RuntimeConfiguration.
         public let serverLaunchParameters: String?
         /// Descriptive label that is associated with a fleet. Fleet names do not need to be unique.
         public let name: String?
+        /// List of fleet actions that have been suspended using StopFleetActions. This includes auto-scaling.
+        public let stoppedActions: [FleetAction]?
         /// Operating system of the fleet's computing resources. A fleet's operating system depends on the OS specified for the build that is deployed on this fleet.
         public let operatingSystem: OperatingSystem?
+        /// Indicates whether the fleet uses on-demand or spot instances. A spot instance in use may be interrupted with a two-minute notification.
+        public let fleetType: FleetType?
         /// Unique identifier for a fleet.
         public let fleetId: String?
 
-        public init(terminationTime: TimeStamp? = nil, fleetArn: String? = nil, creationTime: TimeStamp? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, logPaths: [String]? = nil, serverLaunchPath: String? = nil, description: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, metricGroups: [String]? = nil, status: FleetStatus? = nil, buildId: String? = nil, serverLaunchParameters: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, fleetId: String? = nil) {
+        public init(terminationTime: TimeStamp? = nil, fleetArn: String? = nil, creationTime: TimeStamp? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, instanceType: EC2InstanceType? = nil, logPaths: [String]? = nil, serverLaunchPath: String? = nil, buildId: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, metricGroups: [String]? = nil, status: FleetStatus? = nil, description: String? = nil, serverLaunchParameters: String? = nil, name: String? = nil, stoppedActions: [FleetAction]? = nil, operatingSystem: OperatingSystem? = nil, fleetType: FleetType? = nil, fleetId: String? = nil) {
             self.terminationTime = terminationTime
             self.fleetArn = fleetArn
             self.creationTime = creationTime
             self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
+            self.instanceType = instanceType
             self.logPaths = logPaths
             self.serverLaunchPath = serverLaunchPath
-            self.description = description
+            self.buildId = buildId
             self.resourceCreationLimitPolicy = resourceCreationLimitPolicy
             self.metricGroups = metricGroups
             self.status = status
-            self.buildId = buildId
+            self.description = description
             self.serverLaunchParameters = serverLaunchParameters
             self.name = name
+            self.stoppedActions = stoppedActions
             self.operatingSystem = operatingSystem
+            self.fleetType = fleetType
             self.fleetId = fleetId
         }
 
@@ -3467,16 +3613,19 @@ extension Gamelift {
             case fleetArn = "FleetArn"
             case creationTime = "CreationTime"
             case newGameSessionProtectionPolicy = "NewGameSessionProtectionPolicy"
+            case instanceType = "InstanceType"
             case logPaths = "LogPaths"
             case serverLaunchPath = "ServerLaunchPath"
-            case description = "Description"
+            case buildId = "BuildId"
             case resourceCreationLimitPolicy = "ResourceCreationLimitPolicy"
             case metricGroups = "MetricGroups"
             case status = "Status"
-            case buildId = "BuildId"
+            case description = "Description"
             case serverLaunchParameters = "ServerLaunchParameters"
             case name = "Name"
+            case stoppedActions = "StoppedActions"
             case operatingSystem = "OperatingSystem"
+            case fleetType = "FleetType"
             case fleetId = "FleetId"
         }
     }
@@ -3497,7 +3646,7 @@ extension Gamelift {
             AWSShapeMember(label: "GameProperties", required: false, type: .list), 
             AWSShapeMember(label: "RuleSetName", required: false, type: .string)
         ]
-        /// Set of developer-defined game session properties, formatted as a single string value. This data is included in the GameSession object, which is passed to the game server with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
+        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
         public let gameSessionData: String?
         /// Number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match.
         public let additionalPlayerCount: Int32?
@@ -3519,7 +3668,7 @@ extension Gamelift {
         public let gameSessionQueueArns: [String]?
         /// Maximum duration, in seconds, that a matchmaking ticket can remain in process before timing out. Requests that time out can be resubmitted as needed.
         public let requestTimeoutSeconds: Int32?
-        /// Set of developer-defined properties for a game session, formatted as a set of type:value pairs. These properties are included in the GameSession object, which is passed to the game server with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
+        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
         public let gameProperties: [GameProperty]?
         /// Unique identifier for a matchmaking rule set to use with this configuration. A matchmaking configuration can only use rule sets that are defined in the same region.
         public let ruleSetName: String?
@@ -3681,7 +3830,7 @@ extension Gamelift {
         ]
         /// Set of information on each player to create a player session for.
         public let desiredPlayerSessions: [DesiredPlayerSession]?
-        /// Set of developer-defined game session properties, formatted as a single string value. This data is included in the GameSession object, which is passed to the game server with a request to start a new game session (see Start a Game Session).
+        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
         public let gameSessionData: String?
         /// Unique identifier to assign to the new game session placement. This value is developer-defined. The value must be unique across all regions and cannot be reused unless you are resubmitting a canceled or timed-out placement request.
         public let placementId: String
@@ -3689,7 +3838,7 @@ extension Gamelift {
         public let playerLatencies: [PlayerLatency]?
         /// Name of the queue to use to place the new game session.
         public let gameSessionQueueName: String
-        /// Set of developer-defined properties for a game session, formatted as a set of type:value pairs. These properties are included in the GameSession object, which is passed to the game server with a request to start a new game session (see Start a Game Session).
+        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
         public let gameProperties: [GameProperty]?
         /// Descriptive label that is associated with a game session. Session names do not need to be unique.
         public let gameSessionName: String?
@@ -3767,6 +3916,27 @@ extension Gamelift {
 
         private enum CodingKeys: String, CodingKey {
             case alias = "Alias"
+        }
+    }
+
+    public struct StartFleetActionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "Actions", required: true, type: .list)
+        ]
+        /// Unique identifier for a fleet
+        public let fleetId: String
+        /// List of actions to restart on the fleet.
+        public let actions: [FleetAction]
+
+        public init(fleetId: String, actions: [FleetAction]) {
+            self.fleetId = fleetId
+            self.actions = actions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+            case actions = "Actions"
         }
     }
 
@@ -4053,6 +4223,12 @@ extension Gamelift {
         }
     }
 
+    public enum FleetType: String, CustomStringConvertible, Codable {
+        case onDemand = "ON_DEMAND"
+        case spot = "SPOT"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeRuntimeConfigurationInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FleetId", required: true, type: .string)
@@ -4076,39 +4252,85 @@ extension Gamelift {
         public var description: String { return self.rawValue }
     }
 
+    public struct StopFleetActionsOutput: AWSShape {
+
+    }
+
     public enum PlayerSessionCreationPolicy: String, CustomStringConvertible, Codable {
         case acceptAll = "ACCEPT_ALL"
         case denyAll = "DENY_ALL"
         public var description: String { return self.rawValue }
     }
 
+    public enum GameSessionStatusReason: String, CustomStringConvertible, Codable {
+        case interrupted = "INTERRUPTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateFleetPortSettingsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: false, type: .string)
+        ]
+        /// Unique identifier for a fleet that was updated.
+        public let fleetId: String?
+
+        public init(fleetId: String? = nil) {
+            self.fleetId = fleetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+        }
+    }
+
+    public struct UpdateRuntimeConfigurationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "RuntimeConfiguration", required: true, type: .structure)
+        ]
+        /// Unique identifier for a fleet to update run-time configuration for.
+        public let fleetId: String
+        /// Instructions for launching server processes on each instance in the fleet. The run-time configuration for a fleet has a collection of server process configurations, one for each type of server process to run on an instance. A server process configuration specifies the location of the server executable, launch parameters, and the number of concurrent processes with that configuration to maintain on each instance.
+        public let runtimeConfiguration: RuntimeConfiguration
+
+        public init(fleetId: String, runtimeConfiguration: RuntimeConfiguration) {
+            self.fleetId = fleetId
+            self.runtimeConfiguration = runtimeConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+            case runtimeConfiguration = "RuntimeConfiguration"
+        }
+    }
+
     public struct AttributeValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SDM", required: false, type: .map), 
-            AWSShapeMember(label: "N", required: false, type: .double), 
             AWSShapeMember(label: "SL", required: false, type: .list), 
+            AWSShapeMember(label: "N", required: false, type: .double), 
+            AWSShapeMember(label: "SDM", required: false, type: .map), 
             AWSShapeMember(label: "S", required: false, type: .string)
         ]
-        /// For a map of up to 10 type:value pairs. Maximum length for each string value is 100 characters. 
-        public let sdm: [String: Double]?
-        /// For number values, expressed as double.
-        public let n: Double?
         /// For a list of up to 10 strings. Maximum length for each string is 100 characters. Duplicate values are not recognized; all occurrences of the repeated value after the first of a repeated value are ignored.
         public let sl: [String]?
+        /// For number values, expressed as double.
+        public let n: Double?
+        /// For a map of up to 10 data type:value pairs. Maximum length for each string value is 100 characters. 
+        public let sdm: [String: Double]?
         /// For single string values. Maximum string length is 100 characters.
         public let s: String?
 
-        public init(sdm: [String: Double]? = nil, n: Double? = nil, sl: [String]? = nil, s: String? = nil) {
-            self.sdm = sdm
-            self.n = n
+        public init(sl: [String]? = nil, n: Double? = nil, sdm: [String: Double]? = nil, s: String? = nil) {
             self.sl = sl
+            self.n = n
+            self.sdm = sdm
             self.s = s
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sdm = "SDM"
-            case n = "N"
             case sl = "SL"
+            case n = "N"
+            case sdm = "SDM"
             case s = "S"
         }
     }
@@ -4160,71 +4382,40 @@ extension Gamelift {
         }
     }
 
-    public struct UpdateFleetPortSettingsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetId", required: false, type: .string)
-        ]
-        /// Unique identifier for a fleet that was updated.
-        public let fleetId: String?
-
-        public init(fleetId: String? = nil) {
-            self.fleetId = fleetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetId = "FleetId"
-        }
-    }
-
-    public struct UpdateRuntimeConfigurationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetId", required: true, type: .string), 
-            AWSShapeMember(label: "RuntimeConfiguration", required: true, type: .structure)
-        ]
-        /// Unique identifier for a fleet to update run-time configuration for.
-        public let fleetId: String
-        /// Instructions for launching server processes on each instance in the fleet. The run-time configuration for a fleet has a collection of server process configurations, one for each type of server process to run on an instance. A server process configuration specifies the location of the server executable, launch parameters, and the number of concurrent processes with that configuration to maintain on each instance.
-        public let runtimeConfiguration: RuntimeConfiguration
-
-        public init(fleetId: String, runtimeConfiguration: RuntimeConfiguration) {
-            self.fleetId = fleetId
-            self.runtimeConfiguration = runtimeConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetId = "FleetId"
-            case runtimeConfiguration = "RuntimeConfiguration"
-        }
+    public enum PolicyType: String, CustomStringConvertible, Codable {
+        case rulebased = "RuleBased"
+        case targetbased = "TargetBased"
+        public var description: String { return self.rawValue }
     }
 
     public struct UpdateAliasInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "RoutingStrategy", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "AliasId", required: true, type: .string), 
-            AWSShapeMember(label: "RoutingStrategy", required: false, type: .structure)
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        /// Human-readable description of an alias.
-        public let description: String?
+        /// Object that specifies the fleet and routing type to use for the alias.
+        public let routingStrategy: RoutingStrategy?
         /// Descriptive label that is associated with an alias. Alias names do not need to be unique.
         public let name: String?
         /// Unique identifier for a fleet alias. Specify the alias you want to update.
         public let aliasId: String
-        /// Object that specifies the fleet and routing type to use for the alias.
-        public let routingStrategy: RoutingStrategy?
+        /// Human-readable description of an alias.
+        public let description: String?
 
-        public init(description: String? = nil, name: String? = nil, aliasId: String, routingStrategy: RoutingStrategy? = nil) {
-            self.description = description
+        public init(routingStrategy: RoutingStrategy? = nil, name: String? = nil, aliasId: String, description: String? = nil) {
+            self.routingStrategy = routingStrategy
             self.name = name
             self.aliasId = aliasId
-            self.routingStrategy = routingStrategy
+            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description = "Description"
+            case routingStrategy = "RoutingStrategy"
             case name = "Name"
             case aliasId = "AliasId"
-            case routingStrategy = "RoutingStrategy"
+            case description = "Description"
         }
     }
 
@@ -4274,7 +4465,7 @@ extension Gamelift {
         ]
         /// Time stamp indicating when this matchmaking request was received. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let startTime: TimeStamp?
-        /// Current status of the matchmaking request.    QUEUED -- The matchmaking request has been received and is currently waiting to be processed.    SEARCHING -- The matchmaking request is currently being processed.     REQUIRES_ACCEPTANCE -- A match has been proposed and the players must accept the match (see AcceptMatch). This status is used only with requests that use a matchmaking configuration with a player acceptance requirement.    PLACING -- The FlexMatch engine has matched players and is in the process of placing a new game session for the match.    COMPLETED -- Players have been matched and a game session is ready to host the players. A ticket in this state contains the necessary connection information for players.    FAILED -- The matchmaking request was not completed. Tickets with players who fail to accept a proposed match are placed in FAILED status; new matchmaking requests can be submitted for these players.    CANCELLED -- The matchmaking request was canceled with a call to StopMatchmaking.    TIMED_OUT -- The matchmaking request was not completed within the duration specified in the matchmaking configuration. Matchmaking requests that time out can be resubmitted.  
+        /// Current status of the matchmaking request.    QUEUED -- The matchmaking request has been received and is currently waiting to be processed.    SEARCHING -- The matchmaking request is currently being processed.     REQUIRES_ACCEPTANCE -- A match has been proposed and the players must accept the match (see AcceptMatch). This status is used only with requests that use a matchmaking configuration with a player acceptance requirement.    PLACING -- The FlexMatch engine has matched players and is in the process of placing a new game session for the match.    COMPLETED -- Players have been matched and a game session is ready to host the players. A ticket in this state contains the necessary connection information for players.    FAILED -- The matchmaking request was not completed. Tickets with players who fail to accept a proposed match are placed in FAILED status.    CANCELLED -- The matchmaking request was canceled with a call to StopMatchmaking.    TIMED_OUT -- The matchmaking request was not successful within the duration specified in the matchmaking configuration.     Matchmaking requests that fail to successfully complete (statuses FAILED, CANCELLED, TIMED_OUT) can be resubmitted as new requests with new ticket IDs. 
         public let status: MatchmakingConfigurationStatus?
         /// Code to explain the current status. For example, a status reason may indicate when a ticket has returned to SEARCHING status after a proposed match fails to receive player acceptances.
         public let statusReason: String?
@@ -4282,7 +4473,7 @@ extension Gamelift {
         public let players: [Player]?
         /// Unique identifier for a matchmaking ticket.
         public let ticketId: String?
-        /// Time stamp indicating when the matchmaking request stopped being processed due to successful completion, timeout, or cancellation. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        /// Time stamp indicating when this matchmaking request stopped being processed due to success, failure, or cancellation. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let endTime: TimeStamp?
         /// Name of the MatchmakingConfiguration that is used with this ticket. Matchmaking configurations determine how players are grouped into a match and how a new game session is created for the match.
         public let configurationName: String?

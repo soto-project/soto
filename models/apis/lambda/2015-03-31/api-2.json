@@ -5,6 +5,7 @@
     "endpointPrefix":"lambda",
     "protocol":"rest-json",
     "serviceFullName":"AWS Lambda",
+    "serviceId":"Lambda",
     "signatureVersion":"v4",
     "uid":"lambda-2015-03-31"
   },
@@ -24,7 +25,8 @@
         {"shape":"ResourceConflictException"},
         {"shape":"InvalidParameterValueException"},
         {"shape":"PolicyLengthExceededException"},
-        {"shape":"TooManyRequestsException"}
+        {"shape":"TooManyRequestsException"},
+        {"shape":"PreconditionFailedException"}
       ]
     },
     "CreateAlias":{
@@ -106,7 +108,8 @@
         {"shape":"ServiceException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"InvalidParameterValueException"},
-        {"shape":"TooManyRequestsException"}
+        {"shape":"TooManyRequestsException"},
+        {"shape":"ResourceInUseException"}
       ]
     },
     "DeleteFunction":{
@@ -374,7 +377,8 @@
         {"shape":"ResourceNotFoundException"},
         {"shape":"InvalidParameterValueException"},
         {"shape":"TooManyRequestsException"},
-        {"shape":"CodeStorageExceededException"}
+        {"shape":"CodeStorageExceededException"},
+        {"shape":"PreconditionFailedException"}
       ]
     },
     "PutFunctionConcurrency":{
@@ -405,7 +409,8 @@
         {"shape":"ServiceException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"InvalidParameterValueException"},
-        {"shape":"TooManyRequestsException"}
+        {"shape":"TooManyRequestsException"},
+        {"shape":"PreconditionFailedException"}
       ]
     },
     "TagResource":{
@@ -451,7 +456,8 @@
         {"shape":"ServiceException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"InvalidParameterValueException"},
-        {"shape":"TooManyRequestsException"}
+        {"shape":"TooManyRequestsException"},
+        {"shape":"PreconditionFailedException"}
       ]
     },
     "UpdateEventSourceMapping":{
@@ -468,7 +474,8 @@
         {"shape":"ResourceNotFoundException"},
         {"shape":"InvalidParameterValueException"},
         {"shape":"TooManyRequestsException"},
-        {"shape":"ResourceConflictException"}
+        {"shape":"ResourceConflictException"},
+        {"shape":"ResourceInUseException"}
       ]
     },
     "UpdateFunctionCode":{
@@ -485,7 +492,8 @@
         {"shape":"ResourceNotFoundException"},
         {"shape":"InvalidParameterValueException"},
         {"shape":"TooManyRequestsException"},
-        {"shape":"CodeStorageExceededException"}
+        {"shape":"CodeStorageExceededException"},
+        {"shape":"PreconditionFailedException"}
       ]
     },
     "UpdateFunctionConfiguration":{
@@ -502,7 +510,8 @@
         {"shape":"ResourceNotFoundException"},
         {"shape":"InvalidParameterValueException"},
         {"shape":"TooManyRequestsException"},
-        {"shape":"ResourceConflictException"}
+        {"shape":"ResourceConflictException"},
+        {"shape":"PreconditionFailedException"}
       ]
     }
   },
@@ -552,7 +561,8 @@
           "shape":"Qualifier",
           "location":"querystring",
           "locationName":"Qualifier"
-        }
+        },
+        "RevisionId":{"shape":"String"}
       }
     },
     "AddPermissionResponse":{
@@ -585,7 +595,8 @@
         "Name":{"shape":"Alias"},
         "FunctionVersion":{"shape":"Version"},
         "Description":{"shape":"Description"},
-        "RoutingConfig":{"shape":"AliasRoutingConfiguration"}
+        "RoutingConfig":{"shape":"AliasRoutingConfiguration"},
+        "RevisionId":{"shape":"String"}
       }
     },
     "AliasList":{
@@ -654,8 +665,7 @@
       "type":"structure",
       "required":[
         "EventSourceArn",
-        "FunctionName",
-        "StartingPosition"
+        "FunctionName"
       ],
       "members":{
         "EventSourceArn":{"shape":"Arn"},
@@ -906,7 +916,8 @@
         "Environment":{"shape":"EnvironmentResponse"},
         "KMSKeyArn":{"shape":"KMSKeyArn"},
         "TracingConfig":{"shape":"TracingConfigResponse"},
-        "MasterArn":{"shape":"FunctionArn"}
+        "MasterArn":{"shape":"FunctionArn"},
+        "RevisionId":{"shape":"String"}
       }
     },
     "FunctionList":{
@@ -1025,7 +1036,8 @@
     "GetPolicyResponse":{
       "type":"structure",
       "members":{
-        "Policy":{"shape":"String"}
+        "Policy":{"shape":"String"},
+        "RevisionId":{"shape":"String"}
       }
     },
     "Handler":{
@@ -1412,6 +1424,15 @@
       "error":{"httpStatusCode":400},
       "exception":true
     },
+    "PreconditionFailedException":{
+      "type":"structure",
+      "members":{
+        "Type":{"shape":"String"},
+        "message":{"shape":"String"}
+      },
+      "error":{"httpStatusCode":412},
+      "exception":true
+    },
     "Principal":{
       "type":"string",
       "pattern":".*"
@@ -1426,7 +1447,8 @@
           "locationName":"FunctionName"
         },
         "CodeSha256":{"shape":"String"},
-        "Description":{"shape":"Description"}
+        "Description":{"shape":"Description"},
+        "RevisionId":{"shape":"String"}
       }
     },
     "PutFunctionConcurrencyRequest":{
@@ -1471,6 +1493,11 @@
           "shape":"Qualifier",
           "location":"querystring",
           "locationName":"Qualifier"
+        },
+        "RevisionId":{
+          "shape":"String",
+          "location":"querystring",
+          "locationName":"RevisionId"
         }
       }
     },
@@ -1500,6 +1527,15 @@
       "error":{"httpStatusCode":409},
       "exception":true
     },
+    "ResourceInUseException":{
+      "type":"structure",
+      "members":{
+        "Type":{"shape":"String"},
+        "Message":{"shape":"String"}
+      },
+      "error":{"httpStatusCode":400},
+      "exception":true
+    },
     "ResourceNotFoundException":{
       "type":"structure",
       "members":{
@@ -1519,11 +1555,15 @@
         "nodejs",
         "nodejs4.3",
         "nodejs6.10",
+        "nodejs8.10",
         "java8",
         "python2.7",
         "python3.6",
         "dotnetcore1.0",
-        "nodejs4.3-edge"
+        "dotnetcore2.0",
+        "dotnetcore2.1",
+        "nodejs4.3-edge",
+        "go1.x"
       ]
     },
     "S3Bucket":{
@@ -1713,7 +1753,8 @@
         },
         "FunctionVersion":{"shape":"Version"},
         "Description":{"shape":"Description"},
-        "RoutingConfig":{"shape":"AliasRoutingConfiguration"}
+        "RoutingConfig":{"shape":"AliasRoutingConfiguration"},
+        "RevisionId":{"shape":"String"}
       }
     },
     "UpdateEventSourceMappingRequest":{
@@ -1744,7 +1785,8 @@
         "S3Key":{"shape":"S3Key"},
         "S3ObjectVersion":{"shape":"S3ObjectVersion"},
         "Publish":{"shape":"Boolean"},
-        "DryRun":{"shape":"Boolean"}
+        "DryRun":{"shape":"Boolean"},
+        "RevisionId":{"shape":"String"}
       }
     },
     "UpdateFunctionConfigurationRequest":{
@@ -1766,7 +1808,8 @@
         "Runtime":{"shape":"Runtime"},
         "DeadLetterConfig":{"shape":"DeadLetterConfig"},
         "KMSKeyArn":{"shape":"KMSKeyArn"},
-        "TracingConfig":{"shape":"TracingConfig"}
+        "TracingConfig":{"shape":"TracingConfig"},
+        "RevisionId":{"shape":"String"}
       }
     },
     "Version":{

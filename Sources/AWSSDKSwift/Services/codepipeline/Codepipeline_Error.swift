@@ -8,6 +8,7 @@ public enum CodepipelineError: AWSErrorType {
     case actionTypeNotFoundException(message: String?)
     case pipelineNotFoundException(message: String?)
     case stageNotFoundException(message: String?)
+    case webhookNotFoundException(message: String?)
     case invalidNextTokenException(message: String?)
     case invalidNonceException(message: String?)
     case jobNotFoundException(message: String?)
@@ -24,6 +25,8 @@ public enum CodepipelineError: AWSErrorType {
     case invalidBlockerDeclarationException(message: String?)
     case invalidStructureException(message: String?)
     case pipelineNameInUseException(message: String?)
+    case invalidWebhookFilterPatternException(message: String?)
+    case invalidWebhookAuthenticationParametersException(message: String?)
     case stageNotRetryableException(message: String?)
     case notLatestPipelineExecutionException(message: String?)
     case invalidJobStateException(message: String?)
@@ -44,6 +47,8 @@ extension CodepipelineError {
             self = .pipelineNotFoundException(message: message)
         case "StageNotFoundException":
             self = .stageNotFoundException(message: message)
+        case "WebhookNotFoundException":
+            self = .webhookNotFoundException(message: message)
         case "InvalidNextTokenException":
             self = .invalidNextTokenException(message: message)
         case "InvalidNonceException":
@@ -76,6 +81,10 @@ extension CodepipelineError {
             self = .invalidStructureException(message: message)
         case "PipelineNameInUseException":
             self = .pipelineNameInUseException(message: message)
+        case "InvalidWebhookFilterPatternException":
+            self = .invalidWebhookFilterPatternException(message: message)
+        case "InvalidWebhookAuthenticationParametersException":
+            self = .invalidWebhookAuthenticationParametersException(message: message)
         case "StageNotRetryableException":
             self = .stageNotRetryableException(message: message)
         case "NotLatestPipelineExecutionException":

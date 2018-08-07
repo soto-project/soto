@@ -8,6 +8,7 @@ public enum MediastoreError: AWSErrorType {
     case limitExceededException(message: String?)
     case internalServerError(message: String?)
     case containerNotFoundException(message: String?)
+    case corsPolicyNotFoundException(message: String?)
     case policyNotFoundException(message: String?)
 }
 
@@ -26,6 +27,8 @@ extension MediastoreError {
             self = .internalServerError(message: message)
         case "ContainerNotFoundException":
             self = .containerNotFoundException(message: message)
+        case "CorsPolicyNotFoundException":
+            self = .corsPolicyNotFoundException(message: message)
         case "PolicyNotFoundException":
             self = .policyNotFoundException(message: message)
         default:

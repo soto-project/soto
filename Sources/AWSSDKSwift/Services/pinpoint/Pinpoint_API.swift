@@ -34,9 +34,14 @@ public struct Pinpoint {
         return try client.send(operation: "GetSegmentVersion", path: "/v1/apps/{application-id}/segments/{segment-id}/versions/{version}", httpMethod: "GET", input: input)
     }
 
-    ///  Update an APNS VOIP channel
+    ///  Update an APNS VoIP channel
     public func updateApnsVoipChannel(_ input: UpdateApnsVoipChannelRequest) throws -> UpdateApnsVoipChannelResponse {
         return try client.send(operation: "UpdateApnsVoipChannel", path: "/v1/apps/{application-id}/channels/apns_voip", httpMethod: "PUT", input: input)
+    }
+
+    ///  Deletes endpoints associated with an user id.
+    public func deleteUserEndpoints(_ input: DeleteUserEndpointsRequest) throws -> DeleteUserEndpointsResponse {
+        return try client.send(operation: "DeleteUserEndpoints", path: "/v1/apps/{application-id}/users/{user-id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns information about a specific version of a campaign.
@@ -44,9 +49,29 @@ public struct Pinpoint {
         return try client.send(operation: "GetCampaignVersion", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/versions/{version}", httpMethod: "GET", input: input)
     }
 
+    ///  Returns a list of export jobs for a specific segment.
+    public func getSegmentExportJobs(_ input: GetSegmentExportJobsRequest) throws -> GetSegmentExportJobsResponse {
+        return try client.send(operation: "GetSegmentExportJobs", path: "/v1/apps/{application-id}/segments/{segment-id}/jobs/export", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns information about the endpoints associated with an user id.
+    public func getUserEndpoints(_ input: GetUserEndpointsRequest) throws -> GetUserEndpointsResponse {
+        return try client.send(operation: "GetUserEndpoints", path: "/v1/apps/{application-id}/users/{user-id}", httpMethod: "GET", input: input)
+    }
+
     ///  Returns information about the GCM channel for an app.
     public func getGcmChannel(_ input: GetGcmChannelRequest) throws -> GetGcmChannelResponse {
         return try client.send(operation: "GetGcmChannel", path: "/v1/apps/{application-id}/channels/gcm", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns information about your export jobs.
+    public func getExportJobs(_ input: GetExportJobsRequest) throws -> GetExportJobsResponse {
+        return try client.send(operation: "GetExportJobs", path: "/v1/apps/{application-id}/jobs/export", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns information about the specified phone number.
+    public func phoneNumberValidate(_ input: PhoneNumberValidateRequest) throws -> PhoneNumberValidateResponse {
+        return try client.send(operation: "PhoneNumberValidate", path: "/v1/phone/number/validate", httpMethod: "POST", input: input)
     }
 
     ///  Returns the event stream for an app.
@@ -64,7 +89,7 @@ public struct Pinpoint {
         return try client.send(operation: "DeleteApp", path: "/v1/apps/{application-id}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Update an APNS VOIP sandbox channel
+    ///  Update an APNS VoIP sandbox channel
     public func updateApnsVoipSandboxChannel(_ input: UpdateApnsVoipSandboxChannelRequest) throws -> UpdateApnsVoipSandboxChannelResponse {
         return try client.send(operation: "UpdateApnsVoipSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_voip_sandbox", httpMethod: "PUT", input: input)
     }
@@ -84,7 +109,7 @@ public struct Pinpoint {
         return try client.send(operation: "CreateSegment", path: "/v1/apps/{application-id}/segments", httpMethod: "POST", input: input)
     }
 
-    ///  Delete an ADM channel
+    ///  Delete an ADM channel.
     public func deleteAdmChannel(_ input: DeleteAdmChannelRequest) throws -> DeleteAdmChannelResponse {
         return try client.send(operation: "DeleteAdmChannel", path: "/v1/apps/{application-id}/channels/adm", httpMethod: "DELETE", input: input)
     }
@@ -104,7 +129,7 @@ public struct Pinpoint {
         return try client.send(operation: "GetCampaign", path: "/v1/apps/{application-id}/campaigns/{campaign-id}", httpMethod: "GET", input: input)
     }
 
-    ///  Get an APNS VoipSandbox channel
+    ///  Get an APNS VoIPSandbox channel
     public func getApnsVoipSandboxChannel(_ input: GetApnsVoipSandboxChannelRequest) throws -> GetApnsVoipSandboxChannelResponse {
         return try client.send(operation: "GetApnsVoipSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_voip_sandbox", httpMethod: "GET", input: input)
     }
@@ -119,7 +144,7 @@ public struct Pinpoint {
         return try client.send(operation: "UpdateCampaign", path: "/v1/apps/{application-id}/campaigns/{campaign-id}", httpMethod: "PUT", input: input)
     }
 
-    ///  Update an email channel
+    ///  Update an email channel.
     public func updateEmailChannel(_ input: UpdateEmailChannelRequest) throws -> UpdateEmailChannelResponse {
         return try client.send(operation: "UpdateEmailChannel", path: "/v1/apps/{application-id}/channels/email", httpMethod: "PUT", input: input)
     }
@@ -159,19 +184,39 @@ public struct Pinpoint {
         return try client.send(operation: "GetSegments", path: "/v1/apps/{application-id}/segments", httpMethod: "GET", input: input)
     }
 
+    ///  Returns information about an export job.
+    public func getExportJob(_ input: GetExportJobRequest) throws -> GetExportJobResponse {
+        return try client.send(operation: "GetExportJob", path: "/v1/apps/{application-id}/jobs/export/{job-id}", httpMethod: "GET", input: input)
+    }
+
+    ///  Creates an export job.
+    public func createExportJob(_ input: CreateExportJobRequest) throws -> CreateExportJobResponse {
+        return try client.send(operation: "CreateExportJob", path: "/v1/apps/{application-id}/jobs/export", httpMethod: "POST", input: input)
+    }
+
+    ///  Used to remove the attributes for an app
+    public func removeAttributes(_ input: RemoveAttributesRequest) throws -> RemoveAttributesResponse {
+        return try client.send(operation: "RemoveAttributes", path: "/v1/apps/{application-id}/attributes/{attribute-type}", httpMethod: "PUT", input: input)
+    }
+
     ///  Returns a list of import jobs for a specific segment.
     public func getSegmentImportJobs(_ input: GetSegmentImportJobsRequest) throws -> GetSegmentImportJobsResponse {
         return try client.send(operation: "GetSegmentImportJobs", path: "/v1/apps/{application-id}/segments/{segment-id}/jobs/import", httpMethod: "GET", input: input)
     }
 
-    ///  Delete an SMS channel
+    ///  Delete an SMS channel.
     public func deleteSmsChannel(_ input: DeleteSmsChannelRequest) throws -> DeleteSmsChannelResponse {
         return try client.send(operation: "DeleteSmsChannel", path: "/v1/apps/{application-id}/channels/sms", httpMethod: "DELETE", input: input)
     }
 
-    ///  Delete an APNS sandbox channel
+    ///  Delete an APNS sandbox channel.
     public func deleteApnsSandboxChannel(_ input: DeleteApnsSandboxChannelRequest) throws -> DeleteApnsSandboxChannelResponse {
         return try client.send(operation: "DeleteApnsSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_sandbox", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Get all channels.
+    public func getChannels(_ input: GetChannelsRequest) throws -> GetChannelsResponse {
+        return try client.send(operation: "GetChannels", path: "/v1/apps/{application-id}/channels", httpMethod: "GET", input: input)
     }
 
     ///  Returns information about your campaign versions.
@@ -179,12 +224,12 @@ public struct Pinpoint {
         return try client.send(operation: "GetCampaignVersions", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/versions", httpMethod: "GET", input: input)
     }
 
-    ///  Get an APNS Voip channel
+    ///  Get an APNS VoIP channel
     public func getApnsVoipChannel(_ input: GetApnsVoipChannelRequest) throws -> GetApnsVoipChannelResponse {
         return try client.send(operation: "GetApnsVoipChannel", path: "/v1/apps/{application-id}/channels/apns_voip", httpMethod: "GET", input: input)
     }
 
-    ///  Delete an email channel
+    ///  Delete an email channel.
     public func deleteEmailChannel(_ input: DeleteEmailChannelRequest) throws -> DeleteEmailChannelResponse {
         return try client.send(operation: "DeleteEmailChannel", path: "/v1/apps/{application-id}/channels/email", httpMethod: "DELETE", input: input)
     }
@@ -194,7 +239,7 @@ public struct Pinpoint {
         return try client.send(operation: "GetApps", path: "/v1/apps", httpMethod: "GET", input: input)
     }
 
-    ///  Delete an APNS VOIP sandbox channel
+    ///  Delete an APNS VoIP sandbox channel
     public func deleteApnsVoipSandboxChannel(_ input: DeleteApnsVoipSandboxChannelRequest) throws -> DeleteApnsVoipSandboxChannelResponse {
         return try client.send(operation: "DeleteApnsVoipSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_voip_sandbox", httpMethod: "DELETE", input: input)
     }
@@ -209,7 +254,7 @@ public struct Pinpoint {
         return try client.send(operation: "UpdateEndpointsBatch", path: "/v1/apps/{application-id}/endpoints", httpMethod: "PUT", input: input)
     }
 
-    ///  Get an SMS channel
+    ///  Get an SMS channel.
     public func getSmsChannel(_ input: GetSmsChannelRequest) throws -> GetSmsChannelResponse {
         return try client.send(operation: "GetSmsChannel", path: "/v1/apps/{application-id}/channels/sms", httpMethod: "GET", input: input)
     }
@@ -224,12 +269,15 @@ public struct Pinpoint {
         return try client.send(operation: "CreateImportJob", path: "/v1/apps/{application-id}/jobs/import", httpMethod: "POST", input: input)
     }
 
-    ///  Update an APNS sandbox channel
+    ///  Update an APNS sandbox channel.
     public func updateApnsSandboxChannel(_ input: UpdateApnsSandboxChannelRequest) throws -> UpdateApnsSandboxChannelResponse {
         return try client.send(operation: "UpdateApnsSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_sandbox", httpMethod: "PUT", input: input)
     }
 
-    ///  Send a batch of messages to users
+    ///  Use this resource to message a list of users. Amazon Pinpoint sends the message to all of the endpoints that are associated with each user.
+    ///  A user represents an individual who is assigned a unique user ID, and this ID is assigned to one or more endpoints. For example, if an individual uses your app on multiple devices, your app could assign that person's user ID to the endpoint for each device.
+    ///  With the users-messages resource, you specify the message recipients as user IDs. For each user ID, Amazon Pinpoint delivers the message to all of the user's endpoints. Within the body of your request, you can specify a default message, and you can tailor your message for different channels, including those for mobile push and SMS.
+    ///  With this resource, you send a direct message, which is a one time message that you send to a limited audience without creating a campaign. You can send the message to up to 100 users per request. You cannot use the message to engage a segment. When you send the message, Amazon Pinpoint delivers it immediately, and you cannot schedule the delivery. To engage a user segment, and to schedule the message delivery, create a campaign instead of using the users-messages resource.
     public func sendUsersMessages(_ input: SendUsersMessagesRequest) throws -> SendUsersMessagesResponse {
         return try client.send(operation: "SendUsersMessages", path: "/v1/apps/{application-id}/users-messages", httpMethod: "POST", input: input)
     }
@@ -244,27 +292,27 @@ public struct Pinpoint {
         return try client.send(operation: "GetApnsChannel", path: "/v1/apps/{application-id}/channels/apns", httpMethod: "GET", input: input)
     }
 
-    ///  Use to update an endpoint.
+    ///  Creates or updates an endpoint.
     public func updateEndpoint(_ input: UpdateEndpointRequest) throws -> UpdateEndpointResponse {
         return try client.send(operation: "UpdateEndpoint", path: "/v1/apps/{application-id}/endpoints/{endpoint-id}", httpMethod: "PUT", input: input)
     }
 
-    ///  Get an APNS sandbox channel
+    ///  Get an APNS sandbox channel.
     public func getApnsSandboxChannel(_ input: GetApnsSandboxChannelRequest) throws -> GetApnsSandboxChannelResponse {
         return try client.send(operation: "GetApnsSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_sandbox", httpMethod: "GET", input: input)
     }
 
-    ///  Update an ADM channel
+    ///  Update an ADM channel.
     public func updateAdmChannel(_ input: UpdateAdmChannelRequest) throws -> UpdateAdmChannelResponse {
         return try client.send(operation: "UpdateAdmChannel", path: "/v1/apps/{application-id}/channels/adm", httpMethod: "PUT", input: input)
     }
 
-    ///  Get an email channel
+    ///  Get an email channel.
     public func getEmailChannel(_ input: GetEmailChannelRequest) throws -> GetEmailChannelResponse {
         return try client.send(operation: "GetEmailChannel", path: "/v1/apps/{application-id}/channels/email", httpMethod: "GET", input: input)
     }
 
-    ///  Get an ADM channel
+    ///  Get an ADM channel.
     public func getAdmChannel(_ input: GetAdmChannelRequest) throws -> GetAdmChannelResponse {
         return try client.send(operation: "GetAdmChannel", path: "/v1/apps/{application-id}/channels/adm", httpMethod: "GET", input: input)
     }
@@ -279,7 +327,14 @@ public struct Pinpoint {
         return try client.send(operation: "UpdateApnsChannel", path: "/v1/apps/{application-id}/channels/apns", httpMethod: "PUT", input: input)
     }
 
-    ///  Send a batch of messages
+    ///  Deletes an endpoint.
+    public func deleteEndpoint(_ input: DeleteEndpointRequest) throws -> DeleteEndpointResponse {
+        return try client.send(operation: "DeleteEndpoint", path: "/v1/apps/{application-id}/endpoints/{endpoint-id}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Use this resource to send a direct message, which is a one time message that you send to a limited audience without creating a campaign. 
+    ///  You can send the message to up to 100 recipients. You cannot use the message to engage a segment. When you send the message, Amazon Pinpoint delivers it immediately, and you cannot schedule the delivery. To engage a user segment, and to schedule the message delivery, create a campaign instead of sending a direct message.
+    ///  You can send a direct message as a push notification to your mobile app or as an SMS message to SMS-enabled devices.
     public func sendMessages(_ input: SendMessagesRequest) throws -> SendMessagesResponse {
         return try client.send(operation: "SendMessages", path: "/v1/apps/{application-id}/messages", httpMethod: "POST", input: input)
     }
@@ -309,7 +364,7 @@ public struct Pinpoint {
         return try client.send(operation: "UpdateGcmChannel", path: "/v1/apps/{application-id}/channels/gcm", httpMethod: "PUT", input: input)
     }
 
-    ///  Delete an APNS VOIP channel
+    ///  Delete an APNS VoIP channel
     public func deleteApnsVoipChannel(_ input: DeleteApnsVoipChannelRequest) throws -> DeleteApnsVoipChannelResponse {
         return try client.send(operation: "DeleteApnsVoipChannel", path: "/v1/apps/{application-id}/channels/apns_voip", httpMethod: "DELETE", input: input)
     }
@@ -319,7 +374,7 @@ public struct Pinpoint {
         return try client.send(operation: "PutEventStream", path: "/v1/apps/{application-id}/eventstream", httpMethod: "POST", input: input)
     }
 
-    ///  Update an SMS channel
+    ///  Update an SMS channel.
     public func updateSmsChannel(_ input: UpdateSmsChannelRequest) throws -> UpdateSmsChannelResponse {
         return try client.send(operation: "UpdateSmsChannel", path: "/v1/apps/{application-id}/channels/sms", httpMethod: "PUT", input: input)
     }

@@ -30,7 +30,7 @@ public struct Lightsail {
         return try client.send(operation: "CreateDiskFromSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Detaches the specified instances from a Lightsail load balancer.
+    ///  Detaches the specified instances from a Lightsail load balancer. This operation waits until the instances are no longer needed before they are detached from the load balancer.
     public func detachInstancesFromLoadBalancer(_ input: DetachInstancesFromLoadBalancerRequest) throws -> DetachInstancesFromLoadBalancerResult {
         return try client.send(operation: "DetachInstancesFromLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
@@ -55,7 +55,7 @@ public struct Lightsail {
         return try client.send(operation: "RebootInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about the TLS certificates that are associated with the specified Lightsail load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL).
+    ///  Returns information about the TLS certificates that are associated with the specified Lightsail load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). You can have a maximum of 2 certificates associated with a Lightsail load balancer. One is active and the other is inactive.
     public func getLoadBalancerTlsCertificates(_ input: GetLoadBalancerTlsCertificatesRequest) throws -> GetLoadBalancerTlsCertificatesResult {
         return try client.send(operation: "GetLoadBalancerTlsCertificates", path: "/", httpMethod: "POST", input: input)
     }
@@ -100,7 +100,7 @@ public struct Lightsail {
         return try client.send(operation: "GetKeyPair", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a Lightsail load balancer.
+    ///  Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. Once the load balancer is deleted, you will need to create a new load balancer, create a new certificate, and verify domain ownership again.
     public func deleteLoadBalancer(_ input: DeleteLoadBalancerRequest) throws -> DeleteLoadBalancerResult {
         return try client.send(operation: "DeleteLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
@@ -185,7 +185,7 @@ public struct Lightsail {
         return try client.send(operation: "GetLoadBalancers", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Attaches a Transport Layer Security (TLS) certificate to your load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL).
+    ///  Attaches a Transport Layer Security (TLS) certificate to your load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). Once you create and validate your certificate, you can attach it to your load balancer. You can also use this API to rotate the certificates on your account. Use the AttachLoadBalancerTlsCertificate operation with the non-attached certificate, and it will replace the existing one and become the attached certificate.
     public func attachLoadBalancerTlsCertificate(_ input: AttachLoadBalancerTlsCertificateRequest) throws -> AttachLoadBalancerTlsCertificateResult {
         return try client.send(operation: "AttachLoadBalancerTlsCertificate", path: "/", httpMethod: "POST", input: input)
     }
@@ -210,7 +210,7 @@ public struct Lightsail {
         return try client.send(operation: "CreateInstanceSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a Lightsail load balancer. When you create a load balancer, you can specify certificates and port settings. You can create up to 5 load balancers per AWS Region in your account.
+    ///  Creates a Lightsail load balancer. To learn more about deciding whether to load balance your application, see Configure your Lightsail instances for load balancing. You can create up to 5 load balancers per AWS Region in your account. When you create a load balancer, you can specify a unique name and port settings. To change additional load balancer settings, use the UpdateLoadBalancerAttribute operation.
     public func createLoadBalancer(_ input: CreateLoadBalancerRequest) throws -> CreateLoadBalancerResult {
         return try client.send(operation: "CreateLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
@@ -255,7 +255,7 @@ public struct Lightsail {
         return try client.send(operation: "CreateDisk", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Attaches one or more Lightsail instances to a load balancer.
+    ///  Attaches one or more Lightsail instances to a load balancer. After some time, the instances are attached to the load balancer and the health check status is available.
     public func attachInstancesToLoadBalancer(_ input: AttachInstancesToLoadBalancerRequest) throws -> AttachInstancesToLoadBalancerResult {
         return try client.send(operation: "AttachInstancesToLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
@@ -265,7 +265,7 @@ public struct Lightsail {
         return try client.send(operation: "DeleteDomain", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified attribute for a load balancer.
+    ///  Updates the specified attribute for a load balancer. You can only update one attribute at a time.
     public func updateLoadBalancerAttribute(_ input: UpdateLoadBalancerAttributeRequest) throws -> UpdateLoadBalancerAttributeResult {
         return try client.send(operation: "UpdateLoadBalancerAttribute", path: "/", httpMethod: "POST", input: input)
     }
@@ -355,7 +355,7 @@ public struct Lightsail {
         return try client.send(operation: "DeleteKeyPair", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a TLS/SSL certificate associated with a Lightsail load balancer.
+    ///  Deletes an SSL/TLS certificate associated with a Lightsail load balancer.
     public func deleteLoadBalancerTlsCertificate(_ input: DeleteLoadBalancerTlsCertificateRequest) throws -> DeleteLoadBalancerTlsCertificateResult {
         return try client.send(operation: "DeleteLoadBalancerTlsCertificate", path: "/", httpMethod: "POST", input: input)
     }

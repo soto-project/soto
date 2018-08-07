@@ -25,7 +25,7 @@ public struct Glue {
         )
     }
 
-    ///  Retrieves metadata for all runs of a given job.
+    ///  Retrieves metadata for all runs of a given job definition.
     public func getJobRuns(_ input: GetJobRunsRequest) throws -> GetJobRunsResponse {
         return try client.send(operation: "GetJobRuns", path: "/", httpMethod: "POST", input: input)
     }
@@ -55,7 +55,7 @@ public struct Glue {
         return try client.send(operation: "GetConnections", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new job.
+    ///  Creates a new job definition.
     public func createJob(_ input: CreateJobRequest) throws -> CreateJobResponse {
         return try client.send(operation: "CreateJob", path: "/", httpMethod: "POST", input: input)
     }
@@ -75,6 +75,11 @@ public struct Glue {
         return try client.send(operation: "ImportCatalogToGlue", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Retrieves a specified version of a table.
+    public func getTableVersion(_ input: GetTableVersionRequest) throws -> GetTableVersionResponse {
+        return try client.send(operation: "GetTableVersion", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Retrieves a connection definition from the Data Catalog.
     public func getConnection(_ input: GetConnectionRequest) throws -> GetConnectionResponse {
         return try client.send(operation: "GetConnection", path: "/", httpMethod: "POST", input: input)
@@ -88,6 +93,11 @@ public struct Glue {
     ///  Retrieves the Table definition in a Data Catalog for a specified table.
     public func getTable(_ input: GetTableRequest) throws -> GetTableResponse {
         return try client.send(operation: "GetTable", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a specified version of a table.
+    public func deleteTableVersion(_ input: DeleteTableVersionRequest) throws -> DeleteTableVersionResponse {
+        return try client.send(operation: "DeleteTableVersion", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes a specified crawler from the Data Catalog, unless the crawler state is RUNNING.
@@ -105,12 +115,17 @@ public struct Glue {
         return try client.send(operation: "GetCrawler", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Runs a job.
+    ///  Starts a job run using a job definition.
     public func startJobRun(_ input: StartJobRunRequest) throws -> StartJobRunResponse {
         return try client.send(operation: "StartJobRun", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a classifier in the user's account. This may be either a GrokClassifier or an XMLClassifier. 
+    ///  Deletes a specified batch of versions of a table.
+    public func batchDeleteTableVersion(_ input: BatchDeleteTableVersionRequest) throws -> BatchDeleteTableVersionResponse {
+        return try client.send(operation: "BatchDeleteTableVersion", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a classifier in the user's account. This may be a GrokClassifier, an XMLClassifier, or abbrev JsonClassifier, depending on which field of the request is present.
     public func createClassifier(_ input: CreateClassifierRequest) throws -> CreateClassifierResponse {
         return try client.send(operation: "CreateClassifier", path: "/", httpMethod: "POST", input: input)
     }
@@ -125,12 +140,12 @@ public struct Glue {
         return try client.send(operation: "GetTrigger", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves all current jobs.
+    ///  Retrieves all current job definitions.
     public func getJobs(_ input: GetJobsRequest) throws -> GetJobsResponse {
         return try client.send(operation: "GetJobs", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a specified job.
+    ///  Deletes a specified job definition. If the job definition is not found, no exception is thrown.
     public func deleteJob(_ input: DeleteJobRequest) throws -> DeleteJobResponse {
         return try client.send(operation: "DeleteJob", path: "/", httpMethod: "POST", input: input)
     }
@@ -165,7 +180,7 @@ public struct Glue {
         return try client.send(operation: "CreateTable", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Transforms a directed acyclic graph (DAG) into a Python script.
+    ///  Transforms a directed acyclic graph (DAG) into code.
     public func createScript(_ input: CreateScriptRequest) throws -> CreateScriptResponse {
         return try client.send(operation: "CreateScript", path: "/", httpMethod: "POST", input: input)
     }
@@ -175,7 +190,7 @@ public struct Glue {
         return try client.send(operation: "GetCrawlers", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets a Python script to perform a specified mapping.
+    ///  Gets code to perform a specified mapping.
     public func getPlan(_ input: GetPlanRequest) throws -> GetPlanResponse {
         return try client.send(operation: "GetPlan", path: "/", httpMethod: "POST", input: input)
     }
@@ -195,7 +210,7 @@ public struct Glue {
         return try client.send(operation: "CreateTrigger", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Stops a batch of job runs for a given job.
+    ///  Stops one or more job runs for a specified job definition.
     public func batchStopJobRun(_ input: BatchStopJobRunRequest) throws -> BatchStopJobRunResponse {
         return try client.send(operation: "BatchStopJobRun", path: "/", httpMethod: "POST", input: input)
     }
@@ -235,12 +250,12 @@ public struct Glue {
         return try client.send(operation: "BatchDeleteConnection", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new crawler with specified targets, role, configuration, and optional schedule. At least one crawl target must be specified, in either the s3Targets or the jdbcTargets field.
+    ///  Creates a new crawler with specified targets, role, configuration, and optional schedule. At least one crawl target must be specified, in the s3Targets field, the jdbcTargets field, or the DynamoDBTargets field.
     public func createCrawler(_ input: CreateCrawlerRequest) throws -> CreateCrawlerResponse {
         return try client.send(operation: "CreateCrawler", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a specified trigger.
+    ///  Deletes a specified trigger. If the trigger is not found, no exception is thrown.
     public func deleteTrigger(_ input: DeleteTriggerRequest) throws -> DeleteTriggerResponse {
         return try client.send(operation: "DeleteTrigger", path: "/", httpMethod: "POST", input: input)
     }
@@ -270,7 +285,7 @@ public struct Glue {
         return try client.send(operation: "DeleteUserDefinedFunction", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies an existing classifier (either a GrokClassifier or an XMLClassifier).
+    ///  Modifies an existing classifier (a GrokClassifier, XMLClassifier, or JsonClassifier, depending on which field is present).
     public func updateClassifier(_ input: UpdateClassifierRequest) throws -> UpdateClassifierResponse {
         return try client.send(operation: "UpdateClassifier", path: "/", httpMethod: "POST", input: input)
     }
@@ -300,7 +315,7 @@ public struct Glue {
         return try client.send(operation: "BatchDeletePartition", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Starts an existing trigger.
+    ///  Starts an existing trigger. See Triggering Jobs for information about how different types of trigger are started.
     public func startTrigger(_ input: StartTriggerRequest) throws -> StartTriggerResponse {
         return try client.send(operation: "StartTrigger", path: "/", httpMethod: "POST", input: input)
     }
@@ -370,7 +385,7 @@ public struct Glue {
         return try client.send(operation: "UpdateCrawler", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Starts a crawl using the specified crawler, regardless of what is scheduled. If the crawler is already running, does nothing.
+    ///  Starts a crawl using the specified crawler, regardless of what is scheduled. If the crawler is already running, returns a CrawlerRunningException.
     public func startCrawler(_ input: StartCrawlerRequest) throws -> StartCrawlerResponse {
         return try client.send(operation: "StartCrawler", path: "/", httpMethod: "POST", input: input)
     }

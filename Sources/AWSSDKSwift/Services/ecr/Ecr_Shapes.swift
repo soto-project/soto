@@ -7,31 +7,31 @@ extension Ecr {
 
     public struct DescribeRepositoriesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "repositoryNames", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "registryId", required: false, type: .string)
         ]
-        /// The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable.
-        public let maxResults: Int32?
         /// A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
         public let repositoryNames: [String]?
-        /// The nextToken value returned from a previous paginated DescribeRepositories request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
+        /// The nextToken value returned from a previous paginated DescribeRepositories request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify repositories with repositoryNames.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
+        /// The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify repositories with repositoryNames.
+        public let maxResults: Int32?
         /// The AWS account ID associated with the registry that contains the repositories to be described. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
 
-        public init(maxResults: Int32? = nil, repositoryNames: [String]? = nil, nextToken: String? = nil, registryId: String? = nil) {
-            self.maxResults = maxResults
+        public init(repositoryNames: [String]? = nil, nextToken: String? = nil, maxResults: Int32? = nil, registryId: String? = nil) {
             self.repositoryNames = repositoryNames
             self.nextToken = nextToken
+            self.maxResults = maxResults
             self.registryId = registryId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
             case repositoryNames = "repositoryNames"
             case nextToken = "nextToken"
+            case maxResults = "maxResults"
             case registryId = "registryId"
         }
     }
@@ -90,7 +90,7 @@ extension Ecr {
         ]
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
-        /// The name of the repository that is associated with the repository policy to&#8232; delete.
+        /// The name of the repository.
         public let repositoryName: String
 
         public init(registryId: String? = nil, repositoryName: String) {
@@ -218,9 +218,9 @@ extension Ecr {
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "registryId", required: false, type: .string)
         ]
-        /// The maximum number of repository results returned by DescribeImages in paginated output. When this parameter is used, DescribeImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeImages returns up to 100 results and a nextToken value, if applicable.
+        /// The maximum number of repository results returned by DescribeImages in paginated output. When this parameter is used, DescribeImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeImages returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify images with imageIds.
         public let maxResults: Int32?
-        /// The nextToken value returned from a previous paginated DescribeImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
+        /// The nextToken value returned from a previous paginated DescribeImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify images with imageIds.
         public let nextToken: String?
         /// The list of image IDs for the requested repository.
         public let imageIds: [ImageIdentifier]?
@@ -486,7 +486,7 @@ extension Ecr {
             AWSShapeMember(label: "lifecyclePolicyText", required: true, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
-        /// The AWS account ID associated with the registry that contains the repository. If you do&#8232; not specify a registry, the default registry is assumed.
+        /// The AWS account ID associated with the registry that contains the repository. If you do&#x2028; not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The JSON repository policy text to apply to the repository.
         public let lifecyclePolicyText: String
@@ -576,7 +576,7 @@ extension Ecr {
         ]
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
-        /// The name of the repository with the policy to retrieve.
+        /// The name of the repository.
         public let repositoryName: String
 
         public init(registryId: String? = nil, repositoryName: String) {
@@ -902,7 +902,7 @@ extension Ecr {
         ]
         /// The time stamp of the last time that the lifecycle policy was run.
         public let lastEvaluatedAt: TimeStamp?
-        /// The JSON repository policy text.
+        /// The JSON lifecycle policy text.
         public let lifecyclePolicyText: String?
         /// The repository name associated with the request.
         public let repositoryName: String?
@@ -1037,7 +1037,7 @@ extension Ecr {
         ]
         /// The time stamp of the last time that the lifecycle policy was run.
         public let lastEvaluatedAt: TimeStamp?
-        /// The JSON repository policy text.
+        /// The JSON lifecycle policy text.
         public let lifecyclePolicyText: String?
         /// The repository name associated with the request.
         public let repositoryName: String?
@@ -1076,15 +1076,15 @@ extension Ecr {
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "registryId", required: false, type: .string)
         ]
-        /// The maximum number of repository results returned by GetLifecyclePolicyPreviewRequest in&#8232; paginated output. When this parameter is used, GetLifecyclePolicyPreviewRequest only returns&#8232; maxResults results in a single page along with a nextToken&#8232; response element. The remaining results of the initial request can be seen by sending&#8232; another GetLifecyclePolicyPreviewRequest request with the returned nextToken&#8232; value. This value can be between 1 and 100. If this&#8232; parameter is not used, then GetLifecyclePolicyPreviewRequest returns up to&#8232; 100 results and a nextToken value, if&#8232; applicable.
+        /// The maximum number of repository results returned by GetLifecyclePolicyPreviewRequest in&#x2028; paginated output. When this parameter is used, GetLifecyclePolicyPreviewRequest only returns&#x2028; maxResults results in a single page along with a nextToken&#x2028; response element. The remaining results of the initial request can be seen by sending&#x2028; another GetLifecyclePolicyPreviewRequest request with the returned nextToken&#x2028; value. This value can be between 1 and 100. If this&#x2028; parameter is not used, then GetLifecyclePolicyPreviewRequest returns up to&#x2028; 100 results and a nextToken value, if&#x2028; applicable. This option cannot be used when you specify images with imageIds.
         public let maxResults: Int32?
-        /// The nextToken value returned from a previous paginated&#8232; GetLifecyclePolicyPreviewRequest request where maxResults was used and the&#8232; results exceeded the value of that parameter. Pagination continues from the end of the&#8232; previous results that returned the nextToken value. This value is&#8232; null when there are no more results to return.
+        /// The nextToken value returned from a previous paginated&#x2028; GetLifecyclePolicyPreviewRequest request where maxResults was used and the&#x2028; results exceeded the value of that parameter. Pagination continues from the end of the&#x2028; previous results that returned the nextToken value. This value is&#x2028; null when there are no more results to return. This option cannot be used when you specify images with imageIds.
         public let nextToken: String?
         /// The list of imageIDs to be included.
         public let imageIds: [ImageIdentifier]?
         /// An optional parameter that filters results based on image tag status and all tags, if tagged.
         public let filter: LifecyclePolicyPreviewFilter?
-        /// The name of the repository with the policy to retrieve.
+        /// The name of the repository.
         public let repositoryName: String
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -1445,7 +1445,7 @@ extension Ecr {
         public let repositoryName: String?
         /// The registry ID associated with the request.
         public let registryId: String?
-        /// The JSON repository policy text.
+        /// The JSON lifecycle policy text.
         public let lifecyclePolicyText: String?
         /// The results of the lifecycle policy preview request.
         public let previewResults: [LifecyclePolicyPreviewResult]?

@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-AWS Snowball is a petabyte-scale data transport solution that uses secure appliances to transfer large amounts of data between your on-premises data centers and Amazon Simple Storage Service (Amazon S3). The Snowball commands described here provide access to the same functionality that is available in the AWS Snowball Management Console, which enables you to create and manage jobs for Snowball. To transfer data locally with a Snowball appliance, you'll need to use the Snowball client or the Amazon S3 API adapter for Snowball. For more information, see the User Guide.
+AWS Snowball is a petabyte-scale data transport solution that uses secure devices to transfer large amounts of data between your on-premises data centers and Amazon Simple Storage Service (Amazon S3). The Snowball commands described here provide access to the same functionality that is available in the AWS Snowball Management Console, which enables you to create and manage jobs for Snowball. To transfer data locally with a Snowball device, you'll need to use the Snowball client or the Amazon S3 API adapter for Snowball. For more information, see the User Guide.
 */
 public struct Snowball {
 
@@ -65,14 +65,19 @@ public struct Snowball {
         return try client.send(operation: "CreateCluster", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  While a cluster's ClusterState value is in the AwaitingQuorum state, you can update some of the information associated with a cluster. Once the cluster changes to a different job state, usually 60 minutes after the cluster being created, this action is no longer available.
-    public func updateCluster(_ input: UpdateClusterRequest) throws -> UpdateClusterResult {
-        return try client.send(operation: "UpdateCluster", path: "/", httpMethod: "POST", input: input)
+    ///  This action returns a list of the different Amazon EC2 Amazon Machine Images (AMIs) that are owned by your AWS account that would be supported for use on a Snowball Edge device. Currently, supported AMIs are based on the CentOS 7 (x86_64) - with Updates HVM, Ubuntu Server 14.04 LTS (HVM), and Ubuntu 16.04 LTS - Xenial (HVM) images, available on the AWS Marketplace.
+    public func listCompatibleImages(_ input: ListCompatibleImagesRequest) throws -> ListCompatibleImagesResult {
+        return try client.send(operation: "ListCompatibleImages", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  While a job's JobState value is New, you can update some of the information associated with a job. Once the job changes to a different job state, usually within 60 minutes of the job being created, this action is no longer available.
     public func updateJob(_ input: UpdateJobRequest) throws -> UpdateJobResult {
         return try client.send(operation: "UpdateJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  While a cluster's ClusterState value is in the AwaitingQuorum state, you can update some of the information associated with a cluster. Once the cluster changes to a different job state, usually 60 minutes after the cluster being created, this action is no longer available.
+    public func updateCluster(_ input: UpdateClusterRequest) throws -> UpdateClusterResult {
+        return try client.send(operation: "UpdateCluster", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the UnlockCode code value for the specified job. A particular UnlockCode value can be accessed for up to 90 days after the associated job has been created. The UnlockCode value is a 29-character code with 25 alphanumeric characters and 4 hyphens. This code is used to decrypt the manifest file when it is passed along with the manifest to the Snowball through the Snowball client when the client is started for the first time. As a best practice, we recommend that you don't save a copy of the UnlockCode in the same location as the manifest file for that job. Saving these separately helps prevent unauthorized parties from gaining access to the Snowball associated with that job.
@@ -105,7 +110,7 @@ public struct Snowball {
         return try client.send(operation: "DescribeJob", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Cancels the specified job. You can only cancel a job before its JobState value changes to PreparingAppliance. Requesting the ListJobs or DescribeJob action will return a job's JobState as part of the response element data returned.
+    ///  Cancels the specified job. You can only cancel a job before its JobState value changes to PreparingAppliance. Requesting the ListJobs or DescribeJob action returns a job's JobState as part of the response element data returned.
     public func cancelJob(_ input: CancelJobRequest) throws -> CancelJobResult {
         return try client.send(operation: "CancelJob", path: "/", httpMethod: "POST", input: input)
     }

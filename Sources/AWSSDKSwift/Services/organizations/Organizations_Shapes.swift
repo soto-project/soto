@@ -265,6 +265,7 @@ extension Organizations {
         case movingAccountBetweenDifferentRoots = "MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS"
         case invalidFullNameTarget = "INVALID_FULL_NAME_TARGET"
         case unrecognizedServicePrincipal = "UNRECOGNIZED_SERVICE_PRINCIPAL"
+        case invalidRoleName = "INVALID_ROLE_NAME"
         public var description: String { return self.rawValue }
     }
 
@@ -989,7 +990,7 @@ extension Organizations {
         ]
         /// The Amazon Resource Name (ARN) of the root. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
-        /// The types of policies that are currently enabled for the root and therefore can be attached to the root or to its OUs or accounts.
+        /// The types of policies that are currently enabled for the root and therefore can be attached to the root or to its OUs or accounts.  Even if a policy type is shown as available in the organization, you can separately enable and disable them at the root level by using EnablePolicyType and DisablePolicyType. Use DescribeOrganization to see the availability of the policy types in that organization. 
         public let policyTypes: [PolicyTypeSummary]?
         /// The friendly name of the root. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
@@ -1450,19 +1451,19 @@ extension Organizations {
 
     public struct Organization: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MasterAccountEmail", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "AvailablePolicyTypes", required: false, type: .list), 
             AWSShapeMember(label: "MasterAccountArn", required: false, type: .string), 
             AWSShapeMember(label: "FeatureSet", required: false, type: .enum), 
             AWSShapeMember(label: "MasterAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string)
+            AWSShapeMember(label: "MasterAccountEmail", required: false, type: .string)
         ]
-        /// The email address that is associated with the AWS account that is designated as the master account for the organization.
-        public let masterAccountEmail: String?
+        /// The unique identifier (ID) of an organization. The regex pattern for an organization ID string requires "o-" followed by from 10 to 32 lower-case letters or digits.
+        public let id: String?
         /// The Amazon Resource Name (ARN) of an organization. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
-        /// A list of policy types that are enabled for this organization. For example, if your organization has all features enabled, then service control policies (SCPs) are included in the list.
+        /// A list of policy types that are enabled for this organization. For example, if your organization has all features enabled, then service control policies (SCPs) are included in the list.  Even if a policy type is shown as available in the organization, you can separately enable and disable them at the root level by using EnablePolicyType and DisablePolicyType. Use ListRoots to see the status of a policy type in that root. 
         public let availablePolicyTypes: [PolicyTypeSummary]?
         /// The Amazon Resource Name (ARN) of the account that is designated as the master account for the organization. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let masterAccountArn: String?
@@ -1470,27 +1471,27 @@ extension Organizations {
         public let featureSet: OrganizationFeatureSet?
         /// The unique identifier (ID) of the master account of an organization. The regex pattern for an account ID string requires exactly 12 digits.
         public let masterAccountId: String?
-        /// The unique identifier (ID) of an organization. The regex pattern for an organization ID string requires "o-" followed by from 10 to 32 lower-case letters or digits.
-        public let id: String?
+        /// The email address that is associated with the AWS account that is designated as the master account for the organization.
+        public let masterAccountEmail: String?
 
-        public init(masterAccountEmail: String? = nil, arn: String? = nil, availablePolicyTypes: [PolicyTypeSummary]? = nil, masterAccountArn: String? = nil, featureSet: OrganizationFeatureSet? = nil, masterAccountId: String? = nil, id: String? = nil) {
-            self.masterAccountEmail = masterAccountEmail
+        public init(id: String? = nil, arn: String? = nil, availablePolicyTypes: [PolicyTypeSummary]? = nil, masterAccountArn: String? = nil, featureSet: OrganizationFeatureSet? = nil, masterAccountId: String? = nil, masterAccountEmail: String? = nil) {
+            self.id = id
             self.arn = arn
             self.availablePolicyTypes = availablePolicyTypes
             self.masterAccountArn = masterAccountArn
             self.featureSet = featureSet
             self.masterAccountId = masterAccountId
-            self.id = id
+            self.masterAccountEmail = masterAccountEmail
         }
 
         private enum CodingKeys: String, CodingKey {
-            case masterAccountEmail = "MasterAccountEmail"
+            case id = "Id"
             case arn = "Arn"
             case availablePolicyTypes = "AvailablePolicyTypes"
             case masterAccountArn = "MasterAccountArn"
             case featureSet = "FeatureSet"
             case masterAccountId = "MasterAccountId"
-            case id = "Id"
+            case masterAccountEmail = "MasterAccountEmail"
         }
     }
 

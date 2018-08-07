@@ -42,6 +42,7 @@ public enum Route53Error: AWSErrorType {
     case invalidChangeBatch(message: String?)
     case conflictingTypes(message: String?)
     case trafficPolicyInUse(message: String?)
+    case tooManyTrafficPolicyVersionsForCurrentPolicy(message: String?)
     case tooManyTrafficPolicyInstances(message: String?)
     case trafficPolicyInstanceAlreadyExists(message: String?)
     case noSuchCloudWatchLogsLogGroup(message: String?)
@@ -139,6 +140,8 @@ extension Route53Error {
             self = .conflictingTypes(message: message)
         case "TrafficPolicyInUse":
             self = .trafficPolicyInUse(message: message)
+        case "TooManyTrafficPolicyVersionsForCurrentPolicy":
+            self = .tooManyTrafficPolicyVersionsForCurrentPolicy(message: message)
         case "TooManyTrafficPolicyInstances":
             self = .tooManyTrafficPolicyInstances(message: message)
         case "TrafficPolicyInstanceAlreadyExists":

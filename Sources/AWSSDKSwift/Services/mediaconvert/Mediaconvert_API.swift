@@ -24,6 +24,11 @@ public struct Mediaconvert {
         )
     }
 
+    ///  Permanently remove a job from a queue. Once you have canceled a job, you can't start it again. You can't delete a running job.
+    public func cancelJob(_ input: CancelJobRequest) throws -> CancelJobResponse {
+        return try client.send(operation: "CancelJob", path: "/2017-08-29/jobs/{id}", httpMethod: "DELETE", input: input)
+    }
+
     ///  Retrieve a JSON array of up to twenty of your presets. This will return the presets themselves, not just a list of them. To retrieve the next twenty presets, use the nextToken string returned with the array.
     public func listPresets(_ input: ListPresetsRequest) throws -> ListPresetsResponse {
         return try client.send(operation: "ListPresets", path: "/2017-08-29/presets", httpMethod: "GET", input: input)
@@ -64,6 +69,11 @@ public struct Mediaconvert {
         return try client.send(operation: "UpdateJobTemplate", path: "/2017-08-29/jobTemplates/{name}", httpMethod: "PUT", input: input)
     }
 
+    ///  Retrieve the tags for a MediaConvert resource.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> ListTagsForResourceResponse {
+        return try client.send(operation: "ListTagsForResource", path: "/2017-08-29/tags/{arn}", httpMethod: "GET", input: input)
+    }
+
     ///  Retrieve the JSON for a specific job template.
     public func getJobTemplate(_ input: GetJobTemplateRequest) throws -> GetJobTemplateResponse {
         return try client.send(operation: "GetJobTemplate", path: "/2017-08-29/jobTemplates/{name}", httpMethod: "GET", input: input)
@@ -72,6 +82,11 @@ public struct Mediaconvert {
     ///  Retrieve the JSON for a specific queue.
     public func getQueue(_ input: GetQueueRequest) throws -> GetQueueResponse {
         return try client.send(operation: "GetQueue", path: "/2017-08-29/queues/{name}", httpMethod: "GET", input: input)
+    }
+
+    ///  Untag a MediaConvert queue, preset, or job template. For information about these resource types, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+    public func untagResource(_ input: UntagResourceRequest) throws -> UntagResourceResponse {
+        return try client.send(operation: "UntagResource", path: "/2017-08-29/tags", httpMethod: "DELETE", input: input)
     }
 
     ///  Retrieve the JSON for a specific completed transcoding job.
@@ -89,9 +104,9 @@ public struct Mediaconvert {
         return try client.send(operation: "DeleteQueue", path: "/2017-08-29/queues/{name}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Retrieve a JSON array of up to twenty of your most recently created jobs. This array includes in-process, completed, and errored jobs. This will return the jobs themselves, not just a list of the jobs. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
-    public func listJobs(_ input: ListJobsRequest) throws -> ListJobsResponse {
-        return try client.send(operation: "ListJobs", path: "/2017-08-29/jobs", httpMethod: "GET", input: input)
+    ///  Tag a MediaConvert queue, preset, or job template. For information about these resource types, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+    public func tagResource(_ input: TagResourceRequest) throws -> TagResourceResponse {
+        return try client.send(operation: "TagResource", path: "/2017-08-29/tags", httpMethod: "POST", input: input)
     }
 
     ///  Send an request with an empty body to the regional API endpoint to get your account API endpoint.
@@ -99,9 +114,19 @@ public struct Mediaconvert {
         return try client.send(operation: "DescribeEndpoints", path: "/2017-08-29/endpoints", httpMethod: "POST", input: input)
     }
 
+    ///  Create a new preset. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+    public func createPreset(_ input: CreatePresetRequest) throws -> CreatePresetResponse {
+        return try client.send(operation: "CreatePreset", path: "/2017-08-29/presets", httpMethod: "POST", input: input)
+    }
+
     ///  Create a new transcoding queue. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     public func createQueue(_ input: CreateQueueRequest) throws -> CreateQueueResponse {
         return try client.send(operation: "CreateQueue", path: "/2017-08-29/queues", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieve a JSON array of up to twenty of your most recently created jobs. This array includes in-process, completed, and errored jobs. This will return the jobs themselves, not just a list of the jobs. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
+    public func listJobs(_ input: ListJobsRequest) throws -> ListJobsResponse {
+        return try client.send(operation: "ListJobs", path: "/2017-08-29/jobs", httpMethod: "GET", input: input)
     }
 
     ///  Retrieve a JSON array of up to twenty of your queues. This will return the queues themselves, not just a list of them. To retrieve the next twenty queues, use the nextToken string returned with the array.
@@ -109,19 +134,9 @@ public struct Mediaconvert {
         return try client.send(operation: "ListQueues", path: "/2017-08-29/queues", httpMethod: "GET", input: input)
     }
 
-    ///  Create a new preset. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
-    public func createPreset(_ input: CreatePresetRequest) throws -> CreatePresetResponse {
-        return try client.send(operation: "CreatePreset", path: "/2017-08-29/presets", httpMethod: "POST", input: input)
-    }
-
     ///  Modify one of your existing queues.
     public func updateQueue(_ input: UpdateQueueRequest) throws -> UpdateQueueResponse {
         return try client.send(operation: "UpdateQueue", path: "/2017-08-29/queues/{name}", httpMethod: "PUT", input: input)
-    }
-
-    ///  Permanently remove a job from a queue. Once you have canceled a job, you can't start it again. You can't delete a running job.
-    public func cancelJob(_ input: CancelJobRequest) throws -> CancelJobResponse {
-        return try client.send(operation: "CancelJob", path: "/2017-08-29/jobs/{id}", httpMethod: "DELETE", input: input)
     }
 
 

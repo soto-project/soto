@@ -96,6 +96,20 @@ public enum CodecommitError: AWSErrorType {
     case multipleRepositoriesInPullRequestException(message: String?)
     case maximumOpenPullRequestsExceededException(message: String?)
     case sourceAndDestinationAreSameException(message: String?)
+    case parentCommitIdRequiredException(message: String?)
+    case invalidParentCommitIdException(message: String?)
+    case parentCommitDoesNotExistException(message: String?)
+    case parentCommitIdOutdatedException(message: String?)
+    case fileContentRequiredException(message: String?)
+    case fileContentSizeLimitExceededException(message: String?)
+    case branchNameIsTagNameException(message: String?)
+    case invalidFileModeException(message: String?)
+    case nameLengthExceededException(message: String?)
+    case invalidEmailException(message: String?)
+    case commitMessageLengthExceededException(message: String?)
+    case sameFileContentException(message: String?)
+    case fileNameConflictsWithDirectoryNameException(message: String?)
+    case directoryNameConflictsWithFileNameException(message: String?)
     case invalidPullRequestStatusUpdateException(message: String?)
     case pullRequestStatusRequiredException(message: String?)
     case repositoryNamesRequiredException(message: String?)
@@ -293,6 +307,34 @@ extension CodecommitError {
             self = .maximumOpenPullRequestsExceededException(message: message)
         case "SourceAndDestinationAreSameException":
             self = .sourceAndDestinationAreSameException(message: message)
+        case "ParentCommitIdRequiredException":
+            self = .parentCommitIdRequiredException(message: message)
+        case "InvalidParentCommitIdException":
+            self = .invalidParentCommitIdException(message: message)
+        case "ParentCommitDoesNotExistException":
+            self = .parentCommitDoesNotExistException(message: message)
+        case "ParentCommitIdOutdatedException":
+            self = .parentCommitIdOutdatedException(message: message)
+        case "FileContentRequiredException":
+            self = .fileContentRequiredException(message: message)
+        case "FileContentSizeLimitExceededException":
+            self = .fileContentSizeLimitExceededException(message: message)
+        case "BranchNameIsTagNameException":
+            self = .branchNameIsTagNameException(message: message)
+        case "InvalidFileModeException":
+            self = .invalidFileModeException(message: message)
+        case "NameLengthExceededException":
+            self = .nameLengthExceededException(message: message)
+        case "InvalidEmailException":
+            self = .invalidEmailException(message: message)
+        case "CommitMessageLengthExceededException":
+            self = .commitMessageLengthExceededException(message: message)
+        case "SameFileContentException":
+            self = .sameFileContentException(message: message)
+        case "FileNameConflictsWithDirectoryNameException":
+            self = .fileNameConflictsWithDirectoryNameException(message: message)
+        case "DirectoryNameConflictsWithFileNameException":
+            self = .directoryNameConflictsWithFileNameException(message: message)
         case "InvalidPullRequestStatusUpdateException":
             self = .invalidPullRequestStatusUpdateException(message: message)
         case "PullRequestStatusRequiredException":

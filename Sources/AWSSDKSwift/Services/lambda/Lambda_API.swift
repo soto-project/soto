@@ -24,7 +24,7 @@ public struct Lambda {
         )
     }
 
-    ///  Adds a permission to the resource policy associated with the specified AWS Lambda function. You use resource policies to grant permissions to event sources that use push model. In a push model, event sources (such as Amazon S3 and custom applications) invoke your Lambda function. Each permission you add to the resource policy allows an event source, permission to invoke the Lambda function.  For information about the push model, see AWS Lambda: How it Works.  If you are using versioning, the permissions you add are specific to the Lambda function version or alias you specify in the AddPermission request via the Qualifier parameter. For more information about versioning, see AWS Lambda Function Versioning and Aliases.  This operation requires permission for the lambda:AddPermission action.
+    ///  Adds a permission to the resource policy associated with the specified AWS Lambda function. You use resource policies to grant permissions to event sources that use push model. In a push model, event sources (such as Amazon S3 and custom applications) invoke your Lambda function. Each permission you add to the resource policy allows an event source, permission to invoke the Lambda function.  For information about the push model, see Lambda Functions.  If you are using versioning, the permissions you add are specific to the Lambda function version or alias you specify in the AddPermission request via the Qualifier parameter. For more information about versioning, see AWS Lambda Function Versioning and Aliases.  This operation requires permission for the lambda:AddPermission action.
     public func addPermission(_ input: AddPermissionRequest) throws -> AddPermissionResponse {
         return try client.send(operation: "AddPermission", path: "/2015-03-31/functions/{FunctionName}/policy", httpMethod: "POST", input: input)
     }
@@ -39,7 +39,7 @@ public struct Lambda {
         _ = try client.send(operation: "DeleteFunction", path: "/2015-03-31/functions/{FunctionName}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Removes concurrent execution limits from this function.
+    ///  Removes concurrent execution limits from this function. For more information, see concurrent-executions.
     public func deleteFunctionConcurrency(_ input: DeleteFunctionConcurrencyRequest) throws {
         _ = try client.send(operation: "DeleteFunctionConcurrency", path: "/2017-10-31/functions/{FunctionName}/concurrency", httpMethod: "DELETE", input: input)
     }
@@ -49,7 +49,7 @@ public struct Lambda {
         return try client.send(operation: "DeleteEventSourceMapping", path: "/2015-03-31/event-source-mappings/{UUID}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Returns a list of tags assigned to a function when supplied the function ARN (Amazon Resource Name).
+    ///  Returns a list of tags assigned to a function when supplied the function ARN (Amazon Resource Name). For more information on Tagging, see Tagging Lambda Functions in the AWS Lambda Developer Guide.
     public func listTags(_ input: ListTagsRequest) throws -> ListTagsResponse {
         return try client.send(operation: "ListTags", path: "/2017-03-31/tags/{ARN}", httpMethod: "GET", input: input)
     }
@@ -84,7 +84,7 @@ public struct Lambda {
         return try client.send(operation: "ListVersionsByFunction", path: "/2015-03-31/functions/{FunctionName}/versions", httpMethod: "GET", input: input)
     }
 
-    ///  Sets a limit on the number of concurrent executions available to this function. It is a subset of your account's total concurrent execution limit per region. Note that Lambda automatically reserves a buffer of 100 concurrent executions for functions without any reserved concurrency limit. This means if your account limit is 1000, you have a total of 900 available to allocate to individual functions.
+    ///  Sets a limit on the number of concurrent executions available to this function. It is a subset of your account's total concurrent execution limit per region. Note that Lambda automatically reserves a buffer of 100 concurrent executions for functions without any reserved concurrency limit. This means if your account limit is 1000, you have a total of 900 available to allocate to individual functions. For more information, see concurrent-executions.
     public func putFunctionConcurrency(_ input: PutFunctionConcurrencyRequest) throws -> Concurrency {
         return try client.send(operation: "PutFunctionConcurrency", path: "/2017-10-31/functions/{FunctionName}/concurrency", httpMethod: "PUT", input: input)
     }
@@ -99,7 +99,7 @@ public struct Lambda {
         return try client.send(operation: "GetAlias", path: "/2015-03-31/functions/{FunctionName}/aliases/{Name}", httpMethod: "GET", input: input)
     }
 
-    ///  Invokes a specific Lambda function. For an example, see Create the Lambda Function and Test It Manually.  If you are using the versioning feature, you can invoke the specific function version by providing function version or alias name that is pointing to the function version using the Qualifier parameter in the request. If you don't provide the Qualifier parameter, the $LATEST version of the Lambda function is invoked. Invocations occur at least once in response to an event and functions must be idempotent to handle this. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases.  This operation requires permission for the lambda:InvokeFunction action.
+    ///  Invokes a specific Lambda function. For an example, see Create the Lambda Function and Test It Manually.  If you are using the versioning feature, you can invoke the specific function version by providing function version or alias name that is pointing to the function version using the Qualifier parameter in the request. If you don't provide the Qualifier parameter, the $LATEST version of the Lambda function is invoked. Invocations occur at least once in response to an event and functions must be idempotent to handle this. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases.  This operation requires permission for the lambda:InvokeFunction action.  The TooManyRequestsException noted below will return the following: ConcurrentInvocationLimitExceeded will be returned if you have no functions with reserved concurrency and have exceeded your account concurrent limit or if a function without reserved concurrency exceeds the account's unreserved concurrency limit. ReservedFunctionConcurrentInvocationLimitExceeded will be returned when a function with reserved concurrency exceeds its configured concurrency limit.  
     public func invoke(_ input: InvocationRequest) throws -> InvocationResponse {
         return try client.send(operation: "Invoke", path: "/2015-03-31/functions/{FunctionName}/invocations", httpMethod: "POST", input: input)
     }
@@ -129,7 +129,7 @@ public struct Lambda {
         return try client.send(operation: "ListAliases", path: "/2015-03-31/functions/{FunctionName}/aliases", httpMethod: "GET", input: input)
     }
 
-    ///  Removes tags from a Lambda function. Requires the function ARN (Amazon Resource Name). 
+    ///  Removes tags from a Lambda function. Requires the function ARN (Amazon Resource Name). For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide. 
     public func untagResource(_ input: UntagResourceRequest) throws {
         _ = try client.send(operation: "UntagResource", path: "/2017-03-31/tags/{ARN}", httpMethod: "DELETE", input: input)
     }
@@ -149,7 +149,7 @@ public struct Lambda {
         return try client.send(operation: "UpdateEventSourceMapping", path: "/2015-03-31/event-source-mappings/{UUID}", httpMethod: "PUT", input: input)
     }
 
-    ///  Creates a list of tags (key-value pairs) on the Lambda function. Requires the Lambda function ARN (Amazon Resource Name). If a key is specified without a value, Lambda creates a tag with the specified key and a value of null. 
+    ///  Creates a list of tags (key-value pairs) on the Lambda function. Requires the Lambda function ARN (Amazon Resource Name). If a key is specified without a value, Lambda creates a tag with the specified key and a value of null. For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide. 
     public func tagResource(_ input: TagResourceRequest) throws {
         _ = try client.send(operation: "TagResource", path: "/2017-03-31/tags/{ARN}", httpMethod: "POST", input: input)
     }
@@ -169,7 +169,7 @@ public struct Lambda {
         return try client.send(operation: "ListEventSourceMappings", path: "/2015-03-31/event-source-mappings/", httpMethod: "GET", input: input)
     }
 
-    ///  Identifies a stream as an event source for a Lambda function. It can be either an Amazon Kinesis stream or an Amazon DynamoDB stream. AWS Lambda invokes the specified function when records are posted to the stream. This association between a stream source and a Lambda function is called the event source mapping.  This event source mapping is relevant only in the AWS Lambda pull model, where AWS Lambda invokes the function. For more information, see AWS Lambda: How it Works in the AWS Lambda Developer Guide.  You provide mapping information (for example, which stream to read from and which Lambda function to invoke) in the request body. Each event source, such as an Amazon Kinesis or a DynamoDB stream, can be associated with multiple AWS Lambda function. A given Lambda function can be associated with multiple AWS event sources. If you are using versioning, you can specify a specific function version or an alias via the function name parameter. For more information about versioning, see AWS Lambda Function Versioning and Aliases.  This operation requires permission for the lambda:CreateEventSourceMapping action.
+    ///  Identifies a poll-based event source for a Lambda function. It can be either an Amazon Kinesis or DynamoDB stream, or an Amazon SQS queue. AWS Lambda invokes the specified function when records are posted to the event source. This association between a poll-based source and a Lambda function is called the event source mapping. You provide mapping information (for example, which stream or SQS queue to read from and which Lambda function to invoke) in the request body. Amazon Kinesis or DynamoDB stream event sources can be associated with multiple AWS Lambda functions and a given Lambda function can be associated with multiple AWS event sources. For Amazon SQS, you can configure multiple queues as event sources for a single Lambda function, but an SQS queue can be mapped only to a single Lambda function. If you are using versioning, you can specify a specific function version or an alias via the function name parameter. For more information about versioning, see AWS Lambda Function Versioning and Aliases.  This operation requires permission for the lambda:CreateEventSourceMapping action.
     public func createEventSourceMapping(_ input: CreateEventSourceMappingRequest) throws -> EventSourceMappingConfiguration {
         return try client.send(operation: "CreateEventSourceMapping", path: "/2015-03-31/event-source-mappings/", httpMethod: "POST", input: input)
     }

@@ -77,8 +77,11 @@ extension Kinesisanalytics {
             AWSShapeMember(label: "BucketARN", required: true, type: .string), 
             AWSShapeMember(label: "FileKey", required: true, type: .string)
         ]
+        /// IAM ARN of the role used to access the data.
         public let roleARN: String
+        /// ARN of the S3 bucket that contains the data.
         public let bucketARN: String
+        /// The name of the object that contains the data.
         public let fileKey: String
 
         public init(roleARN: String, bucketARN: String, fileKey: String) {
@@ -125,9 +128,9 @@ extension Kinesisanalytics {
             AWSShapeMember(label: "InputId", required: true, type: .string), 
             AWSShapeMember(label: "InputParallelismUpdate", required: false, type: .structure)
         ]
-        /// If an Amazon Kinesis Firehose delivery stream is the streaming source to be updated, provides an updated stream Amazon Resource Name (ARN) and IAM role ARN.
+        /// If an Amazon Kinesis Firehose delivery stream is the streaming source to be updated, provides an updated stream ARN and IAM role ARN.
         public let kinesisFirehoseInputUpdate: KinesisFirehoseInputUpdate?
-        /// If a Amazon Kinesis stream is the streaming source to be updated, provides an updated stream ARN and IAM role ARN.
+        /// If an Amazon Kinesis stream is the streaming source to be updated, provides an updated stream Amazon Resource Name (ARN) and IAM role ARN.
         public let kinesisStreamsInputUpdate: KinesisStreamsInputUpdate?
         /// Describes updates for an input processing configuration.
         public let inputProcessingConfigurationUpdate: InputProcessingConfigurationUpdate?
@@ -158,6 +161,27 @@ extension Kinesisanalytics {
             case inputSchemaUpdate = "InputSchemaUpdate"
             case inputId = "InputId"
             case inputParallelismUpdate = "InputParallelismUpdate"
+        }
+    }
+
+    public struct LambdaOutputDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string)
+        ]
+        /// Amazon Resource Name (ARN) of the destination Lambda function.
+        public let resourceARN: String?
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination function.
+        public let roleARN: String?
+
+        public init(resourceARN: String? = nil, roleARN: String? = nil) {
+            self.resourceARN = resourceARN
+            self.roleARN = roleARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
         }
     }
 
@@ -214,7 +238,7 @@ extension Kinesisanalytics {
         public let inputProcessingConfiguration: InputProcessingConfiguration
         /// Name of the application to which you want to add the input processing configuration.
         public let applicationName: String
-        /// The ID of the input configuration to which to add the input configuration. You can get a list of the input IDs for an application using the DescribeApplication operation.
+        /// The ID of the input configuration to add the input processing configuration to. You can get a list of the input IDs for an application using the DescribeApplication operation.
         public let inputId: String
         /// Version of the application to which you want to add the input processing configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
         public let currentApplicationVersionId: Int64
@@ -265,9 +289,30 @@ extension Kinesisanalytics {
             AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string), 
             AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string)
         ]
-        /// Amazon Resource Name (ARN) of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant necessary permissions to this role.
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant necessary permissions to this role.
         public let roleARNUpdate: String?
-        /// ARN of the input Amazon Kinesis Firehose delivery stream to read.
+        /// Amazon Resource Name (ARN) of the input Amazon Kinesis Firehose delivery stream to read.
+        public let resourceARNUpdate: String?
+
+        public init(roleARNUpdate: String? = nil, resourceARNUpdate: String? = nil) {
+            self.roleARNUpdate = roleARNUpdate
+            self.resourceARNUpdate = resourceARNUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleARNUpdate = "RoleARNUpdate"
+            case resourceARNUpdate = "ResourceARNUpdate"
+        }
+    }
+
+    public struct LambdaOutputUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string)
+        ]
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination function on your behalf. You need to grant the necessary permissions to this role. 
+        public let roleARNUpdate: String?
+        /// Amazon Resource Name (ARN) of the destination Lambda function.
         public let resourceARNUpdate: String?
 
         public init(roleARNUpdate: String? = nil, resourceARNUpdate: String? = nil) {
@@ -288,7 +333,7 @@ extension Kinesisanalytics {
         ]
         /// The ARN of the AWS Lambda function that operates on records in the stream.
         public let resourceARN: String
-        /// The ARN of the IAM role used to access the AWS Lambda function.
+        /// The ARN of the IAM role that is used to access the AWS Lambda function.
         public let roleARN: String
 
         public init(resourceARN: String, roleARN: String) {
@@ -322,7 +367,7 @@ extension Kinesisanalytics {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputLambdaProcessor", required: true, type: .structure)
         ]
-        /// The InputLambdaProcessor that is used to preprocess the records in the stream prior to being processed by your application code.
+        /// The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code.
         public let inputLambdaProcessor: InputLambdaProcessor
 
         public init(inputLambdaProcessor: InputLambdaProcessor) {
@@ -443,6 +488,27 @@ extension Kinesisanalytics {
         }
     }
 
+    public struct LambdaOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string)
+        ]
+        /// Amazon Resource Name (ARN) of the destination Lambda function to write to.
+        public let resourceARN: String
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination function on your behalf. You need to grant the necessary permissions to this role. 
+        public let roleARN: String
+
+        public init(resourceARN: String, roleARN: String) {
+            self.resourceARN = resourceARN
+            self.roleARN = roleARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
+        }
+    }
+
     public struct KinesisFirehoseOutputUpdate: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string), 
@@ -468,7 +534,7 @@ extension Kinesisanalytics {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputStartingPosition", required: false, type: .enum)
         ]
-        /// The starting position on the stream.    NOW - Start reading just after the most recent record in the stream, start at the request timestamp that the customer issued.    TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Firehose delivery stream.    LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.  
+        /// The starting position on the stream.    NOW - Start reading just after the most recent record in the stream, start at the request time stamp that the customer issued.    TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Firehose delivery stream.    LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.  
         public let inputStartingPosition: InputStartingPosition?
 
         public init(inputStartingPosition: InputStartingPosition? = nil) {
@@ -517,6 +583,7 @@ extension Kinesisanalytics {
         ]
         /// The type of record format.
         public let recordFormatType: RecordFormatType
+        /// When configuring application input at the time of creating or updating an application, provides additional mapping information specific to the record format (such as JSON, CSV, or record fields delimited by some delimiter) on the streaming source.
         public let mappingParameters: MappingParameters?
 
         public init(recordFormatType: RecordFormatType, mappingParameters: MappingParameters? = nil) {
@@ -539,13 +606,13 @@ extension Kinesisanalytics {
             AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .list), 
             AWSShapeMember(label: "ApplicationDescription", required: false, type: .string)
         ]
-        /// Use this parameter to configure the application input. You can configure your application to receive input from a single streaming source. In this configuration, you map this streaming source to an in-application stream that is created. Your application code can then query the in-application stream like a table (you can think of it as a constantly updating table). For the streaming source, you provide its Amazon Resource Name (ARN) and format of data on the stream (for example, JSON, CSV, etc). You also must provide an IAM role that Amazon Kinesis Analytics can assume to read this stream on your behalf. To create the in-application stream, you need to specify a schema to transform your data into a schematized version used in SQL. In the schema, you provide the necessary mapping of the data elements in the streaming source to record columns in the in-app stream.
+        /// Use this parameter to configure the application input. You can configure your application to receive input from a single streaming source. In this configuration, you map this streaming source to an in-application stream that is created. Your application code can then query the in-application stream like a table (you can think of it as a constantly updating table). For the streaming source, you provide its Amazon Resource Name (ARN) and format of data on the stream (for example, JSON, CSV, etc.). You also must provide an IAM role that Amazon Kinesis Analytics can assume to read this stream on your behalf. To create the in-application stream, you need to specify a schema to transform your data into a schematized version used in SQL. In the schema, you provide the necessary mapping of the data elements in the streaming source to record columns in the in-app stream.
         public let inputs: [Input]?
         /// Name of your Amazon Kinesis Analytics application (for example, sample-app).
         public let applicationName: String
-        /// You can configure application output to write data from any of the in-application streams to up to five destinations. These destinations can be Amazon Kinesis streams, Amazon Kinesis Firehose delivery streams, or both. In the configuration, you specify the in-application stream name, the destination stream Amazon Resource Name (ARN), and the format to use when writing data. You must also provide an IAM role that Amazon Kinesis Analytics can assume to write to the destination stream on your behalf. In the output configuration, you also provide the output stream Amazon Resource Name (ARN) and the format of data in the stream (for example, JSON, CSV). You also must provide an IAM role that Amazon Kinesis Analytics can assume to write to this stream on your behalf.
+        /// You can configure application output to write data from any of the in-application streams to up to three destinations. These destinations can be Amazon Kinesis streams, Amazon Kinesis Firehose delivery streams, Amazon Lambda destinations, or any combination of the three. In the configuration, you specify the in-application stream name, the destination stream or Lambda function Amazon Resource Name (ARN), and the format to use when writing data. You must also provide an IAM role that Amazon Kinesis Analytics can assume to write to the destination stream or Lambda function on your behalf. In the output configuration, you also provide the output stream or Lambda function ARN. For stream destinations, you provide the format of data in the stream (for example, JSON, CSV). You also must provide an IAM role that Amazon Kinesis Analytics can assume to write to the stream or Lambda function on your behalf.
         public let outputs: [Output]?
-        /// One or more SQL statements that read input data, transform it, and generate output. For example, you can write a SQL statement that reads data from one in-application stream, generates a running average of the number of advertisement clicks by vendor, and insert resulting rows in another in-application stream using pumps. For more inforamtion about the typical pattern, see Application Code.  You can provide such series of SQL statements, where output of one statement can be used as the input for the next statement. You store intermediate results by creating in-application streams and pumps. Note that the application code must create the streams with names specified in the Outputs. For example, if your Outputs defines output streams named ExampleOutputStream1 and ExampleOutputStream2, then your application code must create these streams. 
+        /// One or more SQL statements that read input data, transform it, and generate output. For example, you can write a SQL statement that reads data from one in-application stream, generates a running average of the number of advertisement clicks by vendor, and insert resulting rows in another in-application stream using pumps. For more information about the typical pattern, see Application Code.  You can provide such series of SQL statements, where output of one statement can be used as the input for the next statement. You store intermediate results by creating in-application streams and pumps. Note that the application code must create the streams with names specified in the Outputs. For example, if your Outputs defines output streams named ExampleOutputStream1 and ExampleOutputStream2, then your application code must create these streams. 
         public let applicationCode: String?
         /// Use this parameter to configure a CloudWatch log stream to monitor application configuration errors. For more information, see Working with Amazon CloudWatch Logs.
         public let cloudWatchLoggingOptions: [CloudWatchLoggingOption]?
@@ -620,6 +687,7 @@ extension Kinesisanalytics {
         public let inputProcessingConfiguration: InputProcessingConfiguration?
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf.
         public let roleARN: String?
+        /// Specify this parameter to discover a schema from data in an S3 object.
         public let s3Configuration: S3Configuration?
         /// Amazon Resource Name (ARN) of the streaming source.
         public let resourceARN: String?
@@ -685,7 +753,7 @@ extension Kinesisanalytics {
             AWSShapeMember(label: "InputSchema", required: false, type: .structure), 
             AWSShapeMember(label: "InputId", required: false, type: .string)
         ]
-        /// If an Amazon Kinesis Firehose delivery stream is configured as a streaming source, provides the Firehose delivery stream's Amazon Resource Name (ARN) and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
+        /// If an Amazon Kinesis Firehose delivery stream is configured as a streaming source, provides the delivery stream's ARN and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
         public let kinesisFirehoseInputDescription: KinesisFirehoseInputDescription?
         /// The description of the preprocessor that executes on records in this input before the application's code is run.
         public let inputProcessingConfigurationDescription: InputProcessingConfigurationDescription?
@@ -697,7 +765,7 @@ extension Kinesisanalytics {
         public let inAppStreamNames: [String]?
         /// Point at which the application is configured to read from the input stream.
         public let inputStartingPositionConfiguration: InputStartingPositionConfiguration?
-        /// If an Amazon Kinesis stream is configured as streaming source, provides Amazon Kinesis stream's ARN and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
+        /// If an Amazon Kinesis stream is configured as streaming source, provides Amazon Kinesis stream's Amazon Resource Name (ARN) and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
         public let kinesisStreamsInputDescription: KinesisStreamsInputDescription?
         /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns in the in-application stream that is being created. 
         public let inputSchema: SourceSchema?
@@ -779,7 +847,7 @@ extension Kinesisanalytics {
         ]
         /// The version ID of the Kinesis Analytics application.
         public let currentApplicationVersionId: Int64
-        /// The ID of the input configuration from which to delete the input configuration. You can get a list of the input IDs for an application using the DescribeApplication operation.
+        /// The ID of the input configuration from which to delete the input processing configuration. You can get a list of the input IDs for an application by using the DescribeApplication operation.
         public let inputId: String
         /// The Kinesis Analytics application name.
         public let applicationName: String
@@ -824,11 +892,11 @@ extension Kinesisanalytics {
             AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
             AWSShapeMember(label: "Output", required: true, type: .structure)
         ]
-        /// Version of the application to which you want add the output configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. 
+        /// Version of the application to which you want to add the output configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. 
         public let currentApplicationVersionId: Int64
         /// Name of the application to which you want to add the output configuration.
         public let applicationName: String
-        /// An array of objects, each describing one output configuration. In the output configuration, you specify the name of an in-application stream, a destination (that is, an Amazon Kinesis stream or an Amazon Kinesis Firehose delivery stream), and record the formation to use when writing to the destination.
+        /// An array of objects, each describing one output configuration. In the output configuration, you specify the name of an in-application stream, a destination (that is, an Amazon Kinesis stream, an Amazon Kinesis Firehose delivery stream, or an Amazon Lambda function), and record the formation to use when writing to the destination.
         public let output: Output
 
         public init(currentApplicationVersionId: Int64, applicationName: String, output: Output) {
@@ -874,17 +942,17 @@ extension Kinesisanalytics {
             AWSShapeMember(label: "KinesisStreamsInput", required: false, type: .structure), 
             AWSShapeMember(label: "InputParallelism", required: false, type: .structure)
         ]
-        /// The InputProcessingConfiguration for the Input. An input processor transforms records as they are received from the stream, before the application's SQL code executes. Currently, the only input processing configuration available is InputLambdaProcessor.
+        /// The InputProcessingConfiguration for the input. An input processor transforms records as they are received from the stream, before the application's SQL code executes. Currently, the only input processing configuration available is InputLambdaProcessor.
         public let inputProcessingConfiguration: InputProcessingConfiguration?
-        /// If the streaming source is an Amazon Kinesis Firehose delivery stream, identifies the Firehose delivery stream's ARN and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf. Note: Either KinesisStreamsInput or KinesisFirehoseInput is required.
+        /// If the streaming source is an Amazon Kinesis Firehose delivery stream, identifies the delivery stream's ARN and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf. Note: Either KinesisStreamsInput or KinesisFirehoseInput is required.
         public let kinesisFirehoseInput: KinesisFirehoseInput?
         /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns in the in-application stream that is being created. Also used to describe the format of the reference data source.
         public let inputSchema: SourceSchema
-        /// Name prefix to use when creating in-application stream. Suppose you specify a prefix "MyInApplicationStream". Amazon Kinesis Analytics will then create one or more (as per the InputParallelism count you specified) in-application streams with names "MyInApplicationStream_001", "MyInApplicationStream_002" and so on. 
+        /// Name prefix to use when creating an in-application stream. Suppose that you specify a prefix "MyInApplicationStream." Amazon Kinesis Analytics then creates one or more (as per the InputParallelism count you specified) in-application streams with names "MyInApplicationStream_001," "MyInApplicationStream_002," and so on. 
         public let namePrefix: String
         /// If the streaming source is an Amazon Kinesis stream, identifies the stream's Amazon Resource Name (ARN) and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf. Note: Either KinesisStreamsInput or KinesisFirehoseInput is required.
         public let kinesisStreamsInput: KinesisStreamsInput?
-        /// Describes the number of in-application streams to create.  Data from your source will be routed to these in-application input streams.  (see Configuring Application Input.
+        /// Describes the number of in-application streams to create.  Data from your source is routed to these in-application input streams.  (see Configuring Application Input.
         public let inputParallelism: InputParallelism?
 
         public init(inputProcessingConfiguration: InputProcessingConfiguration? = nil, kinesisFirehoseInput: KinesisFirehoseInput? = nil, inputSchema: SourceSchema, namePrefix: String, kinesisStreamsInput: KinesisStreamsInput? = nil, inputParallelism: InputParallelism? = nil) {
@@ -962,7 +1030,7 @@ extension Kinesisanalytics {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
-        /// ARN of the input Firehose delivery stream.
+        /// ARN of the input delivery stream.
         public let resourceARN: String
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to make sure the role has necessary permissions to access the stream.
         public let roleARN: String
@@ -1003,6 +1071,7 @@ extension Kinesisanalytics {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KinesisStreamsOutputDescription", required: false, type: .structure), 
             AWSShapeMember(label: "DestinationSchema", required: false, type: .structure), 
+            AWSShapeMember(label: "LambdaOutputDescription", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "OutputId", required: false, type: .string), 
             AWSShapeMember(label: "KinesisFirehoseOutputDescription", required: false, type: .structure)
@@ -1011,6 +1080,8 @@ extension Kinesisanalytics {
         public let kinesisStreamsOutputDescription: KinesisStreamsOutputDescription?
         /// Data format used for writing data to the destination.
         public let destinationSchema: DestinationSchema?
+        /// Describes the AWS Lambda function configured as the destination where output is written.
+        public let lambdaOutputDescription: LambdaOutputDescription?
         /// Name of the in-application stream configured as output.
         public let name: String?
         /// A unique identifier for the output configuration.
@@ -1018,9 +1089,10 @@ extension Kinesisanalytics {
         /// Describes the Amazon Kinesis Firehose delivery stream configured as the destination where output is written.
         public let kinesisFirehoseOutputDescription: KinesisFirehoseOutputDescription?
 
-        public init(kinesisStreamsOutputDescription: KinesisStreamsOutputDescription? = nil, destinationSchema: DestinationSchema? = nil, name: String? = nil, outputId: String? = nil, kinesisFirehoseOutputDescription: KinesisFirehoseOutputDescription? = nil) {
+        public init(kinesisStreamsOutputDescription: KinesisStreamsOutputDescription? = nil, destinationSchema: DestinationSchema? = nil, lambdaOutputDescription: LambdaOutputDescription? = nil, name: String? = nil, outputId: String? = nil, kinesisFirehoseOutputDescription: KinesisFirehoseOutputDescription? = nil) {
             self.kinesisStreamsOutputDescription = kinesisStreamsOutputDescription
             self.destinationSchema = destinationSchema
+            self.lambdaOutputDescription = lambdaOutputDescription
             self.name = name
             self.outputId = outputId
             self.kinesisFirehoseOutputDescription = kinesisFirehoseOutputDescription
@@ -1029,6 +1101,7 @@ extension Kinesisanalytics {
         private enum CodingKeys: String, CodingKey {
             case kinesisStreamsOutputDescription = "KinesisStreamsOutputDescription"
             case destinationSchema = "DestinationSchema"
+            case lambdaOutputDescription = "LambdaOutputDescription"
             case name = "Name"
             case outputId = "OutputId"
             case kinesisFirehoseOutputDescription = "KinesisFirehoseOutputDescription"
@@ -1063,7 +1136,7 @@ extension Kinesisanalytics {
         ]
         /// The ARN of the AWS Lambda function that is used to preprocess the records in the stream.
         public let resourceARN: String?
-        /// The ARN of the IAM role used to access the AWS Lambda function.
+        /// The ARN of the IAM role that is used to access the AWS Lambda function.
         public let roleARN: String?
 
         public init(resourceARN: String? = nil, roleARN: String? = nil) {
@@ -1190,11 +1263,11 @@ extension Kinesisanalytics {
         public let applicationDescription: String?
         /// Status of the application.
         public let applicationStatus: ApplicationStatus
-        /// Timestamp when the application was last updated.
+        /// Time stamp when the application was last updated.
         public let lastUpdateTimestamp: TimeStamp?
         /// Describes the application input configuration. For more information, see Configuring Application Input. 
         public let inputDescriptions: [InputDescription]?
-        /// Timestamp when the application version was created.
+        /// Time stamp when the application version was created.
         public let createTimestamp: TimeStamp?
         /// Returns the application code that you provided to perform data analysis on any of the in-application streams in your application.
         public let applicationCode: String?
@@ -1333,6 +1406,7 @@ extension Kinesisanalytics {
         public let referenceId: String
         /// The in-application table name created by the specific reference data source configuration.
         public let tableName: String
+        /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream.
         public let referenceSchema: SourceSchema?
 
         public init(s3ReferenceDataSourceDescription: S3ReferenceDataSourceDescription, referenceId: String, tableName: String, referenceSchema: SourceSchema? = nil) {
@@ -1355,9 +1429,9 @@ extension Kinesisanalytics {
             AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string), 
             AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string)
         ]
-        /// The ARN of the new IAM role used to access the AWS Lambda function.
+        /// The ARN of the new IAM role that is used to access the AWS Lambda function.
         public let roleARNUpdate: String?
-        /// The ARN of the new AWS Lambda function that is used to preprocess the records in the stream.
+        /// The Amazon Resource Name (ARN) of the new AWS Lambda function that is used to preprocess the records in the stream.
         public let resourceARNUpdate: String?
 
         public init(roleARNUpdate: String? = nil, resourceARNUpdate: String? = nil) {
@@ -1440,6 +1514,7 @@ extension Kinesisanalytics {
         public let s3ReferenceDataSourceUpdate: S3ReferenceDataSourceUpdate?
         /// In-application table name that is created by this update.
         public let tableNameUpdate: String?
+        /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream. 
         public let referenceSchemaUpdate: SourceSchema?
         /// ID of the reference data source being updated. You can use the DescribeApplication operation to get this value.
         public let referenceId: String
@@ -1463,20 +1538,25 @@ extension Kinesisanalytics {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KinesisFirehoseOutput", required: false, type: .structure), 
             AWSShapeMember(label: "DestinationSchema", required: true, type: .structure), 
+            AWSShapeMember(label: "LambdaOutput", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "KinesisStreamsOutput", required: false, type: .structure)
         ]
         /// Identifies an Amazon Kinesis Firehose delivery stream as the destination.
         public let kinesisFirehoseOutput: KinesisFirehoseOutput?
+        /// Describes the data format when records are written to the destination. For more information, see Configuring Application Output.
         public let destinationSchema: DestinationSchema
+        /// Identifies an AWS Lambda function as the destination.
+        public let lambdaOutput: LambdaOutput?
         /// Name of the in-application stream.
         public let name: String
         /// Identifies an Amazon Kinesis stream as the destination.
         public let kinesisStreamsOutput: KinesisStreamsOutput?
 
-        public init(kinesisFirehoseOutput: KinesisFirehoseOutput? = nil, destinationSchema: DestinationSchema, name: String, kinesisStreamsOutput: KinesisStreamsOutput? = nil) {
+        public init(kinesisFirehoseOutput: KinesisFirehoseOutput? = nil, destinationSchema: DestinationSchema, lambdaOutput: LambdaOutput? = nil, name: String, kinesisStreamsOutput: KinesisStreamsOutput? = nil) {
             self.kinesisFirehoseOutput = kinesisFirehoseOutput
             self.destinationSchema = destinationSchema
+            self.lambdaOutput = lambdaOutput
             self.name = name
             self.kinesisStreamsOutput = kinesisStreamsOutput
         }
@@ -1484,6 +1564,7 @@ extension Kinesisanalytics {
         private enum CodingKeys: String, CodingKey {
             case kinesisFirehoseOutput = "KinesisFirehoseOutput"
             case destinationSchema = "DestinationSchema"
+            case lambdaOutput = "LambdaOutput"
             case name = "Name"
             case kinesisStreamsOutput = "KinesisStreamsOutput"
         }
@@ -1612,24 +1693,29 @@ extension Kinesisanalytics {
             AWSShapeMember(label: "KinesisStreamsOutputUpdate", required: false, type: .structure), 
             AWSShapeMember(label: "KinesisFirehoseOutputUpdate", required: false, type: .structure), 
             AWSShapeMember(label: "DestinationSchemaUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "OutputId", required: true, type: .string)
+            AWSShapeMember(label: "OutputId", required: true, type: .string), 
+            AWSShapeMember(label: "LambdaOutputUpdate", required: false, type: .structure)
         ]
         /// If you want to specify a different in-application stream for this output configuration, use this field to specify the new in-application stream name.
         public let nameUpdate: String?
         /// Describes an Amazon Kinesis stream as the destination for the output.
         public let kinesisStreamsOutputUpdate: KinesisStreamsOutputUpdate?
-        /// Describes a Amazon Kinesis Firehose delivery stream as the destination for the output.
+        /// Describes an Amazon Kinesis Firehose delivery stream as the destination for the output.
         public let kinesisFirehoseOutputUpdate: KinesisFirehoseOutputUpdate?
+        /// Describes the data format when records are written to the destination. For more information, see Configuring Application Output.
         public let destinationSchemaUpdate: DestinationSchema?
         /// Identifies the specific output configuration that you want to update.
         public let outputId: String
+        /// Describes an AWS Lambda function as the destination for the output.
+        public let lambdaOutputUpdate: LambdaOutputUpdate?
 
-        public init(nameUpdate: String? = nil, kinesisStreamsOutputUpdate: KinesisStreamsOutputUpdate? = nil, kinesisFirehoseOutputUpdate: KinesisFirehoseOutputUpdate? = nil, destinationSchemaUpdate: DestinationSchema? = nil, outputId: String) {
+        public init(nameUpdate: String? = nil, kinesisStreamsOutputUpdate: KinesisStreamsOutputUpdate? = nil, kinesisFirehoseOutputUpdate: KinesisFirehoseOutputUpdate? = nil, destinationSchemaUpdate: DestinationSchema? = nil, outputId: String, lambdaOutputUpdate: LambdaOutputUpdate? = nil) {
             self.nameUpdate = nameUpdate
             self.kinesisStreamsOutputUpdate = kinesisStreamsOutputUpdate
             self.kinesisFirehoseOutputUpdate = kinesisFirehoseOutputUpdate
             self.destinationSchemaUpdate = destinationSchemaUpdate
             self.outputId = outputId
+            self.lambdaOutputUpdate = lambdaOutputUpdate
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1638,6 +1724,7 @@ extension Kinesisanalytics {
             case kinesisFirehoseOutputUpdate = "KinesisFirehoseOutputUpdate"
             case destinationSchemaUpdate = "DestinationSchemaUpdate"
             case outputId = "OutputId"
+            case lambdaOutputUpdate = "LambdaOutputUpdate"
         }
     }
 
@@ -1695,7 +1782,7 @@ extension Kinesisanalytics {
         ]
         /// The version ID of the Kinesis Analytics application.
         public let currentApplicationVersionId: Int64
-        /// The CloudWatchLoggingOptionId of the CloudWatch logging option to delete. You can use the DescribeApplication operation to get the CloudWatchLoggingOptionId. 
+        /// The CloudWatchLoggingOptionId of the CloudWatch logging option to delete. You can get the CloudWatchLoggingOptionId by using the DescribeApplication operation. 
         public let cloudWatchLoggingOptionId: String
         /// The Kinesis Analytics application name.
         public let applicationName: String
@@ -1761,7 +1848,9 @@ extension Kinesisanalytics {
             AWSShapeMember(label: "ReferenceSchema", required: true, type: .structure), 
             AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
+        /// Identifies the S3 bucket and object that contains the reference data. Also identifies the IAM role Amazon Kinesis Analytics can assume to read this object on your behalf. An Amazon Kinesis Analytics application loads reference data only once. If the data changes, you call the UpdateApplication operation to trigger reloading of data into your application. 
         public let s3ReferenceDataSource: S3ReferenceDataSource?
+        /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream.
         public let referenceSchema: SourceSchema
         /// Name of the in-application table to create.
         public let tableName: String

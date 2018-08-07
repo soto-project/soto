@@ -5,28 +5,9 @@ import AWSSDKSwiftCore
 
 extension Firehose {
 
-    public struct DescribeDeliveryStreamOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStreamDescription", required: true, type: .structure)
-        ]
-        /// Information about the delivery stream.
-        public let deliveryStreamDescription: DeliveryStreamDescription
-
-        public init(deliveryStreamDescription: DeliveryStreamDescription) {
-            self.deliveryStreamDescription = deliveryStreamDescription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deliveryStreamDescription = "DeliveryStreamDescription"
-        }
-    }
-
-    public enum ProcessorParameterName: String, CustomStringConvertible, Codable {
-        case lambdaarn = "LambdaArn"
-        case numberofretries = "NumberOfRetries"
-        case rolearn = "RoleArn"
-        case buffersizeinmbs = "BufferSizeInMBs"
-        case bufferintervalinseconds = "BufferIntervalInSeconds"
+    public enum ParquetWriterVersion: String, CustomStringConvertible, Codable {
+        case v1 = "V1"
+        case v2 = "V2"
         public var description: String { return self.rawValue }
     }
 
@@ -48,6 +29,22 @@ extension Firehose {
         private enum CodingKeys: String, CodingKey {
             case processors = "Processors"
             case enabled = "Enabled"
+        }
+    }
+
+    public struct DescribeDeliveryStreamOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryStreamDescription", required: true, type: .structure)
+        ]
+        /// Information about the delivery stream.
+        public let deliveryStreamDescription: DeliveryStreamDescription
+
+        public init(deliveryStreamDescription: DeliveryStreamDescription) {
+            self.deliveryStreamDescription = deliveryStreamDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryStreamDescription = "DeliveryStreamDescription"
         }
     }
 
@@ -80,7 +77,7 @@ extension Firehose {
         public let s3BackupConfiguration: S3DestinationConfiguration?
         /// The database connection string.
         public let clusterJDBCURL: String
-        /// The ARN of the AWS credentials.
+        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
@@ -88,7 +85,7 @@ extension Firehose {
         public let password: String
         /// The CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
-        /// The retry behavior in case Kinesis Firehose is unable to deliver documents to Amazon Redshift. Default value is 3600 (60 minutes).
+        /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon Redshift. Default value is 3600 (60 minutes).
         public let retryOptions: RedshiftRetryOptions?
         /// The Amazon S3 backup mode.
         public let s3BackupMode: RedshiftS3BackupMode?
@@ -122,6 +119,40 @@ extension Firehose {
         }
     }
 
+    public enum ProcessorParameterName: String, CustomStringConvertible, Codable {
+        case lambdaarn = "LambdaArn"
+        case numberofretries = "NumberOfRetries"
+        case rolearn = "RoleArn"
+        case buffersizeinmbs = "BufferSizeInMBs"
+        case bufferintervalinseconds = "BufferIntervalInSeconds"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UntagDeliveryStreamOutput: AWSShape {
+
+    }
+
+    public struct Serializer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrcSerDe", required: false, type: .structure), 
+            AWSShapeMember(label: "ParquetSerDe", required: false, type: .structure)
+        ]
+        /// A serializer to use for converting data to the ORC format before storing it in Amazon S3. For more information, see Apache ORC.
+        public let orcSerDe: OrcSerDe?
+        /// A serializer to use for converting data to the Parquet format before storing it in Amazon S3. For more information, see Apache Parquet.
+        public let parquetSerDe: ParquetSerDe?
+
+        public init(orcSerDe: OrcSerDe? = nil, parquetSerDe: ParquetSerDe? = nil) {
+            self.orcSerDe = orcSerDe
+            self.parquetSerDe = parquetSerDe
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case orcSerDe = "OrcSerDe"
+            case parquetSerDe = "ParquetSerDe"
+        }
+    }
+
     public struct CopyCommand: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataTableName", required: true, type: .string), 
@@ -132,7 +163,7 @@ extension Firehose {
         public let dataTableName: String
         /// A comma-separated list of column names.
         public let dataTableColumns: String?
-        /// Optional parameters to use with the Amazon Redshift COPY command. For more information, see the "Optional Parameters" section of Amazon Redshift COPY command. Some possible examples that would apply to Kinesis Firehose are as follows:  delimiter '\t' lzop; - fields are delimited with "\t" (TAB character) and compressed using lzop.  delimiter '|' - fields are delimited with "|" (this is the default delimiter).  delimiter '|' escape - the delimiter should be escaped.  fixedwidth 'venueid:3,venuename:25,venuecity:12,venuestate:2,venueseats:6' - fields are fixed width in the source, with each width specified after every column in the table.  JSON 's3://mybucket/jsonpaths.txt' - data is in JSON format, and the path specified is the format of the data. For more examples, see Amazon Redshift COPY command examples.
+        /// Optional parameters to use with the Amazon Redshift COPY command. For more information, see the "Optional Parameters" section of Amazon Redshift COPY command. Some possible examples that would apply to Kinesis Data Firehose are as follows:  delimiter '\t' lzop; - fields are delimited with "\t" (TAB character) and compressed using lzop.  delimiter '|' - fields are delimited with "|" (this is the default delimiter).  delimiter '|' escape - the delimiter should be escaped.  fixedwidth 'venueid:3,venuename:25,venuecity:12,venuestate:2,venueseats:6' - fields are fixed width in the source, with each width specified after every column in the table.  JSON 's3://mybucket/jsonpaths.txt' - data is in JSON format, and the path specified is the format of the data. For more examples, see Amazon Redshift COPY command examples.
         public let copyOptions: String?
 
         public init(dataTableName: String, dataTableColumns: String? = nil, copyOptions: String? = nil) {
@@ -148,65 +179,10 @@ extension Firehose {
         }
     }
 
-    public struct ExtendedS3DestinationConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketARN", required: true, type: .string), 
-            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
-            AWSShapeMember(label: "S3BackupConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "CompressionFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "BufferingHints", required: false, type: .structure)
-        ]
-        /// The ARN of the S3 bucket.
-        public let bucketARN: String
-        /// The encryption configuration. If no value is specified, the default is no encryption.
-        public let encryptionConfiguration: EncryptionConfiguration?
-        /// The ARN of the AWS credentials.
-        public let roleARN: String
-        /// The configuration for backup in Amazon S3.
-        public let s3BackupConfiguration: S3DestinationConfiguration?
-        /// The data processing configuration.
-        public let processingConfiguration: ProcessingConfiguration?
-        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        public let prefix: String?
-        /// The Amazon S3 backup mode.
-        public let s3BackupMode: S3BackupMode?
-        /// The CloudWatch logging options for your delivery stream.
-        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
-        /// The compression format. If no value is specified, the default is UNCOMPRESSED.
-        public let compressionFormat: CompressionFormat?
-        /// The buffering option.
-        public let bufferingHints: BufferingHints?
-
-        public init(bucketARN: String, encryptionConfiguration: EncryptionConfiguration? = nil, roleARN: String, s3BackupConfiguration: S3DestinationConfiguration? = nil, processingConfiguration: ProcessingConfiguration? = nil, prefix: String? = nil, s3BackupMode: S3BackupMode? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, bufferingHints: BufferingHints? = nil) {
-            self.bucketARN = bucketARN
-            self.encryptionConfiguration = encryptionConfiguration
-            self.roleARN = roleARN
-            self.s3BackupConfiguration = s3BackupConfiguration
-            self.processingConfiguration = processingConfiguration
-            self.prefix = prefix
-            self.s3BackupMode = s3BackupMode
-            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
-            self.compressionFormat = compressionFormat
-            self.bufferingHints = bufferingHints
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucketARN = "BucketARN"
-            case encryptionConfiguration = "EncryptionConfiguration"
-            case roleARN = "RoleARN"
-            case s3BackupConfiguration = "S3BackupConfiguration"
-            case processingConfiguration = "ProcessingConfiguration"
-            case prefix = "Prefix"
-            case s3BackupMode = "S3BackupMode"
-            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
-            case compressionFormat = "CompressionFormat"
-            case bufferingHints = "BufferingHints"
-        }
+    public enum S3BackupMode: String, CustomStringConvertible, Codable {
+        case disabled = "Disabled"
+        case enabled = "Enabled"
+        public var description: String { return self.rawValue }
     }
 
     public struct SplunkDestinationDescription: AWSShape {
@@ -221,23 +197,23 @@ extension Firehose {
             AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
             AWSShapeMember(label: "HECEndpointType", required: false, type: .enum)
         ]
-        /// The retry behavior in case Kinesis Firehose is unable to deliver data to Splunk or if it doesn't receive an acknowledgment of receipt from Splunk.
+        /// The retry behavior in case Kinesis Data Firehose is unable to deliver data to Splunk or if it doesn't receive an acknowledgment of receipt from Splunk.
         public let retryOptions: SplunkRetryOptions?
         /// The Amazon S3 destination.&gt;
         public let s3DestinationDescription: S3DestinationDescription?
-        /// The amount of time that Kinesis Firehose waits to receive an acknowledgment from Splunk after it sends it data. At the end of the timeout period Kinesis Firehose either tries to send the data again or considers it an error, based on your retry settings.
+        /// The amount of time that Kinesis Data Firehose waits to receive an acknowledgment from Splunk after it sends it data. At the end of the timeout period, Kinesis Data Firehose either tries to send the data again or considers it an error, based on your retry settings.
         public let hECAcknowledgmentTimeoutInSeconds: Int32?
-        /// This is a GUID you obtain from your Splunk cluster when you create a new HEC endpoint.
+        /// A GUID you obtain from your Splunk cluster when you create a new HEC endpoint.
         public let hECToken: String?
-        /// The HTTP Event Collector (HEC) endpoint to which Kinesis Firehose sends your data.
+        /// The HTTP Event Collector (HEC) endpoint to which Kinesis Data Firehose sends your data.
         public let hECEndpoint: String?
-        /// Defines how documents should be delivered to Amazon S3. When set to FailedDocumentsOnly, Kinesis Firehose writes any data that could not be indexed to the configured Amazon S3 destination. When set to AllDocuments, Kinesis Firehose delivers all incoming records to Amazon S3, and also writes failed documents to Amazon S3. Default value is FailedDocumentsOnly. 
+        /// Defines how documents should be delivered to Amazon S3. When set to FailedDocumentsOnly, Kinesis Data Firehose writes any data that could not be indexed to the configured Amazon S3 destination. When set to AllDocuments, Kinesis Data Firehose delivers all incoming records to Amazon S3, and also writes failed documents to Amazon S3. Default value is FailedDocumentsOnly. 
         public let s3BackupMode: SplunkS3BackupMode?
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
-        /// The CloudWatch logging options for your delivery stream.
+        /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
-        /// This type can be either "Raw" or "Event".
+        /// This type can be either "Raw" or "Event."
         public let hECEndpointType: HECEndpointType?
 
         public init(retryOptions: SplunkRetryOptions? = nil, s3DestinationDescription: S3DestinationDescription? = nil, hECAcknowledgmentTimeoutInSeconds: Int32? = nil, hECToken: String? = nil, hECEndpoint: String? = nil, s3BackupMode: SplunkS3BackupMode? = nil, processingConfiguration: ProcessingConfiguration? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECEndpointType: HECEndpointType? = nil) {
@@ -265,10 +241,91 @@ extension Firehose {
         }
     }
 
-    public enum S3BackupMode: String, CustomStringConvertible, Codable {
-        case disabled = "Disabled"
-        case enabled = "Enabled"
-        public var description: String { return self.rawValue }
+    public struct ExtendedS3DestinationConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BucketARN", required: true, type: .string), 
+            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "DataFormatConversionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "S3BackupConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
+            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "CompressionFormat", required: false, type: .enum), 
+            AWSShapeMember(label: "BufferingHints", required: false, type: .structure)
+        ]
+        /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        public let bucketARN: String
+        /// The encryption configuration. If no value is specified, the default is no encryption.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The serializer, deserializer, and schema for converting data from the JSON format to the Parquet or ORC format before writing it to Amazon S3.
+        public let dataFormatConversionConfiguration: DataFormatConversionConfiguration?
+        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        public let roleARN: String
+        /// The configuration for backup in Amazon S3.
+        public let s3BackupConfiguration: S3DestinationConfiguration?
+        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Data Firehose Developer Guide.
+        public let prefix: String?
+        /// The data processing configuration.
+        public let processingConfiguration: ProcessingConfiguration?
+        /// The Amazon S3 backup mode.
+        public let s3BackupMode: S3BackupMode?
+        /// The Amazon CloudWatch logging options for your delivery stream.
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
+        /// The compression format. If no value is specified, the default is UNCOMPRESSED.
+        public let compressionFormat: CompressionFormat?
+        /// The buffering option.
+        public let bufferingHints: BufferingHints?
+
+        public init(bucketARN: String, encryptionConfiguration: EncryptionConfiguration? = nil, dataFormatConversionConfiguration: DataFormatConversionConfiguration? = nil, roleARN: String, s3BackupConfiguration: S3DestinationConfiguration? = nil, prefix: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, s3BackupMode: S3BackupMode? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, bufferingHints: BufferingHints? = nil) {
+            self.bucketARN = bucketARN
+            self.encryptionConfiguration = encryptionConfiguration
+            self.dataFormatConversionConfiguration = dataFormatConversionConfiguration
+            self.roleARN = roleARN
+            self.s3BackupConfiguration = s3BackupConfiguration
+            self.prefix = prefix
+            self.processingConfiguration = processingConfiguration
+            self.s3BackupMode = s3BackupMode
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.compressionFormat = compressionFormat
+            self.bufferingHints = bufferingHints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketARN = "BucketARN"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case dataFormatConversionConfiguration = "DataFormatConversionConfiguration"
+            case roleARN = "RoleARN"
+            case s3BackupConfiguration = "S3BackupConfiguration"
+            case prefix = "Prefix"
+            case processingConfiguration = "ProcessingConfiguration"
+            case s3BackupMode = "S3BackupMode"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case compressionFormat = "CompressionFormat"
+            case bufferingHints = "BufferingHints"
+        }
+    }
+
+    public struct Deserializer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OpenXJsonSerDe", required: false, type: .structure), 
+            AWSShapeMember(label: "HiveJsonSerDe", required: false, type: .structure)
+        ]
+        /// The OpenX SerDe. Used by Kinesis Data Firehose for deserializing data, which means converting it from the JSON format in preparation for serializing it to the Parquet or ORC format. This is one of two deserializers you can choose, depending on which one offers the functionality you need. The other option is the native Hive / HCatalog JsonSerDe.
+        public let openXJsonSerDe: OpenXJsonSerDe?
+        /// The native Hive / HCatalog JsonSerDe. Used by Kinesis Data Firehose for deserializing data, which means converting it from the JSON format in preparation for serializing it to the Parquet or ORC format. This is one of two deserializers you can choose, depending on which one offers the functionality you need. The other option is the OpenX SerDe.
+        public let hiveJsonSerDe: HiveJsonSerDe?
+
+        public init(openXJsonSerDe: OpenXJsonSerDe? = nil, hiveJsonSerDe: HiveJsonSerDe? = nil) {
+            self.openXJsonSerDe = openXJsonSerDe
+            self.hiveJsonSerDe = hiveJsonSerDe
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case openXJsonSerDe = "OpenXJsonSerDe"
+            case hiveJsonSerDe = "HiveJsonSerDe"
+        }
     }
 
     public enum DeliveryStreamType: String, CustomStringConvertible, Codable {
@@ -277,14 +334,30 @@ extension Firehose {
         public var description: String { return self.rawValue }
     }
 
+    public struct InputFormatConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Deserializer", required: false, type: .structure)
+        ]
+        /// Specifies which deserializer to use. You can choose either the Apache Hive JSON SerDe or the OpenX JSON SerDe. If both are non-null, the server rejects the request.
+        public let deserializer: Deserializer?
+
+        public init(deserializer: Deserializer? = nil) {
+            self.deserializer = deserializer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deserializer = "Deserializer"
+        }
+    }
+
     public struct KinesisStreamSourceConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KinesisStreamARN", required: true, type: .string), 
             AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
-        /// The ARN of the source Kinesis stream.
+        /// The ARN of the source Kinesis data stream. For more information, see Amazon Kinesis Data Streams ARN Format.
         public let kinesisStreamARN: String
-        /// The ARN of the role that provides access to the source Kinesis stream.
+        /// The ARN of the role that provides access to the source Kinesis data stream. For more information, see AWS Identity and Access Management (IAM) ARN Format.
         public let roleARN: String
 
         public init(kinesisStreamARN: String, roleARN: String) {
@@ -302,7 +375,7 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DurationInSeconds", required: false, type: .integer)
         ]
-        /// After an initial failure to deliver to Amazon ES, the total amount of time during which Kinesis Firehose re-attempts delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
+        /// After an initial failure to deliver to Amazon ES, the total amount of time during which Kinesis Data Firehose retries delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
         public let durationInSeconds: Int32?
 
         public init(durationInSeconds: Int32? = nil) {
@@ -312,6 +385,10 @@ extension Firehose {
         private enum CodingKeys: String, CodingKey {
             case durationInSeconds = "DurationInSeconds"
         }
+    }
+
+    public struct TagDeliveryStreamOutput: AWSShape {
+
     }
 
     public struct PutRecordOutput: AWSShape {
@@ -327,6 +404,32 @@ extension Firehose {
 
         private enum CodingKeys: String, CodingKey {
             case recordId = "RecordId"
+        }
+    }
+
+    public struct ListTagsForDeliveryStreamInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string), 
+            AWSShapeMember(label: "ExclusiveStartTagKey", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
+        ]
+        /// The name of the delivery stream whose tags you want to list.
+        public let deliveryStreamName: String
+        /// The key to use as the starting point for the list of tags. If you set this parameter, ListTagsForDeliveryStream gets all tags that occur after ExclusiveStartTagKey.
+        public let exclusiveStartTagKey: String?
+        /// The number of tags to return. If this number is less than the total number of tags associated with the delivery stream, HasMoreTags is set to true in the response. To list additional tags, set ExclusiveStartTagKey to the last key in the response. 
+        public let limit: Int32?
+
+        public init(deliveryStreamName: String, exclusiveStartTagKey: String? = nil, limit: Int32? = nil) {
+            self.deliveryStreamName = deliveryStreamName
+            self.exclusiveStartTagKey = exclusiveStartTagKey
+            self.limit = limit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryStreamName = "DeliveryStreamName"
+            case exclusiveStartTagKey = "ExclusiveStartTagKey"
+            case limit = "Limit"
         }
     }
 
@@ -381,7 +484,7 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KinesisStreamSourceDescription", required: false, type: .structure)
         ]
-        /// The KinesisStreamSourceDescription value for the source Kinesis stream.
+        /// The KinesisStreamSourceDescription value for the source Kinesis data stream.
         public let kinesisStreamSourceDescription: KinesisStreamSourceDescription?
 
         public init(kinesisStreamSourceDescription: KinesisStreamSourceDescription? = nil) {
@@ -410,7 +513,7 @@ extension Firehose {
         public let elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate?
         /// The name of the delivery stream.
         public let deliveryStreamName: String
-        /// Obtain this value from the VersionId result of DeliveryStreamDescription. This value is required, and helps the service to perform conditional operations. For example, if there is an interleaving update and this value is null, then the update destination fails. After the update is successful, the VersionId value is updated. The service then performs a merge of the old configuration with the new configuration.
+        /// Obtain this value from the VersionId result of DeliveryStreamDescription. This value is required, and helps the service perform conditional operations. For example, if there is an interleaving update and this value is null, then the update destination fails. After the update is successful, the VersionId value is updated. The service then performs a merge of the old configuration with the new configuration.
         public let currentDeliveryStreamVersionId: String
         /// The ID of the destination.
         public let destinationId: String
@@ -444,24 +547,50 @@ extension Firehose {
         }
     }
 
-    public struct ListDeliveryStreamsOutput: AWSShape {
+    public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStreamNames", required: true, type: .list), 
-            AWSShapeMember(label: "HasMoreDeliveryStreams", required: true, type: .boolean)
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
-        /// The names of the delivery streams.
-        public let deliveryStreamNames: [String]
-        /// Indicates whether there are more delivery streams available to list.
-        public let hasMoreDeliveryStreams: Bool
+        /// An optional string, which you can use to describe or define the tag. Maximum length: 256 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
+        public let value: String?
+        /// A unique identifier for the tag. Maximum length: 128 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
+        public let key: String
 
-        public init(deliveryStreamNames: [String], hasMoreDeliveryStreams: Bool) {
-            self.deliveryStreamNames = deliveryStreamNames
-            self.hasMoreDeliveryStreams = hasMoreDeliveryStreams
+        public init(value: String? = nil, key: String) {
+            self.value = value
+            self.key = key
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deliveryStreamNames = "DeliveryStreamNames"
-            case hasMoreDeliveryStreams = "HasMoreDeliveryStreams"
+            case value = "Value"
+            case key = "Key"
+        }
+    }
+
+    public struct ListDeliveryStreamsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryStreamType", required: false, type: .enum), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "ExclusiveStartDeliveryStreamName", required: false, type: .string)
+        ]
+        /// The delivery stream type. This can be one of the following values:    DirectPut: Provider applications access the delivery stream directly.    KinesisStreamAsSource: The delivery stream uses a Kinesis data stream as a source.   This parameter is optional. If this parameter is omitted, delivery streams of all types are returned.
+        public let deliveryStreamType: DeliveryStreamType?
+        /// The maximum number of delivery streams to list. The default value is 10.
+        public let limit: Int32?
+        /// The name of the delivery stream to start the list with.
+        public let exclusiveStartDeliveryStreamName: String?
+
+        public init(deliveryStreamType: DeliveryStreamType? = nil, limit: Int32? = nil, exclusiveStartDeliveryStreamName: String? = nil) {
+            self.deliveryStreamType = deliveryStreamType
+            self.limit = limit
+            self.exclusiveStartDeliveryStreamName = exclusiveStartDeliveryStreamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryStreamType = "DeliveryStreamType"
+            case limit = "Limit"
+            case exclusiveStartDeliveryStreamName = "ExclusiveStartDeliveryStreamName"
         }
     }
 
@@ -488,15 +617,15 @@ extension Firehose {
         public let s3DestinationDescription: S3DestinationDescription
         /// The database connection string.
         public let clusterJDBCURL: String
-        /// The ARN of the AWS credentials.
+        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
         /// The Amazon S3 backup mode.
         public let s3BackupMode: RedshiftS3BackupMode?
-        /// The CloudWatch logging options for your delivery stream.
+        /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
-        /// The retry behavior in case Kinesis Firehose is unable to deliver documents to Amazon Redshift. Default value is 3600 (60 minutes).
+        /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon Redshift. Default value is 3600 (60 minutes).
         public let retryOptions: RedshiftRetryOptions?
 
         public init(s3BackupDescription: S3DestinationDescription? = nil, copyCommand: CopyCommand, username: String, s3DestinationDescription: S3DestinationDescription, clusterJDBCURL: String, roleARN: String, processingConfiguration: ProcessingConfiguration? = nil, s3BackupMode: RedshiftS3BackupMode? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, retryOptions: RedshiftRetryOptions? = nil) {
@@ -526,29 +655,45 @@ extension Firehose {
         }
     }
 
-    public struct ListDeliveryStreamsInput: AWSShape {
+    public struct ListDeliveryStreamsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStreamType", required: false, type: .enum), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "ExclusiveStartDeliveryStreamName", required: false, type: .string)
+            AWSShapeMember(label: "DeliveryStreamNames", required: true, type: .list), 
+            AWSShapeMember(label: "HasMoreDeliveryStreams", required: true, type: .boolean)
         ]
-        /// The delivery stream type. This can be one of the following values:    DirectPut: Provider applications access the delivery stream directly.    KinesisStreamAsSource: The delivery stream uses a Kinesis stream as a source.   This parameter is optional. If this parameter is omitted, delivery streams of all types are returned.
-        public let deliveryStreamType: DeliveryStreamType?
-        /// The maximum number of delivery streams to list. The default value is 10.
-        public let limit: Int32?
-        /// The name of the delivery stream to start the list with.
-        public let exclusiveStartDeliveryStreamName: String?
+        /// The names of the delivery streams.
+        public let deliveryStreamNames: [String]
+        /// Indicates whether there are more delivery streams available to list.
+        public let hasMoreDeliveryStreams: Bool
 
-        public init(deliveryStreamType: DeliveryStreamType? = nil, limit: Int32? = nil, exclusiveStartDeliveryStreamName: String? = nil) {
-            self.deliveryStreamType = deliveryStreamType
-            self.limit = limit
-            self.exclusiveStartDeliveryStreamName = exclusiveStartDeliveryStreamName
+        public init(deliveryStreamNames: [String], hasMoreDeliveryStreams: Bool) {
+            self.deliveryStreamNames = deliveryStreamNames
+            self.hasMoreDeliveryStreams = hasMoreDeliveryStreams
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deliveryStreamType = "DeliveryStreamType"
-            case limit = "Limit"
-            case exclusiveStartDeliveryStreamName = "ExclusiveStartDeliveryStreamName"
+            case deliveryStreamNames = "DeliveryStreamNames"
+            case hasMoreDeliveryStreams = "HasMoreDeliveryStreams"
+        }
+    }
+
+    public struct ListTagsForDeliveryStreamOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HasMoreTags", required: true, type: .boolean), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// If this is true in the response, more tags are available. To list the remaining tags, set ExclusiveStartTagKey to the key of the last tag returned and call ListTagsForDeliveryStream again.
+        public let hasMoreTags: Bool
+        /// A list of tags associated with DeliveryStreamName, starting with the first tag after ExclusiveStartTagKey and up to the specified Limit.
+        public let tags: [Tag]
+
+        public init(hasMoreTags: Bool, tags: [Tag]) {
+            self.hasMoreTags = hasMoreTags
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hasMoreTags = "HasMoreTags"
+            case tags = "Tags"
         }
     }
 
@@ -574,20 +719,20 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BucketARN", required: true, type: .string), 
             AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "RoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
             AWSShapeMember(label: "CompressionFormat", required: false, type: .enum), 
             AWSShapeMember(label: "BufferingHints", required: false, type: .structure)
         ]
-        /// The ARN of the S3 bucket.
+        /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        public let prefix: String?
-        /// The ARN of the AWS credentials.
+        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String
+        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Data Firehose Developer Guide.
+        public let prefix: String?
         /// The CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The compression format. If no value is specified, the default is UNCOMPRESSED. The compression formats SNAPPY or ZIP cannot be specified for Amazon Redshift destinations because they are not supported by the Amazon Redshift COPY operation that reads from the S3 bucket.
@@ -595,11 +740,11 @@ extension Firehose {
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
         public let bufferingHints: BufferingHints?
 
-        public init(bucketARN: String, encryptionConfiguration: EncryptionConfiguration? = nil, prefix: String? = nil, roleARN: String, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, bufferingHints: BufferingHints? = nil) {
+        public init(bucketARN: String, encryptionConfiguration: EncryptionConfiguration? = nil, roleARN: String, prefix: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, bufferingHints: BufferingHints? = nil) {
             self.bucketARN = bucketARN
             self.encryptionConfiguration = encryptionConfiguration
-            self.prefix = prefix
             self.roleARN = roleARN
+            self.prefix = prefix
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.compressionFormat = compressionFormat
             self.bufferingHints = bufferingHints
@@ -608,8 +753,8 @@ extension Firehose {
         private enum CodingKeys: String, CodingKey {
             case bucketARN = "BucketARN"
             case encryptionConfiguration = "EncryptionConfiguration"
-            case prefix = "Prefix"
             case roleARN = "RoleARN"
+            case prefix = "Prefix"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case compressionFormat = "CompressionFormat"
             case bufferingHints = "BufferingHints"
@@ -620,32 +765,32 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BucketARN", required: true, type: .string), 
             AWSShapeMember(label: "EncryptionConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "RoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
             AWSShapeMember(label: "CompressionFormat", required: true, type: .enum), 
             AWSShapeMember(label: "BufferingHints", required: true, type: .structure)
         ]
-        /// The ARN of the S3 bucket.
+        /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration
-        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        public let prefix: String?
-        /// The ARN of the AWS credentials.
+        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String
-        /// The CloudWatch logging options for your delivery stream.
+        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Data Firehose Developer Guide.
+        public let prefix: String?
+        /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The compression format. If no value is specified, the default is UNCOMPRESSED.
         public let compressionFormat: CompressionFormat
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
         public let bufferingHints: BufferingHints
 
-        public init(bucketARN: String, encryptionConfiguration: EncryptionConfiguration, prefix: String? = nil, roleARN: String, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat, bufferingHints: BufferingHints) {
+        public init(bucketARN: String, encryptionConfiguration: EncryptionConfiguration, roleARN: String, prefix: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat, bufferingHints: BufferingHints) {
             self.bucketARN = bucketARN
             self.encryptionConfiguration = encryptionConfiguration
-            self.prefix = prefix
             self.roleARN = roleARN
+            self.prefix = prefix
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.compressionFormat = compressionFormat
             self.bufferingHints = bufferingHints
@@ -654,11 +799,48 @@ extension Firehose {
         private enum CodingKeys: String, CodingKey {
             case bucketARN = "BucketARN"
             case encryptionConfiguration = "EncryptionConfiguration"
-            case prefix = "Prefix"
             case roleARN = "RoleARN"
+            case prefix = "Prefix"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case compressionFormat = "CompressionFormat"
             case bufferingHints = "BufferingHints"
+        }
+    }
+
+    public struct HiveJsonSerDe: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TimestampFormats", required: false, type: .list)
+        ]
+        /// Indicates how you want Kinesis Data Firehose to parse the date and time stamps that may be present in your input data JSON. To specify these format strings, follow the pattern syntax of JodaTime's DateTimeFormat format strings. For more information, see Class DateTimeFormat. You can also use the special value millis to parse time stamps in epoch milliseconds. If you don't specify a format, Kinesis Data Firehose uses java.sql.Timestamp::valueOf by default.
+        public let timestampFormats: [String]?
+
+        public init(timestampFormats: [String]? = nil) {
+            self.timestampFormats = timestampFormats
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timestampFormats = "TimestampFormats"
+        }
+    }
+
+    public struct TagDeliveryStreamInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .list), 
+            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string)
+        ]
+        /// A set of key-value pairs to use to create the tags.
+        public let tags: [Tag]
+        /// The name of the delivery stream to which you want to add the tags.
+        public let deliveryStreamName: String
+
+        public init(tags: [Tag], deliveryStreamName: String) {
+            self.tags = tags
+            self.deliveryStreamName = deliveryStreamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case deliveryStreamName = "DeliveryStreamName"
         }
     }
 
@@ -688,32 +870,11 @@ extension Firehose {
 
     }
 
-    public struct BufferingHints: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IntervalInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "SizeInMBs", required: false, type: .integer)
-        ]
-        /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300.
-        public let intervalInSeconds: Int32?
-        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
-        public let sizeInMBs: Int32?
-
-        public init(intervalInSeconds: Int32? = nil, sizeInMBs: Int32? = nil) {
-            self.intervalInSeconds = intervalInSeconds
-            self.sizeInMBs = sizeInMBs
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case intervalInSeconds = "IntervalInSeconds"
-            case sizeInMBs = "SizeInMBs"
-        }
-    }
-
     public struct RedshiftRetryOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DurationInSeconds", required: false, type: .integer)
         ]
-        /// The length of time during which Kinesis Firehose retries delivery after a failure, starting from the initial request and including the first attempt. The default value is 3600 seconds (60 minutes). Kinesis Firehose does not retry if the value of DurationInSeconds is 0 (zero) or if the first delivery attempt takes longer than the current value.
+        /// The length of time during which Kinesis Data Firehose retries delivery after a failure, starting from the initial request and including the first attempt. The default value is 3600 seconds (60 minutes). Kinesis Data Firehose does not retry if the value of DurationInSeconds is 0 (zero) or if the first delivery attempt takes longer than the current value.
         public let durationInSeconds: Int32?
 
         public init(durationInSeconds: Int32? = nil) {
@@ -722,6 +883,52 @@ extension Firehose {
 
         private enum CodingKeys: String, CodingKey {
             case durationInSeconds = "DurationInSeconds"
+        }
+    }
+
+    public struct S3DestinationUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BucketARN", required: false, type: .string), 
+            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "CompressionFormat", required: false, type: .enum), 
+            AWSShapeMember(label: "BufferingHints", required: false, type: .structure)
+        ]
+        /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        public let bucketARN: String?
+        /// The encryption configuration. If no value is specified, the default is no encryption.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        public let roleARN: String?
+        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Data Firehose Developer Guide.
+        public let prefix: String?
+        /// The CloudWatch logging options for your delivery stream.
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
+        /// The compression format. If no value is specified, the default is UNCOMPRESSED. The compression formats SNAPPY or ZIP cannot be specified for Amazon Redshift destinations because they are not supported by the Amazon Redshift COPY operation that reads from the S3 bucket.
+        public let compressionFormat: CompressionFormat?
+        /// The buffering option. If no value is specified, BufferingHints object default values are used.
+        public let bufferingHints: BufferingHints?
+
+        public init(bucketARN: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, roleARN: String? = nil, prefix: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, bufferingHints: BufferingHints? = nil) {
+            self.bucketARN = bucketARN
+            self.encryptionConfiguration = encryptionConfiguration
+            self.roleARN = roleARN
+            self.prefix = prefix
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.compressionFormat = compressionFormat
+            self.bufferingHints = bufferingHints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketARN = "BucketARN"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case roleARN = "RoleARN"
+            case prefix = "Prefix"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case compressionFormat = "CompressionFormat"
+            case bufferingHints = "BufferingHints"
         }
     }
 
@@ -751,15 +958,15 @@ extension Firehose {
         public let clusterJDBCURL: String?
         /// The Amazon S3 backup mode.
         public let s3BackupMode: RedshiftS3BackupMode?
-        /// The ARN of the AWS credentials.
+        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String?
         /// The Amazon S3 destination. The compression formats SNAPPY or ZIP cannot be specified in RedshiftDestinationUpdate.S3Update because the Amazon Redshift COPY operation that reads from the S3 bucket doesn't support these compression formats.
         public let s3Update: S3DestinationUpdate?
         /// The user password.
         public let password: String?
-        /// The CloudWatch logging options for your delivery stream.
+        /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
-        /// The retry behavior in case Kinesis Firehose is unable to deliver documents to Amazon Redshift. Default value is 3600 (60 minutes).
+        /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon Redshift. Default value is 3600 (60 minutes).
         public let retryOptions: RedshiftRetryOptions?
 
         public init(processingConfiguration: ProcessingConfiguration? = nil, copyCommand: CopyCommand? = nil, username: String? = nil, s3BackupUpdate: S3DestinationUpdate? = nil, clusterJDBCURL: String? = nil, s3BackupMode: RedshiftS3BackupMode? = nil, roleARN: String? = nil, s3Update: S3DestinationUpdate? = nil, password: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, retryOptions: RedshiftRetryOptions? = nil) {
@@ -791,50 +998,31 @@ extension Firehose {
         }
     }
 
-    public struct S3DestinationUpdate: AWSShape {
+    public struct BufferingHints: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketARN", required: false, type: .string), 
-            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "CompressionFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "BufferingHints", required: false, type: .structure)
+            AWSShapeMember(label: "IntervalInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "SizeInMBs", required: false, type: .integer)
         ]
-        /// The ARN of the S3 bucket.
-        public let bucketARN: String?
-        /// The encryption configuration. If no value is specified, the default is no encryption.
-        public let encryptionConfiguration: EncryptionConfiguration?
-        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        public let prefix: String?
-        /// The ARN of the AWS credentials.
-        public let roleARN: String?
-        /// The CloudWatch logging options for your delivery stream.
-        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
-        /// The compression format. If no value is specified, the default is UNCOMPRESSED. The compression formats SNAPPY or ZIP cannot be specified for Amazon Redshift destinations because they are not supported by the Amazon Redshift COPY operation that reads from the S3 bucket.
-        public let compressionFormat: CompressionFormat?
-        /// The buffering option. If no value is specified, BufferingHints object default values are used.
-        public let bufferingHints: BufferingHints?
+        /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300.
+        public let intervalInSeconds: Int32?
+        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
+        public let sizeInMBs: Int32?
 
-        public init(bucketARN: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, prefix: String? = nil, roleARN: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, bufferingHints: BufferingHints? = nil) {
-            self.bucketARN = bucketARN
-            self.encryptionConfiguration = encryptionConfiguration
-            self.prefix = prefix
-            self.roleARN = roleARN
-            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
-            self.compressionFormat = compressionFormat
-            self.bufferingHints = bufferingHints
+        public init(intervalInSeconds: Int32? = nil, sizeInMBs: Int32? = nil) {
+            self.intervalInSeconds = intervalInSeconds
+            self.sizeInMBs = sizeInMBs
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketARN = "BucketARN"
-            case encryptionConfiguration = "EncryptionConfiguration"
-            case prefix = "Prefix"
-            case roleARN = "RoleARN"
-            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
-            case compressionFormat = "CompressionFormat"
-            case bufferingHints = "BufferingHints"
+            case intervalInSeconds = "IntervalInSeconds"
+            case sizeInMBs = "SizeInMBs"
         }
+    }
+
+    public enum OrcFormatVersion: String, CustomStringConvertible, Codable {
+        case v011 = "V0_11"
+        case v012 = "V0_12"
+        public var description: String { return self.rawValue }
     }
 
     public struct PutRecordBatchOutput: AWSShape {
@@ -892,23 +1080,23 @@ extension Firehose {
             AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
             AWSShapeMember(label: "HECEndpointType", required: false, type: .enum)
         ]
-        /// The retry behavior in case Kinesis Firehose is unable to deliver data to Splunk or if it doesn't receive an acknowledgment of receipt from Splunk.
+        /// The retry behavior in case Kinesis Data Firehose is unable to deliver data to Splunk or if it doesn't receive an acknowledgment of receipt from Splunk.
         public let retryOptions: SplunkRetryOptions?
-        /// The amount of time that Kinesis Firehose waits to receive an acknowledgment from Splunk after it sends it data. At the end of the timeout period Kinesis Firehose either tries to send the data again or considers it an error, based on your retry settings.
+        /// The amount of time that Kinesis Data Firehose waits to receive an acknowledgment from Splunk after it sends data. At the end of the timeout period, Kinesis Data Firehose either tries to send the data again or considers it an error, based on your retry settings.
         public let hECAcknowledgmentTimeoutInSeconds: Int32?
         /// Your update to the configuration of the backup Amazon S3 location.
         public let s3Update: S3DestinationUpdate?
-        /// This is a GUID you obtain from your Splunk cluster when you create a new HEC endpoint.
+        /// A GUID that you obtain from your Splunk cluster when you create a new HEC endpoint.
         public let hECToken: String?
-        /// The HTTP Event Collector (HEC) endpoint to which Kinesis Firehose sends your data.
+        /// The HTTP Event Collector (HEC) endpoint to which Kinesis Data Firehose sends your data.
         public let hECEndpoint: String?
-        /// Defines how documents should be delivered to Amazon S3. When set to FailedDocumentsOnly, Kinesis Firehose writes any data that could not be indexed to the configured Amazon S3 destination. When set to AllDocuments, Kinesis Firehose delivers all incoming records to Amazon S3, and also writes failed documents to Amazon S3. Default value is FailedDocumentsOnly. 
+        /// Defines how documents should be delivered to Amazon S3. When set to FailedDocumentsOnly, Kinesis Data Firehose writes any data that could not be indexed to the configured Amazon S3 destination. When set to AllDocuments, Kinesis Data Firehose delivers all incoming records to Amazon S3, and also writes failed documents to Amazon S3. Default value is FailedDocumentsOnly. 
         public let s3BackupMode: SplunkS3BackupMode?
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
-        /// The CloudWatch logging options for your delivery stream.
+        /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
-        /// This type can be either "Raw" or "Event".
+        /// This type can be either "Raw" or "Event."
         public let hECEndpointType: HECEndpointType?
 
         public init(retryOptions: SplunkRetryOptions? = nil, hECAcknowledgmentTimeoutInSeconds: Int32? = nil, s3Update: S3DestinationUpdate? = nil, hECToken: String? = nil, hECEndpoint: String? = nil, s3BackupMode: SplunkS3BackupMode? = nil, processingConfiguration: ProcessingConfiguration? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECEndpointType: HECEndpointType? = nil) {
@@ -949,15 +1137,15 @@ extension Firehose {
             AWSShapeMember(label: "RetryOptions", required: false, type: .structure), 
             AWSShapeMember(label: "BufferingHints", required: false, type: .structure)
         ]
-        /// The Elasticsearch type name.
+        /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during runtime.
         public let typeName: String?
         /// The Elasticsearch index name.
         public let indexName: String?
-        /// The Elasticsearch index rotation period. Index rotation appends a time stamp to IndexName to facilitate the expiration of old data. For more information, see Index Rotation for Amazon Elasticsearch Service Destination. Default value is OneDay.
+        /// The Elasticsearch index rotation period. Index rotation appends a time stamp to IndexName to facilitate the expiration of old data. For more information, see Index Rotation for the Amazon ES Destination. Default value is OneDay.
         public let indexRotationPeriod: ElasticsearchIndexRotationPeriod?
-        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the IAM role specified in RoleARN.
+        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the IAM role specified in RoleARN. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let domainARN: String?
-        /// The ARN of the IAM role to be assumed by Kinesis Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see Amazon S3 Bucket Access.
+        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see Grant Kinesis Data Firehose Access to an Amazon S3 Destination and Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String?
         /// The Amazon S3 destination.
         public let s3Update: S3DestinationUpdate?
@@ -965,7 +1153,7 @@ extension Firehose {
         public let processingConfiguration: ProcessingConfiguration?
         /// The CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
-        /// The retry behavior in case Kinesis Firehose is unable to deliver documents to Amazon ES. The default value is 300 (5 minutes).
+        /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon ES. The default value is 300 (5 minutes).
         public let retryOptions: ElasticsearchRetryOptions?
         /// The buffering options. If no value is specified, ElasticsearchBufferingHints object default values are used. 
         public let bufferingHints: ElasticsearchBufferingHints?
@@ -1001,7 +1189,7 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DurationInSeconds", required: false, type: .integer)
         ]
-        /// The total amount of time that Kinesis Firehose spends on retries. This duration starts after the initial attempt to send data to Splunk fails and doesn't include the periods during which Kinesis Firehose waits for acknowledgment from Splunk after each attempt.
+        /// The total amount of time that Kinesis Data Firehose spends on retries. This duration starts after the initial attempt to send data to Splunk fails. It doesn't include the periods during which Kinesis Data Firehose waits for acknowledgment from Splunk after each attempt.
         public let durationInSeconds: Int32?
 
         public init(durationInSeconds: Int32? = nil) {
@@ -1010,6 +1198,73 @@ extension Firehose {
 
         private enum CodingKeys: String, CodingKey {
             case durationInSeconds = "DurationInSeconds"
+        }
+    }
+
+    public struct SchemaConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VersionId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "TableName", required: false, type: .string), 
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string)
+        ]
+        /// Specifies the table version for the output data schema. If you don't specify this version ID, or if you set it to LATEST, Kinesis Data Firehose uses the most recent version. This means that any updates to the table are automatically picked up.
+        public let versionId: String?
+        /// Specifies the name of the AWS Glue database that contains the schema for the output data.
+        public let databaseName: String?
+        /// Specifies the AWS Glue table that contains the column information that constitutes your data schema.
+        public let tableName: String?
+        /// The ID of the AWS Glue Data Catalog. If you don't supply this, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// If you don't specify an AWS Region, the default is the current Region.
+        public let region: String?
+        /// The role that Kinesis Data Firehose can use to access AWS Glue. This role must be in the same account you use for Kinesis Data Firehose. Cross-account roles aren't allowed.
+        public let roleARN: String?
+
+        public init(versionId: String? = nil, databaseName: String? = nil, tableName: String? = nil, catalogId: String? = nil, region: String? = nil, roleARN: String? = nil) {
+            self.versionId = versionId
+            self.databaseName = databaseName
+            self.tableName = tableName
+            self.catalogId = catalogId
+            self.region = region
+            self.roleARN = roleARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case versionId = "VersionId"
+            case databaseName = "DatabaseName"
+            case tableName = "TableName"
+            case catalogId = "CatalogId"
+            case region = "Region"
+            case roleARN = "RoleARN"
+        }
+    }
+
+    public struct OpenXJsonSerDe: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConvertDotsInJsonKeysToUnderscores", required: false, type: .boolean), 
+            AWSShapeMember(label: "ColumnToJsonKeyMappings", required: false, type: .map), 
+            AWSShapeMember(label: "CaseInsensitive", required: false, type: .boolean)
+        ]
+        /// When set to true, specifies that the names of the keys include dots and that you want Kinesis Data Firehose to replace them with underscores. This is useful because Apache Hive does not allow dots in column names. For example, if the JSON contains a key whose name is "a.b", you can define the column name to be "a_b" when using this option. The default is false.
+        public let convertDotsInJsonKeysToUnderscores: Bool?
+        /// Maps column names to JSON keys that aren't identical to the column names. This is useful when the JSON contains keys that are Hive keywords. For example, timestamp is a Hive keyword. If you have a JSON key named timestamp, set this parameter to {"ts": "timestamp"} to map this key to a column named ts.
+        public let columnToJsonKeyMappings: [String: String]?
+        /// When set to true, which is the default, Kinesis Data Firehose converts JSON keys to lowercase before deserializing them.
+        public let caseInsensitive: Bool?
+
+        public init(convertDotsInJsonKeysToUnderscores: Bool? = nil, columnToJsonKeyMappings: [String: String]? = nil, caseInsensitive: Bool? = nil) {
+            self.convertDotsInJsonKeysToUnderscores = convertDotsInJsonKeysToUnderscores
+            self.columnToJsonKeyMappings = columnToJsonKeyMappings
+            self.caseInsensitive = caseInsensitive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case convertDotsInJsonKeysToUnderscores = "ConvertDotsInJsonKeysToUnderscores"
+            case columnToJsonKeyMappings = "ColumnToJsonKeyMappings"
+            case caseInsensitive = "CaseInsensitive"
         }
     }
 
@@ -1026,13 +1281,13 @@ extension Firehose {
         ]
         /// The destination in Amazon ES. You can specify only one destination.
         public let elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration?
-        /// When a Kinesis stream is used as the source for the delivery stream, a KinesisStreamSourceConfiguration containing the Kinesis stream ARN and the role ARN for the source stream.
+        /// When a Kinesis data stream is used as the source for the delivery stream, a KinesisStreamSourceConfiguration containing the Kinesis data stream Amazon Resource Name (ARN) and the role ARN for the source stream.
         public let kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration?
-        /// The delivery stream type. This parameter can be one of the following values:    DirectPut: Provider applications access the delivery stream directly.    KinesisStreamAsSource: The delivery stream uses a Kinesis stream as a source.  
+        /// The delivery stream type. This parameter can be one of the following values:    DirectPut: Provider applications access the delivery stream directly.    KinesisStreamAsSource: The delivery stream uses a Kinesis data stream as a source.  
         public let deliveryStreamType: DeliveryStreamType?
         /// [Deprecated] The destination in Amazon S3. You can specify only one destination.
         public let s3DestinationConfiguration: S3DestinationConfiguration?
-        /// The name of the delivery stream. This name must be unique per AWS account in the same region. If the delivery streams are in different accounts or different regions, you can have multiple delivery streams with the same name.
+        /// The name of the delivery stream. This name must be unique per AWS account in the same AWS Region. If the delivery streams are in different accounts or different Regions, you can have multiple delivery streams with the same name.
         public let deliveryStreamName: String
         /// The destination in Amazon S3. You can specify only one destination.
         public let extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration?
@@ -1078,25 +1333,25 @@ extension Firehose {
             AWSShapeMember(label: "RetryOptions", required: false, type: .structure), 
             AWSShapeMember(label: "BufferingHints", required: false, type: .structure)
         ]
-        /// The Elasticsearch type name.
+        /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during run time.
         public let typeName: String
         /// The Elasticsearch index name.
         public let indexName: String
         /// The configuration for the backup Amazon S3 location.
         public let s3Configuration: S3DestinationConfiguration
-        /// The Elasticsearch index rotation period. Index rotation appends a time stamp to the IndexName to facilitate the expiration of old data. For more information, see Index Rotation for Amazon Elasticsearch Service Destination. The default value is OneDay.
+        /// The Elasticsearch index rotation period. Index rotation appends a time stamp to the IndexName to facilitate the expiration of old data. For more information, see Index Rotation for the Amazon ES Destination. The default value is OneDay.
         public let indexRotationPeriod: ElasticsearchIndexRotationPeriod?
-        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the role specified in RoleARN.
+        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the role specified in RoleARN. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let domainARN: String
-        /// The ARN of the IAM role to be assumed by Kinesis Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see Amazon S3 Bucket Access.
+        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see Grant Kinesis Data Firehose Access to an Amazon S3 Destination and Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
-        /// Defines how documents should be delivered to Amazon S3. When set to FailedDocumentsOnly, Kinesis Firehose writes any documents that could not be indexed to the configured Amazon S3 destination, with elasticsearch-failed/ appended to the key prefix. When set to AllDocuments, Kinesis Firehose delivers all incoming records to Amazon S3, and also writes failed documents with elasticsearch-failed/ appended to the prefix. For more information, see Amazon S3 Backup for Amazon Elasticsearch Service Destination. Default value is FailedDocumentsOnly.
+        /// Defines how documents should be delivered to Amazon S3. When it is set to FailedDocumentsOnly, Kinesis Data Firehose writes any documents that could not be indexed to the configured Amazon S3 destination, with elasticsearch-failed/ appended to the key prefix. When set to AllDocuments, Kinesis Data Firehose delivers all incoming records to Amazon S3, and also writes failed documents with elasticsearch-failed/ appended to the prefix. For more information, see Amazon S3 Backup for the Amazon ES Destination. Default value is FailedDocumentsOnly.
         public let s3BackupMode: ElasticsearchS3BackupMode?
-        /// The CloudWatch logging options for your delivery stream.
+        /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
-        /// The retry behavior in case Kinesis Firehose is unable to deliver documents to Amazon ES. The default value is 300 (5 minutes).
+        /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon ES. The default value is 300 (5 minutes).
         public let retryOptions: ElasticsearchRetryOptions?
         /// The buffering options. If no value is specified, the default values for ElasticsearchBufferingHints are used.
         public let bufferingHints: ElasticsearchBufferingHints?
@@ -1146,25 +1401,52 @@ extension Firehose {
         }
     }
 
-    public struct PutRecordBatchInput: AWSShape {
+    public struct ParquetSerDe: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Records", required: true, type: .list), 
-            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string)
+            AWSShapeMember(label: "Compression", required: false, type: .enum), 
+            AWSShapeMember(label: "MaxPaddingBytes", required: false, type: .integer), 
+            AWSShapeMember(label: "PageSizeBytes", required: false, type: .integer), 
+            AWSShapeMember(label: "BlockSizeBytes", required: false, type: .integer), 
+            AWSShapeMember(label: "EnableDictionaryCompression", required: false, type: .boolean), 
+            AWSShapeMember(label: "WriterVersion", required: false, type: .enum)
         ]
-        /// One or more records.
-        public let records: [Record]
-        /// The name of the delivery stream.
-        public let deliveryStreamName: String
+        /// The compression code to use over data blocks. The possible values are UNCOMPRESSED, SNAPPY, and GZIP, with the default being SNAPPY. Use SNAPPY for higher decompression speed. Use GZIP if the compression ration is more important than speed.
+        public let compression: ParquetCompression?
+        /// The maximum amount of padding to apply. This is useful if you intend to copy the data from Amazon S3 to HDFS before querying. The default is 0.
+        public let maxPaddingBytes: Int32?
+        /// The Parquet page size. Column chunks are divided into pages. A page is conceptually an indivisible unit (in terms of compression and encoding). The minimum value is 64 KiB and the default is 1 MiB.
+        public let pageSizeBytes: Int32?
+        /// The Hadoop Distributed File System (HDFS) block size. This is useful if you intend to copy the data from Amazon S3 to HDFS before querying. The default is 256 MiB and the minimum is 64 MiB. Kinesis Data Firehose uses this value for padding calculations.
+        public let blockSizeBytes: Int32?
+        /// Indicates whether to enable dictionary compression.
+        public let enableDictionaryCompression: Bool?
+        /// Indicates the version of row format to output. The possible values are V1 and V2. The default is V1.
+        public let writerVersion: ParquetWriterVersion?
 
-        public init(records: [Record], deliveryStreamName: String) {
-            self.records = records
-            self.deliveryStreamName = deliveryStreamName
+        public init(compression: ParquetCompression? = nil, maxPaddingBytes: Int32? = nil, pageSizeBytes: Int32? = nil, blockSizeBytes: Int32? = nil, enableDictionaryCompression: Bool? = nil, writerVersion: ParquetWriterVersion? = nil) {
+            self.compression = compression
+            self.maxPaddingBytes = maxPaddingBytes
+            self.pageSizeBytes = pageSizeBytes
+            self.blockSizeBytes = blockSizeBytes
+            self.enableDictionaryCompression = enableDictionaryCompression
+            self.writerVersion = writerVersion
         }
 
         private enum CodingKeys: String, CodingKey {
-            case records = "Records"
-            case deliveryStreamName = "DeliveryStreamName"
+            case compression = "Compression"
+            case maxPaddingBytes = "MaxPaddingBytes"
+            case pageSizeBytes = "PageSizeBytes"
+            case blockSizeBytes = "BlockSizeBytes"
+            case enableDictionaryCompression = "EnableDictionaryCompression"
+            case writerVersion = "WriterVersion"
         }
+    }
+
+    public enum OrcCompression: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case zlib = "ZLIB"
+        case snappy = "SNAPPY"
+        public var description: String { return self.rawValue }
     }
 
     public struct ProcessorParameter: AWSShape {
@@ -1188,11 +1470,32 @@ extension Firehose {
         }
     }
 
+    public struct PutRecordBatchInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Records", required: true, type: .list), 
+            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string)
+        ]
+        /// One or more records.
+        public let records: [Record]
+        /// The name of the delivery stream.
+        public let deliveryStreamName: String
+
+        public init(records: [Record], deliveryStreamName: String) {
+            self.records = records
+            self.deliveryStreamName = deliveryStreamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case records = "Records"
+            case deliveryStreamName = "DeliveryStreamName"
+        }
+    }
+
     public struct KMSEncryptionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AWSKMSKeyARN", required: true, type: .string)
         ]
-        /// The ARN of the encryption key. Must belong to the same region as the destination Amazon S3 bucket.
+        /// The Amazon Resource Name (ARN) of the encryption key. Must belong to the same AWS Region as the destination Amazon S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let aWSKMSKeyARN: String
 
         public init(aWSKMSKeyARN: String) {
@@ -1209,9 +1512,10 @@ extension Firehose {
             AWSShapeMember(label: "S3BackupDescription", required: false, type: .structure), 
             AWSShapeMember(label: "BucketARN", required: true, type: .string), 
             AWSShapeMember(label: "EncryptionConfiguration", required: true, type: .structure), 
+            AWSShapeMember(label: "DataFormatConversionConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "RoleARN", required: true, type: .string), 
-            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
             AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
             AWSShapeMember(label: "CompressionFormat", required: true, type: .enum), 
@@ -1219,32 +1523,35 @@ extension Firehose {
         ]
         /// The configuration for backup in Amazon S3.
         public let s3BackupDescription: S3DestinationDescription?
-        /// The ARN of the S3 bucket.
+        /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration
-        /// The ARN of the AWS credentials.
+        /// The serializer, deserializer, and schema for converting data from the JSON format to the Parquet or ORC format before writing it to Amazon S3.
+        public let dataFormatConversionConfiguration: DataFormatConversionConfiguration?
+        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String
+        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Data Firehose Developer Guide.
+        public let prefix: String?
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
-        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        public let prefix: String?
         /// The Amazon S3 backup mode.
         public let s3BackupMode: S3BackupMode?
-        /// The CloudWatch logging options for your delivery stream.
+        /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The compression format. If no value is specified, the default is UNCOMPRESSED.
         public let compressionFormat: CompressionFormat
         /// The buffering option.
         public let bufferingHints: BufferingHints
 
-        public init(s3BackupDescription: S3DestinationDescription? = nil, bucketARN: String, encryptionConfiguration: EncryptionConfiguration, roleARN: String, processingConfiguration: ProcessingConfiguration? = nil, prefix: String? = nil, s3BackupMode: S3BackupMode? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat, bufferingHints: BufferingHints) {
+        public init(s3BackupDescription: S3DestinationDescription? = nil, bucketARN: String, encryptionConfiguration: EncryptionConfiguration, dataFormatConversionConfiguration: DataFormatConversionConfiguration? = nil, roleARN: String, prefix: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, s3BackupMode: S3BackupMode? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat, bufferingHints: BufferingHints) {
             self.s3BackupDescription = s3BackupDescription
             self.bucketARN = bucketARN
             self.encryptionConfiguration = encryptionConfiguration
+            self.dataFormatConversionConfiguration = dataFormatConversionConfiguration
             self.roleARN = roleARN
-            self.processingConfiguration = processingConfiguration
             self.prefix = prefix
+            self.processingConfiguration = processingConfiguration
             self.s3BackupMode = s3BackupMode
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.compressionFormat = compressionFormat
@@ -1255,9 +1562,10 @@ extension Firehose {
             case s3BackupDescription = "S3BackupDescription"
             case bucketARN = "BucketARN"
             case encryptionConfiguration = "EncryptionConfiguration"
+            case dataFormatConversionConfiguration = "DataFormatConversionConfiguration"
             case roleARN = "RoleARN"
-            case processingConfiguration = "ProcessingConfiguration"
             case prefix = "Prefix"
+            case processingConfiguration = "ProcessingConfiguration"
             case s3BackupMode = "S3BackupMode"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case compressionFormat = "CompressionFormat"
@@ -1294,8 +1602,106 @@ extension Firehose {
         }
     }
 
+    public struct OrcSerDe: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnablePadding", required: false, type: .boolean), 
+            AWSShapeMember(label: "BlockSizeBytes", required: false, type: .integer), 
+            AWSShapeMember(label: "DictionaryKeyThreshold", required: false, type: .double), 
+            AWSShapeMember(label: "RowIndexStride", required: false, type: .integer), 
+            AWSShapeMember(label: "BloomFilterColumns", required: false, type: .list), 
+            AWSShapeMember(label: "Compression", required: false, type: .enum), 
+            AWSShapeMember(label: "FormatVersion", required: false, type: .enum), 
+            AWSShapeMember(label: "PaddingTolerance", required: false, type: .double), 
+            AWSShapeMember(label: "BloomFilterFalsePositiveProbability", required: false, type: .double), 
+            AWSShapeMember(label: "StripeSizeBytes", required: false, type: .integer)
+        ]
+        /// Set this to true to indicate that you want stripes to be padded to the HDFS block boundaries. This is useful if you intend to copy the data from Amazon S3 to HDFS before querying. The default is false.
+        public let enablePadding: Bool?
+        /// The Hadoop Distributed File System (HDFS) block size. This is useful if you intend to copy the data from Amazon S3 to HDFS before querying. The default is 256 MiB and the minimum is 64 MiB. Kinesis Data Firehose uses this value for padding calculations.
+        public let blockSizeBytes: Int32?
+        /// Represents the fraction of the total number of non-null rows. To turn off dictionary encoding, set this fraction to a number that is less than the number of distinct keys in a dictionary. To always use dictionary encoding, set this threshold to 1.
+        public let dictionaryKeyThreshold: Double?
+        /// The number of rows between index entries. The default is 10,000 and the minimum is 1,000.
+        public let rowIndexStride: Int32?
+        /// The column names for which you want Kinesis Data Firehose to create bloom filters. The default is null.
+        public let bloomFilterColumns: [String]?
+        /// The compression code to use over data blocks. The default is SNAPPY.
+        public let compression: OrcCompression?
+        /// The version of the file to write. The possible values are V0_11 and V0_12. The default is V0_12.
+        public let formatVersion: OrcFormatVersion?
+        /// A number between 0 and 1 that defines the tolerance for block padding as a decimal fraction of stripe size. The default value is 0.05, which means 5 percent of stripe size. For the default values of 64 MiB ORC stripes and 256 MiB HDFS blocks, the default block padding tolerance of 5 percent reserves a maximum of 3.2 MiB for padding within the 256 MiB block. In such a case, if the available size within the block is more than 3.2 MiB, a new, smaller stripe is inserted to fit within that space. This ensures that no stripe crosses block boundaries and causes remote reads within a node-local task. Kinesis Data Firehose ignores this parameter when OrcSerDe$EnablePadding is false.
+        public let paddingTolerance: Double?
+        /// The Bloom filter false positive probability (FPP). The lower the FPP, the bigger the Bloom filter. The default value is 0.05, the minimum is 0, and the maximum is 1.
+        public let bloomFilterFalsePositiveProbability: Double?
+        /// The number of bytes in each stripe. The default is 64 MiB and the minimum is 8 MiB.
+        public let stripeSizeBytes: Int32?
+
+        public init(enablePadding: Bool? = nil, blockSizeBytes: Int32? = nil, dictionaryKeyThreshold: Double? = nil, rowIndexStride: Int32? = nil, bloomFilterColumns: [String]? = nil, compression: OrcCompression? = nil, formatVersion: OrcFormatVersion? = nil, paddingTolerance: Double? = nil, bloomFilterFalsePositiveProbability: Double? = nil, stripeSizeBytes: Int32? = nil) {
+            self.enablePadding = enablePadding
+            self.blockSizeBytes = blockSizeBytes
+            self.dictionaryKeyThreshold = dictionaryKeyThreshold
+            self.rowIndexStride = rowIndexStride
+            self.bloomFilterColumns = bloomFilterColumns
+            self.compression = compression
+            self.formatVersion = formatVersion
+            self.paddingTolerance = paddingTolerance
+            self.bloomFilterFalsePositiveProbability = bloomFilterFalsePositiveProbability
+            self.stripeSizeBytes = stripeSizeBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enablePadding = "EnablePadding"
+            case blockSizeBytes = "BlockSizeBytes"
+            case dictionaryKeyThreshold = "DictionaryKeyThreshold"
+            case rowIndexStride = "RowIndexStride"
+            case bloomFilterColumns = "BloomFilterColumns"
+            case compression = "Compression"
+            case formatVersion = "FormatVersion"
+            case paddingTolerance = "PaddingTolerance"
+            case bloomFilterFalsePositiveProbability = "BloomFilterFalsePositiveProbability"
+            case stripeSizeBytes = "StripeSizeBytes"
+        }
+    }
+
     public struct DeleteDeliveryStreamOutput: AWSShape {
 
+    }
+
+    public struct OutputFormatConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Serializer", required: false, type: .structure)
+        ]
+        /// Specifies which serializer to use. You can choose either the ORC SerDe or the Parquet SerDe. If both are non-null, the server rejects the request.
+        public let serializer: Serializer?
+
+        public init(serializer: Serializer? = nil) {
+            self.serializer = serializer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serializer = "Serializer"
+        }
+    }
+
+    public struct UntagDeliveryStreamInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
+            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string)
+        ]
+        /// A list of tag keys. Each corresponding tag is removed from the delivery stream.
+        public let tagKeys: [String]
+        /// The name of the delivery stream.
+        public let deliveryStreamName: String
+
+        public init(tagKeys: [String], deliveryStreamName: String) {
+            self.tagKeys = tagKeys
+            self.deliveryStreamName = deliveryStreamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagKeys = "TagKeys"
+            case deliveryStreamName = "DeliveryStreamName"
+        }
     }
 
     public struct SplunkDestinationConfiguration: AWSShape {
@@ -1312,21 +1718,21 @@ extension Firehose {
         ]
         /// The configuration for the backup Amazon S3 location.
         public let s3Configuration: S3DestinationConfiguration
-        /// The amount of time that Kinesis Firehose waits to receive an acknowledgment from Splunk after it sends it data. At the end of the timeout period Kinesis Firehose either tries to send the data again or considers it an error, based on your retry settings.
+        /// The amount of time that Kinesis Data Firehose waits to receive an acknowledgment from Splunk after it sends it data. At the end of the timeout period, Kinesis Data Firehose either tries to send the data again or considers it an error, based on your retry settings.
         public let hECAcknowledgmentTimeoutInSeconds: Int32?
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
-        /// This is a GUID you obtain from your Splunk cluster when you create a new HEC endpoint.
+        /// This is a GUID that you obtain from your Splunk cluster when you create a new HEC endpoint.
         public let hECToken: String
-        /// Defines how documents should be delivered to Amazon S3. When set to FailedDocumentsOnly, Kinesis Firehose writes any data that could not be indexed to the configured Amazon S3 destination. When set to AllDocuments, Kinesis Firehose delivers all incoming records to Amazon S3, and also writes failed documents to Amazon S3. Default value is FailedDocumentsOnly. 
+        /// Defines how documents should be delivered to Amazon S3. When set to FailedDocumentsOnly, Kinesis Data Firehose writes any data that could not be indexed to the configured Amazon S3 destination. When set to AllDocuments, Kinesis Data Firehose delivers all incoming records to Amazon S3, and also writes failed documents to Amazon S3. Default value is FailedDocumentsOnly. 
         public let s3BackupMode: SplunkS3BackupMode?
-        /// The HTTP Event Collector (HEC) endpoint to which Kinesis Firehose sends your data.
+        /// The HTTP Event Collector (HEC) endpoint to which Kinesis Data Firehose sends your data.
         public let hECEndpoint: String
-        /// The CloudWatch logging options for your delivery stream.
+        /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
-        /// This type can be either "Raw" or "Event".
+        /// This type can be either "Raw" or "Event."
         public let hECEndpointType: HECEndpointType
-        /// The retry behavior in case Kinesis Firehose is unable to deliver data to Splunk or if it doesn't receive an acknowledgment of receipt from Splunk.
+        /// The retry behavior in case Kinesis Data Firehose is unable to deliver data to Splunk, or if it doesn't receive an acknowledgment of receipt from Splunk.
         public let retryOptions: SplunkRetryOptions?
 
         public init(s3Configuration: S3DestinationConfiguration, hECAcknowledgmentTimeoutInSeconds: Int32? = nil, processingConfiguration: ProcessingConfiguration? = nil, hECToken: String, s3BackupMode: SplunkS3BackupMode? = nil, hECEndpoint: String, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECEndpointType: HECEndpointType, retryOptions: SplunkRetryOptions? = nil) {
@@ -1354,6 +1760,13 @@ extension Firehose {
         }
     }
 
+    public enum ParquetCompression: String, CustomStringConvertible, Codable {
+        case uncompressed = "UNCOMPRESSED"
+        case gzip = "GZIP"
+        case snappy = "SNAPPY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ElasticsearchIndexRotationPeriod: String, CustomStringConvertible, Codable {
         case norotation = "NoRotation"
         case onehour = "OneHour"
@@ -1361,6 +1774,37 @@ extension Firehose {
         case oneweek = "OneWeek"
         case onemonth = "OneMonth"
         public var description: String { return self.rawValue }
+    }
+
+    public struct DataFormatConversionConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "OutputFormatConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "InputFormatConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
+        ]
+        /// Specifies the AWS Glue Data Catalog table that contains the column information.
+        public let schemaConfiguration: SchemaConfiguration?
+        /// Specifies the serializer that you want Kinesis Data Firehose to use to convert the format of your data to the Parquet or ORC format.
+        public let outputFormatConfiguration: OutputFormatConfiguration?
+        /// Specifies the deserializer that you want Kinesis Data Firehose to use to convert the format of your data from JSON.
+        public let inputFormatConfiguration: InputFormatConfiguration?
+        /// Defaults to true. Set it to false if you want to disable format conversion while preserving the configuration details.
+        public let enabled: Bool?
+
+        public init(schemaConfiguration: SchemaConfiguration? = nil, outputFormatConfiguration: OutputFormatConfiguration? = nil, inputFormatConfiguration: InputFormatConfiguration? = nil, enabled: Bool? = nil) {
+            self.schemaConfiguration = schemaConfiguration
+            self.outputFormatConfiguration = outputFormatConfiguration
+            self.inputFormatConfiguration = inputFormatConfiguration
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaConfiguration = "SchemaConfiguration"
+            case outputFormatConfiguration = "OutputFormatConfiguration"
+            case inputFormatConfiguration = "InputFormatConfiguration"
+            case enabled = "Enabled"
+        }
     }
 
     public struct Processor: AWSShape {
@@ -1381,119 +1825,6 @@ extension Firehose {
         private enum CodingKeys: String, CodingKey {
             case `type` = "Type"
             case parameters = "Parameters"
-        }
-    }
-
-    public struct DescribeDeliveryStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExclusiveStartDestinationId", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string)
-        ]
-        /// The ID of the destination to start returning the destination information. Currently, Kinesis Firehose supports one destination per delivery stream.
-        public let exclusiveStartDestinationId: String?
-        /// The limit on the number of destinations to return. Currently, you can have one destination per delivery stream.
-        public let limit: Int32?
-        /// The name of the delivery stream.
-        public let deliveryStreamName: String
-
-        public init(exclusiveStartDestinationId: String? = nil, limit: Int32? = nil, deliveryStreamName: String) {
-            self.exclusiveStartDestinationId = exclusiveStartDestinationId
-            self.limit = limit
-            self.deliveryStreamName = deliveryStreamName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case exclusiveStartDestinationId = "ExclusiveStartDestinationId"
-            case limit = "Limit"
-            case deliveryStreamName = "DeliveryStreamName"
-        }
-    }
-
-    public struct ExtendedS3DestinationUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketARN", required: false, type: .string), 
-            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "S3BackupUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "CompressionFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "BufferingHints", required: false, type: .structure)
-        ]
-        /// The ARN of the S3 bucket.
-        public let bucketARN: String?
-        /// The encryption configuration. If no value is specified, the default is no encryption.
-        public let encryptionConfiguration: EncryptionConfiguration?
-        /// The ARN of the AWS credentials.
-        public let roleARN: String?
-        /// The Amazon S3 destination for backup.
-        public let s3BackupUpdate: S3DestinationUpdate?
-        /// The data processing configuration.
-        public let processingConfiguration: ProcessingConfiguration?
-        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        public let prefix: String?
-        /// Enables or disables Amazon S3 backup mode.
-        public let s3BackupMode: S3BackupMode?
-        /// The CloudWatch logging options for your delivery stream.
-        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
-        /// The compression format. If no value is specified, the default is UNCOMPRESSED. 
-        public let compressionFormat: CompressionFormat?
-        /// The buffering option.
-        public let bufferingHints: BufferingHints?
-
-        public init(bucketARN: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, roleARN: String? = nil, s3BackupUpdate: S3DestinationUpdate? = nil, processingConfiguration: ProcessingConfiguration? = nil, prefix: String? = nil, s3BackupMode: S3BackupMode? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, bufferingHints: BufferingHints? = nil) {
-            self.bucketARN = bucketARN
-            self.encryptionConfiguration = encryptionConfiguration
-            self.roleARN = roleARN
-            self.s3BackupUpdate = s3BackupUpdate
-            self.processingConfiguration = processingConfiguration
-            self.prefix = prefix
-            self.s3BackupMode = s3BackupMode
-            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
-            self.compressionFormat = compressionFormat
-            self.bufferingHints = bufferingHints
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucketARN = "BucketARN"
-            case encryptionConfiguration = "EncryptionConfiguration"
-            case roleARN = "RoleARN"
-            case s3BackupUpdate = "S3BackupUpdate"
-            case processingConfiguration = "ProcessingConfiguration"
-            case prefix = "Prefix"
-            case s3BackupMode = "S3BackupMode"
-            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
-            case compressionFormat = "CompressionFormat"
-            case bufferingHints = "BufferingHints"
-        }
-    }
-
-    public struct KinesisStreamSourceDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStartTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "KinesisStreamARN", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string)
-        ]
-        /// Kinesis Firehose starts retrieving records from the Kinesis stream starting with this time stamp.
-        public let deliveryStartTimestamp: TimeStamp?
-        /// The ARN of the source Kinesis stream.
-        public let kinesisStreamARN: String?
-        /// The ARN of the role used by the source Kinesis stream.
-        public let roleARN: String?
-
-        public init(deliveryStartTimestamp: TimeStamp? = nil, kinesisStreamARN: String? = nil, roleARN: String? = nil) {
-            self.deliveryStartTimestamp = deliveryStartTimestamp
-            self.kinesisStreamARN = kinesisStreamARN
-            self.roleARN = roleARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deliveryStartTimestamp = "DeliveryStartTimestamp"
-            case kinesisStreamARN = "KinesisStreamARN"
-            case roleARN = "RoleARN"
         }
     }
 
@@ -1520,6 +1851,58 @@ extension Firehose {
             case logStreamName = "LogStreamName"
             case logGroupName = "LogGroupName"
             case enabled = "Enabled"
+        }
+    }
+
+    public struct KinesisStreamSourceDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryStartTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "KinesisStreamARN", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string)
+        ]
+        /// Kinesis Data Firehose starts retrieving records from the Kinesis data stream starting with this time stamp.
+        public let deliveryStartTimestamp: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the source Kinesis data stream. For more information, see Amazon Kinesis Data Streams ARN Format.
+        public let kinesisStreamARN: String?
+        /// The ARN of the role used by the source Kinesis data stream. For more information, see AWS Identity and Access Management (IAM) ARN Format.
+        public let roleARN: String?
+
+        public init(deliveryStartTimestamp: TimeStamp? = nil, kinesisStreamARN: String? = nil, roleARN: String? = nil) {
+            self.deliveryStartTimestamp = deliveryStartTimestamp
+            self.kinesisStreamARN = kinesisStreamARN
+            self.roleARN = roleARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryStartTimestamp = "DeliveryStartTimestamp"
+            case kinesisStreamARN = "KinesisStreamARN"
+            case roleARN = "RoleARN"
+        }
+    }
+
+    public struct DescribeDeliveryStreamInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExclusiveStartDestinationId", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string)
+        ]
+        /// The ID of the destination to start returning the destination information. Kinesis Data Firehose supports one destination per delivery stream.
+        public let exclusiveStartDestinationId: String?
+        /// The limit on the number of destinations to return. You can have one destination per delivery stream.
+        public let limit: Int32?
+        /// The name of the delivery stream.
+        public let deliveryStreamName: String
+
+        public init(exclusiveStartDestinationId: String? = nil, limit: Int32? = nil, deliveryStreamName: String) {
+            self.exclusiveStartDestinationId = exclusiveStartDestinationId
+            self.limit = limit
+            self.deliveryStreamName = deliveryStreamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclusiveStartDestinationId = "ExclusiveStartDestinationId"
+            case limit = "Limit"
+            case deliveryStreamName = "DeliveryStreamName"
         }
     }
 
@@ -1559,7 +1942,7 @@ extension Firehose {
         ]
         /// The destinations.
         public let destinations: [DestinationDescription]
-        /// The delivery stream type. This can be one of the following values:    DirectPut: Provider applications access the delivery stream directly.    KinesisStreamAsSource: The delivery stream uses a Kinesis stream as a source.  
+        /// The delivery stream type. This can be one of the following values:    DirectPut: Provider applications access the delivery stream directly.    KinesisStreamAsSource: The delivery stream uses a Kinesis data stream as a source.  
         public let deliveryStreamType: DeliveryStreamType
         /// The status of the delivery stream.
         public let deliveryStreamStatus: DeliveryStreamStatus
@@ -1571,9 +1954,9 @@ extension Firehose {
         public let versionId: String
         /// The date and time that the delivery stream was created.
         public let createTimestamp: TimeStamp?
-        /// If the DeliveryStreamType parameter is KinesisStreamAsSource, a SourceDescription object describing the source Kinesis stream.
+        /// If the DeliveryStreamType parameter is KinesisStreamAsSource, a SourceDescription object describing the source Kinesis data stream.
         public let source: SourceDescription?
-        /// The Amazon Resource Name (ARN) of the delivery stream.
+        /// The Amazon Resource Name (ARN) of the delivery stream. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let deliveryStreamARN: String
         /// Indicates whether there are more destinations available to list.
         public let hasMoreDestinations: Bool
@@ -1605,6 +1988,72 @@ extension Firehose {
         }
     }
 
+    public struct ExtendedS3DestinationUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BucketARN", required: false, type: .string), 
+            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "DataFormatConversionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "S3BackupUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
+            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "CompressionFormat", required: false, type: .enum), 
+            AWSShapeMember(label: "BufferingHints", required: false, type: .structure)
+        ]
+        /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        public let bucketARN: String?
+        /// The encryption configuration. If no value is specified, the default is no encryption.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The serializer, deserializer, and schema for converting data from the JSON format to the Parquet or ORC format before writing it to Amazon S3.
+        public let dataFormatConversionConfiguration: DataFormatConversionConfiguration?
+        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        public let roleARN: String?
+        /// The Amazon S3 destination for backup.
+        public let s3BackupUpdate: S3DestinationUpdate?
+        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Data Firehose Developer Guide.
+        public let prefix: String?
+        /// The data processing configuration.
+        public let processingConfiguration: ProcessingConfiguration?
+        /// Enables or disables Amazon S3 backup mode.
+        public let s3BackupMode: S3BackupMode?
+        /// The Amazon CloudWatch logging options for your delivery stream.
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
+        /// The compression format. If no value is specified, the default is UNCOMPRESSED. 
+        public let compressionFormat: CompressionFormat?
+        /// The buffering option.
+        public let bufferingHints: BufferingHints?
+
+        public init(bucketARN: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, dataFormatConversionConfiguration: DataFormatConversionConfiguration? = nil, roleARN: String? = nil, s3BackupUpdate: S3DestinationUpdate? = nil, prefix: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, s3BackupMode: S3BackupMode? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, bufferingHints: BufferingHints? = nil) {
+            self.bucketARN = bucketARN
+            self.encryptionConfiguration = encryptionConfiguration
+            self.dataFormatConversionConfiguration = dataFormatConversionConfiguration
+            self.roleARN = roleARN
+            self.s3BackupUpdate = s3BackupUpdate
+            self.prefix = prefix
+            self.processingConfiguration = processingConfiguration
+            self.s3BackupMode = s3BackupMode
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.compressionFormat = compressionFormat
+            self.bufferingHints = bufferingHints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketARN = "BucketARN"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case dataFormatConversionConfiguration = "DataFormatConversionConfiguration"
+            case roleARN = "RoleARN"
+            case s3BackupUpdate = "S3BackupUpdate"
+            case prefix = "Prefix"
+            case processingConfiguration = "ProcessingConfiguration"
+            case s3BackupMode = "S3BackupMode"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case compressionFormat = "CompressionFormat"
+            case bufferingHints = "BufferingHints"
+        }
+    }
+
     public struct ElasticsearchDestinationDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TypeName", required: false, type: .string), 
@@ -1625,9 +2074,9 @@ extension Firehose {
         public let indexName: String?
         /// The Elasticsearch index rotation period
         public let indexRotationPeriod: ElasticsearchIndexRotationPeriod?
-        /// The ARN of the Amazon ES domain.
+        /// The ARN of the Amazon ES domain. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let domainARN: String?
-        /// The ARN of the AWS credentials.
+        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String?
         /// The Amazon S3 destination.
         public let s3DestinationDescription: S3DestinationDescription?
@@ -1635,7 +2084,7 @@ extension Firehose {
         public let processingConfiguration: ProcessingConfiguration?
         /// The Amazon S3 backup mode.
         public let s3BackupMode: ElasticsearchS3BackupMode?
-        /// The CloudWatch logging options.
+        /// The Amazon CloudWatch logging options.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The Amazon ES retry options.
         public let retryOptions: ElasticsearchRetryOptions?

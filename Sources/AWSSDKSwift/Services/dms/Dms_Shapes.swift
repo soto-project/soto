@@ -5,6 +5,27 @@ import AWSSDKSwiftCore
 
 extension Dms {
 
+    public struct DescribeReplicationInstancesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstances", required: false, type: .list)
+        ]
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        /// The replication instances described.
+        public let replicationInstances: [ReplicationInstance]?
+
+        public init(marker: String? = nil, replicationInstances: [ReplicationInstance]? = nil) {
+            self.marker = marker
+            self.replicationInstances = replicationInstances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case replicationInstances = "ReplicationInstances"
+        }
+    }
+
     public struct ModifyReplicationSubnetGroupResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .structure)
@@ -136,6 +157,22 @@ extension Dms {
         }
     }
 
+    public struct DeleteEndpointMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        public let endpointArn: String
+
+        public init(endpointArn: String) {
+            self.endpointArn = endpointArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
+        }
+    }
+
     public struct DescribeReplicationTaskAssessmentResultsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -162,34 +199,18 @@ extension Dms {
         }
     }
 
-    public struct DeleteEndpointMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public let endpointArn: String
-
-        public init(endpointArn: String) {
-            self.endpointArn = endpointArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointArn = "EndpointArn"
-        }
-    }
-
     public struct S3Settings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CsvRowDelimiter", required: false, type: .string), 
+            AWSShapeMember(label: "CsvDelimiter", required: false, type: .string), 
             AWSShapeMember(label: "CompressionType", required: false, type: .enum), 
             AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "BucketName", required: false, type: .string), 
             AWSShapeMember(label: "BucketFolder", required: false, type: .string), 
             AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
-            AWSShapeMember(label: "CsvDelimiter", required: false, type: .string)
+            AWSShapeMember(label: "CsvRowDelimiter", required: false, type: .string)
         ]
-        ///  The delimiter used to separate rows in the source files. The default is a carriage return (\n). 
-        public let csvRowDelimiter: String?
+        ///  The delimiter used to separate columns in the source files. The default is a comma. 
+        public let csvDelimiter: String?
         ///  An optional parameter to use GZIP to compress the target files. Set to GZIP to compress the target files. Set to NONE (the default) or do not use to leave the files uncompressed. 
         public let compressionType: CompressionTypeValue?
         ///  The Amazon Resource Name (ARN) used by the service access IAM role. 
@@ -198,70 +219,80 @@ extension Dms {
         public let bucketName: String?
         ///  An optional parameter to set a folder name in the S3 bucket. If provided, tables are created in the path &lt;bucketFolder&gt;/&lt;schema_name&gt;/&lt;table_name&gt;/. If this parameter is not specified, then the path used is &lt;schema_name&gt;/&lt;table_name&gt;/. 
         public let bucketFolder: String?
-        ///  
+        ///  The external table definition. 
         public let externalTableDefinition: String?
-        ///  The delimiter used to separate columns in the source files. The default is a comma. 
-        public let csvDelimiter: String?
+        ///  The delimiter used to separate rows in the source files. The default is a carriage return (\n). 
+        public let csvRowDelimiter: String?
 
-        public init(csvRowDelimiter: String? = nil, compressionType: CompressionTypeValue? = nil, serviceAccessRoleArn: String? = nil, bucketName: String? = nil, bucketFolder: String? = nil, externalTableDefinition: String? = nil, csvDelimiter: String? = nil) {
-            self.csvRowDelimiter = csvRowDelimiter
+        public init(csvDelimiter: String? = nil, compressionType: CompressionTypeValue? = nil, serviceAccessRoleArn: String? = nil, bucketName: String? = nil, bucketFolder: String? = nil, externalTableDefinition: String? = nil, csvRowDelimiter: String? = nil) {
+            self.csvDelimiter = csvDelimiter
             self.compressionType = compressionType
             self.serviceAccessRoleArn = serviceAccessRoleArn
             self.bucketName = bucketName
             self.bucketFolder = bucketFolder
             self.externalTableDefinition = externalTableDefinition
-            self.csvDelimiter = csvDelimiter
+            self.csvRowDelimiter = csvRowDelimiter
         }
 
         private enum CodingKeys: String, CodingKey {
-            case csvRowDelimiter = "CsvRowDelimiter"
+            case csvDelimiter = "CsvDelimiter"
             case compressionType = "CompressionType"
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
             case bucketName = "BucketName"
             case bucketFolder = "BucketFolder"
             case externalTableDefinition = "ExternalTableDefinition"
-            case csvDelimiter = "CsvDelimiter"
+            case csvRowDelimiter = "CsvRowDelimiter"
         }
     }
 
     public struct Endpoint: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExtraConnectionAttributes", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "DmsTransferSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "EngineDisplayName", required: false, type: .string), 
             AWSShapeMember(label: "EndpointIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Username", required: false, type: .string), 
             AWSShapeMember(label: "EndpointArn", required: false, type: .string), 
-            AWSShapeMember(label: "DynamoDbSettings", required: false, type: .structure), 
             AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "DynamoDbSettings", required: false, type: .structure), 
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
             AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "S3Settings", required: false, type: .structure), 
             AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
             AWSShapeMember(label: "ExternalId", required: false, type: .string), 
             AWSShapeMember(label: "SslMode", required: false, type: .enum), 
             AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
             AWSShapeMember(label: "EngineName", required: false, type: .string), 
+            AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
+            AWSShapeMember(label: "ExtraConnectionAttributes", required: false, type: .string)
         ]
-        /// Additional connection attributes used to connect to the endpoint.
-        public let extraConnectionAttributes: String?
+        /// The KMS key identifier that will be used to encrypt the connection parameters. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
+        public let kmsKeyId: String?
+        ///  The settings in JSON format for the DMS Transfer type source endpoint.  Attributes include:   serviceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.   bucketName - The name of the S3 bucket to use.   compressionType - An optional parameter to use GZIP to compress the target files. Set to NONE (the default) or do not use to leave the files uncompressed.   Shorthand syntax: ServiceAccessRoleArn=string ,BucketName=string,CompressionType=string JSON syntax:  { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" } 
+        public let dmsTransferSettings: DmsTransferSettings?
+        /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora," this value would be "Amazon Aurora MySQL."
+        public let engineDisplayName: String?
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
         public let endpointIdentifier: String?
         /// The user name used to connect to the endpoint.
         public let username: String?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String?
-        /// The settings for the target DynamoDB database. For more information, see the DynamoDBSettings structure.
-        public let dynamoDbSettings: DynamoDbSettings?
         /// The settings for the MongoDB source endpoint. For more information, see the MongoDbSettings structure.
         public let mongoDbSettings: MongoDbSettings?
+        /// The settings for the target DynamoDB database. For more information, see the DynamoDBSettings structure.
+        public let dynamoDbSettings: DynamoDbSettings?
         /// The status of the endpoint.
         public let status: String?
         /// The type of endpoint.
         public let endpointType: ReplicationEndpointTypeValue?
         /// The name of the server at the endpoint.
         public let serverName: String?
+        /// The Amazon Resource Name (ARN) used by the service access IAM role.
+        public let serviceAccessRoleArn: String?
         /// The settings for the S3 target endpoint. For more information, see the S3Settings structure.
         public let s3Settings: S3Settings?
         /// The name of the database at the endpoint.
@@ -272,51 +303,61 @@ extension Dms {
         public let sslMode: DmsSslModeValue?
         /// The Amazon Resource Name (ARN) used for SSL connection to the endpoint.
         public let certificateArn: String?
-        /// The database engine name. Valid values, depending on the EndPointType, include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, S3, SYBASE, DYNAMODB, MONGODB, and SQLSERVER.
+        /// The database engine name. Valid values, depending on the EndPointType, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, sybase, dynamodb, mongodb, and sqlserver.
         public let engineName: String?
+        /// The external table definition.
+        public let externalTableDefinition: String?
         /// The port value used to access the endpoint.
         public let port: Int32?
-        /// The KMS key identifier that will be used to encrypt the connection parameters. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
-        public let kmsKeyId: String?
+        /// Additional connection attributes used to connect to the endpoint.
+        public let extraConnectionAttributes: String?
 
-        public init(extraConnectionAttributes: String? = nil, endpointIdentifier: String? = nil, username: String? = nil, endpointArn: String? = nil, dynamoDbSettings: DynamoDbSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, status: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, serverName: String? = nil, s3Settings: S3Settings? = nil, databaseName: String? = nil, externalId: String? = nil, sslMode: DmsSslModeValue? = nil, certificateArn: String? = nil, engineName: String? = nil, port: Int32? = nil, kmsKeyId: String? = nil) {
-            self.extraConnectionAttributes = extraConnectionAttributes
+        public init(kmsKeyId: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, engineDisplayName: String? = nil, endpointIdentifier: String? = nil, username: String? = nil, endpointArn: String? = nil, mongoDbSettings: MongoDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, status: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, s3Settings: S3Settings? = nil, databaseName: String? = nil, externalId: String? = nil, sslMode: DmsSslModeValue? = nil, certificateArn: String? = nil, engineName: String? = nil, externalTableDefinition: String? = nil, port: Int32? = nil, extraConnectionAttributes: String? = nil) {
+            self.kmsKeyId = kmsKeyId
+            self.dmsTransferSettings = dmsTransferSettings
+            self.engineDisplayName = engineDisplayName
             self.endpointIdentifier = endpointIdentifier
             self.username = username
             self.endpointArn = endpointArn
-            self.dynamoDbSettings = dynamoDbSettings
             self.mongoDbSettings = mongoDbSettings
+            self.dynamoDbSettings = dynamoDbSettings
             self.status = status
             self.endpointType = endpointType
             self.serverName = serverName
+            self.serviceAccessRoleArn = serviceAccessRoleArn
             self.s3Settings = s3Settings
             self.databaseName = databaseName
             self.externalId = externalId
             self.sslMode = sslMode
             self.certificateArn = certificateArn
             self.engineName = engineName
+            self.externalTableDefinition = externalTableDefinition
             self.port = port
-            self.kmsKeyId = kmsKeyId
+            self.extraConnectionAttributes = extraConnectionAttributes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case extraConnectionAttributes = "ExtraConnectionAttributes"
+            case kmsKeyId = "KmsKeyId"
+            case dmsTransferSettings = "DmsTransferSettings"
+            case engineDisplayName = "EngineDisplayName"
             case endpointIdentifier = "EndpointIdentifier"
             case username = "Username"
             case endpointArn = "EndpointArn"
-            case dynamoDbSettings = "DynamoDbSettings"
             case mongoDbSettings = "MongoDbSettings"
+            case dynamoDbSettings = "DynamoDbSettings"
             case status = "Status"
             case endpointType = "EndpointType"
             case serverName = "ServerName"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
             case s3Settings = "S3Settings"
             case databaseName = "DatabaseName"
             case externalId = "ExternalId"
             case sslMode = "SslMode"
             case certificateArn = "CertificateArn"
             case engineName = "EngineName"
+            case externalTableDefinition = "ExternalTableDefinition"
             case port = "Port"
-            case kmsKeyId = "KmsKeyId"
+            case extraConnectionAttributes = "ExtraConnectionAttributes"
         }
     }
 
@@ -501,26 +542,31 @@ extension Dms {
 
     public struct SupportedEndpointType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineName", required: false, type: .string), 
             AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
+            AWSShapeMember(label: "EngineDisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "EngineName", required: false, type: .string), 
             AWSShapeMember(label: "SupportsCDC", required: false, type: .boolean)
         ]
-        /// The database engine name. Valid values, depending on the EndPointType, include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, S3, SYBASE, DYNAMODB, MONGODB, and SQLSERVER.
-        public let engineName: String?
         /// The type of endpoint.
         public let endpointType: ReplicationEndpointTypeValue?
+        /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora," this value would be "Amazon Aurora MySQL."
+        public let engineDisplayName: String?
+        /// The database engine name. Valid values, depending on the EndPointType, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, sybase, dynamodb, mongodb, and sqlserver.
+        public let engineName: String?
         /// Indicates if Change Data Capture (CDC) is supported.
         public let supportsCDC: Bool?
 
-        public init(engineName: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, supportsCDC: Bool? = nil) {
-            self.engineName = engineName
+        public init(endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, supportsCDC: Bool? = nil) {
             self.endpointType = endpointType
+            self.engineDisplayName = engineDisplayName
+            self.engineName = engineName
             self.supportsCDC = supportsCDC
         }
 
         private enum CodingKeys: String, CodingKey {
-            case engineName = "EngineName"
             case endpointType = "EndpointType"
+            case engineDisplayName = "EngineDisplayName"
+            case engineName = "EngineName"
             case supportsCDC = "SupportsCDC"
         }
     }
@@ -714,6 +760,32 @@ extension Dms {
         }
     }
 
+    public struct ReplicationInstanceTaskLog: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTaskName", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceTaskLogSize", required: false, type: .long)
+        ]
+        /// The name of the replication task.
+        public let replicationTaskName: String?
+        /// The Amazon Resource Name (ARN) of the replication task.
+        public let replicationTaskArn: String?
+        /// The size, in bytes, of the replication task log.
+        public let replicationInstanceTaskLogSize: Int64?
+
+        public init(replicationTaskName: String? = nil, replicationTaskArn: String? = nil, replicationInstanceTaskLogSize: Int64? = nil) {
+            self.replicationTaskName = replicationTaskName
+            self.replicationTaskArn = replicationTaskArn
+            self.replicationInstanceTaskLogSize = replicationInstanceTaskLogSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationTaskName = "ReplicationTaskName"
+            case replicationTaskArn = "ReplicationTaskArn"
+            case replicationInstanceTaskLogSize = "ReplicationInstanceTaskLogSize"
+        }
+    }
+
     public struct CreateEventSubscriptionMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnsTopicArn", required: true, type: .string), 
@@ -726,7 +798,7 @@ extension Dms {
         ]
         ///  The Amazon Resource Name (ARN) of the Amazon SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it. 
         public let snsTopicArn: String
-        /// The name of the DMS event notification subscription.  Constraints: The name must be less than 255 characters. 
+        /// The name of the AWS DMS event notification subscription.  Constraints: The name must be less than 255 characters. 
         public let subscriptionName: String
         ///  The type of AWS DMS resource that generates the events. For example, if you want to be notified of events generated by a replication instance, you set this parameter to replication-instance. If this value is not specified, all events are returned.  Valid values: replication-instance | migration-task
         public let sourceType: String?
@@ -763,26 +835,36 @@ extension Dms {
     public struct StartReplicationTaskMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
-            AWSShapeMember(label: "CdcStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StartReplicationTaskType", required: true, type: .enum)
+            AWSShapeMember(label: "StartReplicationTaskType", required: true, type: .enum), 
+            AWSShapeMember(label: "CdcStopPosition", required: false, type: .string), 
+            AWSShapeMember(label: "CdcStartPosition", required: false, type: .string), 
+            AWSShapeMember(label: "CdcStartTime", required: false, type: .timestamp)
         ]
         /// The Amazon Resource Name (ARN) of the replication task to be started.
         public let replicationTaskArn: String
-        /// The start time for the Change Data Capture (CDC) operation.
-        public let cdcStartTime: TimeStamp?
         /// The type of replication task.
         public let startReplicationTaskType: StartReplicationTaskTypeValue
+        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
+        public let cdcStopPosition: String?
+        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
+        public let cdcStartPosition: String?
+        /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
+        public let cdcStartTime: TimeStamp?
 
-        public init(replicationTaskArn: String, cdcStartTime: TimeStamp? = nil, startReplicationTaskType: StartReplicationTaskTypeValue) {
+        public init(replicationTaskArn: String, startReplicationTaskType: StartReplicationTaskTypeValue, cdcStopPosition: String? = nil, cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil) {
             self.replicationTaskArn = replicationTaskArn
-            self.cdcStartTime = cdcStartTime
             self.startReplicationTaskType = startReplicationTaskType
+            self.cdcStopPosition = cdcStopPosition
+            self.cdcStartPosition = cdcStartPosition
+            self.cdcStartTime = cdcStartTime
         }
 
         private enum CodingKeys: String, CodingKey {
             case replicationTaskArn = "ReplicationTaskArn"
-            case cdcStartTime = "CdcStartTime"
             case startReplicationTaskType = "StartReplicationTaskType"
+            case cdcStopPosition = "CdcStopPosition"
+            case cdcStartPosition = "CdcStartPosition"
+            case cdcStartTime = "CdcStartTime"
         }
     }
 
@@ -793,8 +875,8 @@ extension Dms {
             AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list), 
             AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
             AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
             AWSShapeMember(label: "ReplicationInstanceIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationInstanceClass", required: true, type: .string), 
@@ -812,10 +894,10 @@ extension Dms {
         public let vpcSecurityGroupIds: [String]?
         /// The EC2 Availability Zone that the replication instance will be created in. Default: A random, system-chosen Availability Zone in the endpoint's region.  Example: us-east-1d 
         public let availabilityZone: String?
-        ///  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true. 
-        public let publiclyAccessible: Bool?
         /// Indicates that minor engine upgrades will be applied automatically to the replication instance during the maintenance window. Default: true 
         public let autoMinorVersionUpgrade: Bool?
+        ///  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true. 
+        public let publiclyAccessible: Bool?
         /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance 
         public let replicationInstanceIdentifier: String
         /// The engine version number of the replication instance.
@@ -829,14 +911,14 @@ extension Dms {
         /// The KMS key identifier that will be used to encrypt the content on the replication instance. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
         public let kmsKeyId: String?
 
-        public init(multiAZ: Bool? = nil, tags: [Tag]? = nil, allocatedStorage: Int32? = nil, vpcSecurityGroupIds: [String]? = nil, availabilityZone: String? = nil, publiclyAccessible: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, replicationInstanceIdentifier: String, engineVersion: String? = nil, replicationInstanceClass: String, preferredMaintenanceWindow: String? = nil, replicationSubnetGroupIdentifier: String? = nil, kmsKeyId: String? = nil) {
+        public init(multiAZ: Bool? = nil, tags: [Tag]? = nil, allocatedStorage: Int32? = nil, vpcSecurityGroupIds: [String]? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, publiclyAccessible: Bool? = nil, replicationInstanceIdentifier: String, engineVersion: String? = nil, replicationInstanceClass: String, preferredMaintenanceWindow: String? = nil, replicationSubnetGroupIdentifier: String? = nil, kmsKeyId: String? = nil) {
             self.multiAZ = multiAZ
             self.tags = tags
             self.allocatedStorage = allocatedStorage
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
             self.availabilityZone = availabilityZone
-            self.publiclyAccessible = publiclyAccessible
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.publiclyAccessible = publiclyAccessible
             self.replicationInstanceIdentifier = replicationInstanceIdentifier
             self.engineVersion = engineVersion
             self.replicationInstanceClass = replicationInstanceClass
@@ -851,8 +933,8 @@ extension Dms {
             case allocatedStorage = "AllocatedStorage"
             case vpcSecurityGroupIds = "VpcSecurityGroupIds"
             case availabilityZone = "AvailabilityZone"
-            case publiclyAccessible = "PubliclyAccessible"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case publiclyAccessible = "PubliclyAccessible"
             case replicationInstanceIdentifier = "ReplicationInstanceIdentifier"
             case engineVersion = "EngineVersion"
             case replicationInstanceClass = "ReplicationInstanceClass"
@@ -864,6 +946,12 @@ extension Dms {
 
     public enum SourceType: String, CustomStringConvertible, Codable {
         case replicationInstance = "replication-instance"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReloadOptionValue: String, CustomStringConvertible, Codable {
+        case dataReload = "data-reload"
+        case validateOnly = "validate-only"
         public var description: String { return self.rawValue }
     }
 
@@ -976,10 +1064,52 @@ extension Dms {
         }
     }
 
+    public struct DescribeReplicationInstanceTaskLogsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceTaskLogs", required: false, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the replication instance.
+        public let replicationInstanceArn: String?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// An array of replication task log metadata. Each member of the array contains the replication task name, ARN, and task log size (in bytes). 
+        public let replicationInstanceTaskLogs: [ReplicationInstanceTaskLog]?
+
+        public init(replicationInstanceArn: String? = nil, marker: String? = nil, replicationInstanceTaskLogs: [ReplicationInstanceTaskLog]? = nil) {
+            self.replicationInstanceArn = replicationInstanceArn
+            self.marker = marker
+            self.replicationInstanceTaskLogs = replicationInstanceTaskLogs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationInstanceArn = "ReplicationInstanceArn"
+            case marker = "Marker"
+            case replicationInstanceTaskLogs = "ReplicationInstanceTaskLogs"
+        }
+    }
+
     public enum NestingLevelValue: String, CustomStringConvertible, Codable {
         case none = "none"
         case one = "one"
         public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeRefreshSchemasStatusMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        public let endpointArn: String
+
+        public init(endpointArn: String) {
+            self.endpointArn = endpointArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
+        }
     }
 
     public struct DescribeTableStatisticsMessage: AWSShape {
@@ -1013,22 +1143,6 @@ extension Dms {
         }
     }
 
-    public struct DescribeRefreshSchemasStatusMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public let endpointArn: String
-
-        public init(endpointArn: String) {
-            self.endpointArn = endpointArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointArn = "EndpointArn"
-        }
-    }
-
     public struct RemoveTagsFromResourceMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
@@ -1058,6 +1172,7 @@ extension Dms {
 
     public struct MongoDbSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "AuthType", required: false, type: .enum), 
             AWSShapeMember(label: "AuthSource", required: false, type: .string), 
             AWSShapeMember(label: "ServerName", required: false, type: .string), 
@@ -1065,11 +1180,13 @@ extension Dms {
             AWSShapeMember(label: "NestingLevel", required: false, type: .enum), 
             AWSShapeMember(label: "Username", required: false, type: .string), 
             AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "ExtractDocId", required: false, type: .string), 
             AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "ExtractDocId", required: false, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "AuthMechanism", required: false, type: .enum)
         ]
+        ///  The KMS key identifier that will be used to encrypt the connection parameters. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region. 
+        public let kmsKeyId: String?
         ///  The authentication type you use to access the MongoDB source endpoint. Valid values: NO, PASSWORD  When NO is selected, user name and password parameters are not used and can be empty. 
         public let authType: AuthTypeValue?
         ///  The MongoDB database name. This attribute is not used when authType=NO.  The default is admin.
@@ -1084,16 +1201,17 @@ extension Dms {
         public let username: String?
         ///  The database name on the MongoDB source endpoint. 
         public let databaseName: String?
-        ///  Specifies the document ID. Use this attribute when NestingLevel is set to NONE.  Default value is false. 
-        public let extractDocId: String?
         ///  The password for the user account you use to access the MongoDB source endpoint. 
         public let password: String?
+        ///  Specifies the document ID. Use this attribute when NestingLevel is set to NONE.  Default value is false. 
+        public let extractDocId: String?
         ///  The port value for the MongoDB source endpoint. 
         public let port: Int32?
         ///  The authentication mechanism you use to access the MongoDB source endpoint. Valid values: DEFAULT, MONGODB_CR, SCRAM_SHA_1  DEFAULT – For MongoDB version 2.x, use MONGODB_CR. For MongoDB version 3.x, use SCRAM_SHA_1. This attribute is not used when authType=No.
         public let authMechanism: AuthMechanismValue?
 
-        public init(authType: AuthTypeValue? = nil, authSource: String? = nil, serverName: String? = nil, docsToInvestigate: String? = nil, nestingLevel: NestingLevelValue? = nil, username: String? = nil, databaseName: String? = nil, extractDocId: String? = nil, password: String? = nil, port: Int32? = nil, authMechanism: AuthMechanismValue? = nil) {
+        public init(kmsKeyId: String? = nil, authType: AuthTypeValue? = nil, authSource: String? = nil, serverName: String? = nil, docsToInvestigate: String? = nil, nestingLevel: NestingLevelValue? = nil, username: String? = nil, databaseName: String? = nil, password: String? = nil, extractDocId: String? = nil, port: Int32? = nil, authMechanism: AuthMechanismValue? = nil) {
+            self.kmsKeyId = kmsKeyId
             self.authType = authType
             self.authSource = authSource
             self.serverName = serverName
@@ -1101,13 +1219,14 @@ extension Dms {
             self.nestingLevel = nestingLevel
             self.username = username
             self.databaseName = databaseName
-            self.extractDocId = extractDocId
             self.password = password
+            self.extractDocId = extractDocId
             self.port = port
             self.authMechanism = authMechanism
         }
 
         private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
             case authType = "AuthType"
             case authSource = "AuthSource"
             case serverName = "ServerName"
@@ -1115,8 +1234,8 @@ extension Dms {
             case nestingLevel = "NestingLevel"
             case username = "Username"
             case databaseName = "DatabaseName"
-            case extractDocId = "ExtractDocId"
             case password = "Password"
+            case extractDocId = "ExtractDocId"
             case port = "Port"
             case authMechanism = "AuthMechanism"
         }
@@ -1228,6 +1347,13 @@ extension Dms {
         }
     }
 
+    public enum StartReplicationTaskTypeValue: String, CustomStringConvertible, Codable {
+        case startReplication = "start-replication"
+        case resumeProcessing = "resume-processing"
+        case reloadTarget = "reload-target"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteEventSubscriptionMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
@@ -1244,11 +1370,8 @@ extension Dms {
         }
     }
 
-    public enum StartReplicationTaskTypeValue: String, CustomStringConvertible, Codable {
-        case startReplication = "start-replication"
-        case resumeProcessing = "resume-processing"
-        case reloadTarget = "reload-target"
-        public var description: String { return self.rawValue }
+    public struct DescribeAccountAttributesMessage: AWSShape {
+
     }
 
     public struct DescribeSchemasResponse: AWSShape {
@@ -1269,31 +1392,6 @@ extension Dms {
         private enum CodingKeys: String, CodingKey {
             case marker = "Marker"
             case schemas = "Schemas"
-        }
-    }
-
-    public struct DescribeAccountAttributesMessage: AWSShape {
-
-    }
-
-    public struct TableToReload: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaName", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: false, type: .string)
-        ]
-        /// The schema name of the table to be reloaded.
-        public let schemaName: String?
-        /// The table name of the table to be reloaded.
-        public let tableName: String?
-
-        public init(schemaName: String? = nil, tableName: String? = nil) {
-            self.schemaName = schemaName
-            self.tableName = tableName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaName = "SchemaName"
-            case tableName = "TableName"
         }
     }
 
@@ -1355,6 +1453,27 @@ extension Dms {
             case certificateOwner = "CertificateOwner"
             case certificateIdentifier = "CertificateIdentifier"
             case certificateCreationDate = "CertificateCreationDate"
+        }
+    }
+
+    public struct TableToReload: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaName", required: false, type: .string), 
+            AWSShapeMember(label: "TableName", required: false, type: .string)
+        ]
+        /// The schema name of the table to be reloaded.
+        public let schemaName: String?
+        /// The table name of the table to be reloaded.
+        public let tableName: String?
+
+        public init(schemaName: String? = nil, tableName: String? = nil) {
+            self.schemaName = schemaName
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaName = "SchemaName"
+            case tableName = "TableName"
         }
     }
 
@@ -1678,21 +1797,26 @@ extension Dms {
     public struct ReloadTablesMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
-            AWSShapeMember(label: "TablesToReload", required: true, type: .list)
+            AWSShapeMember(label: "TablesToReload", required: true, type: .list), 
+            AWSShapeMember(label: "ReloadOption", required: false, type: .enum)
         ]
-        /// The Amazon Resource Name (ARN) of the replication instance. 
+        /// The Amazon Resource Name (ARN) of the replication task. 
         public let replicationTaskArn: String
         /// The name and schema of the table to be reloaded. 
         public let tablesToReload: [TableToReload]
+        /// Options for reload. Specify data-reload to reload the data and re-validate it if validation is enabled. Specify validate-only to re-validate the table. This option applies only when validation is enabled for the task.  Valid values: data-reload, validate-only Default value is data-reload.
+        public let reloadOption: ReloadOptionValue?
 
-        public init(replicationTaskArn: String, tablesToReload: [TableToReload]) {
+        public init(replicationTaskArn: String, tablesToReload: [TableToReload], reloadOption: ReloadOptionValue? = nil) {
             self.replicationTaskArn = replicationTaskArn
             self.tablesToReload = tablesToReload
+            self.reloadOption = reloadOption
         }
 
         private enum CodingKeys: String, CodingKey {
             case replicationTaskArn = "ReplicationTaskArn"
             case tablesToReload = "TablesToReload"
+            case reloadOption = "ReloadOption"
         }
     }
 
@@ -1793,40 +1917,49 @@ extension Dms {
 
     public struct CreateEndpointMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "ExtraConnectionAttributes", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "DmsTransferSettings", required: false, type: .structure), 
             AWSShapeMember(label: "EndpointIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "Username", required: false, type: .string), 
-            AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
             AWSShapeMember(label: "DynamoDbSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
             AWSShapeMember(label: "EndpointType", required: true, type: .enum), 
             AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "S3Settings", required: false, type: .structure), 
             AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
             AWSShapeMember(label: "SslMode", required: false, type: .enum), 
             AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
             AWSShapeMember(label: "EngineName", required: true, type: .string), 
+            AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
             AWSShapeMember(label: "Password", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "ExtraConnectionAttributes", required: false, type: .string)
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
         ]
-        /// The KMS key identifier that will be used to encrypt the connection parameters. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
-        public let kmsKeyId: String?
+        /// Additional attributes associated with the connection.
+        public let extraConnectionAttributes: String?
+        /// The port used by the endpoint database.
+        public let port: Int32?
+        ///  The settings in JSON format for the DMS Transfer type source endpoint.  Attributes include:   serviceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.   bucketName - The name of the S3 bucket to use.   compressionType - An optional parameter to use GZIP to compress the target files. Set to NONE (the default) or do not use to leave the files uncompressed.   Shorthand syntax: ServiceAccessRoleArn=string ,BucketName=string,CompressionType=string JSON syntax:  { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" } 
+        public let dmsTransferSettings: DmsTransferSettings?
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
         public let endpointIdentifier: String
         /// Tags to be added to the endpoint.
         public let tags: [Tag]?
         /// The user name to be used to login to the endpoint database.
         public let username: String?
-        /// Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see the Configuration Properties When Using MongoDB as a Source for AWS Database Migration Service section at  Using Amazon S3 as a Target for AWS Database Migration Service. 
-        public let mongoDbSettings: MongoDbSettings?
         /// Settings in JSON format for the target Amazon DynamoDB endpoint. For more information about the available settings, see the Using Object Mapping to Migrate Data to DynamoDB section at  Using an Amazon DynamoDB Database as a Target for AWS Database Migration Service. 
         public let dynamoDbSettings: DynamoDbSettings?
+        /// Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see the Configuration Properties When Using MongoDB as a Source for AWS Database Migration Service section at  Using MongoDB as a Target for AWS Database Migration Service. 
+        public let mongoDbSettings: MongoDbSettings?
         /// The type of endpoint.
         public let endpointType: ReplicationEndpointTypeValue
         /// The name of the server where the endpoint database resides.
         public let serverName: String?
-        /// Settings in JSON format for the target S3 endpoint. For more information about the available settings, see the Extra Connection Attributes section at  Using Amazon S3 as a Target for AWS Database Migration Service. 
+        ///  The Amazon Resource Name (ARN) for the service access role you want to use to create the endpoint. 
+        public let serviceAccessRoleArn: String?
+        /// Settings in JSON format for the target Amazon S3 endpoint. For more information about the available settings, see the Extra Connection Attributes section at  Using Amazon S3 as a Target for AWS Database Migration Service. 
         public let s3Settings: S3Settings?
         /// The name of the endpoint database.
         public let databaseName: String?
@@ -1834,51 +1967,57 @@ extension Dms {
         public let sslMode: DmsSslModeValue?
         /// The Amazon Resource Name (ARN) for the certificate.
         public let certificateArn: String?
-        /// The type of engine for the endpoint. Valid values, depending on the EndPointType, include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, S3, SYBASE, DYNAMODB, MONGODB, and SQLSERVER.
+        /// The type of engine for the endpoint. Valid values, depending on the EndPointType, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, dynamodb, mongodb, and sqlserver.
         public let engineName: String
+        /// The external table definition. 
+        public let externalTableDefinition: String?
         /// The password to be used to login to the endpoint database.
         public let password: String?
-        /// The port used by the endpoint database.
-        public let port: Int32?
-        /// Additional attributes associated with the connection.
-        public let extraConnectionAttributes: String?
+        /// The KMS key identifier that will be used to encrypt the connection parameters. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
+        public let kmsKeyId: String?
 
-        public init(kmsKeyId: String? = nil, endpointIdentifier: String, tags: [Tag]? = nil, username: String? = nil, mongoDbSettings: MongoDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, endpointType: ReplicationEndpointTypeValue, serverName: String? = nil, s3Settings: S3Settings? = nil, databaseName: String? = nil, sslMode: DmsSslModeValue? = nil, certificateArn: String? = nil, engineName: String, password: String? = nil, port: Int32? = nil, extraConnectionAttributes: String? = nil) {
-            self.kmsKeyId = kmsKeyId
+        public init(extraConnectionAttributes: String? = nil, port: Int32? = nil, dmsTransferSettings: DmsTransferSettings? = nil, endpointIdentifier: String, tags: [Tag]? = nil, username: String? = nil, dynamoDbSettings: DynamoDbSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, endpointType: ReplicationEndpointTypeValue, serverName: String? = nil, serviceAccessRoleArn: String? = nil, s3Settings: S3Settings? = nil, databaseName: String? = nil, sslMode: DmsSslModeValue? = nil, certificateArn: String? = nil, engineName: String, externalTableDefinition: String? = nil, password: String? = nil, kmsKeyId: String? = nil) {
+            self.extraConnectionAttributes = extraConnectionAttributes
+            self.port = port
+            self.dmsTransferSettings = dmsTransferSettings
             self.endpointIdentifier = endpointIdentifier
             self.tags = tags
             self.username = username
-            self.mongoDbSettings = mongoDbSettings
             self.dynamoDbSettings = dynamoDbSettings
+            self.mongoDbSettings = mongoDbSettings
             self.endpointType = endpointType
             self.serverName = serverName
+            self.serviceAccessRoleArn = serviceAccessRoleArn
             self.s3Settings = s3Settings
             self.databaseName = databaseName
             self.sslMode = sslMode
             self.certificateArn = certificateArn
             self.engineName = engineName
+            self.externalTableDefinition = externalTableDefinition
             self.password = password
-            self.port = port
-            self.extraConnectionAttributes = extraConnectionAttributes
+            self.kmsKeyId = kmsKeyId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyId = "KmsKeyId"
+            case extraConnectionAttributes = "ExtraConnectionAttributes"
+            case port = "Port"
+            case dmsTransferSettings = "DmsTransferSettings"
             case endpointIdentifier = "EndpointIdentifier"
             case tags = "Tags"
             case username = "Username"
-            case mongoDbSettings = "MongoDbSettings"
             case dynamoDbSettings = "DynamoDbSettings"
+            case mongoDbSettings = "MongoDbSettings"
             case endpointType = "EndpointType"
             case serverName = "ServerName"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
             case s3Settings = "S3Settings"
             case databaseName = "DatabaseName"
             case sslMode = "SslMode"
             case certificateArn = "CertificateArn"
             case engineName = "EngineName"
+            case externalTableDefinition = "ExternalTableDefinition"
             case password = "Password"
-            case port = "Port"
-            case extraConnectionAttributes = "ExtraConnectionAttributes"
+            case kmsKeyId = "KmsKeyId"
         }
     }
 
@@ -2024,11 +2163,12 @@ extension Dms {
 
     public struct TableStatistics: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ValidationStateDetails", required: false, type: .string), 
             AWSShapeMember(label: "SchemaName", required: false, type: .string), 
             AWSShapeMember(label: "FullLoadCondtnlChkFailedRows", required: false, type: .long), 
             AWSShapeMember(label: "FullLoadRows", required: false, type: .long), 
-            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "ValidationSuspendedRecords", required: false, type: .long), 
+            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "ValidationState", required: false, type: .string), 
             AWSShapeMember(label: "Ddls", required: false, type: .long), 
             AWSShapeMember(label: "Updates", required: false, type: .long), 
@@ -2040,16 +2180,18 @@ extension Dms {
             AWSShapeMember(label: "FullLoadErrorRows", required: false, type: .long), 
             AWSShapeMember(label: "Deletes", required: false, type: .long)
         ]
+        /// Additional details about the state of validation.
+        public let validationStateDetails: String?
         /// The schema name.
         public let schemaName: String?
         /// The number of rows that failed conditional checks during the Full Load operation (valid only for DynamoDB as a target migrations).
         public let fullLoadCondtnlChkFailedRows: Int64?
         /// The number of rows added during the Full Load operation.
         public let fullLoadRows: Int64?
-        /// The last time the table was updated.
-        public let lastUpdateTime: TimeStamp?
         /// The number of records that could not be validated.
         public let validationSuspendedRecords: Int64?
+        /// The last time the table was updated.
+        public let lastUpdateTime: TimeStamp?
         /// The validation state of the table. The parameter can have the following values   Not enabled—Validation is not enabled for the table in the migration task.   Pending records—Some records in the table are waiting for validation.   Mismatched records—Some records in the table do not match between the source and target.   Suspended records—Some records in the table could not be validated.   No primary key—The table could not be validated because it had no primary key.   Table error—The table was not validated because it was in an error state and some data was not migrated.   Validated—All rows in the table were validated. If the table is updated, the status can change from Validated.   Error—The table could not be validated because of an unexpected error.  
         public let validationState: String?
         /// The Data Definition Language (DDL) used to build and modify the structure of your tables.
@@ -2071,12 +2213,13 @@ extension Dms {
         /// The number of delete actions performed on a table.
         public let deletes: Int64?
 
-        public init(schemaName: String? = nil, fullLoadCondtnlChkFailedRows: Int64? = nil, fullLoadRows: Int64? = nil, lastUpdateTime: TimeStamp? = nil, validationSuspendedRecords: Int64? = nil, validationState: String? = nil, ddls: Int64? = nil, updates: Int64? = nil, tableState: String? = nil, validationFailedRecords: Int64? = nil, validationPendingRecords: Int64? = nil, inserts: Int64? = nil, tableName: String? = nil, fullLoadErrorRows: Int64? = nil, deletes: Int64? = nil) {
+        public init(validationStateDetails: String? = nil, schemaName: String? = nil, fullLoadCondtnlChkFailedRows: Int64? = nil, fullLoadRows: Int64? = nil, validationSuspendedRecords: Int64? = nil, lastUpdateTime: TimeStamp? = nil, validationState: String? = nil, ddls: Int64? = nil, updates: Int64? = nil, tableState: String? = nil, validationFailedRecords: Int64? = nil, validationPendingRecords: Int64? = nil, inserts: Int64? = nil, tableName: String? = nil, fullLoadErrorRows: Int64? = nil, deletes: Int64? = nil) {
+            self.validationStateDetails = validationStateDetails
             self.schemaName = schemaName
             self.fullLoadCondtnlChkFailedRows = fullLoadCondtnlChkFailedRows
             self.fullLoadRows = fullLoadRows
-            self.lastUpdateTime = lastUpdateTime
             self.validationSuspendedRecords = validationSuspendedRecords
+            self.lastUpdateTime = lastUpdateTime
             self.validationState = validationState
             self.ddls = ddls
             self.updates = updates
@@ -2090,11 +2233,12 @@ extension Dms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case validationStateDetails = "ValidationStateDetails"
             case schemaName = "SchemaName"
             case fullLoadCondtnlChkFailedRows = "FullLoadCondtnlChkFailedRows"
             case fullLoadRows = "FullLoadRows"
-            case lastUpdateTime = "LastUpdateTime"
             case validationSuspendedRecords = "ValidationSuspendedRecords"
+            case lastUpdateTime = "LastUpdateTime"
             case validationState = "ValidationState"
             case ddls = "Ddls"
             case updates = "Updates"
@@ -2208,6 +2352,22 @@ extension Dms {
         }
     }
 
+    public struct RebootReplicationInstanceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
+        ]
+        /// The replication instance that is being rebooted. 
+        public let replicationInstance: ReplicationInstance?
+
+        public init(replicationInstance: ReplicationInstance? = nil) {
+            self.replicationInstance = replicationInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationInstance = "ReplicationInstance"
+        }
+    }
+
     public struct ReplicationTaskAssessmentResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3ObjectUrl", required: false, type: .string), 
@@ -2254,6 +2414,27 @@ extension Dms {
         }
     }
 
+    public struct RebootReplicationInstanceMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string), 
+            AWSShapeMember(label: "ForceFailover", required: false, type: .boolean)
+        ]
+        /// The Amazon Resource Name (ARN) of the replication instance.
+        public let replicationInstanceArn: String
+        /// If this parameter is true, the reboot is conducted through a Multi-AZ failover. (If the instance isn't configured for Multi-AZ, then you can't specify true.)
+        public let forceFailover: Bool?
+
+        public init(replicationInstanceArn: String, forceFailover: Bool? = nil) {
+            self.replicationInstanceArn = replicationInstanceArn
+            self.forceFailover = forceFailover
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationInstanceArn = "ReplicationInstanceArn"
+            case forceFailover = "ForceFailover"
+        }
+    }
+
     public struct CreateReplicationInstanceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
@@ -2274,40 +2455,50 @@ extension Dms {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TableMappings", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
+            AWSShapeMember(label: "CdcStopPosition", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationTaskIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "MigrationType", required: false, type: .enum), 
-            AWSShapeMember(label: "CdcStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReplicationTaskSettings", required: false, type: .string)
+            AWSShapeMember(label: "CdcStartPosition", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskSettings", required: false, type: .string), 
+            AWSShapeMember(label: "CdcStartTime", required: false, type: .timestamp)
         ]
         /// When using the AWS CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with "file://". When working with the DMS API, provide the JSON as the parameter value. For example, --table-mappings file://mappingfile.json
         public let tableMappings: String?
         /// The Amazon Resource Name (ARN) of the replication task.
         public let replicationTaskArn: String
+        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
+        public let cdcStopPosition: String?
         /// The replication task identifier. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let replicationTaskIdentifier: String?
         /// The migration type. Valid values: full-load | cdc | full-load-and-cdc
         public let migrationType: MigrationTypeValue?
-        /// The start time for the Change Data Capture (CDC) operation.
-        public let cdcStartTime: TimeStamp?
+        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
+        public let cdcStartPosition: String?
         /// JSON file that contains settings for the task, such as target metadata settings.
         public let replicationTaskSettings: String?
+        /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
+        public let cdcStartTime: TimeStamp?
 
-        public init(tableMappings: String? = nil, replicationTaskArn: String, replicationTaskIdentifier: String? = nil, migrationType: MigrationTypeValue? = nil, cdcStartTime: TimeStamp? = nil, replicationTaskSettings: String? = nil) {
+        public init(tableMappings: String? = nil, replicationTaskArn: String, cdcStopPosition: String? = nil, replicationTaskIdentifier: String? = nil, migrationType: MigrationTypeValue? = nil, cdcStartPosition: String? = nil, replicationTaskSettings: String? = nil, cdcStartTime: TimeStamp? = nil) {
             self.tableMappings = tableMappings
             self.replicationTaskArn = replicationTaskArn
+            self.cdcStopPosition = cdcStopPosition
             self.replicationTaskIdentifier = replicationTaskIdentifier
             self.migrationType = migrationType
-            self.cdcStartTime = cdcStartTime
+            self.cdcStartPosition = cdcStartPosition
             self.replicationTaskSettings = replicationTaskSettings
+            self.cdcStartTime = cdcStartTime
         }
 
         private enum CodingKeys: String, CodingKey {
             case tableMappings = "TableMappings"
             case replicationTaskArn = "ReplicationTaskArn"
+            case cdcStopPosition = "CdcStopPosition"
             case replicationTaskIdentifier = "ReplicationTaskIdentifier"
             case migrationType = "MigrationType"
-            case cdcStartTime = "CdcStartTime"
+            case cdcStartPosition = "CdcStartPosition"
             case replicationTaskSettings = "ReplicationTaskSettings"
+            case cdcStartTime = "CdcStartTime"
         }
     }
 
@@ -2344,8 +2535,8 @@ extension Dms {
             AWSShapeMember(label: "DefaultAllocatedStorage", required: false, type: .integer), 
             AWSShapeMember(label: "StorageType", required: false, type: .string), 
             AWSShapeMember(label: "MinAllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "IncludedAllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxAllocatedStorage", required: false, type: .integer)
+            AWSShapeMember(label: "MaxAllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "IncludedAllocatedStorage", required: false, type: .integer)
         ]
         /// The version of the replication engine.
         public let engineVersion: String?
@@ -2357,19 +2548,19 @@ extension Dms {
         public let storageType: String?
         /// The minimum amount of storage (in gigabytes) that can be allocated for the replication instance.
         public let minAllocatedStorage: Int32?
-        /// The amount of storage (in gigabytes) that is allocated for the replication instance.
-        public let includedAllocatedStorage: Int32?
         /// The minimum amount of storage (in gigabytes) that can be allocated for the replication instance.
         public let maxAllocatedStorage: Int32?
+        /// The amount of storage (in gigabytes) that is allocated for the replication instance.
+        public let includedAllocatedStorage: Int32?
 
-        public init(engineVersion: String? = nil, replicationInstanceClass: String? = nil, defaultAllocatedStorage: Int32? = nil, storageType: String? = nil, minAllocatedStorage: Int32? = nil, includedAllocatedStorage: Int32? = nil, maxAllocatedStorage: Int32? = nil) {
+        public init(engineVersion: String? = nil, replicationInstanceClass: String? = nil, defaultAllocatedStorage: Int32? = nil, storageType: String? = nil, minAllocatedStorage: Int32? = nil, maxAllocatedStorage: Int32? = nil, includedAllocatedStorage: Int32? = nil) {
             self.engineVersion = engineVersion
             self.replicationInstanceClass = replicationInstanceClass
             self.defaultAllocatedStorage = defaultAllocatedStorage
             self.storageType = storageType
             self.minAllocatedStorage = minAllocatedStorage
-            self.includedAllocatedStorage = includedAllocatedStorage
             self.maxAllocatedStorage = maxAllocatedStorage
+            self.includedAllocatedStorage = includedAllocatedStorage
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2378,8 +2569,8 @@ extension Dms {
             case defaultAllocatedStorage = "DefaultAllocatedStorage"
             case storageType = "StorageType"
             case minAllocatedStorage = "MinAllocatedStorage"
-            case includedAllocatedStorage = "IncludedAllocatedStorage"
             case maxAllocatedStorage = "MaxAllocatedStorage"
+            case includedAllocatedStorage = "IncludedAllocatedStorage"
         }
     }
 
@@ -2424,6 +2615,32 @@ extension Dms {
         }
     }
 
+    public struct DescribeReplicationInstanceTaskLogsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the replication instance.
+        public let replicationInstanceArn: String
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int32?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+
+        public init(replicationInstanceArn: String, maxRecords: Int32? = nil, marker: String? = nil) {
+            self.replicationInstanceArn = replicationInstanceArn
+            self.maxRecords = maxRecords
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationInstanceArn = "ReplicationInstanceArn"
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+        }
+    }
+
     public struct DeleteEndpointResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Endpoint", required: false, type: .structure)
@@ -2462,14 +2679,17 @@ extension Dms {
             AWSShapeMember(label: "LastFailureMessage", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationTaskStartDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "ReplicationTaskCreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CdcStartPosition", required: false, type: .string), 
             AWSShapeMember(label: "SourceEndpointArn", required: false, type: .string), 
             AWSShapeMember(label: "TableMappings", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "CdcStopPosition", required: false, type: .string), 
             AWSShapeMember(label: "StopReason", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationTaskIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "MigrationType", required: false, type: .enum), 
+            AWSShapeMember(label: "RecoveryCheckpoint", required: false, type: .string), 
             AWSShapeMember(label: "TargetEndpointArn", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationTaskSettings", required: false, type: .string)
         ]
@@ -2481,6 +2701,8 @@ extension Dms {
         public let replicationTaskStartDate: TimeStamp?
         /// The date the replication task was created.
         public let replicationTaskCreationDate: TimeStamp?
+        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
+        public let cdcStartPosition: String?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let sourceEndpointArn: String?
         /// Table mappings specified in the task.
@@ -2489,32 +2711,39 @@ extension Dms {
         public let replicationTaskArn: String?
         /// The status of the replication task.
         public let status: String?
+        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
+        public let cdcStopPosition: String?
         /// The reason the replication task was stopped.
         public let stopReason: String?
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String?
-        /// The replication task identifier. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
+        /// The user-assigned replication task identifier or name. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let replicationTaskIdentifier: String?
         /// The type of migration.
         public let migrationType: MigrationTypeValue?
+        /// Indicates the last checkpoint that occurred during a change data capture (CDC) operation. You can provide this value to the CdcStartPosition parameter to start a CDC operation that begins at that checkpoint.
+        public let recoveryCheckpoint: String?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let targetEndpointArn: String?
         /// The settings for the replication task.
         public let replicationTaskSettings: String?
 
-        public init(replicationTaskStats: ReplicationTaskStats? = nil, lastFailureMessage: String? = nil, replicationTaskStartDate: TimeStamp? = nil, replicationTaskCreationDate: TimeStamp? = nil, sourceEndpointArn: String? = nil, tableMappings: String? = nil, replicationTaskArn: String? = nil, status: String? = nil, stopReason: String? = nil, replicationInstanceArn: String? = nil, replicationTaskIdentifier: String? = nil, migrationType: MigrationTypeValue? = nil, targetEndpointArn: String? = nil, replicationTaskSettings: String? = nil) {
+        public init(replicationTaskStats: ReplicationTaskStats? = nil, lastFailureMessage: String? = nil, replicationTaskStartDate: TimeStamp? = nil, replicationTaskCreationDate: TimeStamp? = nil, cdcStartPosition: String? = nil, sourceEndpointArn: String? = nil, tableMappings: String? = nil, replicationTaskArn: String? = nil, status: String? = nil, cdcStopPosition: String? = nil, stopReason: String? = nil, replicationInstanceArn: String? = nil, replicationTaskIdentifier: String? = nil, migrationType: MigrationTypeValue? = nil, recoveryCheckpoint: String? = nil, targetEndpointArn: String? = nil, replicationTaskSettings: String? = nil) {
             self.replicationTaskStats = replicationTaskStats
             self.lastFailureMessage = lastFailureMessage
             self.replicationTaskStartDate = replicationTaskStartDate
             self.replicationTaskCreationDate = replicationTaskCreationDate
+            self.cdcStartPosition = cdcStartPosition
             self.sourceEndpointArn = sourceEndpointArn
             self.tableMappings = tableMappings
             self.replicationTaskArn = replicationTaskArn
             self.status = status
+            self.cdcStopPosition = cdcStopPosition
             self.stopReason = stopReason
             self.replicationInstanceArn = replicationInstanceArn
             self.replicationTaskIdentifier = replicationTaskIdentifier
             self.migrationType = migrationType
+            self.recoveryCheckpoint = recoveryCheckpoint
             self.targetEndpointArn = targetEndpointArn
             self.replicationTaskSettings = replicationTaskSettings
         }
@@ -2524,14 +2753,17 @@ extension Dms {
             case lastFailureMessage = "LastFailureMessage"
             case replicationTaskStartDate = "ReplicationTaskStartDate"
             case replicationTaskCreationDate = "ReplicationTaskCreationDate"
+            case cdcStartPosition = "CdcStartPosition"
             case sourceEndpointArn = "SourceEndpointArn"
             case tableMappings = "TableMappings"
             case replicationTaskArn = "ReplicationTaskArn"
             case status = "Status"
+            case cdcStopPosition = "CdcStopPosition"
             case stopReason = "StopReason"
             case replicationInstanceArn = "ReplicationInstanceArn"
             case replicationTaskIdentifier = "ReplicationTaskIdentifier"
             case migrationType = "MigrationType"
+            case recoveryCheckpoint = "RecoveryCheckpoint"
             case targetEndpointArn = "TargetEndpointArn"
             case replicationTaskSettings = "ReplicationTaskSettings"
         }
@@ -2822,6 +3054,7 @@ extension Dms {
             AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
             AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
             AWSShapeMember(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "FreeUntil", required: false, type: .timestamp), 
             AWSShapeMember(label: "ReplicationInstancePrivateIpAddresses", required: false, type: .list), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
@@ -2857,6 +3090,8 @@ extension Dms {
         public let publiclyAccessible: Bool?
         /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance 
         public let replicationInstanceIdentifier: String?
+        ///  The expiration date of the free replication instance that is part of the Free DMS program. 
+        public let freeUntil: TimeStamp?
         /// The private IP address of the replication instance.
         public let replicationInstancePrivateIpAddresses: [String]?
         /// The engine version number of the replication instance.
@@ -2874,7 +3109,7 @@ extension Dms {
         /// The KMS key identifier that is used to encrypt the content on the replication instance. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
         public let kmsKeyId: String?
 
-        public init(instanceCreateTime: TimeStamp? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, replicationInstanceStatus: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil, multiAZ: Bool? = nil, replicationInstancePublicIpAddresses: [String]? = nil, allocatedStorage: Int32? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, replicationInstancePrivateIpAddress: String? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, publiclyAccessible: Bool? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, engineVersion: String? = nil, replicationInstanceClass: String? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String? = nil, replicationInstancePublicIpAddress: String? = nil, secondaryAvailabilityZone: String? = nil, kmsKeyId: String? = nil) {
+        public init(instanceCreateTime: TimeStamp? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, replicationInstanceStatus: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil, multiAZ: Bool? = nil, replicationInstancePublicIpAddresses: [String]? = nil, allocatedStorage: Int32? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, replicationInstancePrivateIpAddress: String? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, publiclyAccessible: Bool? = nil, replicationInstanceIdentifier: String? = nil, freeUntil: TimeStamp? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, engineVersion: String? = nil, replicationInstanceClass: String? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String? = nil, replicationInstancePublicIpAddress: String? = nil, secondaryAvailabilityZone: String? = nil, kmsKeyId: String? = nil) {
             self.instanceCreateTime = instanceCreateTime
             self.pendingModifiedValues = pendingModifiedValues
             self.replicationInstanceStatus = replicationInstanceStatus
@@ -2888,6 +3123,7 @@ extension Dms {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.publiclyAccessible = publiclyAccessible
             self.replicationInstanceIdentifier = replicationInstanceIdentifier
+            self.freeUntil = freeUntil
             self.replicationInstancePrivateIpAddresses = replicationInstancePrivateIpAddresses
             self.engineVersion = engineVersion
             self.replicationInstanceClass = replicationInstanceClass
@@ -2912,6 +3148,7 @@ extension Dms {
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case publiclyAccessible = "PubliclyAccessible"
             case replicationInstanceIdentifier = "ReplicationInstanceIdentifier"
+            case freeUntil = "FreeUntil"
             case replicationInstancePrivateIpAddresses = "ReplicationInstancePrivateIpAddresses"
             case engineVersion = "EngineVersion"
             case replicationInstanceClass = "ReplicationInstanceClass"
@@ -2962,36 +3199,45 @@ extension Dms {
 
     public struct ModifyEndpointMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "DmsTransferSettings", required: false, type: .structure), 
             AWSShapeMember(label: "EndpointIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Username", required: false, type: .string), 
             AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
-            AWSShapeMember(label: "DynamoDbSettings", required: false, type: .structure), 
             AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "DynamoDbSettings", required: false, type: .structure), 
             AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
             AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "S3Settings", required: false, type: .structure), 
             AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
             AWSShapeMember(label: "SslMode", required: false, type: .enum), 
             AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
             AWSShapeMember(label: "EngineName", required: false, type: .string), 
+            AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
             AWSShapeMember(label: "Password", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "ExtraConnectionAttributes", required: false, type: .string)
         ]
+        /// The port used by the endpoint database.
+        public let port: Int32?
+        ///  The settings in JSON format for the DMS Transfer type source endpoint.  Attributes include:   serviceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.   BucketName - The name of the S3 bucket to use.   compressionType - An optional parameter to use GZIP to compress the target files. Set to NONE (the default) or do not use to leave the files uncompressed.   Shorthand syntax: ServiceAccessRoleArn=string ,BucketName=string,CompressionType=string JSON syntax:  { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" } 
+        public let dmsTransferSettings: DmsTransferSettings?
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
         public let endpointIdentifier: String?
         /// The user name to be used to login to the endpoint database.
         public let username: String?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
-        /// Settings in JSON format for the target Amazon DynamoDB endpoint. For more information about the available settings, see the Using Object Mapping to Migrate Data to DynamoDB section at  Using an Amazon DynamoDB Database as a Target for AWS Database Migration Service. 
-        public let dynamoDbSettings: DynamoDbSettings?
         /// Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see the Configuration Properties When Using MongoDB as a Source for AWS Database Migration Service section at  Using Amazon S3 as a Target for AWS Database Migration Service. 
         public let mongoDbSettings: MongoDbSettings?
+        /// Settings in JSON format for the target Amazon DynamoDB endpoint. For more information about the available settings, see the Using Object Mapping to Migrate Data to DynamoDB section at  Using an Amazon DynamoDB Database as a Target for AWS Database Migration Service. 
+        public let dynamoDbSettings: DynamoDbSettings?
         /// The type of endpoint.
         public let endpointType: ReplicationEndpointTypeValue?
         /// The name of the server where the endpoint database resides.
         public let serverName: String?
+        ///  The Amazon Resource Name (ARN) for the service access role you want to use to modify the endpoint. 
+        public let serviceAccessRoleArn: String?
         /// Settings in JSON format for the target S3 endpoint. For more information about the available settings, see the Extra Connection Attributes section at  Using Amazon S3 as a Target for AWS Database Migration Service. 
         public let s3Settings: S3Settings?
         /// The name of the endpoint database.
@@ -3000,48 +3246,54 @@ extension Dms {
         public let sslMode: DmsSslModeValue?
         /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
         public let certificateArn: String?
-        /// The type of engine for the endpoint. Valid values, depending on the EndPointType, include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, S3, DYNAMODB, MONGODB, SYBASE, and SQLSERVER.
+        /// The type of engine for the endpoint. Valid values, depending on the EndPointType, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, sybase, dynamodb, mongodb, and sqlserver.
         public let engineName: String?
+        /// The external table definition.
+        public let externalTableDefinition: String?
         /// The password to be used to login to the endpoint database.
         public let password: String?
-        /// The port used by the endpoint database.
-        public let port: Int32?
         /// Additional attributes associated with the connection. To reset this parameter, pass the empty string ("") as an argument.
         public let extraConnectionAttributes: String?
 
-        public init(endpointIdentifier: String? = nil, username: String? = nil, endpointArn: String, dynamoDbSettings: DynamoDbSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, endpointType: ReplicationEndpointTypeValue? = nil, serverName: String? = nil, s3Settings: S3Settings? = nil, databaseName: String? = nil, sslMode: DmsSslModeValue? = nil, certificateArn: String? = nil, engineName: String? = nil, password: String? = nil, port: Int32? = nil, extraConnectionAttributes: String? = nil) {
+        public init(port: Int32? = nil, dmsTransferSettings: DmsTransferSettings? = nil, endpointIdentifier: String? = nil, username: String? = nil, endpointArn: String, mongoDbSettings: MongoDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, endpointType: ReplicationEndpointTypeValue? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, s3Settings: S3Settings? = nil, databaseName: String? = nil, sslMode: DmsSslModeValue? = nil, certificateArn: String? = nil, engineName: String? = nil, externalTableDefinition: String? = nil, password: String? = nil, extraConnectionAttributes: String? = nil) {
+            self.port = port
+            self.dmsTransferSettings = dmsTransferSettings
             self.endpointIdentifier = endpointIdentifier
             self.username = username
             self.endpointArn = endpointArn
-            self.dynamoDbSettings = dynamoDbSettings
             self.mongoDbSettings = mongoDbSettings
+            self.dynamoDbSettings = dynamoDbSettings
             self.endpointType = endpointType
             self.serverName = serverName
+            self.serviceAccessRoleArn = serviceAccessRoleArn
             self.s3Settings = s3Settings
             self.databaseName = databaseName
             self.sslMode = sslMode
             self.certificateArn = certificateArn
             self.engineName = engineName
+            self.externalTableDefinition = externalTableDefinition
             self.password = password
-            self.port = port
             self.extraConnectionAttributes = extraConnectionAttributes
         }
 
         private enum CodingKeys: String, CodingKey {
+            case port = "Port"
+            case dmsTransferSettings = "DmsTransferSettings"
             case endpointIdentifier = "EndpointIdentifier"
             case username = "Username"
             case endpointArn = "EndpointArn"
-            case dynamoDbSettings = "DynamoDbSettings"
             case mongoDbSettings = "MongoDbSettings"
+            case dynamoDbSettings = "DynamoDbSettings"
             case endpointType = "EndpointType"
             case serverName = "ServerName"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
             case s3Settings = "S3Settings"
             case databaseName = "DatabaseName"
             case sslMode = "SslMode"
             case certificateArn = "CertificateArn"
             case engineName = "EngineName"
+            case externalTableDefinition = "ExternalTableDefinition"
             case password = "Password"
-            case port = "Port"
             case extraConnectionAttributes = "ExtraConnectionAttributes"
         }
     }
@@ -3092,11 +3344,13 @@ extension Dms {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TableMappings", required: true, type: .string), 
             AWSShapeMember(label: "SourceEndpointArn", required: true, type: .string), 
+            AWSShapeMember(label: "CdcStopPosition", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string), 
             AWSShapeMember(label: "ReplicationTaskIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "MigrationType", required: true, type: .enum), 
             AWSShapeMember(label: "TargetEndpointArn", required: true, type: .string), 
+            AWSShapeMember(label: "CdcStartPosition", required: false, type: .string), 
             AWSShapeMember(label: "CdcStartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "ReplicationTaskSettings", required: false, type: .string)
         ]
@@ -3104,6 +3358,8 @@ extension Dms {
         public let tableMappings: String
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let sourceEndpointArn: String
+        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
+        public let cdcStopPosition: String?
         /// Tags to be added to the replication instance.
         public let tags: [Tag]?
         /// The Amazon Resource Name (ARN) of the replication instance.
@@ -3114,19 +3370,23 @@ extension Dms {
         public let migrationType: MigrationTypeValue
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let targetEndpointArn: String
-        /// The start time for the Change Data Capture (CDC) operation.
+        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
+        public let cdcStartPosition: String?
+        /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
         public let cdcStartTime: TimeStamp?
         /// Settings for the task, such as target metadata settings. For a complete list of task settings, see Task Settings for AWS Database Migration Service Tasks.
         public let replicationTaskSettings: String?
 
-        public init(tableMappings: String, sourceEndpointArn: String, tags: [Tag]? = nil, replicationInstanceArn: String, replicationTaskIdentifier: String, migrationType: MigrationTypeValue, targetEndpointArn: String, cdcStartTime: TimeStamp? = nil, replicationTaskSettings: String? = nil) {
+        public init(tableMappings: String, sourceEndpointArn: String, cdcStopPosition: String? = nil, tags: [Tag]? = nil, replicationInstanceArn: String, replicationTaskIdentifier: String, migrationType: MigrationTypeValue, targetEndpointArn: String, cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, replicationTaskSettings: String? = nil) {
             self.tableMappings = tableMappings
             self.sourceEndpointArn = sourceEndpointArn
+            self.cdcStopPosition = cdcStopPosition
             self.tags = tags
             self.replicationInstanceArn = replicationInstanceArn
             self.replicationTaskIdentifier = replicationTaskIdentifier
             self.migrationType = migrationType
             self.targetEndpointArn = targetEndpointArn
+            self.cdcStartPosition = cdcStartPosition
             self.cdcStartTime = cdcStartTime
             self.replicationTaskSettings = replicationTaskSettings
         }
@@ -3134,11 +3394,13 @@ extension Dms {
         private enum CodingKeys: String, CodingKey {
             case tableMappings = "TableMappings"
             case sourceEndpointArn = "SourceEndpointArn"
+            case cdcStopPosition = "CdcStopPosition"
             case tags = "Tags"
             case replicationInstanceArn = "ReplicationInstanceArn"
             case replicationTaskIdentifier = "ReplicationTaskIdentifier"
             case migrationType = "MigrationType"
             case targetEndpointArn = "TargetEndpointArn"
+            case cdcStartPosition = "CdcStartPosition"
             case cdcStartTime = "CdcStartTime"
             case replicationTaskSettings = "ReplicationTaskSettings"
         }
@@ -3171,24 +3433,24 @@ extension Dms {
         }
     }
 
-    public struct DescribeReplicationInstancesResponse: AWSShape {
+    public struct DmsTransferSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstances", required: false, type: .list)
+            AWSShapeMember(label: "BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string)
         ]
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        /// The replication instances described.
-        public let replicationInstances: [ReplicationInstance]?
+        ///  The name of the S3 bucket to use. 
+        public let bucketName: String?
+        ///  The IAM role that has permission to access the Amazon S3 bucket. 
+        public let serviceAccessRoleArn: String?
 
-        public init(marker: String? = nil, replicationInstances: [ReplicationInstance]? = nil) {
-            self.marker = marker
-            self.replicationInstances = replicationInstances
+        public init(bucketName: String? = nil, serviceAccessRoleArn: String? = nil) {
+            self.bucketName = bucketName
+            self.serviceAccessRoleArn = serviceAccessRoleArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case replicationInstances = "ReplicationInstances"
+            case bucketName = "BucketName"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
         }
     }
 

@@ -21,6 +21,7 @@ public enum ElasticloadbalancingError: AWSErrorType {
     case tooManyTagsException(message: String?)
     case duplicateTagKeysException(message: String?)
     case unsupportedProtocolException(message: String?)
+    case operationNotPermittedException(message: String?)
     case duplicatePolicyNameException(message: String?)
     case tooManyPoliciesException(message: String?)
     case policyTypeNotFoundException(message: String?)
@@ -68,6 +69,8 @@ extension ElasticloadbalancingError {
             self = .duplicateTagKeysException(message: message)
         case "UnsupportedProtocolException":
             self = .unsupportedProtocolException(message: message)
+        case "OperationNotPermittedException":
+            self = .operationNotPermittedException(message: message)
         case "DuplicatePolicyNameException":
             self = .duplicatePolicyNameException(message: message)
         case "TooManyPoliciesException":

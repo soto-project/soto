@@ -19,6 +19,7 @@ public struct Sqs {
             serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2012-11-05",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-us-west-1": "sqs-fips.us-west-1.amazonaws.com", "fips-us-west-2": "sqs-fips.us-west-2.amazonaws.com", "fips-us-east-1": "sqs-fips.us-east-1.amazonaws.com", "fips-us-east-2": "sqs-fips.us-east-2.amazonaws.com"],
             middlewares: [],
             possibleErrorTypes: [SqsError.self]
         )

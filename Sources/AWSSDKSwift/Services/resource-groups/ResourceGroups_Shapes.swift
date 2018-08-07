@@ -42,35 +42,24 @@ extension ResourceGroups {
         }
     }
 
-    public struct GetGroupQueryInput: AWSShape {
+    public struct ResourceFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string)
+            AWSShapeMember(label: "Name", required: true, type: .enum), 
+            AWSShapeMember(label: "Values", required: true, type: .list)
         ]
-        /// The name of the resource group.
-        public let groupName: String
+        /// The name of the filter. Filter names are case-sensitive.
+        public let name: ResourceFilterName
+        /// One or more filter values. Allowed filter values vary by resource filter name, and are case-sensitive.
+        public let values: [String]
 
-        public init(groupName: String) {
-            self.groupName = groupName
+        public init(name: ResourceFilterName, values: [String]) {
+            self.name = name
+            self.values = values
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-        }
-    }
-
-    public struct GetTagsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .uri(locationName: "Arn"), required: true, type: .string)
-        ]
-        /// The ARN of the resource for which you want a list of tags. The resource must exist within the account you are using.
-        public let arn: String
-
-        public init(arn: String) {
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
+            case name = "Name"
+            case values = "Values"
         }
     }
 
@@ -100,6 +89,59 @@ extension ResourceGroups {
         }
     }
 
+    public struct GetTagsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .uri(locationName: "Arn"), required: true, type: .string)
+        ]
+        /// The ARN of the resource for which you want a list of tags. The resource must exist within the account you are using.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
+    public struct GetGroupQueryInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string)
+        ]
+        /// The name of the resource group.
+        public let groupName: String
+
+        public init(groupName: String) {
+            self.groupName = groupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupName = "GroupName"
+        }
+    }
+
+    public struct ResourceIdentifier: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string)
+        ]
+        /// The ARN of a resource.
+        public let resourceArn: String?
+        /// The resource type of a resource, such as AWS::EC2::Instance.
+        public let resourceType: String?
+
+        public init(resourceArn: String? = nil, resourceType: String? = nil) {
+            self.resourceArn = resourceArn
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct CreateGroupOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .map), 
@@ -123,27 +165,6 @@ extension ResourceGroups {
             case tags = "Tags"
             case resourceQuery = "ResourceQuery"
             case group = "Group"
-        }
-    }
-
-    public struct ResourceIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string)
-        ]
-        /// The ARN of a resource.
-        public let resourceArn: String?
-        /// The resource type of a resource, such as AWS::EC2::Instance.
-        public let resourceType: String?
-
-        public init(resourceArn: String? = nil, resourceType: String? = nil) {
-            self.resourceArn = resourceArn
-            self.resourceType = resourceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-            case resourceType = "ResourceType"
         }
     }
 
@@ -418,10 +439,13 @@ extension ResourceGroups {
 
     public struct ListGroupResourcesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
             AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
         ]
+        /// Filters, formatted as ResourceFilter objects, that you want to apply to a ListGroupResources operation.    resource-type - Filter resources by their type. Specify up to five resource types in the format AWS::ServiceCode::ResourceType. For example, AWS::EC2::Instance, or AWS::S3::Bucket.  
+        public let filters: [ResourceFilter]?
         /// The name of the resource group.
         public let groupName: String
         /// The NextToken value that is returned in a paginated ListGroupResources request. To get the next page of results, run the call again, add the NextToken parameter, and specify the NextToken value.
@@ -429,13 +453,15 @@ extension ResourceGroups {
         /// The maximum number of group member ARNs that are returned in a single call by ListGroupResources, in paginated output. By default, this number is 50.
         public let maxResults: Int32?
 
-        public init(groupName: String, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(filters: [ResourceFilter]? = nil, groupName: String, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.filters = filters
             self.groupName = groupName
             self.nextToken = nextToken
             self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
             case groupName = "GroupName"
             case nextToken = "nextToken"
             case maxResults = "maxResults"
@@ -447,7 +473,7 @@ extension ResourceGroups {
             AWSShapeMember(label: "Tags", required: true, type: .map), 
             AWSShapeMember(label: "Arn", location: .uri(locationName: "Arn"), required: true, type: .string)
         ]
-        /// The tags to add to the specified resource. A tag is a string-to-string map of key-value pairs. Tag keys can have a maximum character length of 127 characters, and tag values can have a maximum length of 255 characters.
+        /// The tags to add to the specified resource. A tag is a string-to-string map of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [String: String]
         /// The ARN of the resource to which to add tags.
         public let arn: String
@@ -482,6 +508,11 @@ extension ResourceGroups {
             case resourceQuery = "ResourceQuery"
             case groupName = "GroupName"
         }
+    }
+
+    public enum ResourceFilterName: String, CustomStringConvertible, Codable {
+        case resourceType = "resource-type"
+        public var description: String { return self.rawValue }
     }
 
     public struct Group: AWSShape {
@@ -519,9 +550,9 @@ extension ResourceGroups {
         ]
         /// The resource query that determines which AWS resources are members of this group.
         public let resourceQuery: ResourceQuery
-        /// The name of the group, which is the identifier of the group in other operations. A resource group name cannot be updated after it is created. A resource group name can have a maximum of 127 characters, including letters, numbers, hyphens, dots, and underscores. The name cannot start with AWS or aws; these are reserved. A resource group name must be unique within your account.
+        /// The name of the group, which is the identifier of the group in other operations. A resource group name cannot be updated after it is created. A resource group name can have a maximum of 128 characters, including letters, numbers, hyphens, dots, and underscores. The name cannot start with AWS or aws; these are reserved. A resource group name must be unique within your account.
         public let name: String
-        /// The tags to add to the group. A tag is a string-to-string map of key-value pairs. Tag keys can have a maximum character length of 127 characters, and tag values can have a maximum length of 255 characters.
+        /// The tags to add to the group. A tag is a string-to-string map of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [String: String]?
         /// The description of the resource group. Descriptions can have a maximum of 511 characters, including letters, numbers, hyphens, underscores, punctuation, and spaces.
         public let description: String?

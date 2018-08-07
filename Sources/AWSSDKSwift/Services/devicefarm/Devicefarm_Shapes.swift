@@ -101,6 +101,27 @@ extension Devicefarm {
         }
     }
 
+    public struct CreateRemoteAccessSessionConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "vpceConfigurationArns", required: false, type: .list), 
+            AWSShapeMember(label: "billingMethod", required: false, type: .enum)
+        ]
+        /// An array of Amazon Resource Names (ARNs) included in the VPC endpoint configuration.
+        public let vpceConfigurationArns: [String]?
+        /// The billing method for the remote access session.
+        public let billingMethod: BillingMethod?
+
+        public init(vpceConfigurationArns: [String]? = nil, billingMethod: BillingMethod? = nil) {
+            self.vpceConfigurationArns = vpceConfigurationArns
+            self.billingMethod = billingMethod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpceConfigurationArns = "vpceConfigurationArns"
+            case billingMethod = "billingMethod"
+        }
+    }
+
     public struct GetTestResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "test", required: false, type: .structure)
@@ -117,32 +138,6 @@ extension Devicefarm {
         }
     }
 
-    public struct Rule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attribute", required: false, type: .enum), 
-            AWSShapeMember(label: "operator", required: false, type: .enum), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
-        /// The rule's stringified attribute. For example, specify the value as "\"abc\"". Allowed values include:   ARN: The ARN.   FORM_FACTOR: The form factor (for example, phone or tablet).   MANUFACTURER: The manufacturer.   PLATFORM: The platform (for example, Android or iOS).   REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access.   APPIUM_VERSION: The Appium version for the test.  
-        public let attribute: DeviceAttribute?
-        /// The rule's operator.   EQUALS: The equals operator.   GREATER_THAN: The greater-than operator.   IN: The in operator.   LESS_THAN: The less-than operator.   NOT_IN: The not-in operator.   CONTAINS: The contains operator.  
-        public let `operator`: RuleOperator?
-        /// The rule's value.
-        public let value: String?
-
-        public init(attribute: DeviceAttribute? = nil, operator: RuleOperator? = nil, value: String? = nil) {
-            self.attribute = attribute
-            self.`operator` = `operator`
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attribute = "attribute"
-            case `operator` = "operator"
-            case value = "value"
-        }
-    }
-
     public struct ListTestsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -150,7 +145,7 @@ extension Devicefarm {
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        /// The tests' ARNs.
+        /// The test suite's Amazon Resource Name (ARN).
         public let arn: String
 
         public init(nextToken: String? = nil, arn: String) {
@@ -180,19 +175,29 @@ extension Devicefarm {
         }
     }
 
-    public struct CreateRemoteAccessSessionConfiguration: AWSShape {
+    public struct Rule: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingMethod", required: false, type: .enum)
+            AWSShapeMember(label: "attribute", required: false, type: .enum), 
+            AWSShapeMember(label: "operator", required: false, type: .enum), 
+            AWSShapeMember(label: "value", required: false, type: .string)
         ]
-        /// Returns the billing method for purposes of configuring a remote access session.
-        public let billingMethod: BillingMethod?
+        /// The rule's stringified attribute. For example, specify the value as "\"abc\"". Allowed values include:   ARN: The ARN.   FORM_FACTOR: The form factor (for example, phone or tablet).   MANUFACTURER: The manufacturer.   PLATFORM: The platform (for example, Android or iOS).   REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access.   APPIUM_VERSION: The Appium version for the test.   INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.   INSTANCE_LABELS: The label of the device instance.  
+        public let attribute: DeviceAttribute?
+        /// The rule's operator.   EQUALS: The equals operator.   GREATER_THAN: The greater-than operator.   IN: The in operator.   LESS_THAN: The less-than operator.   NOT_IN: The not-in operator.   CONTAINS: The contains operator.  
+        public let `operator`: RuleOperator?
+        /// The rule's value.
+        public let value: String?
 
-        public init(billingMethod: BillingMethod? = nil) {
-            self.billingMethod = billingMethod
+        public init(attribute: DeviceAttribute? = nil, operator: RuleOperator? = nil, value: String? = nil) {
+            self.attribute = attribute
+            self.`operator` = `operator`
+            self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case billingMethod = "billingMethod"
+            case attribute = "attribute"
+            case `operator` = "operator"
+            case value = "value"
         }
     }
 
@@ -215,6 +220,10 @@ extension Devicefarm {
             case suites = "suites"
             case nextToken = "nextToken"
         }
+    }
+
+    public struct DeleteInstanceProfileResult: AWSShape {
+
     }
 
     public struct ListRemoteAccessSessionsResult: AWSShape {
@@ -275,7 +284,7 @@ extension Devicefarm {
         public let `type`: NetworkProfileType?
         /// The data throughput rate in bits per second, as an integer from 0 to 104857600.
         public let downlinkBandwidthBits: Int64?
-        /// The Amazon Resource Name (ARN) of the project that you wish to update network profile settings.
+        /// The Amazon Resource Name (ARN) of the project for which you want to update network profile settings.
         public let arn: String
 
         public init(uplinkJitterMs: Int64? = nil, name: String? = nil, downlinkJitterMs: Int64? = nil, downlinkDelayMs: Int64? = nil, uplinkLossPercent: Int32? = nil, downlinkLossPercent: Int32? = nil, description: String? = nil, uplinkDelayMs: Int64? = nil, uplinkBandwidthBits: Int64? = nil, type: NetworkProfileType? = nil, downlinkBandwidthBits: Int64? = nil, arn: String) {
@@ -322,6 +331,47 @@ extension Devicefarm {
 
         private enum CodingKeys: String, CodingKey {
             case devicePool = "devicePool"
+        }
+    }
+
+    public struct InstanceProfile: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "packageCleanup", required: false, type: .boolean), 
+            AWSShapeMember(label: "rebootAfterUse", required: false, type: .boolean), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "excludeAppPackagesFromCleanup", required: false, type: .list)
+        ]
+        /// When set to true, Device Farm will remove app packages after a test run. The default value is false for private devices.
+        public let packageCleanup: Bool?
+        /// When set to true, Device Farm will reboot the instance after a test run. The default value is true.
+        public let rebootAfterUse: Bool?
+        /// The name of the instance profile.
+        public let name: String?
+        /// The description of the instance profile.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the instance profile.
+        public let arn: String?
+        /// An array of strings specifying the list of app packages that should not be cleaned up from the device after a test run is over. The list of packages is only considered if you set packageCleanup to true.
+        public let excludeAppPackagesFromCleanup: [String]?
+
+        public init(packageCleanup: Bool? = nil, rebootAfterUse: Bool? = nil, name: String? = nil, description: String? = nil, arn: String? = nil, excludeAppPackagesFromCleanup: [String]? = nil) {
+            self.packageCleanup = packageCleanup
+            self.rebootAfterUse = rebootAfterUse
+            self.name = name
+            self.description = description
+            self.arn = arn
+            self.excludeAppPackagesFromCleanup = excludeAppPackagesFromCleanup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case packageCleanup = "packageCleanup"
+            case rebootAfterUse = "rebootAfterUse"
+            case name = "name"
+            case description = "description"
+            case arn = "arn"
+            case excludeAppPackagesFromCleanup = "excludeAppPackagesFromCleanup"
         }
     }
 
@@ -403,26 +453,31 @@ extension Devicefarm {
 
     public struct ExecutionConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountsCleanup", required: false, type: .boolean), 
             AWSShapeMember(label: "jobTimeoutMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "accountsCleanup", required: false, type: .boolean), 
+            AWSShapeMember(label: "skipAppResign", required: false, type: .boolean), 
             AWSShapeMember(label: "appPackagesCleanup", required: false, type: .boolean)
         ]
-        /// True if account cleanup is enabled at the beginning of the test; otherwise, false.
-        public let accountsCleanup: Bool?
         /// The number of minutes a test run will execute before it times out.
         public let jobTimeoutMinutes: Int32?
+        /// True if account cleanup is enabled at the beginning of the test; otherwise, false.
+        public let accountsCleanup: Bool?
+        /// When set to true, for private devices, Device Farm will not sign your app again. For public devices, Device Farm always signs your apps again and this parameter has no effect. For more information about how Device Farm re-signs your app(s), see Do you modify my app? in the AWS Device Farm FAQs.
+        public let skipAppResign: Bool?
         /// True if app package cleanup is enabled at the beginning of the test; otherwise, false.
         public let appPackagesCleanup: Bool?
 
-        public init(accountsCleanup: Bool? = nil, jobTimeoutMinutes: Int32? = nil, appPackagesCleanup: Bool? = nil) {
-            self.accountsCleanup = accountsCleanup
+        public init(jobTimeoutMinutes: Int32? = nil, accountsCleanup: Bool? = nil, skipAppResign: Bool? = nil, appPackagesCleanup: Bool? = nil) {
             self.jobTimeoutMinutes = jobTimeoutMinutes
+            self.accountsCleanup = accountsCleanup
+            self.skipAppResign = skipAppResign
             self.appPackagesCleanup = appPackagesCleanup
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountsCleanup = "accountsCleanup"
             case jobTimeoutMinutes = "jobTimeoutMinutes"
+            case accountsCleanup = "accountsCleanup"
+            case skipAppResign = "skipAppResign"
             case appPackagesCleanup = "appPackagesCleanup"
         }
     }
@@ -540,17 +595,22 @@ extension Devicefarm {
             AWSShapeMember(label: "remoteDebugEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "remoteRecordAppArn", required: false, type: .string), 
             AWSShapeMember(label: "clientId", required: false, type: .string), 
             AWSShapeMember(label: "device", required: false, type: .structure), 
             AWSShapeMember(label: "result", required: false, type: .enum), 
+            AWSShapeMember(label: "skipAppResign", required: false, type: .boolean), 
             AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "remoteRecordEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "interactionMode", required: false, type: .enum), 
             AWSShapeMember(label: "created", required: false, type: .timestamp), 
             AWSShapeMember(label: "started", required: false, type: .timestamp), 
             AWSShapeMember(label: "hostAddress", required: false, type: .string), 
             AWSShapeMember(label: "stopped", required: false, type: .timestamp), 
             AWSShapeMember(label: "deviceMinutes", required: false, type: .structure), 
             AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "instanceArn", required: false, type: .string), 
             AWSShapeMember(label: "deviceUdid", required: false, type: .string), 
             AWSShapeMember(label: "billingMethod", required: false, type: .enum)
         ]
@@ -560,16 +620,24 @@ extension Devicefarm {
         public let name: String?
         /// The endpoint for the remote access sesssion.
         public let endpoint: String?
+        /// The Amazon Resource Name (ARN) for the app to be recorded in the remote access session.
+        public let remoteRecordAppArn: String?
         /// Unique identifier of your client for the remote access session. Only returned if remote debugging is enabled for the remote access session.
         public let clientId: String?
         /// The device (phone or tablet) used in the remote access session.
         public let device: Device?
         /// The result of the remote access session. Can be any of the following:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
         public let result: ExecutionResult?
+        /// When set to true, for private devices, Device Farm will not sign your app again. For public devices, Device Farm always signs your apps again and this parameter has no effect. For more information about how Device Farm re-signs your app(s), see Do you modify my app? in the AWS Device Farm FAQs.
+        public let skipAppResign: Bool?
         /// The Amazon Resource Name (ARN) of the remote access session.
         public let arn: String?
+        /// This flag is set to true if remote recording is enabled for the remote access session.
+        public let remoteRecordEnabled: Bool?
         /// The status of the remote access session. Can be any of the following:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
         public let status: ExecutionStatus?
+        /// The interaction mode of the remote access session. Valid values are:   INTERACTIVE: You can interact with the iOS device by viewing, touching, and rotating the screen. You cannot run XCUITest framework-based tests in this mode.   NO_VIDEO: You are connected to the device but cannot interact with it or view the screen. This mode has the fastest test execution speed. You can run XCUITest framework-based tests in this mode.   VIDEO_ONLY: You can view the screen but cannot touch or rotate it. You can run XCUITest framework-based tests and watch the screen in this mode.  
+        public let interactionMode: InteractionMode?
         /// The date and time the remote access session was created.
         public let created: TimeStamp?
         /// The date and time the remote access session was started.
@@ -582,26 +650,33 @@ extension Devicefarm {
         public let deviceMinutes: DeviceMinutes?
         /// A message about the remote access session.
         public let message: String?
+        /// The Amazon Resource Name (ARN) of the instance.
+        public let instanceArn: String?
         /// Unique device identifier for the remote device. Only returned if remote debugging is enabled for the remote access session.
         public let deviceUdid: String?
         /// The billing method of the remote access session. Possible values include METERED or UNMETERED. For more information about metered devices, see AWS Device Farm terminology."
         public let billingMethod: BillingMethod?
 
-        public init(remoteDebugEnabled: Bool? = nil, name: String? = nil, endpoint: String? = nil, clientId: String? = nil, device: Device? = nil, result: ExecutionResult? = nil, arn: String? = nil, status: ExecutionStatus? = nil, created: TimeStamp? = nil, started: TimeStamp? = nil, hostAddress: String? = nil, stopped: TimeStamp? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, deviceUdid: String? = nil, billingMethod: BillingMethod? = nil) {
+        public init(remoteDebugEnabled: Bool? = nil, name: String? = nil, endpoint: String? = nil, remoteRecordAppArn: String? = nil, clientId: String? = nil, device: Device? = nil, result: ExecutionResult? = nil, skipAppResign: Bool? = nil, arn: String? = nil, remoteRecordEnabled: Bool? = nil, status: ExecutionStatus? = nil, interactionMode: InteractionMode? = nil, created: TimeStamp? = nil, started: TimeStamp? = nil, hostAddress: String? = nil, stopped: TimeStamp? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, instanceArn: String? = nil, deviceUdid: String? = nil, billingMethod: BillingMethod? = nil) {
             self.remoteDebugEnabled = remoteDebugEnabled
             self.name = name
             self.endpoint = endpoint
+            self.remoteRecordAppArn = remoteRecordAppArn
             self.clientId = clientId
             self.device = device
             self.result = result
+            self.skipAppResign = skipAppResign
             self.arn = arn
+            self.remoteRecordEnabled = remoteRecordEnabled
             self.status = status
+            self.interactionMode = interactionMode
             self.created = created
             self.started = started
             self.hostAddress = hostAddress
             self.stopped = stopped
             self.deviceMinutes = deviceMinutes
             self.message = message
+            self.instanceArn = instanceArn
             self.deviceUdid = deviceUdid
             self.billingMethod = billingMethod
         }
@@ -610,17 +685,22 @@ extension Devicefarm {
             case remoteDebugEnabled = "remoteDebugEnabled"
             case name = "name"
             case endpoint = "endpoint"
+            case remoteRecordAppArn = "remoteRecordAppArn"
             case clientId = "clientId"
             case device = "device"
             case result = "result"
+            case skipAppResign = "skipAppResign"
             case arn = "arn"
+            case remoteRecordEnabled = "remoteRecordEnabled"
             case status = "status"
+            case interactionMode = "interactionMode"
             case created = "created"
             case started = "started"
             case hostAddress = "hostAddress"
             case stopped = "stopped"
             case deviceMinutes = "deviceMinutes"
             case message = "message"
+            case instanceArn = "instanceArn"
             case deviceUdid = "deviceUdid"
             case billingMethod = "billingMethod"
         }
@@ -713,6 +793,42 @@ extension Devicefarm {
         }
     }
 
+    public struct CreateInstanceProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "packageCleanup", required: false, type: .boolean), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "rebootAfterUse", required: false, type: .boolean), 
+            AWSShapeMember(label: "excludeAppPackagesFromCleanup", required: false, type: .list)
+        ]
+        /// When set to true, Device Farm will remove app packages after a test run. The default value is false for private devices.
+        public let packageCleanup: Bool?
+        /// The name of your instance profile.
+        public let name: String
+        /// The description of your instance profile.
+        public let description: String?
+        /// When set to true, Device Farm will reboot the instance after a test run. The default value is true.
+        public let rebootAfterUse: Bool?
+        /// An array of strings specifying the list of app packages that should not be cleaned up from the device after a test run is over. The list of packages is only considered if you set packageCleanup to true.
+        public let excludeAppPackagesFromCleanup: [String]?
+
+        public init(packageCleanup: Bool? = nil, name: String, description: String? = nil, rebootAfterUse: Bool? = nil, excludeAppPackagesFromCleanup: [String]? = nil) {
+            self.packageCleanup = packageCleanup
+            self.name = name
+            self.description = description
+            self.rebootAfterUse = rebootAfterUse
+            self.excludeAppPackagesFromCleanup = excludeAppPackagesFromCleanup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case packageCleanup = "packageCleanup"
+            case name = "name"
+            case description = "description"
+            case rebootAfterUse = "rebootAfterUse"
+            case excludeAppPackagesFromCleanup = "excludeAppPackagesFromCleanup"
+        }
+    }
+
     public struct DeleteUploadRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
@@ -759,6 +875,27 @@ extension Devicefarm {
         public var description: String { return self.rawValue }
     }
 
+    public struct ListInstanceProfilesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// An integer specifying the maximum number of items you want to return in the API response.
+        public let maxResults: Int32?
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ProblemDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string), 
@@ -786,8 +923,9 @@ extension Devicefarm {
             AWSShapeMember(label: "location", required: false, type: .structure), 
             AWSShapeMember(label: "extraDataPackageArn", required: false, type: .string), 
             AWSShapeMember(label: "networkProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "auxiliaryApps", required: false, type: .list), 
+            AWSShapeMember(label: "vpceConfigurationArns", required: false, type: .list), 
             AWSShapeMember(label: "radios", required: false, type: .structure), 
+            AWSShapeMember(label: "auxiliaryApps", required: false, type: .list), 
             AWSShapeMember(label: "locale", required: false, type: .string), 
             AWSShapeMember(label: "billingMethod", required: false, type: .enum)
         ]
@@ -799,22 +937,25 @@ extension Devicefarm {
         public let extraDataPackageArn: String?
         /// Reserved for internal use.
         public let networkProfileArn: String?
-        /// A list of auxiliary apps for the run.
-        public let auxiliaryApps: [String]?
+        /// An array of Amazon Resource Names (ARNs) for your VPC endpoint configurations.
+        public let vpceConfigurationArns: [String]?
         /// Information about the radio states for the run.
         public let radios: Radios?
+        /// A list of auxiliary apps for the run.
+        public let auxiliaryApps: [String]?
         /// Information about the locale that is used for the run.
         public let locale: String?
         /// Specifies the billing method for a test run: metered or unmetered. If the parameter is not specified, the default value is metered.
         public let billingMethod: BillingMethod?
 
-        public init(customerArtifactPaths: CustomerArtifactPaths? = nil, location: Location? = nil, extraDataPackageArn: String? = nil, networkProfileArn: String? = nil, auxiliaryApps: [String]? = nil, radios: Radios? = nil, locale: String? = nil, billingMethod: BillingMethod? = nil) {
+        public init(customerArtifactPaths: CustomerArtifactPaths? = nil, location: Location? = nil, extraDataPackageArn: String? = nil, networkProfileArn: String? = nil, vpceConfigurationArns: [String]? = nil, radios: Radios? = nil, auxiliaryApps: [String]? = nil, locale: String? = nil, billingMethod: BillingMethod? = nil) {
             self.customerArtifactPaths = customerArtifactPaths
             self.location = location
             self.extraDataPackageArn = extraDataPackageArn
             self.networkProfileArn = networkProfileArn
-            self.auxiliaryApps = auxiliaryApps
+            self.vpceConfigurationArns = vpceConfigurationArns
             self.radios = radios
+            self.auxiliaryApps = auxiliaryApps
             self.locale = locale
             self.billingMethod = billingMethod
         }
@@ -824,37 +965,12 @@ extension Devicefarm {
             case location = "location"
             case extraDataPackageArn = "extraDataPackageArn"
             case networkProfileArn = "networkProfileArn"
-            case auxiliaryApps = "auxiliaryApps"
+            case vpceConfigurationArns = "vpceConfigurationArns"
             case radios = "radios"
+            case auxiliaryApps = "auxiliaryApps"
             case locale = "locale"
             case billingMethod = "billingMethod"
         }
-    }
-
-    public struct GetJobResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "job", required: false, type: .structure)
-        ]
-        /// An object containing information about the requested job.
-        public let job: Job?
-
-        public init(job: Job? = nil) {
-            self.job = job
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case job = "job"
-        }
-    }
-
-    public enum RuleOperator: String, CustomStringConvertible, Codable {
-        case equals = "EQUALS"
-        case lessThan = "LESS_THAN"
-        case greaterThan = "GREATER_THAN"
-        case `in` = "IN"
-        case notIn = "NOT_IN"
-        case contains = "CONTAINS"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListOfferingsResult: AWSShape {
@@ -878,6 +994,48 @@ extension Devicefarm {
         }
     }
 
+    public enum RuleOperator: String, CustomStringConvertible, Codable {
+        case equals = "EQUALS"
+        case lessThan = "LESS_THAN"
+        case greaterThan = "GREATER_THAN"
+        case `in` = "IN"
+        case notIn = "NOT_IN"
+        case contains = "CONTAINS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetJobResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "job", required: false, type: .structure)
+        ]
+        /// An object containing information about the requested job.
+        public let job: Job?
+
+        public init(job: Job? = nil) {
+            self.job = job
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case job = "job"
+        }
+    }
+
+    public struct GetDeviceInstanceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deviceInstance", required: false, type: .structure)
+        ]
+        /// An object containing information about your device instance.
+        public let deviceInstance: DeviceInstance?
+
+        public init(deviceInstance: DeviceInstance? = nil) {
+            self.deviceInstance = deviceInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceInstance = "deviceInstance"
+        }
+    }
+
     public struct StopRunResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "run", required: false, type: .structure)
@@ -891,6 +1049,42 @@ extension Devicefarm {
 
         private enum CodingKeys: String, CodingKey {
             case run = "run"
+        }
+    }
+
+    public struct UpdateVPCEConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "vpceConfigurationName", required: false, type: .string), 
+            AWSShapeMember(label: "serviceDnsName", required: false, type: .string), 
+            AWSShapeMember(label: "vpceServiceName", required: false, type: .string), 
+            AWSShapeMember(label: "vpceConfigurationDescription", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to update.
+        public let arn: String
+        /// The friendly name you give to your VPC endpoint configuration, to manage your configurations more easily.
+        public let vpceConfigurationName: String?
+        /// The DNS (domain) name used to connect to your private service in your Amazon VPC. The DNS name must not already be in use on the Internet.
+        public let serviceDnsName: String?
+        /// The name of the VPC endpoint service running inside your AWS account that you want Device Farm to test.
+        public let vpceServiceName: String?
+        /// An optional description, providing more details about your VPC endpoint configuration.
+        public let vpceConfigurationDescription: String?
+
+        public init(arn: String, vpceConfigurationName: String? = nil, serviceDnsName: String? = nil, vpceServiceName: String? = nil, vpceConfigurationDescription: String? = nil) {
+            self.arn = arn
+            self.vpceConfigurationName = vpceConfigurationName
+            self.serviceDnsName = serviceDnsName
+            self.vpceServiceName = vpceServiceName
+            self.vpceConfigurationDescription = vpceConfigurationDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case vpceConfigurationName = "vpceConfigurationName"
+            case serviceDnsName = "serviceDnsName"
+            case vpceServiceName = "vpceServiceName"
+            case vpceConfigurationDescription = "vpceConfigurationDescription"
         }
     }
 
@@ -968,7 +1162,26 @@ extension Devicefarm {
         case remoteAccessEnabled = "REMOTE_ACCESS_ENABLED"
         case remoteDebugEnabled = "REMOTE_DEBUG_ENABLED"
         case appiumVersion = "APPIUM_VERSION"
+        case instanceArn = "INSTANCE_ARN"
+        case instanceLabels = "INSTANCE_LABELS"
+        case fleetType = "FLEET_TYPE"
         public var description: String { return self.rawValue }
+    }
+
+    public struct GetInstanceProfileResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceProfile", required: false, type: .structure)
+        ]
+        /// An object containing information about your instance profile.
+        public let instanceProfile: InstanceProfile?
+
+        public init(instanceProfile: InstanceProfile? = nil) {
+            self.instanceProfile = instanceProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceProfile = "instanceProfile"
+        }
     }
 
     public struct Artifact: AWSShape {
@@ -1007,6 +1220,60 @@ extension Devicefarm {
         }
     }
 
+    public enum InteractionMode: String, CustomStringConvertible, Codable {
+        case interactive = "INTERACTIVE"
+        case noVideo = "NO_VIDEO"
+        case videoOnly = "VIDEO_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateVPCEConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "vpceConfigurationName", required: true, type: .string), 
+            AWSShapeMember(label: "serviceDnsName", required: true, type: .string), 
+            AWSShapeMember(label: "vpceServiceName", required: true, type: .string), 
+            AWSShapeMember(label: "vpceConfigurationDescription", required: false, type: .string)
+        ]
+        /// The friendly name you give to your VPC endpoint configuration, to manage your configurations more easily.
+        public let vpceConfigurationName: String
+        /// The DNS name of the service running in your VPC that you want Device Farm to test.
+        public let serviceDnsName: String
+        /// The name of the VPC endpoint service running inside your AWS account that you want Device Farm to test.
+        public let vpceServiceName: String
+        /// An optional description, providing more details about your VPC endpoint configuration.
+        public let vpceConfigurationDescription: String?
+
+        public init(vpceConfigurationName: String, serviceDnsName: String, vpceServiceName: String, vpceConfigurationDescription: String? = nil) {
+            self.vpceConfigurationName = vpceConfigurationName
+            self.serviceDnsName = serviceDnsName
+            self.vpceServiceName = vpceServiceName
+            self.vpceConfigurationDescription = vpceConfigurationDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpceConfigurationName = "vpceConfigurationName"
+            case serviceDnsName = "serviceDnsName"
+            case vpceServiceName = "vpceServiceName"
+            case vpceConfigurationDescription = "vpceConfigurationDescription"
+        }
+    }
+
+    public struct UpdateVPCEConfigurationResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "vpceConfiguration", required: false, type: .structure)
+        ]
+        /// An object containing information about your VPC endpoint configuration.
+        public let vpceConfiguration: VPCEConfiguration?
+
+        public init(vpceConfiguration: VPCEConfiguration? = nil) {
+            self.vpceConfiguration = vpceConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpceConfiguration = "vpceConfiguration"
+        }
+    }
+
     public struct CreateNetworkProfileResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "networkProfile", required: false, type: .structure)
@@ -1020,6 +1287,32 @@ extension Devicefarm {
 
         private enum CodingKeys: String, CodingKey {
             case networkProfile = "networkProfile"
+        }
+    }
+
+    public struct UpdateDeviceInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "labels", required: false, type: .list), 
+            AWSShapeMember(label: "profileArn", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
+        ]
+        /// An array of strings that you want to associate with the device instance.
+        public let labels: [String]?
+        /// The Amazon Resource Name (ARN) of the profile that you want to associate with the device instance.
+        public let profileArn: String?
+        /// The Amazon Resource Name (ARN) of the device instance.
+        public let arn: String
+
+        public init(labels: [String]? = nil, profileArn: String? = nil, arn: String) {
+            self.labels = labels
+            self.profileArn = profileArn
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labels = "labels"
+            case profileArn = "profileArn"
+            case arn = "arn"
         }
     }
 
@@ -1037,6 +1330,10 @@ extension Devicefarm {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
+    }
+
+    public struct DeleteVPCEConfigurationResult: AWSShape {
+
     }
 
     public struct Project: AWSShape {
@@ -1086,6 +1383,22 @@ extension Devicefarm {
         }
     }
 
+    public struct DeleteVPCEConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to delete.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
     public struct GetRunRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
@@ -1099,6 +1412,27 @@ extension Devicefarm {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+        }
+    }
+
+    public struct CreateProjectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "defaultJobTimeoutMinutes", required: false, type: .integer)
+        ]
+        /// The project's name.
+        public let name: String
+        /// Sets the execution timeout value (in minutes) for a project. All test runs in this project will use the specified execution timeout value unless overridden when scheduling a run.
+        public let defaultJobTimeoutMinutes: Int32?
+
+        public init(name: String, defaultJobTimeoutMinutes: Int32? = nil) {
+            self.name = name
+            self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
         }
     }
 
@@ -1144,27 +1478,6 @@ extension Devicefarm {
         }
     }
 
-    public struct CreateProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "defaultJobTimeoutMinutes", required: false, type: .integer)
-        ]
-        /// The project's name.
-        public let name: String
-        /// Sets the execution timeout value (in minutes) for a project. All test runs in this project will use the specified execution timeout value unless overridden when scheduling a run.
-        public let defaultJobTimeoutMinutes: Int32?
-
-        public init(name: String, defaultJobTimeoutMinutes: Int32? = nil) {
-            self.name = name
-            self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
-        }
-    }
-
     public struct GetRemoteAccessSessionResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "remoteAccessSession", required: false, type: .structure)
@@ -1194,6 +1507,47 @@ extension Devicefarm {
 
         private enum CodingKeys: String, CodingKey {
             case devicePool = "devicePool"
+        }
+    }
+
+    public struct UpdateInstanceProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "packageCleanup", required: false, type: .boolean), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "rebootAfterUse", required: false, type: .boolean), 
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "excludeAppPackagesFromCleanup", required: false, type: .list)
+        ]
+        /// The updated choice for whether you want to specify package cleanup. The default value is false for private devices.
+        public let packageCleanup: Bool?
+        /// The updated name for your instance profile.
+        public let name: String?
+        /// The updated description for your instance profile.
+        public let description: String?
+        /// The updated choice for whether you want to reboot the device after use. The default value is true.
+        public let rebootAfterUse: Bool?
+        /// The Amazon Resource Name (ARN) of the instance profile.
+        public let arn: String
+        /// An array of strings specifying the list of app packages that should not be cleaned up from the device after a test run is over. The list of packages is only considered if you set packageCleanup to true.
+        public let excludeAppPackagesFromCleanup: [String]?
+
+        public init(packageCleanup: Bool? = nil, name: String? = nil, description: String? = nil, rebootAfterUse: Bool? = nil, arn: String, excludeAppPackagesFromCleanup: [String]? = nil) {
+            self.packageCleanup = packageCleanup
+            self.name = name
+            self.description = description
+            self.rebootAfterUse = rebootAfterUse
+            self.arn = arn
+            self.excludeAppPackagesFromCleanup = excludeAppPackagesFromCleanup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case packageCleanup = "packageCleanup"
+            case name = "name"
+            case description = "description"
+            case rebootAfterUse = "rebootAfterUse"
+            case arn = "arn"
+            case excludeAppPackagesFromCleanup = "excludeAppPackagesFromCleanup"
         }
     }
 
@@ -1259,6 +1613,27 @@ extension Devicefarm {
         case customerArtifact = "CUSTOMER_ARTIFACT"
         case customerArtifactLog = "CUSTOMER_ARTIFACT_LOG"
         public var description: String { return self.rawValue }
+    }
+
+    public struct ListDeviceInstancesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// An integer specifying the maximum number of items you want to return in the API response.
+        public let maxResults: Int32?
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
     }
 
     public struct StopRemoteAccessSessionRequest: AWSShape {
@@ -1482,11 +1857,6 @@ extension Devicefarm {
         }
     }
 
-    public enum RecurringChargeFrequency: String, CustomStringConvertible, Codable {
-        case monthly = "MONTHLY"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListOfferingPromotionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string)
@@ -1501,6 +1871,11 @@ extension Devicefarm {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
         }
+    }
+
+    public enum RecurringChargeFrequency: String, CustomStringConvertible, Codable {
+        case monthly = "MONTHLY"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListDevicesResult: AWSShape {
@@ -1721,6 +2096,22 @@ extension Devicefarm {
         }
     }
 
+    public struct DeleteRemoteAccessSessionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the sesssion for which you want to delete remote access.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
     public struct GetOfferingStatusResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextPeriod", required: false, type: .map), 
@@ -1747,22 +2138,6 @@ extension Devicefarm {
         }
     }
 
-    public struct DeleteRemoteAccessSessionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the sesssion for which you want to delete remote access.
-        public let arn: String
-
-        public init(arn: String) {
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-        }
-    }
-
     public struct GetOfferingStatusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string)
@@ -1782,6 +2157,7 @@ extension Devicefarm {
     public enum TestType: String, CustomStringConvertible, Codable {
         case builtinFuzz = "BUILTIN_FUZZ"
         case builtinExplorer = "BUILTIN_EXPLORER"
+        case webPerformanceProfile = "WEB_PERFORMANCE_PROFILE"
         case appiumJavaJunit = "APPIUM_JAVA_JUNIT"
         case appiumJavaTestng = "APPIUM_JAVA_TESTNG"
         case appiumPython = "APPIUM_PYTHON"
@@ -1794,7 +2170,50 @@ extension Devicefarm {
         case uiautomator = "UIAUTOMATOR"
         case xctest = "XCTEST"
         case xctestUi = "XCTEST_UI"
+        case remoteAccessRecord = "REMOTE_ACCESS_RECORD"
+        case remoteAccessReplay = "REMOTE_ACCESS_REPLAY"
         public var description: String { return self.rawValue }
+    }
+
+    public struct DeviceInstance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceProfile", required: false, type: .structure), 
+            AWSShapeMember(label: "labels", required: false, type: .list), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "deviceArn", required: false, type: .string), 
+            AWSShapeMember(label: "udid", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
+        ]
+        /// A object containing information about the instance profile.
+        public let instanceProfile: InstanceProfile?
+        /// An array of strings describing the device instance.
+        public let labels: [String]?
+        /// The status of the device instance. Valid values are listed below.
+        public let status: InstanceStatus?
+        /// The Amazon Resource Name (ARN) of the device.
+        public let deviceArn: String?
+        /// Unique device identifier for the device instance.
+        public let udid: String?
+        /// The Amazon Resource Name (ARN) of the device instance.
+        public let arn: String?
+
+        public init(instanceProfile: InstanceProfile? = nil, labels: [String]? = nil, status: InstanceStatus? = nil, deviceArn: String? = nil, udid: String? = nil, arn: String? = nil) {
+            self.instanceProfile = instanceProfile
+            self.labels = labels
+            self.status = status
+            self.deviceArn = deviceArn
+            self.udid = udid
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceProfile = "instanceProfile"
+            case labels = "labels"
+            case status = "status"
+            case deviceArn = "deviceArn"
+            case udid = "udid"
+            case arn = "arn"
+        }
     }
 
     public struct IncompatibilityMessage: AWSShape {
@@ -1816,6 +2235,14 @@ extension Devicefarm {
             case `type` = "type"
             case message = "message"
         }
+    }
+
+    public enum InstanceStatus: String, CustomStringConvertible, Codable {
+        case inUse = "IN_USE"
+        case preparing = "PREPARING"
+        case available = "AVAILABLE"
+        case notAvailable = "NOT_AVAILABLE"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateUploadRequest: AWSShape {
@@ -1896,6 +2323,22 @@ extension Devicefarm {
         }
     }
 
+    public struct CreateInstanceProfileResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceProfile", required: false, type: .structure)
+        ]
+        /// An object containing information about your instance profile.
+        public let instanceProfile: InstanceProfile?
+
+        public init(instanceProfile: InstanceProfile? = nil) {
+            self.instanceProfile = instanceProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceProfile = "instanceProfile"
+        }
+    }
+
     public struct DeleteDevicePoolResult: AWSShape {
 
     }
@@ -1934,6 +2377,22 @@ extension Devicefarm {
 
         private enum CodingKeys: String, CodingKey {
             case remoteAccessSession = "remoteAccessSession"
+        }
+    }
+
+    public struct DeleteInstanceProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the instance profile you are requesting to delete.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
@@ -2046,47 +2505,72 @@ extension Devicefarm {
 
     public struct CreateRemoteAccessSessionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "projectArn", required: true, type: .string), 
             AWSShapeMember(label: "remoteDebugEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "deviceArn", required: true, type: .string), 
+            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "remoteRecordAppArn", required: false, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "clientId", required: false, type: .string), 
-            AWSShapeMember(label: "projectArn", required: true, type: .string), 
-            AWSShapeMember(label: "configuration", required: false, type: .structure)
+            AWSShapeMember(label: "configuration", required: false, type: .structure), 
+            AWSShapeMember(label: "interactionMode", required: false, type: .enum), 
+            AWSShapeMember(label: "instanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "skipAppResign", required: false, type: .boolean), 
+            AWSShapeMember(label: "remoteRecordEnabled", required: false, type: .boolean)
         ]
-        /// The public key of the ssh key pair you want to use for connecting to remote devices in your remote debugging session. This is only required if remoteDebugEnabled is set to true.
-        public let sshPublicKey: String?
+        /// The Amazon Resource Name (ARN) of the project for which you want to create a remote access session.
+        public let projectArn: String
         /// Set to true if you want to access devices remotely for debugging in your remote access session.
         public let remoteDebugEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the device for which you want to create a remote access session.
         public let deviceArn: String
+        /// The public key of the ssh key pair you want to use for connecting to remote devices in your remote debugging session. This is only required if remoteDebugEnabled is set to true.
+        public let sshPublicKey: String?
+        /// The Amazon Resource Name (ARN) for the app to be recorded in the remote access session.
+        public let remoteRecordAppArn: String?
         /// The name of the remote access session that you wish to create.
         public let name: String?
-        /// Unique identifier for the client. If you want access to multiple devices on the same client, you should pass the same clientId value in each call to CreateRemoteAccessSession. This is required only if remoteDebugEnabled is set to true true.
+        /// Unique identifier for the client. If you want access to multiple devices on the same client, you should pass the same clientId value in each call to CreateRemoteAccessSession. This is required only if remoteDebugEnabled is set to true.
         public let clientId: String?
-        /// The Amazon Resource Name (ARN) of the project for which you want to create a remote access session.
-        public let projectArn: String
         /// The configuration information for the remote access session request.
         public let configuration: CreateRemoteAccessSessionConfiguration?
+        /// The interaction mode of the remote access session. Valid values are:   INTERACTIVE: You can interact with the iOS device by viewing, touching, and rotating the screen. You cannot run XCUITest framework-based tests in this mode.   NO_VIDEO: You are connected to the device but cannot interact with it or view the screen. This mode has the fastest test execution speed. You can run XCUITest framework-based tests in this mode.   VIDEO_ONLY: You can view the screen but cannot touch or rotate it. You can run XCUITest framework-based tests and watch the screen in this mode.  
+        public let interactionMode: InteractionMode?
+        /// The Amazon Resource Name (ARN) of the device instance for which you want to create a remote access session.
+        public let instanceArn: String?
+        /// When set to true, for private devices, Device Farm will not sign your app again. For public devices, Device Farm always signs your apps again and this parameter has no effect. For more information about how Device Farm re-signs your app(s), see Do you modify my app? in the AWS Device Farm FAQs.
+        public let skipAppResign: Bool?
+        /// Set to true to enable remote recording for the remote access session.
+        public let remoteRecordEnabled: Bool?
 
-        public init(sshPublicKey: String? = nil, remoteDebugEnabled: Bool? = nil, deviceArn: String, name: String? = nil, clientId: String? = nil, projectArn: String, configuration: CreateRemoteAccessSessionConfiguration? = nil) {
-            self.sshPublicKey = sshPublicKey
+        public init(projectArn: String, remoteDebugEnabled: Bool? = nil, deviceArn: String, sshPublicKey: String? = nil, remoteRecordAppArn: String? = nil, name: String? = nil, clientId: String? = nil, configuration: CreateRemoteAccessSessionConfiguration? = nil, interactionMode: InteractionMode? = nil, instanceArn: String? = nil, skipAppResign: Bool? = nil, remoteRecordEnabled: Bool? = nil) {
+            self.projectArn = projectArn
             self.remoteDebugEnabled = remoteDebugEnabled
             self.deviceArn = deviceArn
+            self.sshPublicKey = sshPublicKey
+            self.remoteRecordAppArn = remoteRecordAppArn
             self.name = name
             self.clientId = clientId
-            self.projectArn = projectArn
             self.configuration = configuration
+            self.interactionMode = interactionMode
+            self.instanceArn = instanceArn
+            self.skipAppResign = skipAppResign
+            self.remoteRecordEnabled = remoteRecordEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sshPublicKey = "sshPublicKey"
+            case projectArn = "projectArn"
             case remoteDebugEnabled = "remoteDebugEnabled"
             case deviceArn = "deviceArn"
+            case sshPublicKey = "sshPublicKey"
+            case remoteRecordAppArn = "remoteRecordAppArn"
             case name = "name"
             case clientId = "clientId"
-            case projectArn = "projectArn"
             case configuration = "configuration"
+            case interactionMode = "interactionMode"
+            case instanceArn = "instanceArn"
+            case skipAppResign = "skipAppResign"
+            case remoteRecordEnabled = "remoteRecordEnabled"
         }
     }
 
@@ -2241,6 +2725,38 @@ extension Devicefarm {
         }
     }
 
+    public struct GetDeviceInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the instance you're requesting information about.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct GetVPCEConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to describe.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
     public struct ListJobsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -2248,7 +2764,7 @@ extension Devicefarm {
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        /// The jobs' ARNs.
+        /// The run's Amazon Resource Name (ARN).
         public let arn: String
 
         public init(nextToken: String? = nil, arn: String) {
@@ -2264,54 +2780,54 @@ extension Devicefarm {
 
     public struct Run: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "customerArtifactPaths", required: false, type: .structure), 
             AWSShapeMember(label: "resultCode", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "eventCount", required: false, type: .integer), 
             AWSShapeMember(label: "platform", required: false, type: .enum), 
             AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "result", required: false, type: .enum), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "webUrl", required: false, type: .string), 
             AWSShapeMember(label: "parsingResultUrl", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "completedJobs", required: false, type: .integer), 
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
+            AWSShapeMember(label: "jobTimeoutMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "started", required: false, type: .timestamp), 
             AWSShapeMember(label: "totalJobs", required: false, type: .integer), 
-            AWSShapeMember(label: "stopped", required: false, type: .timestamp), 
             AWSShapeMember(label: "deviceMinutes", required: false, type: .structure), 
             AWSShapeMember(label: "message", required: false, type: .string), 
             AWSShapeMember(label: "networkProfile", required: false, type: .structure), 
             AWSShapeMember(label: "counters", required: false, type: .structure), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "customerArtifactPaths", required: false, type: .structure), 
+            AWSShapeMember(label: "appUpload", required: false, type: .string), 
+            AWSShapeMember(label: "result", required: false, type: .enum), 
+            AWSShapeMember(label: "skipAppResign", required: false, type: .boolean), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "locale", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "seed", required: false, type: .integer), 
+            AWSShapeMember(label: "completedJobs", required: false, type: .integer), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp), 
+            AWSShapeMember(label: "radios", required: false, type: .structure), 
+            AWSShapeMember(label: "stopped", required: false, type: .timestamp), 
+            AWSShapeMember(label: "devicePoolArn", required: false, type: .string), 
             AWSShapeMember(label: "billingMethod", required: false, type: .enum)
         ]
-        /// Output CustomerArtifactPaths object for the test run.
-        public let customerArtifactPaths: CustomerArtifactPaths?
         /// Supporting field for the result field. Set only if result is SKIPPED. PARSING_FAILED if the result is skipped because of test package parsing failure.
         public let resultCode: ExecutionResultCode?
-        /// The run's name.
-        public let name: String?
+        /// For fuzz tests, this is the number of events, between 1 and 10000, that the UI fuzz test should perform.
+        public let eventCount: Int32?
         /// The run's platform. Allowed values include:   ANDROID: The Android platform.   IOS: The iOS platform.  
         public let platform: DevicePlatform?
         /// The run's type. Must be one of the following values:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
         public let `type`: TestType?
-        /// The run's result. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
-        public let result: ExecutionResult?
-        /// The run's ARN.
-        public let arn: String?
+        /// The Device Farm console URL for the recording of the run.
+        public let webUrl: String?
         /// Read-only URL for an object in S3 bucket where you can get the parsing results of the test package. If the test package doesn't parse, the reason why it doesn't parse appears in the file that this URL points to.
         public let parsingResultUrl: String?
-        /// The run's status. Allowed values include:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
-        public let status: ExecutionStatus?
-        /// The total number of completed jobs.
-        public let completedJobs: Int32?
-        /// When the run was created.
-        public let created: TimeStamp?
+        /// The number of minutes the job will execute before it times out.
+        public let jobTimeoutMinutes: Int32?
         /// The run's start time.
         public let started: TimeStamp?
         /// The total number of jobs for the run.
         public let totalJobs: Int32?
-        /// The run's stop time.
-        public let stopped: TimeStamp?
         /// Represents the total (metered or unmetered) minutes used by the test run.
         public let deviceMinutes: DeviceMinutes?
         /// A message about the run's result.
@@ -2320,50 +2836,100 @@ extension Devicefarm {
         public let networkProfile: NetworkProfile?
         /// The run's result counters.
         public let counters: Counters?
+        /// The run's name.
+        public let name: String?
+        /// Output CustomerArtifactPaths object for the test run.
+        public let customerArtifactPaths: CustomerArtifactPaths?
+        /// An app to upload or that has been uploaded.
+        public let appUpload: String?
+        /// The run's result. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
+        public let result: ExecutionResult?
+        /// When set to true, for private devices, Device Farm will not sign your app again. For public devices, Device Farm always signs your apps again and this parameter has no effect. For more information about how Device Farm re-signs your app(s), see Do you modify my app? in the AWS Device Farm FAQs.
+        public let skipAppResign: Bool?
+        /// The run's ARN.
+        public let arn: String?
+        /// Information about the locale that is used for the run.
+        public let locale: String?
+        /// The run's status. Allowed values include:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
+        public let status: ExecutionStatus?
+        /// Information about the location that is used for the run.
+        public let location: Location?
+        /// For fuzz tests, this is a seed to use for randomizing the UI fuzz test. Using the same seed value between tests ensures identical event sequences.
+        public let seed: Int32?
+        /// The total number of completed jobs.
+        public let completedJobs: Int32?
+        /// When the run was created.
+        public let created: TimeStamp?
+        /// Information about the radio states for the run.
+        public let radios: Radios?
+        /// The run's stop time.
+        public let stopped: TimeStamp?
+        /// The ARN of the device pool for the run.
+        public let devicePoolArn: String?
         /// Specifies the billing method for a test run: metered or unmetered. If the parameter is not specified, the default value is metered.
         public let billingMethod: BillingMethod?
 
-        public init(customerArtifactPaths: CustomerArtifactPaths? = nil, resultCode: ExecutionResultCode? = nil, name: String? = nil, platform: DevicePlatform? = nil, type: TestType? = nil, result: ExecutionResult? = nil, arn: String? = nil, parsingResultUrl: String? = nil, status: ExecutionStatus? = nil, completedJobs: Int32? = nil, created: TimeStamp? = nil, started: TimeStamp? = nil, totalJobs: Int32? = nil, stopped: TimeStamp? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, networkProfile: NetworkProfile? = nil, counters: Counters? = nil, billingMethod: BillingMethod? = nil) {
-            self.customerArtifactPaths = customerArtifactPaths
+        public init(resultCode: ExecutionResultCode? = nil, eventCount: Int32? = nil, platform: DevicePlatform? = nil, type: TestType? = nil, webUrl: String? = nil, parsingResultUrl: String? = nil, jobTimeoutMinutes: Int32? = nil, started: TimeStamp? = nil, totalJobs: Int32? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, networkProfile: NetworkProfile? = nil, counters: Counters? = nil, name: String? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, appUpload: String? = nil, result: ExecutionResult? = nil, skipAppResign: Bool? = nil, arn: String? = nil, locale: String? = nil, status: ExecutionStatus? = nil, location: Location? = nil, seed: Int32? = nil, completedJobs: Int32? = nil, created: TimeStamp? = nil, radios: Radios? = nil, stopped: TimeStamp? = nil, devicePoolArn: String? = nil, billingMethod: BillingMethod? = nil) {
             self.resultCode = resultCode
-            self.name = name
+            self.eventCount = eventCount
             self.platform = platform
             self.`type` = `type`
-            self.result = result
-            self.arn = arn
+            self.webUrl = webUrl
             self.parsingResultUrl = parsingResultUrl
-            self.status = status
-            self.completedJobs = completedJobs
-            self.created = created
+            self.jobTimeoutMinutes = jobTimeoutMinutes
             self.started = started
             self.totalJobs = totalJobs
-            self.stopped = stopped
             self.deviceMinutes = deviceMinutes
             self.message = message
             self.networkProfile = networkProfile
             self.counters = counters
+            self.name = name
+            self.customerArtifactPaths = customerArtifactPaths
+            self.appUpload = appUpload
+            self.result = result
+            self.skipAppResign = skipAppResign
+            self.arn = arn
+            self.locale = locale
+            self.status = status
+            self.location = location
+            self.seed = seed
+            self.completedJobs = completedJobs
+            self.created = created
+            self.radios = radios
+            self.stopped = stopped
+            self.devicePoolArn = devicePoolArn
             self.billingMethod = billingMethod
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customerArtifactPaths = "customerArtifactPaths"
             case resultCode = "resultCode"
-            case name = "name"
+            case eventCount = "eventCount"
             case platform = "platform"
             case `type` = "type"
-            case result = "result"
-            case arn = "arn"
+            case webUrl = "webUrl"
             case parsingResultUrl = "parsingResultUrl"
-            case status = "status"
-            case completedJobs = "completedJobs"
-            case created = "created"
+            case jobTimeoutMinutes = "jobTimeoutMinutes"
             case started = "started"
             case totalJobs = "totalJobs"
-            case stopped = "stopped"
             case deviceMinutes = "deviceMinutes"
             case message = "message"
             case networkProfile = "networkProfile"
             case counters = "counters"
+            case name = "name"
+            case customerArtifactPaths = "customerArtifactPaths"
+            case appUpload = "appUpload"
+            case result = "result"
+            case skipAppResign = "skipAppResign"
+            case arn = "arn"
+            case locale = "locale"
+            case status = "status"
+            case location = "location"
+            case seed = "seed"
+            case completedJobs = "completedJobs"
+            case created = "created"
+            case radios = "radios"
+            case stopped = "stopped"
+            case devicePoolArn = "devicePoolArn"
             case billingMethod = "billingMethod"
         }
     }
@@ -2389,29 +2955,24 @@ extension Devicefarm {
         }
     }
 
-    public struct DevicePoolCompatibilityResult: AWSShape {
+    public struct ListInstanceProfilesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "device", required: false, type: .structure), 
-            AWSShapeMember(label: "compatible", required: false, type: .boolean), 
-            AWSShapeMember(label: "incompatibilityMessages", required: false, type: .list)
+            AWSShapeMember(label: "instanceProfiles", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// The device (phone or tablet) that you wish to return information about.
-        public let device: Device?
-        /// Whether the result was compatible with the device pool.
-        public let compatible: Bool?
-        /// Information about the compatibility.
-        public let incompatibilityMessages: [IncompatibilityMessage]?
+        /// An object containing information about your instance profiles.
+        public let instanceProfiles: [InstanceProfile]?
+        /// An identifier that can be used in the next call to this operation to return the next set of items in the list.
+        public let nextToken: String?
 
-        public init(device: Device? = nil, compatible: Bool? = nil, incompatibilityMessages: [IncompatibilityMessage]? = nil) {
-            self.device = device
-            self.compatible = compatible
-            self.incompatibilityMessages = incompatibilityMessages
+        public init(instanceProfiles: [InstanceProfile]? = nil, nextToken: String? = nil) {
+            self.instanceProfiles = instanceProfiles
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case device = "device"
-            case compatible = "compatible"
-            case incompatibilityMessages = "incompatibilityMessages"
+            case instanceProfiles = "instanceProfiles"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2471,6 +3032,32 @@ extension Devicefarm {
         }
     }
 
+    public struct DevicePoolCompatibilityResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "device", required: false, type: .structure), 
+            AWSShapeMember(label: "compatible", required: false, type: .boolean), 
+            AWSShapeMember(label: "incompatibilityMessages", required: false, type: .list)
+        ]
+        /// The device (phone or tablet) that you wish to return information about.
+        public let device: Device?
+        /// Whether the result was compatible with the device pool.
+        public let compatible: Bool?
+        /// Information about the compatibility.
+        public let incompatibilityMessages: [IncompatibilityMessage]?
+
+        public init(device: Device? = nil, compatible: Bool? = nil, incompatibilityMessages: [IncompatibilityMessage]? = nil) {
+            self.device = device
+            self.compatible = compatible
+            self.incompatibilityMessages = incompatibilityMessages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case device = "device"
+            case compatible = "compatible"
+            case incompatibilityMessages = "incompatibilityMessages"
+        }
+    }
+
     public struct ListOfferingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string)
@@ -2487,33 +3074,12 @@ extension Devicefarm {
         }
     }
 
-    public struct DeleteRunResult: AWSShape {
-
-    }
-
     public struct DeleteProjectResult: AWSShape {
 
     }
 
-    public struct ListDevicePoolsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "devicePools", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// Information about the device pools.
-        public let devicePools: [DevicePool]?
-        /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        public let nextToken: String?
+    public struct DeleteRunResult: AWSShape {
 
-        public init(devicePools: [DevicePool]? = nil, nextToken: String? = nil) {
-            self.devicePools = devicePools
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case devicePools = "devicePools"
-            case nextToken = "nextToken"
-        }
     }
 
     public struct ListOfferingTransactionsResult: AWSShape {
@@ -2537,10 +3103,47 @@ extension Devicefarm {
         }
     }
 
+    public struct ListDevicePoolsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "devicePools", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// Information about the device pools.
+        public let devicePools: [DevicePool]?
+        /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
+        public let nextToken: String?
+
+        public init(devicePools: [DevicePool]? = nil, nextToken: String? = nil) {
+            self.devicePools = devicePools
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case devicePools = "devicePools"
+            case nextToken = "nextToken"
+        }
+    }
+
     public enum DevicePoolType: String, CustomStringConvertible, Codable {
         case curated = "CURATED"
         case `private` = "PRIVATE"
         public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateInstanceProfileResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceProfile", required: false, type: .structure)
+        ]
+        /// An object containing information about your instance profile.
+        public let instanceProfile: InstanceProfile?
+
+        public init(instanceProfile: InstanceProfile? = nil) {
+            self.instanceProfile = instanceProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceProfile = "instanceProfile"
+        }
     }
 
     public struct ListSuitesRequest: AWSShape {
@@ -2550,7 +3153,7 @@ extension Devicefarm {
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        /// The suites' ARNs.
+        /// The job's Amazon Resource Name (ARN).
         public let arn: String
 
         public init(nextToken: String? = nil, arn: String) {
@@ -2668,8 +3271,56 @@ extension Devicefarm {
         }
     }
 
+    public struct GetVPCEConfigurationResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "vpceConfiguration", required: false, type: .structure)
+        ]
+        /// An object containing information about your VPC endpoint configuration.
+        public let vpceConfiguration: VPCEConfiguration?
+
+        public init(vpceConfiguration: VPCEConfiguration? = nil) {
+            self.vpceConfiguration = vpceConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpceConfiguration = "vpceConfiguration"
+        }
+    }
+
     public struct DeleteRemoteAccessSessionResult: AWSShape {
 
+    }
+
+    public struct UpdateDeviceInstanceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deviceInstance", required: false, type: .structure)
+        ]
+        /// An object containing information about your device instance.
+        public let deviceInstance: DeviceInstance?
+
+        public init(deviceInstance: DeviceInstance? = nil) {
+            self.deviceInstance = deviceInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceInstance = "deviceInstance"
+        }
+    }
+
+    public struct CreateVPCEConfigurationResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "vpceConfiguration", required: false, type: .structure)
+        ]
+        /// An object containing information about your VPC endpoint configuration.
+        public let vpceConfiguration: VPCEConfiguration?
+
+        public init(vpceConfiguration: VPCEConfiguration? = nil) {
+            self.vpceConfiguration = vpceConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpceConfiguration = "vpceConfiguration"
+        }
     }
 
     public struct DeviceMinutes: AWSShape {
@@ -2719,32 +3370,6 @@ extension Devicefarm {
         }
     }
 
-    public struct ListArtifactsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: true, type: .enum), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
-        /// The artifacts' type. Allowed values include:   FILE: The artifacts are files.   LOG: The artifacts are logs.   SCREENSHOT: The artifacts are screenshots.  
-        public let `type`: ArtifactCategory
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public let nextToken: String?
-        /// The Run, Job, Suite, or Test ARN.
-        public let arn: String
-
-        public init(type: ArtifactCategory, nextToken: String? = nil, arn: String) {
-            self.`type` = `type`
-            self.nextToken = nextToken
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "type"
-            case nextToken = "nextToken"
-            case arn = "arn"
-        }
-    }
-
     public struct GetTestRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
@@ -2774,6 +3399,32 @@ extension Devicefarm {
 
         private enum CodingKeys: String, CodingKey {
             case device = "device"
+        }
+    }
+
+    public struct ListArtifactsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
+        ]
+        /// The artifacts' type. Allowed values include:   FILE: The artifacts are files.   LOG: The artifacts are logs.   SCREENSHOT: The artifacts are screenshots.  
+        public let `type`: ArtifactCategory
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+        /// The Run, Job, Suite, or Test ARN.
+        public let arn: String
+
+        public init(type: ArtifactCategory, nextToken: String? = nil, arn: String) {
+            self.`type` = `type`
+            self.nextToken = nextToken
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case nextToken = "nextToken"
+            case arn = "arn"
         }
     }
 
@@ -2869,10 +3520,25 @@ extension Devicefarm {
         }
     }
 
-    public enum DevicePlatform: String, CustomStringConvertible, Codable {
-        case android = "ANDROID"
-        case ios = "IOS"
-        public var description: String { return self.rawValue }
+    public struct ListVPCEConfigurationsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "vpceConfigurations", required: false, type: .list)
+        ]
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+        /// An array of VPCEConfiguration objects containing information about your VPC endpoint configuration.
+        public let vpceConfigurations: [VPCEConfiguration]?
+
+        public init(nextToken: String? = nil, vpceConfigurations: [VPCEConfiguration]? = nil) {
+            self.nextToken = nextToken
+            self.vpceConfigurations = vpceConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case vpceConfigurations = "vpceConfigurations"
+        }
     }
 
     public struct Problem: AWSShape {
@@ -2882,8 +3548,8 @@ extension Devicefarm {
             AWSShapeMember(label: "job", required: false, type: .structure), 
             AWSShapeMember(label: "message", required: false, type: .string), 
             AWSShapeMember(label: "device", required: false, type: .structure), 
-            AWSShapeMember(label: "run", required: false, type: .structure), 
-            AWSShapeMember(label: "result", required: false, type: .enum)
+            AWSShapeMember(label: "result", required: false, type: .enum), 
+            AWSShapeMember(label: "run", required: false, type: .structure)
         ]
         /// Information about the associated test.
         public let test: ProblemDetail?
@@ -2895,19 +3561,19 @@ extension Devicefarm {
         public let message: String?
         /// Information about the associated device.
         public let device: Device?
-        /// Information about the associated run.
-        public let run: ProblemDetail?
         /// The problem's result. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
         public let result: ExecutionResult?
+        /// Information about the associated run.
+        public let run: ProblemDetail?
 
-        public init(test: ProblemDetail? = nil, suite: ProblemDetail? = nil, job: ProblemDetail? = nil, message: String? = nil, device: Device? = nil, run: ProblemDetail? = nil, result: ExecutionResult? = nil) {
+        public init(test: ProblemDetail? = nil, suite: ProblemDetail? = nil, job: ProblemDetail? = nil, message: String? = nil, device: Device? = nil, result: ExecutionResult? = nil, run: ProblemDetail? = nil) {
             self.test = test
             self.suite = suite
             self.job = job
             self.message = message
             self.device = device
-            self.run = run
             self.result = result
+            self.run = run
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2916,8 +3582,30 @@ extension Devicefarm {
             case job = "job"
             case message = "message"
             case device = "device"
-            case run = "run"
             case result = "result"
+            case run = "run"
+        }
+    }
+
+    public enum DevicePlatform: String, CustomStringConvertible, Codable {
+        case android = "ANDROID"
+        case ios = "IOS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteRunRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) for the run you wish to delete.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
@@ -2947,22 +3635,6 @@ extension Devicefarm {
         }
     }
 
-    public struct DeleteRunRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) for the run you wish to delete.
-        public let arn: String
-
-        public init(arn: String) {
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-        }
-    }
-
     public struct CreateDevicePoolResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "devicePool", required: false, type: .structure)
@@ -2977,6 +3649,27 @@ extension Devicefarm {
         private enum CodingKeys: String, CodingKey {
             case devicePool = "devicePool"
         }
+    }
+
+    public enum SampleType: String, CustomStringConvertible, Codable {
+        case cpu = "CPU"
+        case memory = "MEMORY"
+        case threads = "THREADS"
+        case rxRate = "RX_RATE"
+        case txRate = "TX_RATE"
+        case rx = "RX"
+        case tx = "TX"
+        case nativeFrames = "NATIVE_FRAMES"
+        case nativeFps = "NATIVE_FPS"
+        case nativeMinDrawtime = "NATIVE_MIN_DRAWTIME"
+        case nativeAvgDrawtime = "NATIVE_AVG_DRAWTIME"
+        case nativeMaxDrawtime = "NATIVE_MAX_DRAWTIME"
+        case openglFrames = "OPENGL_FRAMES"
+        case openglFps = "OPENGL_FPS"
+        case openglMinDrawtime = "OPENGL_MIN_DRAWTIME"
+        case openglAvgDrawtime = "OPENGL_AVG_DRAWTIME"
+        case openglMaxDrawtime = "OPENGL_MAX_DRAWTIME"
+        public var description: String { return self.rawValue }
     }
 
     public struct UpdateDevicePoolRequest: AWSShape {
@@ -3010,27 +3703,6 @@ extension Devicefarm {
         }
     }
 
-    public enum SampleType: String, CustomStringConvertible, Codable {
-        case cpu = "CPU"
-        case memory = "MEMORY"
-        case threads = "THREADS"
-        case rxRate = "RX_RATE"
-        case txRate = "TX_RATE"
-        case rx = "RX"
-        case tx = "TX"
-        case nativeFrames = "NATIVE_FRAMES"
-        case nativeFps = "NATIVE_FPS"
-        case nativeMinDrawtime = "NATIVE_MIN_DRAWTIME"
-        case nativeAvgDrawtime = "NATIVE_AVG_DRAWTIME"
-        case nativeMaxDrawtime = "NATIVE_MAX_DRAWTIME"
-        case openglFrames = "OPENGL_FRAMES"
-        case openglFps = "OPENGL_FPS"
-        case openglMinDrawtime = "OPENGL_MIN_DRAWTIME"
-        case openglAvgDrawtime = "OPENGL_AVG_DRAWTIME"
-        case openglMaxDrawtime = "OPENGL_MAX_DRAWTIME"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListOfferingTransactionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string)
@@ -3055,7 +3727,8 @@ extension Devicefarm {
             AWSShapeMember(label: "maxSlots", required: false, type: .map), 
             AWSShapeMember(label: "unmeteredRemoteAccessDevices", required: false, type: .map), 
             AWSShapeMember(label: "awsAccountNumber", required: false, type: .string), 
-            AWSShapeMember(label: "defaultJobTimeoutMinutes", required: false, type: .integer)
+            AWSShapeMember(label: "defaultJobTimeoutMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "skipAppResign", required: false, type: .boolean)
         ]
         /// Information about an AWS account's usage of free trial device minutes.
         public let trialMinutes: TrialMinutes?
@@ -3071,8 +3744,10 @@ extension Devicefarm {
         public let awsAccountNumber: String?
         /// The default number of minutes (at the account level) a test run will execute before it times out. Default value is 60 minutes.
         public let defaultJobTimeoutMinutes: Int32?
+        /// When set to true, for private devices, Device Farm will not sign your app again. For public devices, Device Farm always signs your apps again and this parameter has no effect. For more information about how Device Farm re-signs your app(s), see Do you modify my app? in the AWS Device Farm FAQs.
+        public let skipAppResign: Bool?
 
-        public init(trialMinutes: TrialMinutes? = nil, unmeteredDevices: [DevicePlatform: Int32]? = nil, maxJobTimeoutMinutes: Int32? = nil, maxSlots: [String: Int32]? = nil, unmeteredRemoteAccessDevices: [DevicePlatform: Int32]? = nil, awsAccountNumber: String? = nil, defaultJobTimeoutMinutes: Int32? = nil) {
+        public init(trialMinutes: TrialMinutes? = nil, unmeteredDevices: [DevicePlatform: Int32]? = nil, maxJobTimeoutMinutes: Int32? = nil, maxSlots: [String: Int32]? = nil, unmeteredRemoteAccessDevices: [DevicePlatform: Int32]? = nil, awsAccountNumber: String? = nil, defaultJobTimeoutMinutes: Int32? = nil, skipAppResign: Bool? = nil) {
             self.trialMinutes = trialMinutes
             self.unmeteredDevices = unmeteredDevices
             self.maxJobTimeoutMinutes = maxJobTimeoutMinutes
@@ -3080,6 +3755,7 @@ extension Devicefarm {
             self.unmeteredRemoteAccessDevices = unmeteredRemoteAccessDevices
             self.awsAccountNumber = awsAccountNumber
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
+            self.skipAppResign = skipAppResign
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3090,6 +3766,28 @@ extension Devicefarm {
             case unmeteredRemoteAccessDevices = "unmeteredRemoteAccessDevices"
             case awsAccountNumber = "awsAccountNumber"
             case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
+            case skipAppResign = "skipAppResign"
+        }
+    }
+
+    public struct ListVPCEConfigurationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// An integer specifying the maximum number of items you want to return in the API response.
+        public let maxResults: Int32?
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3109,24 +3807,39 @@ extension Devicefarm {
         }
     }
 
-    public struct ListArtifactsResult: AWSShape {
+    public struct GetDevicePoolCompatibilityRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "artifacts", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
+            AWSShapeMember(label: "testType", required: false, type: .enum), 
+            AWSShapeMember(label: "test", required: false, type: .structure), 
+            AWSShapeMember(label: "appArn", required: false, type: .string), 
+            AWSShapeMember(label: "configuration", required: false, type: .structure), 
+            AWSShapeMember(label: "devicePoolArn", required: true, type: .string)
         ]
-        /// Information about the artifacts.
-        public let artifacts: [Artifact]?
-        /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        public let nextToken: String?
+        /// The test type for the specified device pool. Allowed values include the following:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
+        public let testType: TestType?
+        /// Information about the uploaded test to be run against the device pool.
+        public let test: ScheduleRunTest?
+        /// The ARN of the app that is associated with the specified device pool.
+        public let appArn: String?
+        /// An object containing information about the settings for a run.
+        public let configuration: ScheduleRunConfiguration?
+        /// The device pool's ARN.
+        public let devicePoolArn: String
 
-        public init(artifacts: [Artifact]? = nil, nextToken: String? = nil) {
-            self.artifacts = artifacts
-            self.nextToken = nextToken
+        public init(testType: TestType? = nil, test: ScheduleRunTest? = nil, appArn: String? = nil, configuration: ScheduleRunConfiguration? = nil, devicePoolArn: String) {
+            self.testType = testType
+            self.test = test
+            self.appArn = appArn
+            self.configuration = configuration
+            self.devicePoolArn = devicePoolArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifacts = "artifacts"
-            case nextToken = "nextToken"
+            case testType = "testType"
+            case test = "test"
+            case appArn = "appArn"
+            case configuration = "configuration"
+            case devicePoolArn = "devicePoolArn"
         }
     }
 
@@ -3146,24 +3859,19 @@ extension Devicefarm {
         }
     }
 
-    public struct Location: AWSShape {
+    public struct GetInstanceProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "longitude", required: true, type: .double), 
-            AWSShapeMember(label: "latitude", required: true, type: .double)
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
-        /// The longitude.
-        public let longitude: Double
-        /// The latitude.
-        public let latitude: Double
+        /// The Amazon Resource Name (ARN) of your instance profile.
+        public let arn: String
 
-        public init(longitude: Double, latitude: Double) {
-            self.longitude = longitude
-            self.latitude = latitude
+        public init(arn: String) {
+            self.arn = arn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case longitude = "longitude"
-            case latitude = "latitude"
+            case arn = "arn"
         }
     }
 
@@ -3225,34 +3933,102 @@ extension Devicefarm {
         }
     }
 
-    public struct GetDevicePoolCompatibilityRequest: AWSShape {
+    public struct ListDeviceInstancesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "testType", required: false, type: .enum), 
-            AWSShapeMember(label: "test", required: false, type: .structure), 
-            AWSShapeMember(label: "appArn", required: false, type: .string), 
-            AWSShapeMember(label: "devicePoolArn", required: true, type: .string)
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "deviceInstances", required: false, type: .list)
         ]
-        /// The test type for the specified device pool. Allowed values include the following:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
-        public let testType: TestType?
-        /// Information about the uploaded test to be run against the device pool.
-        public let test: ScheduleRunTest?
-        /// The ARN of the app that is associated with the specified device pool.
-        public let appArn: String?
-        /// The device pool's ARN.
-        public let devicePoolArn: String
+        /// An identifier that can be used in the next call to this operation to return the next set of items in the list.
+        public let nextToken: String?
+        /// An object containing information about your device instances.
+        public let deviceInstances: [DeviceInstance]?
 
-        public init(testType: TestType? = nil, test: ScheduleRunTest? = nil, appArn: String? = nil, devicePoolArn: String) {
-            self.testType = testType
-            self.test = test
-            self.appArn = appArn
-            self.devicePoolArn = devicePoolArn
+        public init(nextToken: String? = nil, deviceInstances: [DeviceInstance]? = nil) {
+            self.nextToken = nextToken
+            self.deviceInstances = deviceInstances
         }
 
         private enum CodingKeys: String, CodingKey {
-            case testType = "testType"
-            case test = "test"
-            case appArn = "appArn"
-            case devicePoolArn = "devicePoolArn"
+            case nextToken = "nextToken"
+            case deviceInstances = "deviceInstances"
+        }
+    }
+
+    public struct Location: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "longitude", required: true, type: .double), 
+            AWSShapeMember(label: "latitude", required: true, type: .double)
+        ]
+        /// The longitude.
+        public let longitude: Double
+        /// The latitude.
+        public let latitude: Double
+
+        public init(longitude: Double, latitude: Double) {
+            self.longitude = longitude
+            self.latitude = latitude
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case longitude = "longitude"
+            case latitude = "latitude"
+        }
+    }
+
+    public struct ListArtifactsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "artifacts", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// Information about the artifacts.
+        public let artifacts: [Artifact]?
+        /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
+        public let nextToken: String?
+
+        public init(artifacts: [Artifact]? = nil, nextToken: String? = nil) {
+            self.artifacts = artifacts
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifacts = "artifacts"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct VPCEConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "vpceConfigurationName", required: false, type: .string), 
+            AWSShapeMember(label: "serviceDnsName", required: false, type: .string), 
+            AWSShapeMember(label: "vpceServiceName", required: false, type: .string), 
+            AWSShapeMember(label: "vpceConfigurationDescription", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the VPC endpoint configuration.
+        public let arn: String?
+        /// The friendly name you give to your VPC endpoint configuration, to manage your configurations more easily.
+        public let vpceConfigurationName: String?
+        /// The DNS name that maps to the private IP address of the service you want to access.
+        public let serviceDnsName: String?
+        /// The name of the VPC endpoint service running inside your AWS account that you want Device Farm to test.
+        public let vpceServiceName: String?
+        /// An optional description, providing more details about your VPC endpoint configuration.
+        public let vpceConfigurationDescription: String?
+
+        public init(arn: String? = nil, vpceConfigurationName: String? = nil, serviceDnsName: String? = nil, vpceServiceName: String? = nil, vpceConfigurationDescription: String? = nil) {
+            self.arn = arn
+            self.vpceConfigurationName = vpceConfigurationName
+            self.serviceDnsName = serviceDnsName
+            self.vpceServiceName = vpceServiceName
+            self.vpceConfigurationDescription = vpceConfigurationDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case vpceConfigurationName = "vpceConfigurationName"
+            case serviceDnsName = "serviceDnsName"
+            case vpceServiceName = "vpceServiceName"
+            case vpceConfigurationDescription = "vpceConfigurationDescription"
         }
     }
 
@@ -3261,12 +4037,14 @@ extension Devicefarm {
             AWSShapeMember(label: "remoteDebugEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "cpu", required: false, type: .structure), 
+            AWSShapeMember(label: "modelId", required: false, type: .string), 
             AWSShapeMember(label: "platform", required: false, type: .enum), 
+            AWSShapeMember(label: "instances", required: false, type: .list), 
             AWSShapeMember(label: "heapSize", required: false, type: .long), 
             AWSShapeMember(label: "model", required: false, type: .string), 
             AWSShapeMember(label: "radio", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "memory", required: false, type: .long), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "resolution", required: false, type: .structure), 
             AWSShapeMember(label: "os", required: false, type: .string), 
             AWSShapeMember(label: "image", required: false, type: .string), 
@@ -3283,18 +4061,22 @@ extension Devicefarm {
         public let name: String?
         /// Information about the device's CPU.
         public let cpu: CPU?
+        /// The device's model ID.
+        public let modelId: String?
         /// The device's platform. Allowed values include:   ANDROID: The Android platform.   IOS: The iOS platform.  
         public let platform: DevicePlatform?
+        /// The instances belonging to this device.
+        public let instances: [DeviceInstance]?
         /// The device's heap size, expressed in bytes.
         public let heapSize: Int64?
         /// The device's model name.
         public let model: String?
         /// The device's radio.
         public let radio: String?
-        /// The device's ARN.
-        public let arn: String?
         /// The device's total memory size, expressed in bytes.
         public let memory: Int64?
+        /// The device's ARN.
+        public let arn: String?
         /// The resolution of the device.
         public let resolution: Resolution?
         /// The device's operating system type.
@@ -3314,16 +4096,18 @@ extension Devicefarm {
         /// The device's carrier.
         public let carrier: String?
 
-        public init(remoteDebugEnabled: Bool? = nil, name: String? = nil, cpu: CPU? = nil, platform: DevicePlatform? = nil, heapSize: Int64? = nil, model: String? = nil, radio: String? = nil, arn: String? = nil, memory: Int64? = nil, resolution: Resolution? = nil, os: String? = nil, image: String? = nil, remoteAccessEnabled: Bool? = nil, formFactor: DeviceFormFactor? = nil, fleetType: String? = nil, fleetName: String? = nil, manufacturer: String? = nil, carrier: String? = nil) {
+        public init(remoteDebugEnabled: Bool? = nil, name: String? = nil, cpu: CPU? = nil, modelId: String? = nil, platform: DevicePlatform? = nil, instances: [DeviceInstance]? = nil, heapSize: Int64? = nil, model: String? = nil, radio: String? = nil, memory: Int64? = nil, arn: String? = nil, resolution: Resolution? = nil, os: String? = nil, image: String? = nil, remoteAccessEnabled: Bool? = nil, formFactor: DeviceFormFactor? = nil, fleetType: String? = nil, fleetName: String? = nil, manufacturer: String? = nil, carrier: String? = nil) {
             self.remoteDebugEnabled = remoteDebugEnabled
             self.name = name
             self.cpu = cpu
+            self.modelId = modelId
             self.platform = platform
+            self.instances = instances
             self.heapSize = heapSize
             self.model = model
             self.radio = radio
-            self.arn = arn
             self.memory = memory
+            self.arn = arn
             self.resolution = resolution
             self.os = os
             self.image = image
@@ -3339,12 +4123,14 @@ extension Devicefarm {
             case remoteDebugEnabled = "remoteDebugEnabled"
             case name = "name"
             case cpu = "cpu"
+            case modelId = "modelId"
             case platform = "platform"
+            case instances = "instances"
             case heapSize = "heapSize"
             case model = "model"
             case radio = "radio"
-            case arn = "arn"
             case memory = "memory"
+            case arn = "arn"
             case resolution = "resolution"
             case os = "os"
             case image = "image"
@@ -3380,25 +4166,32 @@ extension Devicefarm {
 
     public struct Job: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "device", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "result", required: false, type: .enum), 
+            AWSShapeMember(label: "device", required: false, type: .structure), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "created", required: false, type: .timestamp), 
             AWSShapeMember(label: "started", required: false, type: .timestamp), 
             AWSShapeMember(label: "stopped", required: false, type: .timestamp), 
             AWSShapeMember(label: "deviceMinutes", required: false, type: .structure), 
             AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "result", required: false, type: .enum), 
-            AWSShapeMember(label: "counters", required: false, type: .structure), 
-            AWSShapeMember(label: "arn", required: false, type: .string)
+            AWSShapeMember(label: "instanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "counters", required: false, type: .structure)
         ]
-        /// The device (phone or tablet).
-        public let device: Device?
-        /// The job's status. Allowed values include:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
-        public let status: ExecutionStatus?
         /// The job's name.
         public let name: String?
+        /// The job's type. Allowed values include the following:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
+        public let `type`: TestType?
+        /// The job's result. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
+        public let result: ExecutionResult?
+        /// The device (phone or tablet).
+        public let device: Device?
+        /// The job's ARN.
+        public let arn: String?
+        /// The job's status. Allowed values include:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
+        public let status: ExecutionStatus?
         /// When the job was created.
         public let created: TimeStamp?
         /// The job's start time.
@@ -3409,59 +4202,41 @@ extension Devicefarm {
         public let deviceMinutes: DeviceMinutes?
         /// A message about the job's result.
         public let message: String?
-        /// The job's type. Allowed values include the following:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
-        public let `type`: TestType?
-        /// The job's result. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
-        public let result: ExecutionResult?
+        /// The Amazon Resource Name (ARN) of the instance.
+        public let instanceArn: String?
         /// The job's result counters.
         public let counters: Counters?
-        /// The job's ARN.
-        public let arn: String?
 
-        public init(device: Device? = nil, status: ExecutionStatus? = nil, name: String? = nil, created: TimeStamp? = nil, started: TimeStamp? = nil, stopped: TimeStamp? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, counters: Counters? = nil, arn: String? = nil) {
-            self.device = device
-            self.status = status
+        public init(name: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, device: Device? = nil, arn: String? = nil, status: ExecutionStatus? = nil, created: TimeStamp? = nil, started: TimeStamp? = nil, stopped: TimeStamp? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, instanceArn: String? = nil, counters: Counters? = nil) {
             self.name = name
+            self.`type` = `type`
+            self.result = result
+            self.device = device
+            self.arn = arn
+            self.status = status
             self.created = created
             self.started = started
             self.stopped = stopped
             self.deviceMinutes = deviceMinutes
             self.message = message
-            self.`type` = `type`
-            self.result = result
+            self.instanceArn = instanceArn
             self.counters = counters
-            self.arn = arn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case device = "device"
-            case status = "status"
             case name = "name"
+            case `type` = "type"
+            case result = "result"
+            case device = "device"
+            case arn = "arn"
+            case status = "status"
             case created = "created"
             case started = "started"
             case stopped = "stopped"
             case deviceMinutes = "deviceMinutes"
             case message = "message"
-            case `type` = "type"
-            case result = "result"
+            case instanceArn = "instanceArn"
             case counters = "counters"
-            case arn = "arn"
-        }
-    }
-
-    public struct GetProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
-        /// The project's ARN.
-        public let arn: String
-
-        public init(arn: String) {
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
         }
     }
 
@@ -3482,6 +4257,22 @@ extension Devicefarm {
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
+            case arn = "arn"
+        }
+    }
+
+    public struct GetProjectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
+        ]
+        /// The project's ARN.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
     }
@@ -3531,6 +4322,7 @@ extension Devicefarm {
 
     public enum ExecutionResultCode: String, CustomStringConvertible, Codable {
         case parsingFailed = "PARSING_FAILED"
+        case vpcEndpointSetupFailed = "VPC_ENDPOINT_SETUP_FAILED"
         public var description: String { return self.rawValue }
     }
 

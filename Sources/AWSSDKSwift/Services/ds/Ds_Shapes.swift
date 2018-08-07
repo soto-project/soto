@@ -32,6 +32,32 @@ extension Ds {
         public var description: String { return self.rawValue }
     }
 
+    public struct ResetUserPasswordRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "NewPassword", required: true, type: .string)
+        ]
+        /// Identifier of the AWS Managed Microsoft AD or Simple AD directory in which the user resides.
+        public let directoryId: String
+        /// The username of the user whose password will be reset.
+        public let userName: String
+        /// The new password that will be reset.
+        public let newPassword: String
+
+        public init(directoryId: String, userName: String, newPassword: String) {
+            self.directoryId = directoryId
+            self.userName = userName
+            self.newPassword = newPassword
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case userName = "UserName"
+            case newPassword = "NewPassword"
+        }
+    }
+
     public struct DeleteTrustRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeleteAssociatedConditionalForwarder", required: false, type: .boolean), 
@@ -364,21 +390,22 @@ extension Ds {
             AWSShapeMember(label: "LaunchTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
             AWSShapeMember(label: "Stage", required: false, type: .enum), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "StageLastUpdatedDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VpcSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "SsoEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "DesiredNumberOfDomainControllers", required: false, type: .integer), 
-            AWSShapeMember(label: "StageReason", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "AccessUrl", required: false, type: .string), 
-            AWSShapeMember(label: "Size", required: false, type: .enum), 
+            AWSShapeMember(label: "VpcSettings", required: false, type: .structure), 
             AWSShapeMember(label: "RadiusSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Alias", required: false, type: .string), 
+            AWSShapeMember(label: "Size", required: false, type: .enum), 
+            AWSShapeMember(label: "AccessUrl", required: false, type: .string), 
+            AWSShapeMember(label: "SsoEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "RadiusStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Edition", required: false, type: .enum), 
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "ConnectSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "DnsIpAddrs", required: false, type: .list)
+            AWSShapeMember(label: "DnsIpAddrs", required: false, type: .list), 
+            AWSShapeMember(label: "StageReason", required: false, type: .string)
         ]
         /// The short name of the directory.
         public let shortName: String?
@@ -388,57 +415,60 @@ extension Ds {
         public let directoryId: String?
         /// The current stage of the directory.
         public let stage: DirectoryStage?
-        /// The textual description for the directory.
-        public let description: String?
         /// The date and time that the stage was last updated.
         public let stageLastUpdatedDateTime: TimeStamp?
-        /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed AD directory.
-        public let vpcSettings: DirectoryVpcSettingsDescription?
-        /// Indicates if single-sign on is enabled for the directory. For more information, see EnableSso and DisableSso.
-        public let ssoEnabled: Bool?
+        /// The textual description for the directory.
+        public let description: String?
         /// The desired number of domain controllers in the directory if the directory is Microsoft AD.
         public let desiredNumberOfDomainControllers: Int32?
-        /// Additional information about the directory stage.
-        public let stageReason: String?
-        /// The fully-qualified name of the directory.
-        public let name: String?
-        /// The access URL for the directory, such as http://&lt;alias&gt;.awsapps.com. If no alias has been created for the directory, &lt;alias&gt; is the directory identifier, such as d-XXXXXXXXXX.
-        public let accessUrl: String?
-        /// The directory size.
-        public let size: DirectorySize?
+        /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed AD directory.
+        public let vpcSettings: DirectoryVpcSettingsDescription?
         /// A RadiusSettings object that contains information about the RADIUS server configured for this directory.
         public let radiusSettings: RadiusSettings?
+        /// The fully-qualified name of the directory.
+        public let name: String?
         /// The alias for the directory. If no alias has been created for the directory, the alias is the directory identifier, such as d-XXXXXXXXXX.
         public let alias: String?
+        /// The directory size.
+        public let size: DirectorySize?
+        /// The access URL for the directory, such as http://&lt;alias&gt;.awsapps.com. If no alias has been created for the directory, &lt;alias&gt; is the directory identifier, such as d-XXXXXXXXXX.
+        public let accessUrl: String?
+        /// Indicates if single-sign on is enabled for the directory. For more information, see EnableSso and DisableSso.
+        public let ssoEnabled: Bool?
         /// The status of the RADIUS MFA server connection.
         public let radiusStatus: RadiusStatus?
+        /// The edition associated with this directory.
+        public let edition: DirectoryEdition?
         /// The directory size.
         public let `type`: DirectoryType?
         /// A DirectoryConnectSettingsDescription object that contains additional information about an AD Connector directory. This member is only present if the directory is an AD Connector directory.
         public let connectSettings: DirectoryConnectSettingsDescription?
         /// The IP addresses of the DNS servers for the directory. For a Simple AD or Microsoft AD directory, these are the IP addresses of the Simple AD or Microsoft AD directory servers. For an AD Connector directory, these are the IP addresses of the DNS servers or domain controllers in the on-premises directory to which the AD Connector is connected.
         public let dnsIpAddrs: [String]?
+        /// Additional information about the directory stage.
+        public let stageReason: String?
 
-        public init(shortName: String? = nil, launchTime: TimeStamp? = nil, directoryId: String? = nil, stage: DirectoryStage? = nil, description: String? = nil, stageLastUpdatedDateTime: TimeStamp? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil, ssoEnabled: Bool? = nil, desiredNumberOfDomainControllers: Int32? = nil, stageReason: String? = nil, name: String? = nil, accessUrl: String? = nil, size: DirectorySize? = nil, radiusSettings: RadiusSettings? = nil, alias: String? = nil, radiusStatus: RadiusStatus? = nil, type: DirectoryType? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, dnsIpAddrs: [String]? = nil) {
+        public init(shortName: String? = nil, launchTime: TimeStamp? = nil, directoryId: String? = nil, stage: DirectoryStage? = nil, stageLastUpdatedDateTime: TimeStamp? = nil, description: String? = nil, desiredNumberOfDomainControllers: Int32? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil, radiusSettings: RadiusSettings? = nil, name: String? = nil, alias: String? = nil, size: DirectorySize? = nil, accessUrl: String? = nil, ssoEnabled: Bool? = nil, radiusStatus: RadiusStatus? = nil, edition: DirectoryEdition? = nil, type: DirectoryType? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, dnsIpAddrs: [String]? = nil, stageReason: String? = nil) {
             self.shortName = shortName
             self.launchTime = launchTime
             self.directoryId = directoryId
             self.stage = stage
-            self.description = description
             self.stageLastUpdatedDateTime = stageLastUpdatedDateTime
-            self.vpcSettings = vpcSettings
-            self.ssoEnabled = ssoEnabled
+            self.description = description
             self.desiredNumberOfDomainControllers = desiredNumberOfDomainControllers
-            self.stageReason = stageReason
-            self.name = name
-            self.accessUrl = accessUrl
-            self.size = size
+            self.vpcSettings = vpcSettings
             self.radiusSettings = radiusSettings
+            self.name = name
             self.alias = alias
+            self.size = size
+            self.accessUrl = accessUrl
+            self.ssoEnabled = ssoEnabled
             self.radiusStatus = radiusStatus
+            self.edition = edition
             self.`type` = `type`
             self.connectSettings = connectSettings
             self.dnsIpAddrs = dnsIpAddrs
+            self.stageReason = stageReason
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -446,21 +476,22 @@ extension Ds {
             case launchTime = "LaunchTime"
             case directoryId = "DirectoryId"
             case stage = "Stage"
-            case description = "Description"
             case stageLastUpdatedDateTime = "StageLastUpdatedDateTime"
-            case vpcSettings = "VpcSettings"
-            case ssoEnabled = "SsoEnabled"
+            case description = "Description"
             case desiredNumberOfDomainControllers = "DesiredNumberOfDomainControllers"
-            case stageReason = "StageReason"
-            case name = "Name"
-            case accessUrl = "AccessUrl"
-            case size = "Size"
+            case vpcSettings = "VpcSettings"
             case radiusSettings = "RadiusSettings"
+            case name = "Name"
             case alias = "Alias"
+            case size = "Size"
+            case accessUrl = "AccessUrl"
+            case ssoEnabled = "SsoEnabled"
             case radiusStatus = "RadiusStatus"
+            case edition = "Edition"
             case `type` = "Type"
             case connectSettings = "ConnectSettings"
             case dnsIpAddrs = "DnsIpAddrs"
+            case stageReason = "StageReason"
         }
     }
 
@@ -725,12 +756,15 @@ extension Ds {
 
     public struct CreateMicrosoftADRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Edition", required: false, type: .enum), 
             AWSShapeMember(label: "VpcSettings", required: true, type: .structure), 
             AWSShapeMember(label: "ShortName", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Password", required: true, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
+        /// AWS Microsoft AD is available in two editions: Standard and Enterprise. Enterprise is the default.
+        public let edition: DirectoryEdition?
         /// Contains VPC information for the CreateDirectory or CreateMicrosoftAD operation.
         public let vpcSettings: DirectoryVpcSettings
         /// The NetBIOS name for your domain. A short identifier for your domain, such as CORP. If you don't specify a NetBIOS name, it will default to the first part of your directory DNS. For example, CORP for the directory DNS corp.example.com. 
@@ -742,7 +776,8 @@ extension Ds {
         /// A textual description for the directory. This label will appear on the AWS console Directory Details page after the directory is created.
         public let description: String?
 
-        public init(vpcSettings: DirectoryVpcSettings, shortName: String? = nil, name: String, password: String, description: String? = nil) {
+        public init(edition: DirectoryEdition? = nil, vpcSettings: DirectoryVpcSettings, shortName: String? = nil, name: String, password: String, description: String? = nil) {
+            self.edition = edition
             self.vpcSettings = vpcSettings
             self.shortName = shortName
             self.name = name
@@ -751,12 +786,19 @@ extension Ds {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case edition = "Edition"
             case vpcSettings = "VpcSettings"
             case shortName = "ShortName"
             case name = "Name"
             case password = "Password"
             case description = "Description"
         }
+    }
+
+    public enum DirectoryEdition: String, CustomStringConvertible, Codable {
+        case enterprise = "Enterprise"
+        case standard = "Standard"
+        public var description: String { return self.rawValue }
     }
 
     public struct AddTagsToResourceResult: AWSShape {
@@ -977,32 +1019,32 @@ extension Ds {
 
     public struct StartSchemaExtensionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: true, type: .string), 
             AWSShapeMember(label: "CreateSnapshotBeforeSchemaExtension", required: true, type: .boolean), 
             AWSShapeMember(label: "LdifContent", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: true, type: .string)
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
-        /// The identifier of the directory for which the schema extension will be applied to.
-        public let directoryId: String
+        /// A description of the schema extension.
+        public let description: String
         /// If true, creates a snapshot of the directory before applying the schema extension.
         public let createSnapshotBeforeSchemaExtension: Bool
         /// The LDIF file represented as a string. To construct the LdifContent string, precede each line as it would be formatted in an ldif file with \n. See the example request below for more details. The file size can be no larger than 1MB.
         public let ldifContent: String
-        /// A description of the schema extension.
-        public let description: String
+        /// The identifier of the directory for which the schema extension will be applied to.
+        public let directoryId: String
 
-        public init(directoryId: String, createSnapshotBeforeSchemaExtension: Bool, ldifContent: String, description: String) {
-            self.directoryId = directoryId
+        public init(description: String, createSnapshotBeforeSchemaExtension: Bool, ldifContent: String, directoryId: String) {
+            self.description = description
             self.createSnapshotBeforeSchemaExtension = createSnapshotBeforeSchemaExtension
             self.ldifContent = ldifContent
-            self.description = description
+            self.directoryId = directoryId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
+            case description = "Description"
             case createSnapshotBeforeSchemaExtension = "CreateSnapshotBeforeSchemaExtension"
             case ldifContent = "LdifContent"
-            case description = "Description"
+            case directoryId = "DirectoryId"
         }
     }
 
@@ -1429,7 +1471,7 @@ extension Ds {
         public let subnetIds: [String]?
         /// The list of Availability Zones that the directory is in.
         public let availabilityZones: [String]?
-        /// The security group identifier for the directory. If the directory was created before 8/1/2014, this is the identifier of the directory members security group that was created when the directory was created. If the directory was created after this date, this value is null.
+        /// The domain controller security group identifier for the directory.
         public let securityGroupId: String?
         /// The identifier of the VPC that the directory is in.
         public let vpcId: String?
@@ -1492,9 +1534,9 @@ extension Ds {
             AWSShapeMember(label: "AuthenticationProtocol", required: false, type: .enum), 
             AWSShapeMember(label: "RadiusRetries", required: false, type: .integer), 
             AWSShapeMember(label: "RadiusTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "UseSameUsername", required: false, type: .boolean), 
-            AWSShapeMember(label: "SharedSecret", required: false, type: .string), 
             AWSShapeMember(label: "DisplayLabel", required: false, type: .string), 
+            AWSShapeMember(label: "SharedSecret", required: false, type: .string), 
+            AWSShapeMember(label: "UseSameUsername", required: false, type: .boolean), 
             AWSShapeMember(label: "RadiusServers", required: false, type: .list)
         ]
         /// The port that your RADIUS server is using for communications. Your on-premises network must allow inbound traffic over this port from the AWS Directory Service servers.
@@ -1506,22 +1548,22 @@ extension Ds {
         /// The amount of time, in seconds, to wait for the RADIUS server to respond.
         public let radiusTimeout: Int32?
         /// Not currently used.
-        public let useSameUsername: Bool?
+        public let displayLabel: String?
         /// Not currently used.
         public let sharedSecret: String?
         /// Not currently used.
-        public let displayLabel: String?
+        public let useSameUsername: Bool?
         /// An array of strings that contains the IP addresses of the RADIUS server endpoints, or the IP addresses of your RADIUS server load balancer.
         public let radiusServers: [String]?
 
-        public init(radiusPort: Int32? = nil, authenticationProtocol: RadiusAuthenticationProtocol? = nil, radiusRetries: Int32? = nil, radiusTimeout: Int32? = nil, useSameUsername: Bool? = nil, sharedSecret: String? = nil, displayLabel: String? = nil, radiusServers: [String]? = nil) {
+        public init(radiusPort: Int32? = nil, authenticationProtocol: RadiusAuthenticationProtocol? = nil, radiusRetries: Int32? = nil, radiusTimeout: Int32? = nil, displayLabel: String? = nil, sharedSecret: String? = nil, useSameUsername: Bool? = nil, radiusServers: [String]? = nil) {
             self.radiusPort = radiusPort
             self.authenticationProtocol = authenticationProtocol
             self.radiusRetries = radiusRetries
             self.radiusTimeout = radiusTimeout
-            self.useSameUsername = useSameUsername
-            self.sharedSecret = sharedSecret
             self.displayLabel = displayLabel
+            self.sharedSecret = sharedSecret
+            self.useSameUsername = useSameUsername
             self.radiusServers = radiusServers
         }
 
@@ -1530,9 +1572,9 @@ extension Ds {
             case authenticationProtocol = "AuthenticationProtocol"
             case radiusRetries = "RadiusRetries"
             case radiusTimeout = "RadiusTimeout"
-            case useSameUsername = "UseSameUsername"
-            case sharedSecret = "SharedSecret"
             case displayLabel = "DisplayLabel"
+            case sharedSecret = "SharedSecret"
+            case useSameUsername = "UseSameUsername"
             case radiusServers = "RadiusServers"
         }
     }
@@ -2307,6 +2349,10 @@ extension Ds {
             case nextToken = "NextToken"
             case ipRoutesInfo = "IpRoutesInfo"
         }
+    }
+
+    public struct ResetUserPasswordResult: AWSShape {
+
     }
 
     public struct DirectoryConnectSettings: AWSShape {

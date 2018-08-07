@@ -14,11 +14,11 @@ public enum DmsError: AWSErrorType {
     case invalidSubnet(message: String?)
     case sNSInvalidTopicFault(message: String?)
     case sNSNoAuthorizationFault(message: String?)
-    case invalidCertificateFault(message: String?)
     case subnetAlreadyInUse(message: String?)
     case insufficientResourceCapacityFault(message: String?)
     case storageQuotaExceededFault(message: String?)
     case upgradeDependencyFailureFault(message: String?)
+    case invalidCertificateFault(message: String?)
 }
 
 extension DmsError {
@@ -48,8 +48,6 @@ extension DmsError {
             self = .sNSInvalidTopicFault(message: message)
         case "SNSNoAuthorizationFault":
             self = .sNSNoAuthorizationFault(message: message)
-        case "InvalidCertificateFault":
-            self = .invalidCertificateFault(message: message)
         case "SubnetAlreadyInUse":
             self = .subnetAlreadyInUse(message: message)
         case "InsufficientResourceCapacityFault":
@@ -58,6 +56,8 @@ extension DmsError {
             self = .storageQuotaExceededFault(message: message)
         case "UpgradeDependencyFailureFault":
             self = .upgradeDependencyFailureFault(message: message)
+        case "InvalidCertificateFault":
+            self = .invalidCertificateFault(message: message)
         default:
             return nil
         }

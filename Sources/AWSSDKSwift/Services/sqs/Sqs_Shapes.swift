@@ -7,16 +7,16 @@ extension Sqs {
 
     public struct ReceiveMessageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MessageAttributeNames", required: false, type: .structure), 
+            AWSShapeMember(label: "WaitTimeSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "VisibilityTimeout", required: false, type: .integer), 
             AWSShapeMember(label: "MaxNumberOfMessages", required: false, type: .integer), 
             AWSShapeMember(label: "QueueUrl", required: true, type: .string), 
             AWSShapeMember(label: "ReceiveRequestAttemptId", required: false, type: .string), 
             AWSShapeMember(label: "AttributeNames", required: false, type: .structure), 
-            AWSShapeMember(label: "WaitTimeSeconds", required: false, type: .integer)
+            AWSShapeMember(label: "MessageAttributeNames", required: false, type: .structure)
         ]
-        /// The name of the message attribute, where N is the index.   The name can contain alphanumeric characters and the underscore (_), hyphen (-), and period (.).   The name is case-sensitive and must be unique among all attribute names for the message.   The name must not start with AWS-reserved prefixes such as AWS. or Amazon. (or any casing variants).   The name must not start or end with a period (.), and it should not have periods in succession (..).   The name can be up to 256 characters long.   When using ReceiveMessage, you can send a list of attribute names to receive, or you can return all of the attributes by specifying All or .* in your request. You can also use all message attributes starting with a prefix, for example bar.*.
-        public let messageAttributeNames: MessageAttributeNameList?
+        /// The duration (in seconds) for which the call waits for a message to arrive in the queue before returning. If a message is available, the call returns sooner than WaitTimeSeconds. If no messages are available and the wait time expires, the call returns successfully with an empty list of messages.
+        public let waitTimeSeconds: Int32?
         /// The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request.
         public let visibilityTimeout: Int32?
         /// The maximum number of messages to return. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values are 1 to 10. Default is 1.
@@ -27,27 +27,27 @@ extension Sqs {
         public let receiveRequestAttemptId: String?
         /// A list of attributes that need to be returned along with each message. These attributes include:    All - Returns all values.    ApproximateFirstReceiveTimestamp - Returns the time the message was first received from the queue (epoch time in milliseconds).    ApproximateReceiveCount - Returns the number of times a message has been received from the queue but not deleted.    SenderId    For an IAM user, returns the IAM user ID, for example ABCDEFGHI1JKLMNOPQ23R.   For an IAM role, returns the IAM role ID, for example ABCDE1F2GH3I4JK5LMNOP:i-a123b456.      SentTimestamp - Returns the time the message was sent to the queue (epoch time in milliseconds).    MessageDeduplicationId - Returns the value provided by the sender that calls the  SendMessage  action.    MessageGroupId - Returns the value provided by the sender that calls the  SendMessage  action. Messages with the same MessageGroupId are returned in sequence.    SequenceNumber - Returns the value provided by Amazon SQS.   Any other valid special request parameters (such as the following) are ignored:    ApproximateNumberOfMessages     ApproximateNumberOfMessagesDelayed     ApproximateNumberOfMessagesNotVisible     CreatedTimestamp     ContentBasedDeduplication     DelaySeconds     FifoQueue     LastModifiedTimestamp     MaximumMessageSize     MessageRetentionPeriod     Policy     QueueArn,     ReceiveMessageWaitTimeSeconds     RedrivePolicy     VisibilityTimeout   
         public let attributeNames: AttributeNameList?
-        /// The duration (in seconds) for which the call waits for a message to arrive in the queue before returning. If a message is available, the call returns sooner than WaitTimeSeconds. If no messages are available and the wait time expires, the call returns successfully with an empty list of messages.
-        public let waitTimeSeconds: Int32?
+        /// The name of the message attribute, where N is the index.   The name can contain alphanumeric characters and the underscore (_), hyphen (-), and period (.).   The name is case-sensitive and must be unique among all attribute names for the message.   The name must not start with AWS-reserved prefixes such as AWS. or Amazon. (or any casing variants).   The name must not start or end with a period (.), and it should not have periods in succession (..).   The name can be up to 256 characters long.   When using ReceiveMessage, you can send a list of attribute names to receive, or you can return all of the attributes by specifying All or .* in your request. You can also use all message attributes starting with a prefix, for example bar.*.
+        public let messageAttributeNames: MessageAttributeNameList?
 
-        public init(messageAttributeNames: MessageAttributeNameList? = nil, visibilityTimeout: Int32? = nil, maxNumberOfMessages: Int32? = nil, queueUrl: String, receiveRequestAttemptId: String? = nil, attributeNames: AttributeNameList? = nil, waitTimeSeconds: Int32? = nil) {
-            self.messageAttributeNames = messageAttributeNames
+        public init(waitTimeSeconds: Int32? = nil, visibilityTimeout: Int32? = nil, maxNumberOfMessages: Int32? = nil, queueUrl: String, receiveRequestAttemptId: String? = nil, attributeNames: AttributeNameList? = nil, messageAttributeNames: MessageAttributeNameList? = nil) {
+            self.waitTimeSeconds = waitTimeSeconds
             self.visibilityTimeout = visibilityTimeout
             self.maxNumberOfMessages = maxNumberOfMessages
             self.queueUrl = queueUrl
             self.receiveRequestAttemptId = receiveRequestAttemptId
             self.attributeNames = attributeNames
-            self.waitTimeSeconds = waitTimeSeconds
+            self.messageAttributeNames = messageAttributeNames
         }
 
         private enum CodingKeys: String, CodingKey {
-            case messageAttributeNames = "MessageAttributeNames"
+            case waitTimeSeconds = "WaitTimeSeconds"
             case visibilityTimeout = "VisibilityTimeout"
             case maxNumberOfMessages = "MaxNumberOfMessages"
             case queueUrl = "QueueUrl"
             case receiveRequestAttemptId = "ReceiveRequestAttemptId"
             case attributeNames = "AttributeNames"
-            case waitTimeSeconds = "WaitTimeSeconds"
+            case messageAttributeNames = "MessageAttributeNames"
         }
     }
 
@@ -425,32 +425,32 @@ extension Sqs {
 
     public struct AddPermissionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Label", required: true, type: .string), 
+            AWSShapeMember(label: "QueueUrl", required: true, type: .string), 
             AWSShapeMember(label: "AWSAccountIds", required: true, type: .structure), 
             AWSShapeMember(label: "Actions", required: true, type: .structure), 
-            AWSShapeMember(label: "QueueUrl", required: true, type: .string)
+            AWSShapeMember(label: "Label", required: true, type: .string)
         ]
-        /// The unique identification of the permission you're setting (for example, AliceSendMessage). Maximum 80 characters. Allowed characters include alphanumeric characters, hyphens (-), and underscores (_).
-        public let label: String
+        /// The URL of the Amazon SQS queue to which permissions are added. Queue URLs are case-sensitive.
+        public let queueUrl: String
         /// The AWS account number of the principal who is given permission. The principal must have an AWS account, but does not need to be signed up for Amazon SQS. For information about locating the AWS account identification, see Your AWS Identifiers in the Amazon Simple Queue Service Developer Guide.
         public let aWSAccountIds: AWSAccountIdList
         /// The action the client wants to allow for the specified principal. The following values are valid:    *     ChangeMessageVisibility     DeleteMessage     GetQueueAttributes     GetQueueUrl     ReceiveMessage     SendMessage    For more information about these actions, see Understanding Permissions in the Amazon Simple Queue Service Developer Guide. Specifying SendMessage, DeleteMessage, or ChangeMessageVisibility for ActionName.n also grants permissions for the corresponding batch versions of those actions: SendMessageBatch, DeleteMessageBatch, and ChangeMessageVisibilityBatch.
         public let actions: ActionNameList
-        /// The URL of the Amazon SQS queue to which permissions are added. Queue URLs are case-sensitive.
-        public let queueUrl: String
+        /// The unique identification of the permission you're setting (for example, AliceSendMessage). Maximum 80 characters. Allowed characters include alphanumeric characters, hyphens (-), and underscores (_).
+        public let label: String
 
-        public init(label: String, aWSAccountIds: AWSAccountIdList, actions: ActionNameList, queueUrl: String) {
-            self.label = label
+        public init(queueUrl: String, aWSAccountIds: AWSAccountIdList, actions: ActionNameList, label: String) {
+            self.queueUrl = queueUrl
             self.aWSAccountIds = aWSAccountIds
             self.actions = actions
-            self.queueUrl = queueUrl
+            self.label = label
         }
 
         private enum CodingKeys: String, CodingKey {
-            case label = "Label"
+            case queueUrl = "QueueUrl"
             case aWSAccountIds = "AWSAccountIds"
             case actions = "Actions"
-            case queueUrl = "QueueUrl"
+            case label = "Label"
         }
     }
 

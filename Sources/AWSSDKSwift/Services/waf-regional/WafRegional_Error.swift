@@ -18,6 +18,7 @@ public enum WafRegionalError: AWSErrorType {
     case wAFSubscriptionNotFoundException(message: String?)
     case wAFUnavailableEntityException(message: String?)
     case wAFInvalidRegexPatternException(message: String?)
+    case wAFInvalidPermissionPolicyException(message: String?)
 }
 
 extension WafRegionalError {
@@ -55,6 +56,8 @@ extension WafRegionalError {
             self = .wAFUnavailableEntityException(message: message)
         case "WAFInvalidRegexPatternException":
             self = .wAFInvalidRegexPatternException(message: message)
+        case "WAFInvalidPermissionPolicyException":
+            self = .wAFInvalidPermissionPolicyException(message: message)
         default:
             return nil
         }

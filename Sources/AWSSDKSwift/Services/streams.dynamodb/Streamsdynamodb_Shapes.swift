@@ -214,13 +214,6 @@ extension Streamsdynamodb {
         }
     }
 
-    public enum OperationType: String, CustomStringConvertible, Codable {
-        case insert = "INSERT"
-        case modify = "MODIFY"
-        case remove = "REMOVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Stream: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamArn", required: false, type: .string), 
@@ -245,6 +238,13 @@ extension Streamsdynamodb {
             case streamLabel = "StreamLabel"
             case tableName = "TableName"
         }
+    }
+
+    public enum OperationType: String, CustomStringConvertible, Codable {
+        case insert = "INSERT"
+        case modify = "MODIFY"
+        case remove = "REMOVE"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetRecordsInput: AWSShape {
@@ -438,8 +438,8 @@ extension Streamsdynamodb {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SequenceNumber", required: false, type: .string), 
             AWSShapeMember(label: "Keys", required: false, type: .map), 
-            AWSShapeMember(label: "NewImage", required: false, type: .map), 
             AWSShapeMember(label: "SizeBytes", required: false, type: .long), 
+            AWSShapeMember(label: "NewImage", required: false, type: .map), 
             AWSShapeMember(label: "StreamViewType", required: false, type: .enum), 
             AWSShapeMember(label: "ApproximateCreationDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "OldImage", required: false, type: .map)
@@ -448,10 +448,10 @@ extension Streamsdynamodb {
         public let sequenceNumber: String?
         /// The primary key attribute(s) for the DynamoDB item that was modified.
         public let keys: [String: AttributeValue]?
-        /// The item in the DynamoDB table as it appeared after it was modified.
-        public let newImage: [String: AttributeValue]?
         /// The size of the stream record, in bytes.
         public let sizeBytes: Int64?
+        /// The item in the DynamoDB table as it appeared after it was modified.
+        public let newImage: [String: AttributeValue]?
         /// The type of data from the modified DynamoDB item that was captured in this stream record:    KEYS_ONLY - only the key attributes of the modified item.    NEW_IMAGE - the entire item, as it appeared after it was modified.    OLD_IMAGE - the entire item, as it appeared before it was modified.    NEW_AND_OLD_IMAGES - both the new and the old item images of the item.  
         public let streamViewType: StreamViewType?
         /// The approximate date and time when the stream record was created, in UNIX epoch time format.
@@ -459,11 +459,11 @@ extension Streamsdynamodb {
         /// The item in the DynamoDB table as it appeared before it was modified.
         public let oldImage: [String: AttributeValue]?
 
-        public init(sequenceNumber: String? = nil, keys: [String: AttributeValue]? = nil, newImage: [String: AttributeValue]? = nil, sizeBytes: Int64? = nil, streamViewType: StreamViewType? = nil, approximateCreationDateTime: TimeStamp? = nil, oldImage: [String: AttributeValue]? = nil) {
+        public init(sequenceNumber: String? = nil, keys: [String: AttributeValue]? = nil, sizeBytes: Int64? = nil, newImage: [String: AttributeValue]? = nil, streamViewType: StreamViewType? = nil, approximateCreationDateTime: TimeStamp? = nil, oldImage: [String: AttributeValue]? = nil) {
             self.sequenceNumber = sequenceNumber
             self.keys = keys
-            self.newImage = newImage
             self.sizeBytes = sizeBytes
+            self.newImage = newImage
             self.streamViewType = streamViewType
             self.approximateCreationDateTime = approximateCreationDateTime
             self.oldImage = oldImage
@@ -472,8 +472,8 @@ extension Streamsdynamodb {
         private enum CodingKeys: String, CodingKey {
             case sequenceNumber = "SequenceNumber"
             case keys = "Keys"
-            case newImage = "NewImage"
             case sizeBytes = "SizeBytes"
+            case newImage = "NewImage"
             case streamViewType = "StreamViewType"
             case approximateCreationDateTime = "ApproximateCreationDateTime"
             case oldImage = "OldImage"

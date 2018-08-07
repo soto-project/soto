@@ -9,7 +9,7 @@ extension Cloud9 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "environmentIds", required: true, type: .list)
         ]
-        /// The IDs of invidividual environments to get information about.
+        /// The IDs of individual environments to get information about.
         public let environmentIds: [String]
 
         public init(environmentIds: [String]) {
@@ -29,7 +29,7 @@ extension Cloud9 {
         ]
         /// Any new or replacement description for the environment.
         public let description: String?
-        /// Any replacement name for the environment.
+        /// A replacement name for the environment.
         public let name: String?
         /// The ID of the environment to change settings.
         public let environmentId: String
@@ -197,7 +197,7 @@ extension Cloud9 {
         public let ownerArn: String?
         /// The ID of the environment.
         public let id: String?
-        /// The type of environment. Valid values include the following:    ec2: An environment hosted on an Amazon Elastic Compute Cloud (Amazon EC2) instance.    ssh: An environment hosted on your own server.  
+        /// The type of environment. Valid values include the following:    ec2: An Amazon Elastic Compute Cloud (Amazon EC2) instance connects to the environment.    ssh: Your own server connects to the environment.  
         public let `type`: EnvironmentType?
         /// The Amazon Resource Name (ARN) of the environment.
         public let arn: String?
@@ -467,7 +467,7 @@ extension Cloud9 {
         ]
         /// The name of the environment to create. This name is visible to other AWS IAM users in the same AWS account.
         public let name: String
-        /// The type of instance to host the environment on (for example, t2.micro).
+        /// The type of instance to connect to the environment (for example, t2.micro).
         public let instanceType: String
         /// The Amazon Resource Name (ARN) of the environment owner. This ARN can be the ARN of any AWS IAM principal. If this value is not specified, the ARN defaults to this environment's creator.
         public let ownerArn: String?

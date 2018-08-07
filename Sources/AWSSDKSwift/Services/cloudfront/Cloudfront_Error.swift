@@ -48,18 +48,38 @@ public enum CloudfrontError: AWSErrorType {
     case invalidLambdaFunctionAssociation(message: String?)
     case invalidOriginReadTimeout(message: String?)
     case invalidOriginKeepaliveTimeout(message: String?)
+    case noSuchFieldLevelEncryptionConfig(message: String?)
+    case illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(message: String?)
+    case tooManyDistributionsAssociatedToFieldLevelEncryptionConfig(message: String?)
     case noSuchDistribution(message: String?)
-    case resourceInUse(message: String?)
+    case invalidTagging(message: String?)
     case noSuchResource(message: String?)
+    case noSuchPublicKey(message: String?)
     case cloudFrontOriginAccessIdentityAlreadyExists(message: String?)
     case tooManyCloudFrontOriginAccessIdentities(message: String?)
-    case invalidTagging(message: String?)
+    case noSuchFieldLevelEncryptionProfile(message: String?)
+    case fieldLevelEncryptionProfileInUse(message: String?)
+    case fieldLevelEncryptionProfileAlreadyExists(message: String?)
+    case fieldLevelEncryptionProfileSizeExceeded(message: String?)
+    case tooManyFieldLevelEncryptionProfiles(message: String?)
+    case tooManyFieldLevelEncryptionEncryptionEntities(message: String?)
+    case tooManyFieldLevelEncryptionFieldPatterns(message: String?)
+    case tooManyFieldLevelEncryptionQueryArgProfiles(message: String?)
+    case tooManyFieldLevelEncryptionContentTypeProfiles(message: String?)
+    case queryArgProfileEmpty(message: String?)
     case batchTooLarge(message: String?)
     case tooManyInvalidationsInProgress(message: String?)
     case noSuchInvalidation(message: String?)
+    case publicKeyAlreadyExists(message: String?)
+    case tooManyPublicKeys(message: String?)
     case noSuchStreamingDistribution(message: String?)
+    case cannotChangeImmutablePublicKeyFields(message: String?)
+    case publicKeyInUse(message: String?)
+    case fieldLevelEncryptionConfigAlreadyExists(message: String?)
+    case tooManyFieldLevelEncryptionConfigs(message: String?)
     case cloudFrontOriginAccessIdentityInUse(message: String?)
     case streamingDistributionNotDisabled(message: String?)
+    case fieldLevelEncryptionConfigInUse(message: String?)
     case streamingDistributionAlreadyExists(message: String?)
     case tooManyStreamingDistributionCNAMEs(message: String?)
     case tooManyStreamingDistributions(message: String?)
@@ -161,30 +181,70 @@ extension CloudfrontError {
             self = .invalidOriginReadTimeout(message: message)
         case "InvalidOriginKeepaliveTimeout":
             self = .invalidOriginKeepaliveTimeout(message: message)
+        case "NoSuchFieldLevelEncryptionConfig":
+            self = .noSuchFieldLevelEncryptionConfig(message: message)
+        case "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior":
+            self = .illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(message: message)
+        case "TooManyDistributionsAssociatedToFieldLevelEncryptionConfig":
+            self = .tooManyDistributionsAssociatedToFieldLevelEncryptionConfig(message: message)
         case "NoSuchDistribution":
             self = .noSuchDistribution(message: message)
-        case "ResourceInUse":
-            self = .resourceInUse(message: message)
+        case "InvalidTagging":
+            self = .invalidTagging(message: message)
         case "NoSuchResource":
             self = .noSuchResource(message: message)
+        case "NoSuchPublicKey":
+            self = .noSuchPublicKey(message: message)
         case "CloudFrontOriginAccessIdentityAlreadyExists":
             self = .cloudFrontOriginAccessIdentityAlreadyExists(message: message)
         case "TooManyCloudFrontOriginAccessIdentities":
             self = .tooManyCloudFrontOriginAccessIdentities(message: message)
-        case "InvalidTagging":
-            self = .invalidTagging(message: message)
+        case "NoSuchFieldLevelEncryptionProfile":
+            self = .noSuchFieldLevelEncryptionProfile(message: message)
+        case "FieldLevelEncryptionProfileInUse":
+            self = .fieldLevelEncryptionProfileInUse(message: message)
+        case "FieldLevelEncryptionProfileAlreadyExists":
+            self = .fieldLevelEncryptionProfileAlreadyExists(message: message)
+        case "FieldLevelEncryptionProfileSizeExceeded":
+            self = .fieldLevelEncryptionProfileSizeExceeded(message: message)
+        case "TooManyFieldLevelEncryptionProfiles":
+            self = .tooManyFieldLevelEncryptionProfiles(message: message)
+        case "TooManyFieldLevelEncryptionEncryptionEntities":
+            self = .tooManyFieldLevelEncryptionEncryptionEntities(message: message)
+        case "TooManyFieldLevelEncryptionFieldPatterns":
+            self = .tooManyFieldLevelEncryptionFieldPatterns(message: message)
+        case "TooManyFieldLevelEncryptionQueryArgProfiles":
+            self = .tooManyFieldLevelEncryptionQueryArgProfiles(message: message)
+        case "TooManyFieldLevelEncryptionContentTypeProfiles":
+            self = .tooManyFieldLevelEncryptionContentTypeProfiles(message: message)
+        case "QueryArgProfileEmpty":
+            self = .queryArgProfileEmpty(message: message)
         case "BatchTooLarge":
             self = .batchTooLarge(message: message)
         case "TooManyInvalidationsInProgress":
             self = .tooManyInvalidationsInProgress(message: message)
         case "NoSuchInvalidation":
             self = .noSuchInvalidation(message: message)
+        case "PublicKeyAlreadyExists":
+            self = .publicKeyAlreadyExists(message: message)
+        case "TooManyPublicKeys":
+            self = .tooManyPublicKeys(message: message)
         case "NoSuchStreamingDistribution":
             self = .noSuchStreamingDistribution(message: message)
+        case "CannotChangeImmutablePublicKeyFields":
+            self = .cannotChangeImmutablePublicKeyFields(message: message)
+        case "PublicKeyInUse":
+            self = .publicKeyInUse(message: message)
+        case "FieldLevelEncryptionConfigAlreadyExists":
+            self = .fieldLevelEncryptionConfigAlreadyExists(message: message)
+        case "TooManyFieldLevelEncryptionConfigs":
+            self = .tooManyFieldLevelEncryptionConfigs(message: message)
         case "CloudFrontOriginAccessIdentityInUse":
             self = .cloudFrontOriginAccessIdentityInUse(message: message)
         case "StreamingDistributionNotDisabled":
             self = .streamingDistributionNotDisabled(message: message)
+        case "FieldLevelEncryptionConfigInUse":
+            self = .fieldLevelEncryptionConfigInUse(message: message)
         case "StreamingDistributionAlreadyExists":
             self = .streamingDistributionAlreadyExists(message: message)
         case "TooManyStreamingDistributionCNAMEs":

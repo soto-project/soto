@@ -119,26 +119,26 @@ extension Sms {
     public struct GetServersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "serverList", required: false, type: .structure), 
-            AWSShapeMember(label: "serverCatalogStatus", required: false, type: .enum), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "serverCatalogStatus", required: false, type: .enum), 
             AWSShapeMember(label: "lastModifiedOn", required: false, type: .timestamp)
         ]
         public let serverList: ServerList?
-        public let serverCatalogStatus: ServerCatalogStatus?
         public let nextToken: String?
+        public let serverCatalogStatus: ServerCatalogStatus?
         public let lastModifiedOn: TimeStamp?
 
-        public init(serverList: ServerList? = nil, serverCatalogStatus: ServerCatalogStatus? = nil, nextToken: String? = nil, lastModifiedOn: TimeStamp? = nil) {
+        public init(serverList: ServerList? = nil, nextToken: String? = nil, serverCatalogStatus: ServerCatalogStatus? = nil, lastModifiedOn: TimeStamp? = nil) {
             self.serverList = serverList
-            self.serverCatalogStatus = serverCatalogStatus
             self.nextToken = nextToken
+            self.serverCatalogStatus = serverCatalogStatus
             self.lastModifiedOn = lastModifiedOn
         }
 
         private enum CodingKeys: String, CodingKey {
             case serverList = "serverList"
-            case serverCatalogStatus = "serverCatalogStatus"
             case nextToken = "nextToken"
+            case serverCatalogStatus = "serverCatalogStatus"
             case lastModifiedOn = "lastModifiedOn"
         }
     }

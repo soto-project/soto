@@ -22,6 +22,11 @@ public enum RedshiftError: AWSErrorType {
     case tagLimitExceededFault(message: String?)
     case resourceNotFoundFault(message: String?)
     case snapshotCopyGrantNotFoundFault(message: String?)
+    case invalidReservedNodeStateFault(message: String?)
+    case reservedNodeAlreadyMigratedFault(message: String?)
+    case reservedNodeOfferingNotFoundFault(message: String?)
+    case unsupportedOperationFault(message: String?)
+    case reservedNodeAlreadyExistsFault(message: String?)
     case subscriptionNotFoundFault(message: String?)
     case sNSInvalidTopicFault(message: String?)
     case sNSNoAuthorizationFault(message: String?)
@@ -48,10 +53,7 @@ public enum RedshiftError: AWSErrorType {
     case clusterParameterGroupAlreadyExistsFault(message: String?)
     case clusterSnapshotAlreadyExistsFault(message: String?)
     case clusterSnapshotQuotaExceededFault(message: String?)
-    case reservedNodeOfferingNotFoundFault(message: String?)
-    case reservedNodeAlreadyExistsFault(message: String?)
     case reservedNodeQuotaExceededFault(message: String?)
-    case unsupportedOperationFault(message: String?)
     case invalidHsmConfigurationStateFault(message: String?)
     case bucketNotFoundFault(message: String?)
     case insufficientS3BucketPolicyFault(message: String?)
@@ -71,6 +73,7 @@ public enum RedshiftError: AWSErrorType {
     case invalidVPCNetworkStateFault(message: String?)
     case invalidClusterSubnetGroupStateFault(message: String?)
     case invalidElasticIpFault(message: String?)
+    case invalidClusterTrackFault(message: String?)
     case eventSubscriptionQuotaExceededFault(message: String?)
     case subscriptionAlreadyExistFault(message: String?)
     case hsmConfigurationAlreadyExistsFault(message: String?)
@@ -84,10 +87,12 @@ public enum RedshiftError: AWSErrorType {
     case snapshotCopyGrantAlreadyExistsFault(message: String?)
     case snapshotCopyGrantQuotaExceededFault(message: String?)
     case invalidClusterSubnetStateFault(message: String?)
+    case clusterOnLatestRevisionFault(message: String?)
     case snapshotCopyDisabledFault(message: String?)
     case invalidSnapshotCopyGrantStateFault(message: String?)
     case invalidRestoreFault(message: String?)
     case unsupportedOptionFault(message: String?)
+    case tableLimitExceededFault(message: String?)
 }
 
 extension RedshiftError {
@@ -133,6 +138,16 @@ extension RedshiftError {
             self = .resourceNotFoundFault(message: message)
         case "SnapshotCopyGrantNotFoundFault":
             self = .snapshotCopyGrantNotFoundFault(message: message)
+        case "InvalidReservedNodeStateFault":
+            self = .invalidReservedNodeStateFault(message: message)
+        case "ReservedNodeAlreadyMigratedFault":
+            self = .reservedNodeAlreadyMigratedFault(message: message)
+        case "ReservedNodeOfferingNotFoundFault":
+            self = .reservedNodeOfferingNotFoundFault(message: message)
+        case "UnsupportedOperationFault":
+            self = .unsupportedOperationFault(message: message)
+        case "ReservedNodeAlreadyExistsFault":
+            self = .reservedNodeAlreadyExistsFault(message: message)
         case "SubscriptionNotFoundFault":
             self = .subscriptionNotFoundFault(message: message)
         case "SNSInvalidTopicFault":
@@ -185,14 +200,8 @@ extension RedshiftError {
             self = .clusterSnapshotAlreadyExistsFault(message: message)
         case "ClusterSnapshotQuotaExceededFault":
             self = .clusterSnapshotQuotaExceededFault(message: message)
-        case "ReservedNodeOfferingNotFoundFault":
-            self = .reservedNodeOfferingNotFoundFault(message: message)
-        case "ReservedNodeAlreadyExistsFault":
-            self = .reservedNodeAlreadyExistsFault(message: message)
         case "ReservedNodeQuotaExceededFault":
             self = .reservedNodeQuotaExceededFault(message: message)
-        case "UnsupportedOperationFault":
-            self = .unsupportedOperationFault(message: message)
         case "InvalidHsmConfigurationStateFault":
             self = .invalidHsmConfigurationStateFault(message: message)
         case "BucketNotFoundFault":
@@ -231,6 +240,8 @@ extension RedshiftError {
             self = .invalidClusterSubnetGroupStateFault(message: message)
         case "InvalidElasticIpFault":
             self = .invalidElasticIpFault(message: message)
+        case "InvalidClusterTrackFault":
+            self = .invalidClusterTrackFault(message: message)
         case "EventSubscriptionQuotaExceededFault":
             self = .eventSubscriptionQuotaExceededFault(message: message)
         case "SubscriptionAlreadyExistFault":
@@ -257,6 +268,8 @@ extension RedshiftError {
             self = .snapshotCopyGrantQuotaExceededFault(message: message)
         case "InvalidClusterSubnetStateFault":
             self = .invalidClusterSubnetStateFault(message: message)
+        case "ClusterOnLatestRevisionFault":
+            self = .clusterOnLatestRevisionFault(message: message)
         case "SnapshotCopyDisabledFault":
             self = .snapshotCopyDisabledFault(message: message)
         case "InvalidSnapshotCopyGrantStateFault":
@@ -265,6 +278,8 @@ extension RedshiftError {
             self = .invalidRestoreFault(message: message)
         case "UnsupportedOptionFault":
             self = .unsupportedOptionFault(message: message)
+        case "TableLimitExceededFault":
+            self = .tableLimitExceededFault(message: message)
         default:
             return nil
         }

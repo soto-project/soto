@@ -29,7 +29,7 @@ public struct Appsync {
         return try client.send(operation: "DeleteApiKey", path: "/v1/apis/{apiId}/apikeys/{id}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Lists the API keys for a given API.
+    ///  Lists the API keys for a given API.  API keys are deleted automatically sometime after they expire. However, they may still be included in the response until they have actually been deleted. You can safely call DeleteApiKey to manually delete a key before it's automatically deleted. 
     public func listApiKeys(_ input: ListApiKeysRequest) throws -> ListApiKeysResponse {
         return try client.send(operation: "ListApiKeys", path: "/v1/apis/{apiId}/apikeys", httpMethod: "GET", input: input)
     }
@@ -44,9 +44,9 @@ public struct Appsync {
         return try client.send(operation: "DeleteResolver", path: "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Adds a new schema to your GraphQL API. This operation is asynchronous. Use to determine when it has completed.
-    public func startSchemaCreation(_ input: StartSchemaCreationRequest) throws -> StartSchemaCreationResponse {
-        return try client.send(operation: "StartSchemaCreation", path: "/v1/apis/{apiId}/schemacreation", httpMethod: "POST", input: input)
+    ///  Creates a Resolver object. A resolver converts incoming requests into a format that a data source can understand and converts the data source's responses into GraphQL.
+    public func createResolver(_ input: CreateResolverRequest) throws -> CreateResolverResponse {
+        return try client.send(operation: "CreateResolver", path: "/v1/apis/{apiId}/types/{typeName}/resolvers", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a Type object.
@@ -79,6 +79,11 @@ public struct Appsync {
         return try client.send(operation: "GetResolver", path: "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}", httpMethod: "GET", input: input)
     }
 
+    ///  Updates an API key.
+    public func updateApiKey(_ input: UpdateApiKeyRequest) throws -> UpdateApiKeyResponse {
+        return try client.send(operation: "UpdateApiKey", path: "/v1/apis/{apiId}/apikeys/{id}", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a DataSource object.
     public func createDataSource(_ input: CreateDataSourceRequest) throws -> CreateDataSourceResponse {
         return try client.send(operation: "CreateDataSource", path: "/v1/apis/{apiId}/datasources", httpMethod: "POST", input: input)
@@ -94,6 +99,11 @@ public struct Appsync {
         return try client.send(operation: "GetSchemaCreationStatus", path: "/v1/apis/{apiId}/schemacreation", httpMethod: "GET", input: input)
     }
 
+    ///  Lists the data sources for a given API.
+    public func listDataSources(_ input: ListDataSourcesRequest) throws -> ListDataSourcesResponse {
+        return try client.send(operation: "ListDataSources", path: "/v1/apis/{apiId}/datasources", httpMethod: "GET", input: input)
+    }
+
     ///  Creates a GraphqlApi object.
     public func createGraphqlApi(_ input: CreateGraphqlApiRequest) throws -> CreateGraphqlApiResponse {
         return try client.send(operation: "CreateGraphqlApi", path: "/v1/apis", httpMethod: "POST", input: input)
@@ -102,11 +112,6 @@ public struct Appsync {
     ///  Lists the types for a given API.
     public func listTypes(_ input: ListTypesRequest) throws -> ListTypesResponse {
         return try client.send(operation: "ListTypes", path: "/v1/apis/{apiId}/types", httpMethod: "GET", input: input)
-    }
-
-    ///  Lists the data sources for a given API.
-    public func listDataSources(_ input: ListDataSourcesRequest) throws -> ListDataSourcesResponse {
-        return try client.send(operation: "ListDataSources", path: "/v1/apis/{apiId}/datasources", httpMethod: "GET", input: input)
     }
 
     ///  Deletes a GraphqlApi object.
@@ -149,9 +154,9 @@ public struct Appsync {
         return try client.send(operation: "UpdateGraphqlApi", path: "/v1/apis/{apiId}", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a Resolver object. A resolver converts incoming requests into a format that a data source can understand and converts the data source's responses into GraphQL.
-    public func createResolver(_ input: CreateResolverRequest) throws -> CreateResolverResponse {
-        return try client.send(operation: "CreateResolver", path: "/v1/apis/{apiId}/types/{typeName}/resolvers", httpMethod: "POST", input: input)
+    ///  Adds a new schema to your GraphQL API. This operation is asynchronous. Use to determine when it has completed.
+    public func startSchemaCreation(_ input: StartSchemaCreationRequest) throws -> StartSchemaCreationResponse {
+        return try client.send(operation: "StartSchemaCreation", path: "/v1/apis/{apiId}/schemacreation", httpMethod: "POST", input: input)
     }
 
 

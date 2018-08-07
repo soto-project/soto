@@ -39,9 +39,9 @@ public struct Medialive {
         return try client.send(operation: "CreateInputSecurityGroup", path: "/prod/inputSecurityGroups", httpMethod: "POST", input: input)
     }
 
-    ///  Produces list of channels that have been created
-    public func listChannels(_ input: ListChannelsRequest) throws -> ListChannelsResponse {
-        return try client.send(operation: "ListChannels", path: "/prod/channels", httpMethod: "GET", input: input)
+    ///  Get details for a reservation.
+    public func describeReservation(_ input: DescribeReservationRequest) throws -> DescribeReservationResponse {
+        return try client.send(operation: "DescribeReservation", path: "/prod/reservations/{reservationId}", httpMethod: "GET", input: input)
     }
 
     ///  Produces a list of Input Security Groups for an account
@@ -49,9 +49,24 @@ public struct Medialive {
         return try client.send(operation: "ListInputSecurityGroups", path: "/prod/inputSecurityGroups", httpMethod: "GET", input: input)
     }
 
+    ///  Produces list of channels that have been created
+    public func listChannels(_ input: ListChannelsRequest) throws -> ListChannelsResponse {
+        return try client.send(operation: "ListChannels", path: "/prod/channels", httpMethod: "GET", input: input)
+    }
+
     ///  Deletes the input end point
     public func deleteInput(_ input: DeleteInputRequest) throws -> DeleteInputResponse {
         return try client.send(operation: "DeleteInput", path: "/prod/inputs/{inputId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  List purchased reservations.
+    public func listReservations(_ input: ListReservationsRequest) throws -> ListReservationsResponse {
+        return try client.send(operation: "ListReservations", path: "/prod/reservations", httpMethod: "GET", input: input)
+    }
+
+    ///  Purchase an offering and create a reservation.
+    public func purchaseOffering(_ input: PurchaseOfferingRequest) throws -> PurchaseOfferingResponse {
+        return try client.send(operation: "PurchaseOffering", path: "/prod/offerings/{offeringId}/purchase", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an Input Security Group
@@ -64,19 +79,24 @@ public struct Medialive {
         return try client.send(operation: "CreateInput", path: "/prod/inputs", httpMethod: "POST", input: input)
     }
 
-    ///  Gets details about a channel
-    public func describeChannel(_ input: DescribeChannelRequest) throws -> DescribeChannelResponse {
-        return try client.send(operation: "DescribeChannel", path: "/prod/channels/{channelId}", httpMethod: "GET", input: input)
+    ///  Updates an input.
+    public func updateInput(_ input: UpdateInputRequest) throws -> UpdateInputResponse {
+        return try client.send(operation: "UpdateInput", path: "/prod/inputs/{inputId}", httpMethod: "PUT", input: input)
     }
 
-    ///  Starts an existing channel
-    public func startChannel(_ input: StartChannelRequest) throws -> StartChannelResponse {
-        return try client.send(operation: "StartChannel", path: "/prod/channels/{channelId}/start", httpMethod: "POST", input: input)
+    ///  Update an Input Security Group's Whilelists.
+    public func updateInputSecurityGroup(_ input: UpdateInputSecurityGroupRequest) throws -> UpdateInputSecurityGroupResponse {
+        return try client.send(operation: "UpdateInputSecurityGroup", path: "/prod/inputSecurityGroups/{inputSecurityGroupId}", httpMethod: "PUT", input: input)
     }
 
-    ///  Stops a running channel
-    public func stopChannel(_ input: StopChannelRequest) throws -> StopChannelResponse {
-        return try client.send(operation: "StopChannel", path: "/prod/channels/{channelId}/stop", httpMethod: "POST", input: input)
+    ///  Get details for an offering.
+    public func describeOffering(_ input: DescribeOfferingRequest) throws -> DescribeOfferingResponse {
+        return try client.send(operation: "DescribeOffering", path: "/prod/offerings/{offeringId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Updates a channel.
+    public func updateChannel(_ input: UpdateChannelRequest) throws -> UpdateChannelResponse {
+        return try client.send(operation: "UpdateChannel", path: "/prod/channels/{channelId}", httpMethod: "PUT", input: input)
     }
 
     ///  Creates a new channel
@@ -89,9 +109,34 @@ public struct Medialive {
         return try client.send(operation: "DescribeInputSecurityGroup", path: "/prod/inputSecurityGroups/{inputSecurityGroupId}", httpMethod: "GET", input: input)
     }
 
+    ///  Stops a running channel
+    public func stopChannel(_ input: StopChannelRequest) throws -> StopChannelResponse {
+        return try client.send(operation: "StopChannel", path: "/prod/channels/{channelId}/stop", httpMethod: "POST", input: input)
+    }
+
     ///  Produces list of inputs that have been created
     public func listInputs(_ input: ListInputsRequest) throws -> ListInputsResponse {
         return try client.send(operation: "ListInputs", path: "/prod/inputs", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets details about a channel
+    public func describeChannel(_ input: DescribeChannelRequest) throws -> DescribeChannelResponse {
+        return try client.send(operation: "DescribeChannel", path: "/prod/channels/{channelId}", httpMethod: "GET", input: input)
+    }
+
+    ///  List offerings available for purchase.
+    public func listOfferings(_ input: ListOfferingsRequest) throws -> ListOfferingsResponse {
+        return try client.send(operation: "ListOfferings", path: "/prod/offerings", httpMethod: "GET", input: input)
+    }
+
+    ///  Delete an expired reservation.
+    public func deleteReservation(_ input: DeleteReservationRequest) throws -> DeleteReservationResponse {
+        return try client.send(operation: "DeleteReservation", path: "/prod/reservations/{reservationId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Starts an existing channel
+    public func startChannel(_ input: StartChannelRequest) throws -> StartChannelResponse {
+        return try client.send(operation: "StartChannel", path: "/prod/channels/{channelId}/start", httpMethod: "POST", input: input)
     }
 
 

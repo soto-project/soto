@@ -65,31 +65,31 @@ extension Sts {
 
     public struct Credentials: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SessionToken", required: true, type: .string), 
-            AWSShapeMember(label: "AccessKeyId", required: true, type: .string), 
             AWSShapeMember(label: "SecretAccessKey", required: true, type: .string), 
+            AWSShapeMember(label: "AccessKeyId", required: true, type: .string), 
+            AWSShapeMember(label: "SessionToken", required: true, type: .string), 
             AWSShapeMember(label: "Expiration", required: true, type: .timestamp)
         ]
-        /// The token that users must pass to the service API to use the temporary credentials.
-        public let sessionToken: String
-        /// The access key ID that identifies the temporary security credentials.
-        public let accessKeyId: String
         /// The secret access key that can be used to sign requests.
         public let secretAccessKey: String
+        /// The access key ID that identifies the temporary security credentials.
+        public let accessKeyId: String
+        /// The token that users must pass to the service API to use the temporary credentials.
+        public let sessionToken: String
         /// The date on which the current credentials expire.
         public let expiration: TimeStamp
 
-        public init(sessionToken: String, accessKeyId: String, secretAccessKey: String, expiration: TimeStamp) {
-            self.sessionToken = sessionToken
-            self.accessKeyId = accessKeyId
+        public init(secretAccessKey: String, accessKeyId: String, sessionToken: String, expiration: TimeStamp) {
             self.secretAccessKey = secretAccessKey
+            self.accessKeyId = accessKeyId
+            self.sessionToken = sessionToken
             self.expiration = expiration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sessionToken = "SessionToken"
-            case accessKeyId = "AccessKeyId"
             case secretAccessKey = "SecretAccessKey"
+            case accessKeyId = "AccessKeyId"
+            case sessionToken = "SessionToken"
             case expiration = "Expiration"
         }
     }
@@ -172,7 +172,7 @@ extension Sts {
         ]
         /// The fully qualified host component of the domain name of the identity provider. Specify this value only for OAuth 2.0 access tokens. Currently www.amazon.com and graph.facebook.com are the only supported identity providers for OAuth 2.0 access tokens. Do not include URL schemes and port numbers. Do not specify this value for OpenID Connect ID tokens.
         public let providerId: String?
-        /// The duration, in seconds, of the role session. The value can range from 900 seconds (15 minutes) to 3600 seconds (1 hour). By default, the value is set to 3600 seconds.  This is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session, separately from the DurationSeconds parameter on this API. For more information, see Creating a URL that Enables Federated Users to Access the AWS Management Console in the IAM User Guide. 
+        /// The duration, in seconds, of the role session. The value can range from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see View the Maximum Session Duration Setting for a Role in the IAM User Guide. By default, the value is set to 3600 seconds.   The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see Creating a URL that Enables Federated Users to Access the AWS Management Console in the IAM User Guide. 
         public let durationSeconds: Int32?
         /// The Amazon Resource Name (ARN) of the role that the caller is assuming.
         public let roleArn: String
@@ -253,7 +253,7 @@ extension Sts {
         ]
         /// The Amazon Resource Name (ARN) of the SAML provider in IAM that describes the IdP.
         public let principalArn: String
-        /// The duration, in seconds, of the role session. The value can range from 900 seconds (15 minutes) to 3600 seconds (1 hour). By default, the value is set to 3600 seconds. An expiration can also be specified in the SAML authentication response's SessionNotOnOrAfter value. The actual expiration time is whichever value is shorter.   This is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session, separately from the DurationSeconds parameter on this API. For more information, see Enabling SAML 2.0 Federated Users to Access the AWS Management Console in the IAM User Guide. 
+        /// The duration, in seconds, of the role session. Your role session lasts for the duration that you specify for the DurationSeconds parameter, or until the time specified in the SAML authentication response's SessionNotOnOrAfter value, whichever is shorter. You can provide a DurationSeconds value from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see View the Maximum Session Duration Setting for a Role in the IAM User Guide. By default, the value is set to 3600 seconds.   The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see Creating a URL that Enables Federated Users to Access the AWS Management Console in the IAM User Guide. 
         public let durationSeconds: Int32?
         /// The Amazon Resource Name (ARN) of the role that the caller is assuming.
         public let roleArn: String
@@ -392,7 +392,7 @@ extension Sts {
             AWSShapeMember(label: "SerialNumber", required: false, type: .string), 
             AWSShapeMember(label: "RoleSessionName", required: true, type: .string)
         ]
-        /// The duration, in seconds, of the role session. The value can range from 900 seconds (15 minutes) to 3600 seconds (1 hour). By default, the value is set to 3600 seconds.  This is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session, separately from the DurationSeconds parameter on this API. For more information, see Creating a URL that Enables Federated Users to Access the AWS Management Console in the IAM User Guide. 
+        /// The duration, in seconds, of the role session. The value can range from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see View the Maximum Session Duration Setting for a Role in the IAM User Guide. By default, the value is set to 3600 seconds.   The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see Creating a URL that Enables Federated Users to Access the AWS Management Console in the IAM User Guide. 
         public let durationSeconds: Int32?
         /// A unique identifier that is used by third parties when assuming roles in their customers' accounts. For each role that the third party can assume, they should instruct their customers to ensure the role's trust policy checks for the external ID that the third party generated. Each time the third party assumes the role, they should pass the customer's external ID. The external ID is useful in order to help third parties bind a role to the customer who created it. For more information about the external ID, see How to Use an External ID When Granting Access to Your AWS Resources to a Third Party in the IAM User Guide. The regex used to validated this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public let externalId: String?
