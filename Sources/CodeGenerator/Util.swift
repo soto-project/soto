@@ -21,10 +21,10 @@ func indt(_ times: Int, hard: Bool = true) -> String {
 }
 
 func rootPath() -> String {
-    return #file.characters
+    return #file
         .split(separator: "/", omittingEmptySubsequences: false)
         .dropLast(3)
-        .map { String($0) }
+        .map { String(describing: $0) }
         .joined(separator: "/")
 }
 
@@ -35,12 +35,12 @@ func loadEndpointJSON() throws -> JSON {
 
 func loadDocJSONList() throws -> [JSON] {
     let directories = Glob.entries(pattern: "\(rootPath())/models/apis/**")
-    
+
     let docPaths: [String] = directories.map {
         let entries = Glob.entries(pattern: $0+"/**/docs-*.json")
         return entries[entries.count-1]
     }
-    
+
     return try docPaths.map {
         let data = try Data(contentsOf: URL(string: "file://\($0)")!)
         return JSON(data: data)
@@ -49,17 +49,16 @@ func loadDocJSONList() throws -> [JSON] {
 
 func loadAPIJSONList() throws -> [JSON] {
     let directories = Glob.entries(pattern: "\(rootPath())/models/apis/**")
-    
+
     let apiPaths: [String] = directories.map {
         let entries = Glob.entries(pattern: $0+"/**/api-*.json")
         return entries[entries.count-1]
     }
-    
+
     return try apiPaths.map {
         let data = try Data(contentsOf: URL(string: "file://\($0)")!)
         var json = JSON(data: data)
-        let paths: [String] = $0.split(separator: "/").reversed()
-        json["serviceName"].stringValue = paths[2]
+        json["serviceName"].stringValue = String($0.split(separator: "/").reversed()[2])
         return json
     }
 }

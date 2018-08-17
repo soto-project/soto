@@ -20,8 +20,10 @@ else
     fi
 fi
 
-if [[ $OS != "macos" ]];
+if [[ $OS == "macos" ]];
 then
+    brew install libressl
+else
     sudo apt-get install -y clang libicu-dev uuid-dev
 
     if [[ $OS == "ubuntu1510" ]];
