@@ -1,8 +1,11 @@
 import Foundation
 import AWSSDKSwiftCore
 
-struct S3RequestMiddleware: AWSRequestMiddleware {
-    func chain(request: AWSRequest) throws -> AWSRequest {
+public struct S3RequestMiddleware: AWSRequestMiddleware {
+
+    public init () {}
+
+    public func chain(request: AWSRequest) throws -> AWSRequest {
         var request = request
         
         var paths = request.url.path.components(separatedBy: "/").filter({ $0 != "" })

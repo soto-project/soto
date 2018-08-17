@@ -3,6 +3,8 @@
 import Foundation
 import AWSSDKSwiftCore
 
+import S3Middleware
+
 /**
 
 */
