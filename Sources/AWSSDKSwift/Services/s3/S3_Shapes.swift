@@ -1602,7 +1602,7 @@ extension S3 {
     }
 
     public enum ReplicationStatus: String, CustomStringConvertible, Codable {
-        case complete = "COMPLETE"
+        case complete = "COMPLETED"
         case pending = "PENDING"
         case failed = "FAILED"
         case replica = "REPLICA"
