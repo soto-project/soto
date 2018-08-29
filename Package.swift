@@ -5,6 +5,7 @@ let package = Package(
     name: "AWSSDKSwift",
     products: [
         .library(name: "AWSSDKSwift", targets: ["Acm-Pca","Acm","Alexaforbusiness","Apigateway","Application-Autoscaling","Appstream","Appsync","Athena","Autoscaling-Plans","Autoscaling","Awsmigrationhub","Batch","Budgets","Ce","Cloud9","Clouddirectory","Cloudformation","Cloudfront","Cloudhsm","Cloudhsmv2","Cloudsearch","Cloudsearchdomain","Cloudtrail","Codebuild","Codecommit","Codedeploy","Codepipeline","Codestar","Cognito-Identity","Cognito-Idp","Cognito-Sync","Comprehend","Config","Connect","Cur","Datapipeline","Dax","Devicefarm","Directconnect","Discovery","Dlm","Dms","Ds","Dynamodb","Ec2","Ecr","Ecs","Eks","Elasticache","Elasticbeanstalk","Elasticfilesystem","Elasticloadbalancing","Elasticloadbalancingv2","Elasticmapreduce","Elastictranscoder","Email","Entitlement.Marketplace","Es","Events","Firehose","Fms","Gamelift","Glacier","Glue","Greengrass","Guardduty","Health","Iam","Importexport","Inspector","Iot-Data","Iot-Jobs-Data","Iot","Iot1Click-Devices","Iot1Click-Projects","Iotanalytics","Kinesis-Video-Archived-Media","Kinesis-Video-Media","Kinesis","Kinesisanalytics","Kinesisvideo","Kms","Lambda","Lex-Models","Lightsail","Logs","Machinelearning","Macie","Marketplacecommerceanalytics","Mediaconvert","Medialive","Mediapackage","Mediastore-Data","Mediastore","Mediatailor","Meteringmarketplace","Mobile","Mobileanalytics","Monitoring","Mq","Mturk-Requester","Neptune","Opsworks","Opsworkscm","Organizations","Pi","Pinpoint","Polly","Pricing","Rds","Redshift","Rekognition","Resource-Groups","Resourcegroupstaggingapi","Route53","Route53Domains","Runtime.Lex","Runtime.Sagemaker","S3","S3Middleware","Sagemaker","Sdb","Secretsmanager","Serverlessrepo","Servicecatalog","Servicediscovery","Shield","Sms","Snowball","Sns","Sqs","Ssm","States","Storagegateway","Streams.Dynamodb","Sts","Support","Swf","Transcribe","Translate","Waf-Regional","Waf","Workdocs","Workmail","Workspaces","Xray",]),
+        .library(name: "Ec2", targets: ["Ec2"]),
         .executable(name: "aws-sdk-swift-codegen", targets: ["CodeGenerator"])
     ],
     dependencies: [
@@ -13,7 +14,6 @@ let package = Package(
     ],
     targets: [
         .target(name: "CodeGenerator", dependencies: ["AWSSDKSwiftCore", "SwiftyJSON"]),
-        //.target(name: "AWSSDKSwift", dependencies: ["AWSSDKSwiftCore", "SwiftyJSON"]),
 
         .target(name: "Acm-Pca", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/acm-pca"),
         .target(name: "Acm", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/acm"),
