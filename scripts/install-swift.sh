@@ -3,11 +3,11 @@
 VERSION="4.1.3"
 
 UNAME=$(uname);
-if [ "Darwin" = "${UNAME}" ];
+if [ "${UNAME}" = "Darwin" ];
 then
     OS="macos";
 else
-    if [ "Linux" = "${UNAME}" ];
+    if [ "${UNAME}" = "Linux" ];
     then
         UBUNTU_RELEASE=$(lsb_release -r 2>/dev/null | cut -f2);
         case "${UBUNTU_RELEASE}" in
@@ -23,7 +23,12 @@ if [ "macos" = "${OS}" ];
 then
     brew install libressl
 else
-    sudo apt-get install -y clang libicu-dev uuid-dev pkg-config libssl-dev
+    dpkg -s clang | grep Status | grep -q install 2> /dev/null
+    if [ $? -ne 0 ];
+    then
+        echo "Installing"
+        sudo apt-get install -y clang libicu-dev uuid-dev pkg-config libssl-dev
+    fi
 
     SWIFTFILE="swift-${VERSION}-RELEASE-ubuntu${UBUNTU_RELEASE}";
     if [ -d "${PWD}/${SWIFTFILE}" ];
