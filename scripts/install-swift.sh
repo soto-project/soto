@@ -1,38 +1,37 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-VERSION="4.1.2"
+VERSION="4.1.3"
 
-# Determine OS
-UNAME=`uname`;
-if [[ $UNAME == "Darwin" ]];
+UNAME=$(uname);
+if [ "Darwin" = "${UNAME}" ];
 then
     OS="macos";
 else
-    if [[ $UNAME == "Linux" ]];
+    if [ "Linux" = "${UNAME}" ];
     then
-        UBUNTU_RELEASE=`lsb_release -a 2>/dev/null`;
-        if [[ $UBUNTU_RELEASE == *"15.10"* ]];
-        then
-            OS="ubuntu1510";
-        else
-            OS="ubuntu1404";
-        fi
+        UBUNTU_RELEASE=$(lsb_release -r 2>/dev/null | cut -f2);
+        case "${UBUNTU_RELEASE}" in
+            16.04) OS="ubuntu1604";;
+            15.10) OS="ubuntu1510";;
+            14.04) OS="ubuntu1404";;
+            *) echo "Unsupported distro!"; exit 1;;
+        esac
     fi
 fi
 
-if [[ $OS == "macos" ]];
+if [ "macos" = "${OS}" ];
 then
     brew install libressl
 else
-    sudo apt-get install -y clang libicu-dev uuid-dev
+    sudo apt-get install -y clang libicu-dev uuid-dev pkg-config libssl-dev
 
-    if [[ $OS == "ubuntu1510" ]];
+    SWIFTFILE="swift-${VERSION}-RELEASE-ubuntu${UBUNTU_RELEASE}";
+    if [ -d "${PWD}/${SWIFTFILE}" ];
     then
-        SWIFTFILE="swift-$VERSION-RELEASE-ubuntu15.10";
+        echo "Swift ${VERSION} already downloaded."
     else
-        SWIFTFILE="swift-$VERSION-RELEASE-ubuntu14.04";
+        wget "https://swift.org/builds/swift-${VERSION}-release/${OS}/swift-${VERSION}-RELEASE/${SWIFTFILE}.tar.gz"
+        tar -zxf "${SWIFTFILE}.tar.gz"
+        export PATH="${PWD}/${SWIFTFILE}/usr/bin:${PATH}"
     fi
-    wget https://swift.org/builds/swift-$VERSION-release/$OS/swift-$VERSION-RELEASE/$SWIFTFILE.tar.gz
-    tar -zxf $SWIFTFILE.tar.gz
-    export PATH=$PWD/$SWIFTFILE/usr/bin:"${PATH}"
 fi

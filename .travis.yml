@@ -3,7 +3,7 @@ os:
   - osx
 language: generic
 sudo: required
-dist: trusty
+dist: xenial
 osx_image: xcode9.4
 
 addons:
@@ -12,9 +12,10 @@ addons:
 
 install:
   - source scripts/install-swift.sh
-  - if [[ $OS != "macos" ]]; then docker run -d -p 8000:8000 tray/dynamodb-local -inMemory -port 8000; fi
-  - if [[ $OS != "macos" ]]; then docker run -d -p 4569:4569 lphoward/fake-s3; fi
+  - if [ "macos" = "${OS}" ]; then docker run -d -p 8000:8000 tray/dynamodb-local -inMemory -port 8000; fi
+  - if [ "macos" = "${OS}" ]; then docker run -d -p 4569:4569 lphoward/fake-s3; fi
 
 script:
+  - source scripts/install-swift.sh
   - source scripts/help-travis-wait.sh& travis_wait 60 swift build
-  - if [[ $OS != "macos" ]]; then swift test; fi
+  - if [ "macos" = "${OS}" ]; then swift test; fi
