@@ -153,7 +153,7 @@ let package = Package(
 	.library(name: "Xray", targets: ["Xray"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .branch("xml-parsing")),
+        .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .upToNextMajor(from: "2.0.0-rc.1")),
         .package(url: "https://github.com/IBM-Swift/SwiftyJSON.git", .upToNextMajor(from: "17.0.2"))
     ],
     targets: [
