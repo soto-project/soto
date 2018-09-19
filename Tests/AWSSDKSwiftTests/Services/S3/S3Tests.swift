@@ -9,7 +9,7 @@
 import Foundation
 import Dispatch
 import XCTest
-@testable import AWSSDKSwift
+@testable import S3
 @testable import AWSSDKSwiftCore
 
 class S3Tests: XCTestCase {
