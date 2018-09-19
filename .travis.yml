@@ -11,7 +11,6 @@ addons:
     - aws-sdk-swift-test-bucket.localhost
   apt:
     packages:
-    - clang-3.8
     - libicu-dev
     - uuid-dev
     - pkg-config
