@@ -47,3 +47,5 @@ else
         export PATH="${PWD}/${SWIFTFILE}/usr/bin:${PATH}"
     fi
 fi
+
+set +u
