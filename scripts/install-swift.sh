@@ -48,4 +48,4 @@ else
     fi
 fi
 
-set +u
+set +ux
