@@ -4,11 +4,21 @@ os:
 language: generic
 sudo: required
 dist: xenial
-osx_image: xcode9.4
+osx_image: xcode10
 
 addons:
   hosts:
     - aws-sdk-swift-test-bucket.localhost
+  apt:
+    packages:
+    - clang
+    - libicu-dev
+    - uuid-dev
+    - pkg-config
+    - libssl-dev
+  homebrew:
+    packages:
+    - libressl
 
 install:
   - source scripts/install-swift.sh

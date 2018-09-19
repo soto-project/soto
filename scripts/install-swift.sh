@@ -1,6 +1,8 @@
 #!/bin/sh
 
-VERSION="4.1.3"
+set -eux
+
+VERSION="4.2"
 
 UNAME=$(uname);
 if [ "${UNAME}" = "Darwin" ];
@@ -11,6 +13,7 @@ else
     then
         UBUNTU_RELEASE=$(lsb_release -r 2>/dev/null | cut -f2);
         case "${UBUNTU_RELEASE}" in
+            18.04) OS="ubuntu1804";;
             16.04) OS="ubuntu1604";;
             15.10) OS="ubuntu1510";;
             14.04) OS="ubuntu1404";;
@@ -23,17 +26,21 @@ if [ "macos" = "${OS}" ];
 then
     brew install libressl
 else
-    dpkg -s clang | grep Status | grep -q install 2> /dev/null
+    dpkg -s libssl-dev | grep Status | grep -q install 2> /dev/null
     if [ $? -ne 0 ];
     then
+        set +x
         echo "Installing"
+        set -x
         sudo apt-get install -y clang libicu-dev uuid-dev pkg-config libssl-dev
     fi
 
     SWIFTFILE="swift-${VERSION}-RELEASE-ubuntu${UBUNTU_RELEASE}";
     if [ -d "${PWD}/${SWIFTFILE}" ];
     then
+        set +x
         echo "Swift ${VERSION} already downloaded."
+        set -x
     else
         wget "https://swift.org/builds/swift-${VERSION}-release/${OS}/swift-${VERSION}-RELEASE/${SWIFTFILE}.tar.gz"
         tar -zxf "${SWIFTFILE}.tar.gz"
