@@ -3,7 +3,7 @@
 import AWSSDKSwiftCore
 
 /// Error enum for Cloud9
-public enum Cloud9Error: AWSErrorType {
+public enum Cloud9ErrorType: AWSErrorType {
     case badRequestException(message: String?)
     case conflictException(message: String?)
     case notFoundException(message: String?)
@@ -13,7 +13,7 @@ public enum Cloud9Error: AWSErrorType {
     case internalServerErrorException(message: String?)
 }
 
-extension Cloud9Error {
+extension Cloud9ErrorType {
     public init?(errorCode: String, message: String?){
         var errorCode = errorCode
         if let index = errorCode.index(of: "#") {
