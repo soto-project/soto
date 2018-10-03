@@ -9,7 +9,7 @@
 import Foundation
 import Dispatch
 import XCTest
-@testable import AWSSDKSwift
+@testable import Dynamodb
 
 class DynamoDBTests: XCTestCase {
     static var allTests : [(String, (DynamoDBTests) -> () throws -> Void)] {
