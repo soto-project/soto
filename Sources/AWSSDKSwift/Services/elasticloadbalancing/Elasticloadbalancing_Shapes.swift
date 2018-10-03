@@ -1331,15 +1331,15 @@ extension Elasticloadbalancing {
 
     public struct SourceSecurityGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OwnerAlias", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerAlias", required: false, type: .integer),
             AWSShapeMember(label: "GroupName", required: false, type: .string)
         ]
         /// The owner of the security group.
-        public let ownerAlias: String?
+        public let ownerAlias: Int?
         /// The name of the security group.
         public let groupName: String?
 
-        public init(ownerAlias: String? = nil, groupName: String? = nil) {
+        public init(ownerAlias: Int? = nil, groupName: String? = nil) {
             self.ownerAlias = ownerAlias
             self.groupName = groupName
         }
