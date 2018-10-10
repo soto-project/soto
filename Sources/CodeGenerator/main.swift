@@ -21,7 +21,7 @@ for index in 0..<apis.count {
         do {
             let service = try AWSService(fromAPIJSON: api, docJSON: doc, endpointJSON: endpoint)
 
-            log("Generating \(service.serviceName) codes ........")
+            log("Generating \(service.serviceName) code ........")
 
             let basePath = "\(rootPath())/Sources/AWSSDKSwift/Services/\(service.serviceName)/"
             _ = mkdirp(basePath)

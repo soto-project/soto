@@ -65,12 +65,12 @@ func loadAPIJSONList() throws -> [JSON] {
 
 // port of https://github.com/aws/aws-sdk-go-v2/blob/996478f06a00c31ee7e7b0c3ac6674ce24ba0120/private/model/api/api.go#L105
 //
-var stripServiceNamePrefixes: [String] = [
+let stripServiceNamePrefixes: [String] = [
   "Amazon",
   "AWS",
 ]
 
-var serviceAliases: [String:String] = [
+let serviceAliases: [String:String] = [
 	"elasticloadbalancing": "ELB",
 	"elasticloadbalancingv2": "ELBV2",
 	"config": "ConfigService"
@@ -92,7 +92,7 @@ func serviceNameForApi(apiJSON: JSON) -> String {
         serviceName.deletePrefix(prefix)
     }
 
-    // Replace all Non-letter/number values with space
+    // Remove all Non-letter/number values
     serviceName.removeCharacterSet(in: CharacterSet.alphanumerics.inverted)
 
     serviceName.removeWhitespaces()
