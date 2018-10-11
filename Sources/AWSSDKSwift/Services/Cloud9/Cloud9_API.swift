@@ -21,8 +21,13 @@ public struct Cloud9 {
             apiVersion: "2017-09-23",
             endpoint: endpoint,
             middlewares: [],
-            possibleErrorTypes: [Cloud9Error.self]
+            possibleErrorTypes: [Cloud9ErrorType.self]
         )
+    }
+
+    ///  Changes the settings of an existing AWS Cloud9 development environment.
+    public func updateEnvironment(_ input: UpdateEnvironmentRequest) throws -> UpdateEnvironmentResult {
+        return try client.send(operation: "UpdateEnvironment", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an AWS Cloud9 development environment. If an Amazon EC2 instance is connected to the environment, also terminates the instance.
@@ -30,14 +35,24 @@ public struct Cloud9 {
         return try client.send(operation: "DeleteEnvironment", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets a list of AWS Cloud9 development environment identifiers.
-    public func listEnvironments(_ input: ListEnvironmentsRequest) throws -> ListEnvironmentsResult {
-        return try client.send(operation: "ListEnvironments", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Adds an environment member to an AWS Cloud9 development environment.
     public func createEnvironmentMembership(_ input: CreateEnvironmentMembershipRequest) throws -> CreateEnvironmentMembershipResult {
         return try client.send(operation: "CreateEnvironmentMembership", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Changes the settings of an existing environment member for an AWS Cloud9 development environment.
+    public func updateEnvironmentMembership(_ input: UpdateEnvironmentMembershipRequest) throws -> UpdateEnvironmentMembershipResult {
+        return try client.send(operation: "UpdateEnvironmentMembership", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes an environment member from an AWS Cloud9 development environment.
+    public func deleteEnvironmentMembership(_ input: DeleteEnvironmentMembershipRequest) throws -> DeleteEnvironmentMembershipResult {
+        return try client.send(operation: "DeleteEnvironmentMembership", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about environment members for an AWS Cloud9 development environment.
+    public func describeEnvironmentMemberships(_ input: DescribeEnvironmentMembershipsRequest) throws -> DescribeEnvironmentMembershipsResult {
+        return try client.send(operation: "DescribeEnvironmentMemberships", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets status information for an AWS Cloud9 development environment.
@@ -50,29 +65,14 @@ public struct Cloud9 {
         return try client.send(operation: "CreateEnvironmentEC2", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Changes the settings of an existing AWS Cloud9 development environment.
-    public func updateEnvironment(_ input: UpdateEnvironmentRequest) throws -> UpdateEnvironmentResult {
-        return try client.send(operation: "UpdateEnvironment", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Changes the settings of an existing environment member for an AWS Cloud9 development environment.
-    public func updateEnvironmentMembership(_ input: UpdateEnvironmentMembershipRequest) throws -> UpdateEnvironmentMembershipResult {
-        return try client.send(operation: "UpdateEnvironmentMembership", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about environment members for an AWS Cloud9 development environment.
-    public func describeEnvironmentMemberships(_ input: DescribeEnvironmentMembershipsRequest) throws -> DescribeEnvironmentMembershipsResult {
-        return try client.send(operation: "DescribeEnvironmentMemberships", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes an environment member from an AWS Cloud9 development environment.
-    public func deleteEnvironmentMembership(_ input: DeleteEnvironmentMembershipRequest) throws -> DeleteEnvironmentMembershipResult {
-        return try client.send(operation: "DeleteEnvironmentMembership", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Gets information about AWS Cloud9 development environments.
     public func describeEnvironments(_ input: DescribeEnvironmentsRequest) throws -> DescribeEnvironmentsResult {
         return try client.send(operation: "DescribeEnvironments", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets a list of AWS Cloud9 development environment identifiers.
+    public func listEnvironments(_ input: ListEnvironmentsRequest) throws -> ListEnvironmentsResult {
+        return try client.send(operation: "ListEnvironments", path: "/", httpMethod: "POST", input: input)
     }
 
 

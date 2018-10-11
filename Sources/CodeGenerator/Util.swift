@@ -58,9 +58,53 @@ func loadAPIJSONList() throws -> [JSON] {
     return try apiPaths.map {
         let data = try Data(contentsOf: URL(string: "file://\($0)")!)
         var json = JSON(data: data)
-        json["serviceName"].stringValue = String($0.split(separator: "/").reversed()[2])
+        json["serviceName"].stringValue = serviceNameForApi(apiJSON: json)
         return json
     }
+}
+
+// port of https://github.com/aws/aws-sdk-go-v2/blob/996478f06a00c31ee7e7b0c3ac6674ce24ba0120/private/model/api/api.go#L105
+//
+let stripServiceNamePrefixes: [String] = [
+  "Amazon",
+  "AWS",
+]
+
+let serviceAliases: [String:String] = [
+	"elasticloadbalancing": "ELB",
+	"elasticloadbalancingv2": "ELBV2",
+	"config": "ConfigService"
+]
+
+func serviceNameForApi(apiJSON: JSON) -> String {
+    var serviceNameJSON = apiJSON["metadata"]["serviceAbbreviation"]
+
+    if serviceNameJSON == nil {
+        serviceNameJSON = apiJSON["metadata"]["serviceFullName"]
+    }
+
+    var serviceName = serviceNameJSON.stringValue
+
+    serviceName.trimCharacters(in: .whitespaces)
+
+    // Strip out prefix names not reflected in service client symbol names.
+    for prefix in stripServiceNamePrefixes {
+        serviceName.deletePrefix(prefix)
+    }
+
+    // Remove all Non-letter/number values
+    serviceName.removeCharacterSet(in: CharacterSet.alphanumerics.inverted)
+
+    serviceName.removeWhitespaces()
+
+    // Swap out for alias name if one is defined.
+    if let alias = serviceAliases[serviceName.lowercased()] {
+        serviceName = alias
+    }
+
+    serviceName.capitalizeFirstLetter()
+
+    return serviceName
 }
 
 func mkdirp(_ dir: String) -> Int32 {
@@ -75,5 +119,44 @@ func mkdirp(_ dir: String) -> Int32 {
 func log(_ message: String) {
     if enableShowLog {
         print(message)
+    }
+}
+
+extension String {
+    func deletingPrefix(_ prefix: String) -> String {
+        guard self.hasPrefix(prefix) else { return self }
+        return String(self.dropFirst(prefix.count))
+    }
+
+    mutating func deletePrefix(_ prefix: String) {
+        self = self.deletingPrefix(prefix)
+    }
+
+    func removingWhitespaces() -> String {
+        return components(separatedBy: .whitespaces).joined()
+    }
+
+    mutating func removeWhitespaces() {
+        self = self.removingWhitespaces()
+    }
+
+    func removingCharacterSet(in characterset: CharacterSet) -> String {
+        return components(separatedBy: characterset).joined()
+    }
+
+    mutating func removeCharacterSet(in characterset: CharacterSet) {
+        self = self.removingCharacterSet(in: characterset)
+    }
+
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).capitalized + dropFirst()
+    }
+
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
+    }
+
+    mutating func trimCharacters(in characterset: CharacterSet) {
+        self = self.trimmingCharacters(in: characterset)
     }
 }
