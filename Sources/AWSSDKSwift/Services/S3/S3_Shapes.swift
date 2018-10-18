@@ -23,8 +23,8 @@ extension S3 {
 
     public struct DeleteObjectsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "Deleted", required: false, type: .list), 
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum),
+            AWSShapeMember(label: "Deleted", required: false, type: .list),
             AWSShapeMember(label: "Errors", location: .body(locationName: "Error"), required: false, type: .list)
         ]
         public let requestCharged: RequestCharged?
@@ -46,28 +46,28 @@ extension S3 {
 
     public struct CreateMultipartUploadRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
-            AWSShapeMember(label: "ContentLanguage", location: .header(locationName: "Content-Language"), required: false, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string), 
-            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
-            AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map), 
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "Tagging", location: .header(locationName: "x-amz-tagging"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
+            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp),
+            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum),
+            AWSShapeMember(label: "ContentLanguage", location: .header(locationName: "Content-Language"), required: false, type: .string),
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string),
+            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string),
+            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum),
+            AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string),
+            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string),
+            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string),
+            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string),
+            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string),
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string),
+            AWSShapeMember(label: "Metadata", required: false, type: .map),
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum),
+            AWSShapeMember(label: "Tagging", location: .header(locationName: "x-amz-tagging"), required: false, type: .string),
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum),
+            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string),
             AWSShapeMember(label: "ContentEncoding", location: .header(locationName: "Content-Encoding"), required: false, type: .string)
         ]
         /// The date and time at which the object is no longer cacheable.
@@ -175,9 +175,9 @@ extension S3 {
 
     public struct WebsiteConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexDocument", required: false, type: .structure), 
-            AWSShapeMember(label: "RoutingRules", required: false, type: .structure), 
-            AWSShapeMember(label: "ErrorDocument", required: false, type: .structure), 
+            AWSShapeMember(label: "IndexDocument", required: false, type: .structure),
+            AWSShapeMember(label: "RoutingRules", required: false, type: .structure),
+            AWSShapeMember(label: "ErrorDocument", required: false, type: .structure),
             AWSShapeMember(label: "RedirectAllRequestsTo", required: false, type: .structure)
         ]
         public let indexDocument: IndexDocument?
@@ -218,19 +218,19 @@ extension S3 {
 
     public struct ListPartsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "Owner", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxParts", required: false, type: .integer), 
-            AWSShapeMember(label: "PartNumberMarker", required: false, type: .integer), 
-            AWSShapeMember(label: "AbortDate", location: .header(locationName: "x-amz-abort-date"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "NextPartNumberMarker", required: false, type: .integer), 
-            AWSShapeMember(label: "Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "UploadId", required: false, type: .string), 
-            AWSShapeMember(label: "Initiator", required: false, type: .structure), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "Parts", location: .body(locationName: "Part"), required: false, type: .list), 
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum),
+            AWSShapeMember(label: "Owner", required: false, type: .structure),
+            AWSShapeMember(label: "MaxParts", required: false, type: .integer),
+            AWSShapeMember(label: "PartNumberMarker", required: false, type: .integer),
+            AWSShapeMember(label: "AbortDate", location: .header(locationName: "x-amz-abort-date"), required: false, type: .timestamp),
+            AWSShapeMember(label: "StorageClass", required: false, type: .enum),
+            AWSShapeMember(label: "Key", required: false, type: .string),
+            AWSShapeMember(label: "NextPartNumberMarker", required: false, type: .integer),
+            AWSShapeMember(label: "Bucket", required: false, type: .string),
+            AWSShapeMember(label: "UploadId", required: false, type: .string),
+            AWSShapeMember(label: "Initiator", required: false, type: .structure),
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean),
+            AWSShapeMember(label: "Parts", location: .body(locationName: "Part"), required: false, type: .list),
             AWSShapeMember(label: "AbortRuleId", location: .header(locationName: "x-amz-abort-rule-id"), required: false, type: .string)
         ]
         public let requestCharged: RequestCharged?
@@ -296,10 +296,10 @@ extension S3 {
 
     public struct CSVOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordDelimiter", required: false, type: .string), 
-            AWSShapeMember(label: "QuoteEscapeCharacter", required: false, type: .string), 
-            AWSShapeMember(label: "QuoteCharacter", required: false, type: .string), 
-            AWSShapeMember(label: "QuoteFields", required: false, type: .enum), 
+            AWSShapeMember(label: "RecordDelimiter", required: false, type: .string),
+            AWSShapeMember(label: "QuoteEscapeCharacter", required: false, type: .string),
+            AWSShapeMember(label: "QuoteCharacter", required: false, type: .string),
+            AWSShapeMember(label: "QuoteFields", required: false, type: .enum),
             AWSShapeMember(label: "FieldDelimiter", required: false, type: .string)
         ]
         /// Value used to separate individual records.
@@ -347,7 +347,7 @@ extension S3 {
 
     public struct CompletedPart: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ETag", required: false, type: .string), 
+            AWSShapeMember(label: "ETag", required: false, type: .string),
             AWSShapeMember(label: "PartNumber", required: false, type: .integer)
         ]
         /// Entity tag returned when the part was uploaded.
@@ -370,8 +370,8 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "InventoryConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "InventoryConfiguration", location: .body(locationName: "InventoryConfiguration"), required: true, type: .structure), 
+            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string),
+            AWSShapeMember(label: "InventoryConfiguration", location: .body(locationName: "InventoryConfiguration"), required: true, type: .structure),
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         /// The ID used to identify the inventory configuration.
@@ -412,7 +412,7 @@ extension S3 {
 
     public struct GetBucketAnalyticsConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string),
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         /// The identifier used to represent an analytics configuration.
@@ -433,8 +433,8 @@ extension S3 {
 
     public struct DeleteObjectTaggingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
         public let key: String
@@ -459,7 +459,7 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "NotificationConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotificationConfiguration", location: .body(locationName: "NotificationConfiguration"), required: true, type: .structure), 
+            AWSShapeMember(label: "NotificationConfiguration", location: .body(locationName: "NotificationConfiguration"), required: true, type: .structure),
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let notificationConfiguration: NotificationConfiguration
@@ -489,8 +489,8 @@ extension S3 {
 
     public struct InputSerialization: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompressionType", required: false, type: .enum), 
-            AWSShapeMember(label: "JSON", required: false, type: .structure), 
+            AWSShapeMember(label: "CompressionType", required: false, type: .enum),
+            AWSShapeMember(label: "JSON", required: false, type: .structure),
             AWSShapeMember(label: "CSV", required: false, type: .structure)
         ]
         /// Specifies object's compression format. Valid values: NONE, GZIP, BZIP2. Default Value: NONE.
@@ -530,18 +530,18 @@ extension S3 {
 
     public struct HeadObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PartNumber", location: .querystring(locationName: "partNumber"), required: false, type: .integer), 
-            AWSShapeMember(label: "IfUnmodifiedSince", location: .header(locationName: "If-Unmodified-Since"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "IfModifiedSince", location: .header(locationName: "If-Modified-Since"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeMember(label: "Range", location: .header(locationName: "Range"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "IfNoneMatch", location: .header(locationName: "If-None-Match"), required: false, type: .string), 
+            AWSShapeMember(label: "PartNumber", location: .querystring(locationName: "partNumber"), required: false, type: .integer),
+            AWSShapeMember(label: "IfUnmodifiedSince", location: .header(locationName: "If-Unmodified-Since"), required: false, type: .timestamp),
+            AWSShapeMember(label: "IfModifiedSince", location: .header(locationName: "If-Modified-Since"), required: false, type: .timestamp),
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string),
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string),
+            AWSShapeMember(label: "Range", location: .header(locationName: "Range"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string),
+            AWSShapeMember(label: "IfNoneMatch", location: .header(locationName: "If-None-Match"), required: false, type: .string),
             AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum)
         ]
         /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful querying about the size of the part and the number of parts in this object.
@@ -603,12 +603,12 @@ extension S3 {
 
     public struct ListObjectVersionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxKeys", location: .querystring(locationName: "max-keys"), required: false, type: .integer), 
-            AWSShapeMember(label: "Delimiter", location: .querystring(locationName: "delimiter"), required: false, type: .string), 
-            AWSShapeMember(label: "VersionIdMarker", location: .querystring(locationName: "version-id-marker"), required: false, type: .string), 
-            AWSShapeMember(label: "EncodingType", location: .querystring(locationName: "encoding-type"), required: false, type: .enum), 
-            AWSShapeMember(label: "KeyMarker", location: .querystring(locationName: "key-marker"), required: false, type: .string), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "MaxKeys", location: .querystring(locationName: "max-keys"), required: false, type: .integer),
+            AWSShapeMember(label: "Delimiter", location: .querystring(locationName: "delimiter"), required: false, type: .string),
+            AWSShapeMember(label: "VersionIdMarker", location: .querystring(locationName: "version-id-marker"), required: false, type: .string),
+            AWSShapeMember(label: "EncodingType", location: .querystring(locationName: "encoding-type"), required: false, type: .enum),
+            AWSShapeMember(label: "KeyMarker", location: .querystring(locationName: "key-marker"), required: false, type: .string),
             AWSShapeMember(label: "Prefix", location: .querystring(locationName: "prefix"), required: false, type: .string)
         ]
         public let bucket: String
@@ -652,9 +652,9 @@ extension S3 {
 
     public struct TopicConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list), 
-            AWSShapeMember(label: "TopicArn", location: .body(locationName: "Topic"), required: true, type: .string), 
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list),
+            AWSShapeMember(label: "TopicArn", location: .body(locationName: "Topic"), required: true, type: .string),
+            AWSShapeMember(label: "Filter", required: false, type: .structure),
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let events: [Event]
@@ -680,9 +680,9 @@ extension S3 {
 
     public struct GetBucketWebsiteOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexDocument", required: false, type: .structure), 
-            AWSShapeMember(label: "RoutingRules", required: false, type: .structure), 
-            AWSShapeMember(label: "ErrorDocument", required: false, type: .structure), 
+            AWSShapeMember(label: "IndexDocument", required: false, type: .structure),
+            AWSShapeMember(label: "RoutingRules", required: false, type: .structure),
+            AWSShapeMember(label: "ErrorDocument", required: false, type: .structure),
             AWSShapeMember(label: "RedirectAllRequestsTo", required: false, type: .structure)
         ]
         public let indexDocument: IndexDocument?
@@ -712,9 +712,9 @@ extension S3 {
 
     public struct TopicConfigurationDeprecated: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list), 
-            AWSShapeMember(label: "Topic", required: false, type: .string), 
-            AWSShapeMember(label: "Event", required: false, type: .enum), 
+            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list),
+            AWSShapeMember(label: "Topic", required: false, type: .string),
+            AWSShapeMember(label: "Event", required: false, type: .enum),
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let events: [Event]?
@@ -743,7 +743,7 @@ extension S3 {
 
     public struct AccessControlPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Owner", required: false, type: .structure), 
+            AWSShapeMember(label: "Owner", required: false, type: .structure),
             AWSShapeMember(label: "Grants", location: .body(locationName: "AccessControlList"), required: false, type: .structure)
         ]
         public let owner: Owner?
@@ -778,7 +778,7 @@ extension S3 {
 
     public struct ListBucketAnalyticsConfigurationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContinuationToken", location: .querystring(locationName: "continuation-token"), required: false, type: .string), 
+            AWSShapeMember(label: "ContinuationToken", location: .querystring(locationName: "continuation-token"), required: false, type: .string),
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         /// The ContinuationToken that represents a placeholder from where this request should begin.
@@ -799,10 +799,10 @@ extension S3 {
 
     public struct DeleteMarkerEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VersionId", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Owner", required: false, type: .structure), 
+            AWSShapeMember(label: "VersionId", required: false, type: .string),
+            AWSShapeMember(label: "Key", required: false, type: .string),
+            AWSShapeMember(label: "LastModified", required: false, type: .timestamp),
+            AWSShapeMember(label: "Owner", required: false, type: .structure),
             AWSShapeMember(label: "IsLatest", required: false, type: .boolean)
         ]
         /// Version ID of an object.
@@ -834,9 +834,9 @@ extension S3 {
 
     public struct QueueConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list), 
-            AWSShapeMember(label: "QueueArn", location: .body(locationName: "Queue"), required: true, type: .string), 
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list),
+            AWSShapeMember(label: "QueueArn", location: .body(locationName: "Queue"), required: true, type: .string),
+            AWSShapeMember(label: "Filter", required: false, type: .structure),
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let events: [Event]
@@ -862,7 +862,7 @@ extension S3 {
 
     public struct CopyPartResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModified", required: false, type: .timestamp),
             AWSShapeMember(label: "ETag", required: false, type: .string)
         ]
         /// Date and time at which the object was uploaded.
@@ -900,10 +900,10 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "Tagging"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "Tagging", location: .body(locationName: "Tagging"), required: true, type: .structure), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string),
+            AWSShapeMember(label: "Tagging", location: .body(locationName: "Tagging"), required: true, type: .structure),
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string)
         ]
         public let versionId: String?
@@ -933,7 +933,7 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "Body"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum),
             AWSShapeMember(label: "Body", required: false, type: .blob)
         ]
         public let requestCharged: RequestCharged?
@@ -952,10 +952,10 @@ extension S3 {
 
     public struct ReplicationRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceSelectionCriteria", required: false, type: .structure), 
-            AWSShapeMember(label: "ID", required: false, type: .string), 
-            AWSShapeMember(label: "Prefix", required: true, type: .string), 
-            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "SourceSelectionCriteria", required: false, type: .structure),
+            AWSShapeMember(label: "ID", required: false, type: .string),
+            AWSShapeMember(label: "Prefix", required: true, type: .string),
+            AWSShapeMember(label: "Status", required: true, type: .enum),
             AWSShapeMember(label: "Destination", required: true, type: .structure)
         ]
         /// Container for filters that define which source objects should be replicated.
@@ -1024,17 +1024,17 @@ extension S3 {
 
     public struct ListObjectsV2Output: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxKeys", required: false, type: .integer), 
-            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
-            AWSShapeMember(label: "NextContinuationToken", required: false, type: .string), 
-            AWSShapeMember(label: "StartAfter", required: false, type: .string), 
-            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list), 
-            AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
-            AWSShapeMember(label: "KeyCount", required: false, type: .integer), 
-            AWSShapeMember(label: "ContinuationToken", required: false, type: .string), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "MaxKeys", required: false, type: .integer),
+            AWSShapeMember(label: "Delimiter", required: false, type: .string),
+            AWSShapeMember(label: "NextContinuationToken", required: false, type: .string),
+            AWSShapeMember(label: "StartAfter", required: false, type: .string),
+            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list),
+            AWSShapeMember(label: "EncodingType", required: false, type: .enum),
+            AWSShapeMember(label: "KeyCount", required: false, type: .integer),
+            AWSShapeMember(label: "ContinuationToken", required: false, type: .string),
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean),
+            AWSShapeMember(label: "Name", required: false, type: .string),
+            AWSShapeMember(label: "Prefix", required: false, type: .string),
             AWSShapeMember(label: "Contents", required: false, type: .list)
         ]
         /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
@@ -1049,7 +1049,7 @@ extension S3 {
         public let commonPrefixes: [CommonPrefix]?
         /// Encoding type used by Amazon S3 to encode object keys in the response.
         public let encodingType: EncodingType?
-        /// KeyCount is the number of keys returned with this request. KeyCount will always be less than equals to MaxKeys field. Say you ask for 50 keys, your result will include less than equals 50 keys 
+        /// KeyCount is the number of keys returned with this request. KeyCount will always be less than equals to MaxKeys field. Say you ask for 50 keys, your result will include less than equals 50 keys
         public let keyCount: Int32?
         /// ContinuationToken indicates Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key
         public let continuationToken: String?
@@ -1095,7 +1095,7 @@ extension S3 {
 
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string),
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
         /// Name of the tag.
@@ -1116,7 +1116,7 @@ extension S3 {
 
     public struct RedirectAllRequestsTo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostName", required: true, type: .string), 
+            AWSShapeMember(label: "HostName", required: true, type: .string),
             AWSShapeMember(label: "Protocol", required: false, type: .enum)
         ]
         /// Name of the host where requests will be redirected.
@@ -1183,14 +1183,14 @@ extension S3 {
 
     public struct CompleteMultipartUploadOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "Location", required: false, type: .string), 
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "ETag", required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
+            AWSShapeMember(label: "Bucket", required: false, type: .string),
+            AWSShapeMember(label: "Location", required: false, type: .string),
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum),
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum),
+            AWSShapeMember(label: "Key", required: false, type: .string),
+            AWSShapeMember(label: "ETag", required: false, type: .string),
+            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string),
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string),
             AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string)
         ]
         public let bucket: String?
@@ -1237,9 +1237,9 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "Policy"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfirmRemoveSelfBucketAccess", location: .header(locationName: "x-amz-confirm-remove-self-bucket-access"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "Policy", required: true, type: .string), 
+            AWSShapeMember(label: "ConfirmRemoveSelfBucketAccess", location: .header(locationName: "x-amz-confirm-remove-self-bucket-access"), required: false, type: .boolean),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "Policy", required: true, type: .string),
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string)
         ]
         /// Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future.
@@ -1282,7 +1282,7 @@ extension S3 {
 
     public struct Initiator: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ID", required: false, type: .string), 
+            AWSShapeMember(label: "ID", required: false, type: .string),
             AWSShapeMember(label: "DisplayName", required: false, type: .string)
         ]
         /// If the principal is an AWS account, it provides the Canonical User ID. If the principal is an IAM User, it provides a user ARN value.
@@ -1303,8 +1303,8 @@ extension S3 {
 
     public struct GetObjectAclOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "Owner", required: false, type: .structure), 
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum),
+            AWSShapeMember(label: "Owner", required: false, type: .structure),
             AWSShapeMember(label: "Grants", location: .body(locationName: "AccessControlList"), required: false, type: .structure)
         ]
         public let requestCharged: RequestCharged?
@@ -1329,9 +1329,9 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "Delete"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "MFA", location: .header(locationName: "x-amz-mfa"), required: false, type: .string), 
-            AWSShapeMember(label: "Delete", location: .body(locationName: "Delete"), required: true, type: .structure), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "MFA", location: .header(locationName: "x-amz-mfa"), required: false, type: .string),
+            AWSShapeMember(label: "Delete", location: .body(locationName: "Delete"), required: true, type: .structure),
             AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum)
         ]
         public let bucket: String
@@ -1357,7 +1357,7 @@ extension S3 {
 
     public struct OutputSerialization: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JSON", required: false, type: .structure), 
+            AWSShapeMember(label: "JSON", required: false, type: .structure),
             AWSShapeMember(label: "CSV", required: false, type: .structure)
         ]
         /// Specifies JSON as request's output serialization format.
@@ -1378,11 +1378,11 @@ extension S3 {
 
     public struct Object: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Owner", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Size", required: false, type: .integer), 
+            AWSShapeMember(label: "StorageClass", required: false, type: .enum),
+            AWSShapeMember(label: "Key", required: false, type: .string),
+            AWSShapeMember(label: "Owner", required: false, type: .structure),
+            AWSShapeMember(label: "LastModified", required: false, type: .timestamp),
+            AWSShapeMember(label: "Size", required: false, type: .integer),
             AWSShapeMember(label: "ETag", required: false, type: .string)
         ]
         /// The class of storage used to store the object.
@@ -1445,10 +1445,10 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "RestoreRequest"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "RestoreRequest", location: .body(locationName: "RestoreRequest"), required: false, type: .structure), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string),
+            AWSShapeMember(label: "RestoreRequest", location: .body(locationName: "RestoreRequest"), required: false, type: .structure),
             AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum)
         ]
         public let versionId: String?
@@ -1476,12 +1476,12 @@ extension S3 {
 
     public struct InventoryConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsEnabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "OptionalFields", required: false, type: .structure), 
-            AWSShapeMember(label: "IncludedObjectVersions", required: true, type: .enum), 
-            AWSShapeMember(label: "Destination", required: true, type: .structure), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "IsEnabled", required: true, type: .boolean),
+            AWSShapeMember(label: "Filter", required: false, type: .structure),
+            AWSShapeMember(label: "OptionalFields", required: false, type: .structure),
+            AWSShapeMember(label: "IncludedObjectVersions", required: true, type: .enum),
+            AWSShapeMember(label: "Destination", required: true, type: .structure),
+            AWSShapeMember(label: "Id", required: true, type: .string),
             AWSShapeMember(label: "Schedule", required: true, type: .structure)
         ]
         /// Specifies whether the inventory is enabled or disabled.
@@ -1538,20 +1538,20 @@ extension S3 {
 
     public struct SelectObjectContentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "ExpressionType", required: true, type: .enum), 
-            AWSShapeMember(label: "InputSerialization", required: true, type: .structure), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "OutputSerialization", required: true, type: .structure), 
-            AWSShapeMember(label: "RequestProgress", required: false, type: .structure), 
-            AWSShapeMember(label: "Expression", required: true, type: .string), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string),
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string),
+            AWSShapeMember(label: "ExpressionType", required: true, type: .enum),
+            AWSShapeMember(label: "InputSerialization", required: true, type: .structure),
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string),
+            AWSShapeMember(label: "OutputSerialization", required: true, type: .structure),
+            AWSShapeMember(label: "RequestProgress", required: false, type: .structure),
+            AWSShapeMember(label: "Expression", required: true, type: .string),
             AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string)
         ]
         /// The S3 Bucket.
         public let bucket: String
-        /// The SSE Customer Key. For more information, go to  Server-Side Encryption (Using Customer-Provided Encryption Keys. 
+        /// The SSE Customer Key. For more information, go to  Server-Side Encryption (Using Customer-Provided Encryption Keys.
         public let sSECustomerKey: String?
         /// The Object Key.
         public let key: String
@@ -1559,7 +1559,7 @@ extension S3 {
         public let expressionType: ExpressionType
         /// Describes the format of the data in the object that is being queried.
         public let inputSerialization: InputSerialization
-        /// The SSE Algorithm used to encrypt the object. For more information, go to  Server-Side Encryption (Using Customer-Provided Encryption Keys. 
+        /// The SSE Algorithm used to encrypt the object. For more information, go to  Server-Side Encryption (Using Customer-Provided Encryption Keys.
         public let sSECustomerAlgorithm: String?
         /// Describes the format of the data that you want Amazon S3 to return in response.
         public let outputSerialization: OutputSerialization
@@ -1567,7 +1567,7 @@ extension S3 {
         public let requestProgress: RequestProgress?
         /// The expression that is used to query the object.
         public let expression: String
-        /// The SSE Customer Key MD5. For more information, go to  Server-Side Encryption (Using Customer-Provided Encryption Keys. 
+        /// The SSE Customer Key MD5. For more information, go to  Server-Side Encryption (Using Customer-Provided Encryption Keys.
         public let sSECustomerKeyMD5: String?
 
         public init(bucket: String, sSECustomerKey: String? = nil, key: String, expressionType: ExpressionType, inputSerialization: InputSerialization, sSECustomerAlgorithm: String? = nil, outputSerialization: OutputSerialization, requestProgress: RequestProgress? = nil, expression: String, sSECustomerKeyMD5: String? = nil) {
@@ -1599,14 +1599,14 @@ extension S3 {
 
     public struct ListObjectsV2Request: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxKeys", location: .querystring(locationName: "max-keys"), required: false, type: .integer), 
-            AWSShapeMember(label: "Delimiter", location: .querystring(locationName: "delimiter"), required: false, type: .string), 
-            AWSShapeMember(label: "StartAfter", location: .querystring(locationName: "start-after"), required: false, type: .string), 
-            AWSShapeMember(label: "EncodingType", location: .querystring(locationName: "encoding-type"), required: false, type: .enum), 
-            AWSShapeMember(label: "ContinuationToken", location: .querystring(locationName: "continuation-token"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "Prefix", location: .querystring(locationName: "prefix"), required: false, type: .string), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "MaxKeys", location: .querystring(locationName: "max-keys"), required: false, type: .integer),
+            AWSShapeMember(label: "Delimiter", location: .querystring(locationName: "delimiter"), required: false, type: .string),
+            AWSShapeMember(label: "StartAfter", location: .querystring(locationName: "start-after"), required: false, type: .string),
+            AWSShapeMember(label: "EncodingType", location: .querystring(locationName: "encoding-type"), required: false, type: .enum),
+            AWSShapeMember(label: "ContinuationToken", location: .querystring(locationName: "continuation-token"), required: false, type: .string),
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum),
+            AWSShapeMember(label: "Prefix", location: .querystring(locationName: "prefix"), required: false, type: .string),
             AWSShapeMember(label: "FetchOwner", location: .querystring(locationName: "fetch-owner"), required: false, type: .boolean)
         ]
         /// Name of the bucket to list.
@@ -1655,10 +1655,10 @@ extension S3 {
 
     public struct CORSRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExposeHeaders", location: .body(locationName: "ExposeHeader"), required: false, type: .list), 
-            AWSShapeMember(label: "MaxAgeSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "AllowedHeaders", location: .body(locationName: "AllowedHeader"), required: false, type: .list), 
-            AWSShapeMember(label: "AllowedMethods", location: .body(locationName: "AllowedMethod"), required: true, type: .list), 
+            AWSShapeMember(label: "ExposeHeaders", location: .body(locationName: "ExposeHeader"), required: false, type: .list),
+            AWSShapeMember(label: "MaxAgeSeconds", required: false, type: .integer),
+            AWSShapeMember(label: "AllowedHeaders", location: .body(locationName: "AllowedHeader"), required: false, type: .list),
+            AWSShapeMember(label: "AllowedMethods", location: .body(locationName: "AllowedMethod"), required: true, type: .list),
             AWSShapeMember(label: "AllowedOrigins", location: .body(locationName: "AllowedOrigin"), required: true, type: .list)
         ]
         /// One or more headers in the response that you want customers to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object).
@@ -1706,10 +1706,10 @@ extension S3 {
 
     public struct Grantee: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "xsi:type"), required: true, type: .enum), 
-            AWSShapeMember(label: "URI", required: false, type: .string), 
-            AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string),
+            AWSShapeMember(label: "Type", location: .body(locationName: "xsi:type"), required: true, type: .enum),
+            AWSShapeMember(label: "URI", required: false, type: .string),
+            AWSShapeMember(label: "EmailAddress", required: false, type: .string),
             AWSShapeMember(label: "ID", required: false, type: .string)
         ]
         /// Screen name of the grantee.
@@ -1758,7 +1758,7 @@ extension S3 {
 
     public struct GetBucketAclOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Owner", required: false, type: .structure), 
+            AWSShapeMember(label: "Owner", required: false, type: .structure),
             AWSShapeMember(label: "Grants", location: .body(locationName: "AccessControlList"), required: false, type: .structure)
         ]
         public let owner: Owner?
@@ -1786,13 +1786,13 @@ extension S3 {
 
     public struct Rule: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Expiration", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: true, type: .enum), 
-            AWSShapeMember(label: "Transition", required: false, type: .structure), 
-            AWSShapeMember(label: "ID", required: false, type: .string), 
-            AWSShapeMember(label: "AbortIncompleteMultipartUpload", required: false, type: .structure), 
-            AWSShapeMember(label: "NoncurrentVersionExpiration", required: false, type: .structure), 
-            AWSShapeMember(label: "Prefix", required: true, type: .string), 
+            AWSShapeMember(label: "Expiration", required: false, type: .structure),
+            AWSShapeMember(label: "Status", required: true, type: .enum),
+            AWSShapeMember(label: "Transition", required: false, type: .structure),
+            AWSShapeMember(label: "ID", required: false, type: .string),
+            AWSShapeMember(label: "AbortIncompleteMultipartUpload", required: false, type: .structure),
+            AWSShapeMember(label: "NoncurrentVersionExpiration", required: false, type: .structure),
+            AWSShapeMember(label: "Prefix", required: true, type: .string),
             AWSShapeMember(label: "NoncurrentVersionTransition", required: false, type: .structure)
         ]
         public let expiration: LifecycleExpiration?
@@ -1832,9 +1832,9 @@ extension S3 {
 
     public struct QueueConfigurationDeprecated: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list), 
-            AWSShapeMember(label: "Queue", required: false, type: .string), 
-            AWSShapeMember(label: "Event", required: false, type: .enum), 
+            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list),
+            AWSShapeMember(label: "Queue", required: false, type: .string),
+            AWSShapeMember(label: "Event", required: false, type: .enum),
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let events: [Event]?
@@ -1870,7 +1870,7 @@ extension S3 {
 
     public struct MetricsConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string),
             AWSShapeMember(label: "Filter", required: false, type: .structure)
         ]
         /// The ID used to identify the metrics configuration.
@@ -1891,7 +1891,7 @@ extension S3 {
 
     public struct DeleteBucketAnalyticsConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string),
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         /// The identifier used to represent an analytics configuration.
@@ -1927,12 +1927,12 @@ extension S3 {
 
     public struct CSVInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileHeaderInfo", required: false, type: .enum), 
-            AWSShapeMember(label: "Comments", required: false, type: .string), 
-            AWSShapeMember(label: "QuoteCharacter", required: false, type: .string), 
-            AWSShapeMember(label: "RecordDelimiter", required: false, type: .string), 
-            AWSShapeMember(label: "FieldDelimiter", required: false, type: .string), 
-            AWSShapeMember(label: "QuoteEscapeCharacter", required: false, type: .string), 
+            AWSShapeMember(label: "FileHeaderInfo", required: false, type: .enum),
+            AWSShapeMember(label: "Comments", required: false, type: .string),
+            AWSShapeMember(label: "QuoteCharacter", required: false, type: .string),
+            AWSShapeMember(label: "RecordDelimiter", required: false, type: .string),
+            AWSShapeMember(label: "FieldDelimiter", required: false, type: .string),
+            AWSShapeMember(label: "QuoteEscapeCharacter", required: false, type: .string),
             AWSShapeMember(label: "AllowQuotedRecordDelimiter", required: false, type: .boolean)
         ]
         /// Describes the first line of input. Valid values: None, Ignore, Use.
@@ -1975,8 +1975,8 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "CORSConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CORSConfiguration", location: .body(locationName: "CORSConfiguration"), required: true, type: .structure), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "CORSConfiguration", location: .body(locationName: "CORSConfiguration"), required: true, type: .structure),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string)
         ]
         public let cORSConfiguration: CORSConfiguration
@@ -2008,17 +2008,17 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "AccessControlPolicy"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "GrantWrite", location: .header(locationName: "x-amz-grant-write"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "AccessControlPolicy", location: .body(locationName: "AccessControlPolicy"), required: false, type: .structure), 
-            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "GrantWrite", location: .header(locationName: "x-amz-grant-write"), required: false, type: .string),
+            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string),
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string),
+            AWSShapeMember(label: "AccessControlPolicy", location: .body(locationName: "AccessControlPolicy"), required: false, type: .structure),
+            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum),
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string),
+            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string),
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum),
+            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string),
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string),
             AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string)
         ]
         public let bucket: String
@@ -2081,7 +2081,7 @@ extension S3 {
 
     public struct VersioningConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .enum),
             AWSShapeMember(label: "MFADelete", location: .body(locationName: "MfaDelete"), required: false, type: .enum)
         ]
         /// The versioning state of the bucket.
@@ -2121,15 +2121,15 @@ extension S3 {
 
     public struct CreateMultipartUploadOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .body(locationName: "Bucket"), required: false, type: .string), 
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "AbortDate", location: .header(locationName: "x-amz-abort-date"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "AbortRuleId", location: .header(locationName: "x-amz-abort-rule-id"), required: false, type: .string), 
+            AWSShapeMember(label: "Bucket", location: .body(locationName: "Bucket"), required: false, type: .string),
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum),
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum),
+            AWSShapeMember(label: "AbortDate", location: .header(locationName: "x-amz-abort-date"), required: false, type: .timestamp),
+            AWSShapeMember(label: "Key", required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string),
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string),
+            AWSShapeMember(label: "AbortRuleId", location: .header(locationName: "x-amz-abort-rule-id"), required: false, type: .string),
             AWSShapeMember(label: "UploadId", required: false, type: .string)
         ]
         /// Name of the bucket to which the multipart upload was initiated.
@@ -2217,10 +2217,10 @@ extension S3 {
 
     public struct DeleteObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
-            AWSShapeMember(label: "MFA", location: .header(locationName: "x-amz-mfa"), required: false, type: .string), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string),
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string),
+            AWSShapeMember(label: "MFA", location: .header(locationName: "x-amz-mfa"), required: false, type: .string),
             AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum)
         ]
         public let bucket: String
@@ -2256,7 +2256,7 @@ extension S3 {
 
     public struct ObjectIdentifier: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string),
             AWSShapeMember(label: "VersionId", required: false, type: .string)
         ]
         /// Key name of the object to delete.
@@ -2277,18 +2277,18 @@ extension S3 {
 
     public struct ListObjectVersionsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "VersionIdMarker", required: false, type: .string), 
-            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list), 
-            AWSShapeMember(label: "NextKeyMarker", required: false, type: .string), 
-            AWSShapeMember(label: "DeleteMarkers", location: .body(locationName: "DeleteMarker"), required: false, type: .list), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "Versions", location: .body(locationName: "Version"), required: false, type: .list), 
-            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
-            AWSShapeMember(label: "MaxKeys", required: false, type: .integer), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "NextVersionIdMarker", required: false, type: .string), 
+            AWSShapeMember(label: "EncodingType", required: false, type: .enum),
+            AWSShapeMember(label: "Name", required: false, type: .string),
+            AWSShapeMember(label: "VersionIdMarker", required: false, type: .string),
+            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list),
+            AWSShapeMember(label: "NextKeyMarker", required: false, type: .string),
+            AWSShapeMember(label: "DeleteMarkers", location: .body(locationName: "DeleteMarker"), required: false, type: .list),
+            AWSShapeMember(label: "Prefix", required: false, type: .string),
+            AWSShapeMember(label: "Versions", location: .body(locationName: "Version"), required: false, type: .list),
+            AWSShapeMember(label: "Delimiter", required: false, type: .string),
+            AWSShapeMember(label: "MaxKeys", required: false, type: .integer),
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean),
+            AWSShapeMember(label: "NextVersionIdMarker", required: false, type: .string),
             AWSShapeMember(label: "KeyMarker", required: false, type: .string)
         ]
         /// Encoding type used by Amazon S3 to encode object keys in the response.
@@ -2345,8 +2345,8 @@ extension S3 {
 
     public struct Stats: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BytesReturned", required: false, type: .long), 
-            AWSShapeMember(label: "BytesScanned", required: false, type: .long), 
+            AWSShapeMember(label: "BytesReturned", required: false, type: .long),
+            AWSShapeMember(label: "BytesScanned", required: false, type: .long),
             AWSShapeMember(label: "BytesProcessed", required: false, type: .long)
         ]
         /// Total number of bytes of records payload data returned.
@@ -2371,9 +2371,9 @@ extension S3 {
 
     public struct LambdaFunctionConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list), 
-            AWSShapeMember(label: "LambdaFunctionArn", location: .body(locationName: "CloudFunction"), required: true, type: .string), 
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list),
+            AWSShapeMember(label: "LambdaFunctionArn", location: .body(locationName: "CloudFunction"), required: true, type: .string),
+            AWSShapeMember(label: "Filter", required: false, type: .structure),
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let events: [Event]
@@ -2399,9 +2399,9 @@ extension S3 {
 
     public struct ListBucketMetricsConfigurationsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "NextContinuationToken", required: false, type: .string), 
-            AWSShapeMember(label: "MetricsConfigurationList", location: .body(locationName: "MetricsConfiguration"), required: false, type: .list), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean),
+            AWSShapeMember(label: "NextContinuationToken", required: false, type: .string),
+            AWSShapeMember(label: "MetricsConfigurationList", location: .body(locationName: "MetricsConfiguration"), required: false, type: .list),
             AWSShapeMember(label: "ContinuationToken", required: false, type: .string)
         ]
         /// Indicates whether the returned list of metrics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
@@ -2461,11 +2461,11 @@ extension S3 {
 
     public struct ListPartsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "PartNumberMarker", location: .querystring(locationName: "part-number-marker"), required: false, type: .integer), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxParts", location: .querystring(locationName: "max-parts"), required: false, type: .integer), 
+            AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "PartNumberMarker", location: .querystring(locationName: "part-number-marker"), required: false, type: .integer),
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string),
+            AWSShapeMember(label: "MaxParts", location: .querystring(locationName: "max-parts"), required: false, type: .integer),
             AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum)
         ]
         /// Upload ID identifying the multipart upload whose parts are being listed.
@@ -2516,8 +2516,8 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "ReplicationConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
             AWSShapeMember(label: "ReplicationConfiguration", location: .body(locationName: "ReplicationConfiguration"), required: true, type: .structure)
         ]
         public let contentMD5: String?
@@ -2539,10 +2539,10 @@ extension S3 {
 
     public struct Destination: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "Account", required: false, type: .string), 
-            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
-            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Bucket", required: true, type: .string),
+            AWSShapeMember(label: "Account", required: false, type: .string),
+            AWSShapeMember(label: "StorageClass", required: false, type: .enum),
+            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure),
             AWSShapeMember(label: "AccessControlTranslation", required: false, type: .structure)
         ]
         /// Amazon resource name (ARN) of the bucket where you want Amazon S3 to store replicas of the object identified by the rule.
@@ -2577,8 +2577,8 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "NotificationConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotificationConfiguration", location: .body(locationName: "NotificationConfiguration"), required: true, type: .structure), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "NotificationConfiguration", location: .body(locationName: "NotificationConfiguration"), required: true, type: .structure),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string)
         ]
         public let notificationConfiguration: NotificationConfigurationDeprecated
@@ -2600,7 +2600,7 @@ extension S3 {
 
     public struct FilterRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .enum),
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
         /// Object key name prefix or suffix identifying one or more objects to which the filtering rule applies. Maximum prefix length can be up to 1,024 characters. Overlapping prefixes and suffixes are not supported. For more information, go to Configuring Event Notifications in the Amazon Simple Storage Service Developer Guide.
@@ -2672,7 +2672,7 @@ extension S3 {
 
     public struct GetBucketInventoryConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string),
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         /// The ID used to identify the inventory configuration.
@@ -2708,13 +2708,13 @@ extension S3 {
 
     public struct ObjectVersion: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Size", required: false, type: .integer), 
-            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "IsLatest", required: false, type: .boolean), 
-            AWSShapeMember(label: "ETag", required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string), 
-            AWSShapeMember(label: "Owner", required: false, type: .structure), 
+            AWSShapeMember(label: "Size", required: false, type: .integer),
+            AWSShapeMember(label: "StorageClass", required: false, type: .enum),
+            AWSShapeMember(label: "Key", required: false, type: .string),
+            AWSShapeMember(label: "IsLatest", required: false, type: .boolean),
+            AWSShapeMember(label: "ETag", required: false, type: .string),
+            AWSShapeMember(label: "VersionId", required: false, type: .string),
+            AWSShapeMember(label: "Owner", required: false, type: .structure),
             AWSShapeMember(label: "LastModified", required: false, type: .timestamp)
         ]
         /// Size in bytes of the object.
@@ -2772,9 +2772,9 @@ extension S3 {
 
     public struct Part: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PartNumber", required: false, type: .integer), 
-            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ETag", required: false, type: .string), 
+            AWSShapeMember(label: "PartNumber", required: false, type: .integer),
+            AWSShapeMember(label: "LastModified", required: false, type: .timestamp),
+            AWSShapeMember(label: "ETag", required: false, type: .string),
             AWSShapeMember(label: "Size", required: false, type: .integer)
         ]
         /// Part number identifying the part. This is a positive integer between 1 and 10,000.
@@ -2803,8 +2803,8 @@ extension S3 {
 
     public struct MetricsFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "Tag", required: false, type: .structure), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string),
+            AWSShapeMember(label: "Tag", required: false, type: .structure),
             AWSShapeMember(label: "And", required: false, type: .structure)
         ]
         /// The prefix used when evaluating a metrics filter.
@@ -2831,10 +2831,10 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "MultipartUpload"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "MultipartUpload", location: .body(locationName: "CompleteMultipartUpload"), required: false, type: .structure), 
+            AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string),
+            AWSShapeMember(label: "MultipartUpload", location: .body(locationName: "CompleteMultipartUpload"), required: false, type: .structure),
             AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum)
         ]
         public let uploadId: String
@@ -2862,22 +2862,22 @@ extension S3 {
 
     public struct UploadPartCopyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CopySourceIfModifiedSince", location: .header(locationName: "x-amz-copy-source-if-modified-since"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "CopySourceRange", location: .header(locationName: "x-amz-copy-source-range"), required: false, type: .string), 
-            AWSShapeMember(label: "PartNumber", location: .querystring(locationName: "partNumber"), required: true, type: .integer), 
-            AWSShapeMember(label: "CopySourceIfMatch", location: .header(locationName: "x-amz-copy-source-if-match"), required: false, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "CopySource", location: .header(locationName: "x-amz-copy-source"), required: true, type: .string), 
-            AWSShapeMember(label: "CopySourceSSECustomerKeyMD5", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "CopySourceSSECustomerAlgorithm", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "CopySourceSSECustomerKey", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string), 
-            AWSShapeMember(label: "CopySourceIfNoneMatch", location: .header(locationName: "x-amz-copy-source-if-none-match"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "CopySourceIfModifiedSince", location: .header(locationName: "x-amz-copy-source-if-modified-since"), required: false, type: .timestamp),
+            AWSShapeMember(label: "CopySourceRange", location: .header(locationName: "x-amz-copy-source-range"), required: false, type: .string),
+            AWSShapeMember(label: "PartNumber", location: .querystring(locationName: "partNumber"), required: true, type: .integer),
+            AWSShapeMember(label: "CopySourceIfMatch", location: .header(locationName: "x-amz-copy-source-if-match"), required: false, type: .string),
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string),
+            AWSShapeMember(label: "CopySource", location: .header(locationName: "x-amz-copy-source"), required: true, type: .string),
+            AWSShapeMember(label: "CopySourceSSECustomerKeyMD5", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key-MD5"), required: false, type: .string),
+            AWSShapeMember(label: "CopySourceSSECustomerAlgorithm", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-algorithm"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string),
+            AWSShapeMember(label: "CopySourceSSECustomerKey", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key"), required: false, type: .string),
+            AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string),
+            AWSShapeMember(label: "CopySourceIfNoneMatch", location: .header(locationName: "x-amz-copy-source-if-none-match"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string),
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum),
             AWSShapeMember(label: "CopySourceIfUnmodifiedSince", location: .header(locationName: "x-amz-copy-source-if-unmodified-since"), required: false, type: .timestamp)
         ]
         /// Copies the object if it has been modified since the specified time.
@@ -2955,8 +2955,8 @@ extension S3 {
 
     public struct AnalyticsFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "Tag", required: false, type: .structure), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string),
+            AWSShapeMember(label: "Tag", required: false, type: .structure),
             AWSShapeMember(label: "And", required: false, type: .structure)
         ]
         /// The prefix to use when evaluating an analytics filter.
@@ -2983,8 +2983,8 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "ServerSideEncryptionConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerSideEncryptionConfiguration", location: .body(locationName: "ServerSideEncryptionConfiguration"), required: true, type: .structure), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryptionConfiguration", location: .body(locationName: "ServerSideEncryptionConfiguration"), required: true, type: .structure),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string)
         ]
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration
@@ -3017,8 +3017,8 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "WebsiteConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
             AWSShapeMember(label: "WebsiteConfiguration", location: .body(locationName: "WebsiteConfiguration"), required: true, type: .structure)
         ]
         public let contentMD5: String?
@@ -3071,8 +3071,8 @@ extension S3 {
 
     public struct NotificationConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueueConfigurations", location: .body(locationName: "QueueConfiguration"), required: false, type: .list), 
-            AWSShapeMember(label: "TopicConfigurations", location: .body(locationName: "TopicConfiguration"), required: false, type: .list), 
+            AWSShapeMember(label: "QueueConfigurations", location: .body(locationName: "QueueConfiguration"), required: false, type: .list),
+            AWSShapeMember(label: "TopicConfigurations", location: .body(locationName: "TopicConfiguration"), required: false, type: .list),
             AWSShapeMember(label: "LambdaFunctionConfigurations", location: .body(locationName: "CloudFunctionConfiguration"), required: false, type: .list)
         ]
         public let queueConfigurations: [QueueConfiguration]?
@@ -3096,16 +3096,16 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "Body"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "Body", required: false, type: .blob), 
-            AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string),
+            AWSShapeMember(label: "Body", required: false, type: .blob),
+            AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string),
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string),
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string),
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string),
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum),
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string),
+            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long),
             AWSShapeMember(label: "PartNumber", location: .querystring(locationName: "partNumber"), required: true, type: .integer)
         ]
         /// Name of the bucket to which the multipart upload was initiated.
@@ -3161,7 +3161,7 @@ extension S3 {
 
     public struct GetBucketMetricsConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string),
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         /// The ID used to identify the metrics configuration.
@@ -3184,8 +3184,8 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "MetricsConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
             AWSShapeMember(label: "MetricsConfiguration", location: .body(locationName: "MetricsConfiguration"), required: true, type: .structure)
         ]
         /// The ID used to identify the metrics configuration.
@@ -3210,8 +3210,8 @@ extension S3 {
 
     public struct Transition: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Days", required: false, type: .integer), 
-            AWSShapeMember(label: "Date", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Days", required: false, type: .integer),
+            AWSShapeMember(label: "Date", required: false, type: .timestamp),
             AWSShapeMember(label: "StorageClass", required: false, type: .enum)
         ]
         /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
@@ -3288,24 +3288,24 @@ extension S3 {
 
     public struct GetObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PartNumber", location: .querystring(locationName: "partNumber"), required: false, type: .integer), 
-            AWSShapeMember(label: "IfUnmodifiedSince", location: .header(locationName: "If-Unmodified-Since"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ResponseCacheControl", location: .querystring(locationName: "response-cache-control"), required: false, type: .string), 
-            AWSShapeMember(label: "IfModifiedSince", location: .header(locationName: "If-Modified-Since"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeMember(label: "ResponseContentLanguage", location: .querystring(locationName: "response-content-language"), required: false, type: .string), 
-            AWSShapeMember(label: "Range", location: .header(locationName: "Range"), required: false, type: .string), 
-            AWSShapeMember(label: "ResponseExpires", location: .querystring(locationName: "response-expires"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "ResponseContentDisposition", location: .querystring(locationName: "response-content-disposition"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "IfNoneMatch", location: .header(locationName: "If-None-Match"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "ResponseContentType", location: .querystring(locationName: "response-content-type"), required: false, type: .string), 
+            AWSShapeMember(label: "PartNumber", location: .querystring(locationName: "partNumber"), required: false, type: .integer),
+            AWSShapeMember(label: "IfUnmodifiedSince", location: .header(locationName: "If-Unmodified-Since"), required: false, type: .timestamp),
+            AWSShapeMember(label: "ResponseCacheControl", location: .querystring(locationName: "response-cache-control"), required: false, type: .string),
+            AWSShapeMember(label: "IfModifiedSince", location: .header(locationName: "If-Modified-Since"), required: false, type: .timestamp),
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string),
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string),
+            AWSShapeMember(label: "ResponseContentLanguage", location: .querystring(locationName: "response-content-language"), required: false, type: .string),
+            AWSShapeMember(label: "Range", location: .header(locationName: "Range"), required: false, type: .string),
+            AWSShapeMember(label: "ResponseExpires", location: .querystring(locationName: "response-expires"), required: false, type: .timestamp),
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string),
+            AWSShapeMember(label: "ResponseContentDisposition", location: .querystring(locationName: "response-content-disposition"), required: false, type: .string),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string),
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string),
+            AWSShapeMember(label: "IfNoneMatch", location: .header(locationName: "If-None-Match"), required: false, type: .string),
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum),
+            AWSShapeMember(label: "ResponseContentType", location: .querystring(locationName: "response-content-type"), required: false, type: .string),
             AWSShapeMember(label: "ResponseContentEncoding", location: .querystring(locationName: "response-content-encoding"), required: false, type: .string)
         ]
         /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' GET request for the part specified. Useful for downloading just a part of an object.
@@ -3391,7 +3391,7 @@ extension S3 {
 
     public struct DeleteBucketInventoryConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string),
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         /// The ID used to identify the inventory configuration.
@@ -3412,9 +3412,9 @@ extension S3 {
 
     public struct Error: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VersionId", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Code", required: false, type: .string), 
+            AWSShapeMember(label: "VersionId", required: false, type: .string),
+            AWSShapeMember(label: "Message", required: false, type: .string),
+            AWSShapeMember(label: "Code", required: false, type: .string),
             AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         public let versionId: String?
@@ -3439,7 +3439,7 @@ extension S3 {
 
     public struct GetBucketVersioningOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .enum),
             AWSShapeMember(label: "MFADelete", location: .body(locationName: "MfaDelete"), required: false, type: .enum)
         ]
         /// The versioning state of the bucket.
@@ -3460,7 +3460,7 @@ extension S3 {
 
     public struct GetObjectTaggingOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagSet", required: true, type: .structure), 
+            AWSShapeMember(label: "TagSet", required: true, type: .structure),
             AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
         ]
         public let tagSet: TagSet
@@ -3481,8 +3481,8 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "Tagging"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tagging", location: .body(locationName: "Tagging"), required: true, type: .structure), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Tagging", location: .body(locationName: "Tagging"), required: true, type: .structure),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string)
         ]
         public let tagging: Tagging
@@ -3524,7 +3524,7 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "AccelerateConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccelerateConfiguration", location: .body(locationName: "AccelerateConfiguration"), required: true, type: .structure), 
+            AWSShapeMember(label: "AccelerateConfiguration", location: .body(locationName: "AccelerateConfiguration"), required: true, type: .structure),
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         /// Specifies the Accelerate Configuration you want to set for the bucket.
@@ -3545,10 +3545,10 @@ extension S3 {
 
     public struct CloudFunctionConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list), 
-            AWSShapeMember(label: "CloudFunction", required: false, type: .string), 
-            AWSShapeMember(label: "Event", required: false, type: .enum), 
-            AWSShapeMember(label: "InvocationRole", required: false, type: .string), 
+            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list),
+            AWSShapeMember(label: "CloudFunction", required: false, type: .string),
+            AWSShapeMember(label: "Event", required: false, type: .enum),
+            AWSShapeMember(label: "InvocationRole", required: false, type: .string),
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let events: [Event]?
@@ -3578,12 +3578,12 @@ extension S3 {
 
     public struct RestoreRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Days", required: false, type: .integer), 
-            AWSShapeMember(label: "OutputLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "Tier", required: false, type: .enum), 
-            AWSShapeMember(label: "SelectParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "GlacierJobParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Days", required: false, type: .integer),
+            AWSShapeMember(label: "OutputLocation", required: false, type: .structure),
+            AWSShapeMember(label: "Tier", required: false, type: .enum),
+            AWSShapeMember(label: "SelectParameters", required: false, type: .structure),
+            AWSShapeMember(label: "Type", required: false, type: .enum),
+            AWSShapeMember(label: "GlacierJobParameters", required: false, type: .structure),
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// Lifetime of the active copy in days. Do not use with restores that specify OutputLocation.
@@ -3630,8 +3630,8 @@ extension S3 {
 
     public struct Encryption: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncryptionType", required: true, type: .enum), 
-            AWSShapeMember(label: "KMSContext", required: false, type: .string), 
+            AWSShapeMember(label: "EncryptionType", required: true, type: .enum),
+            AWSShapeMember(label: "KMSContext", required: false, type: .string),
             AWSShapeMember(label: "KMSKeyId", required: false, type: .string)
         ]
         /// The server-side encryption algorithm used when storing job results in Amazon S3 (e.g., AES256, aws:kms).
@@ -3656,7 +3656,7 @@ extension S3 {
 
     public struct DeleteBucketMetricsConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string),
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         /// The ID used to identify the metrics configuration.
@@ -3682,8 +3682,8 @@ extension S3 {
 
     public struct GetObjectTorrentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string)
         ]
         public let requestPayer: RequestPayer?
@@ -3705,7 +3705,7 @@ extension S3 {
 
     public struct ListBucketInventoryConfigurationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContinuationToken", location: .querystring(locationName: "continuation-token"), required: false, type: .string), 
+            AWSShapeMember(label: "ContinuationToken", location: .querystring(locationName: "continuation-token"), required: false, type: .string),
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         /// The marker used to continue an inventory configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
@@ -3726,9 +3726,9 @@ extension S3 {
 
     public struct GetObjectAclRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string),
             AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum)
         ]
         /// VersionId used to reference a specific version of the object.
@@ -3758,9 +3758,9 @@ extension S3 {
 
     public struct ListBucketInventoryConfigurationsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "InventoryConfigurationList", location: .body(locationName: "InventoryConfiguration"), required: false, type: .list), 
-            AWSShapeMember(label: "NextContinuationToken", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean),
+            AWSShapeMember(label: "InventoryConfigurationList", location: .body(locationName: "InventoryConfiguration"), required: false, type: .list),
+            AWSShapeMember(label: "NextContinuationToken", required: false, type: .string),
             AWSShapeMember(label: "ContinuationToken", required: false, type: .string)
         ]
         /// Indicates whether the returned list of inventory configurations is truncated in this response. A value of true indicates that the list is truncated.
@@ -3821,10 +3821,10 @@ extension S3 {
 
     public struct InventoryS3BucketDestination: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "Format", required: true, type: .enum), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "Encryption", required: false, type: .structure), 
+            AWSShapeMember(label: "Bucket", required: true, type: .string),
+            AWSShapeMember(label: "Format", required: true, type: .enum),
+            AWSShapeMember(label: "Prefix", required: false, type: .string),
+            AWSShapeMember(label: "Encryption", required: false, type: .structure),
             AWSShapeMember(label: "AccountId", required: false, type: .string)
         ]
         /// The Amazon resource name (ARN) of the bucket where inventory results will be published.
@@ -3857,15 +3857,15 @@ extension S3 {
 
     public struct ListObjectsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxKeys", required: false, type: .integer), 
-            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list), 
-            AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "MaxKeys", required: false, type: .integer),
+            AWSShapeMember(label: "Delimiter", required: false, type: .string),
+            AWSShapeMember(label: "NextMarker", required: false, type: .string),
+            AWSShapeMember(label: "Marker", required: false, type: .string),
+            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list),
+            AWSShapeMember(label: "EncodingType", required: false, type: .enum),
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean),
+            AWSShapeMember(label: "Name", required: false, type: .string),
+            AWSShapeMember(label: "Prefix", required: false, type: .string),
             AWSShapeMember(label: "Contents", required: false, type: .list)
         ]
         public let maxKeys: Int32?
@@ -3911,10 +3911,10 @@ extension S3 {
 
     public struct Redirect: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "HttpRedirectCode", required: false, type: .string), 
-            AWSShapeMember(label: "HostName", required: false, type: .string), 
-            AWSShapeMember(label: "ReplaceKeyWith", required: false, type: .string), 
+            AWSShapeMember(label: "Protocol", required: false, type: .enum),
+            AWSShapeMember(label: "HttpRedirectCode", required: false, type: .string),
+            AWSShapeMember(label: "HostName", required: false, type: .string),
+            AWSShapeMember(label: "ReplaceKeyWith", required: false, type: .string),
             AWSShapeMember(label: "ReplaceKeyPrefixWith", required: false, type: .string)
         ]
         /// Protocol to use (http, https) when redirecting requests. The default is the protocol that is used in the original request.
@@ -3964,7 +3964,7 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "LifecycleConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"), required: false, type: .structure), 
+            AWSShapeMember(label: "LifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"), required: false, type: .structure),
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let lifecycleConfiguration: BucketLifecycleConfiguration?
@@ -3983,9 +3983,9 @@ extension S3 {
 
     public struct DeletedObject: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VersionId", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "DeleteMarkerVersionId", required: false, type: .string), 
+            AWSShapeMember(label: "VersionId", required: false, type: .string),
+            AWSShapeMember(label: "Key", required: false, type: .string),
+            AWSShapeMember(label: "DeleteMarkerVersionId", required: false, type: .string),
             AWSShapeMember(label: "DeleteMarker", required: false, type: .boolean)
         ]
         public let versionId: String?
@@ -4025,7 +4025,7 @@ extension S3 {
 
     public struct Delete: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Quiet", required: false, type: .boolean), 
+            AWSShapeMember(label: "Quiet", required: false, type: .boolean),
             AWSShapeMember(label: "Objects", location: .body(locationName: "Object"), required: true, type: .list)
         ]
         /// Element to enable quiet mode for the request. When you add this element, you must set its value to true.
@@ -4060,7 +4060,7 @@ extension S3 {
 
     public struct AnalyticsAndOperator: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string),
             AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .structure)
         ]
         /// The prefix to use when evaluating an AND predicate.
@@ -4089,9 +4089,9 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "VersioningConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "MFA", location: .header(locationName: "x-amz-mfa"), required: false, type: .string), 
-            AWSShapeMember(label: "VersioningConfiguration", location: .body(locationName: "VersioningConfiguration"), required: true, type: .structure), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "MFA", location: .header(locationName: "x-amz-mfa"), required: false, type: .string),
+            AWSShapeMember(label: "VersioningConfiguration", location: .body(locationName: "VersioningConfiguration"), required: true, type: .structure),
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string)
         ]
         public let bucket: String
@@ -4133,12 +4133,12 @@ extension S3 {
 
     public struct ListObjectsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxKeys", location: .querystring(locationName: "max-keys"), required: false, type: .integer), 
-            AWSShapeMember(label: "Delimiter", location: .querystring(locationName: "delimiter"), required: false, type: .string), 
-            AWSShapeMember(label: "EncodingType", location: .querystring(locationName: "encoding-type"), required: false, type: .enum), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "Prefix", location: .querystring(locationName: "prefix"), required: false, type: .string), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "MaxKeys", location: .querystring(locationName: "max-keys"), required: false, type: .integer),
+            AWSShapeMember(label: "Delimiter", location: .querystring(locationName: "delimiter"), required: false, type: .string),
+            AWSShapeMember(label: "EncodingType", location: .querystring(locationName: "encoding-type"), required: false, type: .enum),
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum),
+            AWSShapeMember(label: "Prefix", location: .querystring(locationName: "prefix"), required: false, type: .string),
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
         ]
         public let bucket: String
@@ -4177,8 +4177,8 @@ extension S3 {
 
     public struct LifecycleExpiration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExpiredObjectDeleteMarker", required: false, type: .boolean), 
-            AWSShapeMember(label: "Days", required: false, type: .integer), 
+            AWSShapeMember(label: "ExpiredObjectDeleteMarker", required: false, type: .boolean),
+            AWSShapeMember(label: "Days", required: false, type: .integer),
             AWSShapeMember(label: "Date", required: false, type: .timestamp)
         ]
         /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired; if set to false the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy.
@@ -4218,8 +4218,8 @@ extension S3 {
 
     public struct DeleteObjectOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "DeleteMarker", location: .header(locationName: "x-amz-delete-marker"), required: false, type: .boolean), 
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum),
+            AWSShapeMember(label: "DeleteMarker", location: .header(locationName: "x-amz-delete-marker"), required: false, type: .boolean),
             AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
         ]
         public let requestCharged: RequestCharged?
@@ -4272,7 +4272,7 @@ extension S3 {
 
     public struct MetadataEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string),
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
         public let name: String?
@@ -4293,8 +4293,8 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "LifecycleConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "LifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"), required: false, type: .structure),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string)
         ]
         public let lifecycleConfiguration: LifecycleConfiguration?
@@ -4316,17 +4316,17 @@ extension S3 {
 
     public struct ListMultipartUploadsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
-            AWSShapeMember(label: "UploadIdMarker", required: false, type: .string), 
-            AWSShapeMember(label: "NextUploadIdMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Uploads", location: .body(locationName: "Upload"), required: false, type: .list), 
-            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list), 
-            AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
-            AWSShapeMember(label: "KeyMarker", required: false, type: .string), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "MaxUploads", required: false, type: .integer), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "Bucket", required: false, type: .string),
+            AWSShapeMember(label: "Delimiter", required: false, type: .string),
+            AWSShapeMember(label: "UploadIdMarker", required: false, type: .string),
+            AWSShapeMember(label: "NextUploadIdMarker", required: false, type: .string),
+            AWSShapeMember(label: "Uploads", location: .body(locationName: "Upload"), required: false, type: .list),
+            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list),
+            AWSShapeMember(label: "EncodingType", required: false, type: .enum),
+            AWSShapeMember(label: "KeyMarker", required: false, type: .string),
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean),
+            AWSShapeMember(label: "MaxUploads", required: false, type: .integer),
+            AWSShapeMember(label: "Prefix", required: false, type: .string),
             AWSShapeMember(label: "NextKeyMarker", required: false, type: .string)
         ]
         /// Name of the bucket to which the multipart upload was initiated.
@@ -4386,8 +4386,8 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "RequestPaymentConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestPaymentConfiguration", location: .body(locationName: "RequestPaymentConfiguration"), required: true, type: .structure), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "RequestPaymentConfiguration", location: .body(locationName: "RequestPaymentConfiguration"), required: true, type: .structure),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string)
         ]
         public let requestPaymentConfiguration: RequestPaymentConfiguration
@@ -4444,11 +4444,11 @@ extension S3 {
 
     public struct MultipartUpload: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UploadId", required: false, type: .string), 
-            AWSShapeMember(label: "Initiator", required: false, type: .structure), 
-            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Initiated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "UploadId", required: false, type: .string),
+            AWSShapeMember(label: "Initiator", required: false, type: .structure),
+            AWSShapeMember(label: "StorageClass", required: false, type: .enum),
+            AWSShapeMember(label: "Key", required: false, type: .string),
+            AWSShapeMember(label: "Initiated", required: false, type: .timestamp),
             AWSShapeMember(label: "Owner", required: false, type: .structure)
         ]
         /// Upload ID that identifies the multipart upload.
@@ -4505,12 +4505,12 @@ extension S3 {
 
     public struct ListMultipartUploadsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "Delimiter", location: .querystring(locationName: "delimiter"), required: false, type: .string), 
-            AWSShapeMember(label: "EncodingType", location: .querystring(locationName: "encoding-type"), required: false, type: .enum), 
-            AWSShapeMember(label: "KeyMarker", location: .querystring(locationName: "key-marker"), required: false, type: .string), 
-            AWSShapeMember(label: "UploadIdMarker", location: .querystring(locationName: "upload-id-marker"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxUploads", location: .querystring(locationName: "max-uploads"), required: false, type: .integer), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "Delimiter", location: .querystring(locationName: "delimiter"), required: false, type: .string),
+            AWSShapeMember(label: "EncodingType", location: .querystring(locationName: "encoding-type"), required: false, type: .enum),
+            AWSShapeMember(label: "KeyMarker", location: .querystring(locationName: "key-marker"), required: false, type: .string),
+            AWSShapeMember(label: "UploadIdMarker", location: .querystring(locationName: "upload-id-marker"), required: false, type: .string),
+            AWSShapeMember(label: "MaxUploads", location: .querystring(locationName: "max-uploads"), required: false, type: .integer),
             AWSShapeMember(label: "Prefix", location: .querystring(locationName: "prefix"), required: false, type: .string)
         ]
         public let bucket: String
@@ -4551,14 +4551,14 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "CopyObjectResult"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "CopySourceVersionId", location: .header(locationName: "x-amz-copy-source-version-id"), required: false, type: .string), 
-            AWSShapeMember(label: "CopyObjectResult", required: false, type: .structure), 
-            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum),
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum),
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string),
+            AWSShapeMember(label: "CopySourceVersionId", location: .header(locationName: "x-amz-copy-source-version-id"), required: false, type: .string),
+            AWSShapeMember(label: "CopyObjectResult", required: false, type: .structure),
+            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string),
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string),
             AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string)
         ]
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
@@ -4604,7 +4604,7 @@ extension S3 {
 
     public struct ListBucketMetricsConfigurationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContinuationToken", location: .querystring(locationName: "continuation-token"), required: false, type: .string), 
+            AWSShapeMember(label: "ContinuationToken", location: .querystring(locationName: "continuation-token"), required: false, type: .string),
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         /// The marker that is used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
@@ -4625,8 +4625,8 @@ extension S3 {
 
     public struct Progress: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BytesReturned", required: false, type: .long), 
-            AWSShapeMember(label: "BytesScanned", required: false, type: .long), 
+            AWSShapeMember(label: "BytesReturned", required: false, type: .long),
+            AWSShapeMember(label: "BytesScanned", required: false, type: .long),
             AWSShapeMember(label: "BytesProcessed", required: false, type: .long)
         ]
         /// Current number of bytes of records payload data returned.
@@ -4651,7 +4651,7 @@ extension S3 {
 
     public struct MetricsAndOperator: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string),
             AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .structure)
         ]
         /// The prefix used when evaluating an AND predicate.
@@ -4714,31 +4714,31 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "Body"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "Body", required: false, type: .blob), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long), 
-            AWSShapeMember(label: "Tagging", location: .header(locationName: "x-amz-tagging"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentEncoding", location: .header(locationName: "Content-Encoding"), required: false, type: .string), 
-            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map), 
-            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "ContentLanguage", location: .header(locationName: "Content-Language"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string), 
+            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string),
+            AWSShapeMember(label: "Body", required: false, type: .blob),
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum),
+            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long),
+            AWSShapeMember(label: "Tagging", location: .header(locationName: "x-amz-tagging"), required: false, type: .string),
+            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string),
+            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string),
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string),
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string),
+            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp),
+            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum),
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string),
+            AWSShapeMember(label: "ContentEncoding", location: .header(locationName: "Content-Encoding"), required: false, type: .string),
+            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum),
+            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string),
+            AWSShapeMember(label: "Metadata", required: false, type: .map),
+            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string),
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string),
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "ContentLanguage", location: .header(locationName: "Content-Language"), required: false, type: .string),
+            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string),
+            AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string),
             AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string)
         ]
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
@@ -4870,14 +4870,14 @@ extension S3 {
 
     public struct LifecycleRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Transitions", location: .body(locationName: "Transition"), required: false, type: .list), 
-            AWSShapeMember(label: "Status", required: true, type: .enum), 
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "ID", required: false, type: .string), 
-            AWSShapeMember(label: "AbortIncompleteMultipartUpload", required: false, type: .structure), 
-            AWSShapeMember(label: "NoncurrentVersionExpiration", required: false, type: .structure), 
-            AWSShapeMember(label: "NoncurrentVersionTransitions", location: .body(locationName: "NoncurrentVersionTransition"), required: false, type: .list), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "Transitions", location: .body(locationName: "Transition"), required: false, type: .list),
+            AWSShapeMember(label: "Status", required: true, type: .enum),
+            AWSShapeMember(label: "Filter", required: false, type: .structure),
+            AWSShapeMember(label: "ID", required: false, type: .string),
+            AWSShapeMember(label: "AbortIncompleteMultipartUpload", required: false, type: .structure),
+            AWSShapeMember(label: "NoncurrentVersionExpiration", required: false, type: .structure),
+            AWSShapeMember(label: "NoncurrentVersionTransitions", location: .body(locationName: "NoncurrentVersionTransition"), required: false, type: .list),
+            AWSShapeMember(label: "Prefix", required: false, type: .string),
             AWSShapeMember(label: "Expiration", required: false, type: .structure)
         ]
         public let transitions: [Transition]?
@@ -4926,7 +4926,7 @@ extension S3 {
 
     public struct ReplicationConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list), 
+            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list),
             AWSShapeMember(label: "Role", required: true, type: .string)
         ]
         /// Container for information about a particular replication rule. Replication configuration must have at least one rule and can contain up to 1,000 rules.
@@ -4947,7 +4947,7 @@ extension S3 {
 
     public struct LifecycleRuleAndOperator: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string),
             AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .structure)
         ]
         public let prefix: String?
@@ -4982,7 +4982,7 @@ extension S3 {
 
     public struct InventoryEncryption: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SSES3", location: .body(locationName: "SSE-S3"), required: false, type: .structure), 
+            AWSShapeMember(label: "SSES3", location: .body(locationName: "SSE-S3"), required: false, type: .structure),
             AWSShapeMember(label: "SSEKMS", location: .body(locationName: "SSE-KMS"), required: false, type: .structure)
         ]
         /// Specifies the use of SSE-S3 to encrypt delievered Inventory reports.
@@ -5033,7 +5033,7 @@ extension S3 {
 
     public struct Owner: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ID", required: false, type: .string), 
+            AWSShapeMember(label: "ID", required: false, type: .string),
             AWSShapeMember(label: "DisplayName", required: false, type: .string)
         ]
         public let id: String?
@@ -5084,9 +5084,9 @@ extension S3 {
 
     public struct AbortMultipartUploadRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string),
             AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum)
         ]
         public let uploadId: String
@@ -5176,9 +5176,9 @@ extension S3 {
 
     public struct ListBucketAnalyticsConfigurationsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "AnalyticsConfigurationList", location: .body(locationName: "AnalyticsConfiguration"), required: false, type: .list), 
-            AWSShapeMember(label: "NextContinuationToken", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean),
+            AWSShapeMember(label: "AnalyticsConfigurationList", location: .body(locationName: "AnalyticsConfiguration"), required: false, type: .list),
+            AWSShapeMember(label: "NextContinuationToken", required: false, type: .string),
             AWSShapeMember(label: "ContinuationToken", required: false, type: .string)
         ]
         /// Indicates whether the returned list of analytics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
@@ -5229,8 +5229,8 @@ extension S3 {
 
     public struct LoggingEnabled: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetGrants", required: false, type: .structure), 
-            AWSShapeMember(label: "TargetBucket", required: true, type: .string), 
+            AWSShapeMember(label: "TargetGrants", required: false, type: .structure),
+            AWSShapeMember(label: "TargetBucket", required: true, type: .string),
             AWSShapeMember(label: "TargetPrefix", required: true, type: .string)
         ]
         public let targetGrants: TargetGrants?
@@ -5254,8 +5254,8 @@ extension S3 {
 
     public struct LifecycleRuleFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "Tag", required: false, type: .structure), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string),
+            AWSShapeMember(label: "Tag", required: false, type: .structure),
             AWSShapeMember(label: "And", required: false, type: .structure)
         ]
         /// Prefix identifying one or more objects to which the rule applies.
@@ -5294,13 +5294,13 @@ extension S3 {
 
     public struct S3Location: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Encryption", required: false, type: .structure), 
-            AWSShapeMember(label: "UserMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "Prefix", required: true, type: .string), 
-            AWSShapeMember(label: "AccessControlList", required: false, type: .structure), 
-            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
-            AWSShapeMember(label: "BucketName", required: true, type: .string), 
-            AWSShapeMember(label: "Tagging", required: false, type: .structure), 
+            AWSShapeMember(label: "Encryption", required: false, type: .structure),
+            AWSShapeMember(label: "UserMetadata", required: false, type: .structure),
+            AWSShapeMember(label: "Prefix", required: true, type: .string),
+            AWSShapeMember(label: "AccessControlList", required: false, type: .structure),
+            AWSShapeMember(label: "StorageClass", required: false, type: .enum),
+            AWSShapeMember(label: "BucketName", required: true, type: .string),
+            AWSShapeMember(label: "Tagging", required: false, type: .structure),
             AWSShapeMember(label: "CannedACL", required: false, type: .enum)
         ]
         public let encryption: Encryption?
@@ -5344,9 +5344,9 @@ extension S3 {
 
     public struct SelectParameters: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputSerialization", required: true, type: .structure), 
-            AWSShapeMember(label: "ExpressionType", required: true, type: .enum), 
-            AWSShapeMember(label: "Expression", required: true, type: .string), 
+            AWSShapeMember(label: "InputSerialization", required: true, type: .structure),
+            AWSShapeMember(label: "ExpressionType", required: true, type: .enum),
+            AWSShapeMember(label: "Expression", required: true, type: .string),
             AWSShapeMember(label: "OutputSerialization", required: true, type: .structure)
         ]
         /// Describes the serialization format of the object.
@@ -5375,7 +5375,7 @@ extension S3 {
 
     public struct StorageClassAnalysisDataExport: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destination", required: true, type: .structure), 
+            AWSShapeMember(label: "Destination", required: true, type: .structure),
             AWSShapeMember(label: "OutputSchemaVersion", required: true, type: .enum)
         ]
         /// The place to store the data for an analysis.
@@ -5402,7 +5402,7 @@ extension S3 {
 
     public struct ListBucketsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Buckets", required: false, type: .structure), 
+            AWSShapeMember(label: "Buckets", required: false, type: .structure),
             AWSShapeMember(label: "Owner", required: false, type: .structure)
         ]
         public let buckets: Buckets?
@@ -5437,7 +5437,7 @@ extension S3 {
 
     public struct RoutingRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Redirect", required: true, type: .structure), 
+            AWSShapeMember(label: "Redirect", required: true, type: .structure),
             AWSShapeMember(label: "Condition", required: false, type: .structure)
         ]
         /// Container for redirect information. You can redirect requests to another host, to another page, or with another protocol. In the event of an error, you can can specify a different error code to return.
@@ -5495,11 +5495,11 @@ extension S3 {
 
     public struct UploadPartOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string),
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum),
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string),
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum),
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string),
             AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string)
         ]
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
@@ -5550,9 +5550,9 @@ extension S3 {
 
     public struct AnalyticsS3BucketDestination: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "Format", required: true, type: .enum), 
-            AWSShapeMember(label: "BucketAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "Bucket", required: true, type: .string),
+            AWSShapeMember(label: "Format", required: true, type: .enum),
+            AWSShapeMember(label: "BucketAccountId", required: false, type: .string),
             AWSShapeMember(label: "Prefix", required: false, type: .string)
         ]
         /// The Amazon resource name (ARN) of the bucket to which data is exported.
@@ -5614,33 +5614,33 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "Body"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "Body", required: false, type: .blob), 
-            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long), 
-            AWSShapeMember(label: "TagCount", location: .header(locationName: "x-amz-tagging-count"), required: false, type: .integer), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "PartsCount", location: .header(locationName: "x-amz-mp-parts-count"), required: false, type: .integer), 
-            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "Restore", location: .header(locationName: "x-amz-restore"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentRange", location: .header(locationName: "Content-Range"), required: false, type: .string), 
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "AcceptRanges", location: .header(locationName: "accept-ranges"), required: false, type: .string), 
-            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReplicationStatus", location: .header(locationName: "x-amz-replication-status"), required: false, type: .enum), 
-            AWSShapeMember(label: "DeleteMarker", location: .header(locationName: "x-amz-delete-marker"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ContentEncoding", location: .header(locationName: "Content-Encoding"), required: false, type: .string), 
-            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
-            AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string), 
-            AWSShapeMember(label: "MissingMeta", location: .header(locationName: "x-amz-missing-meta"), required: false, type: .integer), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map), 
-            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string), 
-            AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
+            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string),
+            AWSShapeMember(label: "Body", required: false, type: .blob),
+            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long),
+            AWSShapeMember(label: "TagCount", location: .header(locationName: "x-amz-tagging-count"), required: false, type: .integer),
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string),
+            AWSShapeMember(label: "PartsCount", location: .header(locationName: "x-amz-mp-parts-count"), required: false, type: .integer),
+            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string),
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string),
+            AWSShapeMember(label: "Restore", location: .header(locationName: "x-amz-restore"), required: false, type: .string),
+            AWSShapeMember(label: "ContentRange", location: .header(locationName: "Content-Range"), required: false, type: .string),
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string),
+            AWSShapeMember(label: "AcceptRanges", location: .header(locationName: "accept-ranges"), required: false, type: .string),
+            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp),
+            AWSShapeMember(label: "ReplicationStatus", location: .header(locationName: "x-amz-replication-status"), required: false, type: .enum),
+            AWSShapeMember(label: "DeleteMarker", location: .header(locationName: "x-amz-delete-marker"), required: false, type: .boolean),
+            AWSShapeMember(label: "ContentEncoding", location: .header(locationName: "Content-Encoding"), required: false, type: .string),
+            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum),
+            AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string),
+            AWSShapeMember(label: "MissingMeta", location: .header(locationName: "x-amz-missing-meta"), required: false, type: .integer),
+            AWSShapeMember(label: "Metadata", required: false, type: .map),
+            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string),
+            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string),
+            AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp),
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string),
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum),
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum),
             AWSShapeMember(label: "ContentLanguage", location: .header(locationName: "Content-Language"), required: false, type: .string)
         ]
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
@@ -5768,8 +5768,8 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "AnalyticsConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
             AWSShapeMember(label: "AnalyticsConfiguration", location: .body(locationName: "AnalyticsConfiguration"), required: true, type: .structure)
         ]
         /// The identifier used to represent an analytics configuration.
@@ -5832,38 +5832,38 @@ extension S3 {
 
     public struct CopyObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string), 
-            AWSShapeMember(label: "CopySourceIfModifiedSince", location: .header(locationName: "x-amz-copy-source-if-modified-since"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "CopySourceIfMatch", location: .header(locationName: "x-amz-copy-source-if-match"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "Tagging", location: .header(locationName: "x-amz-tagging"), required: false, type: .string), 
-            AWSShapeMember(label: "CopySourceSSECustomerKeyMD5", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "CopySourceIfNoneMatch", location: .header(locationName: "x-amz-copy-source-if-none-match"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
-            AWSShapeMember(label: "TaggingDirective", location: .header(locationName: "x-amz-tagging-directive"), required: false, type: .enum), 
-            AWSShapeMember(label: "CopySourceSSECustomerAlgorithm", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
-            AWSShapeMember(label: "ContentEncoding", location: .header(locationName: "Content-Encoding"), required: false, type: .string), 
-            AWSShapeMember(label: "MetadataDirective", location: .header(locationName: "x-amz-metadata-directive"), required: false, type: .enum), 
-            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
-            AWSShapeMember(label: "CopySourceSSECustomerKey", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map), 
-            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
-            AWSShapeMember(label: "CopySourceIfUnmodifiedSince", location: .header(locationName: "x-amz-copy-source-if-unmodified-since"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "CopySource", location: .header(locationName: "x-amz-copy-source"), required: true, type: .string), 
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "ContentLanguage", location: .header(locationName: "Content-Language"), required: false, type: .string), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string), 
+            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string),
+            AWSShapeMember(label: "CopySourceIfModifiedSince", location: .header(locationName: "x-amz-copy-source-if-modified-since"), required: false, type: .timestamp),
+            AWSShapeMember(label: "CopySourceIfMatch", location: .header(locationName: "x-amz-copy-source-if-match"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string),
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum),
+            AWSShapeMember(label: "Tagging", location: .header(locationName: "x-amz-tagging"), required: false, type: .string),
+            AWSShapeMember(label: "CopySourceSSECustomerKeyMD5", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key-MD5"), required: false, type: .string),
+            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string),
+            AWSShapeMember(label: "CopySourceIfNoneMatch", location: .header(locationName: "x-amz-copy-source-if-none-match"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string),
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string),
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string),
+            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string),
+            AWSShapeMember(label: "TaggingDirective", location: .header(locationName: "x-amz-tagging-directive"), required: false, type: .enum),
+            AWSShapeMember(label: "CopySourceSSECustomerAlgorithm", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-algorithm"), required: false, type: .string),
+            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp),
+            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum),
+            AWSShapeMember(label: "ContentEncoding", location: .header(locationName: "Content-Encoding"), required: false, type: .string),
+            AWSShapeMember(label: "MetadataDirective", location: .header(locationName: "x-amz-metadata-directive"), required: false, type: .enum),
+            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum),
+            AWSShapeMember(label: "CopySourceSSECustomerKey", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string),
+            AWSShapeMember(label: "Metadata", required: false, type: .map),
+            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string),
+            AWSShapeMember(label: "CopySourceIfUnmodifiedSince", location: .header(locationName: "x-amz-copy-source-if-unmodified-since"), required: false, type: .timestamp),
+            AWSShapeMember(label: "CopySource", location: .header(locationName: "x-amz-copy-source"), required: true, type: .string),
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "ContentLanguage", location: .header(locationName: "Content-Language"), required: false, type: .string),
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string),
+            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string),
+            AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string),
             AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string)
         ]
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
@@ -6061,7 +6061,7 @@ extension S3 {
 
     public struct CopyObjectResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModified", required: false, type: .timestamp),
             AWSShapeMember(label: "ETag", required: false, type: .string)
         ]
         public let lastModified: TimeStamp?
@@ -6080,7 +6080,7 @@ extension S3 {
 
     public struct Grant: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Grantee", required: false, type: .structure), 
+            AWSShapeMember(label: "Grantee", required: false, type: .structure),
             AWSShapeMember(label: "Permission", required: false, type: .enum)
         ]
         public let grantee: Grantee?
@@ -6117,12 +6117,12 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "CopyPartResult"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "CopyPartResult", required: false, type: .structure), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "CopySourceVersionId", location: .header(locationName: "x-amz-copy-source-version-id"), required: false, type: .string), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum),
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum),
+            AWSShapeMember(label: "CopyPartResult", required: false, type: .structure),
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string),
+            AWSShapeMember(label: "CopySourceVersionId", location: .header(locationName: "x-amz-copy-source-version-id"), required: false, type: .string),
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string),
             AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string)
         ]
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
@@ -6172,7 +6172,7 @@ extension S3 {
 
     public struct RestoreObjectOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum),
             AWSShapeMember(label: "RestoreOutputPath", location: .header(locationName: "x-amz-restore-output-path"), required: false, type: .string)
         ]
         public let requestCharged: RequestCharged?
@@ -6213,8 +6213,8 @@ extension S3 {
 
     public struct GetObjectTaggingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
         public let key: String
@@ -6235,7 +6235,7 @@ extension S3 {
     }
 
     public enum ReplicationStatus: String, CustomStringConvertible, Codable {
-        case complete = "COMPLETE"
+        case complete = "COMPLETED"
         case pending = "PENDING"
         case failed = "FAILED"
         case replica = "REPLICA"
@@ -6282,8 +6282,8 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "BucketLoggingStatus"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketLoggingStatus", location: .body(locationName: "BucketLoggingStatus"), required: true, type: .structure), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "BucketLoggingStatus", location: .body(locationName: "BucketLoggingStatus"), required: true, type: .structure),
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string)
         ]
         public let bucketLoggingStatus: BucketLoggingStatus
@@ -6366,30 +6366,30 @@ extension S3 {
 
     public struct HeadObjectOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "PartsCount", location: .header(locationName: "x-amz-mp-parts-count"), required: false, type: .integer), 
-            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "Restore", location: .header(locationName: "x-amz-restore"), required: false, type: .string), 
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "AcceptRanges", location: .header(locationName: "accept-ranges"), required: false, type: .string), 
-            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReplicationStatus", location: .header(locationName: "x-amz-replication-status"), required: false, type: .enum), 
-            AWSShapeMember(label: "DeleteMarker", location: .header(locationName: "x-amz-delete-marker"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ContentEncoding", location: .header(locationName: "Content-Encoding"), required: false, type: .string), 
-            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
-            AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string), 
-            AWSShapeMember(label: "MissingMeta", location: .header(locationName: "x-amz-missing-meta"), required: false, type: .integer), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map), 
-            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string), 
-            AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
+            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string),
+            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long),
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string),
+            AWSShapeMember(label: "PartsCount", location: .header(locationName: "x-amz-mp-parts-count"), required: false, type: .integer),
+            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string),
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string),
+            AWSShapeMember(label: "Restore", location: .header(locationName: "x-amz-restore"), required: false, type: .string),
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string),
+            AWSShapeMember(label: "AcceptRanges", location: .header(locationName: "accept-ranges"), required: false, type: .string),
+            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp),
+            AWSShapeMember(label: "ReplicationStatus", location: .header(locationName: "x-amz-replication-status"), required: false, type: .enum),
+            AWSShapeMember(label: "DeleteMarker", location: .header(locationName: "x-amz-delete-marker"), required: false, type: .boolean),
+            AWSShapeMember(label: "ContentEncoding", location: .header(locationName: "Content-Encoding"), required: false, type: .string),
+            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum),
+            AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string),
+            AWSShapeMember(label: "MissingMeta", location: .header(locationName: "x-amz-missing-meta"), required: false, type: .integer),
+            AWSShapeMember(label: "Metadata", required: false, type: .map),
+            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string),
+            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string),
+            AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp),
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum),
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string),
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum),
             AWSShapeMember(label: "ContentLanguage", location: .header(locationName: "Content-Language"), required: false, type: .string)
         ]
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
@@ -6530,7 +6530,7 @@ extension S3 {
 
     public struct ServerSideEncryptionByDefault: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SSEAlgorithm", required: true, type: .enum), 
+            AWSShapeMember(label: "SSEAlgorithm", required: true, type: .enum),
             AWSShapeMember(label: "KMSMasterKeyID", required: false, type: .string)
         ]
         /// Server-side encryption algorithm to use for the default encryption.
@@ -6551,7 +6551,7 @@ extension S3 {
 
     public struct NoncurrentVersionTransition: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NoncurrentDays", required: false, type: .integer), 
+            AWSShapeMember(label: "NoncurrentDays", required: false, type: .integer),
             AWSShapeMember(label: "StorageClass", required: false, type: .enum)
         ]
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
@@ -6574,13 +6574,13 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "CreateBucketConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "GrantWrite", location: .header(locationName: "x-amz-grant-write"), required: false, type: .string), 
-            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
-            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "CreateBucketConfiguration", location: .body(locationName: "CreateBucketConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "GrantWrite", location: .header(locationName: "x-amz-grant-write"), required: false, type: .string),
+            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum),
+            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string),
+            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string),
+            AWSShapeMember(label: "CreateBucketConfiguration", location: .body(locationName: "CreateBucketConfiguration"), required: false, type: .structure),
+            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string),
             AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string)
         ]
         public let bucket: String
@@ -6674,7 +6674,7 @@ extension S3 {
 
     public struct Bucket: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string),
             AWSShapeMember(label: "CreationDate", required: false, type: .timestamp)
         ]
         /// The name of the bucket.
@@ -6695,7 +6695,7 @@ extension S3 {
 
     public struct TargetGrant: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Grantee", required: false, type: .structure), 
+            AWSShapeMember(label: "Grantee", required: false, type: .structure),
             AWSShapeMember(label: "Permission", required: false, type: .enum)
         ]
         public let grantee: Grantee?
@@ -6733,8 +6733,8 @@ extension S3 {
 
     public struct AnalyticsConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: true, type: .string),
+            AWSShapeMember(label: "Filter", required: false, type: .structure),
             AWSShapeMember(label: "StorageClassAnalysis", required: true, type: .structure)
         ]
         /// The identifier used to represent an analytics configuration.
@@ -6817,8 +6817,8 @@ extension S3 {
 
     public struct NotificationConfigurationDeprecated: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CloudFunctionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "TopicConfiguration", required: false, type: .structure),
+            AWSShapeMember(label: "CloudFunctionConfiguration", required: false, type: .structure),
             AWSShapeMember(label: "QueueConfiguration", required: false, type: .structure)
         ]
         public let topicConfiguration: TopicConfigurationDeprecated?
@@ -6856,13 +6856,13 @@ extension S3 {
 
     public struct PutObjectOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum),
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum),
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string),
+            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string),
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string),
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string),
             AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string)
         ]
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
@@ -6908,14 +6908,14 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "AccessControlPolicy"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "GrantWrite", location: .header(locationName: "x-amz-grant-write"), required: false, type: .string), 
-            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
-            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "AccessControlPolicy", location: .body(locationName: "AccessControlPolicy"), required: false, type: .structure), 
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string),
+            AWSShapeMember(label: "GrantWrite", location: .header(locationName: "x-amz-grant-write"), required: false, type: .string),
+            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum),
+            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string),
+            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string),
+            AWSShapeMember(label: "AccessControlPolicy", location: .body(locationName: "AccessControlPolicy"), required: false, type: .structure),
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string),
+            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string),
             AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string)
         ]
         public let bucket: String
@@ -6961,7 +6961,7 @@ extension S3 {
 
     public struct Condition: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HttpErrorCodeReturnedEquals", required: false, type: .string), 
+            AWSShapeMember(label: "HttpErrorCodeReturnedEquals", required: false, type: .string),
             AWSShapeMember(label: "KeyPrefixEquals", required: false, type: .string)
         ]
         /// The HTTP error code when the redirect is applied. In the event of an error, if the error code equals this value, then the specified redirect is applied. Required when parent element Condition is specified and sibling KeyPrefixEquals is not specified. If both are specified, then both must be true for the redirect to be applied.
