@@ -8,11 +8,12 @@ This library doesn't depend on Objective-C Runtime, So you can use this with Lin
 
 ## Supported Platforms and Swift Versions
 
-| | **Swift 4.1** |
+| | **Swift 4.2** |
 |---|:---:|
 |**macOS**        | ○ |
 |**Ubuntu 14.04** | ○ |
 |**Ubuntu 16.04** | ○ |
+|**Ubuntu 18.04** | ○ |
 
 ## Documentation
 
@@ -30,7 +31,15 @@ import PackageDescription
 let package = Package(
     name: "MyAWSApp",
     dependencies: [
-        .package(url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "1.0.0")
+        .package(url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "2.0.0")
+    ],
+    targets: [
+      .target(
+          name: "MyAWSApp",
+          dependencies: ["S3", "SES", "CloudFront", "ELBV2", "IAM", "Kinesis"]),
+      .testTarget(
+          name: "MyAWSToolTests",
+          dependencies: ["MyAWSApp"]),
     ]
 )
 ```
@@ -63,17 +72,31 @@ If you are running your code on an AWS EC2 instance, you [can setup an IAM role 
 
 There are no code changes or configurations to specify in the code, it will automatically pull and use them.
 
+## Via ECS Container credentials
+
+If you are running your code as an AWS ECS container task, you [can setup an IAM role for your container task](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html#create_task_iam_policy_and_role) to automatically grant credentials via the metadata service.
+
+There are no code changes or configurations to specify in the code, it will automatically pull and use them.
+
 ### Load Credentials from shared credential file.
 
-Not supported yet
+You can [set shared credentials in the home directory for the user running the app](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/create-shared-credentials-file.html)
+
+in ~/.aws/credentials,
+
+```
+[default]
+aws_access_key_id = YOUR_AWS_ACCESS_KEY_ID
+aws_secret_access_key = YOUR_AWS_SECRET_ACCESS_KEY
+```
 
 ### Load Credentials from Environment Variable
 
 Alternatively, you can set the following environment variables:
 
 ```
-AWS_ACCESS_KEY_ID=bar
-AWS_SECRET_ACCESS_KEY=foo
+AWS_ACCESS_KEY_ID=YOUR_AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY=YOUR_AWS_SECRET_ACCESS_KEY
 ```
 
 ### Pass the Credentials to the AWS Service struct directly
@@ -82,15 +105,15 @@ All of the AWS Services's initializers accept `accessKeyId` and `secretAccessKey
 
 ```swift
 let ec2 = EC2(
-    accessKeyId: "Your-Access-Key",
-    secretAccessKey: "Your-Secret-Key"
+    accessKeyId: "YOUR_AWS_ACCESS_KEY_ID",
+    secretAccessKey: "YOUR_AWS_SECRET_ACCESS_KEY"
 )
 ```
 
 ## Using the `aws-sdk-swift`
 
 ```swift
-import AWSSDKSwift
+import S3 //ensure this module is specified as a dependency in your package.swift
 
 do {
     let bucket = "my-bucket"
@@ -123,13 +146,9 @@ do {
 
 ## Speed Up Compilation
 
-Compiling the entire `aws-sdk-swift` requires a certain amount of time (of course, dependes on machine spec). And we know 97% of users don't need to install all of the service SDKs.
+By specifying only those modules necessary for your application, only theoe modules will compile which makes for fast compilation.
 
-In order to answer such a request, we will provide SDK for each service as a separate SwiftPM package.
-
-https://github.com/swift-aws
-
-From here, it's possible to select and install only the SDKs of the service to be used in your application.
+If you want to create a module for your service, you can try using the module-exporter to build a separate repo for any of the modules.
 
 ## License
 `aws-sdk-swift` is released under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). See LICENSE for details.
