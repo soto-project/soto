@@ -42,11 +42,12 @@ class S3Tests: XCTestCase {
     
     func testPutObject() throws {
         let putRequest = S3.PutObjectRequest(
-            bucket: TestData.shared.bucket,
+            body: TestData.shared.bodyData,
             contentLength: Int64(TestData.shared.bodyData.count),
             key: TestData.shared.key,
-            body: TestData.shared.bodyData,
-            acl: .publicRead)
+            acl: .publicRead,
+            bucket: TestData.shared.bucket
+        )
         
         let output = try client.putObject(putRequest)
         XCTAssertNotNil(output.eTag)
@@ -55,24 +56,26 @@ class S3Tests: XCTestCase {
     
     func testGetObject() throws {
         let putRequest = S3.PutObjectRequest(
-            bucket: TestData.shared.bucket,
+            body: TestData.shared.bodyData,
             contentLength: Int64(TestData.shared.bodyData.count),
             key: TestData.shared.key,
-            body: TestData.shared.bodyData,
-            acl: .publicRead)
+            acl: .publicRead,
+            bucket: TestData.shared.bucket
+        )
         
         _ = try client.putObject(putRequest)
-        let object = try client.getObject(S3.GetObjectRequest(bucket: TestData.shared.bucket, key: "hello.txt"))
+        let object = try client.getObject(S3.GetObjectRequest(key: "hello.txt", bucket: TestData.shared.bucket))
         XCTAssertEqual(object.body, TestData.shared.bodyData)
     }
     
     func testListObjects() throws {
         let putRequest = S3.PutObjectRequest(
-            bucket: TestData.shared.bucket,
+            body: TestData.shared.bodyData,
             contentLength: Int64(TestData.shared.bodyData.count),
             key: TestData.shared.key,
-            body: TestData.shared.bodyData,
-            acl: .publicRead)
+            acl: .publicRead,
+            bucket: TestData.shared.bucket
+        )
         
         let putResult = try client.putObject(putRequest)
         
