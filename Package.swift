@@ -277,7 +277,7 @@ let package = Package(
         .target(name: "ResourceGroupsTaggingAPI", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ResourceGroupsTaggingAPI"),
         .target(name: "Route53", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Route53"),
         .target(name: "Route53Domains", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Route53Domains"),
-        .target(name: "S3", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/S3"),
+        .target(name: "S3", dependencies: ["AWSSDKSwiftCore", "S3Middleware"], path: "./Sources/AWSSDKSwift/Services/S3"),
         .target(name: "SES", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SES"),
         .target(name: "SFN", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SFN"),
         .target(name: "SMS", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SMS"),
