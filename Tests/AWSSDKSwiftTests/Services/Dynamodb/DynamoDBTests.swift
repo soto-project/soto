@@ -9,7 +9,7 @@
 import Foundation
 import Dispatch
 import XCTest
-@testable import Dynamodb
+@testable import DynamoDB
 
 class DynamoDBTests: XCTestCase {
     static var allTests : [(String, (DynamoDBTests) -> () throws -> Void)] {
@@ -18,8 +18,8 @@ class DynamoDBTests: XCTestCase {
         ]
     }
     
-    var client: Dynamodb {
-        return Dynamodb(
+    var client: DynamoDB {
+        return DynamoDB(
             accessKeyId: "key",
             secretAccessKey: "secret",
             region: .apnortheast1,
@@ -32,24 +32,24 @@ class DynamoDBTests: XCTestCase {
     }
 
     func prepare() throws {
-        let createTableInput = Dynamodb.CreateTableInput(
-            attributeDefinitions: [
-                Dynamodb.AttributeDefinition(attributeType: .s, attributeName: "hashKey"),
-                Dynamodb.AttributeDefinition(attributeType: .s, attributeName: "rangeKey")
-            ],
+        let createTableInput = DynamoDB.CreateTableInput(
             keySchema: [
-                Dynamodb.KeySchemaElement(attributeName: "hashKey", keyType: .hash),
-                Dynamodb.KeySchemaElement(attributeName: "rangeKey", keyType: .range)
+                DynamoDB.KeySchemaElement(attributeName: "hashKey", keyType: .hash),
+                DynamoDB.KeySchemaElement(attributeName: "rangeKey", keyType: .range)
             ],
-            provisionedThroughput: Dynamodb.ProvisionedThroughput(writeCapacityUnits: 10, readCapacityUnits: 10),
-            tableName: tableName
+            tableName: tableName,
+            attributeDefinitions: [
+                DynamoDB.AttributeDefinition(attributeName: "hashKey", attributeType: .s),
+                DynamoDB.AttributeDefinition(attributeName: "rangeKey", attributeType: .s)
+            ],
+            provisionedThroughput: DynamoDB.ProvisionedThroughput(readCapacityUnits: 10, writeCapacityUnits: 10)
         )
         _ = try client.createTable(createTableInput)
         
-        let putItemInput = Dynamodb.PutItemInput(
+        let putItemInput = DynamoDB.PutItemInput(
             item: [
-                "hashKey": Dynamodb.AttributeValue(s: "hello"),
-                "rangeKey": Dynamodb.AttributeValue(s: "world")
+                "hashKey": DynamoDB.AttributeValue(s: "hello"),
+                "rangeKey": DynamoDB.AttributeValue(s: "world")
             ],
             tableName: tableName
         )
@@ -58,7 +58,7 @@ class DynamoDBTests: XCTestCase {
     
     override func tearDown() {
         do {
-            let input = Dynamodb.DeleteTableInput(tableName: tableName)
+            let input = DynamoDB.DeleteTableInput(tableName: tableName)
             _ = try client.deleteTable(input)
         } catch {
             print(error)
@@ -68,10 +68,10 @@ class DynamoDBTests: XCTestCase {
     func testGetObject() {
         do {
             try prepare()
-            let input = Dynamodb.GetItemInput(
+            let input = DynamoDB.GetItemInput(
                 key: [
-                    "hashKey": Dynamodb.AttributeValue(s: "hello"),
-                    "rangeKey": Dynamodb.AttributeValue(s: "world")
+                    "hashKey": DynamoDB.AttributeValue(s: "hello"),
+                    "rangeKey": DynamoDB.AttributeValue(s: "world")
                 ],
                 tableName: tableName
             )
