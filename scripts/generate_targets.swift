@@ -39,7 +39,13 @@ print(libraries)
 
 
 //TODO(Yasumoto): Need to auto-add S3RequestMiddleware to S3 module dependency
-let servicesTargetDefinitions = services.map { "        .target(name: \"\($0)\", dependencies: [\"AWSSDKSwiftCore\"], path: \"\(servicesBasePath)/\($0)\")," }
+let servicesTargetDefinitions = services.map { (serviceName) -> String in
+    if let middleware = middlewares.first(where: { $0 == serviceName }) {
+        return "        .target(name: \"\(serviceName)\", dependencies: [\"AWSSDKSwiftCore\", \"\(middleware)Middleware\"], path: \"\(servicesBasePath)/\(serviceName)\"),"
+    } else {
+        return "        .target(name: \"\(serviceName)\", dependencies: [\"AWSSDKSwiftCore\"], path: \"\(servicesBasePath)/\(serviceName)\"),"
+    }
+}
 _ = servicesTargetDefinitions.sorted().map { print($0) }
 
 let middlewaresTargetDefinitions = middlewares.map { "        .target(name: \"\($0)Middleware\", dependencies: [\"AWSSDKSwiftCore\"], path: \"\(middlewaresBasePath)/\($0)\")," }
