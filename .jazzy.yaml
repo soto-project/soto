@@ -1,651 +1,735 @@
-module: AWSSDKSwift
-author: Yuki Takei
 sourcekitten_sourcefile: awssdkswift.json
-author_url: https://github.com/noppoMan
-github_url: https://github.com/noppoMan/aws-sdk-swift
-copyright: '© Copyright (c) 2017 Yuki Takei(noppoMan)'
+author: Yuki Takei, Joe Smith, Jonathan McAllister
+author_url: https://github.com/swift-aws
+github_url: https://github.com/swift-aws/aws-sdk-swift
+copyright: '© Copyright (c) 2018 Yuki Takei(noppoMan), Joe Smith(Yasumoto), Jonathan McAllister(jonnymacs)'
 theme: fullwidth
-
 readme: README.md
 
 custom_categories:
 
-  - name: Acm
+  - name: ACM
     children:
-      - Acm
-      - AcmError
+      - ACM
+      - ACMErrorType
 
-  - name: Alexaforbusiness
+  - name: ACMPCA
     children:
-      - Alexaforbusiness
-      - AlexaforbusinessError
+      - ACMPCA
+      - ACMPCAErrorType
 
-  - name: Apigateway
+  - name: AlexaForBusiness
     children:
-      - Apigateway
-      - ApigatewayError
+      - AlexaForBusiness
+      - AlexaForBusinessErrorType
 
-  - name: ApplicationAutoscaling
+  - name: APIGateway
     children:
-      - ApplicationAutoscaling
-      - ApplicationAutoscalingError
+      - APIGateway
+      - APIGatewayErrorType
 
-  - name: Appstream
+  - name: ApplicationAutoScaling
     children:
-      - Appstream
-      - AppstreamError
+      - ApplicationAutoScaling
+      - ApplicationAutoScalingErrorType
 
-  - name: Appsync
+  - name: ApplicationDiscoveryService
     children:
-      - Appsync
-      - AppsyncError
+      - ApplicationDiscoveryService
+      - ApplicationDiscoveryServiceErrorType
+
+  - name: AppStream
+    children:
+      - AppStream
+      - AppStreamErrorType
+
+  - name: AppSync
+    children:
+      - AppSync
+      - AppSyncErrorType
 
   - name: Athena
     children:
       - Athena
-      - AthenaError
+      - AthenaErrorType
 
-  - name: Autoscaling
+  - name: AutoScaling
     children:
-      - Autoscaling
-      - AutoscalingError
+      - AutoScaling
+      - AutoScalingErrorType
 
-  - name: AWSMigrationHub
+  - name: AutoScalingPlans
     children:
-      - AWSMigrationHub
-      - AWSMigrationHubError
+      - AutoScalingPlans
+      - AutoScalingPlansErrorType
 
   - name: Batch
     children:
       - Batch
-      - BatchError
+      - BatchErrorType
 
   - name: Budgets
     children:
       - Budgets
-      - BudgetsError
-
-  - name: Ce
-    children:
-      - Ce
-      - CeError
+      - BudgetsErrorType
 
   - name: Cloud9
     children:
       - Cloud9
-      - Cloud9Error
+      - Cloud9ErrorType
 
-  - name: Clouddirectory
+  - name: CloudDirectory
     children:
-      - Clouddirectory
-      - ClouddirectoryError
+      - CloudDirectory
+      - CloudDirectoryErrorType
 
-  - name: Cloudformation
+  - name: CloudFormation
     children:
-      - Cloudformation
-      - CloudformationError
+      - CloudFormation
+      - CloudFormationErrorType
 
-  - name: Cloudfront
+  - name: CloudFront
     children:
-      - Cloudfront
-      - CloudfrontError
+      - CloudFront
+      - CloudFrontErrorType
 
-  - name: Cloudhsm
+  - name: CloudHSM
     children:
-      - Cloudhsm
-      - CloudhsmError
+      - CloudHSM
+      - CloudHSMErrorType
 
-  - name: Cloudhsmv2
+  - name: CloudHSMV2
     children:
-      - Cloudhsmv2
-      - Cloudhsmv2Error
+      - CloudHSMV2
+      - CloudHSMV2ErrorType
 
-  - name: Cloudsearch
+  - name: CloudSearch
     children:
-      - Cloudsearch
-      - CloudsearchError
+      - CloudSearch
+      - CloudSearchErrorType
 
-  - name: Cloudsearchdomain
+  - name: CloudSearchDomain
     children:
-      - Cloudsearchdomain
-      - CloudsearchdomainError
+      - CloudSearchDomain
+      - CloudSearchDomainErrorType
 
-  - name: Cloudtrail
+  - name: CloudTrail
     children:
-      - Cloudtrail
-      - CloudtrailError
+      - CloudTrail
+      - CloudTrailErrorType
 
-  - name: Codebuild
+  - name: CloudWatch
     children:
-      - Codebuild
-      - CodebuildError
+      - CloudWatch
+      - CloudWatchErrorType
 
-  - name: Codecommit
+  - name: CloudWatchEvents
     children:
-      - Codecommit
-      - CodecommitError
+      - CloudWatchEvents
+      - CloudWatchEventsErrorType
 
-  - name: Codedeploy
+  - name: CloudWatchLogs
     children:
-      - Codedeploy
-      - CodedeployError
+      - CloudWatchLogs
+      - CloudWatchLogsErrorType
 
-  - name: Codepipeline
+  - name: CodeBuild
     children:
-      - Codepipeline
-      - CodepipelineError
+      - CodeBuild
+      - CodeBuildErrorType
 
-  - name: Codestar
+  - name: CodeCommit
     children:
-      - Codestar
-      - CodestarError
+      - CodeCommit
+      - CodeCommitErrorType
+
+  - name: CodeDeploy
+    children:
+      - CodeDeploy
+      - CodeDeployErrorType
+
+  - name: CodePipeline
+    children:
+      - CodePipeline
+      - CodePipelineErrorType
+
+  - name: CodeStar
+    children:
+      - CodeStar
+      - CodeStarErrorType
 
   - name: CognitoIdentity
     children:
       - CognitoIdentity
-      - CognitoIdentityError
+      - CognitoIdentityErrorType
 
-  - name: CognitoIdp
+  - name: CognitoIdentityProvider
     children:
-      - CognitoIdp
-      - CognitoIdpError
+      - CognitoIdentityProvider
+      - CognitoIdentityProviderErrorType
 
   - name: CognitoSync
     children:
       - CognitoSync
-      - CognitoSyncError
+      - CognitoSyncErrorType
 
   - name: Comprehend
     children:
       - Comprehend
-      - ComprehendError
+      - ComprehendErrorType
 
-  - name: Config
+  - name: ConfigService
     children:
-      - Config
-      - ConfigError
+      - ConfigService
+      - ConfigServiceErrorType
 
-  - name: Cur
+  - name: Connect
     children:
-      - Cur
-      - CurError
+      - Connect
+      - ConnectErrorType
 
-  - name: Datapipeline
+  - name: CostandUsageReportService
     children:
-      - Datapipeline
-      - DatapipelineError
+      - CostandUsageReportService
+      - CostandUsageReportServiceErrorType
 
-  - name: Dax
+  - name: CostExplorer
     children:
-      - Dax
-      - DaxError
+      - CostExplorer
+      - CostExplorerErrorType
 
-  - name: Devicefarm
+  - name: DatabaseMigrationService
     children:
-      - Devicefarm
-      - DevicefarmError
+      - DatabaseMigrationService
+      - DatabaseMigrationServiceErrorType
 
-  - name: Directconnect
+  - name: DataPipeline
     children:
-      - Directconnect
-      - DirectconnectError
+      - DataPipeline
+      - DataPipelineErrorType
 
-  - name: Discovery
+  - name: DAX
     children:
-      - Discovery
-      - DiscoveryError
+      - DAX
+      - DAXErrorType
 
-  - name: Dms
+  - name: DeviceFarm
     children:
-      - Dms
-      - DmsError
+      - DeviceFarm
+      - DeviceFarmErrorType
 
-  - name: Ds
+  - name: DirectConnect
     children:
-      - Ds
-      - DsError
+      - DirectConnect
+      - DirectConnectErrorType
 
-  - name: Dynamodb
+  - name: DirectoryService
     children:
-      - Dynamodb
-      - DynamodbError
+      - DirectoryService
+      - DirectoryServiceErrorType
 
-  - name: Ec2
+  - name: DLM
     children:
-      - Ec2
-      - Ec2Error
+      - DLM
+      - DLMErrorType
 
-  - name: Ecr
+  - name: DynamoDB
     children:
-      - Ecr
-      - EcrError
+      - DynamoDB
+      - DynamoDBErrorType
 
-  - name: Ecs
+  - name: DynamoDBStreams
     children:
-      - Ecs
-      - EcsError
+      - DynamoDBStreams
+      - DynamoDBStreamsErrorType
 
-  - name: Elasticache
+  - name: EC2
     children:
-      - Elasticache
-      - ElasticacheError
+      - EC2
+      - EC2ErrorType
 
-  - name: Elasticbeanstalk
+  - name: ECR
     children:
-      - Elasticbeanstalk
-      - ElasticbeanstalkError
+      - ECR
+      - ECRErrorType
 
-  - name: Elasticfilesystem
+  - name: ECS
     children:
-      - Elasticfilesystem
-      - ElasticfilesystemError
+      - ECS
+      - ECSErrorType
 
-  - name: Elasticloadbalancing
+  - name: EFS
     children:
-      - Elasticloadbalancing
-      - ElasticloadbalancingError
+      - EFS
+      - EFSErrorType
 
-  - name: Elasticloadbalancingv2
+  - name: EKS
     children:
-      - Elasticloadbalancingv2
-      - Elasticloadbalancingv2Error
+      - EKS
+      - EKSErrorType
 
-  - name: Elasticmapreduce
+  - name: ElastiCache
     children:
-      - Elasticmapreduce
-      - ElasticmapreduceError
+      - ElastiCache
+      - ElastiCacheErrorType
 
-  - name: Elastictranscoder
+  - name: ElasticBeanstalk
     children:
-      - Elastictranscoder
-      - ElastictranscoderError
+      - ElasticBeanstalk
+      - ElasticBeanstalkErrorType
 
-  - name: Email
+  - name: ElasticsearchService
     children:
-      - Email
-      - EmailError
+      - ElasticsearchService
+      - ElasticsearchServiceErrorType
 
-  - name: Entitlementmarketplace
+  - name: ElasticTranscoder
     children:
-      - Entitlementmarketplace
-      - EntitlementmarketplaceError
+      - ElasticTranscoder
+      - ElasticTranscoderErrorType
 
-  - name: Es
+  - name: ELB
     children:
-      - Es
-      - EsError
+      - ELB
+      - ELBErrorType
 
-  - name: Events
+  - name: ELBV2
     children:
-      - Events
-      - EventsError
+      - ELBV2
+      - ELBV2ErrorType
+
+  - name: EMR
+    children:
+      - EMR
+      - EMRErrorType
 
   - name: Firehose
     children:
       - Firehose
-      - FirehoseError
+      - FirehoseErrorType
 
-  - name: Gamelift
+  - name: FMS
     children:
-      - Gamelift
-      - GameliftError
+      - FMS
+      - FMSErrorType
+
+  - name: GameLift
+    children:
+      - GameLift
+      - GameLiftErrorType
 
   - name: Glacier
     children:
       - Glacier
-      - GlacierError
+      - GlacierErrorType
 
   - name: Glue
     children:
       - Glue
-      - GlueError
+      - GlueErrorType
 
   - name: Greengrass
     children:
       - Greengrass
-      - GreengrassError
+      - GreengrassErrorType
 
   - name: GuardDuty
     children:
       - GuardDuty
-      - GuardDutyError
+      - GuardDutyErrorType
 
   - name: Health
     children:
       - Health
-      - HealthError
+      - HealthErrorType
 
-  - name: Iam
+  - name: IAM
     children:
-      - Iam
-      - IamError
+      - IAM
+      - IAMErrorType
 
-  - name: Importexport
+  - name: ImportExport
     children:
-      - Importexport
-      - ImportexportError
+      - ImportExport
+      - ImportExportErrorType
 
   - name: Inspector
     children:
       - Inspector
-      - InspectorError
+      - InspectorErrorType
 
-  - name: IotData
+  - name: IoT
     children:
-      - IotData
-      - IotDataError
+      - IoT
+      - IoTErrorType
 
-  - name: IotJobsData
+  - name: IoT1ClickDevicesService
     children:
-      - IotJobsData
-      - IotJobsDataError
+      - IoT1ClickDevicesService
+      - IoT1ClickDevicesServiceErrorType
 
-  - name: Iot
+  - name: IoT1ClickProjects
     children:
-      - Iot
-      - IotError
+      - IoT1ClickProjects
+      - IoT1ClickProjectsErrorType
 
-  - name: KinesisVideoArchivedMedia
+  - name: IoTAnalytics
     children:
-      - KinesisVideoArchivedMedia
-      - KinesisVideoArchivedMediaError
+      - IoTAnalytics
+      - IoTAnalyticsErrorType
 
-  - name: KinesisVideoMedia
+  - name: IoTDataPlane
     children:
-      - KinesisVideoMedia
-      - KinesisVideoMediaError
+      - IoTDataPlane
+      - IoTDataPlaneErrorType
+
+  - name: IoTJobsDataPlane
+    children:
+      - IoTJobsDataPlane
+      - IoTJobsDataPlaneErrorType
 
   - name: Kinesis
     children:
       - Kinesis
-      - KinesisError
+      - KinesisErrorType
 
-  - name: Kinesisanalytics
+  - name: KinesisAnalytics
     children:
-      - Kinesisanalytics
-      - KinesisanalyticsError
+      - KinesisAnalytics
+      - KinesisAnalyticsErrorType
 
-  - name: Kinesisvideo
+  - name: KinesisVideo
     children:
-      - Kinesisvideo
-      - KinesisvideoError
+      - KinesisVideo
+      - KinesisVideoErrorType
 
-  - name: Kms
+  - name: KinesisVideoArchivedMedia
     children:
-      - Kms
-      - KmsError
+      - KinesisVideoArchivedMedia
+      - KinesisVideoArchivedMediaErrorType
+
+  - name: KinesisVideoMedia
+    children:
+      - KinesisVideoMedia
+      - KinesisVideoMediaErrorType
+
+  - name: KMS
+    children:
+      - KMS
+      - KMSErrorType
 
   - name: Lambda
     children:
       - Lambda
-      - LambdaError
+      - LambdaErrorType
 
-  - name: LexModels
+  - name: LexModelBuildingService
     children:
-      - LexModels
-      - LexModelsError
+      - LexModelBuildingService
+      - LexModelBuildingServiceErrorType
+
+  - name: LexRuntimeService
+    children:
+      - LexRuntimeService
+      - LexRuntimeServiceErrorType
 
   - name: Lightsail
     children:
       - Lightsail
-      - LightsailError
+      - LightsailErrorType
 
-  - name: Logs
+  - name: MachineLearning
     children:
-      - Logs
-      - LogsError
+      - MachineLearning
+      - MachineLearningErrorType
 
-  - name: Machinelearning
+  - name: Macie
     children:
-      - Machinelearning
-      - MachinelearningError
+      - Macie
+      - MacieErrorType
 
-  - name: Marketplacecommerceanalytics
+  - name: MarketplaceCommerceAnalytics
     children:
-      - Marketplacecommerceanalytics
-      - MarketplacecommerceanalyticsError
+      - MarketplaceCommerceAnalytics
+      - MarketplaceCommerceAnalyticsErrorType
 
-  - name: Mediaconvert
+  - name: MarketplaceEntitlementService
     children:
-      - Mediaconvert
-      - MediaconvertError
+      - MarketplaceEntitlementService
+      - MarketplaceEntitlementServiceErrorType
 
-  - name: Medialive
+  - name: MarketplaceMetering
     children:
-      - Medialive
-      - MedialiveError
+      - MarketplaceMetering
+      - MarketplaceMeteringErrorType
 
-  - name: Mediapackage
+  - name: MediaConvert
     children:
-      - Mediapackage
-      - MediapackageError
+      - MediaConvert
+      - MediaConvertErrorType
 
-  - name: MediastoreData
+  - name: MediaLive
     children:
-      - MediastoreData
-      - MediastoreDataError
+      - MediaLive
+      - MediaLiveErrorType
 
-  - name: Mediastore
+  - name: MediaPackage
     children:
-      - Mediastore
-      - MediastoreError
+      - MediaPackage
+      - MediaPackageErrorType
 
-  - name: Meteringmarketplace
+  - name: MediaStore
     children:
-      - Meteringmarketplace
-      - MeteringmarketplaceError
+      - MediaStore
+      - MediaStoreErrorType
+
+  - name: MediaStoreData
+    children:
+      - MediaStoreData
+      - MediaStoreDataErrorType
+
+  - name: MediaTailor
+    children:
+      - MediaTailor
+      - MediaTailorErrorType
+
+  - name: MigrationHub
+    children:
+      - MigrationHub
+      - MigrationHubErrorType
 
   - name: Mobile
     children:
       - Mobile
-      - MobileError
+      - MobileErrorType
 
-  - name: Mobileanalytics
+  - name: MobileAnalytics
     children:
-      - Mobileanalytics
-      - MobileanalyticsError
+      - MobileAnalytics
+      - MobileAnalyticsErrorType
 
-  - name: Monitoring
+  - name: MQ
     children:
-      - Monitoring
-      - MonitoringError
+      - MQ
+      - MQErrorType
 
-  - name: Mq
+  - name: MTurk
     children:
-      - Mq
-      - MqError
+      - MTurk
+      - MTurkErrorType
 
-  - name: MturkRequester
+  - name: Neptune
     children:
-      - MturkRequester
-      - MturkRequesterError
+      - Neptune
+      - NeptuneErrorType
 
-  - name: Opsworks
+  - name: OpsWorks
     children:
-      - Opsworks
-      - OpsworksError
+      - OpsWorks
+      - OpsWorksErrorType
 
-  - name: Opsworkscm
+  - name: OpsWorksCM
     children:
-      - Opsworkscm
-      - OpsworkscmError
+      - OpsWorksCM
+      - OpsWorksCMErrorType
 
   - name: Organizations
     children:
       - Organizations
-      - OrganizationsError
+      - OrganizationsErrorType
+
+  - name: PI
+    children:
+      - PI
+      - PIErrorType
 
   - name: Pinpoint
     children:
       - Pinpoint
-      - PinpointError
+      - PinpointErrorType
 
   - name: Polly
     children:
       - Polly
-      - PollyError
+      - PollyErrorType
 
   - name: Pricing
     children:
       - Pricing
-      - PricingError
+      - PricingErrorType
 
-  - name: Rds
+  - name: RDS
     children:
-      - Rds
-      - RdsError
+      - RDS
+      - RDSErrorType
 
   - name: Redshift
     children:
       - Redshift
-      - RedshiftError
+      - RedshiftErrorType
 
   - name: Rekognition
     children:
       - Rekognition
-      - RekognitionError
+      - RekognitionErrorType
 
   - name: ResourceGroups
     children:
       - ResourceGroups
-      - ResourceGroupsError
+      - ResourceGroupsErrorType
 
-  - name: Resourcegroupstaggingapi
+  - name: ResourceGroupsTaggingAPI
     children:
-      - Resourcegroupstaggingapi
-      - ResourcegroupstaggingapiError
+      - ResourceGroupsTaggingAPI
+      - ResourceGroupsTaggingAPIErrorType
 
   - name: Route53
     children:
       - Route53
-      - Route53Error
+      - Route53ErrorType
 
-  - name: Route53domains
+  - name: Route53Domains
     children:
-      - Route53domains
-      - Route53domainsError
-
-  - name: Runtimelex
-    children:
-      - Runtimelex
-      - RuntimelexError
-
-  - name: Runtimesagemaker
-    children:
-      - Runtimesagemaker
-      - RuntimesagemakerError
+      - Route53Domains
+      - Route53DomainsErrorType
 
   - name: S3
     children:
       - S3
-      - S3Error
+      - S3ErrorType
 
   - name: SageMaker
     children:
       - SageMaker
-      - SageMakerError
+      - SageMakerErrorType
 
-  - name: Sdb
+  - name: SageMakerRuntime
     children:
-      - Sdb
-      - SdbError
+      - SageMakerRuntime
+      - SageMakerRuntimeErrorType
 
-  - name: Serverlessrepo
+  - name: SecretsManager
     children:
-      - Serverlessrepo
-      - ServerlessrepoError
+      - SecretsManager
+      - SecretsManagerErrorType
 
-  - name: Servicecatalog
+  - name: ServerlessApplicationRepository
     children:
-      - Servicecatalog
-      - ServicecatalogError
+      - ServerlessApplicationRepository
+      - ServerlessApplicationRepositoryErrorType
+
+  - name: ServiceCatalog
+    children:
+      - ServiceCatalog
+      - ServiceCatalogErrorType
+
+  - name: ServiceDiscovery
+    children:
+      - ServiceDiscovery
+      - ServiceDiscoveryErrorType
+
+  - name: SES
+    children:
+      - SES
+      - SESErrorType
+
+  - name: SFN
+    children:
+      - SFN
+      - SFNErrorType
 
   - name: Shield
     children:
       - Shield
-      - ShieldError
+      - ShieldErrorType
 
-  - name: Sms
+  - name: SimpleDB
     children:
-      - Sms
-      - SmsError
+      - SimpleDB
+      - SimpleDBErrorType
+
+  - name: SMS
+    children:
+      - SMS
+      - SMSErrorType
 
   - name: Snowball
     children:
       - Snowball
-      - SnowballError
+      - SnowballErrorType
 
-  - name: Sns
+  - name: SNS
     children:
-      - Sns
-      - SnsError
+      - SNS
+      - SNSErrorType
 
-  - name: Sqs
+  - name: SQS
     children:
-      - Sqs
-      - SqsError
+      - SQS
+      - SQSErrorType
 
-  - name: Ssm
+  - name: SSM
     children:
-      - Ssm
-      - SsmError
+      - SSM
+      - SSMErrorType
 
-  - name: States
+  - name: StorageGateway
     children:
-      - States
-      - StatesError
+      - StorageGateway
+      - StorageGatewayErrorType
 
-  - name: Storagegateway
+  - name: STS
     children:
-      - Storagegateway
-      - StoragegatewayError
-
-  - name: Streamsdynamodb
-    children:
-      - Streamsdynamodb
-      - StreamsdynamodbError
-
-  - name: Sts
-    children:
-      - Sts
-      - StsError
+      - STS
+      - STSErrorType
 
   - name: Support
     children:
       - Support
-      - SupportError
+      - SupportErrorType
 
-  - name: Swf
+  - name: SWF
     children:
-      - Swf
-      - SwfError
+      - SWF
+      - SWFErrorType
+
+  - name: TranscribeService
+    children:
+      - TranscribeService
+      - TranscribeServiceErrorType
 
   - name: Translate
     children:
       - Translate
-      - TranslateError
+      - TranslateErrorType
 
-  - name: WafRegional
+  - name: WAF
     children:
-      - WafRegional
-      - WafRegionalError
+      - WAF
+      - WAFErrorType
 
-  - name: Waf
+  - name: WAFRegional
     children:
-      - Waf
-      - WafError
+      - WAFRegional
+      - WAFRegionalErrorType
 
-  - name: Workdocs
+  - name: WorkDocs
     children:
-      - Workdocs
-      - WorkdocsError
+      - WorkDocs
+      - WorkDocsErrorType
 
-  - name: Workspaces
+  - name: WorkMail
     children:
-      - Workspaces
-      - WorkspacesError
+      - WorkMail
+      - WorkMailErrorType
 
-  - name: Xray
+  - name: WorkSpaces
     children:
-      - Xray
-      - XrayError
+      - WorkSpaces
+      - WorkSpacesErrorType
+
+  - name: XRay
+    children:
+      - XRay
+      - XRayErrorType
+
