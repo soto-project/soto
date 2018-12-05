@@ -7,10 +7,10 @@ public enum LexModelBuildingServiceErrorType: AWSErrorType {
     case limitExceededException(message: String?)
     case internalFailureException(message: String?)
     case badRequestException(message: String?)
-    case conflictException(message: String?)
-    case preconditionFailedException(message: String?)
     case notFoundException(message: String?)
+    case conflictException(message: String?)
     case resourceInUseException(message: String?)
+    case preconditionFailedException(message: String?)
 }
 
 extension LexModelBuildingServiceErrorType {
@@ -26,14 +26,14 @@ extension LexModelBuildingServiceErrorType {
             self = .internalFailureException(message: message)
         case "BadRequestException":
             self = .badRequestException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "PreconditionFailedException":
-            self = .preconditionFailedException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
+        case "ConflictException":
+            self = .conflictException(message: message)
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)
+        case "PreconditionFailedException":
+            self = .preconditionFailedException(message: message)
         default:
             return nil
         }

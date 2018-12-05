@@ -5,56 +5,2973 @@ import AWSSDKSwiftCore
 
 extension APIGateway {
 
-    public struct GetRequestValidatorsRequest: AWSShape {
+    public struct CreateAuthorizerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "authorizerResultTtlInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "identityValidationExpression", required: false, type: .string), 
+            AWSShapeMember(label: "authorizerCredentials", required: false, type: .string), 
+            AWSShapeMember(label: "authorizerUri", required: false, type: .string), 
+            AWSShapeMember(label: "identitySource", required: false, type: .string), 
+            AWSShapeMember(label: "providerARNs", required: false, type: .list), 
+            AWSShapeMember(label: "authType", required: false, type: .string)
+        ]
+        /// [Required] The name of the authorizer.
+        public let name: String
+        /// [Required] The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
+        public let `type`: AuthorizerType
+        /// The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour.
+        public let authorizerResultTtlInSeconds: Int32?
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST authorizer.
+        public let identityValidationExpression: String?
+        /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
+        public let authorizerCredentials: String?
+        /// Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations.
+        public let authorizerUri: String?
+        /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is method.request.header.Auth.For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name. These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional.
+        public let identitySource: String?
+        /// A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. For a TOKEN or REQUEST authorizer, this is not defined. 
+        public let providerARNs: [String]?
+        /// Optional customer-defined field, used in OpenAPI imports and exports without functional impact.
+        public let authType: String?
+
+        public init(name: String, type: AuthorizerType, authorizerResultTtlInSeconds: Int32? = nil, restApiId: String, identityValidationExpression: String? = nil, authorizerCredentials: String? = nil, authorizerUri: String? = nil, identitySource: String? = nil, providerARNs: [String]? = nil, authType: String? = nil) {
+            self.name = name
+            self.`type` = `type`
+            self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
+            self.restApiId = restApiId
+            self.identityValidationExpression = identityValidationExpression
+            self.authorizerCredentials = authorizerCredentials
+            self.authorizerUri = authorizerUri
+            self.identitySource = identitySource
+            self.providerARNs = providerARNs
+            self.authType = authType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case `type` = "type"
+            case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
+            case restApiId = "restapi_id"
+            case identityValidationExpression = "identityValidationExpression"
+            case authorizerCredentials = "authorizerCredentials"
+            case authorizerUri = "authorizerUri"
+            case identitySource = "identitySource"
+            case providerARNs = "providerARNs"
+            case authType = "authType"
+        }
+    }
+
+    public struct PutMethodRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
+            AWSShapeMember(label: "requestValidatorId", required: false, type: .string), 
+            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
+            AWSShapeMember(label: "apiKeyRequired", required: false, type: .boolean), 
+            AWSShapeMember(label: "authorizationType", required: true, type: .string), 
+            AWSShapeMember(label: "requestParameters", required: false, type: .map), 
+            AWSShapeMember(label: "operationName", required: false, type: .string), 
+            AWSShapeMember(label: "authorizerId", required: false, type: .string), 
+            AWSShapeMember(label: "requestModels", required: false, type: .map), 
+            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
+            AWSShapeMember(label: "authorizationScopes", required: false, type: .list)
         ]
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        /// The current pagination position in the paged result set.
-        public let position: String?
-        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
+        /// The identifier of a RequestValidator for validating the method request.
+        public let requestValidatorId: String?
+        /// [Required] The Resource identifier for the new Method resource.
+        public let resourceId: String
+        /// Specifies whether the method required a valid ApiKey.
+        public let apiKeyRequired: Bool?
+        /// [Required] The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
+        public let authorizationType: String
+        /// A key-value map defining required or optional method request parameters that can be accepted by API Gateway. A key defines a method request parameter name matching the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name is a valid and unique parameter name. The value associated with the key is a Boolean flag indicating whether the parameter is required (true) or optional (false). The method request parameter names defined here are available in Integration to be mapped to integration request parameters or body-mapping templates.
+        public let requestParameters: [String: Bool]?
+        /// A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in PetStore example.
+        public let operationName: String?
+        /// Specifies the identifier of an Authorizer to use on this Method, if the type is CUSTOM or COGNITO_USER_POOLS. The authorizer identifier is generated by API Gateway when you created the authorizer.
+        public let authorizerId: String?
+        /// Specifies the Model resources used for the request's content type. Request models are represented as a key/value map, with a content type as the key and a Model name as the value.
+        public let requestModels: [String: String]?
+        /// [Required] Specifies the method request's HTTP method type.
+        public let httpMethod: String
+        /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes.
+        public let authorizationScopes: [String]?
 
-        public init(restApiId: String, position: String? = nil, limit: Int32? = nil) {
+        public init(restApiId: String, requestValidatorId: String? = nil, resourceId: String, apiKeyRequired: Bool? = nil, authorizationType: String, requestParameters: [String: Bool]? = nil, operationName: String? = nil, authorizerId: String? = nil, requestModels: [String: String]? = nil, httpMethod: String, authorizationScopes: [String]? = nil) {
             self.restApiId = restApiId
-            self.position = position
-            self.limit = limit
+            self.requestValidatorId = requestValidatorId
+            self.resourceId = resourceId
+            self.apiKeyRequired = apiKeyRequired
+            self.authorizationType = authorizationType
+            self.requestParameters = requestParameters
+            self.operationName = operationName
+            self.authorizerId = authorizerId
+            self.requestModels = requestModels
+            self.httpMethod = httpMethod
+            self.authorizationScopes = authorizationScopes
         }
 
         private enum CodingKeys: String, CodingKey {
             case restApiId = "restapi_id"
-            case position = "position"
-            case limit = "limit"
+            case requestValidatorId = "requestValidatorId"
+            case resourceId = "resource_id"
+            case apiKeyRequired = "apiKeyRequired"
+            case authorizationType = "authorizationType"
+            case requestParameters = "requestParameters"
+            case operationName = "operationName"
+            case authorizerId = "authorizerId"
+            case requestModels = "requestModels"
+            case httpMethod = "http_method"
+            case authorizationScopes = "authorizationScopes"
         }
     }
 
-    public struct GetUsagePlansRequest: AWSShape {
+    public enum ApiKeySourceType: String, CustomStringConvertible, Codable {
+        case header = "HEADER"
+        case authorizer = "AUTHORIZER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UnauthorizedCacheControlHeaderStrategy: String, CustomStringConvertible, Codable {
+        case failWith403 = "FAIL_WITH_403"
+        case succeedWithResponseHeader = "SUCCEED_WITH_RESPONSE_HEADER"
+        case succeedWithoutResponseHeader = "SUCCEED_WITHOUT_RESPONSE_HEADER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ImportApiKeysRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "body"
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "body", required: true, type: .blob), 
+            AWSShapeMember(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings"), required: false, type: .boolean), 
+            AWSShapeMember(label: "format", location: .querystring(locationName: "format"), required: true, type: .enum)
+        ]
+        /// The payload of the POST request to import API keys. For the payload format, see API Key File Format.
+        public let body: Data
+        /// A query parameter to indicate whether to rollback ApiKey importation (true) or not (false) when error is encountered.
+        public let failOnWarnings: Bool?
+        /// A query parameter to specify the input format to imported API keys. Currently, only the csv format is supported.
+        public let format: ApiKeysFormat
+
+        public init(body: Data, failOnWarnings: Bool? = nil, format: ApiKeysFormat) {
+            self.body = body
+            self.failOnWarnings = failOnWarnings
+            self.format = format
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "body"
+            case failOnWarnings = "failonwarnings"
+            case format = "format"
+        }
+    }
+
+    public struct MethodResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "responseModels", required: false, type: .map), 
+            AWSShapeMember(label: "statusCode", required: false, type: .string), 
+            AWSShapeMember(label: "responseParameters", required: false, type: .map)
+        ]
+        /// Specifies the Model resources used for the response's content-type. Response models are represented as a key/value map, with a content-type as the key and a Model name as the value.
+        public let responseModels: [String: String]?
+        /// The method response's status code.
+        public let statusCode: String?
+        /// A key-value map specifying required or optional response parameters that API Gateway can send back to the caller. A key defines a method response header and the value specifies whether the associated method response header is required or not. The expression of the key must match the pattern method.response.header.{name}, where name is a valid and unique header name. API Gateway passes certain integration response data to the method response headers specified here according to the mapping you prescribe in the API's IntegrationResponse. The integration response data that can be mapped include an integration response header expressed in integration.response.header.{name}, a static value enclosed within a pair of single quotes (e.g., 'application/json'), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression}, where JSON-expression is a valid JSON expression without the $ prefix.)
+        public let responseParameters: [String: Bool]?
+
+        public init(responseModels: [String: String]? = nil, statusCode: String? = nil, responseParameters: [String: Bool]? = nil) {
+            self.responseModels = responseModels
+            self.statusCode = statusCode
+            self.responseParameters = responseParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case responseModels = "responseModels"
+            case statusCode = "statusCode"
+            case responseParameters = "responseParameters"
+        }
+    }
+
+    public struct DeleteGatewayResponseRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "responseType", location: .uri(locationName: "response_type"), required: true, type: .enum)
+        ]
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE 
+        public let responseType: GatewayResponseType
+
+        public init(restApiId: String, responseType: GatewayResponseType) {
+            self.restApiId = restApiId
+            self.responseType = responseType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case responseType = "response_type"
+        }
+    }
+
+    public struct UsagePlanKey: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "value", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: false, type: .string)
+        ]
+        /// The value of a usage plan key.
+        public let value: String?
+        /// The type of a usage plan key. Currently, the valid key type is API_KEY.
+        public let `type`: String?
+        /// The name of a usage plan key.
+        public let name: String?
+        /// The Id of a usage plan key.
+        public let id: String?
+
+        public init(value: String? = nil, type: String? = nil, name: String? = nil, id: String? = nil) {
+            self.value = value
+            self.`type` = `type`
+            self.name = name
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "value"
+            case `type` = "type"
+            case name = "name"
+            case id = "id"
+        }
+    }
+
+    public struct CreateUsagePlanKeyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string), 
+            AWSShapeMember(label: "keyType", required: true, type: .string), 
+            AWSShapeMember(label: "keyId", required: true, type: .string)
+        ]
+        /// [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-created UsagePlanKey resource representing a plan customer.
+        public let usagePlanId: String
+        /// [Required] The type of a UsagePlanKey resource for a plan customer.
+        public let keyType: String
+        /// [Required] The identifier of a UsagePlanKey resource for a plan customer.
+        public let keyId: String
+
+        public init(usagePlanId: String, keyType: String, keyId: String) {
+            self.usagePlanId = usagePlanId
+            self.keyType = keyType
+            self.keyId = keyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case usagePlanId = "usageplanId"
+            case keyType = "keyType"
+            case keyId = "keyId"
+        }
+    }
+
+    public struct CreateVpcLinkRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "targetArns", required: true, type: .list), 
+            AWSShapeMember(label: "description", required: false, type: .string)
+        ]
+        /// [Required] The name used to label and identify the VPC link.
+        public let name: String
+        /// [Required] The ARNs of network load balancers of the VPC targeted by the VPC link. The network load balancers must be owned by the same AWS account of the API owner.
+        public let targetArns: [String]
+        /// The description of the VPC link.
+        public let description: String?
+
+        public init(name: String, targetArns: [String], description: String? = nil) {
+            self.name = name
+            self.targetArns = targetArns
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case targetArns = "targetArns"
+            case description = "description"
+        }
+    }
+
+    public struct DocumentationVersion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp)
+        ]
+        /// The description of the API documentation snapshot.
+        public let description: String?
+        /// The version identifier of the API documentation snapshot.
+        public let version: String?
+        /// The date when the API documentation snapshot is created.
+        public let createdDate: TimeStamp?
+
+        public init(description: String? = nil, version: String? = nil, createdDate: TimeStamp? = nil) {
+            self.description = description
+            self.version = version
+            self.createdDate = createdDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case version = "version"
+            case createdDate = "createdDate"
+        }
+    }
+
+    public struct UpdateDeploymentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
+            AWSShapeMember(label: "deploymentId", location: .uri(locationName: "deployment_id"), required: true, type: .string)
+        ]
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+        /// The replacement identifier for the Deployment resource to change information about.
+        public let deploymentId: String
+
+        public init(restApiId: String, patchOperations: [PatchOperation]? = nil, deploymentId: String) {
+            self.restApiId = restApiId
+            self.patchOperations = patchOperations
+            self.deploymentId = deploymentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case patchOperations = "patchOperations"
+            case deploymentId = "deployment_id"
+        }
+    }
+
+    public struct UpdateIntegrationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
+            AWSShapeMember(label: "patchOperations", required: false, type: .list)
+        ]
+        /// [Required] Represents an update integration request's resource identifier.
+        public let resourceId: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] Represents an update integration request's HTTP method.
+        public let httpMethod: String
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+
+        public init(resourceId: String, restApiId: String, httpMethod: String, patchOperations: [PatchOperation]? = nil) {
+            self.resourceId = resourceId
+            self.restApiId = restApiId
+            self.httpMethod = httpMethod
+            self.patchOperations = patchOperations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "resource_id"
+            case restApiId = "restapi_id"
+            case httpMethod = "http_method"
+            case patchOperations = "patchOperations"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resource_arn"), required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .map)
+        ]
+        /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded. At present, Stage is the only taggable resource.
+        public let resourceArn: String
+        /// [Required] The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource_arn"
+            case tags = "tags"
+        }
+    }
+
+    public struct UpdateMethodRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
+            AWSShapeMember(label: "patchOperations", required: false, type: .list)
+        ]
+        /// [Required] The Resource identifier for the Method resource.
+        public let resourceId: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] The HTTP verb of the Method resource.
+        public let httpMethod: String
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+
+        public init(resourceId: String, restApiId: String, httpMethod: String, patchOperations: [PatchOperation]? = nil) {
+            self.resourceId = resourceId
+            self.restApiId = restApiId
+            self.httpMethod = httpMethod
+            self.patchOperations = patchOperations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "resource_id"
+            case restApiId = "restapi_id"
+            case httpMethod = "http_method"
+            case patchOperations = "patchOperations"
+        }
+    }
+
+    public enum ApiKeysFormat: String, CustomStringConvertible, Codable {
+        case csv = "csv"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetApiKeysRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nameQuery", location: .querystring(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
-            AWSShapeMember(label: "keyId", location: .querystring(locationName: "keyId"), required: false, type: .string), 
+            AWSShapeMember(label: "customerId", location: .querystring(locationName: "customerId"), required: false, type: .string), 
+            AWSShapeMember(label: "includeValues", location: .querystring(locationName: "includeValues"), required: false, type: .boolean), 
             AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
         ]
+        /// The name of queried API keys.
+        public let nameQuery: String?
         /// The current pagination position in the paged result set.
         public let position: String?
-        /// The identifier of the API key associated with the usage plans.
-        public let keyId: String?
+        /// The identifier of a customer in AWS Marketplace or an external system, such as a developer portal.
+        public let customerId: String?
+        /// A boolean flag to specify whether (true) or not (false) the result contains key values.
+        public let includeValues: Bool?
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
         public let limit: Int32?
 
-        public init(position: String? = nil, keyId: String? = nil, limit: Int32? = nil) {
+        public init(nameQuery: String? = nil, position: String? = nil, customerId: String? = nil, includeValues: Bool? = nil, limit: Int32? = nil) {
+            self.nameQuery = nameQuery
             self.position = position
-            self.keyId = keyId
+            self.customerId = customerId
+            self.includeValues = includeValues
             self.limit = limit
         }
 
         private enum CodingKeys: String, CodingKey {
+            case nameQuery = "name"
+            case position = "position"
+            case customerId = "customerId"
+            case includeValues = "includeValues"
+            case limit = "limit"
+        }
+    }
+
+    public struct FlushStageCacheRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string)
+        ]
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] The name of the stage to flush its cache.
+        public let stageName: String
+
+        public init(restApiId: String, stageName: String) {
+            self.restApiId = restApiId
+            self.stageName = stageName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case stageName = "stage_name"
+        }
+    }
+
+    public struct DeleteResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
+        ]
+        /// [Required] The identifier of the Resource resource.
+        public let resourceId: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+
+        public init(resourceId: String, restApiId: String) {
+            self.resourceId = resourceId
+            self.restApiId = restApiId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "resource_id"
+            case restApiId = "restapi_id"
+        }
+    }
+
+    public struct Deployment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiSummary", required: false, type: .map), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: false, type: .string)
+        ]
+        /// A summary of the RestApi at the date and time that the deployment resource was created.
+        public let apiSummary: [String: [String: MethodSnapshot]]?
+        /// The date and time that the deployment resource was created.
+        public let createdDate: TimeStamp?
+        /// The description for the deployment resource.
+        public let description: String?
+        /// The identifier for the deployment resource.
+        public let id: String?
+
+        public init(apiSummary: [String: [String: MethodSnapshot]]? = nil, createdDate: TimeStamp? = nil, description: String? = nil, id: String? = nil) {
+            self.apiSummary = apiSummary
+            self.createdDate = createdDate
+            self.description = description
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiSummary = "apiSummary"
+            case createdDate = "createdDate"
+            case description = "description"
+            case id = "id"
+        }
+    }
+
+    public struct DeleteIntegrationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
+            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
+        ]
+        /// [Required] Specifies a delete integration request's resource identifier.
+        public let resourceId: String
+        /// [Required] Specifies a delete integration request's HTTP method.
+        public let httpMethod: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+
+        public init(resourceId: String, httpMethod: String, restApiId: String) {
+            self.resourceId = resourceId
+            self.httpMethod = httpMethod
+            self.restApiId = restApiId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "resource_id"
+            case httpMethod = "http_method"
+            case restApiId = "restapi_id"
+        }
+    }
+
+    public struct GetModelsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
+        ]
+        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+        public let limit: Int32?
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// The current pagination position in the paged result set.
+        public let position: String?
+
+        public init(limit: Int32? = nil, restApiId: String, position: String? = nil) {
+            self.limit = limit
+            self.restApiId = restApiId
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case restApiId = "restapi_id"
+            case position = "position"
+        }
+    }
+
+    public struct FlushStageAuthorizersCacheRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string)
+        ]
+        /// The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// The name of the stage to flush.
+        public let stageName: String
+
+        public init(restApiId: String, stageName: String) {
+            self.restApiId = restApiId
+            self.stageName = stageName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case stageName = "stage_name"
+        }
+    }
+
+    public struct DeleteDomainNameRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
+        ]
+        /// [Required] The name of the DomainName resource to be deleted.
+        public let domainName: String
+
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "domain_name"
+        }
+    }
+
+    public struct UpdateApiKeyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiKey", location: .uri(locationName: "api_Key"), required: true, type: .string), 
+            AWSShapeMember(label: "patchOperations", required: false, type: .list)
+        ]
+        /// [Required] The identifier of the ApiKey resource to be updated.
+        public let apiKey: String
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+
+        public init(apiKey: String, patchOperations: [PatchOperation]? = nil) {
+            self.apiKey = apiKey
+            self.patchOperations = patchOperations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiKey = "api_Key"
+            case patchOperations = "patchOperations"
+        }
+    }
+
+    public struct ApiKeyIds: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ids", required: false, type: .list), 
+            AWSShapeMember(label: "warnings", required: false, type: .list)
+        ]
+        /// A list of all the ApiKey identifiers.
+        public let ids: [String]?
+        /// A list of warning messages.
+        public let warnings: [String]?
+
+        public init(ids: [String]? = nil, warnings: [String]? = nil) {
+            self.ids = ids
+            self.warnings = warnings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ids = "ids"
+            case warnings = "warnings"
+        }
+    }
+
+    public struct RestApis: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
+            AWSShapeMember(label: "position", required: false, type: .string)
+        ]
+        /// The current page of elements from this collection.
+        public let items: [RestApi]?
+        public let position: String?
+
+        public init(items: [RestApi]? = nil, position: String? = nil) {
+            self.items = items
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "item"
+            case position = "position"
+        }
+    }
+
+    public struct UpdateUsageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string), 
+            AWSShapeMember(label: "keyId", location: .uri(locationName: "keyId"), required: true, type: .string), 
+            AWSShapeMember(label: "patchOperations", required: false, type: .list)
+        ]
+        /// [Required] The Id of the usage plan associated with the usage data.
+        public let usagePlanId: String
+        /// [Required] The identifier of the API key associated with the usage plan in which a temporary extension is granted to the remaining quota.
+        public let keyId: String
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+
+        public init(usagePlanId: String, keyId: String, patchOperations: [PatchOperation]? = nil) {
+            self.usagePlanId = usagePlanId
+            self.keyId = keyId
+            self.patchOperations = patchOperations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case usagePlanId = "usageplanId"
+            case keyId = "keyId"
+            case patchOperations = "patchOperations"
+        }
+    }
+
+    public struct DeleteDocumentationPartRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "documentationPartId", location: .uri(locationName: "part_id"), required: true, type: .string)
+        ]
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] The identifier of the to-be-deleted documentation part.
+        public let documentationPartId: String
+
+        public init(restApiId: String, documentationPartId: String) {
+            self.restApiId = restApiId
+            self.documentationPartId = documentationPartId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case documentationPartId = "part_id"
+        }
+    }
+
+    public struct GenerateClientCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string)
+        ]
+        /// The description of the ClientCertificate.
+        public let description: String?
+
+        public init(description: String? = nil) {
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+        }
+    }
+
+    public struct UpdateDocumentationPartRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
+            AWSShapeMember(label: "documentationPartId", location: .uri(locationName: "part_id"), required: true, type: .string)
+        ]
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+        /// [Required] The identifier of the to-be-updated documentation part.
+        public let documentationPartId: String
+
+        public init(restApiId: String, patchOperations: [PatchOperation]? = nil, documentationPartId: String) {
+            self.restApiId = restApiId
+            self.patchOperations = patchOperations
+            self.documentationPartId = documentationPartId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case patchOperations = "patchOperations"
+            case documentationPartId = "part_id"
+        }
+    }
+
+    public struct Resources: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
+            AWSShapeMember(label: "position", required: false, type: .string)
+        ]
+        /// The current page of elements from this collection.
+        public let items: [Resource]?
+        public let position: String?
+
+        public init(items: [Resource]? = nil, position: String? = nil) {
+            self.items = items
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "item"
+            case position = "position"
+        }
+    }
+
+    public struct DeleteAuthorizerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorizerId", location: .uri(locationName: "authorizer_id"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
+        ]
+        /// [Required] The identifier of the Authorizer resource.
+        public let authorizerId: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+
+        public init(authorizerId: String, restApiId: String) {
+            self.authorizerId = authorizerId
+            self.restApiId = restApiId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizerId = "authorizer_id"
+            case restApiId = "restapi_id"
+        }
+    }
+
+    public struct Resource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "path", required: false, type: .string), 
+            AWSShapeMember(label: "parentId", required: false, type: .string), 
+            AWSShapeMember(label: "pathPart", required: false, type: .string), 
+            AWSShapeMember(label: "resourceMethods", required: false, type: .map), 
+            AWSShapeMember(label: "id", required: false, type: .string)
+        ]
+        /// The full path for this resource.
+        public let path: String?
+        /// The parent resource's identifier.
+        public let parentId: String?
+        /// The last path segment for this resource.
+        public let pathPart: String?
+        /// Gets an API resource's method of a given HTTP verb.  The resource methods are a map of methods indexed by methods' HTTP verbs enabled on the resource. This method map is included in the 200 OK response of the GET /restapis/{restapi_id}/resources/{resource_id} or GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods request. Example: Get the GET method of an API resource Request GET /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com X-Amz-Date: 20170223T031827Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20170223/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response { "_links": { "curies": [ { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html", "name": "integration", "templated": true }, { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true }, { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-{rel}.html", "name": "method", "templated": true }, { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html", "name": "methodresponse", "templated": true } ], "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET", "name": "GET", "title": "GET" }, "integration:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "method:integration": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "method:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "methodresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/{status_code}", "templated": true } }, "apiKeyRequired": false, "authorizationType": "NONE", "httpMethod": "GET", "_embedded": { "method:integration": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integration:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integrationresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/{status_code}", "templated": true } }, "cacheKeyParameters": [], "cacheNamespace": "3kzxbg5sa2", "credentials": "arn:aws:iam::123456789012:role/apigAwsProxyRole", "httpMethod": "POST", "passthroughBehavior": "WHEN_NO_MATCH", "requestParameters": { "integration.request.header.Content-Type": "'application/x-amz-json-1.1'" }, "requestTemplates": { "application/json": "{\n}" }, "type": "AWS", "uri": "arn:aws:apigateway:us-east-1:kinesis:action/ListStreams", "_embedded": { "integration:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.Content-Type": "'application/xml'" }, "responseTemplates": { "application/json": "$util.urlDecode(\"%3CkinesisStreams%3E#foreach($stream in $input.path('$.StreamNames'))%3Cstream%3E%3Cname%3E$stream%3C/name%3E%3C/stream%3E#end%3C/kinesisStreams%3E\")\n" }, "statusCode": "200" } } }, "method:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "methodresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" }, "methodresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" } }, "responseModels": { "application/json": "Empty" }, "responseParameters": { "method.response.header.Content-Type": false }, "statusCode": "200" } } } If the OPTIONS is enabled on the resource, you can follow the example here to get that method. Just replace the GET of the last path segment in the request URL with OPTIONS.   
+        public let resourceMethods: [String: Method]?
+        /// The resource's identifier.
+        public let id: String?
+
+        public init(path: String? = nil, parentId: String? = nil, pathPart: String? = nil, resourceMethods: [String: Method]? = nil, id: String? = nil) {
+            self.path = path
+            self.parentId = parentId
+            self.pathPart = pathPart
+            self.resourceMethods = resourceMethods
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path = "path"
+            case parentId = "parentId"
+            case pathPart = "pathPart"
+            case resourceMethods = "resourceMethods"
+            case id = "id"
+        }
+    }
+
+    public struct SdkType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "friendlyName", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "configurationProperties", required: false, type: .list), 
+            AWSShapeMember(label: "id", required: false, type: .string)
+        ]
+        /// The user-friendly name of an SdkType instance.
+        public let friendlyName: String?
+        /// The description of an SdkType.
+        public let description: String?
+        /// A list of configuration properties of an SdkType.
+        public let configurationProperties: [SdkConfigurationProperty]?
+        /// The identifier of an SdkType instance.
+        public let id: String?
+
+        public init(friendlyName: String? = nil, description: String? = nil, configurationProperties: [SdkConfigurationProperty]? = nil, id: String? = nil) {
+            self.friendlyName = friendlyName
+            self.description = description
+            self.configurationProperties = configurationProperties
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case friendlyName = "friendlyName"
+            case description = "description"
+            case configurationProperties = "configurationProperties"
+            case id = "id"
+        }
+    }
+
+    public struct GetUsagePlanKeyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string), 
+            AWSShapeMember(label: "keyId", location: .uri(locationName: "keyId"), required: true, type: .string)
+        ]
+        /// [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
+        public let usagePlanId: String
+        /// [Required] The key Id of the to-be-retrieved UsagePlanKey resource representing a plan customer.
+        public let keyId: String
+
+        public init(usagePlanId: String, keyId: String) {
+            self.usagePlanId = usagePlanId
+            self.keyId = keyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case usagePlanId = "usageplanId"
+            case keyId = "keyId"
+        }
+    }
+
+    public struct GetGatewayResponseRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "responseType", location: .uri(locationName: "response_type"), required: true, type: .enum)
+        ]
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE 
+        public let responseType: GatewayResponseType
+
+        public init(restApiId: String, responseType: GatewayResponseType) {
+            self.restApiId = restApiId
+            self.responseType = responseType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case responseType = "response_type"
+        }
+    }
+
+    public struct Model: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "contentType", required: false, type: .string), 
+            AWSShapeMember(label: "schema", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: false, type: .string)
+        ]
+        /// The name of the model. Must be an alphanumeric string.
+        public let name: String?
+        /// The content-type for the model.
+        public let contentType: String?
+        /// The schema for the model. For application/json models, this should be JSON schema draft 4 model. Do not include "\*/" characters in the description of any properties because such "\*/" characters may be interpreted as the closing marker for comments in some languages, such as Java or JavaScript, causing the installation of your API's SDK generated by API Gateway to fail.
+        public let schema: String?
+        /// The description of the model.
+        public let description: String?
+        /// The identifier for the model resource.
+        public let id: String?
+
+        public init(name: String? = nil, contentType: String? = nil, schema: String? = nil, description: String? = nil, id: String? = nil) {
+            self.name = name
+            self.contentType = contentType
+            self.schema = schema
+            self.description = description
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case contentType = "contentType"
+            case schema = "schema"
+            case description = "description"
+            case id = "id"
+        }
+    }
+
+    public struct StageKey: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", required: false, type: .string), 
+            AWSShapeMember(label: "stageName", required: false, type: .string)
+        ]
+        /// The string identifier of the associated RestApi.
+        public let restApiId: String?
+        /// The stage name associated with the stage key.
+        public let stageName: String?
+
+        public init(restApiId: String? = nil, stageName: String? = nil) {
+            self.restApiId = restApiId
+            self.stageName = stageName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restApiId"
+            case stageName = "stageName"
+        }
+    }
+
+    public struct ApiKeys: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "position", required: false, type: .string), 
+            AWSShapeMember(label: "warnings", required: false, type: .list), 
+            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list)
+        ]
+        public let position: String?
+        /// A list of warning messages logged during the import of API keys when the failOnWarnings option is set to true.
+        public let warnings: [String]?
+        /// The current page of elements from this collection.
+        public let items: [ApiKey]?
+
+        public init(position: String? = nil, warnings: [String]? = nil, items: [ApiKey]? = nil) {
+            self.position = position
+            self.warnings = warnings
+            self.items = items
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case position = "position"
+            case warnings = "warnings"
+            case items = "item"
+        }
+    }
+
+    public struct DeleteClientCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientCertificateId", location: .uri(locationName: "clientcertificate_id"), required: true, type: .string)
+        ]
+        /// [Required] The identifier of the ClientCertificate resource to be deleted.
+        public let clientCertificateId: String
+
+        public init(clientCertificateId: String) {
+            self.clientCertificateId = clientCertificateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientCertificateId = "clientcertificate_id"
+        }
+    }
+
+    public struct MethodSnapshot: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiKeyRequired", required: false, type: .boolean), 
+            AWSShapeMember(label: "authorizationType", required: false, type: .string)
+        ]
+        /// Specifies whether the method requires a valid ApiKey.
+        public let apiKeyRequired: Bool?
+        /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
+        public let authorizationType: String?
+
+        public init(apiKeyRequired: Bool? = nil, authorizationType: String? = nil) {
+            self.apiKeyRequired = apiKeyRequired
+            self.authorizationType = authorizationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiKeyRequired = "apiKeyRequired"
+            case authorizationType = "authorizationType"
+        }
+    }
+
+    public struct DocumentationPartLocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "method", required: false, type: .string), 
+            AWSShapeMember(label: "path", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "statusCode", required: false, type: .string)
+        ]
+        /// [Required] The type of API entity to which the documentation content applies. Valid values are API, AUTHORIZER, MODEL, RESOURCE, METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. Content inheritance does not apply to any entity of the API, AUTHORIZER, METHOD, MODEL, REQUEST_BODY, or RESOURCE type.
+        public let `type`: DocumentationPartType
+        /// The HTTP verb of a method. It is a valid field for the API entity types of METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. The default value is * for any method. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's method attribute must match that of the parent entity exactly.
+        public let method: String?
+        /// The URL path of the target. It is a valid field for the API entity types of RESOURCE, METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. The default value is / for the root resource. When an applicable child entity inherits the content of another entity of the same type with more general specifications of the other location attributes, the child entity's path attribute must match that of the parent entity as a prefix.
+        public let path: String?
+        /// The name of the targeted API entity. It is a valid and required field for the API entity types of AUTHORIZER, MODEL, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY and RESPONSE_HEADER. It is an invalid field for any other entity type.
+        public let name: String?
+        /// The HTTP status code of a response. It is a valid field for the API entity types of RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. The default value is * for any status code. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's statusCode attribute must match that of the parent entity exactly.
+        public let statusCode: String?
+
+        public init(type: DocumentationPartType, method: String? = nil, path: String? = nil, name: String? = nil, statusCode: String? = nil) {
+            self.`type` = `type`
+            self.method = method
+            self.path = path
+            self.name = name
+            self.statusCode = statusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case method = "method"
+            case path = "path"
+            case name = "name"
+            case statusCode = "statusCode"
+        }
+    }
+
+    public struct CreateStageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentId", required: true, type: .string), 
+            AWSShapeMember(label: "stageName", required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "documentationVersion", required: false, type: .string), 
+            AWSShapeMember(label: "cacheClusterSize", required: false, type: .enum), 
+            AWSShapeMember(label: "tracingEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "canarySettings", required: false, type: .structure), 
+            AWSShapeMember(label: "cacheClusterEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "variables", required: false, type: .map)
+        ]
+        /// [Required] The identifier of the Deployment resource for the Stage resource.
+        public let deploymentId: String
+        /// [Required] The name for the Stage resource.
+        public let stageName: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// The version of the associated API documentation.
+        public let documentationVersion: String?
+        /// The stage's cache cluster size.
+        public let cacheClusterSize: CacheClusterSize?
+        /// Specifies whether active tracing with X-ray is enabled for the Stage.
+        public let tracingEnabled: Bool?
+        /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
+        public let tags: [String: String]?
+        /// The canary deployment settings of this stage.
+        public let canarySettings: CanarySettings?
+        /// Whether cache clustering is enabled for the stage.
+        public let cacheClusterEnabled: Bool?
+        /// The description of the Stage resource.
+        public let description: String?
+        /// A map that defines the stage variables for the new Stage resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
+        public let variables: [String: String]?
+
+        public init(deploymentId: String, stageName: String, restApiId: String, documentationVersion: String? = nil, cacheClusterSize: CacheClusterSize? = nil, tracingEnabled: Bool? = nil, tags: [String: String]? = nil, canarySettings: CanarySettings? = nil, cacheClusterEnabled: Bool? = nil, description: String? = nil, variables: [String: String]? = nil) {
+            self.deploymentId = deploymentId
+            self.stageName = stageName
+            self.restApiId = restApiId
+            self.documentationVersion = documentationVersion
+            self.cacheClusterSize = cacheClusterSize
+            self.tracingEnabled = tracingEnabled
+            self.tags = tags
+            self.canarySettings = canarySettings
+            self.cacheClusterEnabled = cacheClusterEnabled
+            self.description = description
+            self.variables = variables
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "deploymentId"
+            case stageName = "stageName"
+            case restApiId = "restapi_id"
+            case documentationVersion = "documentationVersion"
+            case cacheClusterSize = "cacheClusterSize"
+            case tracingEnabled = "tracingEnabled"
+            case tags = "tags"
+            case canarySettings = "canarySettings"
+            case cacheClusterEnabled = "cacheClusterEnabled"
+            case description = "description"
+            case variables = "variables"
+        }
+    }
+
+    public struct PutGatewayResponseRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "responseTemplates", required: false, type: .map), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "statusCode", required: false, type: .string), 
+            AWSShapeMember(label: "responseType", location: .uri(locationName: "response_type"), required: true, type: .enum), 
+            AWSShapeMember(label: "responseParameters", required: false, type: .map)
+        ]
+        /// Response templates of the GatewayResponse as a string-to-string map of key-value pairs.
+        public let responseTemplates: [String: String]?
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// The HTTP status code of the GatewayResponse.
+        public let statusCode: String?
+        /// [Required] The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE 
+        public let responseType: GatewayResponseType
+        /// Response parameters (paths, query strings and headers) of the GatewayResponse as a string-to-string map of key-value pairs.
+        public let responseParameters: [String: String]?
+
+        public init(responseTemplates: [String: String]? = nil, restApiId: String, statusCode: String? = nil, responseType: GatewayResponseType, responseParameters: [String: String]? = nil) {
+            self.responseTemplates = responseTemplates
+            self.restApiId = restApiId
+            self.statusCode = statusCode
+            self.responseType = responseType
+            self.responseParameters = responseParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case responseTemplates = "responseTemplates"
+            case restApiId = "restapi_id"
+            case statusCode = "statusCode"
+            case responseType = "response_type"
+            case responseParameters = "responseParameters"
+        }
+    }
+
+    public struct DocumentationPartIds: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ids", required: false, type: .list), 
+            AWSShapeMember(label: "warnings", required: false, type: .list)
+        ]
+        /// A list of the returned documentation part identifiers.
+        public let ids: [String]?
+        /// A list of warning messages reported during import of documentation parts.
+        public let warnings: [String]?
+
+        public init(ids: [String]? = nil, warnings: [String]? = nil) {
+            self.ids = ids
+            self.warnings = warnings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ids = "ids"
+            case warnings = "warnings"
+        }
+    }
+
+    public struct ApiStage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "throttle", required: false, type: .map), 
+            AWSShapeMember(label: "apiId", required: false, type: .string), 
+            AWSShapeMember(label: "stage", required: false, type: .string)
+        ]
+        /// Map containing method level throttling information for API stage in a usage plan.
+        public let throttle: [String: ThrottleSettings]?
+        /// API Id of the associated API stage in a usage plan.
+        public let apiId: String?
+        /// API stage name of the associated API stage in a usage plan.
+        public let stage: String?
+
+        public init(throttle: [String: ThrottleSettings]? = nil, apiId: String? = nil, stage: String? = nil) {
+            self.throttle = throttle
+            self.apiId = apiId
+            self.stage = stage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case throttle = "throttle"
+            case apiId = "apiId"
+            case stage = "stage"
+        }
+    }
+
+    public struct CreateRestApiRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "endpointConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "policy", required: false, type: .string), 
+            AWSShapeMember(label: "apiKeySource", required: false, type: .enum), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "cloneFrom", required: false, type: .string), 
+            AWSShapeMember(label: "binaryMediaTypes", required: false, type: .list), 
+            AWSShapeMember(label: "minimumCompressionSize", required: false, type: .integer)
+        ]
+        /// [Required] The name of the RestApi.
+        public let name: String
+        /// A version identifier for the API.
+        public let version: String?
+        /// The endpoint configuration of this RestApi showing the endpoint types of the API. 
+        public let endpointConfiguration: EndpointConfiguration?
+        /// A stringified JSON policy document that applies to this RestApi regardless of the caller and Method configuration.
+        public let policy: String?
+        /// The source of the API key for metering requests according to a usage plan. Valid values are: HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer. 
+        public let apiKeySource: ApiKeySourceType?
+        /// The description of the RestApi.
+        public let description: String?
+        /// The ID of the RestApi that you want to clone from.
+        public let cloneFrom: String?
+        /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
+        public let binaryMediaTypes: [String]?
+        /// A nullable integer that is used to enable compression (with non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a null value) on an API. When compression is enabled, compression or decompression is not applied on the payload if the payload size is smaller than this value. Setting it to zero allows compression for any payload size.
+        public let minimumCompressionSize: Int32?
+
+        public init(name: String, version: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, policy: String? = nil, apiKeySource: ApiKeySourceType? = nil, description: String? = nil, cloneFrom: String? = nil, binaryMediaTypes: [String]? = nil, minimumCompressionSize: Int32? = nil) {
+            self.name = name
+            self.version = version
+            self.endpointConfiguration = endpointConfiguration
+            self.policy = policy
+            self.apiKeySource = apiKeySource
+            self.description = description
+            self.cloneFrom = cloneFrom
+            self.binaryMediaTypes = binaryMediaTypes
+            self.minimumCompressionSize = minimumCompressionSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case version = "version"
+            case endpointConfiguration = "endpointConfiguration"
+            case policy = "policy"
+            case apiKeySource = "apiKeySource"
+            case description = "description"
+            case cloneFrom = "cloneFrom"
+            case binaryMediaTypes = "binaryMediaTypes"
+            case minimumCompressionSize = "minimumCompressionSize"
+        }
+    }
+
+    public struct GetModelTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "modelName", location: .uri(locationName: "model_name"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
+        ]
+        /// [Required] The name of the model for which to generate a template.
+        public let modelName: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+
+        public init(modelName: String, restApiId: String) {
+            self.modelName = modelName
+            self.restApiId = restApiId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelName = "model_name"
+            case restApiId = "restapi_id"
+        }
+    }
+
+    public struct CreateUsagePlanRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "apiStages", required: false, type: .list), 
+            AWSShapeMember(label: "quota", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "throttle", required: false, type: .structure)
+        ]
+        /// [Required] The name of the usage plan.
+        public let name: String
+        /// The associated API stages of the usage plan.
+        public let apiStages: [ApiStage]?
+        /// The quota of the usage plan.
+        public let quota: QuotaSettings?
+        /// The description of the usage plan.
+        public let description: String?
+        /// The throttling limits of the usage plan.
+        public let throttle: ThrottleSettings?
+
+        public init(name: String, apiStages: [ApiStage]? = nil, quota: QuotaSettings? = nil, description: String? = nil, throttle: ThrottleSettings? = nil) {
+            self.name = name
+            self.apiStages = apiStages
+            self.quota = quota
+            self.description = description
+            self.throttle = throttle
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case apiStages = "apiStages"
+            case quota = "quota"
+            case description = "description"
+            case throttle = "throttle"
+        }
+    }
+
+    public struct ThrottleSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "burstLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "rateLimit", required: false, type: .double)
+        ]
+        /// The API request burst limit, the maximum rate limit over a time ranging from one to a few seconds, depending upon whether the underlying token bucket is at its full capacity.
+        public let burstLimit: Int32?
+        /// The API request steady-state rate limit.
+        public let rateLimit: Double?
+
+        public init(burstLimit: Int32? = nil, rateLimit: Double? = nil) {
+            self.burstLimit = burstLimit
+            self.rateLimit = rateLimit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case burstLimit = "burstLimit"
+            case rateLimit = "rateLimit"
+        }
+    }
+
+    public struct GetExportRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string), 
+            AWSShapeMember(label: "exportType", location: .uri(locationName: "export_type"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "parameters", required: false, type: .map), 
+            AWSShapeMember(label: "accepts", location: .header(locationName: "Accept"), required: false, type: .string)
+        ]
+        /// [Required] The name of the Stage that will be exported.
+        public let stageName: String
+        /// [Required] The type of export. Acceptable values are 'oas30' for OpenAPI 3.0.x and 'swagger' for Swagger/OpenAPI 2.0.
+        public let exportType: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// A key-value map of query string parameters that specify properties of the export, depending on the requested exportType. For exportType oas30 and swagger, any combination of the following parameters are supported: extensions='integrations' or extensions='apigateway' will export the API with x-amazon-apigateway-integration extensions. extensions='authorizers' will export the API with x-amazon-apigateway-authorizer extensions. postman will export the API with Postman extensions, allowing for import to the Postman tool
+        public let parameters: [String: String]?
+        /// The content-type of the export, for example application/json. Currently application/json and application/yaml are supported for exportType ofoas30 and swagger. This should be specified in the Accept header for direct API requests.
+        public let accepts: String?
+
+        public init(stageName: String, exportType: String, restApiId: String, parameters: [String: String]? = nil, accepts: String? = nil) {
+            self.stageName = stageName
+            self.exportType = exportType
+            self.restApiId = restApiId
+            self.parameters = parameters
+            self.accepts = accepts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stageName = "stage_name"
+            case exportType = "export_type"
+            case restApiId = "restapi_id"
+            case parameters = "parameters"
+            case accepts = "Accept"
+        }
+    }
+
+    public enum IntegrationType: String, CustomStringConvertible, Codable {
+        case http = "HTTP"
+        case aws = "AWS"
+        case mock = "MOCK"
+        case httpProxy = "HTTP_PROXY"
+        case awsProxy = "AWS_PROXY"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetVpcLinkRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "vpcLinkId", location: .uri(locationName: "vpclink_id"), required: true, type: .string)
+        ]
+        /// [Required] The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
+        public let vpcLinkId: String
+
+        public init(vpcLinkId: String) {
+            self.vpcLinkId = vpcLinkId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcLinkId = "vpclink_id"
+        }
+    }
+
+    public struct UpdateVpcLinkRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
+            AWSShapeMember(label: "vpcLinkId", location: .uri(locationName: "vpclink_id"), required: true, type: .string)
+        ]
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+        /// [Required] The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
+        public let vpcLinkId: String
+
+        public init(patchOperations: [PatchOperation]? = nil, vpcLinkId: String) {
+            self.patchOperations = patchOperations
+            self.vpcLinkId = vpcLinkId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case patchOperations = "patchOperations"
+            case vpcLinkId = "vpclink_id"
+        }
+    }
+
+    public struct CreateModelRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "contentType", required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "schema", required: false, type: .string)
+        ]
+        /// [Required] The name of the model. Must be alphanumeric.
+        public let name: String
+        /// [Required] The content-type for the model.
+        public let contentType: String
+        /// [Required] The RestApi identifier under which the Model will be created.
+        public let restApiId: String
+        /// The description of the model.
+        public let description: String?
+        /// The schema for the model. For application/json models, this should be JSON schema draft 4 model.
+        public let schema: String?
+
+        public init(name: String, contentType: String, restApiId: String, description: String? = nil, schema: String? = nil) {
+            self.name = name
+            self.contentType = contentType
+            self.restApiId = restApiId
+            self.description = description
+            self.schema = schema
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case contentType = "contentType"
+            case restApiId = "restapi_id"
+            case description = "description"
+            case schema = "schema"
+        }
+    }
+
+    public struct GetTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resource_arn"), required: true, type: .string), 
+            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
+        ]
+        /// (Not currently supported) The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+        public let limit: Int32?
+        /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded. At present, Stage is the only taggable resource.
+        public let resourceArn: String
+        /// (Not currently supported) The current pagination position in the paged result set.
+        public let position: String?
+
+        public init(limit: Int32? = nil, resourceArn: String, position: String? = nil) {
+            self.limit = limit
+            self.resourceArn = resourceArn
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case resourceArn = "resource_arn"
+            case position = "position"
+        }
+    }
+
+    public struct GetUsageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "endDate", location: .querystring(locationName: "endDate"), required: true, type: .string), 
+            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string), 
+            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
+            AWSShapeMember(label: "keyId", location: .querystring(locationName: "keyId"), required: false, type: .string), 
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "startDate", location: .querystring(locationName: "startDate"), required: true, type: .string)
+        ]
+        /// [Required] The ending date (e.g., 2016-12-31) of the usage data.
+        public let endDate: String
+        /// [Required] The Id of the usage plan associated with the usage data.
+        public let usagePlanId: String
+        /// The current pagination position in the paged result set.
+        public let position: String?
+        /// The Id of the API key associated with the resultant usage data.
+        public let keyId: String?
+        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+        public let limit: Int32?
+        /// [Required] The starting date (e.g., 2016-01-01) of the usage data.
+        public let startDate: String
+
+        public init(endDate: String, usagePlanId: String, position: String? = nil, keyId: String? = nil, limit: Int32? = nil, startDate: String) {
+            self.endDate = endDate
+            self.usagePlanId = usagePlanId
+            self.position = position
+            self.keyId = keyId
+            self.limit = limit
+            self.startDate = startDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endDate = "endDate"
+            case usagePlanId = "usageplanId"
             case position = "position"
             case keyId = "keyId"
             case limit = "limit"
+            case startDate = "startDate"
         }
+    }
+
+    public struct GetAuthorizerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorizerId", location: .uri(locationName: "authorizer_id"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
+        ]
+        /// [Required] The identifier of the Authorizer resource.
+        public let authorizerId: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+
+        public init(authorizerId: String, restApiId: String) {
+            self.authorizerId = authorizerId
+            self.restApiId = restApiId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizerId = "authorizer_id"
+            case restApiId = "restapi_id"
+        }
+    }
+
+    public struct GetVpcLinksRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
+        ]
+        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+        public let limit: Int32?
+        /// The current pagination position in the paged result set.
+        public let position: String?
+
+        public init(limit: Int32? = nil, position: String? = nil) {
+            self.limit = limit
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case position = "position"
+        }
+    }
+
+    public struct GetAuthorizersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
+        ]
+        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+        public let limit: Int32?
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// The current pagination position in the paged result set.
+        public let position: String?
+
+        public init(limit: Int32? = nil, restApiId: String, position: String? = nil) {
+            self.limit = limit
+            self.restApiId = restApiId
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case restApiId = "restapi_id"
+            case position = "position"
+        }
+    }
+
+    public struct RestApi: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "endpointConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "warnings", required: false, type: .list), 
+            AWSShapeMember(label: "policy", required: false, type: .string), 
+            AWSShapeMember(label: "apiKeySource", required: false, type: .enum), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "binaryMediaTypes", required: false, type: .list), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "minimumCompressionSize", required: false, type: .integer)
+        ]
+        /// The API's name.
+        public let name: String?
+        /// A version identifier for the API.
+        public let version: String?
+        /// The endpoint configuration of this RestApi showing the endpoint types of the API. 
+        public let endpointConfiguration: EndpointConfiguration?
+        /// The API's identifier. This identifier is unique across all of your APIs in API Gateway.
+        public let id: String?
+        /// The warning messages reported when failonwarnings is turned on during API import.
+        public let warnings: [String]?
+        /// A stringified JSON policy document that applies to this RestApi regardless of the caller and Method configuration.
+        public let policy: String?
+        /// The source of the API key for metering requests according to a usage plan. Valid values are: HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer. 
+        public let apiKeySource: ApiKeySourceType?
+        /// The API's description.
+        public let description: String?
+        /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
+        public let binaryMediaTypes: [String]?
+        /// The timestamp when the API was created.
+        public let createdDate: TimeStamp?
+        /// A nullable integer that is used to enable compression (with non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a null value) on an API. When compression is enabled, compression or decompression is not applied on the payload if the payload size is smaller than this value. Setting it to zero allows compression for any payload size.
+        public let minimumCompressionSize: Int32?
+
+        public init(name: String? = nil, version: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, id: String? = nil, warnings: [String]? = nil, policy: String? = nil, apiKeySource: ApiKeySourceType? = nil, description: String? = nil, binaryMediaTypes: [String]? = nil, createdDate: TimeStamp? = nil, minimumCompressionSize: Int32? = nil) {
+            self.name = name
+            self.version = version
+            self.endpointConfiguration = endpointConfiguration
+            self.id = id
+            self.warnings = warnings
+            self.policy = policy
+            self.apiKeySource = apiKeySource
+            self.description = description
+            self.binaryMediaTypes = binaryMediaTypes
+            self.createdDate = createdDate
+            self.minimumCompressionSize = minimumCompressionSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case version = "version"
+            case endpointConfiguration = "endpointConfiguration"
+            case id = "id"
+            case warnings = "warnings"
+            case policy = "policy"
+            case apiKeySource = "apiKeySource"
+            case description = "description"
+            case binaryMediaTypes = "binaryMediaTypes"
+            case createdDate = "createdDate"
+            case minimumCompressionSize = "minimumCompressionSize"
+        }
+    }
+
+    public struct UpdateAuthorizerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorizerId", location: .uri(locationName: "authorizer_id"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "patchOperations", required: false, type: .list)
+        ]
+        /// [Required] The identifier of the Authorizer resource.
+        public let authorizerId: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+
+        public init(authorizerId: String, restApiId: String, patchOperations: [PatchOperation]? = nil) {
+            self.authorizerId = authorizerId
+            self.restApiId = restApiId
+            self.patchOperations = patchOperations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizerId = "authorizer_id"
+            case restApiId = "restapi_id"
+            case patchOperations = "patchOperations"
+        }
+    }
+
+    public struct DeleteApiKeyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiKey", location: .uri(locationName: "api_Key"), required: true, type: .string)
+        ]
+        /// [Required] The identifier of the ApiKey resource to be deleted.
+        public let apiKey: String
+
+        public init(apiKey: String) {
+            self.apiKey = apiKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiKey = "api_Key"
+        }
+    }
+
+    public struct AccessLogSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "format", required: false, type: .string), 
+            AWSShapeMember(label: "destinationArn", required: false, type: .string)
+        ]
+        /// A single line format of the access logs of data, as specified by selected $context variables. The format must include at least $context.requestId.
+        public let format: String?
+        /// The ARN of the CloudWatch Logs log group to receive access logs.
+        public let destinationArn: String?
+
+        public init(format: String? = nil, destinationArn: String? = nil) {
+            self.format = format
+            self.destinationArn = destinationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "format"
+            case destinationArn = "destinationArn"
+        }
+    }
+
+    public struct ClientCertificate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "expirationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "pemEncodedCertificate", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "clientCertificateId", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string)
+        ]
+        /// The timestamp when the client certificate will expire.
+        public let expirationDate: TimeStamp?
+        /// The PEM-encoded public key of the client certificate, which can be used to configure certificate authentication in the integration endpoint .
+        public let pemEncodedCertificate: String?
+        /// The timestamp when the client certificate was created.
+        public let createdDate: TimeStamp?
+        /// The identifier of the client certificate.
+        public let clientCertificateId: String?
+        /// The description of the client certificate.
+        public let description: String?
+
+        public init(expirationDate: TimeStamp? = nil, pemEncodedCertificate: String? = nil, createdDate: TimeStamp? = nil, clientCertificateId: String? = nil, description: String? = nil) {
+            self.expirationDate = expirationDate
+            self.pemEncodedCertificate = pemEncodedCertificate
+            self.createdDate = createdDate
+            self.clientCertificateId = clientCertificateId
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expirationDate = "expirationDate"
+            case pemEncodedCertificate = "pemEncodedCertificate"
+            case createdDate = "createdDate"
+            case clientCertificateId = "clientCertificateId"
+            case description = "description"
+        }
+    }
+
+    public enum LocationStatusType: String, CustomStringConvertible, Codable {
+        case documented = "DOCUMENTED"
+        case undocumented = "UNDOCUMENTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateAccountRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "patchOperations", required: false, type: .list)
+        ]
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+
+        public init(patchOperations: [PatchOperation]? = nil) {
+            self.patchOperations = patchOperations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case patchOperations = "patchOperations"
+        }
+    }
+
+    public struct Integration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "timeoutInMillis", required: false, type: .integer), 
+            AWSShapeMember(label: "connectionId", required: false, type: .string), 
+            AWSShapeMember(label: "contentHandling", required: false, type: .enum), 
+            AWSShapeMember(label: "requestParameters", required: false, type: .map), 
+            AWSShapeMember(label: "cacheKeyParameters", required: false, type: .list), 
+            AWSShapeMember(label: "credentials", required: false, type: .string), 
+            AWSShapeMember(label: "cacheNamespace", required: false, type: .string), 
+            AWSShapeMember(label: "connectionType", required: false, type: .enum), 
+            AWSShapeMember(label: "uri", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "passthroughBehavior", required: false, type: .string), 
+            AWSShapeMember(label: "httpMethod", required: false, type: .string), 
+            AWSShapeMember(label: "requestTemplates", required: false, type: .map), 
+            AWSShapeMember(label: "integrationResponses", required: false, type: .map)
+        ]
+        /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
+        public let timeoutInMillis: Int32?
+        /// The (id) of the VpcLink used for the integration when connectionType=VPC_LINK and undefined, otherwise.
+        public let connectionId: String?
+        /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a request payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a request payload from a binary blob to a Base64-encoded string.  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehaviors is configured to support payload pass-through.
+        public let contentHandling: ContentHandlingStrategy?
+        /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.
+        public let requestParameters: [String: String]?
+        /// Specifies the integration's cache key parameters.
+        public let cacheKeyParameters: [String]?
+        /// Specifies the credentials required for the integration, if any. For AWS integrations, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify the string arn:aws:iam::\*:user/\*. To use resource-based permissions on supported AWS services, specify null.
+        public let credentials: String?
+        /// Specifies the integration's cache namespace.
+        public let cacheNamespace: String?
+        /// The type of the network connection to the integration endpoint. The valid value is INTERNET for connections through the public routable internet or VPC_LINK for private connections between API Gateway and a network load balancer in a VPC. The default value is INTERNET.
+        public let connectionType: ConnectionType?
+        /// Specifies Uniform Resource Identifier (URI) of the integration endpoint.   For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing.    For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated AWS service (e.g., s3); and {subdomain} is a designated subdomain supported by certain AWS service for fast host-name lookup. action can be used for an AWS service action-based API, using an Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing service_api refers to the path to an AWS service resource, including the region of the integrated AWS service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key} 
+        public let uri: String?
+        /// Specifies an API method integration type. The valid value is one of the following:  AWS: for integrating the API method request with an AWS service action, including the Lambda function-invoking action. With the Lambda function-invoking action, this is referred to as the Lambda custom integration. With any other AWS service action, this is known as AWS integration. AWS_PROXY: for integrating the API method request with the Lambda function-invoking action with the client request passed through as-is. This integration is also referred to as the Lambda proxy integration. HTTP: for integrating the API method request with an HTTP endpoint, including a private HTTP endpoint within a VPC. This integration is also referred to as the HTTP custom integration. HTTP_PROXY: for integrating the API method request with an HTTP endpoint, including a private HTTP endpoint within a VPC, with the client request passed through as-is. This is also referred to as the HTTP proxy integration. MOCK: for integrating the API method request with API Gateway as a "loop-back" endpoint without invoking any backend.  For the HTTP and HTTP proxy integrations, each integration can specify a protocol (http/https), port and path. Standard 80 and 443 ports are supported as well as custom ports above 1024. An HTTP or HTTP proxy integration with a connectionType of VPC_LINK is referred to as a private integration and uses a VpcLink to connect API Gateway to a network load balancer of a VPC.
+        public let `type`: IntegrationType?
+        ///   Specifies how the method request body of an unmapped content type will be passed through the integration request to the back end without transformation. A content type is unmapped if no mapping template is defined in the integration or the content type does not match any of the mapped content types, as specified in requestTemplates. The valid value is one of the following:    WHEN_NO_MATCH: passes the method request body through the integration request to the back end without transformation when the method request content type does not match any content type associated with the mapping templates defined in the integration request.   WHEN_NO_TEMPLATES: passes the method request body through the integration request to the back end without transformation when no mapping template is defined in the integration request. If a template is defined when this option is selected, the method request of an unmapped content-type will be rejected with an HTTP 415 Unsupported Media Type response.   NEVER: rejects the method request with an HTTP 415 Unsupported Media Type response when either the method request content type does not match any content type associated with the mapping templates defined in the integration request or no mapping template is defined in the integration request.   
+        public let passthroughBehavior: String?
+        /// Specifies the integration's HTTP method type.
+        public let httpMethod: String?
+        /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
+        public let requestTemplates: [String: String]?
+        /// Specifies the integration's responses.   Example: Get integration responses of a method Request  GET /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200 HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com X-Amz-Date: 20160607T191449Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160607/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash}  Response The successful response returns 200 OK status and a payload as follows: { "_links": { "curies": { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true }, "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.Content-Type": "'application/xml'" }, "responseTemplates": { "application/json": "$util.urlDecode(\"%3CkinesisStreams%3E#foreach($stream in $input.path('$.StreamNames'))%3Cstream%3E%3Cname%3E$stream%3C/name%3E%3C/stream%3E#end%3C/kinesisStreams%3E\")\n" }, "statusCode": "200" }    Creating an API 
+        public let integrationResponses: [String: IntegrationResponse]?
+
+        public init(timeoutInMillis: Int32? = nil, connectionId: String? = nil, contentHandling: ContentHandlingStrategy? = nil, requestParameters: [String: String]? = nil, cacheKeyParameters: [String]? = nil, credentials: String? = nil, cacheNamespace: String? = nil, connectionType: ConnectionType? = nil, uri: String? = nil, type: IntegrationType? = nil, passthroughBehavior: String? = nil, httpMethod: String? = nil, requestTemplates: [String: String]? = nil, integrationResponses: [String: IntegrationResponse]? = nil) {
+            self.timeoutInMillis = timeoutInMillis
+            self.connectionId = connectionId
+            self.contentHandling = contentHandling
+            self.requestParameters = requestParameters
+            self.cacheKeyParameters = cacheKeyParameters
+            self.credentials = credentials
+            self.cacheNamespace = cacheNamespace
+            self.connectionType = connectionType
+            self.uri = uri
+            self.`type` = `type`
+            self.passthroughBehavior = passthroughBehavior
+            self.httpMethod = httpMethod
+            self.requestTemplates = requestTemplates
+            self.integrationResponses = integrationResponses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timeoutInMillis = "timeoutInMillis"
+            case connectionId = "connectionId"
+            case contentHandling = "contentHandling"
+            case requestParameters = "requestParameters"
+            case cacheKeyParameters = "cacheKeyParameters"
+            case credentials = "credentials"
+            case cacheNamespace = "cacheNamespace"
+            case connectionType = "connectionType"
+            case uri = "uri"
+            case `type` = "type"
+            case passthroughBehavior = "passthroughBehavior"
+            case httpMethod = "httpMethod"
+            case requestTemplates = "requestTemplates"
+            case integrationResponses = "integrationResponses"
+        }
+    }
+
+    public struct CanarySettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "useStageCache", required: false, type: .boolean), 
+            AWSShapeMember(label: "stageVariableOverrides", required: false, type: .map), 
+            AWSShapeMember(label: "percentTraffic", required: false, type: .double), 
+            AWSShapeMember(label: "deploymentId", required: false, type: .string)
+        ]
+        /// A Boolean flag to indicate whether the canary deployment uses the stage cache or not.
+        public let useStageCache: Bool?
+        /// Stage variables overridden for a canary release deployment, including new stage variables introduced in the canary. These stage variables are represented as a string-to-string map between stage variable names and their values.
+        public let stageVariableOverrides: [String: String]?
+        /// The percent (0-100) of traffic diverted to a canary deployment.
+        public let percentTraffic: Double?
+        /// The ID of the canary deployment.
+        public let deploymentId: String?
+
+        public init(useStageCache: Bool? = nil, stageVariableOverrides: [String: String]? = nil, percentTraffic: Double? = nil, deploymentId: String? = nil) {
+            self.useStageCache = useStageCache
+            self.stageVariableOverrides = stageVariableOverrides
+            self.percentTraffic = percentTraffic
+            self.deploymentId = deploymentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case useStageCache = "useStageCache"
+            case stageVariableOverrides = "stageVariableOverrides"
+            case percentTraffic = "percentTraffic"
+            case deploymentId = "deploymentId"
+        }
+    }
+
+    public struct DeleteBasePathMappingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "basePath", location: .uri(locationName: "base_path"), required: true, type: .string), 
+            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
+        ]
+        /// [Required] The base path name of the BasePathMapping resource to delete.
+        public let basePath: String
+        /// [Required] The domain name of the BasePathMapping resource to delete.
+        public let domainName: String
+
+        public init(basePath: String, domainName: String) {
+            self.basePath = basePath
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case basePath = "base_path"
+            case domainName = "domain_name"
+        }
+    }
+
+    public struct GetUsagePlanRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string)
+        ]
+        /// [Required] The identifier of the UsagePlan resource to be retrieved.
+        public let usagePlanId: String
+
+        public init(usagePlanId: String) {
+            self.usagePlanId = usagePlanId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case usagePlanId = "usageplanId"
+        }
+    }
+
+    public struct RequestValidators: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
+            AWSShapeMember(label: "position", required: false, type: .string)
+        ]
+        /// The current page of elements from this collection.
+        public let items: [RequestValidator]?
+        public let position: String?
+
+        public init(items: [RequestValidator]? = nil, position: String? = nil) {
+            self.items = items
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "item"
+            case position = "position"
+        }
+    }
+
+    public struct Authorizer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "authorizerResultTtlInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "identityValidationExpression", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "authorizerCredentials", required: false, type: .string), 
+            AWSShapeMember(label: "authorizerUri", required: false, type: .string), 
+            AWSShapeMember(label: "identitySource", required: false, type: .string), 
+            AWSShapeMember(label: "providerARNs", required: false, type: .list), 
+            AWSShapeMember(label: "authType", required: false, type: .string)
+        ]
+        /// [Required] The name of the authorizer.
+        public let name: String?
+        /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
+        public let `type`: AuthorizerType?
+        /// The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour.
+        public let authorizerResultTtlInSeconds: Int32?
+        /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST authorizer.
+        public let identityValidationExpression: String?
+        /// The identifier for the authorizer resource.
+        public let id: String?
+        /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
+        public let authorizerCredentials: String?
+        /// Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations.
+        public let authorizerUri: String?
+        /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is method.request.header.Auth.For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name. These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional.
+        public let identitySource: String?
+        /// A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. For a TOKEN or REQUEST authorizer, this is not defined. 
+        public let providerARNs: [String]?
+        /// Optional customer-defined field, used in OpenAPI imports and exports without functional impact.
+        public let authType: String?
+
+        public init(name: String? = nil, type: AuthorizerType? = nil, authorizerResultTtlInSeconds: Int32? = nil, identityValidationExpression: String? = nil, id: String? = nil, authorizerCredentials: String? = nil, authorizerUri: String? = nil, identitySource: String? = nil, providerARNs: [String]? = nil, authType: String? = nil) {
+            self.name = name
+            self.`type` = `type`
+            self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
+            self.identityValidationExpression = identityValidationExpression
+            self.id = id
+            self.authorizerCredentials = authorizerCredentials
+            self.authorizerUri = authorizerUri
+            self.identitySource = identitySource
+            self.providerARNs = providerARNs
+            self.authType = authType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case `type` = "type"
+            case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
+            case identityValidationExpression = "identityValidationExpression"
+            case id = "id"
+            case authorizerCredentials = "authorizerCredentials"
+            case authorizerUri = "authorizerUri"
+            case identitySource = "identitySource"
+            case providerARNs = "providerARNs"
+            case authType = "authType"
+        }
+    }
+
+    public struct GatewayResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "responseTemplates", required: false, type: .map), 
+            AWSShapeMember(label: "defaultResponse", required: false, type: .boolean), 
+            AWSShapeMember(label: "statusCode", required: false, type: .string), 
+            AWSShapeMember(label: "responseType", required: false, type: .enum), 
+            AWSShapeMember(label: "responseParameters", required: false, type: .map)
+        ]
+        /// Response templates of the GatewayResponse as a string-to-string map of key-value pairs.
+        public let responseTemplates: [String: String]?
+        /// A Boolean flag to indicate whether this GatewayResponse is the default gateway response (true) or not (false). A default gateway response is one generated by API Gateway without any customization by an API developer. 
+        public let defaultResponse: Bool?
+        /// The HTTP status code for this GatewayResponse.
+        public let statusCode: String?
+        /// The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE 
+        public let responseType: GatewayResponseType?
+        /// Response parameters (paths, query strings and headers) of the GatewayResponse as a string-to-string map of key-value pairs.
+        public let responseParameters: [String: String]?
+
+        public init(responseTemplates: [String: String]? = nil, defaultResponse: Bool? = nil, statusCode: String? = nil, responseType: GatewayResponseType? = nil, responseParameters: [String: String]? = nil) {
+            self.responseTemplates = responseTemplates
+            self.defaultResponse = defaultResponse
+            self.statusCode = statusCode
+            self.responseType = responseType
+            self.responseParameters = responseParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case responseTemplates = "responseTemplates"
+            case defaultResponse = "defaultResponse"
+            case statusCode = "statusCode"
+            case responseType = "responseType"
+            case responseParameters = "responseParameters"
+        }
+    }
+
+    public struct Tags: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .map)
+        ]
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct RequestValidator: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "validateRequestParameters", required: false, type: .boolean), 
+            AWSShapeMember(label: "validateRequestBody", required: false, type: .boolean), 
+            AWSShapeMember(label: "id", required: false, type: .string)
+        ]
+        /// The name of this RequestValidator
+        public let name: String?
+        /// A Boolean flag to indicate whether to validate request parameters (true) or not (false).
+        public let validateRequestParameters: Bool?
+        /// A Boolean flag to indicate whether to validate a request body according to the configured Model schema.
+        public let validateRequestBody: Bool?
+        /// The identifier of this RequestValidator.
+        public let id: String?
+
+        public init(name: String? = nil, validateRequestParameters: Bool? = nil, validateRequestBody: Bool? = nil, id: String? = nil) {
+            self.name = name
+            self.validateRequestParameters = validateRequestParameters
+            self.validateRequestBody = validateRequestBody
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case validateRequestParameters = "validateRequestParameters"
+            case validateRequestBody = "validateRequestBody"
+            case id = "id"
+        }
+    }
+
+    public struct DeleteUsagePlanKeyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string), 
+            AWSShapeMember(label: "keyId", location: .uri(locationName: "keyId"), required: true, type: .string)
+        ]
+        /// [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-deleted UsagePlanKey resource representing a plan customer.
+        public let usagePlanId: String
+        /// [Required] The Id of the UsagePlanKey resource to be deleted.
+        public let keyId: String
+
+        public init(usagePlanId: String, keyId: String) {
+            self.usagePlanId = usagePlanId
+            self.keyId = keyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case usagePlanId = "usageplanId"
+            case keyId = "keyId"
+        }
+    }
+
+    public struct UpdateDocumentationVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
+            AWSShapeMember(label: "documentationVersion", location: .uri(locationName: "doc_version"), required: true, type: .string)
+        ]
+        /// [Required] The string identifier of the associated RestApi..
+        public let restApiId: String
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+        /// [Required] The version identifier of the to-be-updated documentation version.
+        public let documentationVersion: String
+
+        public init(restApiId: String, patchOperations: [PatchOperation]? = nil, documentationVersion: String) {
+            self.restApiId = restApiId
+            self.patchOperations = patchOperations
+            self.documentationVersion = documentationVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case patchOperations = "patchOperations"
+            case documentationVersion = "doc_version"
+        }
+    }
+
+    public struct UpdateIntegrationResponseRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
+            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string), 
+            AWSShapeMember(label: "patchOperations", required: false, type: .list)
+        ]
+        /// [Required] Specifies an update integration response request's resource identifier.
+        public let resourceId: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] Specifies an update integration response request's HTTP method.
+        public let httpMethod: String
+        /// [Required] Specifies an update integration response request's status code.
+        public let statusCode: String
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+
+        public init(resourceId: String, restApiId: String, httpMethod: String, statusCode: String, patchOperations: [PatchOperation]? = nil) {
+            self.resourceId = resourceId
+            self.restApiId = restApiId
+            self.httpMethod = httpMethod
+            self.statusCode = statusCode
+            self.patchOperations = patchOperations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "resource_id"
+            case restApiId = "restapi_id"
+            case httpMethod = "http_method"
+            case statusCode = "status_code"
+            case patchOperations = "patchOperations"
+        }
+    }
+
+    public struct GetModelRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "modelName", location: .uri(locationName: "model_name"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "flatten", location: .querystring(locationName: "flatten"), required: false, type: .boolean)
+        ]
+        /// [Required] The name of the model as an identifier.
+        public let modelName: String
+        /// [Required] The RestApi identifier under which the Model exists.
+        public let restApiId: String
+        /// A query parameter of a Boolean value to resolve (true) all external model references and returns a flattened model schema or not (false) The default is false.
+        public let flatten: Bool?
+
+        public init(modelName: String, restApiId: String, flatten: Bool? = nil) {
+            self.modelName = modelName
+            self.restApiId = restApiId
+            self.flatten = flatten
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelName = "model_name"
+            case restApiId = "restapi_id"
+            case flatten = "flatten"
+        }
+    }
+
+    public struct Account: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "throttleSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "apiKeyVersion", required: false, type: .string), 
+            AWSShapeMember(label: "cloudwatchRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "features", required: false, type: .list)
+        ]
+        /// Specifies the API request limits configured for the current Account.
+        public let throttleSettings: ThrottleSettings?
+        /// The version of the API keys used for the account.
+        public let apiKeyVersion: String?
+        /// The ARN of an Amazon CloudWatch role for the current Account. 
+        public let cloudwatchRoleArn: String?
+        /// A list of features supported for the account. When usage plans are enabled, the features list will include an entry of "UsagePlans".
+        public let features: [String]?
+
+        public init(throttleSettings: ThrottleSettings? = nil, apiKeyVersion: String? = nil, cloudwatchRoleArn: String? = nil, features: [String]? = nil) {
+            self.throttleSettings = throttleSettings
+            self.apiKeyVersion = apiKeyVersion
+            self.cloudwatchRoleArn = cloudwatchRoleArn
+            self.features = features
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case throttleSettings = "throttleSettings"
+            case apiKeyVersion = "apiKeyVersion"
+            case cloudwatchRoleArn = "cloudwatchRoleArn"
+            case features = "features"
+        }
+    }
+
+    public struct UpdateStageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
+            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string)
+        ]
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+        /// [Required] The name of the Stage resource to change information about.
+        public let stageName: String
+
+        public init(restApiId: String, patchOperations: [PatchOperation]? = nil, stageName: String) {
+            self.restApiId = restApiId
+            self.patchOperations = patchOperations
+            self.stageName = stageName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case patchOperations = "patchOperations"
+            case stageName = "stage_name"
+        }
+    }
+
+    public struct GetResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "embed", location: .querystring(locationName: "embed"), required: false, type: .list)
+        ]
+        /// [Required] The identifier for the Resource resource.
+        public let resourceId: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// A query parameter to retrieve the specified resources embedded in the returned Resource representation in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the "methods" string. For example, GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods.
+        public let embed: [String]?
+
+        public init(resourceId: String, restApiId: String, embed: [String]? = nil) {
+            self.resourceId = resourceId
+            self.restApiId = restApiId
+            self.embed = embed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "resource_id"
+            case restApiId = "restapi_id"
+            case embed = "embed"
+        }
+    }
+
+    public struct GetClientCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientCertificateId", location: .uri(locationName: "clientcertificate_id"), required: true, type: .string)
+        ]
+        /// [Required] The identifier of the ClientCertificate resource to be described.
+        public let clientCertificateId: String
+
+        public init(clientCertificateId: String) {
+            self.clientCertificateId = clientCertificateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientCertificateId = "clientcertificate_id"
+        }
+    }
+
+    public struct Method: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "requestValidatorId", required: false, type: .string), 
+            AWSShapeMember(label: "apiKeyRequired", required: false, type: .boolean), 
+            AWSShapeMember(label: "operationName", required: false, type: .string), 
+            AWSShapeMember(label: "authorizationType", required: false, type: .string), 
+            AWSShapeMember(label: "requestParameters", required: false, type: .map), 
+            AWSShapeMember(label: "methodResponses", required: false, type: .map), 
+            AWSShapeMember(label: "authorizerId", required: false, type: .string), 
+            AWSShapeMember(label: "requestModels", required: false, type: .map), 
+            AWSShapeMember(label: "httpMethod", required: false, type: .string), 
+            AWSShapeMember(label: "methodIntegration", required: false, type: .structure), 
+            AWSShapeMember(label: "authorizationScopes", required: false, type: .list)
+        ]
+        /// The identifier of a RequestValidator for request validation.
+        public let requestValidatorId: String?
+        /// A boolean flag specifying whether a valid ApiKey is required to invoke this method.
+        public let apiKeyRequired: Bool?
+        /// A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in PetStore example.
+        public let operationName: String?
+        /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
+        public let authorizationType: String?
+        /// A key-value map defining required or optional method request parameters that can be accepted by API Gateway. A key is a method request parameter name matching the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name is a valid and unique parameter name. The value associated with the key is a Boolean flag indicating whether the parameter is required (true) or optional (false). The method request parameter names defined here are available in Integration to be mapped to integration request parameters or templates.
+        public let requestParameters: [String: Bool]?
+        /// Gets a method response associated with a given HTTP status code.   The collection of method responses are encapsulated in a key-value map, where the key is a response's HTTP status code and the value is a MethodResponse resource that specifies the response returned to the caller from the back end through the integration response. Example: Get a 200 OK response of a GET method Request  GET /restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200 HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com Content-Length: 117 X-Amz-Date: 20160613T215008Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160613/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response The successful response returns a 200 OK status code and a payload similar to the following: { "_links": { "curies": { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html", "name": "methodresponse", "templated": true }, "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200", "title": "200" }, "methodresponse:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200" }, "methodresponse:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200" } }, "responseModels": { "application/json": "Empty" }, "responseParameters": { "method.response.header.operator": false, "method.response.header.operand_2": false, "method.response.header.operand_1": false }, "statusCode": "200" }    AWS CLI 
+        public let methodResponses: [String: MethodResponse]?
+        /// The identifier of an Authorizer to use on this method. The authorizationType must be CUSTOM.
+        public let authorizerId: String?
+        /// A key-value map specifying data schemas, represented by Model resources, (as the mapped value) of the request payloads of given content types (as the mapping key).
+        public let requestModels: [String: String]?
+        /// The method's HTTP verb.
+        public let httpMethod: String?
+        /// Gets the method's integration responsible for passing the client-submitted request to the back end and performing necessary transformations to make the request compliant with the back end.   Example:  Request  GET /restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com Content-Length: 117 X-Amz-Date: 20160613T213210Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160613/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response The successful response returns a 200 OK status code and a payload similar to the following: { "_links": { "curies": [ { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html", "name": "integration", "templated": true }, { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true } ], "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" }, "integration:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" }, "integration:responses": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integration:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" }, "integrationresponse:put": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/{status_code}", "templated": true } }, "cacheKeyParameters": [], "cacheNamespace": "0cjtch", "credentials": "arn:aws:iam::123456789012:role/apigAwsProxyRole", "httpMethod": "POST", "passthroughBehavior": "WHEN_NO_MATCH", "requestTemplates": { "application/json": "{\n \"a\": \"$input.params('operand1')\",\n \"b\": \"$input.params('operand2')\", \n \"op\": \"$input.params('operator')\" \n}" }, "type": "AWS", "uri": "arn:aws:apigateway:us-west-2:lambda:path//2015-03-31/functions/arn:aws:lambda:us-west-2:123456789012:function:Calc/invocations", "_embedded": { "integration:responses": { "_links": { "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.operator": "integration.response.body.op", "method.response.header.operand_2": "integration.response.body.b", "method.response.header.operand_1": "integration.response.body.a" }, "responseTemplates": { "application/json": "#set($res = $input.path('$'))\n{\n \"result\": \"$res.a, $res.b, $res.op => $res.c\",\n \"a\" : \"$res.a\",\n \"b\" : \"$res.b\",\n \"op\" : \"$res.op\",\n \"c\" : \"$res.c\"\n}" }, "selectionPattern": "", "statusCode": "200" } } }    AWS CLI 
+        public let methodIntegration: Integration?
+        /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes.
+        public let authorizationScopes: [String]?
+
+        public init(requestValidatorId: String? = nil, apiKeyRequired: Bool? = nil, operationName: String? = nil, authorizationType: String? = nil, requestParameters: [String: Bool]? = nil, methodResponses: [String: MethodResponse]? = nil, authorizerId: String? = nil, requestModels: [String: String]? = nil, httpMethod: String? = nil, methodIntegration: Integration? = nil, authorizationScopes: [String]? = nil) {
+            self.requestValidatorId = requestValidatorId
+            self.apiKeyRequired = apiKeyRequired
+            self.operationName = operationName
+            self.authorizationType = authorizationType
+            self.requestParameters = requestParameters
+            self.methodResponses = methodResponses
+            self.authorizerId = authorizerId
+            self.requestModels = requestModels
+            self.httpMethod = httpMethod
+            self.methodIntegration = methodIntegration
+            self.authorizationScopes = authorizationScopes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestValidatorId = "requestValidatorId"
+            case apiKeyRequired = "apiKeyRequired"
+            case operationName = "operationName"
+            case authorizationType = "authorizationType"
+            case requestParameters = "requestParameters"
+            case methodResponses = "methodResponses"
+            case authorizerId = "authorizerId"
+            case requestModels = "requestModels"
+            case httpMethod = "httpMethod"
+            case methodIntegration = "methodIntegration"
+            case authorizationScopes = "authorizationScopes"
+        }
+    }
+
+    public struct GetClientCertificatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
+        ]
+        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+        public let limit: Int32?
+        /// The current pagination position in the paged result set.
+        public let position: String?
+
+        public init(limit: Int32? = nil, position: String? = nil) {
+            self.limit = limit
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case position = "position"
+        }
+    }
+
+    public struct DeleteModelRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "modelName", location: .uri(locationName: "model_name"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
+        ]
+        /// [Required] The name of the model to delete.
+        public let modelName: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+
+        public init(modelName: String, restApiId: String) {
+            self.modelName = modelName
+            self.restApiId = restApiId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelName = "model_name"
+            case restApiId = "restapi_id"
+        }
+    }
+
+    public struct TestInvokeMethodResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "body", required: false, type: .string), 
+            AWSShapeMember(label: "latency", required: false, type: .long), 
+            AWSShapeMember(label: "status", required: false, type: .integer), 
+            AWSShapeMember(label: "multiValueHeaders", required: false, type: .map), 
+            AWSShapeMember(label: "headers", required: false, type: .map), 
+            AWSShapeMember(label: "log", required: false, type: .string)
+        ]
+        /// The body of the HTTP response.
+        public let body: String?
+        /// The execution latency of the test invoke request.
+        public let latency: Int64?
+        /// The HTTP status code.
+        public let status: Int32?
+        /// The headers of the HTTP response as a map from string to list of values.
+        public let multiValueHeaders: [String: [String]]?
+        /// The headers of the HTTP response.
+        public let headers: [String: String]?
+        /// The API Gateway execution log for the test invoke request.
+        public let log: String?
+
+        public init(body: String? = nil, latency: Int64? = nil, status: Int32? = nil, multiValueHeaders: [String: [String]]? = nil, headers: [String: String]? = nil, log: String? = nil) {
+            self.body = body
+            self.latency = latency
+            self.status = status
+            self.multiValueHeaders = multiValueHeaders
+            self.headers = headers
+            self.log = log
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "body"
+            case latency = "latency"
+            case status = "status"
+            case multiValueHeaders = "multiValueHeaders"
+            case headers = "headers"
+            case log = "log"
+        }
+    }
+
+    public struct BasePathMappings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
+            AWSShapeMember(label: "position", required: false, type: .string)
+        ]
+        /// The current page of elements from this collection.
+        public let items: [BasePathMapping]?
+        public let position: String?
+
+        public init(items: [BasePathMapping]? = nil, position: String? = nil) {
+            self.items = items
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "item"
+            case position = "position"
+        }
+    }
+
+    public enum PutMode: String, CustomStringConvertible, Codable {
+        case merge = "merge"
+        case overwrite = "overwrite"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentHandlingStrategy: String, CustomStringConvertible, Codable {
+        case convertToBinary = "CONVERT_TO_BINARY"
+        case convertToText = "CONVERT_TO_TEXT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DomainNames: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
+            AWSShapeMember(label: "position", required: false, type: .string)
+        ]
+        /// The current page of elements from this collection.
+        public let items: [DomainName]?
+        public let position: String?
+
+        public init(items: [DomainName]? = nil, position: String? = nil) {
+            self.items = items
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "item"
+            case position = "position"
+        }
+    }
+
+    public struct DocumentationVersions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
+            AWSShapeMember(label: "position", required: false, type: .string)
+        ]
+        /// The current page of elements from this collection.
+        public let items: [DocumentationVersion]?
+        public let position: String?
+
+        public init(items: [DocumentationVersion]? = nil, position: String? = nil) {
+            self.items = items
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "item"
+            case position = "position"
+        }
+    }
+
+    public struct GetGatewayResponsesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
+        ]
+        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500. The GatewayResponses collection does not support pagination and the limit does not apply here.
+        public let limit: Int32?
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// The current pagination position in the paged result set. The GatewayResponse collection does not support pagination and the position does not apply here.
+        public let position: String?
+
+        public init(limit: Int32? = nil, restApiId: String, position: String? = nil) {
+            self.limit = limit
+            self.restApiId = restApiId
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case restApiId = "restapi_id"
+            case position = "position"
+        }
+    }
+
+    public struct CreateDeploymentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stageName", required: false, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "cacheClusterSize", required: false, type: .enum), 
+            AWSShapeMember(label: "stageDescription", required: false, type: .string), 
+            AWSShapeMember(label: "tracingEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "canarySettings", required: false, type: .structure), 
+            AWSShapeMember(label: "cacheClusterEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "variables", required: false, type: .map)
+        ]
+        /// The name of the Stage resource for the Deployment resource to create.
+        public let stageName: String?
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// Specifies the cache cluster size for the Stage resource specified in the input, if a cache cluster is enabled.
+        public let cacheClusterSize: CacheClusterSize?
+        /// The description of the Stage resource for the Deployment resource to create.
+        public let stageDescription: String?
+        /// Specifies whether active tracing with X-ray is enabled for the Stage.
+        public let tracingEnabled: Bool?
+        /// The input configuration for the canary deployment when the deployment is a canary release deployment. 
+        public let canarySettings: DeploymentCanarySettings?
+        /// Enables a cache cluster for the Stage resource specified in the input.
+        public let cacheClusterEnabled: Bool?
+        /// The description for the Deployment resource to create.
+        public let description: String?
+        /// A map that defines the stage variables for the Stage resource that is associated with the new deployment. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
+        public let variables: [String: String]?
+
+        public init(stageName: String? = nil, restApiId: String, cacheClusterSize: CacheClusterSize? = nil, stageDescription: String? = nil, tracingEnabled: Bool? = nil, canarySettings: DeploymentCanarySettings? = nil, cacheClusterEnabled: Bool? = nil, description: String? = nil, variables: [String: String]? = nil) {
+            self.stageName = stageName
+            self.restApiId = restApiId
+            self.cacheClusterSize = cacheClusterSize
+            self.stageDescription = stageDescription
+            self.tracingEnabled = tracingEnabled
+            self.canarySettings = canarySettings
+            self.cacheClusterEnabled = cacheClusterEnabled
+            self.description = description
+            self.variables = variables
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stageName = "stageName"
+            case restApiId = "restapi_id"
+            case cacheClusterSize = "cacheClusterSize"
+            case stageDescription = "stageDescription"
+            case tracingEnabled = "tracingEnabled"
+            case canarySettings = "canarySettings"
+            case cacheClusterEnabled = "cacheClusterEnabled"
+            case description = "description"
+            case variables = "variables"
+        }
+    }
+
+    public struct CreateResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "pathPart", required: true, type: .string), 
+            AWSShapeMember(label: "parentId", location: .uri(locationName: "parent_id"), required: true, type: .string)
+        ]
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// The last path segment for this resource.
+        public let pathPart: String
+        /// [Required] The parent resource's identifier.
+        public let parentId: String
+
+        public init(restApiId: String, pathPart: String, parentId: String) {
+            self.restApiId = restApiId
+            self.pathPart = pathPart
+            self.parentId = parentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case pathPart = "pathPart"
+            case parentId = "parent_id"
+        }
+    }
+
+    public struct Authorizers: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
+            AWSShapeMember(label: "position", required: false, type: .string)
+        ]
+        /// The current page of elements from this collection.
+        public let items: [Authorizer]?
+        public let position: String?
+
+        public init(items: [Authorizer]? = nil, position: String? = nil) {
+            self.items = items
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "item"
+            case position = "position"
+        }
+    }
+
+    public struct PutMethodResponseRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "responseModels", required: false, type: .map), 
+            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
+            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string), 
+            AWSShapeMember(label: "responseParameters", required: false, type: .map)
+        ]
+        /// Specifies the Model resources used for the response's content type. Response models are represented as a key/value map, with a content type as the key and a Model name as the value.
+        public let responseModels: [String: String]?
+        /// [Required] The Resource identifier for the Method resource.
+        public let resourceId: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] The HTTP verb of the Method resource.
+        public let httpMethod: String
+        /// [Required] The method response's status code.
+        public let statusCode: String
+        /// A key-value map specifying required or optional response parameters that API Gateway can send back to the caller. A key defines a method response header name and the associated value is a Boolean flag indicating whether the method response parameter is required or not. The method response header names must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The response parameter names defined here are available in the integration response to be mapped from an integration response header expressed in integration.response.header.{name}, a static value enclosed within a pair of single quotes (e.g., 'application/json'), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression}, where JSON-expression is a valid JSON expression without the $ prefix.)
+        public let responseParameters: [String: Bool]?
+
+        public init(responseModels: [String: String]? = nil, resourceId: String, restApiId: String, httpMethod: String, statusCode: String, responseParameters: [String: Bool]? = nil) {
+            self.responseModels = responseModels
+            self.resourceId = resourceId
+            self.restApiId = restApiId
+            self.httpMethod = httpMethod
+            self.statusCode = statusCode
+            self.responseParameters = responseParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case responseModels = "responseModels"
+            case resourceId = "resource_id"
+            case restApiId = "restapi_id"
+            case httpMethod = "http_method"
+            case statusCode = "status_code"
+            case responseParameters = "responseParameters"
+        }
+    }
+
+    public struct Stages: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "item", required: false, type: .list)
+        ]
+        /// The current page of elements from this collection.
+        public let item: [Stage]?
+
+        public init(item: [Stage]? = nil) {
+            self.item = item
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case item = "item"
+        }
+    }
+
+    public enum CacheClusterSize: String, CustomStringConvertible, Codable {
+        case cacheClusterSize05 = "0.5"
+        case cacheClusterSize16 = "1.6"
+        case cacheClusterSize61 = "6.1"
+        case cacheClusterSize135 = "13.5"
+        case cacheClusterSize284 = "28.4"
+        case cacheClusterSize582 = "58.2"
+        case cacheClusterSize118 = "118"
+        case cacheClusterSize237 = "237"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcLinkStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case pending = "PENDING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateRestApiRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "patchOperations", required: false, type: .list)
+        ]
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+
+        public init(restApiId: String, patchOperations: [PatchOperation]? = nil) {
+            self.restApiId = restApiId
+            self.patchOperations = patchOperations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case patchOperations = "patchOperations"
+        }
+    }
+
+    public struct GetRestApisRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
+        ]
+        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+        public let limit: Int32?
+        /// The current pagination position in the paged result set.
+        public let position: String?
+
+        public init(limit: Int32? = nil, position: String? = nil) {
+            self.limit = limit
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case position = "position"
+        }
+    }
+
+    public struct CreateDocumentationPartRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "properties", required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "location", required: true, type: .structure)
+        ]
+        /// [Required] The new documentation content map of the targeted API entity. Enclosed key-value pairs are API-specific, but only OpenAPI-compliant key-value pairs can be exported and, hence, published.
+        public let properties: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] The location of the targeted API entity of the to-be-created documentation part.
+        public let location: DocumentationPartLocation
+
+        public init(properties: String, restApiId: String, location: DocumentationPartLocation) {
+            self.properties = properties
+            self.restApiId = restApiId
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case properties = "properties"
+            case restApiId = "restapi_id"
+            case location = "location"
+        }
+    }
+
+    public struct GetMethodResponseRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
+            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string)
+        ]
+        /// [Required] The Resource identifier for the MethodResponse resource.
+        public let resourceId: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] The HTTP verb of the Method resource.
+        public let httpMethod: String
+        /// [Required] The status code for the MethodResponse resource.
+        public let statusCode: String
+
+        public init(resourceId: String, restApiId: String, httpMethod: String, statusCode: String) {
+            self.resourceId = resourceId
+            self.restApiId = restApiId
+            self.httpMethod = httpMethod
+            self.statusCode = statusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "resource_id"
+            case restApiId = "restapi_id"
+            case httpMethod = "http_method"
+            case statusCode = "status_code"
+        }
+    }
+
+    public struct DeleteDocumentationVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "documentationVersion", location: .uri(locationName: "doc_version"), required: true, type: .string)
+        ]
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] The version identifier of a to-be-deleted documentation snapshot.
+        public let documentationVersion: String
+
+        public init(restApiId: String, documentationVersion: String) {
+            self.restApiId = restApiId
+            self.documentationVersion = documentationVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case documentationVersion = "doc_version"
+        }
+    }
+
+    public struct GetStagesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "deploymentId", location: .querystring(locationName: "deploymentId"), required: false, type: .string)
+        ]
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// The stages' deployment identifiers.
+        public let deploymentId: String?
+
+        public init(restApiId: String, deploymentId: String? = nil) {
+            self.restApiId = restApiId
+            self.deploymentId = deploymentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case deploymentId = "deploymentId"
+        }
+    }
+
+    public struct GetDeploymentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
+        ]
+        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+        public let limit: Int32?
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// The current pagination position in the paged result set.
+        public let position: String?
+
+        public init(limit: Int32? = nil, restApiId: String, position: String? = nil) {
+            self.limit = limit
+            self.restApiId = restApiId
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case restApiId = "restapi_id"
+            case position = "position"
+        }
+    }
+
+    public struct ImportDocumentationPartsRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "body"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "mode", location: .querystring(locationName: "mode"), required: false, type: .enum), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings"), required: false, type: .boolean), 
+            AWSShapeMember(label: "body", required: true, type: .blob)
+        ]
+        /// A query parameter to indicate whether to overwrite (OVERWRITE) any existing DocumentationParts definition or to merge (MERGE) the new definition into the existing one. The default value is MERGE.
+        public let mode: PutMode?
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// A query parameter to specify whether to rollback the documentation importation (true) or not (false) when a warning is encountered. The default value is false.
+        public let failOnWarnings: Bool?
+        /// [Required] Raw byte array representing the to-be-imported documentation parts. To import from an OpenAPI file, this is a JSON object.
+        public let body: Data
+
+        public init(mode: PutMode? = nil, restApiId: String, failOnWarnings: Bool? = nil, body: Data) {
+            self.mode = mode
+            self.restApiId = restApiId
+            self.failOnWarnings = failOnWarnings
+            self.body = body
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "mode"
+            case restApiId = "restapi_id"
+            case failOnWarnings = "failonwarnings"
+            case body = "body"
+        }
+    }
+
+    public enum QuotaPeriodType: String, CustomStringConvertible, Codable {
+        case day = "DAY"
+        case week = "WEEK"
+        case month = "MONTH"
+        public var description: String { return self.rawValue }
     }
 
     public struct ExportResponse: AWSShape {
@@ -85,221 +3002,342 @@ extension APIGateway {
         }
     }
 
-    public enum IntegrationType: String, CustomStringConvertible, Codable {
-        case http = "HTTP"
-        case aws = "AWS"
-        case mock = "MOCK"
-        case httpProxy = "HTTP_PROXY"
-        case awsProxy = "AWS_PROXY"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RequestValidator: AWSShape {
+    public struct ImportRestApiRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "body"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "validateRequestBody", required: false, type: .boolean), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "validateRequestParameters", required: false, type: .boolean)
+            AWSShapeMember(label: "body", required: true, type: .blob), 
+            AWSShapeMember(label: "parameters", required: false, type: .map), 
+            AWSShapeMember(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings"), required: false, type: .boolean)
         ]
-        /// A Boolean flag to indicate whether to validate a request body according to the configured Model schema.
-        public let validateRequestBody: Bool?
-        /// The identifier of this RequestValidator.
-        public let id: String?
-        /// The name of this RequestValidator
-        public let name: String?
-        /// A Boolean flag to indicate whether to validate request parameters (true) or not (false).
-        public let validateRequestParameters: Bool?
+        /// [Required] The POST request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 2MB.
+        public let body: Data
+        /// A key-value map of context-specific query string parameters specifying the behavior of different API importing operations. The following shows operation-specific parameters and their supported values.  To exclude DocumentationParts from the import, set parameters as ignore=documentation.  To configure the endpoint type, set parameters as endpointConfigurationTypes=EDGE, endpointConfigurationTypes=REGIONAL, or endpointConfigurationTypes=PRIVATE. The default endpoint type is EDGE.  To handle imported basePath, set parameters as basePath=ignore, basePath=prepend or basePath=split. For example, the AWS CLI command to exclude documentation from the imported API is: aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json' The AWS CLI command to set the regional endpoint on the imported API is: aws apigateway import-rest-api --parameters endpointConfigurationTypes=REGIONAL --body 'file:///path/to/imported-api-body.json'
+        public let parameters: [String: String]?
+        /// A query parameter to indicate whether to rollback the API creation (true) or not (false) when a warning is encountered. The default value is false.
+        public let failOnWarnings: Bool?
 
-        public init(validateRequestBody: Bool? = nil, id: String? = nil, name: String? = nil, validateRequestParameters: Bool? = nil) {
-            self.validateRequestBody = validateRequestBody
-            self.id = id
-            self.name = name
-            self.validateRequestParameters = validateRequestParameters
+        public init(body: Data, parameters: [String: String]? = nil, failOnWarnings: Bool? = nil) {
+            self.body = body
+            self.parameters = parameters
+            self.failOnWarnings = failOnWarnings
         }
 
         private enum CodingKeys: String, CodingKey {
-            case validateRequestBody = "validateRequestBody"
-            case id = "id"
-            case name = "name"
-            case validateRequestParameters = "validateRequestParameters"
+            case body = "body"
+            case parameters = "parameters"
+            case failOnWarnings = "failonwarnings"
         }
     }
 
-    public enum PutMode: String, CustomStringConvertible, Codable {
-        case merge = "merge"
-        case overwrite = "overwrite"
-        public var description: String { return self.rawValue }
+    public struct DocumentationPart: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "properties", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .structure)
+        ]
+        /// A content map of API-specific key-value pairs describing the targeted API entity. The map must be encoded as a JSON string, e.g., "{ \"description\": \"The API does ...\" }". Only OpenAPI-compliant documentation-related fields from the properties map are exported and, hence, published as part of the API entity definitions, while the original documentation parts are exported in a OpenAPI extension of x-amazon-apigateway-documentation.
+        public let properties: String?
+        /// The DocumentationPart identifier, generated by API Gateway when the DocumentationPart is created.
+        public let id: String?
+        /// The location of the API entity to which the documentation applies. Valid fields depend on the targeted API entity type. All the valid location fields are not required. If not explicitly specified, a valid location field is treated as a wildcard and associated documentation content may be inherited by matching entities, unless overridden.
+        public let location: DocumentationPartLocation?
+
+        public init(properties: String? = nil, id: String? = nil, location: DocumentationPartLocation? = nil) {
+            self.properties = properties
+            self.id = id
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case properties = "properties"
+            case id = "id"
+            case location = "location"
+        }
     }
 
-    public struct UpdateRestApiRequest: AWSShape {
+    public struct BasePathMapping: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
+            AWSShapeMember(label: "stage", required: false, type: .string), 
+            AWSShapeMember(label: "restApiId", required: false, type: .string), 
+            AWSShapeMember(label: "basePath", required: false, type: .string)
         ]
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
+        /// The name of the associated stage.
+        public let stage: String?
+        /// The string identifier of the associated RestApi.
+        public let restApiId: String?
+        /// The base path name that callers of the API must provide as part of the URL after the domain name.
+        public let basePath: String?
+
+        public init(stage: String? = nil, restApiId: String? = nil, basePath: String? = nil) {
+            self.stage = stage
+            self.restApiId = restApiId
+            self.basePath = basePath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stage = "stage"
+            case restApiId = "restApiId"
+            case basePath = "basePath"
+        }
+    }
+
+    public struct GetUsagePlanKeysRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nameQuery", location: .querystring(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
+            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string)
+        ]
+        /// A query parameter specifying the name of the to-be-returned usage plan keys.
+        public let nameQuery: String?
+        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+        public let limit: Int32?
+        /// The current pagination position in the paged result set.
+        public let position: String?
+        /// [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
+        public let usagePlanId: String
+
+        public init(nameQuery: String? = nil, limit: Int32? = nil, position: String? = nil, usagePlanId: String) {
+            self.nameQuery = nameQuery
+            self.limit = limit
+            self.position = position
+            self.usagePlanId = usagePlanId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nameQuery = "name"
+            case limit = "limit"
+            case position = "position"
+            case usagePlanId = "usageplanId"
+        }
+    }
+
+    public struct GetSdkRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "sdkType", location: .uri(locationName: "sdk_type"), required: true, type: .string), 
+            AWSShapeMember(label: "parameters", required: false, type: .map)
+        ]
+        /// [Required] The name of the Stage that the SDK will use.
+        public let stageName: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
+        /// [Required] The language for the generated SDK. Currently java, javascript, android, objectivec (for iOS), swift (for iOS), and ruby are supported.
+        public let sdkType: String
+        /// A string-to-string key-value map of query parameters sdkType-dependent properties of the SDK. For sdkType of objectivec or swift, a parameter named classPrefix is required. For sdkType of android, parameters named groupId, artifactId, artifactVersion, and invokerPackage are required. For sdkType of java, parameters named serviceName and javaPackageName are required. 
+        public let parameters: [String: String]?
 
-        public init(patchOperations: [PatchOperation]? = nil, restApiId: String) {
-            self.patchOperations = patchOperations
+        public init(stageName: String, restApiId: String, sdkType: String, parameters: [String: String]? = nil) {
+            self.stageName = stageName
             self.restApiId = restApiId
+            self.sdkType = sdkType
+            self.parameters = parameters
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations = "patchOperations"
+            case stageName = "stage_name"
             case restApiId = "restapi_id"
+            case sdkType = "sdk_type"
+            case parameters = "parameters"
         }
     }
 
-    public struct DeleteDomainNameRequest: AWSShape {
+    public struct CreateApiKeyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "stageKeys", required: false, type: .list), 
+            AWSShapeMember(label: "generateDistinctId", required: false, type: .boolean), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string), 
+            AWSShapeMember(label: "customerId", required: false, type: .string)
         ]
-        /// [Required] The name of the DomainName resource to be deleted.
-        public let domainName: String
+        /// The name of the ApiKey.
+        public let name: String?
+        /// Specifies whether the ApiKey can be used by callers.
+        public let enabled: Bool?
+        /// DEPRECATED FOR USAGE PLANS - Specifies stages associated with the API key.
+        public let stageKeys: [StageKey]?
+        /// Specifies whether (true) or not (false) the key identifier is distinct from the created API key value.
+        public let generateDistinctId: Bool?
+        /// The description of the ApiKey.
+        public let description: String?
+        /// Specifies a value of the API key.
+        public let value: String?
+        /// An AWS Marketplace customer identifier , when integrating with the AWS SaaS Marketplace.
+        public let customerId: String?
 
-        public init(domainName: String) {
-            self.domainName = domainName
+        public init(name: String? = nil, enabled: Bool? = nil, stageKeys: [StageKey]? = nil, generateDistinctId: Bool? = nil, description: String? = nil, value: String? = nil, customerId: String? = nil) {
+            self.name = name
+            self.enabled = enabled
+            self.stageKeys = stageKeys
+            self.generateDistinctId = generateDistinctId
+            self.description = description
+            self.value = value
+            self.customerId = customerId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName = "domain_name"
+            case name = "name"
+            case enabled = "enabled"
+            case stageKeys = "stageKeys"
+            case generateDistinctId = "generateDistinctId"
+            case description = "description"
+            case value = "value"
+            case customerId = "customerId"
         }
     }
 
-    public struct SdkTypes: AWSShape {
+    public struct GetDocumentationVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
-            AWSShapeMember(label: "position", required: false, type: .string)
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "documentationVersion", location: .uri(locationName: "doc_version"), required: true, type: .string)
         ]
-        /// The current page of elements from this collection.
-        public let items: [SdkType]?
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] The version identifier of the to-be-retrieved documentation snapshot.
+        public let documentationVersion: String
+
+        public init(restApiId: String, documentationVersion: String) {
+            self.restApiId = restApiId
+            self.documentationVersion = documentationVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case documentationVersion = "doc_version"
+        }
+    }
+
+    public struct GetUsagePlansRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "keyId", location: .querystring(locationName: "keyId"), required: false, type: .string), 
+            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
+        ]
+        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+        public let limit: Int32?
+        /// The identifier of the API key associated with the usage plans.
+        public let keyId: String?
+        /// The current pagination position in the paged result set.
         public let position: String?
 
-        public init(items: [SdkType]? = nil, position: String? = nil) {
-            self.items = items
+        public init(limit: Int32? = nil, keyId: String? = nil, position: String? = nil) {
+            self.limit = limit
+            self.keyId = keyId
             self.position = position
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items = "item"
+            case limit = "limit"
+            case keyId = "keyId"
             case position = "position"
         }
     }
 
-    public struct UpdateStageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string)
-        ]
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The name of the Stage resource to change information about.
-        public let stageName: String
-
-        public init(patchOperations: [PatchOperation]? = nil, restApiId: String, stageName: String) {
-            self.patchOperations = patchOperations
-            self.restApiId = restApiId
-            self.stageName = stageName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case patchOperations = "patchOperations"
-            case restApiId = "restapi_id"
-            case stageName = "stage_name"
-        }
+    public enum DocumentationPartType: String, CustomStringConvertible, Codable {
+        case api = "API"
+        case authorizer = "AUTHORIZER"
+        case model = "MODEL"
+        case resource = "RESOURCE"
+        case method = "METHOD"
+        case pathParameter = "PATH_PARAMETER"
+        case queryParameter = "QUERY_PARAMETER"
+        case requestHeader = "REQUEST_HEADER"
+        case requestBody = "REQUEST_BODY"
+        case response = "RESPONSE"
+        case responseHeader = "RESPONSE_HEADER"
+        case responseBody = "RESPONSE_BODY"
+        public var description: String { return self.rawValue }
     }
 
-    public struct FlushStageAuthorizersCacheRequest: AWSShape {
+    public struct DeleteMethodRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string)
-        ]
-        /// The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// The name of the stage to flush.
-        public let stageName: String
-
-        public init(restApiId: String, stageName: String) {
-            self.restApiId = restApiId
-            self.stageName = stageName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case stageName = "stage_name"
-        }
-    }
-
-    public struct DeleteDocumentationPartRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "documentationPartId", location: .uri(locationName: "part_id"), required: true, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The identifier of the to-be-deleted documentation part.
-        public let documentationPartId: String
-
-        public init(restApiId: String, documentationPartId: String) {
-            self.restApiId = restApiId
-            self.documentationPartId = documentationPartId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case documentationPartId = "part_id"
-        }
-    }
-
-    public struct GetRestApiRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
+            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+        /// [Required] The Resource identifier for the Method resource.
+        public let resourceId: String
+        /// [Required] The HTTP verb of the Method resource.
+        public let httpMethod: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
 
-        public init(restApiId: String) {
+        public init(resourceId: String, httpMethod: String, restApiId: String) {
+            self.resourceId = resourceId
+            self.httpMethod = httpMethod
             self.restApiId = restApiId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case resourceId = "resource_id"
+            case httpMethod = "http_method"
             case restApiId = "restapi_id"
         }
     }
 
-    public struct CreateRequestValidatorRequest: AWSShape {
+    public struct UpdateResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "validateRequestBody", required: false, type: .boolean), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "validateRequestParameters", required: false, type: .boolean)
+            AWSShapeMember(label: "patchOperations", required: false, type: .list)
         ]
+        /// [Required] The identifier of the Resource resource.
+        public let resourceId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        /// A Boolean flag to indicate whether to validate request body according to the configured model schema for the method (true) or not (false).
-        public let validateRequestBody: Bool?
-        /// The name of the to-be-created RequestValidator.
-        public let name: String?
-        /// A Boolean flag to indicate whether to validate request parameters, true, or not false.
-        public let validateRequestParameters: Bool?
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
 
-        public init(restApiId: String, validateRequestBody: Bool? = nil, name: String? = nil, validateRequestParameters: Bool? = nil) {
+        public init(resourceId: String, restApiId: String, patchOperations: [PatchOperation]? = nil) {
+            self.resourceId = resourceId
             self.restApiId = restApiId
-            self.validateRequestBody = validateRequestBody
-            self.name = name
-            self.validateRequestParameters = validateRequestParameters
+            self.patchOperations = patchOperations
         }
 
         private enum CodingKeys: String, CodingKey {
+            case resourceId = "resource_id"
             case restApiId = "restapi_id"
-            case validateRequestBody = "validateRequestBody"
-            case name = "name"
-            case validateRequestParameters = "validateRequestParameters"
+            case patchOperations = "patchOperations"
+        }
+    }
+
+    public struct UpdateMethodResponseRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
+            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string), 
+            AWSShapeMember(label: "patchOperations", required: false, type: .list)
+        ]
+        /// [Required] The Resource identifier for the MethodResponse resource.
+        public let resourceId: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] The HTTP verb of the Method resource.
+        public let httpMethod: String
+        /// [Required] The status code for the MethodResponse resource.
+        public let statusCode: String
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+
+        public init(resourceId: String, restApiId: String, httpMethod: String, statusCode: String, patchOperations: [PatchOperation]? = nil) {
+            self.resourceId = resourceId
+            self.restApiId = restApiId
+            self.httpMethod = httpMethod
+            self.statusCode = statusCode
+            self.patchOperations = patchOperations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "resource_id"
+            case restApiId = "restapi_id"
+            case httpMethod = "http_method"
+            case statusCode = "status_code"
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -316,2971 +3354,6 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case restApiId = "restapi_id"
-        }
-    }
-
-    public enum VpcLinkStatus: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case pending = "PENDING"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Template: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
-        /// The Apache Velocity Template Language (VTL) template content used for the template resource.
-        public let value: String?
-
-        public init(value: String? = nil) {
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "value"
-        }
-    }
-
-    public struct ImportApiKeysRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings"), required: false, type: .boolean), 
-            AWSShapeMember(label: "format", location: .querystring(locationName: "format"), required: true, type: .enum), 
-            AWSShapeMember(label: "body", required: true, type: .blob)
-        ]
-        /// A query parameter to indicate whether to rollback ApiKey importation (true) or not (false) when error is encountered.
-        public let failOnWarnings: Bool?
-        /// A query parameter to specify the input format to imported API keys. Currently, only the csv format is supported.
-        public let format: ApiKeysFormat
-        /// The payload of the POST request to import API keys. For the payload format, see API Key File Format.
-        public let body: Data
-
-        public init(failOnWarnings: Bool? = nil, format: ApiKeysFormat, body: Data) {
-            self.failOnWarnings = failOnWarnings
-            self.format = format
-            self.body = body
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failOnWarnings = "failonwarnings"
-            case format = "format"
-            case body = "body"
-        }
-    }
-
-    public struct DeleteResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
-        ]
-        /// [Required] The identifier of the Resource resource.
-        public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-
-        public init(resourceId: String, restApiId: String) {
-            self.resourceId = resourceId
-            self.restApiId = restApiId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "resource_id"
-            case restApiId = "restapi_id"
-        }
-    }
-
-    public struct DeleteAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "authorizerId", location: .uri(locationName: "authorizer_id"), required: true, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The identifier of the Authorizer resource.
-        public let authorizerId: String
-
-        public init(restApiId: String, authorizerId: String) {
-            self.restApiId = restApiId
-            self.authorizerId = authorizerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case authorizerId = "authorizer_id"
-        }
-    }
-
-    public struct GetStageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The name of the Stage resource to get information about.
-        public let stageName: String
-
-        public init(restApiId: String, stageName: String) {
-            self.restApiId = restApiId
-            self.stageName = stageName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case stageName = "stage_name"
-        }
-    }
-
-    public struct GetDeploymentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// The current pagination position in the paged result set.
-        public let position: String?
-        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
-
-        public init(restApiId: String, position: String? = nil, limit: Int32? = nil) {
-            self.restApiId = restApiId
-            self.position = position
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case position = "position"
-            case limit = "limit"
-        }
-    }
-
-    public struct GetClientCertificatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
-        ]
-        /// The current pagination position in the paged result set.
-        public let position: String?
-        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
-
-        public init(position: String? = nil, limit: Int32? = nil) {
-            self.position = position
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case position = "position"
-            case limit = "limit"
-        }
-    }
-
-    public struct Authorizers: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
-            AWSShapeMember(label: "position", required: false, type: .string)
-        ]
-        /// The current page of elements from this collection.
-        public let items: [Authorizer]?
-        public let position: String?
-
-        public init(items: [Authorizer]? = nil, position: String? = nil) {
-            self.items = items
-            self.position = position
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "item"
-            case position = "position"
-        }
-    }
-
-    public struct Tags: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
-        /// The collection of tags. Each tag element is associated with a given resource.
-        public let tags: [String: String]?
-
-        public init(tags: [String: String]? = nil) {
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-        }
-    }
-
-    public struct CreateBasePathMappingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", required: true, type: .string), 
-            AWSShapeMember(label: "stage", required: false, type: .string), 
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string), 
-            AWSShapeMember(label: "basePath", required: false, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// The name of the API's stage that you want to use for this mapping. Leave this blank if you do not want callers to explicitly specify the stage name after any base path name.
-        public let stage: String?
-        /// [Required] The domain name of the BasePathMapping resource to create.
-        public let domainName: String
-        /// The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Leave this blank if you do not want callers to specify a base path name after the domain name.
-        public let basePath: String?
-
-        public init(restApiId: String, stage: String? = nil, domainName: String, basePath: String? = nil) {
-            self.restApiId = restApiId
-            self.stage = stage
-            self.domainName = domainName
-            self.basePath = basePath
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restApiId"
-            case stage = "stage"
-            case domainName = "domain_name"
-            case basePath = "basePath"
-        }
-    }
-
-    public struct CreateRestApiRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cloneFrom", required: false, type: .string), 
-            AWSShapeMember(label: "policy", required: false, type: .string), 
-            AWSShapeMember(label: "endpointConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "minimumCompressionSize", required: false, type: .integer), 
-            AWSShapeMember(label: "apiKeySource", required: false, type: .enum), 
-            AWSShapeMember(label: "binaryMediaTypes", required: false, type: .list), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
-        /// The ID of the RestApi that you want to clone from.
-        public let cloneFrom: String?
-        /// A stringified JSON policy document that applies to this RestApi regardless of the caller and Method configuration.
-        public let policy: String?
-        /// The endpoint configuration of this RestApi showing the endpoint types of the API. 
-        public let endpointConfiguration: EndpointConfiguration?
-        /// [Required] The name of the RestApi.
-        public let name: String
-        /// A nullable integer that is used to enable compression (with non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a null value) on an API. When compression is enabled, compression or decompression is not applied on the payload if the payload size is smaller than this value. Setting it to zero allows compression for any payload size.
-        public let minimumCompressionSize: Int32?
-        /// The source of the API key for metering requests according to a usage plan. Valid values are: HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer. 
-        public let apiKeySource: ApiKeySourceType?
-        /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
-        public let binaryMediaTypes: [String]?
-        /// The description of the RestApi.
-        public let description: String?
-        /// A version identifier for the API.
-        public let version: String?
-
-        public init(cloneFrom: String? = nil, policy: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, name: String, minimumCompressionSize: Int32? = nil, apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, description: String? = nil, version: String? = nil) {
-            self.cloneFrom = cloneFrom
-            self.policy = policy
-            self.endpointConfiguration = endpointConfiguration
-            self.name = name
-            self.minimumCompressionSize = minimumCompressionSize
-            self.apiKeySource = apiKeySource
-            self.binaryMediaTypes = binaryMediaTypes
-            self.description = description
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cloneFrom = "cloneFrom"
-            case policy = "policy"
-            case endpointConfiguration = "endpointConfiguration"
-            case name = "name"
-            case minimumCompressionSize = "minimumCompressionSize"
-            case apiKeySource = "apiKeySource"
-            case binaryMediaTypes = "binaryMediaTypes"
-            case description = "description"
-            case version = "version"
-        }
-    }
-
-    public struct GetUsagePlanKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string), 
-            AWSShapeMember(label: "keyId", location: .uri(locationName: "keyId"), required: true, type: .string)
-        ]
-        /// [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
-        public let usagePlanId: String
-        /// [Required] The key Id of the to-be-retrieved UsagePlanKey resource representing a plan customer.
-        public let keyId: String
-
-        public init(usagePlanId: String, keyId: String) {
-            self.usagePlanId = usagePlanId
-            self.keyId = keyId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case usagePlanId = "usageplanId"
-            case keyId = "keyId"
-        }
-    }
-
-    public struct GatewayResponses: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
-            AWSShapeMember(label: "position", required: false, type: .string)
-        ]
-        /// Returns the entire collection, because of no pagination support.
-        public let items: [GatewayResponse]?
-        public let position: String?
-
-        public init(items: [GatewayResponse]? = nil, position: String? = nil) {
-            self.items = items
-            self.position = position
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "item"
-            case position = "position"
-        }
-    }
-
-    public enum ContentHandlingStrategy: String, CustomStringConvertible, Codable {
-        case convertToBinary = "CONVERT_TO_BINARY"
-        case convertToText = "CONVERT_TO_TEXT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetBasePathMappingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
-        ]
-        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
-        /// [Required] The domain name of a BasePathMapping resource.
-        public let domainName: String
-        /// The current pagination position in the paged result set.
-        public let position: String?
-
-        public init(limit: Int32? = nil, domainName: String, position: String? = nil) {
-            self.limit = limit
-            self.domainName = domainName
-            self.position = position
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case domainName = "domain_name"
-            case position = "position"
-        }
-    }
-
-    public struct GetIntegrationResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] Specifies a get integration response request's status code.
-        public let statusCode: String
-        /// [Required] Specifies a get integration response request's resource identifier.
-        public let resourceId: String
-        /// [Required] Specifies a get integration response request's HTTP method.
-        public let httpMethod: String
-
-        public init(restApiId: String, statusCode: String, resourceId: String, httpMethod: String) {
-            self.restApiId = restApiId
-            self.statusCode = statusCode
-            self.resourceId = resourceId
-            self.httpMethod = httpMethod
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case statusCode = "status_code"
-            case resourceId = "resource_id"
-            case httpMethod = "http_method"
-        }
-    }
-
-    public struct CreateDeploymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "canarySettings", required: false, type: .structure), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "stageDescription", required: false, type: .string), 
-            AWSShapeMember(label: "cacheClusterSize", required: false, type: .enum), 
-            AWSShapeMember(label: "stageName", required: false, type: .string), 
-            AWSShapeMember(label: "cacheClusterEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "variables", required: false, type: .map)
-        ]
-        /// The input configuration for the canary deployment when the deployment is a canary release deployment. 
-        public let canarySettings: DeploymentCanarySettings?
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// The description of the Stage resource for the Deployment resource to create.
-        public let stageDescription: String?
-        /// Specifies the cache cluster size for the Stage resource specified in the input, if a cache cluster is enabled.
-        public let cacheClusterSize: CacheClusterSize?
-        /// The name of the Stage resource for the Deployment resource to create.
-        public let stageName: String?
-        /// Enables a cache cluster for the Stage resource specified in the input.
-        public let cacheClusterEnabled: Bool?
-        /// The description for the Deployment resource to create.
-        public let description: String?
-        /// A map that defines the stage variables for the Stage resource that is associated with the new deployment. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
-        public let variables: [String: String]?
-
-        public init(canarySettings: DeploymentCanarySettings? = nil, restApiId: String, stageDescription: String? = nil, cacheClusterSize: CacheClusterSize? = nil, stageName: String? = nil, cacheClusterEnabled: Bool? = nil, description: String? = nil, variables: [String: String]? = nil) {
-            self.canarySettings = canarySettings
-            self.restApiId = restApiId
-            self.stageDescription = stageDescription
-            self.cacheClusterSize = cacheClusterSize
-            self.stageName = stageName
-            self.cacheClusterEnabled = cacheClusterEnabled
-            self.description = description
-            self.variables = variables
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case canarySettings = "canarySettings"
-            case restApiId = "restapi_id"
-            case stageDescription = "stageDescription"
-            case cacheClusterSize = "cacheClusterSize"
-            case stageName = "stageName"
-            case cacheClusterEnabled = "cacheClusterEnabled"
-            case description = "description"
-            case variables = "variables"
-        }
-    }
-
-    public struct UpdateAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "authorizerId", location: .uri(locationName: "authorizer_id"), required: true, type: .string)
-        ]
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The identifier of the Authorizer resource.
-        public let authorizerId: String
-
-        public init(patchOperations: [PatchOperation]? = nil, restApiId: String, authorizerId: String) {
-            self.patchOperations = patchOperations
-            self.restApiId = restApiId
-            self.authorizerId = authorizerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case patchOperations = "patchOperations"
-            case restApiId = "restapi_id"
-            case authorizerId = "authorizer_id"
-        }
-    }
-
-    public struct DeleteStageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The name of the Stage resource to delete.
-        public let stageName: String
-
-        public init(restApiId: String, stageName: String) {
-            self.restApiId = restApiId
-            self.stageName = stageName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case stageName = "stage_name"
-        }
-    }
-
-    public struct Integration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "integrationResponses", required: false, type: .map), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "timeoutInMillis", required: false, type: .integer), 
-            AWSShapeMember(label: "uri", required: false, type: .string), 
-            AWSShapeMember(label: "contentHandling", required: false, type: .enum), 
-            AWSShapeMember(label: "connectionId", required: false, type: .string), 
-            AWSShapeMember(label: "passthroughBehavior", required: false, type: .string), 
-            AWSShapeMember(label: "httpMethod", required: false, type: .string), 
-            AWSShapeMember(label: "requestParameters", required: false, type: .map), 
-            AWSShapeMember(label: "credentials", required: false, type: .string), 
-            AWSShapeMember(label: "requestTemplates", required: false, type: .map), 
-            AWSShapeMember(label: "connectionType", required: false, type: .enum), 
-            AWSShapeMember(label: "cacheKeyParameters", required: false, type: .list), 
-            AWSShapeMember(label: "cacheNamespace", required: false, type: .string)
-        ]
-        /// Specifies the integration's responses.   Example: Get integration responses of a method Request  GET /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200 HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com X-Amz-Date: 20160607T191449Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160607/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash}  Response The successful response returns 200 OK status and a payload as follows: { "_links": { "curies": { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true }, "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.Content-Type": "'application/xml'" }, "responseTemplates": { "application/json": "$util.urlDecode(\"%3CkinesisStreams%3E#foreach($stream in $input.path('$.StreamNames'))%3Cstream%3E%3Cname%3E$stream%3C/name%3E%3C/stream%3E#end%3C/kinesisStreams%3E\")\n" }, "statusCode": "200" }    Creating an API 
-        public let integrationResponses: [String: IntegrationResponse]?
-        /// Specifies an API method integration type. The valid value is one of the following:  AWS: for integrating the API method request with an AWS service action, including the Lambda function-invoking action. With the Lambda function-invoking action, this is referred to as the Lambda custom integration. With any other AWS service action, this is known as AWS integration. AWS_PROXY: for integrating the API method request with the Lambda function-invoking action with the client request passed through as-is. This integration is also referred to as the Lambda proxy integration. HTTP: for integrating the API method request with an HTTP endpoint, including a private HTTP endpoint within a VPC. This integration is also referred to as the HTTP custom integration. HTTP_PROXY: for integrating the API method request with an HTTP endpoint, including a private HTTP endpoint within a VPC, with the client request passed through as-is. This is also referred to as the HTTP proxy integration. MOCK: for integrating the API method request with API Gateway as a "loop-back" endpoint without invoking any backend.  For the HTTP and HTTP proxy integrations, each integration can specify a protocol (http/https), port and path. Standard 80 and 443 ports are supported as well as custom ports above 1024. An HTTP or HTTP proxy integration with a connectionType of VPC_LINK is referred to as a private integration and uses a VpcLink to connect API Gateway to a network load balancer of a VPC.
-        public let `type`: IntegrationType?
-        /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
-        public let timeoutInMillis: Int32?
-        /// Specifies Uniform Resource Identifier (URI) of the integration endpoint.   For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing.    For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated AWS service (e.g., s3); and {subdomain} is a designated subdomain supported by certain AWS service for fast host-name lookup. action can be used for an AWS service action-based API, using an Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing service_api refers to the path to an AWS service resource, including the region of the integrated AWS service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key} 
-        public let uri: String?
-        /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a request payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a request payload from a binary blob to a Base64-encoded string.  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehaviors is configured to support payload pass-through.
-        public let contentHandling: ContentHandlingStrategy?
-        /// The (id) of the VpcLink used for the integration when connectionType=VPC_LINK and undefined, otherwise.
-        public let connectionId: String?
-        ///   Specifies how the method request body of an unmapped content type will be passed through the integration request to the back end without transformation. A content type is unmapped if no mapping template is defined in the integration or the content type does not match any of the mapped content types, as specified in requestTemplates. The valid value is one of the following:    WHEN_NO_MATCH: passes the method request body through the integration request to the back end without transformation when the method request content type does not match any content type associated with the mapping templates defined in the integration request.   WHEN_NO_TEMPLATES: passes the method request body through the integration request to the back end without transformation when no mapping template is defined in the integration request. If a template is defined when this option is selected, the method request of an unmapped content-type will be rejected with an HTTP 415 Unsupported Media Type response.   NEVER: rejects the method request with an HTTP 415 Unsupported Media Type response when either the method request content type does not match any content type associated with the mapping templates defined in the integration request or no mapping template is defined in the integration request.   
-        public let passthroughBehavior: String?
-        /// Specifies the integration's HTTP method type.
-        public let httpMethod: String?
-        /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.
-        public let requestParameters: [String: String]?
-        /// Specifies the credentials required for the integration, if any. For AWS integrations, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify the string arn:aws:iam::\*:user/\*. To use resource-based permissions on supported AWS services, specify null.
-        public let credentials: String?
-        /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
-        public let requestTemplates: [String: String]?
-        /// The type of the network connection to the integration endpoint. The valid value is INTERNET for connections through the public routable internet or VPC_LINK for private connections between API Gateway and a network load balancer in a VPC. The default value is INTERNET.
-        public let connectionType: ConnectionType?
-        /// Specifies the integration's cache key parameters.
-        public let cacheKeyParameters: [String]?
-        /// Specifies the integration's cache namespace.
-        public let cacheNamespace: String?
-
-        public init(integrationResponses: [String: IntegrationResponse]? = nil, type: IntegrationType? = nil, timeoutInMillis: Int32? = nil, uri: String? = nil, contentHandling: ContentHandlingStrategy? = nil, connectionId: String? = nil, passthroughBehavior: String? = nil, httpMethod: String? = nil, requestParameters: [String: String]? = nil, credentials: String? = nil, requestTemplates: [String: String]? = nil, connectionType: ConnectionType? = nil, cacheKeyParameters: [String]? = nil, cacheNamespace: String? = nil) {
-            self.integrationResponses = integrationResponses
-            self.`type` = `type`
-            self.timeoutInMillis = timeoutInMillis
-            self.uri = uri
-            self.contentHandling = contentHandling
-            self.connectionId = connectionId
-            self.passthroughBehavior = passthroughBehavior
-            self.httpMethod = httpMethod
-            self.requestParameters = requestParameters
-            self.credentials = credentials
-            self.requestTemplates = requestTemplates
-            self.connectionType = connectionType
-            self.cacheKeyParameters = cacheKeyParameters
-            self.cacheNamespace = cacheNamespace
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case integrationResponses = "integrationResponses"
-            case `type` = "type"
-            case timeoutInMillis = "timeoutInMillis"
-            case uri = "uri"
-            case contentHandling = "contentHandling"
-            case connectionId = "connectionId"
-            case passthroughBehavior = "passthroughBehavior"
-            case httpMethod = "httpMethod"
-            case requestParameters = "requestParameters"
-            case credentials = "credentials"
-            case requestTemplates = "requestTemplates"
-            case connectionType = "connectionType"
-            case cacheKeyParameters = "cacheKeyParameters"
-            case cacheNamespace = "cacheNamespace"
-        }
-    }
-
-    public struct CreateDocumentationPartRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "location", required: true, type: .structure), 
-            AWSShapeMember(label: "properties", required: true, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The location of the targeted API entity of the to-be-created documentation part.
-        public let location: DocumentationPartLocation
-        /// [Required] The new documentation content map of the targeted API entity. Enclosed key-value pairs are API-specific, but only Swagger-compliant key-value pairs can be exported and, hence, published.
-        public let properties: String
-
-        public init(restApiId: String, location: DocumentationPartLocation, properties: String) {
-            self.restApiId = restApiId
-            self.location = location
-            self.properties = properties
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case location = "location"
-            case properties = "properties"
-        }
-    }
-
-    public enum ApiKeySourceType: String, CustomStringConvertible, Codable {
-        case header = "HEADER"
-        case authorizer = "AUTHORIZER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PutIntegrationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "integrationHttpMethod", location: .body(locationName: "httpMethod"), required: false, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum), 
-            AWSShapeMember(label: "timeoutInMillis", required: false, type: .integer), 
-            AWSShapeMember(label: "uri", required: false, type: .string), 
-            AWSShapeMember(label: "contentHandling", required: false, type: .enum), 
-            AWSShapeMember(label: "connectionId", required: false, type: .string), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
-            AWSShapeMember(label: "passthroughBehavior", required: false, type: .string), 
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
-            AWSShapeMember(label: "requestParameters", required: false, type: .map), 
-            AWSShapeMember(label: "credentials", required: false, type: .string), 
-            AWSShapeMember(label: "requestTemplates", required: false, type: .map), 
-            AWSShapeMember(label: "connectionType", required: false, type: .enum), 
-            AWSShapeMember(label: "cacheKeyParameters", required: false, type: .list), 
-            AWSShapeMember(label: "cacheNamespace", required: false, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// Specifies a put integration HTTP method. When the integration type is HTTP or AWS, this field is required.
-        public let integrationHttpMethod: String?
-        /// [Required] Specifies a put integration input's type.
-        public let `type`: IntegrationType
-        /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
-        public let timeoutInMillis: Int32?
-        /// Specifies Uniform Resource Identifier (URI) of the integration endpoint.   For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing.    For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated AWS service (e.g., s3); and {subdomain} is a designated subdomain supported by certain AWS service for fast host-name lookup. action can be used for an AWS service action-based API, using an Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing service_api refers to the path to an AWS service resource, including the region of the integrated AWS service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key} 
-        public let uri: String?
-        /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a request payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a request payload from a binary blob to a Base64-encoded string.  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehaviors is configured to support payload pass-through.
-        public let contentHandling: ContentHandlingStrategy?
-        /// The (id) of the VpcLink used for the integration when connectionType=VPC_LINK and undefined, otherwise.
-        public let connectionId: String?
-        /// [Required] Specifies a put integration request's resource ID.
-        public let resourceId: String
-        /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER.   WHEN_NO_MATCH passes the request body for unmapped content types through to the integration back end without transformation. NEVER rejects unmapped content types with an HTTP 415 'Unsupported Media Type' response. WHEN_NO_TEMPLATES allows pass-through when the integration has NO content types mapped to templates. However if there is at least one content type defined, unmapped content types will be rejected with the same 415 response. 
-        public let passthroughBehavior: String?
-        /// [Required] Specifies a put integration request's HTTP method.
-        public let httpMethod: String
-        /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.
-        public let requestParameters: [String: String]?
-        /// Specifies whether credentials are required for a put integration.
-        public let credentials: String?
-        /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
-        public let requestTemplates: [String: String]?
-        /// The type of the network connection to the integration endpoint. The valid value is INTERNET for connections through the public routable internet or VPC_LINK for private connections between API Gateway and a network load balancer in a VPC. The default value is INTERNET.
-        public let connectionType: ConnectionType?
-        /// Specifies a put integration input's cache key parameters.
-        public let cacheKeyParameters: [String]?
-        /// Specifies a put integration input's cache namespace.
-        public let cacheNamespace: String?
-
-        public init(restApiId: String, integrationHttpMethod: String? = nil, type: IntegrationType, timeoutInMillis: Int32? = nil, uri: String? = nil, contentHandling: ContentHandlingStrategy? = nil, connectionId: String? = nil, resourceId: String, passthroughBehavior: String? = nil, httpMethod: String, requestParameters: [String: String]? = nil, credentials: String? = nil, requestTemplates: [String: String]? = nil, connectionType: ConnectionType? = nil, cacheKeyParameters: [String]? = nil, cacheNamespace: String? = nil) {
-            self.restApiId = restApiId
-            self.integrationHttpMethod = integrationHttpMethod
-            self.`type` = `type`
-            self.timeoutInMillis = timeoutInMillis
-            self.uri = uri
-            self.contentHandling = contentHandling
-            self.connectionId = connectionId
-            self.resourceId = resourceId
-            self.passthroughBehavior = passthroughBehavior
-            self.httpMethod = httpMethod
-            self.requestParameters = requestParameters
-            self.credentials = credentials
-            self.requestTemplates = requestTemplates
-            self.connectionType = connectionType
-            self.cacheKeyParameters = cacheKeyParameters
-            self.cacheNamespace = cacheNamespace
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case integrationHttpMethod = "httpMethod"
-            case `type` = "type"
-            case timeoutInMillis = "timeoutInMillis"
-            case uri = "uri"
-            case contentHandling = "contentHandling"
-            case connectionId = "connectionId"
-            case resourceId = "resource_id"
-            case passthroughBehavior = "passthroughBehavior"
-            case httpMethod = "http_method"
-            case requestParameters = "requestParameters"
-            case credentials = "credentials"
-            case requestTemplates = "requestTemplates"
-            case connectionType = "connectionType"
-            case cacheKeyParameters = "cacheKeyParameters"
-            case cacheNamespace = "cacheNamespace"
-        }
-    }
-
-    public struct UpdateAccountRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "patchOperations", required: false, type: .list)
-        ]
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
-
-        public init(patchOperations: [PatchOperation]? = nil) {
-            self.patchOperations = patchOperations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case patchOperations = "patchOperations"
-        }
-    }
-
-    public struct DeleteModelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "modelName", location: .uri(locationName: "model_name"), required: true, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The name of the model to delete.
-        public let modelName: String
-
-        public init(restApiId: String, modelName: String) {
-            self.restApiId = restApiId
-            self.modelName = modelName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case modelName = "model_name"
-        }
-    }
-
-    public struct Stage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cacheClusterStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "documentationVersion", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "canarySettings", required: false, type: .structure), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "clientCertificateId", required: false, type: .string), 
-            AWSShapeMember(label: "variables", required: false, type: .map), 
-            AWSShapeMember(label: "methodSettings", required: false, type: .map), 
-            AWSShapeMember(label: "cacheClusterSize", required: false, type: .enum), 
-            AWSShapeMember(label: "deploymentId", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "cacheClusterEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "stageName", required: false, type: .string), 
-            AWSShapeMember(label: "accessLogSettings", required: false, type: .structure)
-        ]
-        /// The status of the cache cluster for the stage, if enabled.
-        public let cacheClusterStatus: CacheClusterStatus?
-        /// The version of the associated API documentation.
-        public let documentationVersion: String?
-        /// The stage's description.
-        public let description: String?
-        /// Settings for the canary deployment in this stage.
-        public let canarySettings: CanarySettings?
-        /// The timestamp when the stage last updated.
-        public let lastUpdatedDate: TimeStamp?
-        /// The timestamp when the stage was created.
-        public let createdDate: TimeStamp?
-        /// The identifier of a client certificate for an API stage.
-        public let clientCertificateId: String?
-        /// A map that defines the stage variables for a Stage resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
-        public let variables: [String: String]?
-        /// A map that defines the method settings for a Stage resource. Keys (designated as /{method_setting_key below) are method paths defined as {resource_path}/{http_method} for an individual method override, or /\*/\* for overriding all methods in the stage. 
-        public let methodSettings: [String: MethodSetting]?
-        /// The size of the cache cluster for the stage, if enabled.
-        public let cacheClusterSize: CacheClusterSize?
-        /// The identifier of the Deployment that the stage points to.
-        public let deploymentId: String?
-        /// The collection of tags. Each tag element is associated with a given resource.
-        public let tags: [String: String]?
-        /// Specifies whether a cache cluster is enabled for the stage.
-        public let cacheClusterEnabled: Bool?
-        /// The name of the stage is the first path segment in the Uniform Resource Identifier (URI) of a call to API Gateway.
-        public let stageName: String?
-        /// Settings for logging access in this stage.
-        public let accessLogSettings: AccessLogSettings?
-
-        public init(cacheClusterStatus: CacheClusterStatus? = nil, documentationVersion: String? = nil, description: String? = nil, canarySettings: CanarySettings? = nil, lastUpdatedDate: TimeStamp? = nil, createdDate: TimeStamp? = nil, clientCertificateId: String? = nil, variables: [String: String]? = nil, methodSettings: [String: MethodSetting]? = nil, cacheClusterSize: CacheClusterSize? = nil, deploymentId: String? = nil, tags: [String: String]? = nil, cacheClusterEnabled: Bool? = nil, stageName: String? = nil, accessLogSettings: AccessLogSettings? = nil) {
-            self.cacheClusterStatus = cacheClusterStatus
-            self.documentationVersion = documentationVersion
-            self.description = description
-            self.canarySettings = canarySettings
-            self.lastUpdatedDate = lastUpdatedDate
-            self.createdDate = createdDate
-            self.clientCertificateId = clientCertificateId
-            self.variables = variables
-            self.methodSettings = methodSettings
-            self.cacheClusterSize = cacheClusterSize
-            self.deploymentId = deploymentId
-            self.tags = tags
-            self.cacheClusterEnabled = cacheClusterEnabled
-            self.stageName = stageName
-            self.accessLogSettings = accessLogSettings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheClusterStatus = "cacheClusterStatus"
-            case documentationVersion = "documentationVersion"
-            case description = "description"
-            case canarySettings = "canarySettings"
-            case lastUpdatedDate = "lastUpdatedDate"
-            case createdDate = "createdDate"
-            case clientCertificateId = "clientCertificateId"
-            case variables = "variables"
-            case methodSettings = "methodSettings"
-            case cacheClusterSize = "cacheClusterSize"
-            case deploymentId = "deploymentId"
-            case tags = "tags"
-            case cacheClusterEnabled = "cacheClusterEnabled"
-            case stageName = "stageName"
-            case accessLogSettings = "accessLogSettings"
-        }
-    }
-
-    public struct Method: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "requestModels", required: false, type: .map), 
-            AWSShapeMember(label: "requestValidatorId", required: false, type: .string), 
-            AWSShapeMember(label: "requestParameters", required: false, type: .map), 
-            AWSShapeMember(label: "operationName", required: false, type: .string), 
-            AWSShapeMember(label: "authorizationType", required: false, type: .string), 
-            AWSShapeMember(label: "httpMethod", required: false, type: .string), 
-            AWSShapeMember(label: "apiKeyRequired", required: false, type: .boolean), 
-            AWSShapeMember(label: "methodResponses", required: false, type: .map), 
-            AWSShapeMember(label: "authorizerId", required: false, type: .string), 
-            AWSShapeMember(label: "authorizationScopes", required: false, type: .list), 
-            AWSShapeMember(label: "methodIntegration", required: false, type: .structure)
-        ]
-        /// A key-value map specifying data schemas, represented by Model resources, (as the mapped value) of the request payloads of given content types (as the mapping key).
-        public let requestModels: [String: String]?
-        /// The identifier of a RequestValidator for request validation.
-        public let requestValidatorId: String?
-        /// A key-value map defining required or optional method request parameters that can be accepted by API Gateway. A key is a method request parameter name matching the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name is a valid and unique parameter name. The value associated with the key is a Boolean flag indicating whether the parameter is required (true) or optional (false). The method request parameter names defined here are available in Integration to be mapped to integration request parameters or templates.
-        public let requestParameters: [String: Bool]?
-        /// A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in PetStore example.
-        public let operationName: String?
-        /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
-        public let authorizationType: String?
-        /// The method's HTTP verb.
-        public let httpMethod: String?
-        /// A boolean flag specifying whether a valid ApiKey is required to invoke this method.
-        public let apiKeyRequired: Bool?
-        /// Gets a method response associated with a given HTTP status code.   The collection of method responses are encapsulated in a key-value map, where the key is a response's HTTP status code and the value is a MethodResponse resource that specifies the response returned to the caller from the back end through the integration response. Example: Get a 200 OK response of a GET method Request  GET /restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200 HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com Content-Length: 117 X-Amz-Date: 20160613T215008Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160613/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response The successful response returns a 200 OK status code and a payload similar to the following: { "_links": { "curies": { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html", "name": "methodresponse", "templated": true }, "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200", "title": "200" }, "methodresponse:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200" }, "methodresponse:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200" } }, "responseModels": { "application/json": "Empty" }, "responseParameters": { "method.response.header.operator": false, "method.response.header.operand_2": false, "method.response.header.operand_1": false }, "statusCode": "200" }    AWS CLI 
-        public let methodResponses: [String: MethodResponse]?
-        /// The identifier of an Authorizer to use on this method. The authorizationType must be CUSTOM.
-        public let authorizerId: String?
-        /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes.
-        public let authorizationScopes: [String]?
-        /// Gets the method's integration responsible for passing the client-submitted request to the back end and performing necessary transformations to make the request compliant with the back end.   Example:  Request  GET /restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com Content-Length: 117 X-Amz-Date: 20160613T213210Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160613/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response The successful response returns a 200 OK status code and a payload similar to the following: { "_links": { "curies": [ { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html", "name": "integration", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true } ], "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" }, "integration:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" }, "integration:responses": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integration:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" }, "integrationresponse:put": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/{status_code}", "templated": true } }, "cacheKeyParameters": [], "cacheNamespace": "0cjtch", "credentials": "arn:aws:iam::123456789012:role/apigAwsProxyRole", "httpMethod": "POST", "passthroughBehavior": "WHEN_NO_MATCH", "requestTemplates": { "application/json": "{\n \"a\": \"$input.params('operand1')\",\n \"b\": \"$input.params('operand2')\", \n \"op\": \"$input.params('operator')\" \n}" }, "type": "AWS", "uri": "arn:aws:apigateway:us-west-2:lambda:path//2015-03-31/functions/arn:aws:lambda:us-west-2:123456789012:function:Calc/invocations", "_embedded": { "integration:responses": { "_links": { "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.operator": "integration.response.body.op", "method.response.header.operand_2": "integration.response.body.b", "method.response.header.operand_1": "integration.response.body.a" }, "responseTemplates": { "application/json": "#set($res = $input.path('$'))\n{\n \"result\": \"$res.a, $res.b, $res.op => $res.c\",\n \"a\" : \"$res.a\",\n \"b\" : \"$res.b\",\n \"op\" : \"$res.op\",\n \"c\" : \"$res.c\"\n}" }, "selectionPattern": "", "statusCode": "200" } } }    AWS CLI 
-        public let methodIntegration: Integration?
-
-        public init(requestModels: [String: String]? = nil, requestValidatorId: String? = nil, requestParameters: [String: Bool]? = nil, operationName: String? = nil, authorizationType: String? = nil, httpMethod: String? = nil, apiKeyRequired: Bool? = nil, methodResponses: [String: MethodResponse]? = nil, authorizerId: String? = nil, authorizationScopes: [String]? = nil, methodIntegration: Integration? = nil) {
-            self.requestModels = requestModels
-            self.requestValidatorId = requestValidatorId
-            self.requestParameters = requestParameters
-            self.operationName = operationName
-            self.authorizationType = authorizationType
-            self.httpMethod = httpMethod
-            self.apiKeyRequired = apiKeyRequired
-            self.methodResponses = methodResponses
-            self.authorizerId = authorizerId
-            self.authorizationScopes = authorizationScopes
-            self.methodIntegration = methodIntegration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case requestModels = "requestModels"
-            case requestValidatorId = "requestValidatorId"
-            case requestParameters = "requestParameters"
-            case operationName = "operationName"
-            case authorizationType = "authorizationType"
-            case httpMethod = "httpMethod"
-            case apiKeyRequired = "apiKeyRequired"
-            case methodResponses = "methodResponses"
-            case authorizerId = "authorizerId"
-            case authorizationScopes = "authorizationScopes"
-            case methodIntegration = "methodIntegration"
-        }
-    }
-
-    public struct UsagePlan: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "productCode", required: false, type: .string), 
-            AWSShapeMember(label: "quota", required: false, type: .structure), 
-            AWSShapeMember(label: "apiStages", required: false, type: .list), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "throttle", required: false, type: .structure)
-        ]
-        /// The name of a usage plan.
-        public let name: String?
-        /// The AWS Markeplace product identifier to associate with the usage plan as a SaaS product on AWS Marketplace.
-        public let productCode: String?
-        /// The maximum number of permitted requests per a given unit time interval.
-        public let quota: QuotaSettings?
-        /// The associated API stages of a usage plan.
-        public let apiStages: [ApiStage]?
-        /// The description of a usage plan.
-        public let description: String?
-        /// The identifier of a UsagePlan resource.
-        public let id: String?
-        /// The request throttle limits of a usage plan.
-        public let throttle: ThrottleSettings?
-
-        public init(name: String? = nil, productCode: String? = nil, quota: QuotaSettings? = nil, apiStages: [ApiStage]? = nil, description: String? = nil, id: String? = nil, throttle: ThrottleSettings? = nil) {
-            self.name = name
-            self.productCode = productCode
-            self.quota = quota
-            self.apiStages = apiStages
-            self.description = description
-            self.id = id
-            self.throttle = throttle
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case productCode = "productCode"
-            case quota = "quota"
-            case apiStages = "apiStages"
-            case description = "description"
-            case id = "id"
-            case throttle = "throttle"
-        }
-    }
-
-    public struct GetMethodRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string)
-        ]
-        /// [Required] The Resource identifier for the Method resource.
-        public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] Specifies the method request's HTTP method type.
-        public let httpMethod: String
-
-        public init(resourceId: String, restApiId: String, httpMethod: String) {
-            self.resourceId = resourceId
-            self.restApiId = restApiId
-            self.httpMethod = httpMethod
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "resource_id"
-            case restApiId = "restapi_id"
-            case httpMethod = "http_method"
-        }
-    }
-
-    public struct UpdateUsagePlanRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
-            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string)
-        ]
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
-        /// [Required] The Id of the to-be-updated usage plan.
-        public let usagePlanId: String
-
-        public init(patchOperations: [PatchOperation]? = nil, usagePlanId: String) {
-            self.patchOperations = patchOperations
-            self.usagePlanId = usagePlanId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case patchOperations = "patchOperations"
-            case usagePlanId = "usageplanId"
-        }
-    }
-
-    public struct GetSdkTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", location: .uri(locationName: "sdktype_id"), required: true, type: .string)
-        ]
-        /// [Required] The identifier of the queried SdkType instance.
-        public let id: String
-
-        public init(id: String) {
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "sdktype_id"
-        }
-    }
-
-    public struct MethodResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "statusCode", required: false, type: .string), 
-            AWSShapeMember(label: "responseParameters", required: false, type: .map), 
-            AWSShapeMember(label: "responseModels", required: false, type: .map)
-        ]
-        /// The method response's status code.
-        public let statusCode: String?
-        /// A key-value map specifying required or optional response parameters that API Gateway can send back to the caller. A key defines a method response header and the value specifies whether the associated method response header is required or not. The expression of the key must match the pattern method.response.header.{name}, where name is a valid and unique header name. API Gateway passes certain integration response data to the method response headers specified here according to the mapping you prescribe in the API's IntegrationResponse. The integration response data that can be mapped include an integration response header expressed in integration.response.header.{name}, a static value enclosed within a pair of single quotes (e.g., 'application/json'), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression}, where JSON-expression is a valid JSON expression without the $ prefix.)
-        public let responseParameters: [String: Bool]?
-        /// Specifies the Model resources used for the response's content-type. Response models are represented as a key/value map, with a content-type as the key and a Model name as the value.
-        public let responseModels: [String: String]?
-
-        public init(statusCode: String? = nil, responseParameters: [String: Bool]? = nil, responseModels: [String: String]? = nil) {
-            self.statusCode = statusCode
-            self.responseParameters = responseParameters
-            self.responseModels = responseModels
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case statusCode = "statusCode"
-            case responseParameters = "responseParameters"
-            case responseModels = "responseModels"
-        }
-    }
-
-    public struct DocumentationParts: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
-            AWSShapeMember(label: "position", required: false, type: .string)
-        ]
-        /// The current page of elements from this collection.
-        public let items: [DocumentationPart]?
-        public let position: String?
-
-        public init(items: [DocumentationPart]? = nil, position: String? = nil) {
-            self.items = items
-            self.position = position
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "item"
-            case position = "position"
-        }
-    }
-
-    public struct TestInvokeMethodResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .integer), 
-            AWSShapeMember(label: "log", required: false, type: .string), 
-            AWSShapeMember(label: "body", required: false, type: .string), 
-            AWSShapeMember(label: "headers", required: false, type: .map), 
-            AWSShapeMember(label: "latency", required: false, type: .long)
-        ]
-        /// The HTTP status code.
-        public let status: Int32?
-        /// The API Gateway execution log for the test invoke request.
-        public let log: String?
-        /// The body of the HTTP response.
-        public let body: String?
-        /// The headers of the HTTP response.
-        public let headers: [String: String]?
-        /// The execution latency of the test invoke request.
-        public let latency: Int64?
-
-        public init(status: Int32? = nil, log: String? = nil, body: String? = nil, headers: [String: String]? = nil, latency: Int64? = nil) {
-            self.status = status
-            self.log = log
-            self.body = body
-            self.headers = headers
-            self.latency = latency
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "status"
-            case log = "log"
-            case body = "body"
-            case headers = "headers"
-            case latency = "latency"
-        }
-    }
-
-    public struct GatewayResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "responseType", required: false, type: .enum), 
-            AWSShapeMember(label: "statusCode", required: false, type: .string), 
-            AWSShapeMember(label: "responseParameters", required: false, type: .map), 
-            AWSShapeMember(label: "responseTemplates", required: false, type: .map), 
-            AWSShapeMember(label: "defaultResponse", required: false, type: .boolean)
-        ]
-        /// The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE 
-        public let responseType: GatewayResponseType?
-        /// The HTTP status code for this GatewayResponse.
-        public let statusCode: String?
-        /// Response parameters (paths, query strings and headers) of the GatewayResponse as a string-to-string map of key-value pairs.
-        public let responseParameters: [String: String]?
-        /// Response templates of the GatewayResponse as a string-to-string map of key-value pairs.
-        public let responseTemplates: [String: String]?
-        /// A Boolean flag to indicate whether this GatewayResponse is the default gateway response (true) or not (false). A default gateway response is one generated by API Gateway without any customization by an API developer. 
-        public let defaultResponse: Bool?
-
-        public init(responseType: GatewayResponseType? = nil, statusCode: String? = nil, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, defaultResponse: Bool? = nil) {
-            self.responseType = responseType
-            self.statusCode = statusCode
-            self.responseParameters = responseParameters
-            self.responseTemplates = responseTemplates
-            self.defaultResponse = defaultResponse
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case responseType = "responseType"
-            case statusCode = "statusCode"
-            case responseParameters = "responseParameters"
-            case responseTemplates = "responseTemplates"
-            case defaultResponse = "defaultResponse"
-        }
-    }
-
-    public struct GetApiKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiKey", location: .uri(locationName: "api_Key"), required: true, type: .string), 
-            AWSShapeMember(label: "includeValue", location: .querystring(locationName: "includeValue"), required: false, type: .boolean)
-        ]
-        /// [Required] The identifier of the ApiKey resource.
-        public let apiKey: String
-        /// A boolean flag to specify whether (true) or not (false) the result contains the key value.
-        public let includeValue: Bool?
-
-        public init(apiKey: String, includeValue: Bool? = nil) {
-            self.apiKey = apiKey
-            self.includeValue = includeValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case apiKey = "api_Key"
-            case includeValue = "includeValue"
-        }
-    }
-
-    public struct GetDeploymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "deploymentId", location: .uri(locationName: "deployment_id"), required: true, type: .string), 
-            AWSShapeMember(label: "embed", location: .querystring(locationName: "embed"), required: false, type: .list)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The identifier of the Deployment resource to get information about.
-        public let deploymentId: String
-        /// A query parameter to retrieve the specified embedded resources of the returned Deployment resource in the response. In a REST API call, this embed parameter value is a list of comma-separated strings, as in GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=var1,var2. The SDK and other platform-dependent libraries might use a different format for the list. Currently, this request supports only retrieval of the embedded API summary this way. Hence, the parameter value must be a single-valued list containing only the "apisummary" string. For example, GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=apisummary.
-        public let embed: [String]?
-
-        public init(restApiId: String, deploymentId: String, embed: [String]? = nil) {
-            self.restApiId = restApiId
-            self.deploymentId = deploymentId
-            self.embed = embed
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case deploymentId = "deployment_id"
-            case embed = "embed"
-        }
-    }
-
-    public enum ConnectionType: String, CustomStringConvertible, Codable {
-        case internet = "INTERNET"
-        case vpcLink = "VPC_LINK"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateModelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "schema", required: false, type: .string), 
-            AWSShapeMember(label: "contentType", required: true, type: .string)
-        ]
-        /// [Required] The RestApi identifier under which the Model will be created.
-        public let restApiId: String
-        /// The description of the model.
-        public let description: String?
-        /// [Required] The name of the model. Must be alphanumeric.
-        public let name: String
-        /// The schema for the model. For application/json models, this should be JSON schema draft 4 model.
-        public let schema: String?
-        /// [Required] The content-type for the model.
-        public let contentType: String
-
-        public init(restApiId: String, description: String? = nil, name: String, schema: String? = nil, contentType: String) {
-            self.restApiId = restApiId
-            self.description = description
-            self.name = name
-            self.schema = schema
-            self.contentType = contentType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case description = "description"
-            case name = "name"
-            case schema = "schema"
-            case contentType = "contentType"
-        }
-    }
-
-    public struct GetStagesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "deploymentId", location: .querystring(locationName: "deploymentId"), required: false, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// The stages' deployment identifiers.
-        public let deploymentId: String?
-
-        public init(restApiId: String, deploymentId: String? = nil) {
-            self.restApiId = restApiId
-            self.deploymentId = deploymentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case deploymentId = "deploymentId"
-        }
-    }
-
-    public struct GetUsagePlanRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string)
-        ]
-        /// [Required] The identifier of the UsagePlan resource to be retrieved.
-        public let usagePlanId: String
-
-        public init(usagePlanId: String) {
-            self.usagePlanId = usagePlanId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case usagePlanId = "usageplanId"
-        }
-    }
-
-    public struct UsagePlanKey: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
-        /// The type of a usage plan key. Currently, the valid key type is API_KEY.
-        public let `type`: String?
-        /// The Id of a usage plan key.
-        public let id: String?
-        /// The name of a usage plan key.
-        public let name: String?
-        /// The value of a usage plan key.
-        public let value: String?
-
-        public init(type: String? = nil, id: String? = nil, name: String? = nil, value: String? = nil) {
-            self.`type` = `type`
-            self.id = id
-            self.name = name
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "type"
-            case id = "id"
-            case name = "name"
-            case value = "value"
-        }
-    }
-
-    public struct ClientCertificate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "clientCertificateId", required: false, type: .string), 
-            AWSShapeMember(label: "pemEncodedCertificate", required: false, type: .string), 
-            AWSShapeMember(label: "expirationDate", required: false, type: .timestamp)
-        ]
-        /// The description of the client certificate.
-        public let description: String?
-        /// The timestamp when the client certificate was created.
-        public let createdDate: TimeStamp?
-        /// The identifier of the client certificate.
-        public let clientCertificateId: String?
-        /// The PEM-encoded public key of the client certificate, which can be used to configure certificate authentication in the integration endpoint .
-        public let pemEncodedCertificate: String?
-        /// The timestamp when the client certificate will expire.
-        public let expirationDate: TimeStamp?
-
-        public init(description: String? = nil, createdDate: TimeStamp? = nil, clientCertificateId: String? = nil, pemEncodedCertificate: String? = nil, expirationDate: TimeStamp? = nil) {
-            self.description = description
-            self.createdDate = createdDate
-            self.clientCertificateId = clientCertificateId
-            self.pemEncodedCertificate = pemEncodedCertificate
-            self.expirationDate = expirationDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case createdDate = "createdDate"
-            case clientCertificateId = "clientCertificateId"
-            case pemEncodedCertificate = "pemEncodedCertificate"
-            case expirationDate = "expirationDate"
-        }
-    }
-
-    public struct UpdateMethodRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
-            AWSShapeMember(label: "patchOperations", required: false, type: .list)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The Resource identifier for the Method resource.
-        public let resourceId: String
-        /// [Required] The HTTP verb of the Method resource.
-        public let httpMethod: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
-
-        public init(restApiId: String, resourceId: String, httpMethod: String, patchOperations: [PatchOperation]? = nil) {
-            self.restApiId = restApiId
-            self.resourceId = resourceId
-            self.httpMethod = httpMethod
-            self.patchOperations = patchOperations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case resourceId = "resource_id"
-            case httpMethod = "http_method"
-            case patchOperations = "patchOperations"
-        }
-    }
-
-    public struct PutIntegrationResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string), 
-            AWSShapeMember(label: "contentHandling", required: false, type: .enum), 
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
-            AWSShapeMember(label: "selectionPattern", required: false, type: .string), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
-            AWSShapeMember(label: "responseTemplates", required: false, type: .map), 
-            AWSShapeMember(label: "responseParameters", required: false, type: .map)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] Specifies the status code that is used to map the integration response to an existing MethodResponse.
-        public let statusCode: String
-        /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string.  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
-        public let contentHandling: ContentHandlingStrategy?
-        /// [Required] Specifies a put integration response request's HTTP method.
-        public let httpMethod: String
-        /// Specifies the selection pattern of a put integration response.
-        public let selectionPattern: String?
-        /// [Required] Specifies a put integration response request's resource identifier.
-        public let resourceId: String
-        /// Specifies a put integration response's templates.
-        public let responseTemplates: [String: String]?
-        /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name must be a valid and unique response header name and JSON-expression a valid JSON expression without the $ prefix.
-        public let responseParameters: [String: String]?
-
-        public init(restApiId: String, statusCode: String, contentHandling: ContentHandlingStrategy? = nil, httpMethod: String, selectionPattern: String? = nil, resourceId: String, responseTemplates: [String: String]? = nil, responseParameters: [String: String]? = nil) {
-            self.restApiId = restApiId
-            self.statusCode = statusCode
-            self.contentHandling = contentHandling
-            self.httpMethod = httpMethod
-            self.selectionPattern = selectionPattern
-            self.resourceId = resourceId
-            self.responseTemplates = responseTemplates
-            self.responseParameters = responseParameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case statusCode = "status_code"
-            case contentHandling = "contentHandling"
-            case httpMethod = "http_method"
-            case selectionPattern = "selectionPattern"
-            case resourceId = "resource_id"
-            case responseTemplates = "responseTemplates"
-            case responseParameters = "responseParameters"
-        }
-    }
-
-    public struct StageKey: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", required: false, type: .string), 
-            AWSShapeMember(label: "stageName", required: false, type: .string)
-        ]
-        /// The string identifier of the associated RestApi.
-        public let restApiId: String?
-        /// The stage name associated with the stage key.
-        public let stageName: String?
-
-        public init(restApiId: String? = nil, stageName: String? = nil) {
-            self.restApiId = restApiId
-            self.stageName = stageName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restApiId"
-            case stageName = "stageName"
-        }
-    }
-
-    public struct GetModelsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// The current pagination position in the paged result set.
-        public let position: String?
-        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
-
-        public init(restApiId: String, position: String? = nil, limit: Int32? = nil) {
-            self.restApiId = restApiId
-            self.position = position
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case position = "position"
-            case limit = "limit"
-        }
-    }
-
-    public struct VpcLink: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "targetArns", required: false, type: .list), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "statusMessage", required: false, type: .string)
-        ]
-        /// The description of the VPC link.
-        public let description: String?
-        /// The status of the VPC link. The valid values are AVAILABLE, PENDING, DELETING, or FAILED. Deploying an API will wait if the status is PENDING and will fail if the status is DELETING. 
-        public let status: VpcLinkStatus?
-        /// The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
-        public let id: String?
-        /// The ARNs of network load balancers of the VPC targeted by the VPC link. The network load balancers must be owned by the same AWS account of the API owner.
-        public let targetArns: [String]?
-        /// The name used to label and identify the VPC link.
-        public let name: String?
-        /// A description about the VPC link status.
-        public let statusMessage: String?
-
-        public init(description: String? = nil, status: VpcLinkStatus? = nil, id: String? = nil, targetArns: [String]? = nil, name: String? = nil, statusMessage: String? = nil) {
-            self.description = description
-            self.status = status
-            self.id = id
-            self.targetArns = targetArns
-            self.name = name
-            self.statusMessage = statusMessage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case status = "status"
-            case id = "id"
-            case targetArns = "targetArns"
-            case name = "name"
-            case statusMessage = "statusMessage"
-        }
-    }
-
-    public struct UpdateDomainNameRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
-        ]
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
-        /// [Required] The name of the DomainName resource to be changed.
-        public let domainName: String
-
-        public init(patchOperations: [PatchOperation]? = nil, domainName: String) {
-            self.patchOperations = patchOperations
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case patchOperations = "patchOperations"
-            case domainName = "domain_name"
-        }
-    }
-
-    public struct UsagePlans: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
-            AWSShapeMember(label: "position", required: false, type: .string)
-        ]
-        /// The current page of elements from this collection.
-        public let items: [UsagePlan]?
-        public let position: String?
-
-        public init(items: [UsagePlan]? = nil, position: String? = nil) {
-            self.items = items
-            self.position = position
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "item"
-            case position = "position"
-        }
-    }
-
-    public struct IntegrationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "selectionPattern", required: false, type: .string), 
-            AWSShapeMember(label: "statusCode", required: false, type: .string), 
-            AWSShapeMember(label: "contentHandling", required: false, type: .enum), 
-            AWSShapeMember(label: "responseParameters", required: false, type: .map), 
-            AWSShapeMember(label: "responseTemplates", required: false, type: .map)
-        ]
-        /// Specifies the regular expression (regex) pattern used to choose an integration response based on the response from the back end. For example, if the success response returns nothing and the error response returns some string, you could use the .+ regex to match error response. However, make sure that the error response does not contain any newline (\n) character in such cases. If the back end is an AWS Lambda function, the AWS Lambda function error header is matched. For all other HTTP and AWS back ends, the HTTP status code is matched.
-        public let selectionPattern: String?
-        /// Specifies the status code that is used to map the integration response to an existing MethodResponse.
-        public let statusCode: String?
-        /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string.  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
-        public let contentHandling: ContentHandlingStrategy?
-        /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name is a valid and unique response header name and JSON-expression is a valid JSON expression without the $ prefix.
-        public let responseParameters: [String: String]?
-        /// Specifies the templates used to transform the integration response body. Response templates are represented as a key/value map, with a content-type as the key and a template as the value.
-        public let responseTemplates: [String: String]?
-
-        public init(selectionPattern: String? = nil, statusCode: String? = nil, contentHandling: ContentHandlingStrategy? = nil, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil) {
-            self.selectionPattern = selectionPattern
-            self.statusCode = statusCode
-            self.contentHandling = contentHandling
-            self.responseParameters = responseParameters
-            self.responseTemplates = responseTemplates
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case selectionPattern = "selectionPattern"
-            case statusCode = "statusCode"
-            case contentHandling = "contentHandling"
-            case responseParameters = "responseParameters"
-            case responseTemplates = "responseTemplates"
-        }
-    }
-
-    public enum ApiKeysFormat: String, CustomStringConvertible, Codable {
-        case csv = "csv"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteIntegrationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string)
-        ]
-        /// [Required] Specifies a delete integration request's resource identifier.
-        public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] Specifies a delete integration request's HTTP method.
-        public let httpMethod: String
-
-        public init(resourceId: String, restApiId: String, httpMethod: String) {
-            self.resourceId = resourceId
-            self.restApiId = restApiId
-            self.httpMethod = httpMethod
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "resource_id"
-            case restApiId = "restapi_id"
-            case httpMethod = "http_method"
-        }
-    }
-
-    public struct GetAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "authorizerId", location: .uri(locationName: "authorizer_id"), required: true, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The identifier of the Authorizer resource.
-        public let authorizerId: String
-
-        public init(restApiId: String, authorizerId: String) {
-            self.restApiId = restApiId
-            self.authorizerId = authorizerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case authorizerId = "authorizer_id"
-        }
-    }
-
-    public struct GetSdkTypesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
-        ]
-        /// The current pagination position in the paged result set.
-        public let position: String?
-        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
-
-        public init(position: String? = nil, limit: Int32? = nil) {
-            self.position = position
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case position = "position"
-            case limit = "limit"
-        }
-    }
-
-    public struct UpdateDocumentationPartRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "documentationPartId", location: .uri(locationName: "part_id"), required: true, type: .string)
-        ]
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The identifier of the to-be-updated documentation part.
-        public let documentationPartId: String
-
-        public init(patchOperations: [PatchOperation]? = nil, restApiId: String, documentationPartId: String) {
-            self.patchOperations = patchOperations
-            self.restApiId = restApiId
-            self.documentationPartId = documentationPartId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case patchOperations = "patchOperations"
-            case restApiId = "restapi_id"
-            case documentationPartId = "part_id"
-        }
-    }
-
-    public struct GetDocumentationPartRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "documentationPartId", location: .uri(locationName: "part_id"), required: true, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The string identifier of the associated RestApi.
-        public let documentationPartId: String
-
-        public init(restApiId: String, documentationPartId: String) {
-            self.restApiId = restApiId
-            self.documentationPartId = documentationPartId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case documentationPartId = "part_id"
-        }
-    }
-
-    public struct GetGatewayResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "responseType", location: .uri(locationName: "response_type"), required: true, type: .enum), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
-        ]
-        /// [Required] The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE 
-        public let responseType: GatewayResponseType
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-
-        public init(responseType: GatewayResponseType, restApiId: String) {
-            self.responseType = responseType
-            self.restApiId = restApiId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case responseType = "response_type"
-            case restApiId = "restapi_id"
-        }
-    }
-
-    public struct VpcLinks: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
-            AWSShapeMember(label: "position", required: false, type: .string)
-        ]
-        /// The current page of elements from this collection.
-        public let items: [VpcLink]?
-        public let position: String?
-
-        public init(items: [VpcLink]? = nil, position: String? = nil) {
-            self.items = items
-            self.position = position
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "item"
-            case position = "position"
-        }
-    }
-
-    public struct ImportDocumentationPartsRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "mode", location: .querystring(locationName: "mode"), required: false, type: .enum), 
-            AWSShapeMember(label: "body", required: true, type: .blob), 
-            AWSShapeMember(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings"), required: false, type: .boolean)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// A query parameter to indicate whether to overwrite (OVERWRITE) any existing DocumentationParts definition or to merge (MERGE) the new definition into the existing one. The default value is MERGE.
-        public let mode: PutMode?
-        /// [Required] Raw byte array representing the to-be-imported documentation parts. To import from a Swagger file, this is a JSON object.
-        public let body: Data
-        /// A query parameter to specify whether to rollback the documentation importation (true) or not (false) when a warning is encountered. The default value is false.
-        public let failOnWarnings: Bool?
-
-        public init(restApiId: String, mode: PutMode? = nil, body: Data, failOnWarnings: Bool? = nil) {
-            self.restApiId = restApiId
-            self.mode = mode
-            self.body = body
-            self.failOnWarnings = failOnWarnings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case mode = "mode"
-            case body = "body"
-            case failOnWarnings = "failonwarnings"
-        }
-    }
-
-    public struct PutGatewayResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "responseType", location: .uri(locationName: "response_type"), required: true, type: .enum), 
-            AWSShapeMember(label: "statusCode", required: false, type: .string), 
-            AWSShapeMember(label: "responseParameters", required: false, type: .map), 
-            AWSShapeMember(label: "responseTemplates", required: false, type: .map)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE 
-        public let responseType: GatewayResponseType
-        /// The HTTP status code of the GatewayResponse.
-        public let statusCode: String?
-        /// Response parameters (paths, query strings and headers) of the GatewayResponse as a string-to-string map of key-value pairs.
-        public let responseParameters: [String: String]?
-        /// Response templates of the GatewayResponse as a string-to-string map of key-value pairs.
-        public let responseTemplates: [String: String]?
-
-        public init(restApiId: String, responseType: GatewayResponseType, statusCode: String? = nil, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil) {
-            self.restApiId = restApiId
-            self.responseType = responseType
-            self.statusCode = statusCode
-            self.responseParameters = responseParameters
-            self.responseTemplates = responseTemplates
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case responseType = "response_type"
-            case statusCode = "statusCode"
-            case responseParameters = "responseParameters"
-            case responseTemplates = "responseTemplates"
-        }
-    }
-
-    public struct GetClientCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientCertificateId", location: .uri(locationName: "clientcertificate_id"), required: true, type: .string)
-        ]
-        /// [Required] The identifier of the ClientCertificate resource to be described.
-        public let clientCertificateId: String
-
-        public init(clientCertificateId: String) {
-            self.clientCertificateId = clientCertificateId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clientCertificateId = "clientcertificate_id"
-        }
-    }
-
-    public struct PutMethodResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "responseModels", required: false, type: .map), 
-            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
-            AWSShapeMember(label: "responseParameters", required: false, type: .map)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// Specifies the Model resources used for the response's content type. Response models are represented as a key/value map, with a content type as the key and a Model name as the value.
-        public let responseModels: [String: String]?
-        /// [Required] The method response's status code.
-        public let statusCode: String
-        /// [Required] The Resource identifier for the Method resource.
-        public let resourceId: String
-        /// [Required] The HTTP verb of the Method resource.
-        public let httpMethod: String
-        /// A key-value map specifying required or optional response parameters that API Gateway can send back to the caller. A key defines a method response header name and the associated value is a Boolean flag indicating whether the method response parameter is required or not. The method response header names must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The response parameter names defined here are available in the integration response to be mapped from an integration response header expressed in integration.response.header.{name}, a static value enclosed within a pair of single quotes (e.g., 'application/json'), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression}, where JSON-expression is a valid JSON expression without the $ prefix.)
-        public let responseParameters: [String: Bool]?
-
-        public init(restApiId: String, responseModels: [String: String]? = nil, statusCode: String, resourceId: String, httpMethod: String, responseParameters: [String: Bool]? = nil) {
-            self.restApiId = restApiId
-            self.responseModels = responseModels
-            self.statusCode = statusCode
-            self.resourceId = resourceId
-            self.httpMethod = httpMethod
-            self.responseParameters = responseParameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case responseModels = "responseModels"
-            case statusCode = "status_code"
-            case resourceId = "resource_id"
-            case httpMethod = "http_method"
-            case responseParameters = "responseParameters"
-        }
-    }
-
-    public struct GetVpcLinkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vpcLinkId", location: .uri(locationName: "vpclink_id"), required: true, type: .string)
-        ]
-        /// [Required] The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
-        public let vpcLinkId: String
-
-        public init(vpcLinkId: String) {
-            self.vpcLinkId = vpcLinkId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vpcLinkId = "vpclink_id"
-        }
-    }
-
-    public struct Resource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "path", required: false, type: .string), 
-            AWSShapeMember(label: "parentId", required: false, type: .string), 
-            AWSShapeMember(label: "resourceMethods", required: false, type: .map), 
-            AWSShapeMember(label: "pathPart", required: false, type: .string)
-        ]
-        /// The resource's identifier.
-        public let id: String?
-        /// The full path for this resource.
-        public let path: String?
-        /// The parent resource's identifier.
-        public let parentId: String?
-        /// Gets an API resource's method of a given HTTP verb.  The resource methods are a map of methods indexed by methods' HTTP verbs enabled on the resource. This method map is included in the 200 OK response of the GET /restapis/{restapi_id}/resources/{resource_id} or GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods request. Example: Get the GET method of an API resource Request GET /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com X-Amz-Date: 20170223T031827Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20170223/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response { "_links": { "curies": [ { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html", "name": "integration", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-{rel}.html", "name": "method", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html", "name": "methodresponse", "templated": true } ], "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET", "name": "GET", "title": "GET" }, "integration:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "method:integration": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "method:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "methodresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/{status_code}", "templated": true } }, "apiKeyRequired": false, "authorizationType": "NONE", "httpMethod": "GET", "_embedded": { "method:integration": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integration:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integrationresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/{status_code}", "templated": true } }, "cacheKeyParameters": [], "cacheNamespace": "3kzxbg5sa2", "credentials": "arn:aws:iam::123456789012:role/apigAwsProxyRole", "httpMethod": "POST", "passthroughBehavior": "WHEN_NO_MATCH", "requestParameters": { "integration.request.header.Content-Type": "'application/x-amz-json-1.1'" }, "requestTemplates": { "application/json": "{\n}" }, "type": "AWS", "uri": "arn:aws:apigateway:us-east-1:kinesis:action/ListStreams", "_embedded": { "integration:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.Content-Type": "'application/xml'" }, "responseTemplates": { "application/json": "$util.urlDecode(\"%3CkinesisStreams%3E#foreach($stream in $input.path('$.StreamNames'))%3Cstream%3E%3Cname%3E$stream%3C/name%3E%3C/stream%3E#end%3C/kinesisStreams%3E\")\n" }, "statusCode": "200" } } }, "method:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "methodresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" }, "methodresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" } }, "responseModels": { "application/json": "Empty" }, "responseParameters": { "method.response.header.Content-Type": false }, "statusCode": "200" } } } If the OPTIONS is enabled on the resource, you can follow the example here to get that method. Just replace the GET of the last path segment in the request URL with OPTIONS.   
-        public let resourceMethods: [String: Method]?
-        /// The last path segment for this resource.
-        public let pathPart: String?
-
-        public init(id: String? = nil, path: String? = nil, parentId: String? = nil, resourceMethods: [String: Method]? = nil, pathPart: String? = nil) {
-            self.id = id
-            self.path = path
-            self.parentId = parentId
-            self.resourceMethods = resourceMethods
-            self.pathPart = pathPart
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case path = "path"
-            case parentId = "parentId"
-            case resourceMethods = "resourceMethods"
-            case pathPart = "pathPart"
-        }
-    }
-
-    public struct Stages: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "item", required: false, type: .list)
-        ]
-        /// The current page of elements from this collection.
-        public let item: [Stage]?
-
-        public init(item: [Stage]? = nil) {
-            self.item = item
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case item = "item"
-        }
-    }
-
-    public struct CanarySettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "useStageCache", required: false, type: .boolean), 
-            AWSShapeMember(label: "deploymentId", required: false, type: .string), 
-            AWSShapeMember(label: "percentTraffic", required: false, type: .double), 
-            AWSShapeMember(label: "stageVariableOverrides", required: false, type: .map)
-        ]
-        /// A Boolean flag to indicate whether the canary deployment uses the stage cache or not.
-        public let useStageCache: Bool?
-        /// The ID of the canary deployment.
-        public let deploymentId: String?
-        /// The percent (0-100) of traffic diverted to a canary deployment.
-        public let percentTraffic: Double?
-        /// Stage variables overridden for a canary release deployment, including new stage variables introduced in the canary. These stage variables are represented as a string-to-string map between stage variable names and their values.
-        public let stageVariableOverrides: [String: String]?
-
-        public init(useStageCache: Bool? = nil, deploymentId: String? = nil, percentTraffic: Double? = nil, stageVariableOverrides: [String: String]? = nil) {
-            self.useStageCache = useStageCache
-            self.deploymentId = deploymentId
-            self.percentTraffic = percentTraffic
-            self.stageVariableOverrides = stageVariableOverrides
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case useStageCache = "useStageCache"
-            case deploymentId = "deploymentId"
-            case percentTraffic = "percentTraffic"
-            case stageVariableOverrides = "stageVariableOverrides"
-        }
-    }
-
-    public struct UpdateApiKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiKey", location: .uri(locationName: "api_Key"), required: true, type: .string), 
-            AWSShapeMember(label: "patchOperations", required: false, type: .list)
-        ]
-        /// [Required] The identifier of the ApiKey resource to be updated.
-        public let apiKey: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
-
-        public init(apiKey: String, patchOperations: [PatchOperation]? = nil) {
-            self.apiKey = apiKey
-            self.patchOperations = patchOperations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case apiKey = "api_Key"
-            case patchOperations = "patchOperations"
-        }
-    }
-
-    public struct DeploymentCanarySettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "useStageCache", required: false, type: .boolean), 
-            AWSShapeMember(label: "stageVariableOverrides", required: false, type: .map), 
-            AWSShapeMember(label: "percentTraffic", required: false, type: .double)
-        ]
-        /// A Boolean flag to indicate whether the canary release deployment uses the stage cache or not.
-        public let useStageCache: Bool?
-        /// A stage variable overrides used for the canary release deployment. They can override existing stage variables or add new stage variables for the canary release deployment. These stage variables are represented as a string-to-string map between stage variable names and their values.
-        public let stageVariableOverrides: [String: String]?
-        /// The percentage (0.0-100.0) of traffic routed to the canary deployment.
-        public let percentTraffic: Double?
-
-        public init(useStageCache: Bool? = nil, stageVariableOverrides: [String: String]? = nil, percentTraffic: Double? = nil) {
-            self.useStageCache = useStageCache
-            self.stageVariableOverrides = stageVariableOverrides
-            self.percentTraffic = percentTraffic
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case useStageCache = "useStageCache"
-            case stageVariableOverrides = "stageVariableOverrides"
-            case percentTraffic = "percentTraffic"
-        }
-    }
-
-    public struct ApiKeys: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
-            AWSShapeMember(label: "warnings", required: false, type: .list), 
-            AWSShapeMember(label: "position", required: false, type: .string)
-        ]
-        /// The current page of elements from this collection.
-        public let items: [ApiKey]?
-        /// A list of warning messages logged during the import of API keys when the failOnWarnings option is set to true.
-        public let warnings: [String]?
-        public let position: String?
-
-        public init(items: [ApiKey]? = nil, warnings: [String]? = nil, position: String? = nil) {
-            self.items = items
-            self.warnings = warnings
-            self.position = position
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "item"
-            case warnings = "warnings"
-            case position = "position"
-        }
-    }
-
-    public struct GetTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resource_arn"), required: true, type: .string), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
-        ]
-        /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded. At present, Stage is the only taggable resource.
-        public let resourceArn: String
-        /// (Not currently supported) The current pagination position in the paged result set.
-        public let position: String?
-        /// (Not currently supported) The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
-
-        public init(resourceArn: String, position: String? = nil, limit: Int32? = nil) {
-            self.resourceArn = resourceArn
-            self.position = position
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource_arn"
-            case position = "position"
-            case limit = "limit"
-        }
-    }
-
-    public struct UpdateGatewayResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "responseType", location: .uri(locationName: "response_type"), required: true, type: .enum), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "patchOperations", required: false, type: .list)
-        ]
-        /// [Required] The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE 
-        public let responseType: GatewayResponseType
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
-
-        public init(responseType: GatewayResponseType, restApiId: String, patchOperations: [PatchOperation]? = nil) {
-            self.responseType = responseType
-            self.restApiId = restApiId
-            self.patchOperations = patchOperations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case responseType = "response_type"
-            case restApiId = "restapi_id"
-            case patchOperations = "patchOperations"
-        }
-    }
-
-    public struct GetGatewayResponsesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// The current pagination position in the paged result set. The GatewayResponse collection does not support pagination and the position does not apply here.
-        public let position: String?
-        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500. The GatewayResponses collection does not support pagination and the limit does not apply here.
-        public let limit: Int32?
-
-        public init(restApiId: String, position: String? = nil, limit: Int32? = nil) {
-            self.restApiId = restApiId
-            self.position = position
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case position = "position"
-            case limit = "limit"
-        }
-    }
-
-    public struct GetDomainNamesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
-        ]
-        /// The current pagination position in the paged result set.
-        public let position: String?
-        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
-
-        public init(position: String? = nil, limit: Int32? = nil) {
-            self.position = position
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case position = "position"
-            case limit = "limit"
-        }
-    }
-
-    public struct GetApiKeysRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nameQuery", location: .querystring(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
-            AWSShapeMember(label: "includeValues", location: .querystring(locationName: "includeValues"), required: false, type: .boolean), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "customerId", location: .querystring(locationName: "customerId"), required: false, type: .string)
-        ]
-        /// The name of queried API keys.
-        public let nameQuery: String?
-        /// The current pagination position in the paged result set.
-        public let position: String?
-        /// A boolean flag to specify whether (true) or not (false) the result contains key values.
-        public let includeValues: Bool?
-        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
-        /// The identifier of a customer in AWS Marketplace or an external system, such as a developer portal.
-        public let customerId: String?
-
-        public init(nameQuery: String? = nil, position: String? = nil, includeValues: Bool? = nil, limit: Int32? = nil, customerId: String? = nil) {
-            self.nameQuery = nameQuery
-            self.position = position
-            self.includeValues = includeValues
-            self.limit = limit
-            self.customerId = customerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nameQuery = "name"
-            case position = "position"
-            case includeValues = "includeValues"
-            case limit = "limit"
-            case customerId = "customerId"
-        }
-    }
-
-    public struct UpdateBasePathMappingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
-            AWSShapeMember(label: "basePath", location: .uri(locationName: "base_path"), required: true, type: .string), 
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
-        ]
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
-        /// [Required] The base path of the BasePathMapping resource to change.
-        public let basePath: String
-        /// [Required] The domain name of the BasePathMapping resource to change.
-        public let domainName: String
-
-        public init(patchOperations: [PatchOperation]? = nil, basePath: String, domainName: String) {
-            self.patchOperations = patchOperations
-            self.basePath = basePath
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case patchOperations = "patchOperations"
-            case basePath = "base_path"
-            case domainName = "domain_name"
-        }
-    }
-
-    public struct DeleteMethodRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string)
-        ]
-        /// [Required] The Resource identifier for the Method resource.
-        public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The HTTP verb of the Method resource.
-        public let httpMethod: String
-
-        public init(resourceId: String, restApiId: String, httpMethod: String) {
-            self.resourceId = resourceId
-            self.restApiId = restApiId
-            self.httpMethod = httpMethod
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "resource_id"
-            case restApiId = "restapi_id"
-            case httpMethod = "http_method"
-        }
-    }
-
-    public struct DeleteBasePathMappingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "basePath", location: .uri(locationName: "base_path"), required: true, type: .string), 
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
-        ]
-        /// [Required] The base path name of the BasePathMapping resource to delete.
-        public let basePath: String
-        /// [Required] The domain name of the BasePathMapping resource to delete.
-        public let domainName: String
-
-        public init(basePath: String, domainName: String) {
-            self.basePath = basePath
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case basePath = "base_path"
-            case domainName = "domain_name"
-        }
-    }
-
-    public struct AccessLogSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "format", required: false, type: .string), 
-            AWSShapeMember(label: "destinationArn", required: false, type: .string)
-        ]
-        /// A single line format of the access logs of data, as specified by selected $context variables. The format must include at least $context.requestId.
-        public let format: String?
-        /// The ARN of the CloudWatch Logs log group to receive access logs.
-        public let destinationArn: String?
-
-        public init(format: String? = nil, destinationArn: String? = nil) {
-            self.format = format
-            self.destinationArn = destinationArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case format = "format"
-            case destinationArn = "destinationArn"
-        }
-    }
-
-    public struct PatchOperation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "path", required: false, type: .string), 
-            AWSShapeMember(label: "op", required: false, type: .enum), 
-            AWSShapeMember(label: "value", required: false, type: .string), 
-            AWSShapeMember(label: "from", required: false, type: .string)
-        ]
-        /// The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {"name":"value"}, the path for this property is /name. If the name property value is a JSON object (e.g., {"name": {"child/name": "child-value"}}), the path for the child/name property will be /name/child~1name. Any slash ("/") character appearing in path names must be escaped with "~1", as shown in the example above. Each op operation can have only one path associated with it.
-        public let path: String?
-        ///  An update operation to be performed with this PATCH request. The valid value can be add, remove, replace or copy. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
-        public let op: Op?
-        /// The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{"a": ...}'. In a Windows shell, see Using JSON for Parameters.
-        public let value: String?
-        /// The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with "op":"copy", "from":"/canarySettings/deploymentId" and "path":"/deploymentId".
-        public let from: String?
-
-        public init(path: String? = nil, op: Op? = nil, value: String? = nil, from: String? = nil) {
-            self.path = path
-            self.op = op
-            self.value = value
-            self.from = from
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case path = "path"
-            case op = "op"
-            case value = "value"
-            case from = "from"
-        }
-    }
-
-    public struct ApiStage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "throttle", required: false, type: .map), 
-            AWSShapeMember(label: "stage", required: false, type: .string), 
-            AWSShapeMember(label: "apiId", required: false, type: .string)
-        ]
-        /// Map containing method level throttling information for API stage in a usage plan.
-        public let throttle: [String: ThrottleSettings]?
-        /// API stage name of the associated API stage in a usage plan.
-        public let stage: String?
-        /// API Id of the associated API stage in a usage plan.
-        public let apiId: String?
-
-        public init(throttle: [String: ThrottleSettings]? = nil, stage: String? = nil, apiId: String? = nil) {
-            self.throttle = throttle
-            self.stage = stage
-            self.apiId = apiId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case throttle = "throttle"
-            case stage = "stage"
-            case apiId = "apiId"
-        }
-    }
-
-    public struct BasePathMapping: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", required: false, type: .string), 
-            AWSShapeMember(label: "stage", required: false, type: .string), 
-            AWSShapeMember(label: "basePath", required: false, type: .string)
-        ]
-        /// The string identifier of the associated RestApi.
-        public let restApiId: String?
-        /// The name of the associated stage.
-        public let stage: String?
-        /// The base path name that callers of the API must provide as part of the URL after the domain name.
-        public let basePath: String?
-
-        public init(restApiId: String? = nil, stage: String? = nil, basePath: String? = nil) {
-            self.restApiId = restApiId
-            self.stage = stage
-            self.basePath = basePath
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restApiId"
-            case stage = "stage"
-            case basePath = "basePath"
-        }
-    }
-
-    public struct SdkConfigurationProperty: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "required", required: false, type: .boolean), 
-            AWSShapeMember(label: "friendlyName", required: false, type: .string), 
-            AWSShapeMember(label: "defaultValue", required: false, type: .string)
-        ]
-        /// The description of an SdkType configuration property.
-        public let description: String?
-        /// The name of a an SdkType configuration property.
-        public let name: String?
-        /// A boolean flag of an SdkType configuration property to indicate if the associated SDK configuration property is required (true) or not (false).
-        public let required: Bool?
-        /// The user-friendly name of an SdkType configuration property.
-        public let friendlyName: String?
-        /// The default value of an SdkType configuration property.
-        public let defaultValue: String?
-
-        public init(description: String? = nil, name: String? = nil, required: Bool? = nil, friendlyName: String? = nil, defaultValue: String? = nil) {
-            self.description = description
-            self.name = name
-            self.required = required
-            self.friendlyName = friendlyName
-            self.defaultValue = defaultValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case name = "name"
-            case required = "required"
-            case friendlyName = "friendlyName"
-            case defaultValue = "defaultValue"
-        }
-    }
-
-    public struct GetModelTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "modelName", location: .uri(locationName: "model_name"), required: true, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The name of the model for which to generate a template.
-        public let modelName: String
-
-        public init(restApiId: String, modelName: String) {
-            self.restApiId = restApiId
-            self.modelName = modelName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case modelName = "model_name"
-        }
-    }
-
-    public enum Op: String, CustomStringConvertible, Codable {
-        case add = "add"
-        case remove = "remove"
-        case replace = "replace"
-        case move = "move"
-        case copy = "copy"
-        case test = "test"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetMethodResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The status code for the MethodResponse resource.
-        public let statusCode: String
-        /// [Required] The Resource identifier for the MethodResponse resource.
-        public let resourceId: String
-        /// [Required] The HTTP verb of the Method resource.
-        public let httpMethod: String
-
-        public init(restApiId: String, statusCode: String, resourceId: String, httpMethod: String) {
-            self.restApiId = restApiId
-            self.statusCode = statusCode
-            self.resourceId = resourceId
-            self.httpMethod = httpMethod
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case statusCode = "status_code"
-            case resourceId = "resource_id"
-            case httpMethod = "http_method"
-        }
-    }
-
-    public struct DocumentationVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp)
-        ]
-        /// The version identifier of the API documentation snapshot.
-        public let version: String?
-        /// The description of the API documentation snapshot.
-        public let description: String?
-        /// The date when the API documentation snapshot is created.
-        public let createdDate: TimeStamp?
-
-        public init(version: String? = nil, description: String? = nil, createdDate: TimeStamp? = nil) {
-            self.version = version
-            self.description = description
-            self.createdDate = createdDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "version"
-            case description = "description"
-            case createdDate = "createdDate"
-        }
-    }
-
-    public struct TestInvokeAuthorizerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policy", required: false, type: .string), 
-            AWSShapeMember(label: "principalId", required: false, type: .string), 
-            AWSShapeMember(label: "latency", required: false, type: .long), 
-            AWSShapeMember(label: "claims", required: false, type: .map), 
-            AWSShapeMember(label: "log", required: false, type: .string), 
-            AWSShapeMember(label: "clientStatus", required: false, type: .integer), 
-            AWSShapeMember(label: "authorization", required: false, type: .map)
-        ]
-        /// The JSON policy document returned by the Authorizer
-        public let policy: String?
-        /// The principal identity returned by the Authorizer
-        public let principalId: String?
-        /// The execution latency of the test authorizer request.
-        public let latency: Int64?
-        /// The open identity claims, with any supported custom attributes, returned from the Cognito Your User Pool configured for the API.
-        public let claims: [String: String]?
-        /// The API Gateway execution log for the test authorizer request.
-        public let log: String?
-        /// The HTTP status code that the client would have received. Value is 0 if the authorizer succeeded.
-        public let clientStatus: Int32?
-        public let authorization: [String: [String]]?
-
-        public init(policy: String? = nil, principalId: String? = nil, latency: Int64? = nil, claims: [String: String]? = nil, log: String? = nil, clientStatus: Int32? = nil, authorization: [String: [String]]? = nil) {
-            self.policy = policy
-            self.principalId = principalId
-            self.latency = latency
-            self.claims = claims
-            self.log = log
-            self.clientStatus = clientStatus
-            self.authorization = authorization
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policy = "policy"
-            case principalId = "principalId"
-            case latency = "latency"
-            case claims = "claims"
-            case log = "log"
-            case clientStatus = "clientStatus"
-            case authorization = "authorization"
-        }
-    }
-
-    public struct RequestValidators: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
-            AWSShapeMember(label: "position", required: false, type: .string)
-        ]
-        /// The current page of elements from this collection.
-        public let items: [RequestValidator]?
-        public let position: String?
-
-        public init(items: [RequestValidator]? = nil, position: String? = nil) {
-            self.items = items
-            self.position = position
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "item"
-            case position = "position"
-        }
-    }
-
-    public struct DocumentationPart: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "properties", required: false, type: .string)
-        ]
-        /// The DocumentationPart identifier, generated by API Gateway when the DocumentationPart is created.
-        public let id: String?
-        /// The location of the API entity to which the documentation applies. Valid fields depend on the targeted API entity type. All the valid location fields are not required. If not explicitly specified, a valid location field is treated as a wildcard and associated documentation content may be inherited by matching entities, unless overridden.
-        public let location: DocumentationPartLocation?
-        /// A content map of API-specific key-value pairs describing the targeted API entity. The map must be encoded as a JSON string, e.g., "{ \"description\": \"The API does ...\" }". Only Swagger-compliant documentation-related fields from the properties map are exported and, hence, published as part of the API entity definitions, while the original documentation parts are exported in a Swagger extension of x-amazon-apigateway-documentation.
-        public let properties: String?
-
-        public init(id: String? = nil, location: DocumentationPartLocation? = nil, properties: String? = nil) {
-            self.id = id
-            self.location = location
-            self.properties = properties
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case location = "location"
-            case properties = "properties"
-        }
-    }
-
-    public struct TestInvokeMethodRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientCertificateId", required: false, type: .string), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
-            AWSShapeMember(label: "pathWithQueryString", required: false, type: .string), 
-            AWSShapeMember(label: "headers", required: false, type: .map), 
-            AWSShapeMember(label: "body", required: false, type: .string), 
-            AWSShapeMember(label: "stageVariables", required: false, type: .map)
-        ]
-        /// A ClientCertificate identifier to use in the test invocation. API Gateway will use the certificate when making the HTTPS request to the defined back-end endpoint.
-        public let clientCertificateId: String?
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] Specifies a test invoke method request's HTTP method.
-        public let httpMethod: String
-        /// [Required] Specifies a test invoke method request's resource ID.
-        public let resourceId: String
-        /// The URI path, including query string, of the simulated invocation request. Use this to specify path parameters and query string parameters.
-        public let pathWithQueryString: String?
-        /// A key-value map of headers to simulate an incoming invocation request.
-        public let headers: [String: String]?
-        /// The simulated request body of an incoming invocation request.
-        public let body: String?
-        /// A key-value map of stage variables to simulate an invocation on a deployed Stage.
-        public let stageVariables: [String: String]?
-
-        public init(clientCertificateId: String? = nil, restApiId: String, httpMethod: String, resourceId: String, pathWithQueryString: String? = nil, headers: [String: String]? = nil, body: String? = nil, stageVariables: [String: String]? = nil) {
-            self.clientCertificateId = clientCertificateId
-            self.restApiId = restApiId
-            self.httpMethod = httpMethod
-            self.resourceId = resourceId
-            self.pathWithQueryString = pathWithQueryString
-            self.headers = headers
-            self.body = body
-            self.stageVariables = stageVariables
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clientCertificateId = "clientCertificateId"
-            case restApiId = "restapi_id"
-            case httpMethod = "http_method"
-            case resourceId = "resource_id"
-            case pathWithQueryString = "pathWithQueryString"
-            case headers = "headers"
-            case body = "body"
-            case stageVariables = "stageVariables"
-        }
-    }
-
-    public struct DomainName: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "regionalHostedZoneId", required: false, type: .string), 
-            AWSShapeMember(label: "endpointConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "distributionHostedZoneId", required: false, type: .string), 
-            AWSShapeMember(label: "domainName", required: false, type: .string), 
-            AWSShapeMember(label: "certificateName", required: false, type: .string), 
-            AWSShapeMember(label: "regionalCertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "regionalCertificateName", required: false, type: .string), 
-            AWSShapeMember(label: "certificateUploadDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "regionalDomainName", required: false, type: .string), 
-            AWSShapeMember(label: "distributionDomainName", required: false, type: .string)
-        ]
-        /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway. 
-        public let regionalHostedZoneId: String?
-        /// The endpoint configuration of this DomainName showing the endpoint types of the domain name. 
-        public let endpointConfiguration: EndpointConfiguration?
-        /// The region-agnostic Amazon Route 53 Hosted Zone ID of the edge-optimized endpoint. The valid value is Z2FDTNDATAQYW2 for all the regions. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway. 
-        public let distributionHostedZoneId: String?
-        /// The custom domain name as an API host name, for example, my-api.example.com.
-        public let domainName: String?
-        /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
-        public let certificateName: String?
-        /// The reference to an AWS-managed certificate that will be used for validating the regional domain name. AWS Certificate Manager is the only supported source.
-        public let regionalCertificateArn: String?
-        /// The name of the certificate that will be used for validating the regional domain name.
-        public let regionalCertificateName: String?
-        /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded.
-        public let certificateUploadDate: TimeStamp?
-        /// The reference to an AWS-managed certificate that will be used by edge-optimized endpoint for this domain name. AWS Certificate Manager is the only supported source.
-        public let certificateArn: String?
-        /// The domain name associated with the regional endpoint for this custom domain name. You set up this association by adding a DNS record that points the custom domain name to this regional domain name. The regional domain name is returned by API Gateway when you create a regional endpoint.
-        public let regionalDomainName: String?
-        /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
-        public let distributionDomainName: String?
-
-        public init(regionalHostedZoneId: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, distributionHostedZoneId: String? = nil, domainName: String? = nil, certificateName: String? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, certificateUploadDate: TimeStamp? = nil, certificateArn: String? = nil, regionalDomainName: String? = nil, distributionDomainName: String? = nil) {
-            self.regionalHostedZoneId = regionalHostedZoneId
-            self.endpointConfiguration = endpointConfiguration
-            self.distributionHostedZoneId = distributionHostedZoneId
-            self.domainName = domainName
-            self.certificateName = certificateName
-            self.regionalCertificateArn = regionalCertificateArn
-            self.regionalCertificateName = regionalCertificateName
-            self.certificateUploadDate = certificateUploadDate
-            self.certificateArn = certificateArn
-            self.regionalDomainName = regionalDomainName
-            self.distributionDomainName = distributionDomainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case regionalHostedZoneId = "regionalHostedZoneId"
-            case endpointConfiguration = "endpointConfiguration"
-            case distributionHostedZoneId = "distributionHostedZoneId"
-            case domainName = "domainName"
-            case certificateName = "certificateName"
-            case regionalCertificateArn = "regionalCertificateArn"
-            case regionalCertificateName = "regionalCertificateName"
-            case certificateUploadDate = "certificateUploadDate"
-            case certificateArn = "certificateArn"
-            case regionalDomainName = "regionalDomainName"
-            case distributionDomainName = "distributionDomainName"
-        }
-    }
-
-    public enum CacheClusterStatus: String, CustomStringConvertible, Codable {
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case available = "AVAILABLE"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case notAvailable = "NOT_AVAILABLE"
-        case flushInProgress = "FLUSH_IN_PROGRESS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateRequestValidatorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "requestValidatorId", location: .uri(locationName: "requestvalidator_id"), required: true, type: .string)
-        ]
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The identifier of RequestValidator to be updated.
-        public let requestValidatorId: String
-
-        public init(patchOperations: [PatchOperation]? = nil, restApiId: String, requestValidatorId: String) {
-            self.patchOperations = patchOperations
-            self.restApiId = restApiId
-            self.requestValidatorId = requestValidatorId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case patchOperations = "patchOperations"
-            case restApiId = "restapi_id"
-            case requestValidatorId = "requestvalidator_id"
-        }
-    }
-
-    public struct GetExportRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string), 
-            AWSShapeMember(label: "accepts", location: .header(locationName: "Accept"), required: false, type: .string), 
-            AWSShapeMember(label: "exportType", location: .uri(locationName: "export_type"), required: true, type: .string), 
-            AWSShapeMember(label: "parameters", required: false, type: .map)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The name of the Stage that will be exported.
-        public let stageName: String
-        /// The content-type of the export, for example application/json. Currently application/json and application/yaml are supported for exportType of swagger. This should be specified in the Accept header for direct API requests.
-        public let accepts: String?
-        /// [Required] The type of export. Currently only 'swagger' is supported.
-        public let exportType: String
-        /// A key-value map of query string parameters that specify properties of the export, depending on the requested exportType. For exportType swagger, any combination of the following parameters are supported: extensions='integrations' or extensions='apigateway' will export the API with x-amazon-apigateway-integration extensions. extensions='authorizers' will export the API with x-amazon-apigateway-authorizer extensions. postman will export the API with Postman extensions, allowing for import to the Postman tool
-        public let parameters: [String: String]?
-
-        public init(restApiId: String, stageName: String, accepts: String? = nil, exportType: String, parameters: [String: String]? = nil) {
-            self.restApiId = restApiId
-            self.stageName = stageName
-            self.accepts = accepts
-            self.exportType = exportType
-            self.parameters = parameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case stageName = "stage_name"
-            case accepts = "Accept"
-            case exportType = "export_type"
-            case parameters = "parameters"
-        }
-    }
-
-    public struct Resources: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
-            AWSShapeMember(label: "position", required: false, type: .string)
-        ]
-        /// The current page of elements from this collection.
-        public let items: [Resource]?
-        public let position: String?
-
-        public init(items: [Resource]? = nil, position: String? = nil) {
-            self.items = items
-            self.position = position
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "item"
-            case position = "position"
-        }
-    }
-
-    public struct DeleteRequestValidatorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "requestValidatorId", location: .uri(locationName: "requestvalidator_id"), required: true, type: .string), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
-        ]
-        /// [Required] The identifier of the RequestValidator to be deleted.
-        public let requestValidatorId: String
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-
-        public init(requestValidatorId: String, restApiId: String) {
-            self.requestValidatorId = requestValidatorId
-            self.restApiId = restApiId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case requestValidatorId = "requestvalidator_id"
-            case restApiId = "restapi_id"
-        }
-    }
-
-    public struct DeleteGatewayResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "responseType", location: .uri(locationName: "response_type"), required: true, type: .enum), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
-        ]
-        /// [Required] The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE 
-        public let responseType: GatewayResponseType
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-
-        public init(responseType: GatewayResponseType, restApiId: String) {
-            self.responseType = responseType
-            self.restApiId = restApiId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case responseType = "response_type"
-            case restApiId = "restapi_id"
-        }
-    }
-
-    public struct UpdateDocumentationVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "documentationVersion", location: .uri(locationName: "doc_version"), required: true, type: .string)
-        ]
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
-        /// [Required] The string identifier of the associated RestApi..
-        public let restApiId: String
-        /// [Required] The version identifier of the to-be-updated documentation version.
-        public let documentationVersion: String
-
-        public init(patchOperations: [PatchOperation]? = nil, restApiId: String, documentationVersion: String) {
-            self.patchOperations = patchOperations
-            self.restApiId = restApiId
-            self.documentationVersion = documentationVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case patchOperations = "patchOperations"
-            case restApiId = "restapi_id"
-            case documentationVersion = "doc_version"
-        }
-    }
-
-    public struct ApiKeyIds: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "warnings", required: false, type: .list), 
-            AWSShapeMember(label: "ids", required: false, type: .list)
-        ]
-        /// A list of warning messages.
-        public let warnings: [String]?
-        /// A list of all the ApiKey identifiers.
-        public let ids: [String]?
-
-        public init(warnings: [String]? = nil, ids: [String]? = nil) {
-            self.warnings = warnings
-            self.ids = ids
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case warnings = "warnings"
-            case ids = "ids"
-        }
-    }
-
-    public struct EndpointConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "types", required: false, type: .list)
-        ]
-        /// A list of endpoint types of an API (RestApi) or its custom domain name (DomainName). For an edge-optimized API and its custom domain name, the endpoint type is "EDGE". For a regional API and its custom domain name, the endpoint type is REGIONAL. For a private API, the endpoint type is PRIVATE.
-        public let types: [EndpointType]?
-
-        public init(types: [EndpointType]? = nil) {
-            self.types = types
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case types = "types"
-        }
-    }
-
-    public struct GetModelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "flatten", location: .querystring(locationName: "flatten"), required: false, type: .boolean), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "modelName", location: .uri(locationName: "model_name"), required: true, type: .string)
-        ]
-        /// A query parameter of a Boolean value to resolve (true) all external model references and returns a flattened model schema or not (false) The default is false.
-        public let flatten: Bool?
-        /// [Required] The RestApi identifier under which the Model exists.
-        public let restApiId: String
-        /// [Required] The name of the model as an identifier.
-        public let modelName: String
-
-        public init(flatten: Bool? = nil, restApiId: String, modelName: String) {
-            self.flatten = flatten
-            self.restApiId = restApiId
-            self.modelName = modelName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case flatten = "flatten"
-            case restApiId = "restapi_id"
-            case modelName = "model_name"
-        }
-    }
-
-    public struct DeleteUsagePlanKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string), 
-            AWSShapeMember(label: "keyId", location: .uri(locationName: "keyId"), required: true, type: .string)
-        ]
-        /// [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-deleted UsagePlanKey resource representing a plan customer.
-        public let usagePlanId: String
-        /// [Required] The Id of the UsagePlanKey resource to be deleted.
-        public let keyId: String
-
-        public init(usagePlanId: String, keyId: String) {
-            self.usagePlanId = usagePlanId
-            self.keyId = keyId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case usagePlanId = "usageplanId"
-            case keyId = "keyId"
-        }
-    }
-
-    public enum UnauthorizedCacheControlHeaderStrategy: String, CustomStringConvertible, Codable {
-        case failWith403 = "FAIL_WITH_403"
-        case succeedWithResponseHeader = "SUCCEED_WITH_RESPONSE_HEADER"
-        case succeedWithoutResponseHeader = "SUCCEED_WITHOUT_RESPONSE_HEADER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RestApi: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policy", required: false, type: .string), 
-            AWSShapeMember(label: "endpointConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "warnings", required: false, type: .list), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "minimumCompressionSize", required: false, type: .integer), 
-            AWSShapeMember(label: "apiKeySource", required: false, type: .enum), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "binaryMediaTypes", required: false, type: .list), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: false, type: .string)
-        ]
-        /// A stringified JSON policy document that applies to this RestApi regardless of the caller and Method configuration.
-        public let policy: String?
-        /// The endpoint configuration of this RestApi showing the endpoint types of the API. 
-        public let endpointConfiguration: EndpointConfiguration?
-        /// The warning messages reported when failonwarnings is turned on during API import.
-        public let warnings: [String]?
-        /// The API's name.
-        public let name: String?
-        /// A nullable integer that is used to enable compression (with non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a null value) on an API. When compression is enabled, compression or decompression is not applied on the payload if the payload size is smaller than this value. Setting it to zero allows compression for any payload size.
-        public let minimumCompressionSize: Int32?
-        /// The source of the API key for metering requests according to a usage plan. Valid values are: HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer. 
-        public let apiKeySource: ApiKeySourceType?
-        /// The timestamp when the API was created.
-        public let createdDate: TimeStamp?
-        /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
-        public let binaryMediaTypes: [String]?
-        /// The API's description.
-        public let description: String?
-        /// A version identifier for the API.
-        public let version: String?
-        /// The API's identifier. This identifier is unique across all of your APIs in API Gateway.
-        public let id: String?
-
-        public init(policy: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, warnings: [String]? = nil, name: String? = nil, minimumCompressionSize: Int32? = nil, apiKeySource: ApiKeySourceType? = nil, createdDate: TimeStamp? = nil, binaryMediaTypes: [String]? = nil, description: String? = nil, version: String? = nil, id: String? = nil) {
-            self.policy = policy
-            self.endpointConfiguration = endpointConfiguration
-            self.warnings = warnings
-            self.name = name
-            self.minimumCompressionSize = minimumCompressionSize
-            self.apiKeySource = apiKeySource
-            self.createdDate = createdDate
-            self.binaryMediaTypes = binaryMediaTypes
-            self.description = description
-            self.version = version
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policy = "policy"
-            case endpointConfiguration = "endpointConfiguration"
-            case warnings = "warnings"
-            case name = "name"
-            case minimumCompressionSize = "minimumCompressionSize"
-            case apiKeySource = "apiKeySource"
-            case createdDate = "createdDate"
-            case binaryMediaTypes = "binaryMediaTypes"
-            case description = "description"
-            case version = "version"
-            case id = "id"
         }
     }
 
@@ -3320,123 +3393,78 @@ extension APIGateway {
         }
     }
 
-    public enum GatewayResponseType: String, CustomStringConvertible, Codable {
-        case default4Xx = "DEFAULT_4XX"
-        case default5Xx = "DEFAULT_5XX"
-        case resourceNotFound = "RESOURCE_NOT_FOUND"
-        case unauthorized = "UNAUTHORIZED"
-        case invalidApiKey = "INVALID_API_KEY"
-        case accessDenied = "ACCESS_DENIED"
-        case authorizerFailure = "AUTHORIZER_FAILURE"
-        case authorizerConfigurationError = "AUTHORIZER_CONFIGURATION_ERROR"
-        case invalidSignature = "INVALID_SIGNATURE"
-        case expiredToken = "EXPIRED_TOKEN"
-        case missingAuthenticationToken = "MISSING_AUTHENTICATION_TOKEN"
-        case integrationFailure = "INTEGRATION_FAILURE"
-        case integrationTimeout = "INTEGRATION_TIMEOUT"
-        case apiConfigurationError = "API_CONFIGURATION_ERROR"
-        case unsupportedMediaType = "UNSUPPORTED_MEDIA_TYPE"
-        case badRequestParameters = "BAD_REQUEST_PARAMETERS"
-        case badRequestBody = "BAD_REQUEST_BODY"
-        case requestTooLarge = "REQUEST_TOO_LARGE"
-        case throttled = "THROTTLED"
-        case quotaExceeded = "QUOTA_EXCEEDED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetDomainNameRequest: AWSShape {
+    public struct GetIntegrationResponseRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
+            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
+            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string)
         ]
-        /// [Required] The name of the DomainName resource.
-        public let domainName: String
+        /// [Required] Specifies a get integration response request's resource identifier.
+        public let resourceId: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] Specifies a get integration response request's HTTP method.
+        public let httpMethod: String
+        /// [Required] Specifies a get integration response request's status code.
+        public let statusCode: String
 
-        public init(domainName: String) {
-            self.domainName = domainName
+        public init(resourceId: String, restApiId: String, httpMethod: String, statusCode: String) {
+            self.resourceId = resourceId
+            self.restApiId = restApiId
+            self.httpMethod = httpMethod
+            self.statusCode = statusCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName = "domain_name"
+            case resourceId = "resource_id"
+            case restApiId = "restapi_id"
+            case httpMethod = "http_method"
+            case statusCode = "status_code"
         }
     }
 
-    public struct GetUsagePlanKeysRequest: AWSShape {
+    public struct CreateDocumentationVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nameQuery", location: .querystring(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
-            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string)
+            AWSShapeMember(label: "documentationVersion", required: true, type: .string), 
+            AWSShapeMember(label: "stageName", required: false, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string)
         ]
-        /// A query parameter specifying the name of the to-be-returned usage plan keys.
-        public let nameQuery: String?
-        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
-        /// The current pagination position in the paged result set.
-        public let position: String?
-        /// [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
-        public let usagePlanId: String
-
-        public init(nameQuery: String? = nil, limit: Int32? = nil, position: String? = nil, usagePlanId: String) {
-            self.nameQuery = nameQuery
-            self.limit = limit
-            self.position = position
-            self.usagePlanId = usagePlanId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nameQuery = "name"
-            case limit = "limit"
-            case position = "position"
-            case usagePlanId = "usageplanId"
-        }
-    }
-
-    public struct CreateUsagePlanRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "throttle", required: false, type: .structure), 
-            AWSShapeMember(label: "apiStages", required: false, type: .list), 
-            AWSShapeMember(label: "quota", required: false, type: .structure)
-        ]
-        /// The description of the usage plan.
+        /// [Required] The version identifier of the new snapshot.
+        public let documentationVersion: String
+        /// The stage name to be associated with the new documentation snapshot.
+        public let stageName: String?
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// A description about the new documentation snapshot.
         public let description: String?
-        /// [Required] The name of the usage plan.
-        public let name: String
-        /// The throttling limits of the usage plan.
-        public let throttle: ThrottleSettings?
-        /// The associated API stages of the usage plan.
-        public let apiStages: [ApiStage]?
-        /// The quota of the usage plan.
-        public let quota: QuotaSettings?
 
-        public init(description: String? = nil, name: String, throttle: ThrottleSettings? = nil, apiStages: [ApiStage]? = nil, quota: QuotaSettings? = nil) {
+        public init(documentationVersion: String, stageName: String? = nil, restApiId: String, description: String? = nil) {
+            self.documentationVersion = documentationVersion
+            self.stageName = stageName
+            self.restApiId = restApiId
             self.description = description
-            self.name = name
-            self.throttle = throttle
-            self.apiStages = apiStages
-            self.quota = quota
         }
 
         private enum CodingKeys: String, CodingKey {
+            case documentationVersion = "documentationVersion"
+            case stageName = "stageName"
+            case restApiId = "restapi_id"
             case description = "description"
-            case name = "name"
-            case throttle = "throttle"
-            case apiStages = "apiStages"
-            case quota = "quota"
         }
     }
 
-    public struct DomainNames: AWSShape {
+    public struct VpcLinks: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
             AWSShapeMember(label: "position", required: false, type: .string)
         ]
         /// The current page of elements from this collection.
-        public let items: [DomainName]?
+        public let items: [VpcLink]?
         public let position: String?
 
-        public init(items: [DomainName]? = nil, position: String? = nil) {
+        public init(items: [VpcLink]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
         }
@@ -3447,1024 +3475,208 @@ extension APIGateway {
         }
     }
 
-    public enum DocumentationPartType: String, CustomStringConvertible, Codable {
-        case api = "API"
-        case authorizer = "AUTHORIZER"
-        case model = "MODEL"
-        case resource = "RESOURCE"
-        case method = "METHOD"
-        case pathParameter = "PATH_PARAMETER"
-        case queryParameter = "QUERY_PARAMETER"
-        case requestHeader = "REQUEST_HEADER"
-        case requestBody = "REQUEST_BODY"
-        case response = "RESPONSE"
-        case responseHeader = "RESPONSE_HEADER"
-        case responseBody = "RESPONSE_BODY"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetBasePathMappingRequest: AWSShape {
+    public struct Stage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "basePath", location: .uri(locationName: "base_path"), required: true, type: .string), 
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "tracingEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "methodSettings", required: false, type: .map), 
+            AWSShapeMember(label: "documentationVersion", required: false, type: .string), 
+            AWSShapeMember(label: "canarySettings", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "cacheClusterSize", required: false, type: .enum), 
+            AWSShapeMember(label: "webAclArn", required: false, type: .string), 
+            AWSShapeMember(label: "accessLogSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "clientCertificateId", required: false, type: .string), 
+            AWSShapeMember(label: "variables", required: false, type: .map), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "cacheClusterEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "cacheClusterStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "stageName", required: false, type: .string)
         ]
-        /// [Required] The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Leave this blank if you do not want callers to specify any base path name after the domain name.
-        public let basePath: String
-        /// [Required] The domain name of the BasePathMapping resource to be described.
-        public let domainName: String
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public let tags: [String: String]?
+        /// Specifies whether active tracing with X-ray is enabled for the Stage.
+        public let tracingEnabled: Bool?
+        /// A map that defines the method settings for a Stage resource. Keys (designated as /{method_setting_key below) are method paths defined as {resource_path}/{http_method} for an individual method override, or /\*/\* for overriding all methods in the stage. 
+        public let methodSettings: [String: MethodSetting]?
+        /// The version of the associated API documentation.
+        public let documentationVersion: String?
+        /// Settings for the canary deployment in this stage.
+        public let canarySettings: CanarySettings?
+        /// The identifier of the Deployment that the stage points to.
+        public let deploymentId: String?
+        /// The stage's description.
+        public let description: String?
+        /// The timestamp when the stage was created.
+        public let createdDate: TimeStamp?
+        /// The size of the cache cluster for the stage, if enabled.
+        public let cacheClusterSize: CacheClusterSize?
+        /// The ARN of the WebAcl associated with the Stage.
+        public let webAclArn: String?
+        /// Settings for logging access in this stage.
+        public let accessLogSettings: AccessLogSettings?
+        /// The identifier of a client certificate for an API stage.
+        public let clientCertificateId: String?
+        /// A map that defines the stage variables for a Stage resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
+        public let variables: [String: String]?
+        /// The timestamp when the stage last updated.
+        public let lastUpdatedDate: TimeStamp?
+        /// Specifies whether a cache cluster is enabled for the stage.
+        public let cacheClusterEnabled: Bool?
+        /// The status of the cache cluster for the stage, if enabled.
+        public let cacheClusterStatus: CacheClusterStatus?
+        /// The name of the stage is the first path segment in the Uniform Resource Identifier (URI) of a call to API Gateway.
+        public let stageName: String?
 
-        public init(basePath: String, domainName: String) {
-            self.basePath = basePath
-            self.domainName = domainName
+        public init(tags: [String: String]? = nil, tracingEnabled: Bool? = nil, methodSettings: [String: MethodSetting]? = nil, documentationVersion: String? = nil, canarySettings: CanarySettings? = nil, deploymentId: String? = nil, description: String? = nil, createdDate: TimeStamp? = nil, cacheClusterSize: CacheClusterSize? = nil, webAclArn: String? = nil, accessLogSettings: AccessLogSettings? = nil, clientCertificateId: String? = nil, variables: [String: String]? = nil, lastUpdatedDate: TimeStamp? = nil, cacheClusterEnabled: Bool? = nil, cacheClusterStatus: CacheClusterStatus? = nil, stageName: String? = nil) {
+            self.tags = tags
+            self.tracingEnabled = tracingEnabled
+            self.methodSettings = methodSettings
+            self.documentationVersion = documentationVersion
+            self.canarySettings = canarySettings
+            self.deploymentId = deploymentId
+            self.description = description
+            self.createdDate = createdDate
+            self.cacheClusterSize = cacheClusterSize
+            self.webAclArn = webAclArn
+            self.accessLogSettings = accessLogSettings
+            self.clientCertificateId = clientCertificateId
+            self.variables = variables
+            self.lastUpdatedDate = lastUpdatedDate
+            self.cacheClusterEnabled = cacheClusterEnabled
+            self.cacheClusterStatus = cacheClusterStatus
+            self.stageName = stageName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case basePath = "base_path"
-            case domainName = "domain_name"
+            case tags = "tags"
+            case tracingEnabled = "tracingEnabled"
+            case methodSettings = "methodSettings"
+            case documentationVersion = "documentationVersion"
+            case canarySettings = "canarySettings"
+            case deploymentId = "deploymentId"
+            case description = "description"
+            case createdDate = "createdDate"
+            case cacheClusterSize = "cacheClusterSize"
+            case webAclArn = "webAclArn"
+            case accessLogSettings = "accessLogSettings"
+            case clientCertificateId = "clientCertificateId"
+            case variables = "variables"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case cacheClusterEnabled = "cacheClusterEnabled"
+            case cacheClusterStatus = "cacheClusterStatus"
+            case stageName = "stageName"
         }
     }
 
-    public struct DocumentationVersions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
-            AWSShapeMember(label: "position", required: false, type: .string)
-        ]
-        /// The current page of elements from this collection.
-        public let items: [DocumentationVersion]?
-        public let position: String?
-
-        public init(items: [DocumentationVersion]? = nil, position: String? = nil) {
-            self.items = items
-            self.position = position
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "item"
-            case position = "position"
-        }
-    }
-
-    public enum EndpointType: String, CustomStringConvertible, Codable {
-        case regional = "REGIONAL"
-        case edge = "EDGE"
-        case `private` = "PRIVATE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateIntegrationResponseRequest: AWSShape {
+    public struct PutIntegrationResponseRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string), 
             AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
+            AWSShapeMember(label: "contentHandling", required: false, type: .enum), 
+            AWSShapeMember(label: "selectionPattern", required: false, type: .string), 
             AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
-            AWSShapeMember(label: "patchOperations", required: false, type: .list)
+            AWSShapeMember(label: "responseParameters", required: false, type: .map), 
+            AWSShapeMember(label: "responseTemplates", required: false, type: .map)
         ]
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] Specifies an update integration response request's status code.
+        /// [Required] Specifies the status code that is used to map the integration response to an existing MethodResponse.
         public let statusCode: String
-        /// [Required] Specifies an update integration response request's resource identifier.
+        /// [Required] Specifies a put integration response request's resource identifier.
         public let resourceId: String
-        /// [Required] Specifies an update integration response request's HTTP method.
+        /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string.  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
+        public let contentHandling: ContentHandlingStrategy?
+        /// Specifies the selection pattern of a put integration response.
+        public let selectionPattern: String?
+        /// [Required] Specifies a put integration response request's HTTP method.
         public let httpMethod: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
+        /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name must be a valid and unique response header name and JSON-expression a valid JSON expression without the $ prefix.
+        public let responseParameters: [String: String]?
+        /// Specifies a put integration response's templates.
+        public let responseTemplates: [String: String]?
 
-        public init(restApiId: String, statusCode: String, resourceId: String, httpMethod: String, patchOperations: [PatchOperation]? = nil) {
+        public init(restApiId: String, statusCode: String, resourceId: String, contentHandling: ContentHandlingStrategy? = nil, selectionPattern: String? = nil, httpMethod: String, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil) {
             self.restApiId = restApiId
             self.statusCode = statusCode
             self.resourceId = resourceId
+            self.contentHandling = contentHandling
+            self.selectionPattern = selectionPattern
             self.httpMethod = httpMethod
-            self.patchOperations = patchOperations
+            self.responseParameters = responseParameters
+            self.responseTemplates = responseTemplates
         }
 
         private enum CodingKeys: String, CodingKey {
             case restApiId = "restapi_id"
             case statusCode = "status_code"
             case resourceId = "resource_id"
+            case contentHandling = "contentHandling"
+            case selectionPattern = "selectionPattern"
             case httpMethod = "http_method"
-            case patchOperations = "patchOperations"
-        }
-    }
-
-    public enum CacheClusterSize: String, CustomStringConvertible, Codable {
-        case cacheClusterSize05 = "0.5"
-        case cacheClusterSize16 = "1.6"
-        case cacheClusterSize61 = "6.1"
-        case cacheClusterSize135 = "13.5"
-        case cacheClusterSize284 = "28.4"
-        case cacheClusterSize582 = "58.2"
-        case cacheClusterSize118 = "118"
-        case cacheClusterSize237 = "237"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RestApis: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
-            AWSShapeMember(label: "position", required: false, type: .string)
-        ]
-        /// The current page of elements from this collection.
-        public let items: [RestApi]?
-        public let position: String?
-
-        public init(items: [RestApi]? = nil, position: String? = nil) {
-            self.items = items
-            self.position = position
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "item"
-            case position = "position"
-        }
-    }
-
-    public struct ApiKey: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "customerId", required: false, type: .string), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "stageKeys", required: false, type: .list), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
-        /// The timestamp when the API Key was last updated.
-        public let lastUpdatedDate: TimeStamp?
-        /// Specifies whether the API Key can be used by callers.
-        public let enabled: Bool?
-        /// The name of the API Key.
-        public let name: String?
-        /// An AWS Marketplace customer identifier , when integrating with the AWS SaaS Marketplace.
-        public let customerId: String?
-        /// The timestamp when the API Key was created.
-        public let createdDate: TimeStamp?
-        /// The description of the API Key.
-        public let description: String?
-        /// A list of Stage resources that are associated with the ApiKey resource.
-        public let stageKeys: [String]?
-        /// The identifier of the API Key.
-        public let id: String?
-        /// The value of the API Key.
-        public let value: String?
-
-        public init(lastUpdatedDate: TimeStamp? = nil, enabled: Bool? = nil, name: String? = nil, customerId: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, stageKeys: [String]? = nil, id: String? = nil, value: String? = nil) {
-            self.lastUpdatedDate = lastUpdatedDate
-            self.enabled = enabled
-            self.name = name
-            self.customerId = customerId
-            self.createdDate = createdDate
-            self.description = description
-            self.stageKeys = stageKeys
-            self.id = id
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastUpdatedDate = "lastUpdatedDate"
-            case enabled = "enabled"
-            case name = "name"
-            case customerId = "customerId"
-            case createdDate = "createdDate"
-            case description = "description"
-            case stageKeys = "stageKeys"
-            case id = "id"
-            case value = "value"
-        }
-    }
-
-    public enum AuthorizerType: String, CustomStringConvertible, Codable {
-        case token = "TOKEN"
-        case request = "REQUEST"
-        case cognitoUserPools = "COGNITO_USER_POOLS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct FlushStageCacheRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The name of the stage to flush its cache.
-        public let stageName: String
-
-        public init(restApiId: String, stageName: String) {
-            self.restApiId = restApiId
-            self.stageName = stageName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case stageName = "stage_name"
-        }
-    }
-
-    public struct ImportRestApiRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings"), required: false, type: .boolean), 
-            AWSShapeMember(label: "body", required: true, type: .blob), 
-            AWSShapeMember(label: "parameters", required: false, type: .map)
-        ]
-        /// A query parameter to indicate whether to rollback the API creation (true) or not (false) when a warning is encountered. The default value is false.
-        public let failOnWarnings: Bool?
-        /// [Required] The POST request body containing external API definitions. Currently, only Swagger definition JSON files are supported. The maximum size of the API definition file is 2MB.
-        public let body: Data
-        /// A key-value map of context-specific query string parameters specifying the behavior of different API importing operations. The following shows operation-specific parameters and their supported values.  To exclude DocumentationParts from the import, set parameters as ignore=documentation.  To configure the endpoint type, set parameters as endpointConfigurationTypes=EDGE, endpointConfigurationTypes=REGIONAL, or endpointConfigurationTypes=PRIVATE. The default endpoint type is EDGE.  To handle imported basePath, set parameters as basePath=ignore, basePath=prepend or basePath=split. For example, the AWS CLI command to exclude documentation from the imported API is: aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json' The AWS CLI command to set the regional endpoint on the imported API is: aws apigateway import-rest-api --parameters endpointConfigurationTypes=REGIONAL --body 'file:///path/to/imported-api-body.json'
-        public let parameters: [String: String]?
-
-        public init(failOnWarnings: Bool? = nil, body: Data, parameters: [String: String]? = nil) {
-            self.failOnWarnings = failOnWarnings
-            self.body = body
-            self.parameters = parameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failOnWarnings = "failonwarnings"
-            case body = "body"
-            case parameters = "parameters"
-        }
-    }
-
-    public struct DeleteVpcLinkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vpcLinkId", location: .uri(locationName: "vpclink_id"), required: true, type: .string)
-        ]
-        /// [Required] The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
-        public let vpcLinkId: String
-
-        public init(vpcLinkId: String) {
-            self.vpcLinkId = vpcLinkId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vpcLinkId = "vpclink_id"
-        }
-    }
-
-    public struct GetResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "embed", location: .querystring(locationName: "embed"), required: false, type: .list)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// The current pagination position in the paged result set.
-        public let position: String?
-        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
-        /// A query parameter used to retrieve the specified resources embedded in the returned Resources resource in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the "methods" string. For example, GET /restapis/{restapi_id}/resources?embed=methods.
-        public let embed: [String]?
-
-        public init(restApiId: String, position: String? = nil, limit: Int32? = nil, embed: [String]? = nil) {
-            self.restApiId = restApiId
-            self.position = position
-            self.limit = limit
-            self.embed = embed
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case position = "position"
-            case limit = "limit"
-            case embed = "embed"
-        }
-    }
-
-    public struct CreateDomainNameRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endpointConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "certificateChain", required: false, type: .string), 
-            AWSShapeMember(label: "regionalCertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "domainName", required: true, type: .string), 
-            AWSShapeMember(label: "certificateName", required: false, type: .string), 
-            AWSShapeMember(label: "certificatePrivateKey", required: false, type: .string), 
-            AWSShapeMember(label: "regionalCertificateName", required: false, type: .string), 
-            AWSShapeMember(label: "certificateBody", required: false, type: .string), 
-            AWSShapeMember(label: "certificateArn", required: false, type: .string)
-        ]
-        /// The endpoint configuration of this DomainName showing the endpoint types of the domain name. 
-        public let endpointConfiguration: EndpointConfiguration?
-        /// [Deprecated] The intermediate certificates and optionally the root certificate, one after the other without any blank lines, used by an edge-optimized endpoint for this domain name. If you include the root certificate, your certificate chain must start with intermediate certificates and end with the root certificate. Use the intermediate certificates that were provided by your certificate authority. Do not include any intermediaries that are not in the chain of trust path.
-        public let certificateChain: String?
-        /// The reference to an AWS-managed certificate that will be used by regional endpoint for this domain name. AWS Certificate Manager is the only supported source.
-        public let regionalCertificateArn: String?
-        /// [Required] The name of the DomainName resource.
-        public let domainName: String
-        /// The user-friendly name of the certificate that will be used by edge-optimized endpoint for this domain name.
-        public let certificateName: String?
-        /// [Deprecated] Your edge-optimized endpoint's domain name certificate's private key.
-        public let certificatePrivateKey: String?
-        /// The user-friendly name of the certificate that will be used by regional endpoint for this domain name.
-        public let regionalCertificateName: String?
-        /// [Deprecated] The body of the server certificate that will be used by edge-optimized endpoint for this domain name provided by your certificate authority.
-        public let certificateBody: String?
-        /// The reference to an AWS-managed certificate that will be used by edge-optimized endpoint for this domain name. AWS Certificate Manager is the only supported source.
-        public let certificateArn: String?
-
-        public init(endpointConfiguration: EndpointConfiguration? = nil, certificateChain: String? = nil, regionalCertificateArn: String? = nil, domainName: String, certificateName: String? = nil, certificatePrivateKey: String? = nil, regionalCertificateName: String? = nil, certificateBody: String? = nil, certificateArn: String? = nil) {
-            self.endpointConfiguration = endpointConfiguration
-            self.certificateChain = certificateChain
-            self.regionalCertificateArn = regionalCertificateArn
-            self.domainName = domainName
-            self.certificateName = certificateName
-            self.certificatePrivateKey = certificatePrivateKey
-            self.regionalCertificateName = regionalCertificateName
-            self.certificateBody = certificateBody
-            self.certificateArn = certificateArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointConfiguration = "endpointConfiguration"
-            case certificateChain = "certificateChain"
-            case regionalCertificateArn = "regionalCertificateArn"
-            case domainName = "domainName"
-            case certificateName = "certificateName"
-            case certificatePrivateKey = "certificatePrivateKey"
-            case regionalCertificateName = "regionalCertificateName"
-            case certificateBody = "certificateBody"
-            case certificateArn = "certificateArn"
-        }
-    }
-
-    public struct GetRestApisRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
-        ]
-        /// The current pagination position in the paged result set.
-        public let position: String?
-        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
-
-        public init(position: String? = nil, limit: Int32? = nil) {
-            self.position = position
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case position = "position"
-            case limit = "limit"
-        }
-    }
-
-    public struct UpdateVpcLinkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
-            AWSShapeMember(label: "vpcLinkId", location: .uri(locationName: "vpclink_id"), required: true, type: .string)
-        ]
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
-        /// [Required] The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
-        public let vpcLinkId: String
-
-        public init(patchOperations: [PatchOperation]? = nil, vpcLinkId: String) {
-            self.patchOperations = patchOperations
-            self.vpcLinkId = vpcLinkId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case patchOperations = "patchOperations"
-            case vpcLinkId = "vpclink_id"
-        }
-    }
-
-    public struct DeleteApiKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiKey", location: .uri(locationName: "api_Key"), required: true, type: .string)
-        ]
-        /// [Required] The identifier of the ApiKey resource to be deleted.
-        public let apiKey: String
-
-        public init(apiKey: String) {
-            self.apiKey = apiKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case apiKey = "api_Key"
-        }
-    }
-
-    public struct BasePathMappings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
-            AWSShapeMember(label: "position", required: false, type: .string)
-        ]
-        /// The current page of elements from this collection.
-        public let items: [BasePathMapping]?
-        public let position: String?
-
-        public init(items: [BasePathMapping]? = nil, position: String? = nil) {
-            self.items = items
-            self.position = position
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "item"
-            case position = "position"
-        }
-    }
-
-    public struct DeleteDeploymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "deploymentId", location: .uri(locationName: "deployment_id"), required: true, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The identifier of the Deployment resource to delete.
-        public let deploymentId: String
-
-        public init(restApiId: String, deploymentId: String) {
-            self.restApiId = restApiId
-            self.deploymentId = deploymentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case deploymentId = "deployment_id"
-        }
-    }
-
-    public struct UpdateModelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "modelName", location: .uri(locationName: "model_name"), required: true, type: .string)
-        ]
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The name of the model to update.
-        public let modelName: String
-
-        public init(patchOperations: [PatchOperation]? = nil, restApiId: String, modelName: String) {
-            self.patchOperations = patchOperations
-            self.restApiId = restApiId
-            self.modelName = modelName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case patchOperations = "patchOperations"
-            case restApiId = "restapi_id"
-            case modelName = "model_name"
-        }
-    }
-
-    public struct ClientCertificates: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
-            AWSShapeMember(label: "position", required: false, type: .string)
-        ]
-        /// The current page of elements from this collection.
-        public let items: [ClientCertificate]?
-        public let position: String?
-
-        public init(items: [ClientCertificate]? = nil, position: String? = nil) {
-            self.items = items
-            self.position = position
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "item"
-            case position = "position"
-        }
-    }
-
-    public struct GetVpcLinksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
-        ]
-        /// The current pagination position in the paged result set.
-        public let position: String?
-        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
-
-        public init(position: String? = nil, limit: Int32? = nil) {
-            self.position = position
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case position = "position"
-            case limit = "limit"
-        }
-    }
-
-    public struct PutRestApiRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "mode", location: .querystring(locationName: "mode"), required: false, type: .enum), 
-            AWSShapeMember(label: "body", required: true, type: .blob), 
-            AWSShapeMember(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings"), required: false, type: .boolean), 
-            AWSShapeMember(label: "parameters", required: false, type: .map)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// The mode query parameter to specify the update mode. Valid values are "merge" and "overwrite". By default, the update mode is "merge".
-        public let mode: PutMode?
-        /// [Required] The PUT request body containing external API definitions. Currently, only Swagger definition JSON files are supported. The maximum size of the API definition file is 2MB.
-        public let body: Data
-        /// A query parameter to indicate whether to rollback the API update (true) or not (false) when a warning is encountered. The default value is false.
-        public let failOnWarnings: Bool?
-        /// Custom header parameters as part of the request. For example, to exclude DocumentationParts from an imported API, set ignore=documentation as a parameters value, as in the AWS CLI command of aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json'.
-        public let parameters: [String: String]?
-
-        public init(restApiId: String, mode: PutMode? = nil, body: Data, failOnWarnings: Bool? = nil, parameters: [String: String]? = nil) {
-            self.restApiId = restApiId
-            self.mode = mode
-            self.body = body
-            self.failOnWarnings = failOnWarnings
-            self.parameters = parameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case mode = "mode"
-            case body = "body"
-            case failOnWarnings = "failonwarnings"
-            case parameters = "parameters"
-        }
-    }
-
-    public struct DocumentationPartLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "method", required: false, type: .string), 
-            AWSShapeMember(label: "path", required: false, type: .string), 
-            AWSShapeMember(label: "statusCode", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
-        /// The HTTP verb of a method. It is a valid field for the API entity types of METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. The default value is * for any method. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's method attribute must match that of the parent entity exactly.
-        public let method: String?
-        /// The URL path of the target. It is a valid field for the API entity types of RESOURCE, METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. The default value is / for the root resource. When an applicable child entity inherits the content of another entity of the same type with more general specifications of the other location attributes, the child entity's path attribute must match that of the parent entity as a prefix.
-        public let path: String?
-        /// The HTTP status code of a response. It is a valid field for the API entity types of RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. The default value is * for any status code. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's statusCode attribute must match that of the parent entity exactly.
-        public let statusCode: String?
-        /// [Required] The type of API entity to which the documentation content applies. Valid values are API, AUTHORIZER, MODEL, RESOURCE, METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. Content inheritance does not apply to any entity of the API, AUTHORIZER, METHOD, MODEL, REQUEST_BODY, or RESOURCE type.
-        public let `type`: DocumentationPartType
-        /// The name of the targeted API entity. It is a valid and required field for the API entity types of AUTHORIZER, MODEL, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY and RESPONSE_HEADER. It is an invalid field for any other entity type.
-        public let name: String?
-
-        public init(method: String? = nil, path: String? = nil, statusCode: String? = nil, type: DocumentationPartType, name: String? = nil) {
-            self.method = method
-            self.path = path
-            self.statusCode = statusCode
-            self.`type` = `type`
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case method = "method"
-            case path = "path"
-            case statusCode = "statusCode"
-            case `type` = "type"
-            case name = "name"
-        }
-    }
-
-    public struct MethodSnapshot: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizationType", required: false, type: .string), 
-            AWSShapeMember(label: "apiKeyRequired", required: false, type: .boolean)
-        ]
-        /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
-        public let authorizationType: String?
-        /// Specifies whether the method requires a valid ApiKey.
-        public let apiKeyRequired: Bool?
-
-        public init(authorizationType: String? = nil, apiKeyRequired: Bool? = nil) {
-            self.authorizationType = authorizationType
-            self.apiKeyRequired = apiKeyRequired
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authorizationType = "authorizationType"
-            case apiKeyRequired = "apiKeyRequired"
-        }
-    }
-
-    public struct DeleteClientCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientCertificateId", location: .uri(locationName: "clientcertificate_id"), required: true, type: .string)
-        ]
-        /// [Required] The identifier of the ClientCertificate resource to be deleted.
-        public let clientCertificateId: String
-
-        public init(clientCertificateId: String) {
-            self.clientCertificateId = clientCertificateId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clientCertificateId = "clientcertificate_id"
-        }
-    }
-
-    public struct UpdateIntegrationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
-            AWSShapeMember(label: "patchOperations", required: false, type: .list)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] Represents an update integration request's resource identifier.
-        public let resourceId: String
-        /// [Required] Represents an update integration request's HTTP method.
-        public let httpMethod: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
-
-        public init(restApiId: String, resourceId: String, httpMethod: String, patchOperations: [PatchOperation]? = nil) {
-            self.restApiId = restApiId
-            self.resourceId = resourceId
-            self.httpMethod = httpMethod
-            self.patchOperations = patchOperations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case resourceId = "resource_id"
-            case httpMethod = "http_method"
-            case patchOperations = "patchOperations"
-        }
-    }
-
-    public struct CreateResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pathPart", required: true, type: .string), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "parentId", location: .uri(locationName: "parent_id"), required: true, type: .string)
-        ]
-        /// The last path segment for this resource.
-        public let pathPart: String
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The parent resource's identifier.
-        public let parentId: String
-
-        public init(pathPart: String, restApiId: String, parentId: String) {
-            self.pathPart = pathPart
-            self.restApiId = restApiId
-            self.parentId = parentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pathPart = "pathPart"
-            case restApiId = "restapi_id"
-            case parentId = "parent_id"
-        }
-    }
-
-    public struct GetAccountRequest: AWSShape {
-
-    }
-
-    public struct CreateVpcLinkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "targetArns", required: true, type: .list)
-        ]
-        /// [Required] The name used to label and identify the VPC link.
-        public let name: String
-        /// The description of the VPC link.
-        public let description: String?
-        /// [Required] The ARNs of network load balancers of the VPC targeted by the VPC link. The network load balancers must be owned by the same AWS account of the API owner.
-        public let targetArns: [String]
-
-        public init(name: String, description: String? = nil, targetArns: [String]) {
-            self.name = name
-            self.description = description
-            self.targetArns = targetArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case description = "description"
-            case targetArns = "targetArns"
-        }
-    }
-
-    public struct TestInvokeAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "pathWithQueryString", required: false, type: .string), 
-            AWSShapeMember(label: "headers", required: false, type: .map), 
-            AWSShapeMember(label: "body", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerId", location: .uri(locationName: "authorizer_id"), required: true, type: .string), 
-            AWSShapeMember(label: "additionalContext", required: false, type: .map), 
-            AWSShapeMember(label: "stageVariables", required: false, type: .map)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Optional] The URI path, including query string, of the simulated invocation request. Use this to specify path parameters and query string parameters.
-        public let pathWithQueryString: String?
-        /// [Required] A key-value map of headers to simulate an incoming invocation request. This is where the incoming authorization token, or identity source, should be specified.
-        public let headers: [String: String]?
-        /// [Optional] The simulated request body of an incoming invocation request.
-        public let body: String?
-        /// [Required] Specifies a test invoke authorizer request's Authorizer ID.
-        public let authorizerId: String
-        /// [Optional] A key-value map of additional context variables.
-        public let additionalContext: [String: String]?
-        /// A key-value map of stage variables to simulate an invocation on a deployed Stage.
-        public let stageVariables: [String: String]?
-
-        public init(restApiId: String, pathWithQueryString: String? = nil, headers: [String: String]? = nil, body: String? = nil, authorizerId: String, additionalContext: [String: String]? = nil, stageVariables: [String: String]? = nil) {
-            self.restApiId = restApiId
-            self.pathWithQueryString = pathWithQueryString
-            self.headers = headers
-            self.body = body
-            self.authorizerId = authorizerId
-            self.additionalContext = additionalContext
-            self.stageVariables = stageVariables
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case pathWithQueryString = "pathWithQueryString"
-            case headers = "headers"
-            case body = "body"
-            case authorizerId = "authorizer_id"
-            case additionalContext = "additionalContext"
-            case stageVariables = "stageVariables"
-        }
-    }
-
-    public struct GetDocumentationPartsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "path", location: .querystring(locationName: "path"), required: false, type: .string), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "type", location: .querystring(locationName: "type"), required: false, type: .enum), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
-            AWSShapeMember(label: "locationStatus", location: .querystring(locationName: "locationStatus"), required: false, type: .enum), 
-            AWSShapeMember(label: "nameQuery", location: .querystring(locationName: "name"), required: false, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// The path of API entities of the to-be-retrieved documentation parts.
-        public let path: String?
-        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
-        /// The type of API entities of the to-be-retrieved documentation parts. 
-        public let `type`: DocumentationPartType?
-        /// The current pagination position in the paged result set.
-        public let position: String?
-        /// The status of the API documentation parts to retrieve. Valid values are DOCUMENTED for retrieving DocumentationPart resources with content and UNDOCUMENTED for DocumentationPart resources without content.
-        public let locationStatus: LocationStatusType?
-        /// The name of API entities of the to-be-retrieved documentation parts.
-        public let nameQuery: String?
-
-        public init(restApiId: String, path: String? = nil, limit: Int32? = nil, type: DocumentationPartType? = nil, position: String? = nil, locationStatus: LocationStatusType? = nil, nameQuery: String? = nil) {
-            self.restApiId = restApiId
-            self.path = path
-            self.limit = limit
-            self.`type` = `type`
-            self.position = position
-            self.locationStatus = locationStatus
-            self.nameQuery = nameQuery
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case path = "path"
-            case limit = "limit"
-            case `type` = "type"
-            case position = "position"
-            case locationStatus = "locationStatus"
-            case nameQuery = "name"
-        }
-    }
-
-    public struct DocumentationPartIds: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "warnings", required: false, type: .list), 
-            AWSShapeMember(label: "ids", required: false, type: .list)
-        ]
-        /// A list of warning messages reported during import of documentation parts.
-        public let warnings: [String]?
-        /// A list of the returned documentation part identifiers.
-        public let ids: [String]?
-
-        public init(warnings: [String]? = nil, ids: [String]? = nil) {
-            self.warnings = warnings
-            self.ids = ids
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case warnings = "warnings"
-            case ids = "ids"
-        }
-    }
-
-    public struct UpdateResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string)
-        ]
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The identifier of the Resource resource.
-        public let resourceId: String
-
-        public init(patchOperations: [PatchOperation]? = nil, restApiId: String, resourceId: String) {
-            self.patchOperations = patchOperations
-            self.restApiId = restApiId
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case patchOperations = "patchOperations"
-            case restApiId = "restapi_id"
-            case resourceId = "resource_id"
-        }
-    }
-
-    public struct GetDocumentationVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// The current pagination position in the paged result set.
-        public let position: String?
-        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
-
-        public init(restApiId: String, position: String? = nil, limit: Int32? = nil) {
-            self.restApiId = restApiId
-            self.position = position
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case position = "position"
-            case limit = "limit"
+            case responseParameters = "responseParameters"
+            case responseTemplates = "responseTemplates"
         }
     }
 
     public struct UpdateClientCertificateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
-            AWSShapeMember(label: "clientCertificateId", location: .uri(locationName: "clientcertificate_id"), required: true, type: .string)
+            AWSShapeMember(label: "clientCertificateId", location: .uri(locationName: "clientcertificate_id"), required: true, type: .string), 
+            AWSShapeMember(label: "patchOperations", required: false, type: .list)
         ]
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
         /// [Required] The identifier of the ClientCertificate resource to be updated.
         public let clientCertificateId: String
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
 
-        public init(patchOperations: [PatchOperation]? = nil, clientCertificateId: String) {
-            self.patchOperations = patchOperations
+        public init(clientCertificateId: String, patchOperations: [PatchOperation]? = nil) {
             self.clientCertificateId = clientCertificateId
+            self.patchOperations = patchOperations
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations = "patchOperations"
             case clientCertificateId = "clientcertificate_id"
+            case patchOperations = "patchOperations"
         }
     }
 
-    public struct GetIntegrationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string)
-        ]
-        /// [Required] Specifies a get integration request's resource identifier
-        public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] Specifies a get integration request's HTTP method.
-        public let httpMethod: String
-
-        public init(resourceId: String, restApiId: String, httpMethod: String) {
-            self.resourceId = resourceId
-            self.restApiId = restApiId
-            self.httpMethod = httpMethod
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "resource_id"
-            case restApiId = "restapi_id"
-            case httpMethod = "http_method"
-        }
-    }
-
-    public struct GetSdkRequest: AWSShape {
+    public struct UpdateGatewayResponseRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string), 
-            AWSShapeMember(label: "sdkType", location: .uri(locationName: "sdk_type"), required: true, type: .string), 
-            AWSShapeMember(label: "parameters", required: false, type: .map)
+            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
+            AWSShapeMember(label: "responseType", location: .uri(locationName: "response_type"), required: true, type: .enum)
         ]
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] The name of the Stage that the SDK will use.
-        public let stageName: String
-        /// [Required] The language for the generated SDK. Currently java, javascript, android, objectivec (for iOS), swift (for iOS), and ruby are supported.
-        public let sdkType: String
-        /// A string-to-string key-value map of query parameters sdkType-dependent properties of the SDK. For sdkType of objectivec or swift, a parameter named classPrefix is required. For sdkType of android, parameters named groupId, artifactId, artifactVersion, and invokerPackage are required. For sdkType of java, parameters named serviceName and javaPackageName are required. 
-        public let parameters: [String: String]?
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+        /// [Required] The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE 
+        public let responseType: GatewayResponseType
 
-        public init(restApiId: String, stageName: String, sdkType: String, parameters: [String: String]? = nil) {
+        public init(restApiId: String, patchOperations: [PatchOperation]? = nil, responseType: GatewayResponseType) {
             self.restApiId = restApiId
-            self.stageName = stageName
-            self.sdkType = sdkType
-            self.parameters = parameters
+            self.patchOperations = patchOperations
+            self.responseType = responseType
         }
 
         private enum CodingKeys: String, CodingKey {
             case restApiId = "restapi_id"
-            case stageName = "stage_name"
-            case sdkType = "sdk_type"
-            case parameters = "parameters"
+            case patchOperations = "patchOperations"
+            case responseType = "response_type"
         }
     }
 
-    public struct PutMethodRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "requestValidatorId", required: false, type: .string), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "requestParameters", required: false, type: .map), 
-            AWSShapeMember(label: "authorizationType", required: true, type: .string), 
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
-            AWSShapeMember(label: "apiKeyRequired", required: false, type: .boolean), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
-            AWSShapeMember(label: "operationName", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerId", required: false, type: .string), 
-            AWSShapeMember(label: "authorizationScopes", required: false, type: .list), 
-            AWSShapeMember(label: "requestModels", required: false, type: .map)
-        ]
-        /// The identifier of a RequestValidator for validating the method request.
-        public let requestValidatorId: String?
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// A key-value map defining required or optional method request parameters that can be accepted by API Gateway. A key defines a method request parameter name matching the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name is a valid and unique parameter name. The value associated with the key is a Boolean flag indicating whether the parameter is required (true) or optional (false). The method request parameter names defined here are available in Integration to be mapped to integration request parameters or body-mapping templates.
-        public let requestParameters: [String: Bool]?
-        /// [Required] The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
-        public let authorizationType: String
-        /// [Required] Specifies the method request's HTTP method type.
-        public let httpMethod: String
-        /// Specifies whether the method required a valid ApiKey.
-        public let apiKeyRequired: Bool?
-        /// [Required] The Resource identifier for the new Method resource.
-        public let resourceId: String
-        /// A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in PetStore example.
-        public let operationName: String?
-        /// Specifies the identifier of an Authorizer to use on this Method, if the type is CUSTOM or COGNITO_USER_POOLS. The authorizer identifier is generated by API Gateway when you created the authorizer.
-        public let authorizerId: String?
-        /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes.
-        public let authorizationScopes: [String]?
-        /// Specifies the Model resources used for the request's content type. Request models are represented as a key/value map, with a content type as the key and a Model name as the value.
-        public let requestModels: [String: String]?
-
-        public init(requestValidatorId: String? = nil, restApiId: String, requestParameters: [String: Bool]? = nil, authorizationType: String, httpMethod: String, apiKeyRequired: Bool? = nil, resourceId: String, operationName: String? = nil, authorizerId: String? = nil, authorizationScopes: [String]? = nil, requestModels: [String: String]? = nil) {
-            self.requestValidatorId = requestValidatorId
-            self.restApiId = restApiId
-            self.requestParameters = requestParameters
-            self.authorizationType = authorizationType
-            self.httpMethod = httpMethod
-            self.apiKeyRequired = apiKeyRequired
-            self.resourceId = resourceId
-            self.operationName = operationName
-            self.authorizerId = authorizerId
-            self.authorizationScopes = authorizationScopes
-            self.requestModels = requestModels
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case requestValidatorId = "requestValidatorId"
-            case restApiId = "restapi_id"
-            case requestParameters = "requestParameters"
-            case authorizationType = "authorizationType"
-            case httpMethod = "http_method"
-            case apiKeyRequired = "apiKeyRequired"
-            case resourceId = "resource_id"
-            case operationName = "operationName"
-            case authorizerId = "authorizerId"
-            case authorizationScopes = "authorizationScopes"
-            case requestModels = "requestModels"
-        }
+    public enum Op: String, CustomStringConvertible, Codable {
+        case add = "add"
+        case remove = "remove"
+        case replace = "replace"
+        case move = "move"
+        case copy = "copy"
+        case test = "test"
+        public var description: String { return self.rawValue }
     }
 
     public struct SdkResponse: AWSShape {
@@ -4495,528 +3707,165 @@ extension APIGateway {
         }
     }
 
-    public struct Account: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cloudwatchRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "throttleSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "features", required: false, type: .list), 
-            AWSShapeMember(label: "apiKeyVersion", required: false, type: .string)
-        ]
-        /// The ARN of an Amazon CloudWatch role for the current Account. 
-        public let cloudwatchRoleArn: String?
-        /// Specifies the API request limits configured for the current Account.
-        public let throttleSettings: ThrottleSettings?
-        /// A list of features supported for the account. When usage plans are enabled, the features list will include an entry of "UsagePlans".
-        public let features: [String]?
-        /// The version of the API keys used for the account.
-        public let apiKeyVersion: String?
-
-        public init(cloudwatchRoleArn: String? = nil, throttleSettings: ThrottleSettings? = nil, features: [String]? = nil, apiKeyVersion: String? = nil) {
-            self.cloudwatchRoleArn = cloudwatchRoleArn
-            self.throttleSettings = throttleSettings
-            self.features = features
-            self.apiKeyVersion = apiKeyVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cloudwatchRoleArn = "cloudwatchRoleArn"
-            case throttleSettings = "throttleSettings"
-            case features = "features"
-            case apiKeyVersion = "apiKeyVersion"
-        }
-    }
-
-    public struct CreateDocumentationVersionRequest: AWSShape {
+    public struct DeleteStageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "stageName", required: false, type: .string), 
-            AWSShapeMember(label: "documentationVersion", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string)
+            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string)
         ]
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        /// The stage name to be associated with the new documentation snapshot.
-        public let stageName: String?
-        /// [Required] The version identifier of the new snapshot.
-        public let documentationVersion: String
-        /// A description about the new documentation snapshot.
-        public let description: String?
+        /// [Required] The name of the Stage resource to delete.
+        public let stageName: String
 
-        public init(restApiId: String, stageName: String? = nil, documentationVersion: String, description: String? = nil) {
+        public init(restApiId: String, stageName: String) {
             self.restApiId = restApiId
             self.stageName = stageName
-            self.documentationVersion = documentationVersion
-            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
             case restApiId = "restapi_id"
-            case stageName = "stageName"
-            case documentationVersion = "documentationVersion"
-            case description = "description"
+            case stageName = "stage_name"
         }
     }
 
-    public struct CreateAuthorizerRequest: AWSShape {
+    public struct GetIntegrationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerResultTtlInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "authType", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerCredentials", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "identitySource", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerUri", required: false, type: .string), 
-            AWSShapeMember(label: "providerARNs", required: false, type: .list), 
-            AWSShapeMember(label: "type", required: true, type: .enum), 
-            AWSShapeMember(label: "identityValidationExpression", required: false, type: .string)
-        ]
-        /// The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour.
-        public let authorizerResultTtlInSeconds: Int32?
-        /// Optional customer-defined field, used in Swagger imports and exports without functional impact.
-        public let authType: String?
-        /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
-        public let authorizerCredentials: String?
-        /// [Required] The name of the authorizer.
-        public let name: String
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is method.request.header.Auth.For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name. These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional.
-        public let identitySource: String?
-        /// Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations.
-        public let authorizerUri: String?
-        /// A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. For a TOKEN or REQUEST authorizer, this is not defined. 
-        public let providerARNs: [String]?
-        /// [Required] The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
-        public let `type`: AuthorizerType
-        /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST authorizer.
-        public let identityValidationExpression: String?
-
-        public init(authorizerResultTtlInSeconds: Int32? = nil, authType: String? = nil, authorizerCredentials: String? = nil, name: String, restApiId: String, identitySource: String? = nil, authorizerUri: String? = nil, providerARNs: [String]? = nil, type: AuthorizerType, identityValidationExpression: String? = nil) {
-            self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
-            self.authType = authType
-            self.authorizerCredentials = authorizerCredentials
-            self.name = name
-            self.restApiId = restApiId
-            self.identitySource = identitySource
-            self.authorizerUri = authorizerUri
-            self.providerARNs = providerARNs
-            self.`type` = `type`
-            self.identityValidationExpression = identityValidationExpression
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
-            case authType = "authType"
-            case authorizerCredentials = "authorizerCredentials"
-            case name = "name"
-            case restApiId = "restapi_id"
-            case identitySource = "identitySource"
-            case authorizerUri = "authorizerUri"
-            case providerARNs = "providerARNs"
-            case `type` = "type"
-            case identityValidationExpression = "identityValidationExpression"
-        }
-    }
-
-    public struct GetDocumentationVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "documentationVersion", location: .uri(locationName: "doc_version"), required: true, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The version identifier of the to-be-retrieved documentation snapshot.
-        public let documentationVersion: String
-
-        public init(restApiId: String, documentationVersion: String) {
-            self.restApiId = restApiId
-            self.documentationVersion = documentationVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case documentationVersion = "doc_version"
-        }
-    }
-
-    public struct Usage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "values"), required: false, type: .map), 
-            AWSShapeMember(label: "position", required: false, type: .string), 
-            AWSShapeMember(label: "endDate", required: false, type: .string), 
-            AWSShapeMember(label: "startDate", required: false, type: .string), 
-            AWSShapeMember(label: "usagePlanId", required: false, type: .string)
-        ]
-        /// The usage data, as daily logs of used and remaining quotas, over the specified time interval indexed over the API keys in a usage plan. For example, {..., "values" : { "{api_key}" : [ [0, 100], [10, 90], [100, 10]]}, where {api_key} stands for an API key value and the daily log entry is of the format [used quota, remaining quota].
-        public let items: [String: [[Int64]]]?
-        public let position: String?
-        /// The ending date of the usage data.
-        public let endDate: String?
-        /// The starting date of the usage data.
-        public let startDate: String?
-        /// The plan Id associated with this usage data.
-        public let usagePlanId: String?
-
-        public init(items: [String: [[Int64]]]? = nil, position: String? = nil, endDate: String? = nil, startDate: String? = nil, usagePlanId: String? = nil) {
-            self.items = items
-            self.position = position
-            self.endDate = endDate
-            self.startDate = startDate
-            self.usagePlanId = usagePlanId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "values"
-            case position = "position"
-            case endDate = "endDate"
-            case startDate = "startDate"
-            case usagePlanId = "usagePlanId"
-        }
-    }
-
-    public struct UpdateMethodResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string), 
             AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
             AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
-            AWSShapeMember(label: "patchOperations", required: false, type: .list)
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+        /// [Required] Specifies a get integration request's resource identifier
+        public let resourceId: String
+        /// [Required] Specifies a get integration request's HTTP method.
+        public let httpMethod: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] The status code for the MethodResponse resource.
-        public let statusCode: String
-        /// [Required] The Resource identifier for the MethodResponse resource.
-        public let resourceId: String
-        /// [Required] The HTTP verb of the Method resource.
-        public let httpMethod: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
 
-        public init(restApiId: String, statusCode: String, resourceId: String, httpMethod: String, patchOperations: [PatchOperation]? = nil) {
-            self.restApiId = restApiId
-            self.statusCode = statusCode
+        public init(resourceId: String, httpMethod: String, restApiId: String) {
             self.resourceId = resourceId
             self.httpMethod = httpMethod
-            self.patchOperations = patchOperations
+            self.restApiId = restApiId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case statusCode = "status_code"
             case resourceId = "resource_id"
             case httpMethod = "http_method"
-            case patchOperations = "patchOperations"
-        }
-    }
-
-    public struct CreateApiKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "customerId", required: false, type: .string), 
-            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "generateDistinctId", required: false, type: .boolean), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "stageKeys", required: false, type: .list), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
-        /// An AWS Marketplace customer identifier , when integrating with the AWS SaaS Marketplace.
-        public let customerId: String?
-        /// Specifies whether the ApiKey can be used by callers.
-        public let enabled: Bool?
-        /// The name of the ApiKey.
-        public let name: String?
-        /// Specifies whether (true) or not (false) the key identifier is distinct from the created API key value.
-        public let generateDistinctId: Bool?
-        /// The description of the ApiKey.
-        public let description: String?
-        /// DEPRECATED FOR USAGE PLANS - Specifies stages associated with the API key.
-        public let stageKeys: [StageKey]?
-        /// Specifies a value of the API key.
-        public let value: String?
-
-        public init(customerId: String? = nil, enabled: Bool? = nil, name: String? = nil, generateDistinctId: Bool? = nil, description: String? = nil, stageKeys: [StageKey]? = nil, value: String? = nil) {
-            self.customerId = customerId
-            self.enabled = enabled
-            self.name = name
-            self.generateDistinctId = generateDistinctId
-            self.description = description
-            self.stageKeys = stageKeys
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case customerId = "customerId"
-            case enabled = "enabled"
-            case name = "name"
-            case generateDistinctId = "generateDistinctId"
-            case description = "description"
-            case stageKeys = "stageKeys"
-            case value = "value"
-        }
-    }
-
-    public struct CreateStageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "canarySettings", required: false, type: .structure), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "cacheClusterSize", required: false, type: .enum), 
-            AWSShapeMember(label: "stageName", required: true, type: .string), 
-            AWSShapeMember(label: "deploymentId", required: true, type: .string), 
-            AWSShapeMember(label: "cacheClusterEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "documentationVersion", required: false, type: .string), 
-            AWSShapeMember(label: "variables", required: false, type: .map)
-        ]
-        /// The canary deployment settings of this stage.
-        public let canarySettings: CanarySettings?
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// The stage's cache cluster size.
-        public let cacheClusterSize: CacheClusterSize?
-        /// [Required] The name for the Stage resource.
-        public let stageName: String
-        /// [Required] The identifier of the Deployment resource for the Stage resource.
-        public let deploymentId: String
-        /// Whether cache clustering is enabled for the stage.
-        public let cacheClusterEnabled: Bool?
-        /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
-        public let tags: [String: String]?
-        /// The description of the Stage resource.
-        public let description: String?
-        /// The version of the associated API documentation.
-        public let documentationVersion: String?
-        /// A map that defines the stage variables for the new Stage resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
-        public let variables: [String: String]?
-
-        public init(canarySettings: CanarySettings? = nil, restApiId: String, cacheClusterSize: CacheClusterSize? = nil, stageName: String, deploymentId: String, cacheClusterEnabled: Bool? = nil, tags: [String: String]? = nil, description: String? = nil, documentationVersion: String? = nil, variables: [String: String]? = nil) {
-            self.canarySettings = canarySettings
-            self.restApiId = restApiId
-            self.cacheClusterSize = cacheClusterSize
-            self.stageName = stageName
-            self.deploymentId = deploymentId
-            self.cacheClusterEnabled = cacheClusterEnabled
-            self.tags = tags
-            self.description = description
-            self.documentationVersion = documentationVersion
-            self.variables = variables
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case canarySettings = "canarySettings"
             case restApiId = "restapi_id"
-            case cacheClusterSize = "cacheClusterSize"
-            case stageName = "stageName"
-            case deploymentId = "deploymentId"
-            case cacheClusterEnabled = "cacheClusterEnabled"
-            case tags = "tags"
-            case description = "description"
-            case documentationVersion = "documentationVersion"
-            case variables = "variables"
         }
     }
 
-    public struct Model: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "schema", required: false, type: .string), 
-            AWSShapeMember(label: "contentType", required: false, type: .string)
-        ]
-        /// The description of the model.
-        public let description: String?
-        /// The identifier for the model resource.
-        public let id: String?
-        /// The name of the model. Must be an alphanumeric string.
-        public let name: String?
-        /// The schema for the model. For application/json models, this should be JSON schema draft 4 model. Do not include "\*/" characters in the description of any properties because such "\*/" characters may be interpreted as the closing marker for comments in some languages, such as Java or JavaScript, causing the installation of your API's SDK generated by API Gateway to fail.
-        public let schema: String?
-        /// The content-type for the model.
-        public let contentType: String?
-
-        public init(description: String? = nil, id: String? = nil, name: String? = nil, schema: String? = nil, contentType: String? = nil) {
-            self.description = description
-            self.id = id
-            self.name = name
-            self.schema = schema
-            self.contentType = contentType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case id = "id"
-            case name = "name"
-            case schema = "schema"
-            case contentType = "contentType"
-        }
-    }
-
-    public struct DeleteMethodResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] The status code identifier for the MethodResponse resource.
-        public let statusCode: String
-        /// [Required] The Resource identifier for the MethodResponse resource.
-        public let resourceId: String
-        /// [Required] The HTTP verb of the Method resource.
-        public let httpMethod: String
-
-        public init(restApiId: String, statusCode: String, resourceId: String, httpMethod: String) {
-            self.restApiId = restApiId
-            self.statusCode = statusCode
-            self.resourceId = resourceId
-            self.httpMethod = httpMethod
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case statusCode = "status_code"
-            case resourceId = "resource_id"
-            case httpMethod = "http_method"
-        }
-    }
-
-    public struct MethodSetting: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cacheTtlInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "requireAuthorizationForCacheControl", required: false, type: .boolean), 
-            AWSShapeMember(label: "unauthorizedCacheControlHeaderStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "loggingLevel", required: false, type: .string), 
-            AWSShapeMember(label: "throttlingRateLimit", required: false, type: .double), 
-            AWSShapeMember(label: "cacheDataEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "dataTraceEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "throttlingBurstLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "metricsEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "cachingEnabled", required: false, type: .boolean)
-        ]
-        /// Specifies the time to live (TTL), in seconds, for cached responses. The higher the TTL, the longer the response will be cached. The PATCH path for this setting is /{method_setting_key}/caching/ttlInSeconds, and the value is an integer.
-        public let cacheTtlInSeconds: Int32?
-        /// Specifies whether authorization is required for a cache invalidation request. The PATCH path for this setting is /{method_setting_key}/caching/requireAuthorizationForCacheControl, and the value is a Boolean.
-        public let requireAuthorizationForCacheControl: Bool?
-        /// Specifies how to handle unauthorized requests for cache invalidation. The PATCH path for this setting is /{method_setting_key}/caching/unauthorizedCacheControlHeaderStrategy, and the available values are FAIL_WITH_403, SUCCEED_WITH_RESPONSE_HEADER, SUCCEED_WITHOUT_RESPONSE_HEADER.
-        public let unauthorizedCacheControlHeaderStrategy: UnauthorizedCacheControlHeaderStrategy?
-        /// Specifies the logging level for this method, which effects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/loglevel, and the available levels are OFF, ERROR, and INFO.
-        public let loggingLevel: String?
-        /// Specifies the throttling rate limit. The PATCH path for this setting is /{method_setting_key}/throttling/rateLimit, and the value is a double.
-        public let throttlingRateLimit: Double?
-        /// Specifies whether the cached responses are encrypted. The PATCH path for this setting is /{method_setting_key}/caching/dataEncrypted, and the value is a Boolean.
-        public let cacheDataEncrypted: Bool?
-        /// Specifies whether data trace logging is enabled for this method, which effects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/dataTrace, and the value is a Boolean.
-        public let dataTraceEnabled: Bool?
-        /// Specifies the throttling burst limit. The PATCH path for this setting is /{method_setting_key}/throttling/burstLimit, and the value is an integer.
-        public let throttlingBurstLimit: Int32?
-        /// Specifies whether Amazon CloudWatch metrics are enabled for this method. The PATCH path for this setting is /{method_setting_key}/metrics/enabled, and the value is a Boolean.
-        public let metricsEnabled: Bool?
-        /// Specifies whether responses should be cached and returned for requests. A cache cluster must be enabled on the stage for responses to be cached. The PATCH path for this setting is /{method_setting_key}/caching/enabled, and the value is a Boolean.
-        public let cachingEnabled: Bool?
-
-        public init(cacheTtlInSeconds: Int32? = nil, requireAuthorizationForCacheControl: Bool? = nil, unauthorizedCacheControlHeaderStrategy: UnauthorizedCacheControlHeaderStrategy? = nil, loggingLevel: String? = nil, throttlingRateLimit: Double? = nil, cacheDataEncrypted: Bool? = nil, dataTraceEnabled: Bool? = nil, throttlingBurstLimit: Int32? = nil, metricsEnabled: Bool? = nil, cachingEnabled: Bool? = nil) {
-            self.cacheTtlInSeconds = cacheTtlInSeconds
-            self.requireAuthorizationForCacheControl = requireAuthorizationForCacheControl
-            self.unauthorizedCacheControlHeaderStrategy = unauthorizedCacheControlHeaderStrategy
-            self.loggingLevel = loggingLevel
-            self.throttlingRateLimit = throttlingRateLimit
-            self.cacheDataEncrypted = cacheDataEncrypted
-            self.dataTraceEnabled = dataTraceEnabled
-            self.throttlingBurstLimit = throttlingBurstLimit
-            self.metricsEnabled = metricsEnabled
-            self.cachingEnabled = cachingEnabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheTtlInSeconds = "cacheTtlInSeconds"
-            case requireAuthorizationForCacheControl = "requireAuthorizationForCacheControl"
-            case unauthorizedCacheControlHeaderStrategy = "unauthorizedCacheControlHeaderStrategy"
-            case loggingLevel = "loggingLevel"
-            case throttlingRateLimit = "throttlingRateLimit"
-            case cacheDataEncrypted = "cacheDataEncrypted"
-            case dataTraceEnabled = "dataTraceEnabled"
-            case throttlingBurstLimit = "throttlingBurstLimit"
-            case metricsEnabled = "metricsEnabled"
-            case cachingEnabled = "cachingEnabled"
-        }
-    }
-
-    public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resource_arn"), required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .map)
-        ]
-        /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded. At present, Stage is the only taggable resource.
-        public let resourceArn: String
-        /// [Required] The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
-        public let tags: [String: String]
-
-        public init(resourceArn: String, tags: [String: String]) {
-            self.resourceArn = resourceArn
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource_arn"
-            case tags = "tags"
-        }
-    }
-
-    public struct UpdateDeploymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "deploymentId", location: .uri(locationName: "deployment_id"), required: true, type: .string)
-        ]
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public let patchOperations: [PatchOperation]?
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// The replacement identifier for the Deployment resource to change information about.
-        public let deploymentId: String
-
-        public init(patchOperations: [PatchOperation]? = nil, restApiId: String, deploymentId: String) {
-            self.patchOperations = patchOperations
-            self.restApiId = restApiId
-            self.deploymentId = deploymentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case patchOperations = "patchOperations"
-            case restApiId = "restapi_id"
-            case deploymentId = "deployment_id"
-        }
-    }
-
-    public enum QuotaPeriodType: String, CustomStringConvertible, Codable {
-        case day = "DAY"
-        case week = "WEEK"
-        case month = "MONTH"
+    public enum CacheClusterStatus: String, CustomStringConvertible, Codable {
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case available = "AVAILABLE"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case notAvailable = "NOT_AVAILABLE"
+        case flushInProgress = "FLUSH_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public struct GetRequestValidatorRequest: AWSShape {
+    public struct DomainName: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "requestValidatorId", location: .uri(locationName: "requestvalidator_id"), required: true, type: .string), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
+            AWSShapeMember(label: "domainName", required: false, type: .string), 
+            AWSShapeMember(label: "regionalDomainName", required: false, type: .string), 
+            AWSShapeMember(label: "endpointConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "distributionHostedZoneId", required: false, type: .string), 
+            AWSShapeMember(label: "regionalHostedZoneId", required: false, type: .string), 
+            AWSShapeMember(label: "distributionDomainName", required: false, type: .string), 
+            AWSShapeMember(label: "certificateName", required: false, type: .string), 
+            AWSShapeMember(label: "certificateUploadDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "regionalCertificateName", required: false, type: .string), 
+            AWSShapeMember(label: "regionalCertificateArn", required: false, type: .string)
         ]
-        /// [Required] The identifier of the RequestValidator to be retrieved.
-        public let requestValidatorId: String
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
+        /// The custom domain name as an API host name, for example, my-api.example.com.
+        public let domainName: String?
+        /// The domain name associated with the regional endpoint for this custom domain name. You set up this association by adding a DNS record that points the custom domain name to this regional domain name. The regional domain name is returned by API Gateway when you create a regional endpoint.
+        public let regionalDomainName: String?
+        /// The endpoint configuration of this DomainName showing the endpoint types of the domain name. 
+        public let endpointConfiguration: EndpointConfiguration?
+        /// The reference to an AWS-managed certificate that will be used by edge-optimized endpoint for this domain name. AWS Certificate Manager is the only supported source.
+        public let certificateArn: String?
+        /// The region-agnostic Amazon Route 53 Hosted Zone ID of the edge-optimized endpoint. The valid value is Z2FDTNDATAQYW2 for all the regions. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway. 
+        public let distributionHostedZoneId: String?
+        /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway. 
+        public let regionalHostedZoneId: String?
+        /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
+        public let distributionDomainName: String?
+        /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
+        public let certificateName: String?
+        /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded.
+        public let certificateUploadDate: TimeStamp?
+        /// The name of the certificate that will be used for validating the regional domain name.
+        public let regionalCertificateName: String?
+        /// The reference to an AWS-managed certificate that will be used for validating the regional domain name. AWS Certificate Manager is the only supported source.
+        public let regionalCertificateArn: String?
 
-        public init(requestValidatorId: String, restApiId: String) {
-            self.requestValidatorId = requestValidatorId
-            self.restApiId = restApiId
+        public init(domainName: String? = nil, regionalDomainName: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, certificateArn: String? = nil, distributionHostedZoneId: String? = nil, regionalHostedZoneId: String? = nil, distributionDomainName: String? = nil, certificateName: String? = nil, certificateUploadDate: TimeStamp? = nil, regionalCertificateName: String? = nil, regionalCertificateArn: String? = nil) {
+            self.domainName = domainName
+            self.regionalDomainName = regionalDomainName
+            self.endpointConfiguration = endpointConfiguration
+            self.certificateArn = certificateArn
+            self.distributionHostedZoneId = distributionHostedZoneId
+            self.regionalHostedZoneId = regionalHostedZoneId
+            self.distributionDomainName = distributionDomainName
+            self.certificateName = certificateName
+            self.certificateUploadDate = certificateUploadDate
+            self.regionalCertificateName = regionalCertificateName
+            self.regionalCertificateArn = regionalCertificateArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case requestValidatorId = "requestvalidator_id"
-            case restApiId = "restapi_id"
+            case domainName = "domainName"
+            case regionalDomainName = "regionalDomainName"
+            case endpointConfiguration = "endpointConfiguration"
+            case certificateArn = "certificateArn"
+            case distributionHostedZoneId = "distributionHostedZoneId"
+            case regionalHostedZoneId = "regionalHostedZoneId"
+            case distributionDomainName = "distributionDomainName"
+            case certificateName = "certificateName"
+            case certificateUploadDate = "certificateUploadDate"
+            case regionalCertificateName = "regionalCertificateName"
+            case regionalCertificateArn = "regionalCertificateArn"
+        }
+    }
+
+    public struct GetAccountRequest: AWSShape {
+
+    }
+
+    public struct IntegrationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "responseTemplates", required: false, type: .map), 
+            AWSShapeMember(label: "selectionPattern", required: false, type: .string), 
+            AWSShapeMember(label: "contentHandling", required: false, type: .enum), 
+            AWSShapeMember(label: "statusCode", required: false, type: .string), 
+            AWSShapeMember(label: "responseParameters", required: false, type: .map)
+        ]
+        /// Specifies the templates used to transform the integration response body. Response templates are represented as a key/value map, with a content-type as the key and a template as the value.
+        public let responseTemplates: [String: String]?
+        /// Specifies the regular expression (regex) pattern used to choose an integration response based on the response from the back end. For example, if the success response returns nothing and the error response returns some string, you could use the .+ regex to match error response. However, make sure that the error response does not contain any newline (\n) character in such cases. If the back end is an AWS Lambda function, the AWS Lambda function error header is matched. For all other HTTP and AWS back ends, the HTTP status code is matched.
+        public let selectionPattern: String?
+        /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string.  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
+        public let contentHandling: ContentHandlingStrategy?
+        /// Specifies the status code that is used to map the integration response to an existing MethodResponse.
+        public let statusCode: String?
+        /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name is a valid and unique response header name and JSON-expression is a valid JSON expression without the $ prefix.
+        public let responseParameters: [String: String]?
+
+        public init(responseTemplates: [String: String]? = nil, selectionPattern: String? = nil, contentHandling: ContentHandlingStrategy? = nil, statusCode: String? = nil, responseParameters: [String: String]? = nil) {
+            self.responseTemplates = responseTemplates
+            self.selectionPattern = selectionPattern
+            self.contentHandling = contentHandling
+            self.statusCode = statusCode
+            self.responseParameters = responseParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case responseTemplates = "responseTemplates"
+            case selectionPattern = "selectionPattern"
+            case contentHandling = "contentHandling"
+            case statusCode = "statusCode"
+            case responseParameters = "responseParameters"
         }
     }
 
@@ -5040,264 +3889,505 @@ extension APIGateway {
         }
     }
 
-    public struct GetAuthorizersRequest: AWSShape {
+    public struct UsagePlans: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
+            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
+            AWSShapeMember(label: "position", required: false, type: .string)
         ]
+        /// The current page of elements from this collection.
+        public let items: [UsagePlan]?
+        public let position: String?
+
+        public init(items: [UsagePlan]? = nil, position: String? = nil) {
+            self.items = items
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "item"
+            case position = "position"
+        }
+    }
+
+    public struct GetDocumentationVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
+        ]
+        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+        public let limit: Int32?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
         /// The current pagination position in the paged result set.
         public let position: String?
-        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
 
-        public init(restApiId: String, position: String? = nil, limit: Int32? = nil) {
+        public init(limit: Int32? = nil, restApiId: String, position: String? = nil) {
+            self.limit = limit
             self.restApiId = restApiId
             self.position = position
-            self.limit = limit
         }
 
         private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
             case restApiId = "restapi_id"
             case position = "position"
-            case limit = "limit"
         }
     }
 
-    public struct DeleteIntegrationResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string)
-        ]
-        /// [Required] The string identifier of the associated RestApi.
-        public let restApiId: String
-        /// [Required] Specifies a delete integration response request's status code.
-        public let statusCode: String
-        /// [Required] Specifies a delete integration response request's resource identifier.
-        public let resourceId: String
-        /// [Required] Specifies a delete integration response request's HTTP method.
-        public let httpMethod: String
-
-        public init(restApiId: String, statusCode: String, resourceId: String, httpMethod: String) {
-            self.restApiId = restApiId
-            self.statusCode = statusCode
-            self.resourceId = resourceId
-            self.httpMethod = httpMethod
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case restApiId = "restapi_id"
-            case statusCode = "status_code"
-            case resourceId = "resource_id"
-            case httpMethod = "http_method"
-        }
-    }
-
-    public struct ThrottleSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "rateLimit", required: false, type: .double), 
-            AWSShapeMember(label: "burstLimit", required: false, type: .integer)
-        ]
-        /// The API request steady-state rate limit.
-        public let rateLimit: Double?
-        /// The API request burst limit, the maximum rate limit over a time ranging from one to a few seconds, depending upon whether the underlying token bucket is at its full capacity.
-        public let burstLimit: Int32?
-
-        public init(rateLimit: Double? = nil, burstLimit: Int32? = nil) {
-            self.rateLimit = rateLimit
-            self.burstLimit = burstLimit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rateLimit = "rateLimit"
-            case burstLimit = "burstLimit"
-        }
-    }
-
-    public struct Deployment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "apiSummary", required: false, type: .map)
-        ]
-        /// The description for the deployment resource.
-        public let description: String?
-        /// The date and time that the deployment resource was created.
-        public let createdDate: TimeStamp?
-        /// The identifier for the deployment resource.
-        public let id: String?
-        /// A summary of the RestApi at the date and time that the deployment resource was created.
-        public let apiSummary: [String: [String: MethodSnapshot]]?
-
-        public init(description: String? = nil, createdDate: TimeStamp? = nil, id: String? = nil, apiSummary: [String: [String: MethodSnapshot]]? = nil) {
-            self.description = description
-            self.createdDate = createdDate
-            self.id = id
-            self.apiSummary = apiSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case createdDate = "createdDate"
-            case id = "id"
-            case apiSummary = "apiSummary"
-        }
-    }
-
-    public enum LocationStatusType: String, CustomStringConvertible, Codable {
-        case documented = "DOCUMENTED"
-        case undocumented = "UNDOCUMENTED"
+    public enum ConnectionType: String, CustomStringConvertible, Codable {
+        case internet = "INTERNET"
+        case vpcLink = "VPC_LINK"
         public var description: String { return self.rawValue }
     }
 
-    public struct QuotaSettings: AWSShape {
+    public struct GetDomainNamesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "offset", required: false, type: .integer), 
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "period", required: false, type: .enum)
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
         ]
-        /// The number of requests subtracted from the given limit in the initial time period.
-        public let offset: Int32?
-        /// The maximum number of requests that can be made in a given time period.
+        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
         public let limit: Int32?
-        /// The time period in which the limit applies. Valid values are "DAY", "WEEK" or "MONTH".
-        public let period: QuotaPeriodType?
+        /// The current pagination position in the paged result set.
+        public let position: String?
 
-        public init(offset: Int32? = nil, limit: Int32? = nil, period: QuotaPeriodType? = nil) {
-            self.offset = offset
+        public init(limit: Int32? = nil, position: String? = nil) {
             self.limit = limit
-            self.period = period
+            self.position = position
         }
 
         private enum CodingKeys: String, CodingKey {
-            case offset = "offset"
             case limit = "limit"
-            case period = "period"
+            case position = "position"
         }
     }
 
-    public struct DeleteDocumentationVersionRequest: AWSShape {
+    public struct GetSdkTypesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
+        ]
+        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+        public let limit: Int32?
+        /// The current pagination position in the paged result set.
+        public let position: String?
+
+        public init(limit: Int32? = nil, position: String? = nil) {
+            self.limit = limit
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case position = "position"
+        }
+    }
+
+    public struct DocumentationParts: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
+            AWSShapeMember(label: "position", required: false, type: .string)
+        ]
+        /// The current page of elements from this collection.
+        public let items: [DocumentationPart]?
+        public let position: String?
+
+        public init(items: [DocumentationPart]? = nil, position: String? = nil) {
+            self.items = items
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "item"
+            case position = "position"
+        }
+    }
+
+    public struct TestInvokeAuthorizerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientStatus", required: false, type: .integer), 
+            AWSShapeMember(label: "principalId", required: false, type: .string), 
+            AWSShapeMember(label: "policy", required: false, type: .string), 
+            AWSShapeMember(label: "log", required: false, type: .string), 
+            AWSShapeMember(label: "latency", required: false, type: .long), 
+            AWSShapeMember(label: "claims", required: false, type: .map), 
+            AWSShapeMember(label: "authorization", required: false, type: .map)
+        ]
+        /// The HTTP status code that the client would have received. Value is 0 if the authorizer succeeded.
+        public let clientStatus: Int32?
+        /// The principal identity returned by the Authorizer
+        public let principalId: String?
+        /// The JSON policy document returned by the Authorizer
+        public let policy: String?
+        /// The API Gateway execution log for the test authorizer request.
+        public let log: String?
+        /// The execution latency of the test authorizer request.
+        public let latency: Int64?
+        /// The open identity claims, with any supported custom attributes, returned from the Cognito Your User Pool configured for the API.
+        public let claims: [String: String]?
+        public let authorization: [String: [String]]?
+
+        public init(clientStatus: Int32? = nil, principalId: String? = nil, policy: String? = nil, log: String? = nil, latency: Int64? = nil, claims: [String: String]? = nil, authorization: [String: [String]]? = nil) {
+            self.clientStatus = clientStatus
+            self.principalId = principalId
+            self.policy = policy
+            self.log = log
+            self.latency = latency
+            self.claims = claims
+            self.authorization = authorization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientStatus = "clientStatus"
+            case principalId = "principalId"
+            case policy = "policy"
+            case log = "log"
+            case latency = "latency"
+            case claims = "claims"
+            case authorization = "authorization"
+        }
+    }
+
+    public struct TestInvokeAuthorizerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "documentationVersion", location: .uri(locationName: "doc_version"), required: true, type: .string)
+            AWSShapeMember(label: "stageVariables", required: false, type: .map), 
+            AWSShapeMember(label: "authorizerId", location: .uri(locationName: "authorizer_id"), required: true, type: .string), 
+            AWSShapeMember(label: "body", required: false, type: .string), 
+            AWSShapeMember(label: "multiValueHeaders", required: false, type: .map), 
+            AWSShapeMember(label: "headers", required: false, type: .map), 
+            AWSShapeMember(label: "pathWithQueryString", required: false, type: .string), 
+            AWSShapeMember(label: "additionalContext", required: false, type: .map)
         ]
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] The version identifier of a to-be-deleted documentation snapshot.
-        public let documentationVersion: String
+        /// A key-value map of stage variables to simulate an invocation on a deployed Stage.
+        public let stageVariables: [String: String]?
+        /// [Required] Specifies a test invoke authorizer request's Authorizer ID.
+        public let authorizerId: String
+        /// [Optional] The simulated request body of an incoming invocation request.
+        public let body: String?
+        /// [Optional] The headers as a map from string to list of values to simulate an incoming invocation request. This is where the incoming authorization token, or identity source, may be specified.
+        public let multiValueHeaders: [String: [String]]?
+        /// [Required] A key-value map of headers to simulate an incoming invocation request. This is where the incoming authorization token, or identity source, should be specified.
+        public let headers: [String: String]?
+        /// [Optional] The URI path, including query string, of the simulated invocation request. Use this to specify path parameters and query string parameters.
+        public let pathWithQueryString: String?
+        /// [Optional] A key-value map of additional context variables.
+        public let additionalContext: [String: String]?
 
-        public init(restApiId: String, documentationVersion: String) {
+        public init(restApiId: String, stageVariables: [String: String]? = nil, authorizerId: String, body: String? = nil, multiValueHeaders: [String: [String]]? = nil, headers: [String: String]? = nil, pathWithQueryString: String? = nil, additionalContext: [String: String]? = nil) {
             self.restApiId = restApiId
-            self.documentationVersion = documentationVersion
+            self.stageVariables = stageVariables
+            self.authorizerId = authorizerId
+            self.body = body
+            self.multiValueHeaders = multiValueHeaders
+            self.headers = headers
+            self.pathWithQueryString = pathWithQueryString
+            self.additionalContext = additionalContext
         }
 
         private enum CodingKeys: String, CodingKey {
             case restApiId = "restapi_id"
-            case documentationVersion = "doc_version"
+            case stageVariables = "stageVariables"
+            case authorizerId = "authorizer_id"
+            case body = "body"
+            case multiValueHeaders = "multiValueHeaders"
+            case headers = "headers"
+            case pathWithQueryString = "pathWithQueryString"
+            case additionalContext = "additionalContext"
         }
     }
 
-    public struct SdkType: AWSShape {
+    public struct GetRestApiRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "configurationProperties", required: false, type: .list), 
-            AWSShapeMember(label: "friendlyName", required: false, type: .string)
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
-        /// The description of an SdkType.
-        public let description: String?
-        /// The identifier of an SdkType instance.
-        public let id: String?
-        /// A list of configuration properties of an SdkType.
-        public let configurationProperties: [SdkConfigurationProperty]?
-        /// The user-friendly name of an SdkType instance.
-        public let friendlyName: String?
-
-        public init(description: String? = nil, id: String? = nil, configurationProperties: [SdkConfigurationProperty]? = nil, friendlyName: String? = nil) {
-            self.description = description
-            self.id = id
-            self.configurationProperties = configurationProperties
-            self.friendlyName = friendlyName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case id = "id"
-            case configurationProperties = "configurationProperties"
-            case friendlyName = "friendlyName"
-        }
-    }
-
-    public struct GenerateClientCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string)
-        ]
-        /// The description of the ClientCertificate.
-        public let description: String?
-
-        public init(description: String? = nil) {
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "description"
-        }
-    }
-
-    public struct GetResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
-            AWSShapeMember(label: "embed", location: .querystring(locationName: "embed"), required: false, type: .list)
-        ]
-        /// [Required] The identifier for the Resource resource.
-        public let resourceId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        /// A query parameter to retrieve the specified resources embedded in the returned Resource representation in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the "methods" string. For example, GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods.
-        public let embed: [String]?
 
-        public init(resourceId: String, restApiId: String, embed: [String]? = nil) {
-            self.resourceId = resourceId
+        public init(restApiId: String) {
             self.restApiId = restApiId
-            self.embed = embed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+        }
+    }
+
+    public struct ApiKey: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "stageKeys", required: false, type: .list), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "value", required: false, type: .string), 
+            AWSShapeMember(label: "customerId", required: false, type: .string)
+        ]
+        /// The name of the API Key.
+        public let name: String?
+        /// Specifies whether the API Key can be used by callers.
+        public let enabled: Bool?
+        /// The identifier of the API Key.
+        public let id: String?
+        /// The timestamp when the API Key was last updated.
+        public let lastUpdatedDate: TimeStamp?
+        /// A list of Stage resources that are associated with the ApiKey resource.
+        public let stageKeys: [String]?
+        /// The description of the API Key.
+        public let description: String?
+        /// The timestamp when the API Key was created.
+        public let createdDate: TimeStamp?
+        /// The value of the API Key.
+        public let value: String?
+        /// An AWS Marketplace customer identifier , when integrating with the AWS SaaS Marketplace.
+        public let customerId: String?
+
+        public init(name: String? = nil, enabled: Bool? = nil, id: String? = nil, lastUpdatedDate: TimeStamp? = nil, stageKeys: [String]? = nil, description: String? = nil, createdDate: TimeStamp? = nil, value: String? = nil, customerId: String? = nil) {
+            self.name = name
+            self.enabled = enabled
+            self.id = id
+            self.lastUpdatedDate = lastUpdatedDate
+            self.stageKeys = stageKeys
+            self.description = description
+            self.createdDate = createdDate
+            self.value = value
+            self.customerId = customerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case enabled = "enabled"
+            case id = "id"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case stageKeys = "stageKeys"
+            case description = "description"
+            case createdDate = "createdDate"
+            case value = "value"
+            case customerId = "customerId"
+        }
+    }
+
+    public struct ClientCertificates: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
+            AWSShapeMember(label: "position", required: false, type: .string)
+        ]
+        /// The current page of elements from this collection.
+        public let items: [ClientCertificate]?
+        public let position: String?
+
+        public init(items: [ClientCertificate]? = nil, position: String? = nil) {
+            self.items = items
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "item"
+            case position = "position"
+        }
+    }
+
+    public struct GetDocumentationPartsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", location: .querystring(locationName: "type"), required: false, type: .enum), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "nameQuery", location: .querystring(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "locationStatus", location: .querystring(locationName: "locationStatus"), required: false, type: .enum), 
+            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
+            AWSShapeMember(label: "path", location: .querystring(locationName: "path"), required: false, type: .string)
+        ]
+        /// The type of API entities of the to-be-retrieved documentation parts. 
+        public let `type`: DocumentationPartType?
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// The name of API entities of the to-be-retrieved documentation parts.
+        public let nameQuery: String?
+        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+        public let limit: Int32?
+        /// The status of the API documentation parts to retrieve. Valid values are DOCUMENTED for retrieving DocumentationPart resources with content and UNDOCUMENTED for DocumentationPart resources without content.
+        public let locationStatus: LocationStatusType?
+        /// The current pagination position in the paged result set.
+        public let position: String?
+        /// The path of API entities of the to-be-retrieved documentation parts.
+        public let path: String?
+
+        public init(type: DocumentationPartType? = nil, restApiId: String, nameQuery: String? = nil, limit: Int32? = nil, locationStatus: LocationStatusType? = nil, position: String? = nil, path: String? = nil) {
+            self.`type` = `type`
+            self.restApiId = restApiId
+            self.nameQuery = nameQuery
+            self.limit = limit
+            self.locationStatus = locationStatus
+            self.position = position
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case restApiId = "restapi_id"
+            case nameQuery = "name"
+            case limit = "limit"
+            case locationStatus = "locationStatus"
+            case position = "position"
+            case path = "path"
+        }
+    }
+
+    public struct GatewayResponses: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
+            AWSShapeMember(label: "position", required: false, type: .string)
+        ]
+        /// Returns the entire collection, because of no pagination support.
+        public let items: [GatewayResponse]?
+        public let position: String?
+
+        public init(items: [GatewayResponse]? = nil, position: String? = nil) {
+            self.items = items
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "item"
+            case position = "position"
+        }
+    }
+
+    public struct GetApiKeyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiKey", location: .uri(locationName: "api_Key"), required: true, type: .string), 
+            AWSShapeMember(label: "includeValue", location: .querystring(locationName: "includeValue"), required: false, type: .boolean)
+        ]
+        /// [Required] The identifier of the ApiKey resource.
+        public let apiKey: String
+        /// A boolean flag to specify whether (true) or not (false) the result contains the key value.
+        public let includeValue: Bool?
+
+        public init(apiKey: String, includeValue: Bool? = nil) {
+            self.apiKey = apiKey
+            self.includeValue = includeValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiKey = "api_Key"
+            case includeValue = "includeValue"
+        }
+    }
+
+    public struct Usage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "items", location: .body(locationName: "values"), required: false, type: .map), 
+            AWSShapeMember(label: "usagePlanId", required: false, type: .string), 
+            AWSShapeMember(label: "position", required: false, type: .string), 
+            AWSShapeMember(label: "startDate", required: false, type: .string), 
+            AWSShapeMember(label: "endDate", required: false, type: .string)
+        ]
+        /// The usage data, as daily logs of used and remaining quotas, over the specified time interval indexed over the API keys in a usage plan. For example, {..., "values" : { "{api_key}" : [ [0, 100], [10, 90], [100, 10]]}, where {api_key} stands for an API key value and the daily log entry is of the format [used quota, remaining quota].
+        public let items: [String: [[Int64]]]?
+        /// The plan Id associated with this usage data.
+        public let usagePlanId: String?
+        public let position: String?
+        /// The starting date of the usage data.
+        public let startDate: String?
+        /// The ending date of the usage data.
+        public let endDate: String?
+
+        public init(items: [String: [[Int64]]]? = nil, usagePlanId: String? = nil, position: String? = nil, startDate: String? = nil, endDate: String? = nil) {
+            self.items = items
+            self.usagePlanId = usagePlanId
+            self.position = position
+            self.startDate = startDate
+            self.endDate = endDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "values"
+            case usagePlanId = "usagePlanId"
+            case position = "position"
+            case startDate = "startDate"
+            case endDate = "endDate"
+        }
+    }
+
+    public struct GetDocumentationPartRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "documentationPartId", location: .uri(locationName: "part_id"), required: true, type: .string)
+        ]
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let documentationPartId: String
+
+        public init(restApiId: String, documentationPartId: String) {
+            self.restApiId = restApiId
+            self.documentationPartId = documentationPartId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case documentationPartId = "part_id"
+        }
+    }
+
+    public struct CreateRequestValidatorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "validateRequestBody", required: false, type: .boolean), 
+            AWSShapeMember(label: "validateRequestParameters", required: false, type: .boolean)
+        ]
+        /// The name of the to-be-created RequestValidator.
+        public let name: String?
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// A Boolean flag to indicate whether to validate request body according to the configured model schema for the method (true) or not (false).
+        public let validateRequestBody: Bool?
+        /// A Boolean flag to indicate whether to validate request parameters, true, or not false.
+        public let validateRequestParameters: Bool?
+
+        public init(name: String? = nil, restApiId: String, validateRequestBody: Bool? = nil, validateRequestParameters: Bool? = nil) {
+            self.name = name
+            self.restApiId = restApiId
+            self.validateRequestBody = validateRequestBody
+            self.validateRequestParameters = validateRequestParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case restApiId = "restapi_id"
+            case validateRequestBody = "validateRequestBody"
+            case validateRequestParameters = "validateRequestParameters"
+        }
+    }
+
+    public struct GetMethodRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
+            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
+        ]
+        /// [Required] The Resource identifier for the Method resource.
+        public let resourceId: String
+        /// [Required] Specifies the method request's HTTP method type.
+        public let httpMethod: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+
+        public init(resourceId: String, httpMethod: String, restApiId: String) {
+            self.resourceId = resourceId
+            self.httpMethod = httpMethod
+            self.restApiId = restApiId
         }
 
         private enum CodingKeys: String, CodingKey {
             case resourceId = "resource_id"
+            case httpMethod = "http_method"
             case restApiId = "restapi_id"
-            case embed = "embed"
-        }
-    }
-
-    public struct CreateUsagePlanKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyType", required: true, type: .string), 
-            AWSShapeMember(label: "keyId", required: true, type: .string), 
-            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string)
-        ]
-        /// [Required] The type of a UsagePlanKey resource for a plan customer.
-        public let keyType: String
-        /// [Required] The identifier of a UsagePlanKey resource for a plan customer.
-        public let keyId: String
-        /// [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-created UsagePlanKey resource representing a plan customer.
-        public let usagePlanId: String
-
-        public init(keyType: String, keyId: String, usagePlanId: String) {
-            self.keyType = keyType
-            self.keyId = keyId
-            self.usagePlanId = usagePlanId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyType = "keyType"
-            case keyId = "keyId"
-            case usagePlanId = "usageplanId"
         }
     }
 
@@ -5321,152 +4411,1097 @@ extension APIGateway {
         }
     }
 
-    public struct Authorizer: AWSShape {
+    public struct GetResourcesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerResultTtlInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "authType", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerCredentials", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "identitySource", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerUri", required: false, type: .string), 
-            AWSShapeMember(label: "providerARNs", required: false, type: .list), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "identityValidationExpression", required: false, type: .string)
-        ]
-        /// The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour.
-        public let authorizerResultTtlInSeconds: Int32?
-        /// Optional customer-defined field, used in Swagger imports and exports without functional impact.
-        public let authType: String?
-        /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
-        public let authorizerCredentials: String?
-        /// [Required] The name of the authorizer.
-        public let name: String?
-        /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is method.request.header.Auth.For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name. These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional.
-        public let identitySource: String?
-        /// Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations.
-        public let authorizerUri: String?
-        /// A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. For a TOKEN or REQUEST authorizer, this is not defined. 
-        public let providerARNs: [String]?
-        /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
-        public let `type`: AuthorizerType?
-        /// The identifier for the authorizer resource.
-        public let id: String?
-        /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST authorizer.
-        public let identityValidationExpression: String?
-
-        public init(authorizerResultTtlInSeconds: Int32? = nil, authType: String? = nil, authorizerCredentials: String? = nil, name: String? = nil, identitySource: String? = nil, authorizerUri: String? = nil, providerARNs: [String]? = nil, type: AuthorizerType? = nil, id: String? = nil, identityValidationExpression: String? = nil) {
-            self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
-            self.authType = authType
-            self.authorizerCredentials = authorizerCredentials
-            self.name = name
-            self.identitySource = identitySource
-            self.authorizerUri = authorizerUri
-            self.providerARNs = providerARNs
-            self.`type` = `type`
-            self.id = id
-            self.identityValidationExpression = identityValidationExpression
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
-            case authType = "authType"
-            case authorizerCredentials = "authorizerCredentials"
-            case name = "name"
-            case identitySource = "identitySource"
-            case authorizerUri = "authorizerUri"
-            case providerARNs = "providerARNs"
-            case `type` = "type"
-            case id = "id"
-            case identityValidationExpression = "identityValidationExpression"
-        }
-    }
-
-    public struct GetUsageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyId", location: .querystring(locationName: "keyId"), required: false, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "endDate", location: .querystring(locationName: "endDate"), required: true, type: .string), 
-            AWSShapeMember(label: "startDate", location: .querystring(locationName: "startDate"), required: true, type: .string), 
             AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
-            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string)
+            AWSShapeMember(label: "embed", location: .querystring(locationName: "embed"), required: false, type: .list)
         ]
-        /// The Id of the API key associated with the resultant usage data.
-        public let keyId: String?
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
         public let limit: Int32?
-        /// [Required] The ending date (e.g., 2016-12-31) of the usage data.
-        public let endDate: String
-        /// [Required] The starting date (e.g., 2016-01-01) of the usage data.
-        public let startDate: String
         /// The current pagination position in the paged result set.
         public let position: String?
-        /// [Required] The Id of the usage plan associated with the usage data.
-        public let usagePlanId: String
+        /// A query parameter used to retrieve the specified resources embedded in the returned Resources resource in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the "methods" string. For example, GET /restapis/{restapi_id}/resources?embed=methods.
+        public let embed: [String]?
 
-        public init(keyId: String? = nil, limit: Int32? = nil, endDate: String, startDate: String, position: String? = nil, usagePlanId: String) {
-            self.keyId = keyId
+        public init(restApiId: String, limit: Int32? = nil, position: String? = nil, embed: [String]? = nil) {
+            self.restApiId = restApiId
             self.limit = limit
-            self.endDate = endDate
-            self.startDate = startDate
             self.position = position
-            self.usagePlanId = usagePlanId
+            self.embed = embed
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyId = "keyId"
+            case restApiId = "restapi_id"
             case limit = "limit"
-            case endDate = "endDate"
-            case startDate = "startDate"
             case position = "position"
-            case usagePlanId = "usageplanId"
+            case embed = "embed"
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct MethodSetting: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resource_arn"), required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+            AWSShapeMember(label: "cacheDataEncrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "throttlingBurstLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "cachingEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "requireAuthorizationForCacheControl", required: false, type: .boolean), 
+            AWSShapeMember(label: "throttlingRateLimit", required: false, type: .double), 
+            AWSShapeMember(label: "loggingLevel", required: false, type: .string), 
+            AWSShapeMember(label: "cacheTtlInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "dataTraceEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "unauthorizedCacheControlHeaderStrategy", required: false, type: .enum), 
+            AWSShapeMember(label: "metricsEnabled", required: false, type: .boolean)
         ]
-        /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded. At present, Stage is the only taggable resource.
-        public let resourceArn: String
-        /// [Required] The Tag keys to delete.
-        public let tagKeys: [String]
+        /// Specifies whether the cached responses are encrypted. The PATCH path for this setting is /{method_setting_key}/caching/dataEncrypted, and the value is a Boolean.
+        public let cacheDataEncrypted: Bool?
+        /// Specifies the throttling burst limit. The PATCH path for this setting is /{method_setting_key}/throttling/burstLimit, and the value is an integer.
+        public let throttlingBurstLimit: Int32?
+        /// Specifies whether responses should be cached and returned for requests. A cache cluster must be enabled on the stage for responses to be cached. The PATCH path for this setting is /{method_setting_key}/caching/enabled, and the value is a Boolean.
+        public let cachingEnabled: Bool?
+        /// Specifies whether authorization is required for a cache invalidation request. The PATCH path for this setting is /{method_setting_key}/caching/requireAuthorizationForCacheControl, and the value is a Boolean.
+        public let requireAuthorizationForCacheControl: Bool?
+        /// Specifies the throttling rate limit. The PATCH path for this setting is /{method_setting_key}/throttling/rateLimit, and the value is a double.
+        public let throttlingRateLimit: Double?
+        /// Specifies the logging level for this method, which affects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/loglevel, and the available levels are OFF, ERROR, and INFO.
+        public let loggingLevel: String?
+        /// Specifies the time to live (TTL), in seconds, for cached responses. The higher the TTL, the longer the response will be cached. The PATCH path for this setting is /{method_setting_key}/caching/ttlInSeconds, and the value is an integer.
+        public let cacheTtlInSeconds: Int32?
+        /// Specifies whether data trace logging is enabled for this method, which affects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/dataTrace, and the value is a Boolean.
+        public let dataTraceEnabled: Bool?
+        /// Specifies how to handle unauthorized requests for cache invalidation. The PATCH path for this setting is /{method_setting_key}/caching/unauthorizedCacheControlHeaderStrategy, and the available values are FAIL_WITH_403, SUCCEED_WITH_RESPONSE_HEADER, SUCCEED_WITHOUT_RESPONSE_HEADER.
+        public let unauthorizedCacheControlHeaderStrategy: UnauthorizedCacheControlHeaderStrategy?
+        /// Specifies whether Amazon CloudWatch metrics are enabled for this method. The PATCH path for this setting is /{method_setting_key}/metrics/enabled, and the value is a Boolean.
+        public let metricsEnabled: Bool?
 
-        public init(resourceArn: String, tagKeys: [String]) {
-            self.resourceArn = resourceArn
-            self.tagKeys = tagKeys
+        public init(cacheDataEncrypted: Bool? = nil, throttlingBurstLimit: Int32? = nil, cachingEnabled: Bool? = nil, requireAuthorizationForCacheControl: Bool? = nil, throttlingRateLimit: Double? = nil, loggingLevel: String? = nil, cacheTtlInSeconds: Int32? = nil, dataTraceEnabled: Bool? = nil, unauthorizedCacheControlHeaderStrategy: UnauthorizedCacheControlHeaderStrategy? = nil, metricsEnabled: Bool? = nil) {
+            self.cacheDataEncrypted = cacheDataEncrypted
+            self.throttlingBurstLimit = throttlingBurstLimit
+            self.cachingEnabled = cachingEnabled
+            self.requireAuthorizationForCacheControl = requireAuthorizationForCacheControl
+            self.throttlingRateLimit = throttlingRateLimit
+            self.loggingLevel = loggingLevel
+            self.cacheTtlInSeconds = cacheTtlInSeconds
+            self.dataTraceEnabled = dataTraceEnabled
+            self.unauthorizedCacheControlHeaderStrategy = unauthorizedCacheControlHeaderStrategy
+            self.metricsEnabled = metricsEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource_arn"
-            case tagKeys = "tagKeys"
+            case cacheDataEncrypted = "cacheDataEncrypted"
+            case throttlingBurstLimit = "throttlingBurstLimit"
+            case cachingEnabled = "cachingEnabled"
+            case requireAuthorizationForCacheControl = "requireAuthorizationForCacheControl"
+            case throttlingRateLimit = "throttlingRateLimit"
+            case loggingLevel = "loggingLevel"
+            case cacheTtlInSeconds = "cacheTtlInSeconds"
+            case dataTraceEnabled = "dataTraceEnabled"
+            case unauthorizedCacheControlHeaderStrategy = "unauthorizedCacheControlHeaderStrategy"
+            case metricsEnabled = "metricsEnabled"
         }
     }
 
-    public struct UpdateUsageRequest: AWSShape {
+    public enum AuthorizerType: String, CustomStringConvertible, Codable {
+        case token = "TOKEN"
+        case request = "REQUEST"
+        case cognitoUserPools = "COGNITO_USER_POOLS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteVpcLinkRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "vpcLinkId", location: .uri(locationName: "vpclink_id"), required: true, type: .string)
+        ]
+        /// [Required] The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
+        public let vpcLinkId: String
+
+        public init(vpcLinkId: String) {
+            self.vpcLinkId = vpcLinkId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcLinkId = "vpclink_id"
+        }
+    }
+
+    public struct GetRequestValidatorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "requestValidatorId", location: .uri(locationName: "requestvalidator_id"), required: true, type: .string)
+        ]
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] The identifier of the RequestValidator to be retrieved.
+        public let requestValidatorId: String
+
+        public init(restApiId: String, requestValidatorId: String) {
+            self.restApiId = restApiId
+            self.requestValidatorId = requestValidatorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case requestValidatorId = "requestvalidator_id"
+        }
+    }
+
+    public struct GetStageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string)
+        ]
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] The name of the Stage resource to get information about.
+        public let stageName: String
+
+        public init(restApiId: String, stageName: String) {
+            self.restApiId = restApiId
+            self.stageName = stageName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case stageName = "stage_name"
+        }
+    }
+
+    public struct UpdateUsagePlanRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string), 
+            AWSShapeMember(label: "patchOperations", required: false, type: .list)
+        ]
+        /// [Required] The Id of the to-be-updated usage plan.
+        public let usagePlanId: String
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+
+        public init(usagePlanId: String, patchOperations: [PatchOperation]? = nil) {
+            self.usagePlanId = usagePlanId
+            self.patchOperations = patchOperations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case usagePlanId = "usageplanId"
+            case patchOperations = "patchOperations"
+        }
+    }
+
+    public struct DeleteRequestValidatorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "requestValidatorId", location: .uri(locationName: "requestvalidator_id"), required: true, type: .string)
+        ]
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] The identifier of the RequestValidator to be deleted.
+        public let requestValidatorId: String
+
+        public init(restApiId: String, requestValidatorId: String) {
+            self.restApiId = restApiId
+            self.requestValidatorId = requestValidatorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case requestValidatorId = "requestvalidator_id"
+        }
+    }
+
+    public struct GetBasePathMappingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
+            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
+        ]
+        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+        public let limit: Int32?
+        /// The current pagination position in the paged result set.
+        public let position: String?
+        /// [Required] The domain name of a BasePathMapping resource.
+        public let domainName: String
+
+        public init(limit: Int32? = nil, position: String? = nil, domainName: String) {
+            self.limit = limit
+            self.position = position
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case position = "position"
+            case domainName = "domain_name"
+        }
+    }
+
+    public struct CreateBasePathMappingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stage", required: false, type: .string), 
+            AWSShapeMember(label: "restApiId", required: true, type: .string), 
+            AWSShapeMember(label: "basePath", required: false, type: .string), 
+            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
+        ]
+        /// The name of the API's stage that you want to use for this mapping. Leave this blank if you do not want callers to explicitly specify the stage name after any base path name.
+        public let stage: String?
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Leave this blank if you do not want callers to specify a base path name after the domain name.
+        public let basePath: String?
+        /// [Required] The domain name of the BasePathMapping resource to create.
+        public let domainName: String
+
+        public init(stage: String? = nil, restApiId: String, basePath: String? = nil, domainName: String) {
+            self.stage = stage
+            self.restApiId = restApiId
+            self.basePath = basePath
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stage = "stage"
+            case restApiId = "restApiId"
+            case basePath = "basePath"
+            case domainName = "domain_name"
+        }
+    }
+
+    public struct PutIntegrationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "integrationHttpMethod", location: .body(locationName: "httpMethod"), required: false, type: .string), 
+            AWSShapeMember(label: "timeoutInMillis", required: false, type: .integer), 
+            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
+            AWSShapeMember(label: "connectionId", required: false, type: .string), 
+            AWSShapeMember(label: "contentHandling", required: false, type: .enum), 
+            AWSShapeMember(label: "requestParameters", required: false, type: .map), 
+            AWSShapeMember(label: "cacheKeyParameters", required: false, type: .list), 
+            AWSShapeMember(label: "credentials", required: false, type: .string), 
+            AWSShapeMember(label: "cacheNamespace", required: false, type: .string), 
+            AWSShapeMember(label: "connectionType", required: false, type: .enum), 
+            AWSShapeMember(label: "uri", required: false, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
+            AWSShapeMember(label: "passthroughBehavior", required: false, type: .string), 
+            AWSShapeMember(label: "requestTemplates", required: false, type: .map)
+        ]
+        /// Specifies a put integration HTTP method. When the integration type is HTTP or AWS, this field is required.
+        public let integrationHttpMethod: String?
+        /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
+        public let timeoutInMillis: Int32?
+        /// [Required] Specifies a put integration request's resource ID.
+        public let resourceId: String
+        /// The (id) of the VpcLink used for the integration when connectionType=VPC_LINK and undefined, otherwise.
+        public let connectionId: String?
+        /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a request payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a request payload from a binary blob to a Base64-encoded string.  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehaviors is configured to support payload pass-through.
+        public let contentHandling: ContentHandlingStrategy?
+        /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.
+        public let requestParameters: [String: String]?
+        /// Specifies a put integration input's cache key parameters.
+        public let cacheKeyParameters: [String]?
+        /// Specifies whether credentials are required for a put integration.
+        public let credentials: String?
+        /// Specifies a put integration input's cache namespace.
+        public let cacheNamespace: String?
+        /// The type of the network connection to the integration endpoint. The valid value is INTERNET for connections through the public routable internet or VPC_LINK for private connections between API Gateway and a network load balancer in a VPC. The default value is INTERNET.
+        public let connectionType: ConnectionType?
+        /// Specifies Uniform Resource Identifier (URI) of the integration endpoint.   For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing.    For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated AWS service (e.g., s3); and {subdomain} is a designated subdomain supported by certain AWS service for fast host-name lookup. action can be used for an AWS service action-based API, using an Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing service_api refers to the path to an AWS service resource, including the region of the integrated AWS service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key} 
+        public let uri: String?
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] Specifies a put integration input's type.
+        public let `type`: IntegrationType
+        /// [Required] Specifies a put integration request's HTTP method.
+        public let httpMethod: String
+        /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER.   WHEN_NO_MATCH passes the request body for unmapped content types through to the integration back end without transformation. NEVER rejects unmapped content types with an HTTP 415 'Unsupported Media Type' response. WHEN_NO_TEMPLATES allows pass-through when the integration has NO content types mapped to templates. However if there is at least one content type defined, unmapped content types will be rejected with the same 415 response. 
+        public let passthroughBehavior: String?
+        /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
+        public let requestTemplates: [String: String]?
+
+        public init(integrationHttpMethod: String? = nil, timeoutInMillis: Int32? = nil, resourceId: String, connectionId: String? = nil, contentHandling: ContentHandlingStrategy? = nil, requestParameters: [String: String]? = nil, cacheKeyParameters: [String]? = nil, credentials: String? = nil, cacheNamespace: String? = nil, connectionType: ConnectionType? = nil, uri: String? = nil, restApiId: String, type: IntegrationType, httpMethod: String, passthroughBehavior: String? = nil, requestTemplates: [String: String]? = nil) {
+            self.integrationHttpMethod = integrationHttpMethod
+            self.timeoutInMillis = timeoutInMillis
+            self.resourceId = resourceId
+            self.connectionId = connectionId
+            self.contentHandling = contentHandling
+            self.requestParameters = requestParameters
+            self.cacheKeyParameters = cacheKeyParameters
+            self.credentials = credentials
+            self.cacheNamespace = cacheNamespace
+            self.connectionType = connectionType
+            self.uri = uri
+            self.restApiId = restApiId
+            self.`type` = `type`
+            self.httpMethod = httpMethod
+            self.passthroughBehavior = passthroughBehavior
+            self.requestTemplates = requestTemplates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationHttpMethod = "httpMethod"
+            case timeoutInMillis = "timeoutInMillis"
+            case resourceId = "resource_id"
+            case connectionId = "connectionId"
+            case contentHandling = "contentHandling"
+            case requestParameters = "requestParameters"
+            case cacheKeyParameters = "cacheKeyParameters"
+            case credentials = "credentials"
+            case cacheNamespace = "cacheNamespace"
+            case connectionType = "connectionType"
+            case uri = "uri"
+            case restApiId = "restapi_id"
+            case `type` = "type"
+            case httpMethod = "http_method"
+            case passthroughBehavior = "passthroughBehavior"
+            case requestTemplates = "requestTemplates"
+        }
+    }
+
+    public struct UpdateBasePathMappingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "patchOperations", required: false, type: .list), 
-            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string), 
-            AWSShapeMember(label: "keyId", location: .uri(locationName: "keyId"), required: true, type: .string)
+            AWSShapeMember(label: "basePath", location: .uri(locationName: "base_path"), required: true, type: .string), 
+            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
         ]
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public let patchOperations: [PatchOperation]?
-        /// [Required] The Id of the usage plan associated with the usage data.
-        public let usagePlanId: String
-        /// [Required] The identifier of the API key associated with the usage plan in which a temporary extension is granted to the remaining quota.
-        public let keyId: String
+        /// [Required] The base path of the BasePathMapping resource to change.
+        public let basePath: String
+        /// [Required] The domain name of the BasePathMapping resource to change.
+        public let domainName: String
 
-        public init(patchOperations: [PatchOperation]? = nil, usagePlanId: String, keyId: String) {
+        public init(patchOperations: [PatchOperation]? = nil, basePath: String, domainName: String) {
             self.patchOperations = patchOperations
-            self.usagePlanId = usagePlanId
-            self.keyId = keyId
+            self.basePath = basePath
+            self.domainName = domainName
         }
 
         private enum CodingKeys: String, CodingKey {
             case patchOperations = "patchOperations"
-            case usagePlanId = "usageplanId"
-            case keyId = "keyId"
+            case basePath = "base_path"
+            case domainName = "domain_name"
+        }
+    }
+
+    public struct TestInvokeMethodRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
+            AWSShapeMember(label: "stageVariables", required: false, type: .map), 
+            AWSShapeMember(label: "body", required: false, type: .string), 
+            AWSShapeMember(label: "multiValueHeaders", required: false, type: .map), 
+            AWSShapeMember(label: "headers", required: false, type: .map), 
+            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
+            AWSShapeMember(label: "clientCertificateId", required: false, type: .string), 
+            AWSShapeMember(label: "pathWithQueryString", required: false, type: .string)
+        ]
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] Specifies a test invoke method request's resource ID.
+        public let resourceId: String
+        /// A key-value map of stage variables to simulate an invocation on a deployed Stage.
+        public let stageVariables: [String: String]?
+        /// The simulated request body of an incoming invocation request.
+        public let body: String?
+        /// The headers as a map from string to list of values to simulate an incoming invocation request.
+        public let multiValueHeaders: [String: [String]]?
+        /// A key-value map of headers to simulate an incoming invocation request.
+        public let headers: [String: String]?
+        /// [Required] Specifies a test invoke method request's HTTP method.
+        public let httpMethod: String
+        /// A ClientCertificate identifier to use in the test invocation. API Gateway will use the certificate when making the HTTPS request to the defined back-end endpoint.
+        public let clientCertificateId: String?
+        /// The URI path, including query string, of the simulated invocation request. Use this to specify path parameters and query string parameters.
+        public let pathWithQueryString: String?
+
+        public init(restApiId: String, resourceId: String, stageVariables: [String: String]? = nil, body: String? = nil, multiValueHeaders: [String: [String]]? = nil, headers: [String: String]? = nil, httpMethod: String, clientCertificateId: String? = nil, pathWithQueryString: String? = nil) {
+            self.restApiId = restApiId
+            self.resourceId = resourceId
+            self.stageVariables = stageVariables
+            self.body = body
+            self.multiValueHeaders = multiValueHeaders
+            self.headers = headers
+            self.httpMethod = httpMethod
+            self.clientCertificateId = clientCertificateId
+            self.pathWithQueryString = pathWithQueryString
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case resourceId = "resource_id"
+            case stageVariables = "stageVariables"
+            case body = "body"
+            case multiValueHeaders = "multiValueHeaders"
+            case headers = "headers"
+            case httpMethod = "http_method"
+            case clientCertificateId = "clientCertificateId"
+            case pathWithQueryString = "pathWithQueryString"
+        }
+    }
+
+    public enum EndpointType: String, CustomStringConvertible, Codable {
+        case regional = "REGIONAL"
+        case edge = "EDGE"
+        case `private` = "PRIVATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list), 
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resource_arn"), required: true, type: .string)
+        ]
+        /// [Required] The Tag keys to delete.
+        public let tagKeys: [String]
+        /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded. At present, Stage is the only taggable resource.
+        public let resourceArn: String
+
+        public init(tagKeys: [String], resourceArn: String) {
+            self.tagKeys = tagKeys
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagKeys = "tagKeys"
+            case resourceArn = "resource_arn"
+        }
+    }
+
+    public struct SdkConfigurationProperty: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "friendlyName", required: false, type: .string), 
+            AWSShapeMember(label: "defaultValue", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "required", required: false, type: .boolean)
+        ]
+        /// The name of a an SdkType configuration property.
+        public let name: String?
+        /// The user-friendly name of an SdkType configuration property.
+        public let friendlyName: String?
+        /// The default value of an SdkType configuration property.
+        public let defaultValue: String?
+        /// The description of an SdkType configuration property.
+        public let description: String?
+        /// A boolean flag of an SdkType configuration property to indicate if the associated SDK configuration property is required (true) or not (false).
+        public let required: Bool?
+
+        public init(name: String? = nil, friendlyName: String? = nil, defaultValue: String? = nil, description: String? = nil, required: Bool? = nil) {
+            self.name = name
+            self.friendlyName = friendlyName
+            self.defaultValue = defaultValue
+            self.description = description
+            self.required = required
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case friendlyName = "friendlyName"
+            case defaultValue = "defaultValue"
+            case description = "description"
+            case required = "required"
+        }
+    }
+
+    public struct VpcLink: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "statusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "targetArns", required: false, type: .list)
+        ]
+        /// The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
+        public let id: String?
+        /// The name used to label and identify the VPC link.
+        public let name: String?
+        /// The status of the VPC link. The valid values are AVAILABLE, PENDING, DELETING, or FAILED. Deploying an API will wait if the status is PENDING and will fail if the status is DELETING. 
+        public let status: VpcLinkStatus?
+        /// The description of the VPC link.
+        public let description: String?
+        /// A description about the VPC link status.
+        public let statusMessage: String?
+        /// The ARNs of network load balancers of the VPC targeted by the VPC link. The network load balancers must be owned by the same AWS account of the API owner.
+        public let targetArns: [String]?
+
+        public init(id: String? = nil, name: String? = nil, status: VpcLinkStatus? = nil, description: String? = nil, statusMessage: String? = nil, targetArns: [String]? = nil) {
+            self.id = id
+            self.name = name
+            self.status = status
+            self.description = description
+            self.statusMessage = statusMessage
+            self.targetArns = targetArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case description = "description"
+            case statusMessage = "statusMessage"
+            case targetArns = "targetArns"
+        }
+    }
+
+    public struct EndpointConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "types", required: false, type: .list)
+        ]
+        /// A list of endpoint types of an API (RestApi) or its custom domain name (DomainName). For an edge-optimized API and its custom domain name, the endpoint type is "EDGE". For a regional API and its custom domain name, the endpoint type is REGIONAL. For a private API, the endpoint type is PRIVATE.
+        public let types: [EndpointType]?
+
+        public init(types: [EndpointType]? = nil) {
+            self.types = types
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case types = "types"
+        }
+    }
+
+    public struct Template: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "value", required: false, type: .string)
+        ]
+        /// The Apache Velocity Template Language (VTL) template content used for the template resource.
+        public let value: String?
+
+        public init(value: String? = nil) {
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "value"
+        }
+    }
+
+    public struct GetSdkTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", location: .uri(locationName: "sdktype_id"), required: true, type: .string)
+        ]
+        /// [Required] The identifier of the queried SdkType instance.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "sdktype_id"
+        }
+    }
+
+    public struct GetDeploymentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "deploymentId", location: .uri(locationName: "deployment_id"), required: true, type: .string), 
+            AWSShapeMember(label: "embed", location: .querystring(locationName: "embed"), required: false, type: .list)
+        ]
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] The identifier of the Deployment resource to get information about.
+        public let deploymentId: String
+        /// A query parameter to retrieve the specified embedded resources of the returned Deployment resource in the response. In a REST API call, this embed parameter value is a list of comma-separated strings, as in GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=var1,var2. The SDK and other platform-dependent libraries might use a different format for the list. Currently, this request supports only retrieval of the embedded API summary this way. Hence, the parameter value must be a single-valued list containing only the "apisummary" string. For example, GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=apisummary.
+        public let embed: [String]?
+
+        public init(restApiId: String, deploymentId: String, embed: [String]? = nil) {
+            self.restApiId = restApiId
+            self.deploymentId = deploymentId
+            self.embed = embed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case deploymentId = "deployment_id"
+            case embed = "embed"
+        }
+    }
+
+    public struct GetDomainNameRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
+        ]
+        /// [Required] The name of the DomainName resource.
+        public let domainName: String
+
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "domain_name"
+        }
+    }
+
+    public struct PutRestApiRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "body"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "mode", location: .querystring(locationName: "mode"), required: false, type: .enum), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings"), required: false, type: .boolean), 
+            AWSShapeMember(label: "parameters", required: false, type: .map), 
+            AWSShapeMember(label: "body", required: true, type: .blob)
+        ]
+        /// The mode query parameter to specify the update mode. Valid values are "merge" and "overwrite". By default, the update mode is "merge".
+        public let mode: PutMode?
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// A query parameter to indicate whether to rollback the API update (true) or not (false) when a warning is encountered. The default value is false.
+        public let failOnWarnings: Bool?
+        /// Custom header parameters as part of the request. For example, to exclude DocumentationParts from an imported API, set ignore=documentation as a parameters value, as in the AWS CLI command of aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json'.
+        public let parameters: [String: String]?
+        /// [Required] The PUT request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 2MB.
+        public let body: Data
+
+        public init(mode: PutMode? = nil, restApiId: String, failOnWarnings: Bool? = nil, parameters: [String: String]? = nil, body: Data) {
+            self.mode = mode
+            self.restApiId = restApiId
+            self.failOnWarnings = failOnWarnings
+            self.parameters = parameters
+            self.body = body
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "mode"
+            case restApiId = "restapi_id"
+            case failOnWarnings = "failonwarnings"
+            case parameters = "parameters"
+            case body = "body"
+        }
+    }
+
+    public struct CreateDomainNameRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainName", required: true, type: .string), 
+            AWSShapeMember(label: "certificateBody", required: false, type: .string), 
+            AWSShapeMember(label: "endpointConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "certificatePrivateKey", required: false, type: .string), 
+            AWSShapeMember(label: "certificateChain", required: false, type: .string), 
+            AWSShapeMember(label: "certificateName", required: false, type: .string), 
+            AWSShapeMember(label: "regionalCertificateName", required: false, type: .string), 
+            AWSShapeMember(label: "regionalCertificateArn", required: false, type: .string)
+        ]
+        /// [Required] The name of the DomainName resource.
+        public let domainName: String
+        /// [Deprecated] The body of the server certificate that will be used by edge-optimized endpoint for this domain name provided by your certificate authority.
+        public let certificateBody: String?
+        /// The endpoint configuration of this DomainName showing the endpoint types of the domain name. 
+        public let endpointConfiguration: EndpointConfiguration?
+        /// The reference to an AWS-managed certificate that will be used by edge-optimized endpoint for this domain name. AWS Certificate Manager is the only supported source.
+        public let certificateArn: String?
+        /// [Deprecated] Your edge-optimized endpoint's domain name certificate's private key.
+        public let certificatePrivateKey: String?
+        /// [Deprecated] The intermediate certificates and optionally the root certificate, one after the other without any blank lines, used by an edge-optimized endpoint for this domain name. If you include the root certificate, your certificate chain must start with intermediate certificates and end with the root certificate. Use the intermediate certificates that were provided by your certificate authority. Do not include any intermediaries that are not in the chain of trust path.
+        public let certificateChain: String?
+        /// The user-friendly name of the certificate that will be used by edge-optimized endpoint for this domain name.
+        public let certificateName: String?
+        /// The user-friendly name of the certificate that will be used by regional endpoint for this domain name.
+        public let regionalCertificateName: String?
+        /// The reference to an AWS-managed certificate that will be used by regional endpoint for this domain name. AWS Certificate Manager is the only supported source.
+        public let regionalCertificateArn: String?
+
+        public init(domainName: String, certificateBody: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, certificateArn: String? = nil, certificatePrivateKey: String? = nil, certificateChain: String? = nil, certificateName: String? = nil, regionalCertificateName: String? = nil, regionalCertificateArn: String? = nil) {
+            self.domainName = domainName
+            self.certificateBody = certificateBody
+            self.endpointConfiguration = endpointConfiguration
+            self.certificateArn = certificateArn
+            self.certificatePrivateKey = certificatePrivateKey
+            self.certificateChain = certificateChain
+            self.certificateName = certificateName
+            self.regionalCertificateName = regionalCertificateName
+            self.regionalCertificateArn = regionalCertificateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "domainName"
+            case certificateBody = "certificateBody"
+            case endpointConfiguration = "endpointConfiguration"
+            case certificateArn = "certificateArn"
+            case certificatePrivateKey = "certificatePrivateKey"
+            case certificateChain = "certificateChain"
+            case certificateName = "certificateName"
+            case regionalCertificateName = "regionalCertificateName"
+            case regionalCertificateArn = "regionalCertificateArn"
+        }
+    }
+
+    public struct GetBasePathMappingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "basePath", location: .uri(locationName: "base_path"), required: true, type: .string), 
+            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
+        ]
+        /// [Required] The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Leave this blank if you do not want callers to specify any base path name after the domain name.
+        public let basePath: String
+        /// [Required] The domain name of the BasePathMapping resource to be described.
+        public let domainName: String
+
+        public init(basePath: String, domainName: String) {
+            self.basePath = basePath
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case basePath = "base_path"
+            case domainName = "domain_name"
+        }
+    }
+
+    public struct UpdateRequestValidatorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
+            AWSShapeMember(label: "requestValidatorId", location: .uri(locationName: "requestvalidator_id"), required: true, type: .string)
+        ]
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+        /// [Required] The identifier of RequestValidator to be updated.
+        public let requestValidatorId: String
+
+        public init(restApiId: String, patchOperations: [PatchOperation]? = nil, requestValidatorId: String) {
+            self.restApiId = restApiId
+            self.patchOperations = patchOperations
+            self.requestValidatorId = requestValidatorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case patchOperations = "patchOperations"
+            case requestValidatorId = "requestvalidator_id"
+        }
+    }
+
+    public struct DeleteDeploymentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "deploymentId", location: .uri(locationName: "deployment_id"), required: true, type: .string)
+        ]
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] The identifier of the Deployment resource to delete.
+        public let deploymentId: String
+
+        public init(restApiId: String, deploymentId: String) {
+            self.restApiId = restApiId
+            self.deploymentId = deploymentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiId = "restapi_id"
+            case deploymentId = "deployment_id"
+        }
+    }
+
+    public struct DeploymentCanarySettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "useStageCache", required: false, type: .boolean), 
+            AWSShapeMember(label: "stageVariableOverrides", required: false, type: .map), 
+            AWSShapeMember(label: "percentTraffic", required: false, type: .double)
+        ]
+        /// A Boolean flag to indicate whether the canary release deployment uses the stage cache or not.
+        public let useStageCache: Bool?
+        /// A stage variable overrides used for the canary release deployment. They can override existing stage variables or add new stage variables for the canary release deployment. These stage variables are represented as a string-to-string map between stage variable names and their values.
+        public let stageVariableOverrides: [String: String]?
+        /// The percentage (0.0-100.0) of traffic routed to the canary deployment.
+        public let percentTraffic: Double?
+
+        public init(useStageCache: Bool? = nil, stageVariableOverrides: [String: String]? = nil, percentTraffic: Double? = nil) {
+            self.useStageCache = useStageCache
+            self.stageVariableOverrides = stageVariableOverrides
+            self.percentTraffic = percentTraffic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case useStageCache = "useStageCache"
+            case stageVariableOverrides = "stageVariableOverrides"
+            case percentTraffic = "percentTraffic"
+        }
+    }
+
+    public struct UpdateDomainNameRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "patchOperations", required: false, type: .list), 
+            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
+        ]
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+        /// [Required] The name of the DomainName resource to be changed.
+        public let domainName: String
+
+        public init(patchOperations: [PatchOperation]? = nil, domainName: String) {
+            self.patchOperations = patchOperations
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case patchOperations = "patchOperations"
+            case domainName = "domain_name"
+        }
+    }
+
+    public struct QuotaSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "period", required: false, type: .enum), 
+            AWSShapeMember(label: "offset", required: false, type: .integer)
+        ]
+        /// The maximum number of requests that can be made in a given time period.
+        public let limit: Int32?
+        /// The time period in which the limit applies. Valid values are "DAY", "WEEK" or "MONTH".
+        public let period: QuotaPeriodType?
+        /// The number of requests subtracted from the given limit in the initial time period.
+        public let offset: Int32?
+
+        public init(limit: Int32? = nil, period: QuotaPeriodType? = nil, offset: Int32? = nil) {
+            self.limit = limit
+            self.period = period
+            self.offset = offset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case period = "period"
+            case offset = "offset"
+        }
+    }
+
+    public struct DeleteMethodResponseRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
+            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string)
+        ]
+        /// [Required] The Resource identifier for the MethodResponse resource.
+        public let resourceId: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] The HTTP verb of the Method resource.
+        public let httpMethod: String
+        /// [Required] The status code identifier for the MethodResponse resource.
+        public let statusCode: String
+
+        public init(resourceId: String, restApiId: String, httpMethod: String, statusCode: String) {
+            self.resourceId = resourceId
+            self.restApiId = restApiId
+            self.httpMethod = httpMethod
+            self.statusCode = statusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "resource_id"
+            case restApiId = "restapi_id"
+            case httpMethod = "http_method"
+            case statusCode = "status_code"
+        }
+    }
+
+    public struct DeleteIntegrationResponseRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
+            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string)
+        ]
+        /// [Required] Specifies a delete integration response request's resource identifier.
+        public let resourceId: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// [Required] Specifies a delete integration response request's HTTP method.
+        public let httpMethod: String
+        /// [Required] Specifies a delete integration response request's status code.
+        public let statusCode: String
+
+        public init(resourceId: String, restApiId: String, httpMethod: String, statusCode: String) {
+            self.resourceId = resourceId
+            self.restApiId = restApiId
+            self.httpMethod = httpMethod
+            self.statusCode = statusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "resource_id"
+            case restApiId = "restapi_id"
+            case httpMethod = "http_method"
+            case statusCode = "status_code"
+        }
+    }
+
+    public struct SdkTypes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
+            AWSShapeMember(label: "position", required: false, type: .string)
+        ]
+        /// The current page of elements from this collection.
+        public let items: [SdkType]?
+        public let position: String?
+
+        public init(items: [SdkType]? = nil, position: String? = nil) {
+            self.items = items
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "item"
+            case position = "position"
+        }
+    }
+
+    public struct UpdateModelRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "modelName", location: .uri(locationName: "model_name"), required: true, type: .string), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "patchOperations", required: false, type: .list)
+        ]
+        /// [Required] The name of the model to update.
+        public let modelName: String
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+
+        public init(modelName: String, restApiId: String, patchOperations: [PatchOperation]? = nil) {
+            self.modelName = modelName
+            self.restApiId = restApiId
+            self.patchOperations = patchOperations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelName = "model_name"
+            case restApiId = "restapi_id"
+            case patchOperations = "patchOperations"
+        }
+    }
+
+    public struct PatchOperation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "value", required: false, type: .string), 
+            AWSShapeMember(label: "path", required: false, type: .string), 
+            AWSShapeMember(label: "from", required: false, type: .string), 
+            AWSShapeMember(label: "op", required: false, type: .enum)
+        ]
+        /// The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{"a": ...}'. In a Windows shell, see Using JSON for Parameters.
+        public let value: String?
+        /// The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {"name":"value"}, the path for this property is /name. If the name property value is a JSON object (e.g., {"name": {"child/name": "child-value"}}), the path for the child/name property will be /name/child~1name. Any slash ("/") character appearing in path names must be escaped with "~1", as shown in the example above. Each op operation can have only one path associated with it.
+        public let path: String?
+        /// The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with "op":"copy", "from":"/canarySettings/deploymentId" and "path":"/deploymentId".
+        public let from: String?
+        ///  An update operation to be performed with this PATCH request. The valid value can be add, remove, replace or copy. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+        public let op: Op?
+
+        public init(value: String? = nil, path: String? = nil, from: String? = nil, op: Op? = nil) {
+            self.value = value
+            self.path = path
+            self.from = from
+            self.op = op
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "value"
+            case path = "path"
+            case from = "from"
+            case op = "op"
+        }
+    }
+
+    public enum GatewayResponseType: String, CustomStringConvertible, Codable {
+        case default4Xx = "DEFAULT_4XX"
+        case default5Xx = "DEFAULT_5XX"
+        case resourceNotFound = "RESOURCE_NOT_FOUND"
+        case unauthorized = "UNAUTHORIZED"
+        case invalidApiKey = "INVALID_API_KEY"
+        case accessDenied = "ACCESS_DENIED"
+        case authorizerFailure = "AUTHORIZER_FAILURE"
+        case authorizerConfigurationError = "AUTHORIZER_CONFIGURATION_ERROR"
+        case invalidSignature = "INVALID_SIGNATURE"
+        case expiredToken = "EXPIRED_TOKEN"
+        case missingAuthenticationToken = "MISSING_AUTHENTICATION_TOKEN"
+        case integrationFailure = "INTEGRATION_FAILURE"
+        case integrationTimeout = "INTEGRATION_TIMEOUT"
+        case apiConfigurationError = "API_CONFIGURATION_ERROR"
+        case unsupportedMediaType = "UNSUPPORTED_MEDIA_TYPE"
+        case badRequestParameters = "BAD_REQUEST_PARAMETERS"
+        case badRequestBody = "BAD_REQUEST_BODY"
+        case requestTooLarge = "REQUEST_TOO_LARGE"
+        case throttled = "THROTTLED"
+        case quotaExceeded = "QUOTA_EXCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetRequestValidatorsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
+        ]
+        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+        public let limit: Int32?
+        /// [Required] The string identifier of the associated RestApi.
+        public let restApiId: String
+        /// The current pagination position in the paged result set.
+        public let position: String?
+
+        public init(limit: Int32? = nil, restApiId: String, position: String? = nil) {
+            self.limit = limit
+            self.restApiId = restApiId
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case restApiId = "restapi_id"
+            case position = "position"
+        }
+    }
+
+    public struct UsagePlan: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "throttle", required: false, type: .structure), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "productCode", required: false, type: .string), 
+            AWSShapeMember(label: "quota", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "apiStages", required: false, type: .list)
+        ]
+        /// The name of a usage plan.
+        public let name: String?
+        /// The request throttle limits of a usage plan.
+        public let throttle: ThrottleSettings?
+        /// The identifier of a UsagePlan resource.
+        public let id: String?
+        /// The AWS Markeplace product identifier to associate with the usage plan as a SaaS product on AWS Marketplace.
+        public let productCode: String?
+        /// The maximum number of permitted requests per a given unit time interval.
+        public let quota: QuotaSettings?
+        /// The description of a usage plan.
+        public let description: String?
+        /// The associated API stages of a usage plan.
+        public let apiStages: [ApiStage]?
+
+        public init(name: String? = nil, throttle: ThrottleSettings? = nil, id: String? = nil, productCode: String? = nil, quota: QuotaSettings? = nil, description: String? = nil, apiStages: [ApiStage]? = nil) {
+            self.name = name
+            self.throttle = throttle
+            self.id = id
+            self.productCode = productCode
+            self.quota = quota
+            self.description = description
+            self.apiStages = apiStages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case throttle = "throttle"
+            case id = "id"
+            case productCode = "productCode"
+            case quota = "quota"
+            case description = "description"
+            case apiStages = "apiStages"
         }
     }
 

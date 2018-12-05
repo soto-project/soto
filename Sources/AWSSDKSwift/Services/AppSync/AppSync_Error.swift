@@ -6,14 +6,14 @@ import AWSSDKSwiftCore
 public enum AppSyncErrorType: AWSErrorType {
     case badRequestException(message: String?)
     case notFoundException(message: String?)
+    case limitExceededException(message: String?)
     case unauthorizedException(message: String?)
     case internalFailureException(message: String?)
+    case apiKeyLimitExceededException(message: String?)
+    case apiKeyValidityOutOfBoundsException(message: String?)
     case concurrentModificationException(message: String?)
-    case limitExceededException(message: String?)
     case apiLimitExceededException(message: String?)
     case graphQLSchemaException(message: String?)
-    case apiKeyValidityOutOfBoundsException(message: String?)
-    case apiKeyLimitExceededException(message: String?)
 }
 
 extension AppSyncErrorType {
@@ -27,22 +27,22 @@ extension AppSyncErrorType {
             self = .badRequestException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         case "UnauthorizedException":
             self = .unauthorizedException(message: message)
         case "InternalFailureException":
             self = .internalFailureException(message: message)
+        case "ApiKeyLimitExceededException":
+            self = .apiKeyLimitExceededException(message: message)
+        case "ApiKeyValidityOutOfBoundsException":
+            self = .apiKeyValidityOutOfBoundsException(message: message)
         case "ConcurrentModificationException":
             self = .concurrentModificationException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
         case "ApiLimitExceededException":
             self = .apiLimitExceededException(message: message)
         case "GraphQLSchemaException":
             self = .graphQLSchemaException(message: message)
-        case "ApiKeyValidityOutOfBoundsException":
-            self = .apiKeyValidityOutOfBoundsException(message: message)
-        case "ApiKeyLimitExceededException":
-            self = .apiKeyLimitExceededException(message: message)
         default:
             return nil
         }

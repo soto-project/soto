@@ -5,75 +5,556 @@ import AWSSDKSwiftCore
 
 extension Organizations {
 
-    public struct CreateAccountStatus: AWSShape {
+    public struct DescribeCreateAccountStatusResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .enum), 
-            AWSShapeMember(label: "CompletedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RequestedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "AccountName", required: false, type: .string)
+            AWSShapeMember(label: "CreateAccountStatus", required: false, type: .structure)
         ]
-        /// The status of the request.
-        public let state: CreateAccountState?
-        /// If the account was created successfully, the unique identifier (ID) of the new account. The regex pattern for an account ID string requires exactly 12 digits.
-        public let accountId: String?
-        /// If the request failed, a description of the reason for the failure.   ACCOUNT_LIMIT_EXCEEDED: The account could not be created because you have reached the limit on the number of accounts in your organization.   EMAIL_ALREADY_EXISTS: The account could not be created because another AWS account with that email address already exists.   INVALID_ADDRESS: The account could not be created because the address you provided is not valid.   INVALID_EMAIL: The account could not be created because the email address you provided is not valid.   INTERNAL_FAILURE: The account could not be created because of an internal failure. Try again later. If the problem persists, contact Customer Support.  
-        public let failureReason: CreateAccountFailureReason?
-        /// The date and time that the account was created and the request completed.
-        public let completedTimestamp: TimeStamp?
-        /// The date and time that the request was made for the account creation.
-        public let requestedTimestamp: TimeStamp?
-        /// The unique identifier (ID) that references this request. You get this value from the response of the initial CreateAccount request to create the account. The regex pattern for an create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
-        public let id: String?
-        /// The account name given to the account when it was created.
-        public let accountName: String?
+        /// A structure that contains the current status of an account creation request.
+        public let createAccountStatus: CreateAccountStatus?
 
-        public init(state: CreateAccountState? = nil, accountId: String? = nil, failureReason: CreateAccountFailureReason? = nil, completedTimestamp: TimeStamp? = nil, requestedTimestamp: TimeStamp? = nil, id: String? = nil, accountName: String? = nil) {
-            self.state = state
-            self.accountId = accountId
-            self.failureReason = failureReason
-            self.completedTimestamp = completedTimestamp
-            self.requestedTimestamp = requestedTimestamp
-            self.id = id
-            self.accountName = accountName
+        public init(createAccountStatus: CreateAccountStatus? = nil) {
+            self.createAccountStatus = createAccountStatus
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state = "State"
-            case accountId = "AccountId"
-            case failureReason = "FailureReason"
-            case completedTimestamp = "CompletedTimestamp"
-            case requestedTimestamp = "RequestedTimestamp"
-            case id = "Id"
-            case accountName = "AccountName"
+            case createAccountStatus = "CreateAccountStatus"
         }
     }
 
-    public enum PolicyType: String, CustomStringConvertible, Codable {
-        case serviceControlPolicy = "SERVICE_CONTROL_POLICY"
+    public class HandshakeResource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Resources", required: false, type: .list), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+        /// The information that is passed to the other party in the handshake. The format of the value string must match the requirements of the specified type.
+        public let value: String?
+        /// When needed, contains an additional array of HandshakeResource objects.
+        public let resources: [HandshakeResource]?
+        /// The type of information being passed, specifying how the value is to be interpreted by the other party:    ACCOUNT - Specifies an AWS account ID number.    ORGANIZATION - Specifies an organization ID number.    EMAIL - Specifies the email address that is associated with the account that receives the handshake.     OWNER_EMAIL - Specifies the email address associated with the master account. Included as information about an organization.     OWNER_NAME - Specifies the name associated with the master account. Included as information about an organization.     NOTES - Additional text provided by the handshake initiator and intended for the recipient to read.  
+        public let `type`: HandshakeResourceType?
+
+        public init(value: String? = nil, resources: [HandshakeResource]? = nil, type: HandshakeResourceType? = nil) {
+            self.value = value
+            self.resources = resources
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case resources = "Resources"
+            case `type` = "Type"
+        }
+    }
+
+    public enum ParentType: String, CustomStringConvertible, Codable {
+        case root = "ROOT"
+        case organizationalUnit = "ORGANIZATIONAL_UNIT"
         public var description: String { return self.rawValue }
     }
 
-    public struct UpdateOrganizationalUnitRequest: AWSShape {
+    public struct ListTargetsForPolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationalUnitId", required: true, type: .string)
+            AWSShapeMember(label: "PolicyId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The new name that you want to assign to the OU. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
-        public let name: String?
-        /// The unique identifier (ID) of the OU that you want to rename. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
-        public let organizationalUnitId: String
+        /// The unique identifier (ID) of the policy for which you want to know its attachments. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
+        public let policyId: String
+        /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int32?
+        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
+        public let nextToken: String?
 
-        public init(name: String? = nil, organizationalUnitId: String) {
-            self.name = name
-            self.organizationalUnitId = organizationalUnitId
+        public init(policyId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.policyId = policyId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case policyId = "PolicyId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListHandshakesForOrganizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A filter of the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE-ALL-FEATURES, or APPROVE-ALL-FEATURES. Alternatively, for the ENABLE-ALL-FEATURES handshake that generates a separate child handshake for each member account, you can specify the ParentHandshakeId to see only the handshakes that were generated by that parent request.
+        public let filter: HandshakeFilter?
+        /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int32?
+        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
+        public let nextToken: String?
+
+        public init(filter: HandshakeFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public enum HandshakeResourceType: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        case organization = "ORGANIZATION"
+        case organizationFeatureSet = "ORGANIZATION_FEATURE_SET"
+        case email = "EMAIL"
+        case masterEmail = "MASTER_EMAIL"
+        case masterName = "MASTER_NAME"
+        case notes = "NOTES"
+        case parentHandshake = "PARENT_HANDSHAKE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListParentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChildId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The unique identifier (ID) of the OU or account whose parent containers you want to list. Do not specify a root. The regex pattern for a child ID string requires one of the following:   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        public let childId: String
+        /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int32?
+        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
+        public let nextToken: String?
+
+        public init(childId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.childId = childId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case childId = "ChildId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct Handshake: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Resources", required: false, type: .list), 
+            AWSShapeMember(label: "Action", required: false, type: .enum), 
+            AWSShapeMember(label: "RequestedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Parties", required: false, type: .list), 
+            AWSShapeMember(label: "ExpirationTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+        /// The Amazon Resource Name (ARN) of a handshake. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
+        public let arn: String?
+        /// The unique identifier (ID) of a handshake. The originating account creates the ID when it initiates the handshake. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
+        public let id: String?
+        /// Additional information that is needed to process the handshake.
+        public let resources: [HandshakeResource]?
+        /// The type of handshake, indicating what action occurs when the recipient accepts the handshake. The following handshake types are supported:    INVITE: This type of handshake represents a request to join an organization. It is always sent from the master account to only non-member accounts.    ENABLE_ALL_FEATURES: This type of handshake represents a request to enable all features in an organization. It is always sent from the master account to only invited member accounts. Created accounts do not receive this because those accounts were created by the organization's master account and approval is inferred.    APPROVE_ALL_FEATURES: This type of handshake is sent from the Organizations service when all member accounts have approved the ENABLE_ALL_FEATURES invitation. It is sent only to the master account and signals the master that it can finalize the process to enable all features.  
+        public let action: ActionType?
+        /// The date and time that the handshake request was made.
+        public let requestedTimestamp: TimeStamp?
+        /// Information about the two accounts that are participating in the handshake.
+        public let parties: [HandshakeParty]?
+        /// The date and time that the handshake expires. If the recipient of the handshake request fails to respond before the specified date and time, the handshake becomes inactive and is no longer valid.
+        public let expirationTimestamp: TimeStamp?
+        /// The current state of the handshake. Use the state to trace the flow of the handshake through the process from its creation to its acceptance. The meaning of each of the valid values is as follows:    REQUESTED: This handshake was sent to multiple recipients (applicable to only some handshake types) and not all recipients have responded yet. The request stays in this state until all recipients respond.    OPEN: This handshake was sent to multiple recipients (applicable to only some policy types) and all recipients have responded, allowing the originator to complete the handshake action.    CANCELED: This handshake is no longer active because it was canceled by the originating account.    ACCEPTED: This handshake is complete because it has been accepted by the recipient.    DECLINED: This handshake is no longer active because it was declined by the recipient account.    EXPIRED: This handshake is no longer active because the originator did not receive a response of any kind from the recipient before the expiration time (15 days).  
+        public let state: HandshakeState?
+
+        public init(arn: String? = nil, id: String? = nil, resources: [HandshakeResource]? = nil, action: ActionType? = nil, requestedTimestamp: TimeStamp? = nil, parties: [HandshakeParty]? = nil, expirationTimestamp: TimeStamp? = nil, state: HandshakeState? = nil) {
+            self.arn = arn
+            self.id = id
+            self.resources = resources
+            self.action = action
+            self.requestedTimestamp = requestedTimestamp
+            self.parties = parties
+            self.expirationTimestamp = expirationTimestamp
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case resources = "Resources"
+            case action = "Action"
+            case requestedTimestamp = "RequestedTimestamp"
+            case parties = "Parties"
+            case expirationTimestamp = "ExpirationTimestamp"
+            case state = "State"
+        }
+    }
+
+    public struct ListAccountsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int32?
+        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public enum ConstraintViolationExceptionReason: String, CustomStringConvertible, Codable {
+        case accountNumberLimitExceeded = "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
+        case handshakeRateLimitExceeded = "HANDSHAKE_RATE_LIMIT_EXCEEDED"
+        case ouNumberLimitExceeded = "OU_NUMBER_LIMIT_EXCEEDED"
+        case ouDepthLimitExceeded = "OU_DEPTH_LIMIT_EXCEEDED"
+        case policyNumberLimitExceeded = "POLICY_NUMBER_LIMIT_EXCEEDED"
+        case maxPolicyTypeAttachmentLimitExceeded = "MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
+        case minPolicyTypeAttachmentLimitExceeded = "MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
+        case accountCannotLeaveOrganization = "ACCOUNT_CANNOT_LEAVE_ORGANIZATION"
+        case accountCannotLeaveWithoutEula = "ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA"
+        case accountCannotLeaveWithoutPhoneVerification = "ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION"
+        case masterAccountPaymentInstrumentRequired = "MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED"
+        case memberAccountPaymentInstrumentRequired = "MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED"
+        case accountCreationRateLimitExceeded = "ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED"
+        case masterAccountAddressDoesNotMatchMarketplace = "MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE"
+        case masterAccountMissingContactInfo = "MASTER_ACCOUNT_MISSING_CONTACT_INFO"
+        case organizationNotInAllFeaturesMode = "ORGANIZATION_NOT_IN_ALL_FEATURES_MODE"
+        case emailVerificationCodeExpired = "EMAIL_VERIFICATION_CODE_EXPIRED"
+        case waitPeriodActive = "WAIT_PERIOD_ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListAccountsForParentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParentId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The unique identifier (ID) for the parent root or organization unit (OU) whose accounts you want to list.
+        public let parentId: String
+        /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int32?
+        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
+        public let nextToken: String?
+
+        public init(parentId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.parentId = parentId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parentId = "ParentId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribePolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .structure)
+        ]
+        /// A structure that contains details about the specified policy.
+        public let policy: Policy?
+
+        public init(policy: Policy? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
+    public struct ListHandshakesForAccountRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Filters the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE-FULL-CONTROL, or APPROVE-FULL-CONTROL. Alternatively, for the ENABLE-FULL-CONTROL handshake that generates a separate child handshake for each member account, you can specify ParentHandshakeId to see only the handshakes that were generated by that parent request.
+        public let filter: HandshakeFilter?
+        /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int32?
+        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
+        public let nextToken: String?
+
+        public init(filter: HandshakeFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct AcceptHandshakeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HandshakeId", required: true, type: .string)
+        ]
+        /// The unique identifier (ID) of the handshake that you want to accept. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
+        public let handshakeId: String
+
+        public init(handshakeId: String) {
+            self.handshakeId = handshakeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case handshakeId = "HandshakeId"
+        }
+    }
+
+    public enum CreateAccountFailureReason: String, CustomStringConvertible, Codable {
+        case accountLimitExceeded = "ACCOUNT_LIMIT_EXCEEDED"
+        case emailAlreadyExists = "EMAIL_ALREADY_EXISTS"
+        case invalidAddress = "INVALID_ADDRESS"
+        case invalidEmail = "INVALID_EMAIL"
+        case concurrentAccountModification = "CONCURRENT_ACCOUNT_MODIFICATION"
+        case internalFailure = "INTERNAL_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct EnablePolicyTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyType", required: true, type: .enum), 
+            AWSShapeMember(label: "RootId", required: true, type: .string)
+        ]
+        /// The policy type that you want to enable.
+        public let policyType: PolicyType
+        /// The unique identifier (ID) of the root in which you want to enable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lower-case letters or digits.
+        public let rootId: String
+
+        public init(policyType: PolicyType, rootId: String) {
+            self.policyType = policyType
+            self.rootId = rootId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyType = "PolicyType"
+            case rootId = "RootId"
+        }
+    }
+
+    public enum IAMUserAccessToBilling: String, CustomStringConvertible, Codable {
+        case allow = "ALLOW"
+        case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListParentsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parents", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of parents for the specified child account or OU.
+        public let parents: [Parent]?
+        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+        public let nextToken: String?
+
+        public init(parents: [Parent]? = nil, nextToken: String? = nil) {
+            self.parents = parents
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parents = "Parents"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public enum HandshakePartyType: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        case organization = "ORGANIZATION"
+        case email = "EMAIL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListAWSServiceAccessForOrganizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int32?
+        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct CreateOrganizationalUnitRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParentId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The unique identifier (ID) of the parent root or OU in which you want to create the new OU. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        public let parentId: String
+        /// The friendly name to assign to the new OU.
+        public let name: String
+
+        public init(parentId: String, name: String) {
+            self.parentId = parentId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parentId = "ParentId"
             case name = "Name"
-            case organizationalUnitId = "OrganizationalUnitId"
+        }
+    }
+
+    public struct Parent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+        /// The unique identifier (ID) of the parent entity. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        public let id: String?
+        /// The type of the parent entity.
+        public let `type`: ParentType?
+
+        public init(id: String? = nil, type: ParentType? = nil) {
+            self.id = id
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case `type` = "Type"
+        }
+    }
+
+    public struct ListAccountsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Accounts", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of objects in the organization.
+        public let accounts: [Account]?
+        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+        public let nextToken: String?
+
+        public init(accounts: [Account]? = nil, nextToken: String? = nil) {
+            self.accounts = accounts
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accounts = "Accounts"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public enum HandshakeState: String, CustomStringConvertible, Codable {
+        case requested = "REQUESTED"
+        case open = "OPEN"
+        case canceled = "CANCELED"
+        case accepted = "ACCEPTED"
+        case declined = "DECLINED"
+        case expired = "EXPIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListCreateAccountStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "States", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of one or more states that you want included in the response. If this parameter is not present, then all requests are included in the response.
+        public let states: [CreateAccountState]?
+        /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int32?
+        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
+        public let nextToken: String?
+
+        public init(states: [CreateAccountState]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.states = states
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case states = "States"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct UpdatePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Content", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyId", required: true, type: .string)
+        ]
+        /// If provided, the new content for the policy. The text must be correctly formatted JSON that complies with the syntax for the policy's type. For more information, see Service Control Policy Syntax in the AWS Organizations User Guide.
+        public let content: String?
+        /// If provided, the new name for the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
+        public let name: String?
+        /// If provided, the new description for the policy.
+        public let description: String?
+        /// The unique identifier (ID) of the policy that you want to update. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
+        public let policyId: String
+
+        public init(content: String? = nil, name: String? = nil, description: String? = nil, policyId: String) {
+            self.content = content
+            self.name = name
+            self.description = description
+            self.policyId = policyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case name = "Name"
+            case description = "Description"
+            case policyId = "PolicyId"
+        }
+    }
+
+    public struct PolicyTypeSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+        /// The status of the policy type as it relates to the associated root. To attach a policy of the specified type to a root or to an OU or account in that root, it must be available in the organization and enabled for that root.
+        public let status: PolicyTypeStatus?
+        /// The name of the policy type.
+        public let `type`: PolicyType?
+
+        public init(status: PolicyTypeStatus? = nil, type: PolicyType? = nil) {
+            self.status = status
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case `type` = "Type"
         }
     }
 
@@ -93,66 +574,154 @@ extension Organizations {
         }
     }
 
-    public struct EnableAllFeaturesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Handshake", required: false, type: .structure)
-        ]
-        /// A structure that contains details about the handshake created to support this request to enable all features in the organization.
-        public let handshake: Handshake?
-
-        public init(handshake: Handshake? = nil) {
-            self.handshake = handshake
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case handshake = "Handshake"
-        }
+    public enum TargetType: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        case organizationalUnit = "ORGANIZATIONAL_UNIT"
+        case root = "ROOT"
+        public var description: String { return self.rawValue }
     }
 
-    public struct OrganizationalUnit: AWSShape {
+    public struct Root: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyTypes", required: false, type: .list), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// The unique identifier (ID) associated with this OU. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
-        public let id: String?
-        /// The Amazon Resource Name (ARN) of this OU. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
+        /// The Amazon Resource Name (ARN) of the root. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
-        /// The friendly name of this OU. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
+        /// The types of policies that are currently enabled for the root and therefore can be attached to the root or to its OUs or accounts.  Even if a policy type is shown as available in the organization, you can separately enable and disable them at the root level by using EnablePolicyType and DisablePolicyType. Use DescribeOrganization to see the availability of the policy types in that organization. 
+        public let policyTypes: [PolicyTypeSummary]?
+        /// The unique identifier (ID) for the root. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lower-case letters or digits.
+        public let id: String?
+        /// The friendly name of the root. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
 
-        public init(id: String? = nil, arn: String? = nil, name: String? = nil) {
-            self.id = id
+        public init(arn: String? = nil, policyTypes: [PolicyTypeSummary]? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
+            self.policyTypes = policyTypes
+            self.id = id
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
             case arn = "Arn"
+            case policyTypes = "PolicyTypes"
+            case id = "Id"
             case name = "Name"
         }
     }
 
-    public struct ListCreateAccountStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "CreateAccountStatuses", required: false, type: .list)
-        ]
-        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public let nextToken: String?
-        /// A list of objects with details about the requests. Certain elements, such as the accountId number, are present in the output only after the account has been successfully created.
-        public let createAccountStatuses: [CreateAccountStatus]?
+    public enum PolicyType: String, CustomStringConvertible, Codable {
+        case serviceControlPolicy = "SERVICE_CONTROL_POLICY"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(nextToken: String? = nil, createAccountStatuses: [CreateAccountStatus]? = nil) {
-            self.nextToken = nextToken
-            self.createAccountStatuses = createAccountStatuses
+    public struct CreateAccountResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateAccountStatus", required: false, type: .structure)
+        ]
+        /// A structure that contains details about the request to create an account. This response structure might not be fully populated when you first receive it because account creation is an asynchronous process. You can pass the returned CreateAccountStatus ID as a parameter to DescribeCreateAccountStatus to get status about the progress of the request at later times. You can also check the AWS CloudTrail log for the CreateAccountResult event. For more information, see Monitoring the Activity in Your Organization in the AWS Organizations User Guide.
+        public let createAccountStatus: CreateAccountStatus?
+
+        public init(createAccountStatus: CreateAccountStatus? = nil) {
+            self.createAccountStatus = createAccountStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case createAccountStatus = "CreateAccountStatus"
+        }
+    }
+
+    public enum CreateAccountState: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateOrganizationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Organization", required: false, type: .structure)
+        ]
+        /// A structure that contains details about the newly created organization.
+        public let organization: Organization?
+
+        public init(organization: Organization? = nil) {
+            self.organization = organization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organization = "Organization"
+        }
+    }
+
+    public enum ChildType: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        case organizationalUnit = "ORGANIZATIONAL_UNIT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListChildrenResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Children", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The list of children of the specified parent container.
+        public let children: [Child]?
+        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+        public let nextToken: String?
+
+        public init(children: [Child]? = nil, nextToken: String? = nil) {
+            self.children = children
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case children = "Children"
             case nextToken = "NextToken"
-            case createAccountStatuses = "CreateAccountStatuses"
+        }
+    }
+
+    public struct HandshakeFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParentHandshakeId", required: false, type: .string), 
+            AWSShapeMember(label: "ActionType", required: false, type: .enum)
+        ]
+        /// Specifies the parent handshake. Only used for handshake types that are a child of another type. If you specify ParentHandshakeId, you cannot also specify ActionType. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
+        public let parentHandshakeId: String?
+        /// Specifies the type of handshake action. If you specify ActionType, you cannot also specify ParentHandshakeId.
+        public let actionType: ActionType?
+
+        public init(parentHandshakeId: String? = nil, actionType: ActionType? = nil) {
+            self.parentHandshakeId = parentHandshakeId
+            self.actionType = actionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parentHandshakeId = "ParentHandshakeId"
+            case actionType = "ActionType"
+        }
+    }
+
+    public struct EnabledServicePrincipal: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServicePrincipal", required: false, type: .string), 
+            AWSShapeMember(label: "DateEnabled", required: false, type: .timestamp)
+        ]
+        /// The name of the service principal. This is typically in the form of a URL, such as:  servicename.amazonaws.com.
+        public let servicePrincipal: String?
+        /// The date that the service principal was enabled for integration with AWS Organizations.
+        public let dateEnabled: TimeStamp?
+
+        public init(servicePrincipal: String? = nil, dateEnabled: TimeStamp? = nil) {
+            self.servicePrincipal = servicePrincipal
+            self.dateEnabled = dateEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case servicePrincipal = "ServicePrincipal"
+            case dateEnabled = "DateEnabled"
         }
     }
 
@@ -179,19 +748,182 @@ extension Organizations {
         public var description: String { return self.rawValue }
     }
 
-    public struct UpdateOrganizationalUnitResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationalUnit", required: false, type: .structure)
-        ]
-        /// A structure that contains the details about the specified OU, including its new name.
-        public let organizationalUnit: OrganizationalUnit?
+    public enum ActionType: String, CustomStringConvertible, Codable {
+        case invite = "INVITE"
+        case enableAllFeatures = "ENABLE_ALL_FEATURES"
+        case approveAllFeatures = "APPROVE_ALL_FEATURES"
+        case addOrganizationsServiceLinkedRole = "ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(organizationalUnit: OrganizationalUnit? = nil) {
-            self.organizationalUnit = organizationalUnit
+    public struct DescribeHandshakeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HandshakeId", required: true, type: .string)
+        ]
+        /// The unique identifier (ID) of the handshake that you want information about. You can get the ID from the original call to InviteAccountToOrganization, or from a call to ListHandshakesForAccount or ListHandshakesForOrganization. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
+        public let handshakeId: String
+
+        public init(handshakeId: String) {
+            self.handshakeId = handshakeId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case organizationalUnit = "OrganizationalUnit"
+            case handshakeId = "HandshakeId"
+        }
+    }
+
+    public struct Account: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JoinedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Email", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "JoinedMethod", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The date the account became a part of the organization.
+        public let joinedTimestamp: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the account. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
+        public let arn: String?
+        /// The unique identifier (ID) of the account. The regex pattern for an account ID string requires exactly 12 digits.
+        public let id: String?
+        /// The email address associated with the AWS account. The regex pattern for this parameter is a string of characters that represents a standard Internet email address.
+        public let email: String?
+        /// The status of the account in the organization.
+        public let status: AccountStatus?
+        /// The method by which the account joined the organization.
+        public let joinedMethod: AccountJoinedMethod?
+        /// The friendly name of the account. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
+        public let name: String?
+
+        public init(joinedTimestamp: TimeStamp? = nil, arn: String? = nil, id: String? = nil, email: String? = nil, status: AccountStatus? = nil, joinedMethod: AccountJoinedMethod? = nil, name: String? = nil) {
+            self.joinedTimestamp = joinedTimestamp
+            self.arn = arn
+            self.id = id
+            self.email = email
+            self.status = status
+            self.joinedMethod = joinedMethod
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case joinedTimestamp = "JoinedTimestamp"
+            case arn = "Arn"
+            case id = "Id"
+            case email = "Email"
+            case status = "Status"
+            case joinedMethod = "JoinedMethod"
+            case name = "Name"
+        }
+    }
+
+    public struct ListChildrenRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParentId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ChildType", required: true, type: .enum)
+        ]
+        /// The unique identifier (ID) for the parent root or OU whose children you want to list. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        public let parentId: String
+        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
+        public let nextToken: String?
+        /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int32?
+        /// Filters the output to include only the specified child type.
+        public let childType: ChildType
+
+        public init(parentId: String, nextToken: String? = nil, maxResults: Int32? = nil, childType: ChildType) {
+            self.parentId = parentId
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.childType = childType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parentId = "ParentId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+            case childType = "ChildType"
+        }
+    }
+
+    public struct DescribeCreateAccountStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateAccountRequestId", required: true, type: .string)
+        ]
+        /// Specifies the operationId that uniquely identifies the request. You can get the ID from the response to an earlier CreateAccount request, or from the ListCreateAccountStatus operation. The regex pattern for an create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
+        public let createAccountRequestId: String
+
+        public init(createAccountRequestId: String) {
+            self.createAccountRequestId = createAccountRequestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createAccountRequestId = "CreateAccountRequestId"
+        }
+    }
+
+    public struct PolicySummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "AwsManaged", required: false, type: .boolean)
+        ]
+        /// The Amazon Resource Name (ARN) of the policy. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
+        public let arn: String?
+        /// The type of policy.
+        public let `type`: PolicyType?
+        /// The unique identifier (ID) of the policy. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
+        public let id: String?
+        /// The friendly name of the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
+        public let name: String?
+        /// The description of the policy.
+        public let description: String?
+        /// A boolean value that indicates whether the specified policy is an AWS managed policy. If true, then you can attach the policy to roots, OUs, or accounts, but you cannot edit it.
+        public let awsManaged: Bool?
+
+        public init(arn: String? = nil, type: PolicyType? = nil, id: String? = nil, name: String? = nil, description: String? = nil, awsManaged: Bool? = nil) {
+            self.arn = arn
+            self.`type` = `type`
+            self.id = id
+            self.name = name
+            self.description = description
+            self.awsManaged = awsManaged
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case `type` = "Type"
+            case id = "Id"
+            case name = "Name"
+            case description = "Description"
+            case awsManaged = "AwsManaged"
+        }
+    }
+
+    public struct ListHandshakesForAccountResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Handshakes", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of Handshake objects with details about each of the handshakes that is associated with the specified account.
+        public let handshakes: [Handshake]?
+        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+        public let nextToken: String?
+
+        public init(handshakes: [Handshake]? = nil, nextToken: String? = nil) {
+            self.handshakes = handshakes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case handshakes = "Handshakes"
+            case nextToken = "NextToken"
         }
     }
 
@@ -216,35 +948,76 @@ extension Organizations {
         }
     }
 
-    public struct CreateOrganizationResponse: AWSShape {
+    public struct DetachPolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Organization", required: false, type: .structure)
+            AWSShapeMember(label: "PolicyId", required: true, type: .string), 
+            AWSShapeMember(label: "TargetId", required: true, type: .string)
         ]
-        /// A structure that contains details about the newly created organization.
-        public let organization: Organization?
+        /// The unique identifier (ID) of the policy you want to detach. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
+        public let policyId: String
+        /// The unique identifier (ID) of the root, OU, or account from which you want to detach the policy. You can get the ID from the ListRoots, ListOrganizationalUnitsForParent, or ListAccounts operations. The regex pattern for a target ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        public let targetId: String
 
-        public init(organization: Organization? = nil) {
-            self.organization = organization
+        public init(policyId: String, targetId: String) {
+            self.policyId = policyId
+            self.targetId = targetId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case organization = "Organization"
+            case policyId = "PolicyId"
+            case targetId = "TargetId"
         }
     }
 
-    public struct DisablePolicyTypeResponse: AWSShape {
+    public struct ListPoliciesForTargetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Root", required: false, type: .structure)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TargetId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "Filter", required: true, type: .enum)
         ]
-        /// A structure that shows the root with the updated list of enabled policy types.
-        public let root: Root?
+        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
+        public let nextToken: String?
+        /// The unique identifier (ID) of the root, organizational unit, or account whose policies you want to list. The regex pattern for a target ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        public let targetId: String
+        /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int32?
+        /// The type of policy that you want to include in the returned list.
+        public let filter: PolicyType
 
-        public init(root: Root? = nil) {
-            self.root = root
+        public init(nextToken: String? = nil, targetId: String, maxResults: Int32? = nil, filter: PolicyType) {
+            self.nextToken = nextToken
+            self.targetId = targetId
+            self.maxResults = maxResults
+            self.filter = filter
         }
 
         private enum CodingKeys: String, CodingKey {
-            case root = "Root"
+            case nextToken = "NextToken"
+            case targetId = "TargetId"
+            case maxResults = "MaxResults"
+            case filter = "Filter"
+        }
+    }
+
+    public struct ListTargetsForPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Targets", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of structures, each of which contains details about one of the entities to which the specified policy is attached.
+        public let targets: [PolicyTargetSummary]?
+        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+        public let nextToken: String?
+
+        public init(targets: [PolicyTargetSummary]? = nil, nextToken: String? = nil) {
+            self.targets = targets
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targets = "Targets"
+            case nextToken = "NextToken"
         }
     }
 
@@ -264,55 +1037,513 @@ extension Organizations {
         }
     }
 
-    public struct ListHandshakesForOrganizationRequest: AWSShape {
+    public struct CancelHandshakeResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Handshake", required: false, type: .structure)
+        ]
+        /// A structure that contains details about the handshake that you canceled.
+        public let handshake: Handshake?
+
+        public init(handshake: Handshake? = nil) {
+            self.handshake = handshake
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case handshake = "Handshake"
+        }
+    }
+
+    public struct Policy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicySummary", required: false, type: .structure), 
+            AWSShapeMember(label: "Content", required: false, type: .string)
+        ]
+        /// A structure that contains additional details about the policy.
+        public let policySummary: PolicySummary?
+        /// The text content of the policy.
+        public let content: String?
+
+        public init(policySummary: PolicySummary? = nil, content: String? = nil) {
+            self.policySummary = policySummary
+            self.content = content
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policySummary = "PolicySummary"
+            case content = "Content"
+        }
+    }
+
+    public struct CreatePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "Content", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: true, type: .string)
+        ]
+        /// The type of policy to create.  In the current release, the only type of policy that you can create is a service control policy (SCP). 
+        public let `type`: PolicyType
+        /// The policy content to add to the new policy. For example, if you create a service control policy (SCP), this string must be JSON text that specifies the permissions that admins in attached accounts can delegate to their users, groups, and roles. For more information about the SCP syntax, see Service Control Policy Syntax in the AWS Organizations User Guide.
+        public let content: String
+        /// The friendly name to assign to the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
+        public let name: String
+        /// An optional description to assign to the policy.
+        public let description: String
+
+        public init(type: PolicyType, content: String, name: String, description: String) {
+            self.`type` = `type`
+            self.content = content
+            self.name = name
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case content = "Content"
+            case name = "Name"
+            case description = "Description"
+        }
+    }
+
+    public struct AttachPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyId", required: true, type: .string), 
+            AWSShapeMember(label: "TargetId", required: true, type: .string)
+        ]
+        /// The unique identifier (ID) of the policy that you want to attach to the target. You can get the ID for the policy by calling the ListPolicies operation. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
+        public let policyId: String
+        /// The unique identifier (ID) of the root, OU, or account that you want to attach the policy to. You can get the ID by calling the ListRoots, ListOrganizationalUnitsForParent, or ListAccounts operations. The regex pattern for a target ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        public let targetId: String
+
+        public init(policyId: String, targetId: String) {
+            self.policyId = policyId
+            self.targetId = targetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyId = "PolicyId"
+            case targetId = "TargetId"
+        }
+    }
+
+    public struct HandshakeParty: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+        /// The unique identifier (ID) for the party. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
+        public let id: String
+        /// The type of party.
+        public let `type`: HandshakePartyType
+
+        public init(id: String, type: HandshakePartyType) {
+            self.id = id
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case `type` = "Type"
+        }
+    }
+
+    public struct DeclineHandshakeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Handshake", required: false, type: .structure)
+        ]
+        /// A structure that contains details about the declined handshake. The state is updated to show the value DECLINED.
+        public let handshake: Handshake?
+
+        public init(handshake: Handshake? = nil) {
+            self.handshake = handshake
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case handshake = "Handshake"
+        }
+    }
+
+    public struct Child: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+        /// The unique identifier (ID) of this child entity. The regex pattern for a child ID string requires one of the following:   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        public let id: String?
+        /// The type of this child entity.
+        public let `type`: ChildType?
+
+        public init(id: String? = nil, type: ChildType? = nil) {
+            self.id = id
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case `type` = "Type"
+        }
+    }
+
+    public struct DescribePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyId", required: true, type: .string)
+        ]
+        /// The unique identifier (ID) of the policy that you want details about. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
+        public let policyId: String
+
+        public init(policyId: String) {
+            self.policyId = policyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyId = "PolicyId"
+        }
+    }
+
+    public struct CreateAccountStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "CompletedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RequestedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AccountName", required: false, type: .string), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .enum), 
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+        /// The unique identifier (ID) that references this request. You get this value from the response of the initial CreateAccount request to create the account. The regex pattern for an create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
+        public let id: String?
+        /// The date and time that the account was created and the request completed.
+        public let completedTimestamp: TimeStamp?
+        /// The date and time that the request was made for the account creation.
+        public let requestedTimestamp: TimeStamp?
+        /// The account name given to the account when it was created.
+        public let accountName: String?
+        /// If the request failed, a description of the reason for the failure.   ACCOUNT_LIMIT_EXCEEDED: The account could not be created because you have reached the limit on the number of accounts in your organization.   EMAIL_ALREADY_EXISTS: The account could not be created because another AWS account with that email address already exists.   INVALID_ADDRESS: The account could not be created because the address you provided is not valid.   INVALID_EMAIL: The account could not be created because the email address you provided is not valid.   INTERNAL_FAILURE: The account could not be created because of an internal failure. Try again later. If the problem persists, contact Customer Support.  
+        public let failureReason: CreateAccountFailureReason?
+        /// If the account was created successfully, the unique identifier (ID) of the new account. The regex pattern for an account ID string requires exactly 12 digits.
+        public let accountId: String?
+        /// The status of the request.
+        public let state: CreateAccountState?
+
+        public init(id: String? = nil, completedTimestamp: TimeStamp? = nil, requestedTimestamp: TimeStamp? = nil, accountName: String? = nil, failureReason: CreateAccountFailureReason? = nil, accountId: String? = nil, state: CreateAccountState? = nil) {
+            self.id = id
+            self.completedTimestamp = completedTimestamp
+            self.requestedTimestamp = requestedTimestamp
+            self.accountName = accountName
+            self.failureReason = failureReason
+            self.accountId = accountId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case completedTimestamp = "CompletedTimestamp"
+            case requestedTimestamp = "RequestedTimestamp"
+            case accountName = "AccountName"
+            case failureReason = "FailureReason"
+            case accountId = "AccountId"
+            case state = "State"
+        }
+    }
+
+    public struct DisablePolicyTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyType", required: true, type: .enum), 
+            AWSShapeMember(label: "RootId", required: true, type: .string)
+        ]
+        /// The policy type that you want to disable in this root.
+        public let policyType: PolicyType
+        /// The unique identifier (ID) of the root in which you want to disable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lower-case letters or digits.
+        public let rootId: String
+
+        public init(policyType: PolicyType, rootId: String) {
+            self.policyType = policyType
+            self.rootId = rootId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyType = "PolicyType"
+            case rootId = "RootId"
+        }
+    }
+
+    public struct InviteAccountToOrganizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Target", required: true, type: .structure), 
+            AWSShapeMember(label: "Notes", required: false, type: .string)
+        ]
+        /// The identifier (ID) of the AWS account that you want to invite to join your organization. This is a JSON object that contains the following elements:   { "Type": "ACCOUNT", "Id": "&lt; account id number &gt;" }  If you use the AWS CLI, you can submit this as a single string, similar to the following example:  --target Id=123456789012,Type=ACCOUNT  If you specify "Type": "ACCOUNT", then you must provide the AWS account ID number as the Id. If you specify "Type": "EMAIL", then you must specify the email address that is associated with the account.  --target Id=diego@example.com,Type=EMAIL 
+        public let target: HandshakeParty
+        /// Additional information that you want to include in the generated email to the recipient account owner.
+        public let notes: String?
+
+        public init(target: HandshakeParty, notes: String? = nil) {
+            self.target = target
+            self.notes = notes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case target = "Target"
+            case notes = "Notes"
+        }
+    }
+
+    public struct ListOrganizationalUnitsForParentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParentId", required: true, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// A filter of the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE-ALL-FEATURES, or APPROVE-ALL-FEATURES. Alternatively, for the ENABLE-ALL-FEATURES handshake that generates a separate child handshake for each member account, you can specify the ParentHandshakeId to see only the handshakes that were generated by that parent request.
-        public let filter: HandshakeFilter?
-        /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+        /// The unique identifier (ID) of the root or OU whose child OUs you want to list. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        public let parentId: String
+        /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
 
-        public init(filter: HandshakeFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.filter = filter
+        public init(parentId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.parentId = parentId
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter = "Filter"
+            case parentId = "ParentId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
     }
 
-    public struct ListCreateAccountStatusRequest: AWSShape {
+    public struct DisablePolicyTypeResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "States", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+            AWSShapeMember(label: "Root", required: false, type: .structure)
         ]
-        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public let nextToken: String?
-        /// A list of one or more states that you want included in the response. If this parameter is not present, then all requests are included in the response.
-        public let states: [CreateAccountState]?
-        /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
+        /// A structure that shows the root with the updated list of enabled policy types.
+        public let root: Root?
 
-        public init(nextToken: String? = nil, states: [CreateAccountState]? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.states = states
-            self.maxResults = maxResults
+        public init(root: Root? = nil) {
+            self.root = root
         }
 
         private enum CodingKeys: String, CodingKey {
+            case root = "Root"
+        }
+    }
+
+    public struct ListAccountsForParentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Accounts", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of the accounts in the specified root or OU.
+        public let accounts: [Account]?
+        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+        public let nextToken: String?
+
+        public init(accounts: [Account]? = nil, nextToken: String? = nil) {
+            self.accounts = accounts
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accounts = "Accounts"
             case nextToken = "NextToken"
-            case states = "States"
+        }
+    }
+
+    public struct ListPoliciesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policies", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of policies that match the filter criteria in the request. The output list does not include the policy contents. To see the content for a policy, see DescribePolicy.
+        public let policies: [PolicySummary]?
+        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+        public let nextToken: String?
+
+        public init(policies: [PolicySummary]? = nil, nextToken: String? = nil) {
+            self.policies = policies
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policies = "Policies"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct MoveAccountRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceParentId", required: true, type: .string), 
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "DestinationParentId", required: true, type: .string)
+        ]
+        /// The unique identifier (ID) of the root or organizational unit that you want to move the account from. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        public let sourceParentId: String
+        /// The unique identifier (ID) of the account that you want to move. The regex pattern for an account ID string requires exactly 12 digits.
+        public let accountId: String
+        /// The unique identifier (ID) of the root or organizational unit that you want to move the account to. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        public let destinationParentId: String
+
+        public init(sourceParentId: String, accountId: String, destinationParentId: String) {
+            self.sourceParentId = sourceParentId
+            self.accountId = accountId
+            self.destinationParentId = destinationParentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceParentId = "SourceParentId"
+            case accountId = "AccountId"
+            case destinationParentId = "DestinationParentId"
+        }
+    }
+
+    public struct ListRootsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int32?
+        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListRootsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Roots", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of roots that are defined in an organization.
+        public let roots: [Root]?
+        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+        public let nextToken: String?
+
+        public init(roots: [Root]? = nil, nextToken: String? = nil) {
+            self.roots = roots
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roots = "Roots"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct RemoveAccountFromOrganizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string)
+        ]
+        /// The unique identifier (ID) of the member account that you want to remove from the organization. The regex pattern for an account ID string requires exactly 12 digits.
+        public let accountId: String
+
+        public init(accountId: String) {
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+        }
+    }
+
+    public enum AccountStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case suspended = "SUSPENDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AcceptHandshakeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Handshake", required: false, type: .structure)
+        ]
+        /// A structure that contains details about the accepted handshake.
+        public let handshake: Handshake?
+
+        public init(handshake: Handshake? = nil) {
+            self.handshake = handshake
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case handshake = "Handshake"
+        }
+    }
+
+    public struct CreateOrganizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FeatureSet", required: false, type: .enum)
+        ]
+        /// Specifies the feature set supported by the new organization. Each feature set supports different levels of functionality.    CONSOLIDATED_BILLING: All member accounts have their bills consolidated to and paid by the master account. For more information, see Consolidated Billing in the AWS Organizations User Guide.    ALL: In addition to all the features supported by the consolidated billing feature set, the master account can also apply any type of policy to any member account in the organization. For more information, see All features in the AWS Organizations User Guide.  
+        public let featureSet: OrganizationFeatureSet?
+
+        public init(featureSet: OrganizationFeatureSet? = nil) {
+            self.featureSet = featureSet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case featureSet = "FeatureSet"
+        }
+    }
+
+    public struct DeclineHandshakeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HandshakeId", required: true, type: .string)
+        ]
+        /// The unique identifier (ID) of the handshake that you want to decline. You can get the ID from the ListHandshakesForAccount operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
+        public let handshakeId: String
+
+        public init(handshakeId: String) {
+            self.handshakeId = handshakeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case handshakeId = "HandshakeId"
+        }
+    }
+
+    public struct DescribeAccountRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string)
+        ]
+        /// The unique identifier (ID) of the AWS account that you want information about. You can get the ID from the ListAccounts or ListAccountsForParent operations. The regex pattern for an account ID string requires exactly 12 digits.
+        public let accountId: String
+
+        public init(accountId: String) {
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+        }
+    }
+
+    public struct ListCreateAccountStatusResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateAccountStatuses", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of objects with details about the requests. Certain elements, such as the accountId number, are present in the output only after the account has been successfully created.
+        public let createAccountStatuses: [CreateAccountStatus]?
+        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+        public let nextToken: String?
+
+        public init(createAccountStatuses: [CreateAccountStatus]? = nil, nextToken: String? = nil) {
+            self.createAccountStatuses = createAccountStatuses
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createAccountStatuses = "CreateAccountStatuses"
+            case nextToken = "NextToken"
         }
     }
 
@@ -332,131 +1563,155 @@ extension Organizations {
         }
     }
 
-    public struct ListAccountsResponse: AWSShape {
+    public struct CreateOrganizationalUnitResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Accounts", required: false, type: .list), 
+            AWSShapeMember(label: "OrganizationalUnit", required: false, type: .structure)
+        ]
+        /// A structure that contains details about the newly created OU.
+        public let organizationalUnit: OrganizationalUnit?
+
+        public init(organizationalUnit: OrganizationalUnit? = nil) {
+            self.organizationalUnit = organizationalUnit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationalUnit = "OrganizationalUnit"
+        }
+    }
+
+    public struct ListOrganizationalUnitsForParentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationalUnits", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// A list of objects in the organization.
-        public let accounts: [Account]?
+        /// A list of the OUs in the specified root or parent OU.
+        public let organizationalUnits: [OrganizationalUnit]?
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
 
-        public init(accounts: [Account]? = nil, nextToken: String? = nil) {
-            self.accounts = accounts
+        public init(organizationalUnits: [OrganizationalUnit]? = nil, nextToken: String? = nil) {
+            self.organizationalUnits = organizationalUnits
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accounts = "Accounts"
+            case organizationalUnits = "OrganizationalUnits"
             case nextToken = "NextToken"
         }
     }
 
-    public struct EnablePolicyTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyType", required: true, type: .enum), 
-            AWSShapeMember(label: "RootId", required: true, type: .string)
-        ]
-        /// The policy type that you want to enable.
-        public let policyType: PolicyType
-        /// The unique identifier (ID) of the root in which you want to enable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lower-case letters or digits.
-        public let rootId: String
-
-        public init(policyType: PolicyType, rootId: String) {
-            self.policyType = policyType
-            self.rootId = rootId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyType = "PolicyType"
-            case rootId = "RootId"
-        }
-    }
-
-    public struct CancelHandshakeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Handshake", required: false, type: .structure)
-        ]
-        /// A structure that contains details about the handshake that you canceled.
-        public let handshake: Handshake?
-
-        public init(handshake: Handshake? = nil) {
-            self.handshake = handshake
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case handshake = "Handshake"
-        }
-    }
-
-    public struct DescribeHandshakeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Handshake", required: false, type: .structure)
-        ]
-        /// A structure that contains information about the specified handshake.
-        public let handshake: Handshake?
-
-        public init(handshake: Handshake? = nil) {
-            self.handshake = handshake
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case handshake = "Handshake"
-        }
+    public enum OrganizationFeatureSet: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case consolidatedBilling = "CONSOLIDATED_BILLING"
+        public var description: String { return self.rawValue }
     }
 
     public struct PolicyTargetSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "TargetId", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string)
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// The friendly name of the policy target. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
-        public let name: String?
-        /// The type of the policy target.
-        public let `type`: TargetType?
-        /// The unique identifier (ID) of the policy target. The regex pattern for a target ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public let targetId: String?
         /// The Amazon Resource Name (ARN) of the policy target. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
+        /// The unique identifier (ID) of the policy target. The regex pattern for a target ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        public let targetId: String?
+        /// The type of the policy target.
+        public let `type`: TargetType?
+        /// The friendly name of the policy target. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
+        public let name: String?
 
-        public init(name: String? = nil, type: TargetType? = nil, targetId: String? = nil, arn: String? = nil) {
-            self.name = name
-            self.`type` = `type`
-            self.targetId = targetId
+        public init(arn: String? = nil, targetId: String? = nil, type: TargetType? = nil, name: String? = nil) {
             self.arn = arn
+            self.targetId = targetId
+            self.`type` = `type`
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case `type` = "Type"
-            case targetId = "TargetId"
             case arn = "Arn"
+            case targetId = "TargetId"
+            case `type` = "Type"
+            case name = "Name"
         }
     }
 
-    public enum PolicyTypeStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case pendingEnable = "PENDING_ENABLE"
-        case pendingDisable = "PENDING_DISABLE"
+    public enum AccountJoinedMethod: String, CustomStringConvertible, Codable {
+        case invited = "INVITED"
+        case created = "CREATED"
         public var description: String { return self.rawValue }
     }
 
-    public struct CreatePolicyResponse: AWSShape {
+    public struct Organization: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policy", required: false, type: .structure)
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "MasterAccountEmail", required: false, type: .string), 
+            AWSShapeMember(label: "MasterAccountArn", required: false, type: .string), 
+            AWSShapeMember(label: "MasterAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "AvailablePolicyTypes", required: false, type: .list), 
+            AWSShapeMember(label: "FeatureSet", required: false, type: .enum)
         ]
-        /// A structure that contains details about the newly created policy.
-        public let policy: Policy?
+        /// The Amazon Resource Name (ARN) of an organization. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
+        public let arn: String?
+        /// The unique identifier (ID) of an organization. The regex pattern for an organization ID string requires "o-" followed by from 10 to 32 lower-case letters or digits.
+        public let id: String?
+        /// The email address that is associated with the AWS account that is designated as the master account for the organization.
+        public let masterAccountEmail: String?
+        /// The Amazon Resource Name (ARN) of the account that is designated as the master account for the organization. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
+        public let masterAccountArn: String?
+        /// The unique identifier (ID) of the master account of an organization. The regex pattern for an account ID string requires exactly 12 digits.
+        public let masterAccountId: String?
+        /// A list of policy types that are enabled for this organization. For example, if your organization has all features enabled, then service control policies (SCPs) are included in the list.  Even if a policy type is shown as available in the organization, you can separately enable and disable them at the root level by using EnablePolicyType and DisablePolicyType. Use ListRoots to see the status of a policy type in that root. 
+        public let availablePolicyTypes: [PolicyTypeSummary]?
+        /// Specifies the functionality that currently is available to the organization. If set to "ALL", then all features are enabled and policies can be applied to accounts in the organization. If set to "CONSOLIDATED_BILLING", then only consolidated billing functionality is available. For more information, see Enabling All Features in Your Organization in the AWS Organizations User Guide.
+        public let featureSet: OrganizationFeatureSet?
 
-        public init(policy: Policy? = nil) {
-            self.policy = policy
+        public init(arn: String? = nil, id: String? = nil, masterAccountEmail: String? = nil, masterAccountArn: String? = nil, masterAccountId: String? = nil, availablePolicyTypes: [PolicyTypeSummary]? = nil, featureSet: OrganizationFeatureSet? = nil) {
+            self.arn = arn
+            self.id = id
+            self.masterAccountEmail = masterAccountEmail
+            self.masterAccountArn = masterAccountArn
+            self.masterAccountId = masterAccountId
+            self.availablePolicyTypes = availablePolicyTypes
+            self.featureSet = featureSet
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy = "Policy"
+            case arn = "Arn"
+            case id = "Id"
+            case masterAccountEmail = "MasterAccountEmail"
+            case masterAccountArn = "MasterAccountArn"
+            case masterAccountId = "MasterAccountId"
+            case availablePolicyTypes = "AvailablePolicyTypes"
+            case featureSet = "FeatureSet"
+        }
+    }
+
+    public struct OrganizationalUnit: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of this OU. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
+        public let arn: String?
+        /// The unique identifier (ID) associated with this OU. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
+        public let id: String?
+        /// The friendly name of this OU. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
+        public let name: String?
+
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case name = "Name"
         }
     }
 
@@ -476,163 +1731,193 @@ extension Organizations {
         }
     }
 
-    public struct HandshakeFilter: AWSShape {
+    public struct UpdateOrganizationalUnitResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionType", required: false, type: .enum), 
-            AWSShapeMember(label: "ParentHandshakeId", required: false, type: .string)
+            AWSShapeMember(label: "OrganizationalUnit", required: false, type: .structure)
         ]
-        /// Specifies the type of handshake action. If you specify ActionType, you cannot also specify ParentHandshakeId.
-        public let actionType: ActionType?
-        /// Specifies the parent handshake. Only used for handshake types that are a child of another type. If you specify ParentHandshakeId, you cannot also specify ActionType. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
-        public let parentHandshakeId: String?
+        /// A structure that contains the details about the specified OU, including its new name.
+        public let organizationalUnit: OrganizationalUnit?
 
-        public init(actionType: ActionType? = nil, parentHandshakeId: String? = nil) {
-            self.actionType = actionType
-            self.parentHandshakeId = parentHandshakeId
+        public init(organizationalUnit: OrganizationalUnit? = nil) {
+            self.organizationalUnit = organizationalUnit
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionType = "ActionType"
-            case parentHandshakeId = "ParentHandshakeId"
+            case organizationalUnit = "OrganizationalUnit"
         }
     }
 
-    public struct ListAccountsRequest: AWSShape {
+    public struct ListPoliciesForTargetResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+            AWSShapeMember(label: "Policies", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
+        /// The list of policies that match the criteria in the request.
+        public let policies: [PolicySummary]?
+        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
-        /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(policies: [PolicySummary]? = nil, nextToken: String? = nil) {
+            self.policies = policies
             self.nextToken = nextToken
-            self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
+            case policies = "Policies"
             case nextToken = "NextToken"
-            case maxResults = "MaxResults"
         }
     }
 
-    public enum AccountJoinedMethod: String, CustomStringConvertible, Codable {
-        case invited = "INVITED"
-        case created = "CREATED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListAccountsForParentRequest: AWSShape {
+    public struct CancelHandshakeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "ParentId", required: true, type: .string)
+            AWSShapeMember(label: "HandshakeId", required: true, type: .string)
         ]
-        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public let nextToken: String?
-        /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
-        /// The unique identifier (ID) for the parent root or organization unit (OU) whose accounts you want to list.
-        public let parentId: String
+        /// The unique identifier (ID) of the handshake that you want to cancel. You can get the ID from the ListHandshakesForOrganization operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
+        public let handshakeId: String
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, parentId: String) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.parentId = parentId
+        public init(handshakeId: String) {
+            self.handshakeId = handshakeId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case parentId = "ParentId"
+            case handshakeId = "HandshakeId"
         }
     }
 
-    public enum CreateAccountFailureReason: String, CustomStringConvertible, Codable {
-        case accountLimitExceeded = "ACCOUNT_LIMIT_EXCEEDED"
-        case emailAlreadyExists = "EMAIL_ALREADY_EXISTS"
-        case invalidAddress = "INVALID_ADDRESS"
-        case invalidEmail = "INVALID_EMAIL"
-        case concurrentAccountModification = "CONCURRENT_ACCOUNT_MODIFICATION"
-        case internalFailure = "INTERNAL_FAILURE"
+    public enum PolicyTypeStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case pendingEnable = "PENDING_ENABLE"
+        case pendingDisable = "PENDING_DISABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum OrganizationFeatureSet: String, CustomStringConvertible, Codable {
-        case all = "ALL"
-        case consolidatedBilling = "CONSOLIDATED_BILLING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreatePolicyRequest: AWSShape {
+    public struct DescribeHandshakeResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "Content", required: true, type: .string)
+            AWSShapeMember(label: "Handshake", required: false, type: .structure)
         ]
-        /// The friendly name to assign to the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
-        public let name: String
-        /// The type of policy to create.  In the current release, the only type of policy that you can create is a service control policy (SCP). 
-        public let `type`: PolicyType
-        /// An optional description to assign to the policy.
-        public let description: String
-        /// The policy content to add to the new policy. For example, if you create a service control policy (SCP), this string must be JSON text that specifies the permissions that admins in attached accounts can delegate to their users, groups, and roles. For more information about the SCP syntax, see Service Control Policy Syntax in the AWS Organizations User Guide.
-        public let content: String
+        /// A structure that contains information about the specified handshake.
+        public let handshake: Handshake?
 
-        public init(name: String, type: PolicyType, description: String, content: String) {
+        public init(handshake: Handshake? = nil) {
+            self.handshake = handshake
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case handshake = "Handshake"
+        }
+    }
+
+    public enum HandshakeConstraintViolationExceptionReason: String, CustomStringConvertible, Codable {
+        case accountNumberLimitExceeded = "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
+        case handshakeRateLimitExceeded = "HANDSHAKE_RATE_LIMIT_EXCEEDED"
+        case alreadyInAnOrganization = "ALREADY_IN_AN_ORGANIZATION"
+        case organizationAlreadyHasAllFeatures = "ORGANIZATION_ALREADY_HAS_ALL_FEATURES"
+        case inviteDisabledDuringEnableAllFeatures = "INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES"
+        case paymentInstrumentRequired = "PAYMENT_INSTRUMENT_REQUIRED"
+        case organizationFromDifferentSellerOfRecord = "ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD"
+        case organizationMembershipChangeRateLimitExceeded = "ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeletePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyId", required: true, type: .string)
+        ]
+        /// The unique identifier (ID) of the policy that you want to delete. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
+        public let policyId: String
+
+        public init(policyId: String) {
+            self.policyId = policyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyId = "PolicyId"
+        }
+    }
+
+    public struct UpdateOrganizationalUnitRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationalUnitId", required: true, type: .string)
+        ]
+        /// The new name that you want to assign to the OU. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
+        public let name: String?
+        /// The unique identifier (ID) of the OU that you want to rename. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
+        public let organizationalUnitId: String
+
+        public init(name: String? = nil, organizationalUnitId: String) {
             self.name = name
-            self.`type` = `type`
-            self.description = description
-            self.content = content
+            self.organizationalUnitId = organizationalUnitId
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case `type` = "Type"
-            case description = "Description"
-            case content = "Content"
+            case organizationalUnitId = "OrganizationalUnitId"
         }
     }
 
-    public struct CreateAccountRequest: AWSShape {
+    public struct ListHandshakesForOrganizationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IamUserAccessToBilling", required: false, type: .enum), 
-            AWSShapeMember(label: "AccountName", required: true, type: .string), 
-            AWSShapeMember(label: "Email", required: true, type: .string), 
-            AWSShapeMember(label: "RoleName", required: false, type: .string)
+            AWSShapeMember(label: "Handshakes", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// If set to ALLOW, the new account enables IAM users to access account billing information if they have the required permissions. If set to DENY, then only the root user of the new account can access account billing information. For more information, see Activating Access to the Billing and Cost Management Console in the AWS Billing and Cost Management User Guide. If you do not specify this parameter, the value defaults to ALLOW, and IAM users and roles with the required permissions can access billing information for the new account.
-        public let iamUserAccessToBilling: IAMUserAccessToBilling?
-        /// The friendly name of the member account.
-        public let accountName: String
-        /// The email address of the owner to assign to the new member account. This email address must not already be associated with another AWS account. You must use a valid email address to complete account creation. You cannot access the root user of the account or remove an account that was created with an invalid email address.
-        public let email: String
-        /// (Optional) The name of an IAM role that Organizations automatically preconfigures in the new member account. This role trusts the master account, allowing users in the master account to assume the role, as permitted by the master account administrator. The role has administrator permissions in the new member account. If you do not specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see Accessing and Administering the Member Accounts in Your Organization in the AWS Organizations User Guide, and steps 2 and 3 in Tutorial: Delegate Access Across AWS Accounts Using IAM Roles in the IAM User Guide. The regex pattern that is used to validate this parameter is a string of characters that can consist of uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
-        public let roleName: String?
+        /// A list of Handshake objects with details about each of the handshakes that are associated with an organization.
+        public let handshakes: [Handshake]?
+        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+        public let nextToken: String?
 
-        public init(iamUserAccessToBilling: IAMUserAccessToBilling? = nil, accountName: String, email: String, roleName: String? = nil) {
-            self.iamUserAccessToBilling = iamUserAccessToBilling
-            self.accountName = accountName
-            self.email = email
-            self.roleName = roleName
+        public init(handshakes: [Handshake]? = nil, nextToken: String? = nil) {
+            self.handshakes = handshakes
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iamUserAccessToBilling = "IamUserAccessToBilling"
-            case accountName = "AccountName"
-            case email = "Email"
-            case roleName = "RoleName"
+            case handshakes = "Handshakes"
+            case nextToken = "NextToken"
         }
     }
 
-    public struct AcceptHandshakeResponse: AWSShape {
+    public struct CreatePolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .structure)
+        ]
+        /// A structure that contains details about the newly created policy.
+        public let policy: Policy?
+
+        public init(policy: Policy? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
+    public struct DescribeOrganizationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Organization", required: false, type: .structure)
+        ]
+        /// A structure that contains information about the organization.
+        public let organization: Organization?
+
+        public init(organization: Organization? = nil) {
+            self.organization = organization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organization = "Organization"
+        }
+    }
+
+    public struct EnableAllFeaturesRequest: AWSShape {
+
+    }
+
+    public struct EnableAllFeaturesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Handshake", required: false, type: .structure)
         ]
-        /// A structure that contains details about the accepted handshake.
+        /// A structure that contains details about the handshake created to support this request to enable all features in the organization.
         public let handshake: Handshake?
 
         public init(handshake: Handshake? = nil) {
@@ -665,894 +1950,19 @@ extension Organizations {
         }
     }
 
-    public struct Handshake: AWSShape {
+    public struct EnableAWSServiceAccessRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "ExpirationTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Action", required: false, type: .enum), 
-            AWSShapeMember(label: "Parties", required: false, type: .list), 
-            AWSShapeMember(label: "Resources", required: false, type: .list), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "RequestedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Id", required: false, type: .string)
+            AWSShapeMember(label: "ServicePrincipal", required: true, type: .string)
         ]
-        /// The current state of the handshake. Use the state to trace the flow of the handshake through the process from its creation to its acceptance. The meaning of each of the valid values is as follows:    REQUESTED: This handshake was sent to multiple recipients (applicable to only some handshake types) and not all recipients have responded yet. The request stays in this state until all recipients respond.    OPEN: This handshake was sent to multiple recipients (applicable to only some policy types) and all recipients have responded, allowing the originator to complete the handshake action.    CANCELED: This handshake is no longer active because it was canceled by the originating account.    ACCEPTED: This handshake is complete because it has been accepted by the recipient.    DECLINED: This handshake is no longer active because it was declined by the recipient account.    EXPIRED: This handshake is no longer active because the originator did not receive a response of any kind from the recipient before the expiration time (15 days).  
-        public let state: HandshakeState?
-        /// The date and time that the handshake expires. If the recipient of the handshake request fails to respond before the specified date and time, the handshake becomes inactive and is no longer valid.
-        public let expirationTimestamp: TimeStamp?
-        /// The type of handshake, indicating what action occurs when the recipient accepts the handshake. The following handshake types are supported:    INVITE: This type of handshake represents a request to join an organization. It is always sent from the master account to only non-member accounts.    ENABLE_ALL_FEATURES: This type of handshake represents a request to enable all features in an organization. It is always sent from the master account to only invited member accounts. Created accounts do not receive this because those accounts were created by the organization's master account and approval is inferred.    APPROVE_ALL_FEATURES: This type of handshake is sent from the Organizations service when all member accounts have approved the ENABLE_ALL_FEATURES invitation. It is sent only to the master account and signals the master that it can finalize the process to enable all features.  
-        public let action: ActionType?
-        /// Information about the two accounts that are participating in the handshake.
-        public let parties: [HandshakeParty]?
-        /// Additional information that is needed to process the handshake.
-        public let resources: [HandshakeResource]?
-        /// The Amazon Resource Name (ARN) of a handshake. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
-        public let arn: String?
-        /// The date and time that the handshake request was made.
-        public let requestedTimestamp: TimeStamp?
-        /// The unique identifier (ID) of a handshake. The originating account creates the ID when it initiates the handshake. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
-        public let id: String?
+        /// The service principal name of the AWS service for which you want to enable integration with your organization. This is typically in the form of a URL, such as  service-abbreviation.amazonaws.com.
+        public let servicePrincipal: String
 
-        public init(state: HandshakeState? = nil, expirationTimestamp: TimeStamp? = nil, action: ActionType? = nil, parties: [HandshakeParty]? = nil, resources: [HandshakeResource]? = nil, arn: String? = nil, requestedTimestamp: TimeStamp? = nil, id: String? = nil) {
-            self.state = state
-            self.expirationTimestamp = expirationTimestamp
-            self.action = action
-            self.parties = parties
-            self.resources = resources
-            self.arn = arn
-            self.requestedTimestamp = requestedTimestamp
-            self.id = id
+        public init(servicePrincipal: String) {
+            self.servicePrincipal = servicePrincipal
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state = "State"
-            case expirationTimestamp = "ExpirationTimestamp"
-            case action = "Action"
-            case parties = "Parties"
-            case resources = "Resources"
-            case arn = "Arn"
-            case requestedTimestamp = "RequestedTimestamp"
-            case id = "Id"
-        }
-    }
-
-    public struct ListRootsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Roots", required: false, type: .list)
-        ]
-        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public let nextToken: String?
-        /// A list of roots that are defined in an organization.
-        public let roots: [Root]?
-
-        public init(nextToken: String? = nil, roots: [Root]? = nil) {
-            self.nextToken = nextToken
-            self.roots = roots
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case roots = "Roots"
-        }
-    }
-
-    public struct Policy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicySummary", required: false, type: .structure), 
-            AWSShapeMember(label: "Content", required: false, type: .string)
-        ]
-        /// A structure that contains additional details about the policy.
-        public let policySummary: PolicySummary?
-        /// The text content of the policy.
-        public let content: String?
-
-        public init(policySummary: PolicySummary? = nil, content: String? = nil) {
-            self.policySummary = policySummary
-            self.content = content
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policySummary = "PolicySummary"
-            case content = "Content"
-        }
-    }
-
-    public enum HandshakePartyType: String, CustomStringConvertible, Codable {
-        case account = "ACCOUNT"
-        case organization = "ORGANIZATION"
-        case email = "EMAIL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyId", required: true, type: .string)
-        ]
-        /// The unique identifier (ID) of the policy that you want details about. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
-        public let policyId: String
-
-        public init(policyId: String) {
-            self.policyId = policyId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyId = "PolicyId"
-        }
-    }
-
-    public struct CreateOrganizationalUnitRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParentId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The unique identifier (ID) of the parent root or OU in which you want to create the new OU. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public let parentId: String
-        /// The friendly name to assign to the new OU.
-        public let name: String
-
-        public init(parentId: String, name: String) {
-            self.parentId = parentId
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case parentId = "ParentId"
-            case name = "Name"
-        }
-    }
-
-    public struct ListAWSServiceAccessForOrganizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public let nextToken: String?
-        /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct ListTargetsForPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Targets", required: false, type: .list)
-        ]
-        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public let nextToken: String?
-        /// A list of structures, each of which contains details about one of the entities to which the specified policy is attached.
-        public let targets: [PolicyTargetSummary]?
-
-        public init(nextToken: String? = nil, targets: [PolicyTargetSummary]? = nil) {
-            self.nextToken = nextToken
-            self.targets = targets
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case targets = "Targets"
-        }
-    }
-
-    public enum HandshakeConstraintViolationExceptionReason: String, CustomStringConvertible, Codable {
-        case accountNumberLimitExceeded = "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
-        case handshakeRateLimitExceeded = "HANDSHAKE_RATE_LIMIT_EXCEEDED"
-        case alreadyInAnOrganization = "ALREADY_IN_AN_ORGANIZATION"
-        case organizationAlreadyHasAllFeatures = "ORGANIZATION_ALREADY_HAS_ALL_FEATURES"
-        case inviteDisabledDuringEnableAllFeatures = "INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES"
-        case paymentInstrumentRequired = "PAYMENT_INSTRUMENT_REQUIRED"
-        case organizationFromDifferentSellerOfRecord = "ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD"
-        case organizationMembershipChangeRateLimitExceeded = "ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeclineHandshakeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HandshakeId", required: true, type: .string)
-        ]
-        /// The unique identifier (ID) of the handshake that you want to decline. You can get the ID from the ListHandshakesForAccount operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
-        public let handshakeId: String
-
-        public init(handshakeId: String) {
-            self.handshakeId = handshakeId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case handshakeId = "HandshakeId"
-        }
-    }
-
-    public struct ListPoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: true, type: .enum), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Specifies the type of policy that you want to include in the response.
-        public let filter: PolicyType
-        /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
-        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public let nextToken: String?
-
-        public init(filter: PolicyType, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.filter = filter
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filter = "Filter"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListPoliciesForTargetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "TargetId", required: true, type: .string), 
-            AWSShapeMember(label: "Filter", required: true, type: .enum)
-        ]
-        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public let nextToken: String?
-        /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
-        /// The unique identifier (ID) of the root, organizational unit, or account whose policies you want to list. The regex pattern for a target ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public let targetId: String
-        /// The type of policy that you want to include in the returned list.
-        public let filter: PolicyType
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, targetId: String, filter: PolicyType) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.targetId = targetId
-            self.filter = filter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case targetId = "TargetId"
-            case filter = "Filter"
-        }
-    }
-
-    public enum HandshakeResourceType: String, CustomStringConvertible, Codable {
-        case account = "ACCOUNT"
-        case organization = "ORGANIZATION"
-        case organizationFeatureSet = "ORGANIZATION_FEATURE_SET"
-        case email = "EMAIL"
-        case masterEmail = "MASTER_EMAIL"
-        case masterName = "MASTER_NAME"
-        case notes = "NOTES"
-        case parentHandshake = "PARENT_HANDSHAKE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PolicySummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "AwsManaged", required: false, type: .boolean), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The friendly name of the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
-        public let name: String?
-        /// The Amazon Resource Name (ARN) of the policy. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
-        public let arn: String?
-        /// The type of policy.
-        public let `type`: PolicyType?
-        /// A boolean value that indicates whether the specified policy is an AWS managed policy. If true, then you can attach the policy to roots, OUs, or accounts, but you cannot edit it.
-        public let awsManaged: Bool?
-        /// The unique identifier (ID) of the policy. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
-        public let id: String?
-        /// The description of the policy.
-        public let description: String?
-
-        public init(name: String? = nil, arn: String? = nil, type: PolicyType? = nil, awsManaged: Bool? = nil, id: String? = nil, description: String? = nil) {
-            self.name = name
-            self.arn = arn
-            self.`type` = `type`
-            self.awsManaged = awsManaged
-            self.id = id
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case arn = "Arn"
-            case `type` = "Type"
-            case awsManaged = "AwsManaged"
-            case id = "Id"
-            case description = "Description"
-        }
-    }
-
-    public struct MoveAccountRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: true, type: .string), 
-            AWSShapeMember(label: "DestinationParentId", required: true, type: .string), 
-            AWSShapeMember(label: "SourceParentId", required: true, type: .string)
-        ]
-        /// The unique identifier (ID) of the account that you want to move. The regex pattern for an account ID string requires exactly 12 digits.
-        public let accountId: String
-        /// The unique identifier (ID) of the root or organizational unit that you want to move the account to. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public let destinationParentId: String
-        /// The unique identifier (ID) of the root or organizational unit that you want to move the account from. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public let sourceParentId: String
-
-        public init(accountId: String, destinationParentId: String, sourceParentId: String) {
-            self.accountId = accountId
-            self.destinationParentId = destinationParentId
-            self.sourceParentId = sourceParentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "AccountId"
-            case destinationParentId = "DestinationParentId"
-            case sourceParentId = "SourceParentId"
-        }
-    }
-
-    public struct DeletePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyId", required: true, type: .string)
-        ]
-        /// The unique identifier (ID) of the policy that you want to delete. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
-        public let policyId: String
-
-        public init(policyId: String) {
-            self.policyId = policyId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyId = "PolicyId"
-        }
-    }
-
-    public struct ListChildrenRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ParentId", required: true, type: .string), 
-            AWSShapeMember(label: "ChildType", required: true, type: .enum), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public let nextToken: String?
-        /// The unique identifier (ID) for the parent root or OU whose children you want to list. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public let parentId: String
-        /// Filters the output to include only the specified child type.
-        public let childType: ChildType
-        /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, parentId: String, childType: ChildType, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.parentId = parentId
-            self.childType = childType
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case parentId = "ParentId"
-            case childType = "ChildType"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct DescribeOrganizationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Organization", required: false, type: .structure)
-        ]
-        /// A structure that contains information about the organization.
-        public let organization: Organization?
-
-        public init(organization: Organization? = nil) {
-            self.organization = organization
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organization = "Organization"
-        }
-    }
-
-    public struct ListChildrenResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Children", required: false, type: .list)
-        ]
-        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public let nextToken: String?
-        /// The list of children of the specified parent container.
-        public let children: [Child]?
-
-        public init(nextToken: String? = nil, children: [Child]? = nil) {
-            self.nextToken = nextToken
-            self.children = children
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case children = "Children"
-        }
-    }
-
-    public struct ListParentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Parents", required: false, type: .list)
-        ]
-        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public let nextToken: String?
-        /// A list of parents for the specified child account or OU.
-        public let parents: [Parent]?
-
-        public init(nextToken: String? = nil, parents: [Parent]? = nil) {
-            self.nextToken = nextToken
-            self.parents = parents
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case parents = "Parents"
-        }
-    }
-
-    public struct UpdatePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policy", required: false, type: .structure)
-        ]
-        /// A structure that contains details about the updated policy, showing the requested changes.
-        public let policy: Policy?
-
-        public init(policy: Policy? = nil) {
-            self.policy = policy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policy = "Policy"
-        }
-    }
-
-    public struct DescribeAccountRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: true, type: .string)
-        ]
-        /// The unique identifier (ID) of the AWS account that you want information about. You can get the ID from the ListAccounts or ListAccountsForParent operations. The regex pattern for an account ID string requires exactly 12 digits.
-        public let accountId: String
-
-        public init(accountId: String) {
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "AccountId"
-        }
-    }
-
-    public struct EnableAllFeaturesRequest: AWSShape {
-
-    }
-
-    public struct UpdatePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyId", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Content", required: false, type: .string)
-        ]
-        /// If provided, the new name for the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
-        public let name: String?
-        /// The unique identifier (ID) of the policy that you want to update. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
-        public let policyId: String
-        /// If provided, the new description for the policy.
-        public let description: String?
-        /// If provided, the new content for the policy. The text must be correctly formatted JSON that complies with the syntax for the policy's type. For more information, see Service Control Policy Syntax in the AWS Organizations User Guide.
-        public let content: String?
-
-        public init(name: String? = nil, policyId: String, description: String? = nil, content: String? = nil) {
-            self.name = name
-            self.policyId = policyId
-            self.description = description
-            self.content = content
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case policyId = "PolicyId"
-            case description = "Description"
-            case content = "Content"
-        }
-    }
-
-    public enum AccountStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case suspended = "SUSPENDED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Parent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
-        /// The unique identifier (ID) of the parent entity. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public let id: String?
-        /// The type of the parent entity.
-        public let `type`: ParentType?
-
-        public init(id: String? = nil, type: ParentType? = nil) {
-            self.id = id
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case `type` = "Type"
-        }
-    }
-
-    public enum CreateAccountState: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ParentType: String, CustomStringConvertible, Codable {
-        case root = "ROOT"
-        case organizationalUnit = "ORGANIZATIONAL_UNIT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Organization: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MasterAccountArn", required: false, type: .string), 
-            AWSShapeMember(label: "MasterAccountEmail", required: false, type: .string), 
-            AWSShapeMember(label: "AvailablePolicyTypes", required: false, type: .list), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "MasterAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "FeatureSet", required: false, type: .enum)
-        ]
-        /// The Amazon Resource Name (ARN) of the account that is designated as the master account for the organization. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
-        public let masterAccountArn: String?
-        /// The email address that is associated with the AWS account that is designated as the master account for the organization.
-        public let masterAccountEmail: String?
-        /// A list of policy types that are enabled for this organization. For example, if your organization has all features enabled, then service control policies (SCPs) are included in the list.  Even if a policy type is shown as available in the organization, you can separately enable and disable them at the root level by using EnablePolicyType and DisablePolicyType. Use ListRoots to see the status of a policy type in that root. 
-        public let availablePolicyTypes: [PolicyTypeSummary]?
-        /// The Amazon Resource Name (ARN) of an organization. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
-        public let arn: String?
-        /// The unique identifier (ID) of the master account of an organization. The regex pattern for an account ID string requires exactly 12 digits.
-        public let masterAccountId: String?
-        /// The unique identifier (ID) of an organization. The regex pattern for an organization ID string requires "o-" followed by from 10 to 32 lower-case letters or digits.
-        public let id: String?
-        /// Specifies the functionality that currently is available to the organization. If set to "ALL", then all features are enabled and policies can be applied to accounts in the organization. If set to "CONSOLIDATED_BILLING", then only consolidated billing functionality is available. For more information, see Enabling All Features in Your Organization in the AWS Organizations User Guide.
-        public let featureSet: OrganizationFeatureSet?
-
-        public init(masterAccountArn: String? = nil, masterAccountEmail: String? = nil, availablePolicyTypes: [PolicyTypeSummary]? = nil, arn: String? = nil, masterAccountId: String? = nil, id: String? = nil, featureSet: OrganizationFeatureSet? = nil) {
-            self.masterAccountArn = masterAccountArn
-            self.masterAccountEmail = masterAccountEmail
-            self.availablePolicyTypes = availablePolicyTypes
-            self.arn = arn
-            self.masterAccountId = masterAccountId
-            self.id = id
-            self.featureSet = featureSet
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case masterAccountArn = "MasterAccountArn"
-            case masterAccountEmail = "MasterAccountEmail"
-            case availablePolicyTypes = "AvailablePolicyTypes"
-            case arn = "Arn"
-            case masterAccountId = "MasterAccountId"
-            case id = "Id"
-            case featureSet = "FeatureSet"
-        }
-    }
-
-    public struct ListPoliciesForTargetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Policies", required: false, type: .list)
-        ]
-        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public let nextToken: String?
-        /// The list of policies that match the criteria in the request.
-        public let policies: [PolicySummary]?
-
-        public init(nextToken: String? = nil, policies: [PolicySummary]? = nil) {
-            self.nextToken = nextToken
-            self.policies = policies
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case policies = "Policies"
-        }
-    }
-
-    public struct ListRootsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public let nextToken: String?
-        /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct ListParentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "ChildId", required: true, type: .string)
-        ]
-        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public let nextToken: String?
-        /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
-        /// The unique identifier (ID) of the OU or account whose parent containers you want to list. Do not specify a root. The regex pattern for a child ID string requires one of the following:   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public let childId: String
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, childId: String) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.childId = childId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case childId = "ChildId"
-        }
-    }
-
-    public struct DeclineHandshakeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Handshake", required: false, type: .structure)
-        ]
-        /// A structure that contains details about the declined handshake. The state is updated to show the value DECLINED.
-        public let handshake: Handshake?
-
-        public init(handshake: Handshake? = nil) {
-            self.handshake = handshake
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case handshake = "Handshake"
-        }
-    }
-
-    public struct DescribeOrganizationalUnitResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationalUnit", required: false, type: .structure)
-        ]
-        /// A structure that contains details about the specified OU.
-        public let organizationalUnit: OrganizationalUnit?
-
-        public init(organizationalUnit: OrganizationalUnit? = nil) {
-            self.organizationalUnit = organizationalUnit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationalUnit = "OrganizationalUnit"
-        }
-    }
-
-    public enum TargetType: String, CustomStringConvertible, Codable {
-        case account = "ACCOUNT"
-        case organizationalUnit = "ORGANIZATIONAL_UNIT"
-        case root = "ROOT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RemoveAccountFromOrganizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: true, type: .string)
-        ]
-        /// The unique identifier (ID) of the member account that you want to remove from the organization. The regex pattern for an account ID string requires exactly 12 digits.
-        public let accountId: String
-
-        public init(accountId: String) {
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "AccountId"
-        }
-    }
-
-    public struct Root: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyTypes", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string)
-        ]
-        /// The types of policies that are currently enabled for the root and therefore can be attached to the root or to its OUs or accounts.  Even if a policy type is shown as available in the organization, you can separately enable and disable them at the root level by using EnablePolicyType and DisablePolicyType. Use DescribeOrganization to see the availability of the policy types in that organization. 
-        public let policyTypes: [PolicyTypeSummary]?
-        /// The friendly name of the root. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
-        public let name: String?
-        /// The Amazon Resource Name (ARN) of the root. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
-        public let arn: String?
-        /// The unique identifier (ID) for the root. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lower-case letters or digits.
-        public let id: String?
-
-        public init(policyTypes: [PolicyTypeSummary]? = nil, name: String? = nil, arn: String? = nil, id: String? = nil) {
-            self.policyTypes = policyTypes
-            self.name = name
-            self.arn = arn
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyTypes = "PolicyTypes"
-            case name = "Name"
-            case arn = "Arn"
-            case id = "Id"
-        }
-    }
-
-    public enum ConstraintViolationExceptionReason: String, CustomStringConvertible, Codable {
-        case accountNumberLimitExceeded = "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
-        case handshakeRateLimitExceeded = "HANDSHAKE_RATE_LIMIT_EXCEEDED"
-        case ouNumberLimitExceeded = "OU_NUMBER_LIMIT_EXCEEDED"
-        case ouDepthLimitExceeded = "OU_DEPTH_LIMIT_EXCEEDED"
-        case policyNumberLimitExceeded = "POLICY_NUMBER_LIMIT_EXCEEDED"
-        case maxPolicyTypeAttachmentLimitExceeded = "MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
-        case minPolicyTypeAttachmentLimitExceeded = "MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
-        case accountCannotLeaveOrganization = "ACCOUNT_CANNOT_LEAVE_ORGANIZATION"
-        case accountCannotLeaveWithoutEula = "ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA"
-        case accountCannotLeaveWithoutPhoneVerification = "ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION"
-        case masterAccountPaymentInstrumentRequired = "MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED"
-        case memberAccountPaymentInstrumentRequired = "MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED"
-        case accountCreationRateLimitExceeded = "ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED"
-        case masterAccountAddressDoesNotMatchMarketplace = "MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE"
-        case masterAccountMissingContactInfo = "MASTER_ACCOUNT_MISSING_CONTACT_INFO"
-        case organizationNotInAllFeaturesMode = "ORGANIZATION_NOT_IN_ALL_FEATURES_MODE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListTargetsForPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The unique identifier (ID) of the policy for which you want to know its attachments. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
-        public let policyId: String
-        /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
-        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public let nextToken: String?
-
-        public init(policyId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.policyId = policyId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyId = "PolicyId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct AcceptHandshakeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HandshakeId", required: true, type: .string)
-        ]
-        /// The unique identifier (ID) of the handshake that you want to accept. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
-        public let handshakeId: String
-
-        public init(handshakeId: String) {
-            self.handshakeId = handshakeId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case handshakeId = "HandshakeId"
-        }
-    }
-
-    public struct CreateOrganizationalUnitResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationalUnit", required: false, type: .structure)
-        ]
-        /// A structure that contains details about the newly created OU.
-        public let organizationalUnit: OrganizationalUnit?
-
-        public init(organizationalUnit: OrganizationalUnit? = nil) {
-            self.organizationalUnit = organizationalUnit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationalUnit = "OrganizationalUnit"
-        }
-    }
-
-    public struct ListPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Policies", required: false, type: .list)
-        ]
-        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public let nextToken: String?
-        /// A list of policies that match the filter criteria in the request. The output list does not include the policy contents. To see the content for a policy, see DescribePolicy.
-        public let policies: [PolicySummary]?
-
-        public init(nextToken: String? = nil, policies: [PolicySummary]? = nil) {
-            self.nextToken = nextToken
-            self.policies = policies
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case policies = "Policies"
-        }
-    }
-
-    public struct AttachPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyId", required: true, type: .string), 
-            AWSShapeMember(label: "TargetId", required: true, type: .string)
-        ]
-        /// The unique identifier (ID) of the policy that you want to attach to the target. You can get the ID for the policy by calling the ListPolicies operation. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
-        public let policyId: String
-        /// The unique identifier (ID) of the root, OU, or account that you want to attach the policy to. You can get the ID by calling the ListRoots, ListOrganizationalUnitsForParent, or ListAccounts operations. The regex pattern for a target ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public let targetId: String
-
-        public init(policyId: String, targetId: String) {
-            self.policyId = policyId
-            self.targetId = targetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyId = "PolicyId"
-            case targetId = "TargetId"
-        }
-    }
-
-    public struct CreateAccountResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateAccountStatus", required: false, type: .structure)
-        ]
-        /// A structure that contains details about the request to create an account. This response structure might not be fully populated when you first receive it because account creation is an asynchronous process. You can pass the returned CreateAccountStatus ID as a parameter to  DescribeCreateAccountStatus  to get status about the progress of the request at later times. 
-        public let createAccountStatus: CreateAccountStatus?
-
-        public init(createAccountStatus: CreateAccountStatus? = nil) {
-            self.createAccountStatus = createAccountStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createAccountStatus = "CreateAccountStatus"
+            case servicePrincipal = "ServicePrincipal"
         }
     }
 
@@ -1572,470 +1982,20 @@ extension Organizations {
         }
     }
 
-    public struct ListAccountsForParentResponse: AWSShape {
+    public struct ListPoliciesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Accounts", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of the accounts in the specified root or OU.
-        public let accounts: [Account]?
-        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public let nextToken: String?
-
-        public init(accounts: [Account]? = nil, nextToken: String? = nil) {
-            self.accounts = accounts
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accounts = "Accounts"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CancelHandshakeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HandshakeId", required: true, type: .string)
-        ]
-        /// The unique identifier (ID) of the handshake that you want to cancel. You can get the ID from the ListHandshakesForOrganization operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
-        public let handshakeId: String
-
-        public init(handshakeId: String) {
-            self.handshakeId = handshakeId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case handshakeId = "HandshakeId"
-        }
-    }
-
-    public struct ListHandshakesForAccountResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Handshakes", required: false, type: .list)
-        ]
-        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public let nextToken: String?
-        /// A list of Handshake objects with details about each of the handshakes that is associated with the specified account.
-        public let handshakes: [Handshake]?
-
-        public init(nextToken: String? = nil, handshakes: [Handshake]? = nil) {
-            self.nextToken = nextToken
-            self.handshakes = handshakes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case handshakes = "Handshakes"
-        }
-    }
-
-    public struct ListHandshakesForOrganizationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Handshakes", required: false, type: .list)
-        ]
-        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public let nextToken: String?
-        /// A list of Handshake objects with details about each of the handshakes that are associated with an organization.
-        public let handshakes: [Handshake]?
-
-        public init(nextToken: String? = nil, handshakes: [Handshake]? = nil) {
-            self.nextToken = nextToken
-            self.handshakes = handshakes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case handshakes = "Handshakes"
-        }
-    }
-
-    public enum ChildType: String, CustomStringConvertible, Codable {
-        case account = "ACCOUNT"
-        case organizationalUnit = "ORGANIZATIONAL_UNIT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PolicyTypeSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
-        /// The name of the policy type.
-        public let `type`: PolicyType?
-        /// The status of the policy type as it relates to the associated root. To attach a policy of the specified type to a root or to an OU or account in that root, it must be available in the organization and enabled for that root.
-        public let status: PolicyTypeStatus?
-
-        public init(type: PolicyType? = nil, status: PolicyTypeStatus? = nil) {
-            self.`type` = `type`
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case status = "Status"
-        }
-    }
-
-    public struct ListOrganizationalUnitsForParentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationalUnits", required: false, type: .list)
-        ]
-        /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public let nextToken: String?
-        /// A list of the OUs in the specified root or parent OU.
-        public let organizationalUnits: [OrganizationalUnit]?
-
-        public init(nextToken: String? = nil, organizationalUnits: [OrganizationalUnit]? = nil) {
-            self.nextToken = nextToken
-            self.organizationalUnits = organizationalUnits
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case organizationalUnits = "OrganizationalUnits"
-        }
-    }
-
-    public enum HandshakeState: String, CustomStringConvertible, Codable {
-        case requested = "REQUESTED"
-        case open = "OPEN"
-        case canceled = "CANCELED"
-        case accepted = "ACCEPTED"
-        case declined = "DECLINED"
-        case expired = "EXPIRED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ActionType: String, CustomStringConvertible, Codable {
-        case invite = "INVITE"
-        case enableAllFeatures = "ENABLE_ALL_FEATURES"
-        case approveAllFeatures = "APPROVE_ALL_FEATURES"
-        case addOrganizationsServiceLinkedRole = "ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Account: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JoinedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Email", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "JoinedMethod", required: false, type: .enum)
-        ]
-        /// The date the account became a part of the organization.
-        public let joinedTimestamp: TimeStamp?
-        /// The status of the account in the organization.
-        public let status: AccountStatus?
-        /// The Amazon Resource Name (ARN) of the account. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
-        public let arn: String?
-        /// The email address associated with the AWS account. The regex pattern for this parameter is a string of characters that represents a standard Internet email address.
-        public let email: String?
-        /// The friendly name of the account. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
-        public let name: String?
-        /// The unique identifier (ID) of the account. The regex pattern for an account ID string requires exactly 12 digits.
-        public let id: String?
-        /// The method by which the account joined the organization.
-        public let joinedMethod: AccountJoinedMethod?
-
-        public init(joinedTimestamp: TimeStamp? = nil, status: AccountStatus? = nil, arn: String? = nil, email: String? = nil, name: String? = nil, id: String? = nil, joinedMethod: AccountJoinedMethod? = nil) {
-            self.joinedTimestamp = joinedTimestamp
-            self.status = status
-            self.arn = arn
-            self.email = email
-            self.name = name
-            self.id = id
-            self.joinedMethod = joinedMethod
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case joinedTimestamp = "JoinedTimestamp"
-            case status = "Status"
-            case arn = "Arn"
-            case email = "Email"
-            case name = "Name"
-            case id = "Id"
-            case joinedMethod = "JoinedMethod"
-        }
-    }
-
-    public struct DescribeCreateAccountStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateAccountRequestId", required: true, type: .string)
-        ]
-        /// Specifies the operationId that uniquely identifies the request. You can get the ID from the response to an earlier CreateAccount request, or from the ListCreateAccountStatus operation. The regex pattern for an create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
-        public let createAccountRequestId: String
-
-        public init(createAccountRequestId: String) {
-            self.createAccountRequestId = createAccountRequestId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createAccountRequestId = "CreateAccountRequestId"
-        }
-    }
-
-    public struct DescribeCreateAccountStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateAccountStatus", required: false, type: .structure)
-        ]
-        /// A structure that contains the current status of an account creation request.
-        public let createAccountStatus: CreateAccountStatus?
-
-        public init(createAccountStatus: CreateAccountStatus? = nil) {
-            self.createAccountStatus = createAccountStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createAccountStatus = "CreateAccountStatus"
-        }
-    }
-
-    public struct InviteAccountToOrganizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Notes", required: false, type: .string), 
-            AWSShapeMember(label: "Target", required: true, type: .structure)
-        ]
-        /// Additional information that you want to include in the generated email to the recipient account owner.
-        public let notes: String?
-        /// The identifier (ID) of the AWS account that you want to invite to join your organization. This is a JSON object that contains the following elements:   { "Type": "ACCOUNT", "Id": "&lt; account id number &gt;" }  If you use the AWS CLI, you can submit this as a single string, similar to the following example:  --target Id=123456789012,Type=ACCOUNT  If you specify "Type": "ACCOUNT", then you must provide the AWS account ID number as the Id. If you specify "Type": "EMAIL", then you must specify the email address that is associated with the account.  --target Id=bill@example.com,Type=EMAIL 
-        public let target: HandshakeParty
-
-        public init(notes: String? = nil, target: HandshakeParty) {
-            self.notes = notes
-            self.target = target
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notes = "Notes"
-            case target = "Target"
-        }
-    }
-
-    public struct DescribePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policy", required: false, type: .structure)
-        ]
-        /// A structure that contains details about the specified policy.
-        public let policy: Policy?
-
-        public init(policy: Policy? = nil) {
-            self.policy = policy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policy = "Policy"
-        }
-    }
-
-    public class HandshakeResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Resources", required: false, type: .list)
-        ]
-        /// The information that is passed to the other party in the handshake. The format of the value string must match the requirements of the specified type.
-        public let value: String?
-        /// The type of information being passed, specifying how the value is to be interpreted by the other party:    ACCOUNT - Specifies an AWS account ID number.    ORGANIZATION - Specifies an organization ID number.    EMAIL - Specifies the email address that is associated with the account that receives the handshake.     OWNER_EMAIL - Specifies the email address associated with the master account. Included as information about an organization.     OWNER_NAME - Specifies the name associated with the master account. Included as information about an organization.     NOTES - Additional text provided by the handshake initiator and intended for the recipient to read.  
-        public let `type`: HandshakeResourceType?
-        /// When needed, contains an additional array of HandshakeResource objects.
-        public let resources: [HandshakeResource]?
-
-        public init(value: String? = nil, type: HandshakeResourceType? = nil, resources: [HandshakeResource]? = nil) {
-            self.value = value
-            self.`type` = `type`
-            self.resources = resources
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case `type` = "Type"
-            case resources = "Resources"
-        }
-    }
-
-    public enum IAMUserAccessToBilling: String, CustomStringConvertible, Codable {
-        case allow = "ALLOW"
-        case deny = "DENY"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DisablePolicyTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyType", required: true, type: .enum), 
-            AWSShapeMember(label: "RootId", required: true, type: .string)
-        ]
-        /// The policy type that you want to disable in this root.
-        public let policyType: PolicyType
-        /// The unique identifier (ID) of the root in which you want to disable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lower-case letters or digits.
-        public let rootId: String
-
-        public init(policyType: PolicyType, rootId: String) {
-            self.policyType = policyType
-            self.rootId = rootId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyType = "PolicyType"
-            case rootId = "RootId"
-        }
-    }
-
-    public struct ListOrganizationalUnitsForParentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "ParentId", required: true, type: .string)
-        ]
-        /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public let nextToken: String?
-        /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
-        /// The unique identifier (ID) of the root or OU whose child OUs you want to list. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public let parentId: String
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, parentId: String) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.parentId = parentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case parentId = "ParentId"
-        }
-    }
-
-    public struct Child: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
-        /// The unique identifier (ID) of this child entity. The regex pattern for a child ID string requires one of the following:   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public let id: String?
-        /// The type of this child entity.
-        public let `type`: ChildType?
-
-        public init(id: String? = nil, type: ChildType? = nil) {
-            self.id = id
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case `type` = "Type"
-        }
-    }
-
-    public struct DescribeHandshakeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HandshakeId", required: true, type: .string)
-        ]
-        /// The unique identifier (ID) of the handshake that you want information about. You can get the ID from the original call to InviteAccountToOrganization, or from a call to ListHandshakesForAccount or ListHandshakesForOrganization. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
-        public let handshakeId: String
-
-        public init(handshakeId: String) {
-            self.handshakeId = handshakeId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case handshakeId = "HandshakeId"
-        }
-    }
-
-    public struct CreateOrganizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FeatureSet", required: false, type: .enum)
-        ]
-        /// Specifies the feature set supported by the new organization. Each feature set supports different levels of functionality.    CONSOLIDATED_BILLING: All member accounts have their bills consolidated to and paid by the master account. For more information, see Consolidated Billing in the AWS Organizations User Guide.    ALL: In addition to all the features supported by the consolidated billing feature set, the master account can also apply any type of policy to any member account in the organization. For more information, see All features in the AWS Organizations User Guide.  
-        public let featureSet: OrganizationFeatureSet?
-
-        public init(featureSet: OrganizationFeatureSet? = nil) {
-            self.featureSet = featureSet
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case featureSet = "FeatureSet"
-        }
-    }
-
-    public struct HandshakeParty: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
-        /// The unique identifier (ID) for the party. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
-        public let id: String
-        /// The type of party.
-        public let `type`: HandshakePartyType
-
-        public init(id: String, type: HandshakePartyType) {
-            self.id = id
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case `type` = "Type"
-        }
-    }
-
-    public struct EnableAWSServiceAccessRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServicePrincipal", required: true, type: .string)
-        ]
-        /// The service principal name of the AWS service for which you want to enable integration with your organization. This is typically in the form of a URL, such as  service-abbreviation.amazonaws.com.
-        public let servicePrincipal: String
-
-        public init(servicePrincipal: String) {
-            self.servicePrincipal = servicePrincipal
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case servicePrincipal = "ServicePrincipal"
-        }
-    }
-
-    public struct DetachPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyId", required: true, type: .string), 
-            AWSShapeMember(label: "TargetId", required: true, type: .string)
-        ]
-        /// The unique identifier (ID) of the policy you want to detach. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
-        public let policyId: String
-        /// The unique identifier (ID) of the root, OU, or account from which you want to detach the policy. You can get the ID from the ListRoots, ListOrganizationalUnitsForParent, or ListAccounts operations. The regex pattern for a target ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public let targetId: String
-
-        public init(policyId: String, targetId: String) {
-            self.policyId = policyId
-            self.targetId = targetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyId = "PolicyId"
-            case targetId = "TargetId"
-        }
-    }
-
-    public struct ListHandshakesForAccountRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Filter", required: true, type: .enum), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Filters the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE-FULL-CONTROL, or APPROVE-FULL-CONTROL. Alternatively, for the ENABLE-FULL-CONTROL handshake that generates a separate child handshake for each member account, you can specify ParentHandshakeId to see only the handshakes that were generated by that parent request.
-        public let filter: HandshakeFilter?
-        /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+        /// Specifies the type of policy that you want to include in the response.
+        public let filter: PolicyType
+        /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
 
-        public init(filter: HandshakeFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filter: PolicyType, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2048,24 +2008,66 @@ extension Organizations {
         }
     }
 
-    public struct EnabledServicePrincipal: AWSShape {
+    public struct CreateAccountRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DateEnabled", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ServicePrincipal", required: false, type: .string)
+            AWSShapeMember(label: "AccountName", required: true, type: .string), 
+            AWSShapeMember(label: "IamUserAccessToBilling", required: false, type: .enum), 
+            AWSShapeMember(label: "RoleName", required: false, type: .string), 
+            AWSShapeMember(label: "Email", required: true, type: .string)
         ]
-        /// The date that the service principal was enabled for integration with AWS Organizations.
-        public let dateEnabled: TimeStamp?
-        /// The name of the service principal. This is typically in the form of a URL, such as:  servicename.amazonaws.com.
-        public let servicePrincipal: String?
+        /// The friendly name of the member account.
+        public let accountName: String
+        /// If set to ALLOW, the new account enables IAM users to access account billing information if they have the required permissions. If set to DENY, only the root user of the new account can access account billing information. For more information, see Activating Access to the Billing and Cost Management Console in the AWS Billing and Cost Management User Guide. If you don't specify this parameter, the value defaults to ALLOW, and IAM users and roles with the required permissions can access billing information for the new account.
+        public let iamUserAccessToBilling: IAMUserAccessToBilling?
+        /// (Optional) The name of an IAM role that AWS Organizations automatically preconfigures in the new member account. This role trusts the master account, allowing users in the master account to assume the role, as permitted by the master account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see Accessing and Administering the Member Accounts in Your Organization in the AWS Organizations User Guide, and steps 2 and 3 in Tutorial: Delegate Access Across AWS Accounts Using IAM Roles in the IAM User Guide. The regex pattern that is used to validate this parameter is a string of characters that can consist of uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
+        public let roleName: String?
+        /// The email address of the owner to assign to the new member account. This email address must not already be associated with another AWS account. You must use a valid email address to complete account creation. You can't access the root user of the account or remove an account that was created with an invalid email address.
+        public let email: String
 
-        public init(dateEnabled: TimeStamp? = nil, servicePrincipal: String? = nil) {
-            self.dateEnabled = dateEnabled
-            self.servicePrincipal = servicePrincipal
+        public init(accountName: String, iamUserAccessToBilling: IAMUserAccessToBilling? = nil, roleName: String? = nil, email: String) {
+            self.accountName = accountName
+            self.iamUserAccessToBilling = iamUserAccessToBilling
+            self.roleName = roleName
+            self.email = email
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dateEnabled = "DateEnabled"
-            case servicePrincipal = "ServicePrincipal"
+            case accountName = "AccountName"
+            case iamUserAccessToBilling = "IamUserAccessToBilling"
+            case roleName = "RoleName"
+            case email = "Email"
+        }
+    }
+
+    public struct UpdatePolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .structure)
+        ]
+        /// A structure that contains details about the updated policy, showing the requested changes.
+        public let policy: Policy?
+
+        public init(policy: Policy? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
+    public struct DescribeOrganizationalUnitResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationalUnit", required: false, type: .structure)
+        ]
+        /// A structure that contains details about the specified OU.
+        public let organizationalUnit: OrganizationalUnit?
+
+        public init(organizationalUnit: OrganizationalUnit? = nil) {
+            self.organizationalUnit = organizationalUnit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationalUnit = "OrganizationalUnit"
         }
     }
 

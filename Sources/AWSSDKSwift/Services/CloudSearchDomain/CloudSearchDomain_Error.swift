@@ -4,8 +4,8 @@ import AWSSDKSwiftCore
 
 /// Error enum for CloudSearchDomain
 public enum CloudSearchDomainErrorType: AWSErrorType {
-    case searchException(message: String?)
     case documentServiceException(message: String?)
+    case searchException(message: String?)
 }
 
 extension CloudSearchDomainErrorType {
@@ -15,10 +15,10 @@ extension CloudSearchDomainErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "SearchException":
-            self = .searchException(message: message)
         case "DocumentServiceException":
             self = .documentServiceException(message: message)
+        case "SearchException":
+            self = .searchException(message: message)
         default:
             return nil
         }

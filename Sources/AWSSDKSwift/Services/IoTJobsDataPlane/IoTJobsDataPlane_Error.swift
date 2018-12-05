@@ -9,8 +9,8 @@ public enum IoTJobsDataPlaneErrorType: AWSErrorType {
     case throttlingException(message: String?)
     case serviceUnavailableException(message: String?)
     case certificateValidationException(message: String?)
-    case terminalStateException(message: String?)
     case invalidStateTransitionException(message: String?)
+    case terminalStateException(message: String?)
 }
 
 extension IoTJobsDataPlaneErrorType {
@@ -30,10 +30,10 @@ extension IoTJobsDataPlaneErrorType {
             self = .serviceUnavailableException(message: message)
         case "CertificateValidationException":
             self = .certificateValidationException(message: message)
-        case "TerminalStateException":
-            self = .terminalStateException(message: message)
         case "InvalidStateTransitionException":
             self = .invalidStateTransitionException(message: message)
+        case "TerminalStateException":
+            self = .terminalStateException(message: message)
         default:
             return nil
         }

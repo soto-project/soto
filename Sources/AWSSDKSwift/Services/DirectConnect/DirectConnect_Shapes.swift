@@ -5,255 +5,32 @@ import AWSSDKSwiftCore
 
 extension DirectConnect {
 
-    public struct VirtualGateways: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualGateways", required: false, type: .list)
-        ]
-        /// A list of virtual private gateways.
-        public let virtualGateways: [VirtualGateway]?
-
-        public init(virtualGateways: [VirtualGateway]? = nil) {
-            self.virtualGateways = virtualGateways
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case virtualGateways = "virtualGateways"
-        }
-    }
-
-    public struct NewPrivateVirtualInterfaceAllocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "asn", required: true, type: .integer), 
-            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
-            AWSShapeMember(label: "authKey", required: false, type: .string), 
-            AWSShapeMember(label: "addressFamily", required: false, type: .enum), 
-            AWSShapeMember(label: "virtualInterfaceName", required: true, type: .string), 
-            AWSShapeMember(label: "vlan", required: true, type: .integer), 
-            AWSShapeMember(label: "amazonAddress", required: false, type: .string)
-        ]
-        public let asn: Int32
-        public let customerAddress: String?
-        public let authKey: String?
-        public let addressFamily: AddressFamily?
-        public let virtualInterfaceName: String
-        public let vlan: Int32
-        public let amazonAddress: String?
-
-        public init(asn: Int32, customerAddress: String? = nil, authKey: String? = nil, addressFamily: AddressFamily? = nil, virtualInterfaceName: String, vlan: Int32, amazonAddress: String? = nil) {
-            self.asn = asn
-            self.customerAddress = customerAddress
-            self.authKey = authKey
-            self.addressFamily = addressFamily
-            self.virtualInterfaceName = virtualInterfaceName
-            self.vlan = vlan
-            self.amazonAddress = amazonAddress
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case asn = "asn"
-            case customerAddress = "customerAddress"
-            case authKey = "authKey"
-            case addressFamily = "addressFamily"
-            case virtualInterfaceName = "virtualInterfaceName"
-            case vlan = "vlan"
-            case amazonAddress = "amazonAddress"
-        }
-    }
-
-    public struct CreateDirectConnectGatewayAssociationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "directConnectGatewayId", required: true, type: .string), 
-            AWSShapeMember(label: "virtualGatewayId", required: true, type: .string)
-        ]
-        /// The ID of the direct connect gateway. Example: "abcd1234-dcba-5678-be23-cdef9876ab45" Default: None
-        public let directConnectGatewayId: String
-        /// The ID of the virtual private gateway. Example: "vgw-abc123ef" Default: None
-        public let virtualGatewayId: String
-
-        public init(directConnectGatewayId: String, virtualGatewayId: String) {
-            self.directConnectGatewayId = directConnectGatewayId
-            self.virtualGatewayId = virtualGatewayId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayId = "directConnectGatewayId"
-            case virtualGatewayId = "virtualGatewayId"
-        }
-    }
-
-    public struct ConfirmPrivateVirtualInterfaceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum)
-        ]
-        public let virtualInterfaceState: VirtualInterfaceState?
-
-        public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
-            self.virtualInterfaceState = virtualInterfaceState
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceState = "virtualInterfaceState"
-        }
-    }
-
-    public enum LoaContentType: String, CustomStringConvertible, Codable {
-        case applicationPdf = "application/pdf"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeDirectConnectGatewayAttachmentsResult: AWSShape {
+    public struct DescribeDirectConnectGatewayAssociationsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "directConnectGatewayAttachments", required: false, type: .list)
+            AWSShapeMember(label: "directConnectGatewayAssociations", required: false, type: .list)
         ]
+        /// The token to retrieve the next page.
         public let nextToken: String?
-        /// Information about the direct connect gateway attachments.
-        public let directConnectGatewayAttachments: [DirectConnectGatewayAttachment]?
+        /// The associations.
+        public let directConnectGatewayAssociations: [DirectConnectGatewayAssociation]?
 
-        public init(nextToken: String? = nil, directConnectGatewayAttachments: [DirectConnectGatewayAttachment]? = nil) {
+        public init(nextToken: String? = nil, directConnectGatewayAssociations: [DirectConnectGatewayAssociation]? = nil) {
             self.nextToken = nextToken
-            self.directConnectGatewayAttachments = directConnectGatewayAttachments
+            self.directConnectGatewayAssociations = directConnectGatewayAssociations
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
-            case directConnectGatewayAttachments = "directConnectGatewayAttachments"
+            case directConnectGatewayAssociations = "directConnectGatewayAssociations"
         }
     }
 
-    public struct DisassociateConnectionFromLagRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "connectionId", required: true, type: .string), 
-            AWSShapeMember(label: "lagId", required: true, type: .string)
-        ]
-        /// The ID of the connection to disassociate from the LAG. Example: dxcon-abc123 Default: None
-        public let connectionId: String
-        /// The ID of the LAG. Example: dxlag-abc123 Default: None
-        public let lagId: String
-
-        public init(connectionId: String, lagId: String) {
-            self.connectionId = connectionId
-            self.lagId = lagId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-            case lagId = "lagId"
-        }
-    }
-
-    public struct DirectConnectGateway: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "directConnectGatewayState", required: false, type: .enum), 
-            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
-            AWSShapeMember(label: "amazonSideAsn", required: false, type: .long), 
-            AWSShapeMember(label: "ownerAccount", required: false, type: .string), 
-            AWSShapeMember(label: "directConnectGatewayName", required: false, type: .string), 
-            AWSShapeMember(label: "stateChangeError", required: false, type: .string)
-        ]
-        public let directConnectGatewayState: DirectConnectGatewayState?
-        public let directConnectGatewayId: String?
-        /// The autonomous system number (ASN) for the Amazon side of the connection.
-        public let amazonSideAsn: Int64?
-        /// The AWS account ID of the owner of the direct connect gateway.
-        public let ownerAccount: String?
-        public let directConnectGatewayName: String?
-        public let stateChangeError: String?
-
-        public init(directConnectGatewayState: DirectConnectGatewayState? = nil, directConnectGatewayId: String? = nil, amazonSideAsn: Int64? = nil, ownerAccount: String? = nil, directConnectGatewayName: String? = nil, stateChangeError: String? = nil) {
-            self.directConnectGatewayState = directConnectGatewayState
-            self.directConnectGatewayId = directConnectGatewayId
-            self.amazonSideAsn = amazonSideAsn
-            self.ownerAccount = ownerAccount
-            self.directConnectGatewayName = directConnectGatewayName
-            self.stateChangeError = stateChangeError
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayState = "directConnectGatewayState"
-            case directConnectGatewayId = "directConnectGatewayId"
-            case amazonSideAsn = "amazonSideAsn"
-            case ownerAccount = "ownerAccount"
-            case directConnectGatewayName = "directConnectGatewayName"
-            case stateChangeError = "stateChangeError"
-        }
-    }
-
-    public struct ConfirmConnectionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "connectionState", required: false, type: .enum)
-        ]
-        public let connectionState: ConnectionState?
-
-        public init(connectionState: ConnectionState? = nil) {
-            self.connectionState = connectionState
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectionState = "connectionState"
-        }
-    }
-
-    public struct ConfirmConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "connectionId", required: true, type: .string)
-        ]
-        public let connectionId: String
-
-        public init(connectionId: String) {
-            self.connectionId = connectionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-        }
-    }
-
-    public struct DeleteDirectConnectGatewayResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "directConnectGateway", required: false, type: .structure)
-        ]
-        /// The direct connect gateway to be deleted.
-        public let directConnectGateway: DirectConnectGateway?
-
-        public init(directConnectGateway: DirectConnectGateway? = nil) {
-            self.directConnectGateway = directConnectGateway
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directConnectGateway = "directConnectGateway"
-        }
-    }
-
-    public struct DeleteBGPPeerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string), 
-            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
-            AWSShapeMember(label: "asn", required: false, type: .integer)
-        ]
-        /// The ID of the virtual interface from which the BGP peer will be deleted. Example: dxvif-456abc78 Default: None
-        public let virtualInterfaceId: String?
-        public let customerAddress: String?
-        public let asn: Int32?
-
-        public init(virtualInterfaceId: String? = nil, customerAddress: String? = nil, asn: Int32? = nil) {
-            self.virtualInterfaceId = virtualInterfaceId
-            self.customerAddress = customerAddress
-            self.asn = asn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceId = "virtualInterfaceId"
-            case customerAddress = "customerAddress"
-            case asn = "asn"
-        }
-    }
-
-    public struct DeleteDirectConnectGatewayAssociationResult: AWSShape {
+    public struct CreateDirectConnectGatewayAssociationResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "directConnectGatewayAssociation", required: false, type: .structure)
         ]
-        /// The direct connect gateway association to be deleted.
+        /// The association to be created.
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
 
         public init(directConnectGatewayAssociation: DirectConnectGatewayAssociation? = nil) {
@@ -265,235 +42,220 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeConnectionsRequest: AWSShape {
+    public struct AllocateConnectionOnInterconnectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "connectionId", required: false, type: .string)
+            AWSShapeMember(label: "interconnectId", required: true, type: .string), 
+            AWSShapeMember(label: "vlan", required: true, type: .integer), 
+            AWSShapeMember(label: "connectionName", required: true, type: .string), 
+            AWSShapeMember(label: "bandwidth", required: true, type: .string), 
+            AWSShapeMember(label: "ownerAccount", required: true, type: .string)
         ]
-        public let connectionId: String?
-
-        public init(connectionId: String? = nil) {
-            self.connectionId = connectionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-        }
-    }
-
-    public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", required: true, type: .list)
-        ]
-        /// The Amazon Resource Name (ARN) of the Direct Connect resource.
-        public let resourceArn: String
-        /// The list of tag keys to remove.
-        public let tagKeys: [String]
-
-        public init(resourceArn: String, tagKeys: [String]) {
-            self.resourceArn = resourceArn
-            self.tagKeys = tagKeys
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
-    }
-
-    public struct DescribeInterconnectsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "interconnectId", required: false, type: .string)
-        ]
-        public let interconnectId: String?
-
-        public init(interconnectId: String? = nil) {
-            self.interconnectId = interconnectId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case interconnectId = "interconnectId"
-        }
-    }
-
-    public struct DirectConnectGatewayAttachment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string), 
-            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
-            AWSShapeMember(label: "virtualInterfaceOwnerAccount", required: false, type: .string), 
-            AWSShapeMember(label: "attachmentState", required: false, type: .enum), 
-            AWSShapeMember(label: "virtualInterfaceRegion", required: false, type: .string), 
-            AWSShapeMember(label: "stateChangeError", required: false, type: .string)
-        ]
-        public let virtualInterfaceId: String?
-        public let directConnectGatewayId: String?
-        /// The AWS account ID of the owner of the virtual interface.
-        public let virtualInterfaceOwnerAccount: String?
-        public let attachmentState: DirectConnectGatewayAttachmentState?
-        public let virtualInterfaceRegion: String?
-        public let stateChangeError: String?
-
-        public init(virtualInterfaceId: String? = nil, directConnectGatewayId: String? = nil, virtualInterfaceOwnerAccount: String? = nil, attachmentState: DirectConnectGatewayAttachmentState? = nil, virtualInterfaceRegion: String? = nil, stateChangeError: String? = nil) {
-            self.virtualInterfaceId = virtualInterfaceId
-            self.directConnectGatewayId = directConnectGatewayId
-            self.virtualInterfaceOwnerAccount = virtualInterfaceOwnerAccount
-            self.attachmentState = attachmentState
-            self.virtualInterfaceRegion = virtualInterfaceRegion
-            self.stateChangeError = stateChangeError
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceId = "virtualInterfaceId"
-            case directConnectGatewayId = "directConnectGatewayId"
-            case virtualInterfaceOwnerAccount = "virtualInterfaceOwnerAccount"
-            case attachmentState = "attachmentState"
-            case virtualInterfaceRegion = "virtualInterfaceRegion"
-            case stateChangeError = "stateChangeError"
-        }
-    }
-
-    public struct DescribeDirectConnectGatewayAttachmentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string), 
-            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// The ID of the virtual interface. Example: "dxvif-abc123ef" Default: None
-        public let virtualInterfaceId: String?
-        /// The ID of the direct connect gateway. Example: "abcd1234-dcba-5678-be23-cdef9876ab45" Default: None
-        public let directConnectGatewayId: String?
-        /// The token provided in the previous describe result to retrieve the next page of the result. Default: None
-        public let nextToken: String?
-        /// The maximum number of direct connect gateway attachments to return per page. Example: 15 Default: None
-        public let maxResults: Int32?
-
-        public init(virtualInterfaceId: String? = nil, directConnectGatewayId: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.virtualInterfaceId = virtualInterfaceId
-            self.directConnectGatewayId = directConnectGatewayId
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceId = "virtualInterfaceId"
-            case directConnectGatewayId = "directConnectGatewayId"
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct DescribeInterconnectLoaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loaContentType", required: false, type: .enum), 
-            AWSShapeMember(label: "providerName", required: false, type: .string), 
-            AWSShapeMember(label: "interconnectId", required: true, type: .string)
-        ]
-        public let loaContentType: LoaContentType?
-        /// The name of the service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect. Default: None
-        public let providerName: String?
+        /// The ID of the interconnect on which the connection will be provisioned. For example, dxcon-456abc78.
         public let interconnectId: String
+        /// The dedicated VLAN provisioned to the connection.
+        public let vlan: Int32
+        /// The name of the provisioned connection.
+        public let connectionName: String
+        /// The bandwidth of the connection, in Mbps. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, and 500Mbps.
+        public let bandwidth: String
+        /// The ID of the AWS account of the customer for whom the connection will be provisioned.
+        public let ownerAccount: String
 
-        public init(loaContentType: LoaContentType? = nil, providerName: String? = nil, interconnectId: String) {
-            self.loaContentType = loaContentType
-            self.providerName = providerName
+        public init(interconnectId: String, vlan: Int32, connectionName: String, bandwidth: String, ownerAccount: String) {
             self.interconnectId = interconnectId
+            self.vlan = vlan
+            self.connectionName = connectionName
+            self.bandwidth = bandwidth
+            self.ownerAccount = ownerAccount
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loaContentType = "loaContentType"
-            case providerName = "providerName"
             case interconnectId = "interconnectId"
+            case vlan = "vlan"
+            case connectionName = "connectionName"
+            case bandwidth = "bandwidth"
+            case ownerAccount = "ownerAccount"
         }
     }
 
-    public struct DeleteBGPPeerResponse: AWSShape {
+    public struct DescribeTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualInterface", required: false, type: .structure)
+            AWSShapeMember(label: "resourceArns", required: true, type: .list)
         ]
-        public let virtualInterface: VirtualInterface?
+        /// The Amazon Resource Names (ARNs) of the resources.
+        public let resourceArns: [String]
 
-        public init(virtualInterface: VirtualInterface? = nil) {
-            self.virtualInterface = virtualInterface
+        public init(resourceArns: [String]) {
+            self.resourceArns = resourceArns
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterface = "virtualInterface"
+            case resourceArns = "resourceArns"
         }
     }
 
-    public struct AssociateHostedConnectionRequest: AWSShape {
+    public struct VirtualInterface: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "connectionId", required: true, type: .string), 
-            AWSShapeMember(label: "parentConnectionId", required: true, type: .string)
+            AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum), 
+            AWSShapeMember(label: "mtu", required: false, type: .integer), 
+            AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
+            AWSShapeMember(label: "ownerAccount", required: false, type: .string), 
+            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "connectionId", required: false, type: .string), 
+            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
+            AWSShapeMember(label: "authKey", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .string), 
+            AWSShapeMember(label: "awsDeviceV2", required: false, type: .string), 
+            AWSShapeMember(label: "addressFamily", required: false, type: .enum), 
+            AWSShapeMember(label: "region", required: false, type: .string), 
+            AWSShapeMember(label: "vlan", required: false, type: .integer), 
+            AWSShapeMember(label: "amazonSideAsn", required: false, type: .long), 
+            AWSShapeMember(label: "virtualInterfaceName", required: false, type: .string), 
+            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "customerRouterConfig", required: false, type: .string), 
+            AWSShapeMember(label: "routeFilterPrefixes", required: false, type: .list), 
+            AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string), 
+            AWSShapeMember(label: "asn", required: false, type: .integer), 
+            AWSShapeMember(label: "bgpPeers", required: false, type: .list), 
+            AWSShapeMember(label: "virtualInterfaceType", required: false, type: .string), 
+            AWSShapeMember(label: "jumboFrameCapable", required: false, type: .boolean)
         ]
-        /// The ID of the hosted connection. Example: dxcon-abc123 Default: None
-        public let connectionId: String
-        /// The ID of the interconnect or the LAG. Example: dxcon-abc123 or dxlag-abc123 Default: None
-        public let parentConnectionId: String
+        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.  
+        public let virtualInterfaceState: VirtualInterfaceState?
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+        public let mtu: Int32?
+        /// The IP address assigned to the Amazon interface.
+        public let amazonAddress: String?
+        /// The ID of the AWS account that owns the virtual interface.
+        public let ownerAccount: String?
+        /// The ID of the virtual private gateway. Applies only to private virtual interfaces.
+        public let virtualGatewayId: String?
+        /// The ID of the connection.
+        public let connectionId: String?
+        /// The IP address assigned to the customer interface.
+        public let customerAddress: String?
+        /// The authentication key for BGP configuration.
+        public let authKey: String?
+        /// The location of the connection.
+        public let location: String?
+        /// The Direct Connect endpoint on which the virtual interface terminates.
+        public let awsDeviceV2: String?
+        /// The address family for the BGP peer.
+        public let addressFamily: AddressFamily?
+        /// The AWS Region where the virtual interface is located.
+        public let region: String?
+        /// The ID of the VLAN.
+        public let vlan: Int32?
+        /// The autonomous system number (ASN) for the Amazon side of the connection.
+        public let amazonSideAsn: Int64?
+        /// The name of the virtual interface assigned by the customer network.
+        public let virtualInterfaceName: String?
+        /// The ID of the Direct Connect gateway.
+        public let directConnectGatewayId: String?
+        /// The customer router configuration.
+        public let customerRouterConfig: String?
+        /// The routes to be advertised to the AWS network in this Region. Applies to public virtual interfaces.
+        public let routeFilterPrefixes: [RouteFilterPrefix]?
+        /// The ID of the virtual interface.
+        public let virtualInterfaceId: String?
+        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        public let asn: Int32?
+        /// The BGP peers configured on this virtual interface.
+        public let bgpPeers: [BGPPeer]?
+        /// The type of virtual interface. The possible values are private and public.
+        public let virtualInterfaceType: String?
+        /// Indicates whether jumbo frames (9001 MTU) are supported.
+        public let jumboFrameCapable: Bool?
 
-        public init(connectionId: String, parentConnectionId: String) {
+        public init(virtualInterfaceState: VirtualInterfaceState? = nil, mtu: Int32? = nil, amazonAddress: String? = nil, ownerAccount: String? = nil, virtualGatewayId: String? = nil, connectionId: String? = nil, customerAddress: String? = nil, authKey: String? = nil, location: String? = nil, awsDeviceV2: String? = nil, addressFamily: AddressFamily? = nil, region: String? = nil, vlan: Int32? = nil, amazonSideAsn: Int64? = nil, virtualInterfaceName: String? = nil, directConnectGatewayId: String? = nil, customerRouterConfig: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, virtualInterfaceId: String? = nil, asn: Int32? = nil, bgpPeers: [BGPPeer]? = nil, virtualInterfaceType: String? = nil, jumboFrameCapable: Bool? = nil) {
+            self.virtualInterfaceState = virtualInterfaceState
+            self.mtu = mtu
+            self.amazonAddress = amazonAddress
+            self.ownerAccount = ownerAccount
+            self.virtualGatewayId = virtualGatewayId
             self.connectionId = connectionId
-            self.parentConnectionId = parentConnectionId
+            self.customerAddress = customerAddress
+            self.authKey = authKey
+            self.location = location
+            self.awsDeviceV2 = awsDeviceV2
+            self.addressFamily = addressFamily
+            self.region = region
+            self.vlan = vlan
+            self.amazonSideAsn = amazonSideAsn
+            self.virtualInterfaceName = virtualInterfaceName
+            self.directConnectGatewayId = directConnectGatewayId
+            self.customerRouterConfig = customerRouterConfig
+            self.routeFilterPrefixes = routeFilterPrefixes
+            self.virtualInterfaceId = virtualInterfaceId
+            self.asn = asn
+            self.bgpPeers = bgpPeers
+            self.virtualInterfaceType = virtualInterfaceType
+            self.jumboFrameCapable = jumboFrameCapable
         }
 
         private enum CodingKeys: String, CodingKey {
+            case virtualInterfaceState = "virtualInterfaceState"
+            case mtu = "mtu"
+            case amazonAddress = "amazonAddress"
+            case ownerAccount = "ownerAccount"
+            case virtualGatewayId = "virtualGatewayId"
             case connectionId = "connectionId"
-            case parentConnectionId = "parentConnectionId"
+            case customerAddress = "customerAddress"
+            case authKey = "authKey"
+            case location = "location"
+            case awsDeviceV2 = "awsDeviceV2"
+            case addressFamily = "addressFamily"
+            case region = "region"
+            case vlan = "vlan"
+            case amazonSideAsn = "amazonSideAsn"
+            case virtualInterfaceName = "virtualInterfaceName"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case customerRouterConfig = "customerRouterConfig"
+            case routeFilterPrefixes = "routeFilterPrefixes"
+            case virtualInterfaceId = "virtualInterfaceId"
+            case asn = "asn"
+            case bgpPeers = "bgpPeers"
+            case virtualInterfaceType = "virtualInterfaceType"
+            case jumboFrameCapable = "jumboFrameCapable"
         }
     }
 
-    public struct DescribeLoaRequest: AWSShape {
+    public struct CreateInterconnectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "providerName", required: false, type: .string), 
-            AWSShapeMember(label: "loaContentType", required: false, type: .enum), 
-            AWSShapeMember(label: "connectionId", required: true, type: .string)
+            AWSShapeMember(label: "interconnectName", required: true, type: .string), 
+            AWSShapeMember(label: "lagId", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: true, type: .string), 
+            AWSShapeMember(label: "bandwidth", required: true, type: .string)
         ]
-        /// The name of the service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect. Default: None
-        public let providerName: String?
-        /// A standard media type indicating the content type of the LOA-CFA document. Currently, the only supported value is "application/pdf". Default: application/pdf
-        public let loaContentType: LoaContentType?
-        /// The ID of a connection, LAG, or interconnect for which to get the LOA-CFA information. Example: dxcon-abc123 or dxlag-abc123 Default: None
-        public let connectionId: String
+        /// The name of the interconnect.
+        public let interconnectName: String
+        /// The ID of the LAG.
+        public let lagId: String?
+        /// The location of the interconnect.
+        public let location: String
+        /// The port bandwidth, in Gbps. The possible values are 1 and 10.
+        public let bandwidth: String
 
-        public init(providerName: String? = nil, loaContentType: LoaContentType? = nil, connectionId: String) {
-            self.providerName = providerName
-            self.loaContentType = loaContentType
-            self.connectionId = connectionId
+        public init(interconnectName: String, lagId: String? = nil, location: String, bandwidth: String) {
+            self.interconnectName = interconnectName
+            self.lagId = lagId
+            self.location = location
+            self.bandwidth = bandwidth
         }
 
         private enum CodingKeys: String, CodingKey {
-            case providerName = "providerName"
-            case loaContentType = "loaContentType"
-            case connectionId = "connectionId"
+            case interconnectName = "interconnectName"
+            case lagId = "lagId"
+            case location = "location"
+            case bandwidth = "bandwidth"
         }
-    }
-
-    public struct Lags: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lags", required: false, type: .list)
-        ]
-        /// A list of LAGs.
-        public let lags: [Lag]?
-
-        public init(lags: [Lag]? = nil) {
-            self.lags = lags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lags = "lags"
-        }
-    }
-
-    public struct UntagResourceResponse: AWSShape {
-
     }
 
     public struct Locations: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "locations", required: false, type: .list)
         ]
-        /// A list of colocation hubs where network providers have equipment. Most regions have multiple locations available.
+        /// The locations.
         public let locations: [Location]?
 
         public init(locations: [Location]? = nil) {
@@ -505,153 +267,99 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeConnectionLoaResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loa", required: false, type: .structure)
-        ]
-        public let loa: Loa?
-
-        public init(loa: Loa? = nil) {
-            self.loa = loa
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loa = "loa"
-        }
-    }
-
-    public struct AllocatePublicVirtualInterfaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "newPublicVirtualInterfaceAllocation", required: true, type: .structure), 
-            AWSShapeMember(label: "connectionId", required: true, type: .string), 
-            AWSShapeMember(label: "ownerAccount", required: true, type: .string)
-        ]
-        /// Detailed information for the public virtual interface to be provisioned. Default: None
-        public let newPublicVirtualInterfaceAllocation: NewPublicVirtualInterfaceAllocation
-        /// The connection ID on which the public virtual interface is provisioned. Default: None
-        public let connectionId: String
-        /// The AWS account that will own the new public virtual interface. Default: None
-        public let ownerAccount: String
-
-        public init(newPublicVirtualInterfaceAllocation: NewPublicVirtualInterfaceAllocation, connectionId: String, ownerAccount: String) {
-            self.newPublicVirtualInterfaceAllocation = newPublicVirtualInterfaceAllocation
-            self.connectionId = connectionId
-            self.ownerAccount = ownerAccount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case newPublicVirtualInterfaceAllocation = "newPublicVirtualInterfaceAllocation"
-            case connectionId = "connectionId"
-            case ownerAccount = "ownerAccount"
-        }
-    }
-
-    public struct VirtualInterfaces: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualInterfaces", required: false, type: .list)
-        ]
-        /// A list of virtual interfaces.
-        public let virtualInterfaces: [VirtualInterface]?
-
-        public init(virtualInterfaces: [VirtualInterface]? = nil) {
-            self.virtualInterfaces = virtualInterfaces
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case virtualInterfaces = "virtualInterfaces"
-        }
-    }
-
-    public struct ConfirmPublicVirtualInterfaceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum)
-        ]
-        public let virtualInterfaceState: VirtualInterfaceState?
-
-        public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
-            self.virtualInterfaceState = virtualInterfaceState
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceState = "virtualInterfaceState"
-        }
-    }
-
-    public struct UpdateLagRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lagId", required: true, type: .string), 
-            AWSShapeMember(label: "lagName", required: false, type: .string), 
-            AWSShapeMember(label: "minimumLinks", required: false, type: .integer)
-        ]
-        /// The ID of the LAG to update. Example: dxlag-abc123 Default: None
-        public let lagId: String
-        /// The name for the LAG. Example: "3x10G LAG to AWS" Default: None
-        public let lagName: String?
-        /// The minimum number of physical connections that must be operational for the LAG itself to be operational. Default: None
-        public let minimumLinks: Int32?
-
-        public init(lagId: String, lagName: String? = nil, minimumLinks: Int32? = nil) {
-            self.lagId = lagId
-            self.lagName = lagName
-            self.minimumLinks = minimumLinks
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lagId = "lagId"
-            case lagName = "lagName"
-            case minimumLinks = "minimumLinks"
-        }
-    }
-
-    public struct DescribeInterconnectLoaResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loa", required: false, type: .structure)
-        ]
-        public let loa: Loa?
-
-        public init(loa: Loa? = nil) {
-            self.loa = loa
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loa = "loa"
-        }
-    }
-
     public enum BGPStatus: String, CustomStringConvertible, Codable {
         case up = "up"
         case down = "down"
         public var description: String { return self.rawValue }
     }
 
-    public struct NewBGPPeer: AWSShape {
+    public struct DescribeHostedConnectionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
-            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
-            AWSShapeMember(label: "authKey", required: false, type: .string), 
-            AWSShapeMember(label: "asn", required: false, type: .integer), 
-            AWSShapeMember(label: "addressFamily", required: false, type: .enum)
+            AWSShapeMember(label: "connectionId", required: true, type: .string)
         ]
-        public let amazonAddress: String?
-        public let customerAddress: String?
-        public let authKey: String?
-        public let asn: Int32?
-        public let addressFamily: AddressFamily?
+        /// The ID of the interconnect or LAG.
+        public let connectionId: String
 
-        public init(amazonAddress: String? = nil, customerAddress: String? = nil, authKey: String? = nil, asn: Int32? = nil, addressFamily: AddressFamily? = nil) {
-            self.amazonAddress = amazonAddress
-            self.customerAddress = customerAddress
-            self.authKey = authKey
-            self.asn = asn
-            self.addressFamily = addressFamily
+        public init(connectionId: String) {
+            self.connectionId = connectionId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amazonAddress = "amazonAddress"
-            case customerAddress = "customerAddress"
-            case authKey = "authKey"
-            case asn = "asn"
-            case addressFamily = "addressFamily"
+            case connectionId = "connectionId"
+        }
+    }
+
+    public struct Interconnects: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "interconnects", required: false, type: .list)
+        ]
+        /// The interconnects.
+        public let interconnects: [Interconnect]?
+
+        public init(interconnects: [Interconnect]? = nil) {
+            self.interconnects = interconnects
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interconnects = "interconnects"
+        }
+    }
+
+    public struct AssociateVirtualInterfaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string)
+        ]
+        /// The ID of the LAG or connection.
+        public let connectionId: String
+        /// The ID of the virtual interface.
+        public let virtualInterfaceId: String
+
+        public init(connectionId: String, virtualInterfaceId: String) {
+            self.connectionId = connectionId
+            self.virtualInterfaceId = virtualInterfaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+            case virtualInterfaceId = "virtualInterfaceId"
+        }
+    }
+
+    public struct DeleteVirtualInterfaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string)
+        ]
+        /// The ID of the virtual interface.
+        public let virtualInterfaceId: String
+
+        public init(virtualInterfaceId: String) {
+            self.virtualInterfaceId = virtualInterfaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaceId = "virtualInterfaceId"
+        }
+    }
+
+    public struct DescribeDirectConnectGatewayAttachmentsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "directConnectGatewayAttachments", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The attachments.
+        public let directConnectGatewayAttachments: [DirectConnectGatewayAttachment]?
+        /// The token to retrieve the next page.
+        public let nextToken: String?
+
+        public init(directConnectGatewayAttachments: [DirectConnectGatewayAttachment]? = nil, nextToken: String? = nil) {
+            self.directConnectGatewayAttachments = directConnectGatewayAttachments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directConnectGatewayAttachments = "directConnectGatewayAttachments"
+            case nextToken = "nextToken"
         }
     }
 
@@ -665,669 +373,556 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
-    public struct CreateDirectConnectGatewayAssociationResult: AWSShape {
+    public struct CreateDirectConnectGatewayAssociationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "directConnectGatewayAssociation", required: false, type: .structure)
+            AWSShapeMember(label: "virtualGatewayId", required: true, type: .string), 
+            AWSShapeMember(label: "directConnectGatewayId", required: true, type: .string)
         ]
-        /// The direct connect gateway association to be created.
-        public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
+        /// The ID of the virtual private gateway.
+        public let virtualGatewayId: String
+        /// The ID of the Direct Connect gateway.
+        public let directConnectGatewayId: String
 
-        public init(directConnectGatewayAssociation: DirectConnectGatewayAssociation? = nil) {
-            self.directConnectGatewayAssociation = directConnectGatewayAssociation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayAssociation = "directConnectGatewayAssociation"
-        }
-    }
-
-    public struct CreatePrivateVirtualInterfaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "newPrivateVirtualInterface", required: true, type: .structure), 
-            AWSShapeMember(label: "connectionId", required: true, type: .string)
-        ]
-        /// Detailed information for the private virtual interface to be created. Default: None
-        public let newPrivateVirtualInterface: NewPrivateVirtualInterface
-        public let connectionId: String
-
-        public init(newPrivateVirtualInterface: NewPrivateVirtualInterface, connectionId: String) {
-            self.newPrivateVirtualInterface = newPrivateVirtualInterface
-            self.connectionId = connectionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case newPrivateVirtualInterface = "newPrivateVirtualInterface"
-            case connectionId = "connectionId"
-        }
-    }
-
-    public enum BGPPeerState: String, CustomStringConvertible, Codable {
-        case verifying = "verifying"
-        case pending = "pending"
-        case available = "available"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct NewPublicVirtualInterface: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "asn", required: true, type: .integer), 
-            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
-            AWSShapeMember(label: "authKey", required: false, type: .string), 
-            AWSShapeMember(label: "addressFamily", required: false, type: .enum), 
-            AWSShapeMember(label: "routeFilterPrefixes", required: false, type: .list), 
-            AWSShapeMember(label: "virtualInterfaceName", required: true, type: .string), 
-            AWSShapeMember(label: "vlan", required: true, type: .integer), 
-            AWSShapeMember(label: "amazonAddress", required: false, type: .string)
-        ]
-        public let asn: Int32
-        public let customerAddress: String?
-        public let authKey: String?
-        public let addressFamily: AddressFamily?
-        public let routeFilterPrefixes: [RouteFilterPrefix]?
-        public let virtualInterfaceName: String
-        public let vlan: Int32
-        public let amazonAddress: String?
-
-        public init(asn: Int32, customerAddress: String? = nil, authKey: String? = nil, addressFamily: AddressFamily? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, virtualInterfaceName: String, vlan: Int32, amazonAddress: String? = nil) {
-            self.asn = asn
-            self.customerAddress = customerAddress
-            self.authKey = authKey
-            self.addressFamily = addressFamily
-            self.routeFilterPrefixes = routeFilterPrefixes
-            self.virtualInterfaceName = virtualInterfaceName
-            self.vlan = vlan
-            self.amazonAddress = amazonAddress
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case asn = "asn"
-            case customerAddress = "customerAddress"
-            case authKey = "authKey"
-            case addressFamily = "addressFamily"
-            case routeFilterPrefixes = "routeFilterPrefixes"
-            case virtualInterfaceName = "virtualInterfaceName"
-            case vlan = "vlan"
-            case amazonAddress = "amazonAddress"
-        }
-    }
-
-    public struct Location: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "locationCode", required: false, type: .string), 
-            AWSShapeMember(label: "locationName", required: false, type: .string), 
-            AWSShapeMember(label: "region", required: false, type: .string)
-        ]
-        /// The code used to indicate the AWS Direct Connect location.
-        public let locationCode: String?
-        /// The name of the AWS Direct Connect location. The name includes the colocation partner name and the physical site of the lit building.
-        public let locationName: String?
-        /// The AWS region where the AWS Direct connect location is located. Example: us-east-1 Default: None
-        public let region: String?
-
-        public init(locationCode: String? = nil, locationName: String? = nil, region: String? = nil) {
-            self.locationCode = locationCode
-            self.locationName = locationName
-            self.region = region
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case locationCode = "locationCode"
-            case locationName = "locationName"
-            case region = "region"
-        }
-    }
-
-    public struct ConfirmPublicVirtualInterfaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string)
-        ]
-        public let virtualInterfaceId: String
-
-        public init(virtualInterfaceId: String) {
-            self.virtualInterfaceId = virtualInterfaceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceId = "virtualInterfaceId"
-        }
-    }
-
-    public struct Loa: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loaContentType", required: false, type: .enum), 
-            AWSShapeMember(label: "loaContent", required: false, type: .blob)
-        ]
-        public let loaContentType: LoaContentType?
-        public let loaContent: Data?
-
-        public init(loaContentType: LoaContentType? = nil, loaContent: Data? = nil) {
-            self.loaContentType = loaContentType
-            self.loaContent = loaContent
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loaContentType = "loaContentType"
-            case loaContent = "loaContent"
-        }
-    }
-
-    public enum DirectConnectGatewayAssociationState: String, CustomStringConvertible, Codable {
-        case associating = "associating"
-        case associated = "associated"
-        case disassociating = "disassociating"
-        case disassociated = "disassociated"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum VirtualInterfaceState: String, CustomStringConvertible, Codable {
-        case confirming = "confirming"
-        case verifying = "verifying"
-        case pending = "pending"
-        case available = "available"
-        case down = "down"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        case rejected = "rejected"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ConfirmPrivateVirtualInterfaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string), 
-            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
-            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string)
-        ]
-        public let virtualInterfaceId: String
-        /// ID of the direct connect gateway that will be attached to the virtual interface.  A direct connect gateway can be managed via the AWS Direct Connect console or the CreateDirectConnectGateway action. Default: None
-        public let directConnectGatewayId: String?
-        /// ID of the virtual private gateway that will be attached to the virtual interface.  A virtual private gateway can be managed via the Amazon Virtual Private Cloud (VPC) console or the EC2 CreateVpnGateway action. Default: None
-        public let virtualGatewayId: String?
-
-        public init(virtualInterfaceId: String, directConnectGatewayId: String? = nil, virtualGatewayId: String? = nil) {
-            self.virtualInterfaceId = virtualInterfaceId
-            self.directConnectGatewayId = directConnectGatewayId
+        public init(virtualGatewayId: String, directConnectGatewayId: String) {
             self.virtualGatewayId = virtualGatewayId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceId = "virtualInterfaceId"
-            case directConnectGatewayId = "directConnectGatewayId"
-            case virtualGatewayId = "virtualGatewayId"
-        }
-    }
-
-    public struct Lag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "awsDevice", required: false, type: .string), 
-            AWSShapeMember(label: "allowsHostedConnections", required: false, type: .boolean), 
-            AWSShapeMember(label: "ownerAccount", required: false, type: .string), 
-            AWSShapeMember(label: "connections", required: false, type: .list), 
-            AWSShapeMember(label: "location", required: false, type: .string), 
-            AWSShapeMember(label: "numberOfConnections", required: false, type: .integer), 
-            AWSShapeMember(label: "connectionsBandwidth", required: false, type: .string), 
-            AWSShapeMember(label: "region", required: false, type: .string), 
-            AWSShapeMember(label: "lagName", required: false, type: .string), 
-            AWSShapeMember(label: "awsDeviceV2", required: false, type: .string), 
-            AWSShapeMember(label: "minimumLinks", required: false, type: .integer), 
-            AWSShapeMember(label: "lagId", required: false, type: .string), 
-            AWSShapeMember(label: "lagState", required: false, type: .enum)
-        ]
-        /// Deprecated in favor of awsDeviceV2. The AWS Direct Connection endpoint that hosts the LAG.
-        public let awsDevice: String?
-        /// Indicates whether the LAG can host other connections.  This is intended for use by AWS Direct Connect partners only. 
-        public let allowsHostedConnections: Bool?
-        /// The owner of the LAG.
-        public let ownerAccount: String?
-        /// A list of connections bundled by this LAG.
-        public let connections: [Connection]?
-        public let location: String?
-        /// The number of physical connections bundled by the LAG, up to a maximum of 10.
-        public let numberOfConnections: Int32?
-        /// The individual bandwidth of the physical connections bundled by the LAG. Available values: 1Gbps, 10Gbps
-        public let connectionsBandwidth: String?
-        public let region: String?
-        /// The name of the LAG.
-        public let lagName: String?
-        /// The AWS Direct Connection endpoint that hosts the LAG.
-        public let awsDeviceV2: String?
-        /// The minimum number of physical connections that must be operational for the LAG itself to be operational. If the number of operational connections drops below this setting, the LAG state changes to down. This value can help to ensure that a LAG is not overutilized if a significant number of its bundled connections go down.
-        public let minimumLinks: Int32?
-        public let lagId: String?
-        public let lagState: LagState?
-
-        public init(awsDevice: String? = nil, allowsHostedConnections: Bool? = nil, ownerAccount: String? = nil, connections: [Connection]? = nil, location: String? = nil, numberOfConnections: Int32? = nil, connectionsBandwidth: String? = nil, region: String? = nil, lagName: String? = nil, awsDeviceV2: String? = nil, minimumLinks: Int32? = nil, lagId: String? = nil, lagState: LagState? = nil) {
-            self.awsDevice = awsDevice
-            self.allowsHostedConnections = allowsHostedConnections
-            self.ownerAccount = ownerAccount
-            self.connections = connections
-            self.location = location
-            self.numberOfConnections = numberOfConnections
-            self.connectionsBandwidth = connectionsBandwidth
-            self.region = region
-            self.lagName = lagName
-            self.awsDeviceV2 = awsDeviceV2
-            self.minimumLinks = minimumLinks
-            self.lagId = lagId
-            self.lagState = lagState
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case awsDevice = "awsDevice"
-            case allowsHostedConnections = "allowsHostedConnections"
-            case ownerAccount = "ownerAccount"
-            case connections = "connections"
-            case location = "location"
-            case numberOfConnections = "numberOfConnections"
-            case connectionsBandwidth = "connectionsBandwidth"
-            case region = "region"
-            case lagName = "lagName"
-            case awsDeviceV2 = "awsDeviceV2"
-            case minimumLinks = "minimumLinks"
-            case lagId = "lagId"
-            case lagState = "lagState"
-        }
-    }
-
-    public struct NewPrivateVirtualInterface: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "asn", required: true, type: .integer), 
-            AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
-            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
-            AWSShapeMember(label: "authKey", required: false, type: .string), 
-            AWSShapeMember(label: "addressFamily", required: false, type: .enum), 
-            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string), 
-            AWSShapeMember(label: "virtualInterfaceName", required: true, type: .string), 
-            AWSShapeMember(label: "vlan", required: true, type: .integer), 
-            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string)
-        ]
-        public let asn: Int32
-        public let amazonAddress: String?
-        public let customerAddress: String?
-        public let authKey: String?
-        public let addressFamily: AddressFamily?
-        public let virtualGatewayId: String?
-        public let virtualInterfaceName: String
-        public let vlan: Int32
-        public let directConnectGatewayId: String?
-
-        public init(asn: Int32, amazonAddress: String? = nil, customerAddress: String? = nil, authKey: String? = nil, addressFamily: AddressFamily? = nil, virtualGatewayId: String? = nil, virtualInterfaceName: String, vlan: Int32, directConnectGatewayId: String? = nil) {
-            self.asn = asn
-            self.amazonAddress = amazonAddress
-            self.customerAddress = customerAddress
-            self.authKey = authKey
-            self.addressFamily = addressFamily
-            self.virtualGatewayId = virtualGatewayId
-            self.virtualInterfaceName = virtualInterfaceName
-            self.vlan = vlan
             self.directConnectGatewayId = directConnectGatewayId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case asn = "asn"
-            case amazonAddress = "amazonAddress"
-            case customerAddress = "customerAddress"
-            case authKey = "authKey"
-            case addressFamily = "addressFamily"
             case virtualGatewayId = "virtualGatewayId"
-            case virtualInterfaceName = "virtualInterfaceName"
-            case vlan = "vlan"
             case directConnectGatewayId = "directConnectGatewayId"
         }
     }
 
-    public struct CreateBGPPeerRequest: AWSShape {
+    public struct DescribeLoaRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string), 
-            AWSShapeMember(label: "newBGPPeer", required: false, type: .structure)
-        ]
-        /// The ID of the virtual interface on which the BGP peer will be provisioned. Example: dxvif-456abc78 Default: None
-        public let virtualInterfaceId: String?
-        /// Detailed information for the BGP peer to be created. Default: None
-        public let newBGPPeer: NewBGPPeer?
-
-        public init(virtualInterfaceId: String? = nil, newBGPPeer: NewBGPPeer? = nil) {
-            self.virtualInterfaceId = virtualInterfaceId
-            self.newBGPPeer = newBGPPeer
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceId = "virtualInterfaceId"
-            case newBGPPeer = "newBGPPeer"
-        }
-    }
-
-    public struct AssociateVirtualInterfaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string), 
-            AWSShapeMember(label: "connectionId", required: true, type: .string)
-        ]
-        /// The ID of the virtual interface. Example: dxvif-123dfg56 Default: None
-        public let virtualInterfaceId: String
-        /// The ID of the LAG or connection with which to associate the virtual interface. Example: dxlag-abc123 or dxcon-abc123 Default: None
-        public let connectionId: String
-
-        public init(virtualInterfaceId: String, connectionId: String) {
-            self.virtualInterfaceId = virtualInterfaceId
-            self.connectionId = connectionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceId = "virtualInterfaceId"
-            case connectionId = "connectionId"
-        }
-    }
-
-    public struct NewPublicVirtualInterfaceAllocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "asn", required: true, type: .integer), 
-            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
-            AWSShapeMember(label: "authKey", required: false, type: .string), 
-            AWSShapeMember(label: "addressFamily", required: false, type: .enum), 
-            AWSShapeMember(label: "routeFilterPrefixes", required: false, type: .list), 
-            AWSShapeMember(label: "virtualInterfaceName", required: true, type: .string), 
-            AWSShapeMember(label: "vlan", required: true, type: .integer), 
-            AWSShapeMember(label: "amazonAddress", required: false, type: .string)
-        ]
-        public let asn: Int32
-        public let customerAddress: String?
-        public let authKey: String?
-        public let addressFamily: AddressFamily?
-        public let routeFilterPrefixes: [RouteFilterPrefix]?
-        public let virtualInterfaceName: String
-        public let vlan: Int32
-        public let amazonAddress: String?
-
-        public init(asn: Int32, customerAddress: String? = nil, authKey: String? = nil, addressFamily: AddressFamily? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, virtualInterfaceName: String, vlan: Int32, amazonAddress: String? = nil) {
-            self.asn = asn
-            self.customerAddress = customerAddress
-            self.authKey = authKey
-            self.addressFamily = addressFamily
-            self.routeFilterPrefixes = routeFilterPrefixes
-            self.virtualInterfaceName = virtualInterfaceName
-            self.vlan = vlan
-            self.amazonAddress = amazonAddress
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case asn = "asn"
-            case customerAddress = "customerAddress"
-            case authKey = "authKey"
-            case addressFamily = "addressFamily"
-            case routeFilterPrefixes = "routeFilterPrefixes"
-            case virtualInterfaceName = "virtualInterfaceName"
-            case vlan = "vlan"
-            case amazonAddress = "amazonAddress"
-        }
-    }
-
-    public struct CreateLagRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "location", required: true, type: .string), 
-            AWSShapeMember(label: "numberOfConnections", required: true, type: .integer), 
-            AWSShapeMember(label: "connectionsBandwidth", required: true, type: .string), 
-            AWSShapeMember(label: "lagName", required: true, type: .string), 
-            AWSShapeMember(label: "connectionId", required: false, type: .string)
-        ]
-        /// The AWS Direct Connect location in which the LAG should be allocated. Example: EqSV5 Default: None
-        public let location: String
-        /// The number of physical connections initially provisioned and bundled by the LAG. Default: None
-        public let numberOfConnections: Int32
-        /// The bandwidth of the individual physical connections bundled by the LAG. Default: None Available values: 1Gbps, 10Gbps
-        public let connectionsBandwidth: String
-        /// The name of the LAG. Example: "3x10G LAG to AWS" Default: None
-        public let lagName: String
-        /// The ID of an existing connection to migrate to the LAG. Default: None
-        public let connectionId: String?
-
-        public init(location: String, numberOfConnections: Int32, connectionsBandwidth: String, lagName: String, connectionId: String? = nil) {
-            self.location = location
-            self.numberOfConnections = numberOfConnections
-            self.connectionsBandwidth = connectionsBandwidth
-            self.lagName = lagName
-            self.connectionId = connectionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case location = "location"
-            case numberOfConnections = "numberOfConnections"
-            case connectionsBandwidth = "connectionsBandwidth"
-            case lagName = "lagName"
-            case connectionId = "connectionId"
-        }
-    }
-
-    public struct AllocateHostedConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "connectionName", required: true, type: .string), 
-            AWSShapeMember(label: "bandwidth", required: true, type: .string), 
             AWSShapeMember(label: "connectionId", required: true, type: .string), 
-            AWSShapeMember(label: "ownerAccount", required: true, type: .string), 
-            AWSShapeMember(label: "vlan", required: true, type: .integer)
+            AWSShapeMember(label: "loaContentType", required: false, type: .enum), 
+            AWSShapeMember(label: "providerName", required: false, type: .string)
         ]
-        /// The name of the provisioned connection. Example: "500M Connection to AWS" Default: None
-        public let connectionName: String
-        /// The bandwidth of the connection. Example: 500Mbps  Default: None Values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, or 500Mbps
-        public let bandwidth: String
-        /// The ID of the interconnect or LAG on which the connection will be provisioned. Example: dxcon-456abc78 or dxlag-abc123 Default: None
+        /// The ID of a connection, LAG, or interconnect.
         public let connectionId: String
-        /// The numeric account ID of the customer for whom the connection will be provisioned. Example: 123443215678 Default: None
-        public let ownerAccount: String
-        /// The dedicated VLAN provisioned to the hosted connection. Example: 101 Default: None
-        public let vlan: Int32
+        /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
+        public let loaContentType: LoaContentType?
+        /// The name of the service provider who establishes connectivity on your behalf. If you specify this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect.
+        public let providerName: String?
 
-        public init(connectionName: String, bandwidth: String, connectionId: String, ownerAccount: String, vlan: Int32) {
-            self.connectionName = connectionName
-            self.bandwidth = bandwidth
+        public init(connectionId: String, loaContentType: LoaContentType? = nil, providerName: String? = nil) {
             self.connectionId = connectionId
-            self.ownerAccount = ownerAccount
-            self.vlan = vlan
+            self.loaContentType = loaContentType
+            self.providerName = providerName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionName = "connectionName"
-            case bandwidth = "bandwidth"
             case connectionId = "connectionId"
-            case ownerAccount = "ownerAccount"
-            case vlan = "vlan"
+            case loaContentType = "loaContentType"
+            case providerName = "providerName"
         }
     }
 
-    public struct CreateDirectConnectGatewayResult: AWSShape {
+    public struct DeleteConnectionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "directConnectGateway", required: false, type: .structure)
+            AWSShapeMember(label: "connectionId", required: true, type: .string)
         ]
-        /// The direct connect gateway to be created.
-        public let directConnectGateway: DirectConnectGateway?
+        /// The ID of the connection.
+        public let connectionId: String
 
-        public init(directConnectGateway: DirectConnectGateway? = nil) {
-            self.directConnectGateway = directConnectGateway
+        public init(connectionId: String) {
+            self.connectionId = connectionId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGateway = "directConnectGateway"
+            case connectionId = "connectionId"
         }
     }
 
     public struct CreateConnectionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "connectionName", required: true, type: .string), 
-            AWSShapeMember(label: "location", required: true, type: .string), 
             AWSShapeMember(label: "lagId", required: false, type: .string), 
-            AWSShapeMember(label: "bandwidth", required: true, type: .string)
+            AWSShapeMember(label: "location", required: true, type: .string), 
+            AWSShapeMember(label: "bandwidth", required: true, type: .string), 
+            AWSShapeMember(label: "connectionName", required: true, type: .string)
         ]
-        public let connectionName: String
-        public let location: String
+        /// The ID of the LAG.
         public let lagId: String?
+        /// The location of the connection.
+        public let location: String
+        /// The bandwidth of the connection.
         public let bandwidth: String
+        /// The name of the connection.
+        public let connectionName: String
 
-        public init(connectionName: String, location: String, lagId: String? = nil, bandwidth: String) {
-            self.connectionName = connectionName
-            self.location = location
+        public init(lagId: String? = nil, location: String, bandwidth: String, connectionName: String) {
             self.lagId = lagId
+            self.location = location
             self.bandwidth = bandwidth
+            self.connectionName = connectionName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionName = "connectionName"
-            case location = "location"
             case lagId = "lagId"
+            case location = "location"
             case bandwidth = "bandwidth"
+            case connectionName = "connectionName"
         }
     }
 
-    public struct DescribeDirectConnectGatewaysResult: AWSShape {
+    public struct NewPublicVirtualInterface: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "directConnectGateways", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// Information about the direct connect gateways.
-        public let directConnectGateways: [DirectConnectGateway]?
-        public let nextToken: String?
-
-        public init(directConnectGateways: [DirectConnectGateway]? = nil, nextToken: String? = nil) {
-            self.directConnectGateways = directConnectGateways
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directConnectGateways = "directConnectGateways"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct BGPPeer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "asn", required: false, type: .integer), 
-            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
-            AWSShapeMember(label: "awsDeviceV2", required: false, type: .string), 
+            AWSShapeMember(label: "asn", required: true, type: .integer), 
+            AWSShapeMember(label: "routeFilterPrefixes", required: false, type: .list), 
+            AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
+            AWSShapeMember(label: "vlan", required: true, type: .integer), 
             AWSShapeMember(label: "authKey", required: false, type: .string), 
-            AWSShapeMember(label: "addressFamily", required: false, type: .enum), 
-            AWSShapeMember(label: "bgpPeerState", required: false, type: .enum), 
-            AWSShapeMember(label: "bgpStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "amazonAddress", required: false, type: .string)
+            AWSShapeMember(label: "virtualInterfaceName", required: true, type: .string), 
+            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
+            AWSShapeMember(label: "addressFamily", required: false, type: .enum)
         ]
-        public let asn: Int32?
-        public let customerAddress: String?
-        /// The Direct Connection endpoint which the BGP peer terminates on.
-        public let awsDeviceV2: String?
-        public let authKey: String?
-        public let addressFamily: AddressFamily?
-        public let bgpPeerState: BGPPeerState?
-        public let bgpStatus: BGPStatus?
+        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        public let asn: Int32
+        /// The routes to be advertised to the AWS network in this Region. Applies to public virtual interfaces.
+        public let routeFilterPrefixes: [RouteFilterPrefix]?
+        /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
+        /// The ID of the VLAN.
+        public let vlan: Int32
+        /// The authentication key for BGP configuration.
+        public let authKey: String?
+        /// The name of the virtual interface assigned by the customer network.
+        public let virtualInterfaceName: String
+        /// The IP address assigned to the customer interface.
+        public let customerAddress: String?
+        /// The address family for the BGP peer.
+        public let addressFamily: AddressFamily?
 
-        public init(asn: Int32? = nil, customerAddress: String? = nil, awsDeviceV2: String? = nil, authKey: String? = nil, addressFamily: AddressFamily? = nil, bgpPeerState: BGPPeerState? = nil, bgpStatus: BGPStatus? = nil, amazonAddress: String? = nil) {
+        public init(asn: Int32, routeFilterPrefixes: [RouteFilterPrefix]? = nil, amazonAddress: String? = nil, vlan: Int32, authKey: String? = nil, virtualInterfaceName: String, customerAddress: String? = nil, addressFamily: AddressFamily? = nil) {
             self.asn = asn
-            self.customerAddress = customerAddress
-            self.awsDeviceV2 = awsDeviceV2
-            self.authKey = authKey
-            self.addressFamily = addressFamily
-            self.bgpPeerState = bgpPeerState
-            self.bgpStatus = bgpStatus
+            self.routeFilterPrefixes = routeFilterPrefixes
             self.amazonAddress = amazonAddress
+            self.vlan = vlan
+            self.authKey = authKey
+            self.virtualInterfaceName = virtualInterfaceName
+            self.customerAddress = customerAddress
+            self.addressFamily = addressFamily
         }
 
         private enum CodingKeys: String, CodingKey {
             case asn = "asn"
-            case customerAddress = "customerAddress"
-            case awsDeviceV2 = "awsDeviceV2"
-            case authKey = "authKey"
-            case addressFamily = "addressFamily"
-            case bgpPeerState = "bgpPeerState"
-            case bgpStatus = "bgpStatus"
+            case routeFilterPrefixes = "routeFilterPrefixes"
             case amazonAddress = "amazonAddress"
+            case vlan = "vlan"
+            case authKey = "authKey"
+            case virtualInterfaceName = "virtualInterfaceName"
+            case customerAddress = "customerAddress"
+            case addressFamily = "addressFamily"
+        }
+    }
+
+    public struct CreatePublicVirtualInterfaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "newPublicVirtualInterface", required: true, type: .structure)
+        ]
+        /// The ID of the connection.
+        public let connectionId: String
+        /// Information about the public virtual interface.
+        public let newPublicVirtualInterface: NewPublicVirtualInterface
+
+        public init(connectionId: String, newPublicVirtualInterface: NewPublicVirtualInterface) {
+            self.connectionId = connectionId
+            self.newPublicVirtualInterface = newPublicVirtualInterface
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+            case newPublicVirtualInterface = "newPublicVirtualInterface"
+        }
+    }
+
+    public struct DescribeConnectionLoaRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "loaContentType", required: false, type: .enum), 
+            AWSShapeMember(label: "providerName", required: false, type: .string)
+        ]
+        /// The ID of the connection.
+        public let connectionId: String
+        /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
+        public let loaContentType: LoaContentType?
+        /// The name of the APN partner or service provider who establishes connectivity on your behalf. If you specify this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect.
+        public let providerName: String?
+
+        public init(connectionId: String, loaContentType: LoaContentType? = nil, providerName: String? = nil) {
+            self.connectionId = connectionId
+            self.loaContentType = loaContentType
+            self.providerName = providerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+            case loaContentType = "loaContentType"
+            case providerName = "providerName"
+        }
+    }
+
+    public struct CreateBGPPeerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "newBGPPeer", required: false, type: .structure), 
+            AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string)
+        ]
+        /// Information about the BGP peer.
+        public let newBGPPeer: NewBGPPeer?
+        /// The ID of the virtual interface.
+        public let virtualInterfaceId: String?
+
+        public init(newBGPPeer: NewBGPPeer? = nil, virtualInterfaceId: String? = nil) {
+            self.newBGPPeer = newBGPPeer
+            self.virtualInterfaceId = virtualInterfaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case newBGPPeer = "newBGPPeer"
+            case virtualInterfaceId = "virtualInterfaceId"
+        }
+    }
+
+    public struct DescribeDirectConnectGatewaysRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The maximum number of Direct Connect gateways to return per page.
+        public let maxResults: Int32?
+        /// The ID of the Direct Connect gateway.
+        public let directConnectGatewayId: String?
+        /// The token provided in the previous call to retrieve the next page.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, directConnectGatewayId: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.directConnectGatewayId = directConnectGatewayId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DisassociateConnectionFromLagRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "lagId", required: true, type: .string)
+        ]
+        /// The ID of the connection. For example, dxcon-abc123.
+        public let connectionId: String
+        /// The ID of the LAG. For example, dxlag-abc123.
+        public let lagId: String
+
+        public init(connectionId: String, lagId: String) {
+            self.connectionId = connectionId
+            self.lagId = lagId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+            case lagId = "lagId"
         }
     }
 
     public struct DeleteDirectConnectGatewayAssociationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "directConnectGatewayId", required: true, type: .string), 
-            AWSShapeMember(label: "virtualGatewayId", required: true, type: .string)
+            AWSShapeMember(label: "virtualGatewayId", required: true, type: .string), 
+            AWSShapeMember(label: "directConnectGatewayId", required: true, type: .string)
         ]
-        /// The ID of the direct connect gateway. Example: "abcd1234-dcba-5678-be23-cdef9876ab45" Default: None
-        public let directConnectGatewayId: String
-        /// The ID of the virtual private gateway. Example: "vgw-abc123ef" Default: None
+        /// The ID of the virtual private gateway.
         public let virtualGatewayId: String
+        /// The ID of the Direct Connect gateway.
+        public let directConnectGatewayId: String
 
-        public init(directConnectGatewayId: String, virtualGatewayId: String) {
-            self.directConnectGatewayId = directConnectGatewayId
+        public init(virtualGatewayId: String, directConnectGatewayId: String) {
             self.virtualGatewayId = virtualGatewayId
+            self.directConnectGatewayId = directConnectGatewayId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualGatewayId = "virtualGatewayId"
+            case directConnectGatewayId = "directConnectGatewayId"
+        }
+    }
+
+    public struct DescribeConnectionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: false, type: .string)
+        ]
+        /// The ID of the connection.
+        public let connectionId: String?
+
+        public init(connectionId: String? = nil) {
+            self.connectionId = connectionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+        }
+    }
+
+    public struct Lags: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lags", required: false, type: .list)
+        ]
+        /// The LAGs.
+        public let lags: [Lag]?
+
+        public init(lags: [Lag]? = nil) {
+            self.lags = lags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lags = "lags"
+        }
+    }
+
+    public struct DirectConnectGatewayAttachment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceRegion", required: false, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceOwnerAccount", required: false, type: .string), 
+            AWSShapeMember(label: "stateChangeError", required: false, type: .string), 
+            AWSShapeMember(label: "attachmentState", required: false, type: .enum)
+        ]
+        /// The ID of the Direct Connect gateway.
+        public let directConnectGatewayId: String?
+        /// The AWS Region where the virtual interface is located.
+        public let virtualInterfaceRegion: String?
+        /// The ID of the virtual interface.
+        public let virtualInterfaceId: String?
+        /// The ID of the AWS account that owns the virtual interface.
+        public let virtualInterfaceOwnerAccount: String?
+        /// The error message if the state of an object failed to advance.
+        public let stateChangeError: String?
+        /// The state of the attachment. The following are the possible values:    attaching: The initial state after a virtual interface is created using the Direct Connect gateway.    attached: The Direct Connect gateway and virtual interface are attached and ready to pass traffic.    detaching: The initial state after calling DeleteVirtualInterface.    detached: The virtual interface is detached from the Direct Connect gateway. Traffic flow between the Direct Connect gateway and virtual interface is stopped.  
+        public let attachmentState: DirectConnectGatewayAttachmentState?
+
+        public init(directConnectGatewayId: String? = nil, virtualInterfaceRegion: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceOwnerAccount: String? = nil, stateChangeError: String? = nil, attachmentState: DirectConnectGatewayAttachmentState? = nil) {
+            self.directConnectGatewayId = directConnectGatewayId
+            self.virtualInterfaceRegion = virtualInterfaceRegion
+            self.virtualInterfaceId = virtualInterfaceId
+            self.virtualInterfaceOwnerAccount = virtualInterfaceOwnerAccount
+            self.stateChangeError = stateChangeError
+            self.attachmentState = attachmentState
         }
 
         private enum CodingKeys: String, CodingKey {
             case directConnectGatewayId = "directConnectGatewayId"
-            case virtualGatewayId = "virtualGatewayId"
+            case virtualInterfaceRegion = "virtualInterfaceRegion"
+            case virtualInterfaceId = "virtualInterfaceId"
+            case virtualInterfaceOwnerAccount = "virtualInterfaceOwnerAccount"
+            case stateChangeError = "stateChangeError"
+            case attachmentState = "attachmentState"
         }
     }
 
-    public struct Connection: AWSShape {
+    public struct DeleteDirectConnectGatewayRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "awsDevice", required: false, type: .string), 
-            AWSShapeMember(label: "ownerAccount", required: false, type: .string), 
-            AWSShapeMember(label: "partnerName", required: false, type: .string), 
-            AWSShapeMember(label: "connectionState", required: false, type: .enum), 
-            AWSShapeMember(label: "location", required: false, type: .string), 
-            AWSShapeMember(label: "vlan", required: false, type: .integer), 
-            AWSShapeMember(label: "connectionName", required: false, type: .string), 
-            AWSShapeMember(label: "loaIssueTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "connectionId", required: false, type: .string), 
-            AWSShapeMember(label: "region", required: false, type: .string), 
-            AWSShapeMember(label: "bandwidth", required: false, type: .string), 
-            AWSShapeMember(label: "awsDeviceV2", required: false, type: .string), 
-            AWSShapeMember(label: "lagId", required: false, type: .string)
+            AWSShapeMember(label: "directConnectGatewayId", required: true, type: .string)
         ]
-        /// Deprecated in favor of awsDeviceV2. The Direct Connection endpoint which the physical connection terminates on.
-        public let awsDevice: String?
-        /// The AWS account that will own the new connection.
-        public let ownerAccount: String?
-        /// The name of the AWS Direct Connect service provider associated with the connection.
-        public let partnerName: String?
-        public let connectionState: ConnectionState?
-        public let location: String?
-        public let vlan: Int32?
-        public let connectionName: String?
-        /// The time of the most recent call to DescribeLoa for this connection.
-        public let loaIssueTime: TimeStamp?
-        public let connectionId: String?
-        public let region: String?
-        /// Bandwidth of the connection. Example: 1Gbps (for regular connections), or 500Mbps (for hosted connections) Default: None
-        public let bandwidth: String?
-        /// The Direct Connection endpoint which the physical connection terminates on.
-        public let awsDeviceV2: String?
-        public let lagId: String?
+        /// The ID of the Direct Connect gateway.
+        public let directConnectGatewayId: String
 
-        public init(awsDevice: String? = nil, ownerAccount: String? = nil, partnerName: String? = nil, connectionState: ConnectionState? = nil, location: String? = nil, vlan: Int32? = nil, connectionName: String? = nil, loaIssueTime: TimeStamp? = nil, connectionId: String? = nil, region: String? = nil, bandwidth: String? = nil, awsDeviceV2: String? = nil, lagId: String? = nil) {
-            self.awsDevice = awsDevice
-            self.ownerAccount = ownerAccount
-            self.partnerName = partnerName
-            self.connectionState = connectionState
-            self.location = location
-            self.vlan = vlan
-            self.connectionName = connectionName
-            self.loaIssueTime = loaIssueTime
-            self.connectionId = connectionId
-            self.region = region
-            self.bandwidth = bandwidth
-            self.awsDeviceV2 = awsDeviceV2
-            self.lagId = lagId
+        public init(directConnectGatewayId: String) {
+            self.directConnectGatewayId = directConnectGatewayId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsDevice = "awsDevice"
-            case ownerAccount = "ownerAccount"
-            case partnerName = "partnerName"
-            case connectionState = "connectionState"
-            case location = "location"
-            case vlan = "vlan"
-            case connectionName = "connectionName"
-            case loaIssueTime = "loaIssueTime"
+            case directConnectGatewayId = "directConnectGatewayId"
+        }
+    }
+
+    public enum InterconnectState: String, CustomStringConvertible, Codable {
+        case requested = "requested"
+        case pending = "pending"
+        case available = "available"
+        case down = "down"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string)
+        ]
+        /// The key.
+        public let key: String
+        /// The value.
+        public let value: String?
+
+        public init(key: String, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct DeleteBGPPeerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "asn", required: false, type: .integer), 
+            AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string), 
+            AWSShapeMember(label: "bgpPeerId", required: false, type: .string), 
+            AWSShapeMember(label: "customerAddress", required: false, type: .string)
+        ]
+        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        public let asn: Int32?
+        /// The ID of the virtual interface.
+        public let virtualInterfaceId: String?
+        /// The ID of the BGP peer.
+        public let bgpPeerId: String?
+        /// The IP address assigned to the customer interface.
+        public let customerAddress: String?
+
+        public init(asn: Int32? = nil, virtualInterfaceId: String? = nil, bgpPeerId: String? = nil, customerAddress: String? = nil) {
+            self.asn = asn
+            self.virtualInterfaceId = virtualInterfaceId
+            self.bgpPeerId = bgpPeerId
+            self.customerAddress = customerAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asn = "asn"
+            case virtualInterfaceId = "virtualInterfaceId"
+            case bgpPeerId = "bgpPeerId"
+            case customerAddress = "customerAddress"
+        }
+    }
+
+    public struct DescribeConnectionsOnInterconnectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "interconnectId", required: true, type: .string)
+        ]
+        /// The ID of the interconnect.
+        public let interconnectId: String
+
+        public init(interconnectId: String) {
+            self.interconnectId = interconnectId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interconnectId = "interconnectId"
+        }
+    }
+
+    public struct DescribeInterconnectLoaResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "loa", required: false, type: .structure)
+        ]
+        /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA).
+        public let loa: Loa?
+
+        public init(loa: Loa? = nil) {
+            self.loa = loa
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loa = "loa"
+        }
+    }
+
+    public struct VirtualGateways: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualGateways", required: false, type: .list)
+        ]
+        /// The virtual private gateways.
+        public let virtualGateways: [VirtualGateway]?
+
+        public init(virtualGateways: [VirtualGateway]? = nil) {
+            self.virtualGateways = virtualGateways
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualGateways = "virtualGateways"
+        }
+    }
+
+    public struct DescribeDirectConnectGatewayAttachmentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string)
+        ]
+        /// The ID of the Direct Connect gateway.
+        public let directConnectGatewayId: String?
+        /// The maximum number of attachments to return per page.
+        public let maxResults: Int32?
+        /// The token provided in the previous call to retrieve the next page.
+        public let nextToken: String?
+        /// The ID of the virtual interface.
+        public let virtualInterfaceId: String?
+
+        public init(directConnectGatewayId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, virtualInterfaceId: String? = nil) {
+            self.directConnectGatewayId = directConnectGatewayId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.virtualInterfaceId = virtualInterfaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directConnectGatewayId = "directConnectGatewayId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case virtualInterfaceId = "virtualInterfaceId"
+        }
+    }
+
+    public struct AllocatePrivateVirtualInterfaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "newPrivateVirtualInterfaceAllocation", required: true, type: .structure), 
+            AWSShapeMember(label: "ownerAccount", required: true, type: .string)
+        ]
+        /// The ID of the connection on which the private virtual interface is provisioned.
+        public let connectionId: String
+        /// Information about the private virtual interface.
+        public let newPrivateVirtualInterfaceAllocation: NewPrivateVirtualInterfaceAllocation
+        /// The ID of the AWS account that owns the virtual private interface.
+        public let ownerAccount: String
+
+        public init(connectionId: String, newPrivateVirtualInterfaceAllocation: NewPrivateVirtualInterfaceAllocation, ownerAccount: String) {
+            self.connectionId = connectionId
+            self.newPrivateVirtualInterfaceAllocation = newPrivateVirtualInterfaceAllocation
+            self.ownerAccount = ownerAccount
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case connectionId = "connectionId"
-            case region = "region"
-            case bandwidth = "bandwidth"
-            case awsDeviceV2 = "awsDeviceV2"
-            case lagId = "lagId"
+            case newPrivateVirtualInterfaceAllocation = "newPrivateVirtualInterfaceAllocation"
+            case ownerAccount = "ownerAccount"
+        }
+    }
+
+    public struct RouteFilterPrefix: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cidr", required: false, type: .string)
+        ]
+        /// The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter.
+        public let cidr: String?
+
+        public init(cidr: String? = nil) {
+            self.cidr = cidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "cidr"
         }
     }
 
@@ -1347,90 +942,424 @@ extension DirectConnect {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Connection: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: true, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
+            AWSShapeMember(label: "partnerName", required: false, type: .string), 
+            AWSShapeMember(label: "ownerAccount", required: false, type: .string), 
+            AWSShapeMember(label: "connectionId", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .string), 
+            AWSShapeMember(label: "awsDeviceV2", required: false, type: .string), 
+            AWSShapeMember(label: "loaIssueTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "bandwidth", required: false, type: .string), 
+            AWSShapeMember(label: "connectionState", required: false, type: .enum), 
+            AWSShapeMember(label: "region", required: false, type: .string), 
+            AWSShapeMember(label: "vlan", required: false, type: .integer), 
+            AWSShapeMember(label: "lagId", required: false, type: .string), 
+            AWSShapeMember(label: "hasLogicalRedundancy", required: false, type: .enum), 
+            AWSShapeMember(label: "awsDevice", required: false, type: .string), 
+            AWSShapeMember(label: "connectionName", required: false, type: .string), 
+            AWSShapeMember(label: "jumboFrameCapable", required: false, type: .boolean)
         ]
-        /// The key of the tag.
-        public let key: String
-        /// The value of the tag.
-        public let value: String?
+        /// The name of the AWS Direct Connect service provider associated with the connection.
+        public let partnerName: String?
+        /// The ID of the AWS account that owns the connection.
+        public let ownerAccount: String?
+        /// The ID of the connection.
+        public let connectionId: String?
+        /// The location of the connection.
+        public let location: String?
+        /// The Direct Connect endpoint on which the physical connection terminates.
+        public let awsDeviceV2: String?
+        /// The time of the most recent call to DescribeLoa for this connection.
+        public let loaIssueTime: TimeStamp?
+        /// The bandwidth of the connection.
+        public let bandwidth: String?
+        /// The state of the connection. The following are the possible values:    ordering: The initial state of a hosted connection provisioned on an interconnect. The connection stays in the ordering state until the owner of the hosted connection confirms or declines the connection order.    requested: The initial state of a standard connection. The connection stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The connection has been approved and is being initialized.    available: The network link is up and the connection is ready for use.    down: The network link is down.    deleting: The connection is being deleted.    deleted: The connection has been deleted.    rejected: A hosted connection in the ordering state enters the rejected state if it is deleted by the customer.  
+        public let connectionState: ConnectionState?
+        /// The AWS Region where the connection is located.
+        public let region: String?
+        /// The ID of the VLAN.
+        public let vlan: Int32?
+        /// The ID of the LAG.
+        public let lagId: String?
+        /// Indicates whether the connection supports a secondary BGP peer in the same address family (IPv4/IPv6).
+        public let hasLogicalRedundancy: HasLogicalRedundancy?
+        /// The Direct Connect endpoint on which the physical connection terminates.
+        public let awsDevice: String?
+        /// The name of the connection.
+        public let connectionName: String?
+        /// Indicates whether jumbo frames (9001 MTU) are supported.
+        public let jumboFrameCapable: Bool?
 
-        public init(key: String, value: String? = nil) {
-            self.key = key
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "key"
-            case value = "value"
-        }
-    }
-
-    public struct DescribeHostedConnectionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "connectionId", required: true, type: .string)
-        ]
-        /// The ID of the interconnect or LAG on which the hosted connections are provisioned. Example: dxcon-abc123 or dxlag-abc123 Default: None
-        public let connectionId: String
-
-        public init(connectionId: String) {
+        public init(partnerName: String? = nil, ownerAccount: String? = nil, connectionId: String? = nil, location: String? = nil, awsDeviceV2: String? = nil, loaIssueTime: TimeStamp? = nil, bandwidth: String? = nil, connectionState: ConnectionState? = nil, region: String? = nil, vlan: Int32? = nil, lagId: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, awsDevice: String? = nil, connectionName: String? = nil, jumboFrameCapable: Bool? = nil) {
+            self.partnerName = partnerName
+            self.ownerAccount = ownerAccount
             self.connectionId = connectionId
+            self.location = location
+            self.awsDeviceV2 = awsDeviceV2
+            self.loaIssueTime = loaIssueTime
+            self.bandwidth = bandwidth
+            self.connectionState = connectionState
+            self.region = region
+            self.vlan = vlan
+            self.lagId = lagId
+            self.hasLogicalRedundancy = hasLogicalRedundancy
+            self.awsDevice = awsDevice
+            self.connectionName = connectionName
+            self.jumboFrameCapable = jumboFrameCapable
         }
 
         private enum CodingKeys: String, CodingKey {
+            case partnerName = "partnerName"
+            case ownerAccount = "ownerAccount"
             case connectionId = "connectionId"
+            case location = "location"
+            case awsDeviceV2 = "awsDeviceV2"
+            case loaIssueTime = "loaIssueTime"
+            case bandwidth = "bandwidth"
+            case connectionState = "connectionState"
+            case region = "region"
+            case vlan = "vlan"
+            case lagId = "lagId"
+            case hasLogicalRedundancy = "hasLogicalRedundancy"
+            case awsDevice = "awsDevice"
+            case connectionName = "connectionName"
+            case jumboFrameCapable = "jumboFrameCapable"
         }
     }
 
-    public enum InterconnectState: String, CustomStringConvertible, Codable {
-        case requested = "requested"
-        case pending = "pending"
-        case available = "available"
-        case down = "down"
-        case deleting = "deleting"
-        case deleted = "deleted"
+    public struct DeleteVirtualInterfaceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum)
+        ]
+        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.  
+        public let virtualInterfaceState: VirtualInterfaceState?
+
+        public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
+            self.virtualInterfaceState = virtualInterfaceState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaceState = "virtualInterfaceState"
+        }
+    }
+
+    public enum DirectConnectGatewayAssociationState: String, CustomStringConvertible, Codable {
+        case associating = "associating"
+        case associated = "associated"
+        case disassociating = "disassociating"
+        case disassociated = "disassociated"
         public var description: String { return self.rawValue }
     }
 
-    public struct DescribeDirectConnectGatewayAssociationsResult: AWSShape {
+    public struct ConfirmPrivateVirtualInterfaceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "directConnectGatewayAssociations", required: false, type: .list)
+            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string)
         ]
-        public let nextToken: String?
-        /// Information about the direct connect gateway associations.
-        public let directConnectGatewayAssociations: [DirectConnectGatewayAssociation]?
+        /// The ID of the virtual private gateway.
+        public let virtualGatewayId: String?
+        /// The ID of the Direct Connect gateway.
+        public let directConnectGatewayId: String?
+        /// The ID of the virtual interface.
+        public let virtualInterfaceId: String
 
-        public init(nextToken: String? = nil, directConnectGatewayAssociations: [DirectConnectGatewayAssociation]? = nil) {
-            self.nextToken = nextToken
-            self.directConnectGatewayAssociations = directConnectGatewayAssociations
+        public init(virtualGatewayId: String? = nil, directConnectGatewayId: String? = nil, virtualInterfaceId: String) {
+            self.virtualGatewayId = virtualGatewayId
+            self.directConnectGatewayId = directConnectGatewayId
+            self.virtualInterfaceId = virtualInterfaceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case directConnectGatewayAssociations = "directConnectGatewayAssociations"
+            case virtualGatewayId = "virtualGatewayId"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 
-    public struct CreatePublicVirtualInterfaceRequest: AWSShape {
+    public struct CreatePrivateVirtualInterfaceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "newPublicVirtualInterface", required: true, type: .structure), 
-            AWSShapeMember(label: "connectionId", required: true, type: .string)
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "newPrivateVirtualInterface", required: true, type: .structure)
         ]
-        /// Detailed information for the public virtual interface to be created. Default: None
-        public let newPublicVirtualInterface: NewPublicVirtualInterface
+        /// The ID of the connection.
         public let connectionId: String
+        /// Information about the private virtual interface.
+        public let newPrivateVirtualInterface: NewPrivateVirtualInterface
 
-        public init(newPublicVirtualInterface: NewPublicVirtualInterface, connectionId: String) {
-            self.newPublicVirtualInterface = newPublicVirtualInterface
+        public init(connectionId: String, newPrivateVirtualInterface: NewPrivateVirtualInterface) {
             self.connectionId = connectionId
+            self.newPrivateVirtualInterface = newPrivateVirtualInterface
         }
 
         private enum CodingKeys: String, CodingKey {
-            case newPublicVirtualInterface = "newPublicVirtualInterface"
             case connectionId = "connectionId"
+            case newPrivateVirtualInterface = "newPrivateVirtualInterface"
+        }
+    }
+
+    public enum DirectConnectGatewayAttachmentState: String, CustomStringConvertible, Codable {
+        case attaching = "attaching"
+        case attached = "attached"
+        case detaching = "detaching"
+        case detached = "detached"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Connections: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connections", required: false, type: .list)
+        ]
+        /// The connections.
+        public let connections: [Connection]?
+
+        public init(connections: [Connection]? = nil) {
+            self.connections = connections
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connections = "connections"
+        }
+    }
+
+    public struct CreateDirectConnectGatewayResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "directConnectGateway", required: false, type: .structure)
+        ]
+        /// The Direct Connect gateway.
+        public let directConnectGateway: DirectConnectGateway?
+
+        public init(directConnectGateway: DirectConnectGateway? = nil) {
+            self.directConnectGateway = directConnectGateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directConnectGateway = "directConnectGateway"
+        }
+    }
+
+    public struct ConfirmPublicVirtualInterfaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string)
+        ]
+        /// The ID of the virtual interface.
+        public let virtualInterfaceId: String
+
+        public init(virtualInterfaceId: String) {
+            self.virtualInterfaceId = virtualInterfaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaceId = "virtualInterfaceId"
+        }
+    }
+
+    public struct CreateLagRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "numberOfConnections", required: true, type: .integer), 
+            AWSShapeMember(label: "connectionId", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: true, type: .string), 
+            AWSShapeMember(label: "lagName", required: true, type: .string), 
+            AWSShapeMember(label: "connectionsBandwidth", required: true, type: .string)
+        ]
+        /// The number of physical connections initially provisioned and bundled by the LAG.
+        public let numberOfConnections: Int32
+        /// The ID of an existing connection to migrate to the LAG.
+        public let connectionId: String?
+        /// The location for the LAG.
+        public let location: String
+        /// The name of the LAG.
+        public let lagName: String
+        /// The bandwidth of the individual physical connections bundled by the LAG. The possible values are 1Gbps and 10Gbps.
+        public let connectionsBandwidth: String
+
+        public init(numberOfConnections: Int32, connectionId: String? = nil, location: String, lagName: String, connectionsBandwidth: String) {
+            self.numberOfConnections = numberOfConnections
+            self.connectionId = connectionId
+            self.location = location
+            self.lagName = lagName
+            self.connectionsBandwidth = connectionsBandwidth
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberOfConnections = "numberOfConnections"
+            case connectionId = "connectionId"
+            case location = "location"
+            case lagName = "lagName"
+            case connectionsBandwidth = "connectionsBandwidth"
+        }
+    }
+
+    public struct DeleteInterconnectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "interconnectId", required: true, type: .string)
+        ]
+        /// The ID of the interconnect.
+        public let interconnectId: String
+
+        public init(interconnectId: String) {
+            self.interconnectId = interconnectId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interconnectId = "interconnectId"
+        }
+    }
+
+    public struct NewPrivateVirtualInterface: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "asn", required: true, type: .integer), 
+            AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
+            AWSShapeMember(label: "vlan", required: true, type: .integer), 
+            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "mtu", required: false, type: .integer), 
+            AWSShapeMember(label: "virtualInterfaceName", required: true, type: .string), 
+            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
+            AWSShapeMember(label: "authKey", required: false, type: .string), 
+            AWSShapeMember(label: "addressFamily", required: false, type: .enum)
+        ]
+        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        public let asn: Int32
+        /// The IP address assigned to the Amazon interface.
+        public let amazonAddress: String?
+        /// The ID of the VLAN.
+        public let vlan: Int32
+        /// The ID of the Direct Connect gateway.
+        public let directConnectGatewayId: String?
+        /// The ID of the virtual private gateway.
+        public let virtualGatewayId: String?
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+        public let mtu: Int32?
+        /// The name of the virtual interface assigned by the customer network.
+        public let virtualInterfaceName: String
+        /// The IP address assigned to the customer interface.
+        public let customerAddress: String?
+        /// The authentication key for BGP configuration.
+        public let authKey: String?
+        /// The address family for the BGP peer.
+        public let addressFamily: AddressFamily?
+
+        public init(asn: Int32, amazonAddress: String? = nil, vlan: Int32, directConnectGatewayId: String? = nil, virtualGatewayId: String? = nil, mtu: Int32? = nil, virtualInterfaceName: String, customerAddress: String? = nil, authKey: String? = nil, addressFamily: AddressFamily? = nil) {
+            self.asn = asn
+            self.amazonAddress = amazonAddress
+            self.vlan = vlan
+            self.directConnectGatewayId = directConnectGatewayId
+            self.virtualGatewayId = virtualGatewayId
+            self.mtu = mtu
+            self.virtualInterfaceName = virtualInterfaceName
+            self.customerAddress = customerAddress
+            self.authKey = authKey
+            self.addressFamily = addressFamily
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asn = "asn"
+            case amazonAddress = "amazonAddress"
+            case vlan = "vlan"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case virtualGatewayId = "virtualGatewayId"
+            case mtu = "mtu"
+            case virtualInterfaceName = "virtualInterfaceName"
+            case customerAddress = "customerAddress"
+            case authKey = "authKey"
+            case addressFamily = "addressFamily"
+        }
+    }
+
+    public struct CreateBGPPeerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterface", required: false, type: .structure)
+        ]
+        /// The virtual interface.
+        public let virtualInterface: VirtualInterface?
+
+        public init(virtualInterface: VirtualInterface? = nil) {
+            self.virtualInterface = virtualInterface
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterface = "virtualInterface"
+        }
+    }
+
+    public struct DescribeConnectionLoaResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "loa", required: false, type: .structure)
+        ]
+        /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA).
+        public let loa: Loa?
+
+        public init(loa: Loa? = nil) {
+            self.loa = loa
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loa = "loa"
+        }
+    }
+
+    public struct DeleteDirectConnectGatewayResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "directConnectGateway", required: false, type: .structure)
+        ]
+        /// The Direct Connect gateway.
+        public let directConnectGateway: DirectConnectGateway?
+
+        public init(directConnectGateway: DirectConnectGateway? = nil) {
+            self.directConnectGateway = directConnectGateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directConnectGateway = "directConnectGateway"
+        }
+    }
+
+    public struct UpdateLagRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lagName", required: false, type: .string), 
+            AWSShapeMember(label: "minimumLinks", required: false, type: .integer), 
+            AWSShapeMember(label: "lagId", required: true, type: .string)
+        ]
+        /// The name of the LAG.
+        public let lagName: String?
+        /// The minimum number of physical connections that must be operational for the LAG itself to be operational.
+        public let minimumLinks: Int32?
+        /// The ID of the LAG.
+        public let lagId: String
+
+        public init(lagName: String? = nil, minimumLinks: Int32? = nil, lagId: String) {
+            self.lagName = lagName
+            self.minimumLinks = minimumLinks
+            self.lagId = lagId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lagName = "lagName"
+            case minimumLinks = "minimumLinks"
+            case lagId = "lagId"
+        }
+    }
+
+    public struct CreateDirectConnectGatewayRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "amazonSideAsn", required: false, type: .long), 
+            AWSShapeMember(label: "directConnectGatewayName", required: true, type: .string)
+        ]
+        /// The autonomous system number (ASN) for Border Gateway Protocol (BGP) to be configured on the Amazon side of the connection. The ASN must be in the private range of 64,512 to 65,534 or 4,200,000,000 to 4,294,967,294. The default is 64512.
+        public let amazonSideAsn: Int64?
+        /// The name of the Direct Connect gateway.
+        public let directConnectGatewayName: String
+
+        public init(amazonSideAsn: Int64? = nil, directConnectGatewayName: String) {
+            self.amazonSideAsn = amazonSideAsn
+            self.directConnectGatewayName = directConnectGatewayName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amazonSideAsn = "amazonSideAsn"
+            case directConnectGatewayName = "directConnectGatewayName"
         }
     }
 
@@ -1439,9 +1368,9 @@ extension DirectConnect {
             AWSShapeMember(label: "connectionId", required: true, type: .string), 
             AWSShapeMember(label: "lagId", required: true, type: .string)
         ]
-        /// The ID of the connection. Example: dxcon-abc123 Default: None
+        /// The ID of the connection. For example, dxcon-abc123.
         public let connectionId: String
-        /// The ID of the LAG with which to associate the connection. Example: dxlag-abc123 Default: None
+        /// The ID of the LAG with which to associate the connection. For example, dxlag-abc123.
         public let lagId: String
 
         public init(connectionId: String, lagId: String) {
@@ -1455,14 +1384,80 @@ extension DirectConnect {
         }
     }
 
+    public struct DeleteLagRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lagId", required: true, type: .string)
+        ]
+        /// The ID of the LAG.
+        public let lagId: String
+
+        public init(lagId: String) {
+            self.lagId = lagId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lagId = "lagId"
+        }
+    }
+
+    public enum DirectConnectGatewayState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case available = "available"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Location: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "region", required: false, type: .string), 
+            AWSShapeMember(label: "locationCode", required: false, type: .string), 
+            AWSShapeMember(label: "locationName", required: false, type: .string)
+        ]
+        /// The AWS Region for the location.
+        public let region: String?
+        /// The code for the location.
+        public let locationCode: String?
+        /// The name of the location. This includes the name of the colocation partner and the physical site of the building.
+        public let locationName: String?
+
+        public init(region: String? = nil, locationCode: String? = nil, locationName: String? = nil) {
+            self.region = region
+            self.locationCode = locationCode
+            self.locationName = locationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case region = "region"
+            case locationCode = "locationCode"
+            case locationName = "locationName"
+        }
+    }
+
+    public struct DeleteDirectConnectGatewayAssociationResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "directConnectGatewayAssociation", required: false, type: .structure)
+        ]
+        /// The association to be deleted.
+        public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
+
+        public init(directConnectGatewayAssociation: DirectConnectGatewayAssociation? = nil) {
+            self.directConnectGatewayAssociation = directConnectGatewayAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directConnectGatewayAssociation = "directConnectGatewayAssociation"
+        }
+    }
+
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArn", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: true, type: .list)
         ]
-        /// The Amazon Resource Name (ARN) of the Direct Connect resource. Example: arn:aws:directconnect:us-east-1:123456789012:dxcon/dxcon-fg5678gh
+        /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
-        /// The list of tags to add.
+        /// The tags to add.
         public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
@@ -1476,260 +1471,209 @@ extension DirectConnect {
         }
     }
 
-    public struct VirtualInterface: AWSShape {
+    public struct AllocateHostedConnectionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
-            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
-            AWSShapeMember(label: "asn", required: false, type: .integer), 
-            AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum), 
-            AWSShapeMember(label: "virtualInterfaceType", required: false, type: .string), 
-            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .string), 
-            AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string), 
-            AWSShapeMember(label: "ownerAccount", required: false, type: .string), 
-            AWSShapeMember(label: "routeFilterPrefixes", required: false, type: .list), 
-            AWSShapeMember(label: "vlan", required: false, type: .integer), 
-            AWSShapeMember(label: "amazonSideAsn", required: false, type: .long), 
-            AWSShapeMember(label: "authKey", required: false, type: .string), 
-            AWSShapeMember(label: "virtualInterfaceName", required: false, type: .string), 
-            AWSShapeMember(label: "connectionId", required: false, type: .string), 
-            AWSShapeMember(label: "addressFamily", required: false, type: .enum), 
-            AWSShapeMember(label: "region", required: false, type: .string), 
-            AWSShapeMember(label: "customerRouterConfig", required: false, type: .string), 
-            AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
-            AWSShapeMember(label: "awsDeviceV2", required: false, type: .string), 
-            AWSShapeMember(label: "bgpPeers", required: false, type: .list)
+            AWSShapeMember(label: "vlan", required: true, type: .integer), 
+            AWSShapeMember(label: "connectionName", required: true, type: .string), 
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "bandwidth", required: true, type: .string), 
+            AWSShapeMember(label: "ownerAccount", required: true, type: .string)
         ]
-        public let customerAddress: String?
-        public let directConnectGatewayId: String?
-        public let asn: Int32?
-        public let virtualInterfaceState: VirtualInterfaceState?
-        public let virtualInterfaceType: String?
-        public let virtualGatewayId: String?
-        public let location: String?
-        public let virtualInterfaceId: String?
-        /// The AWS account that will own the new virtual interface.
-        public let ownerAccount: String?
-        public let routeFilterPrefixes: [RouteFilterPrefix]?
-        public let vlan: Int32?
-        /// The autonomous system number (ASN) for the Amazon side of the connection.
-        public let amazonSideAsn: Int64?
-        public let authKey: String?
-        public let virtualInterfaceName: String?
-        public let connectionId: String?
-        public let addressFamily: AddressFamily?
-        /// The AWS region where the virtual interface is located. Example: us-east-1 Default: None
-        public let region: String?
-        /// Information for generating the customer router configuration.
-        public let customerRouterConfig: String?
-        public let amazonAddress: String?
-        /// The Direct Connection endpoint which the virtual interface terminates on.
-        public let awsDeviceV2: String?
-        public let bgpPeers: [BGPPeer]?
+        /// The dedicated VLAN provisioned to the hosted connection.
+        public let vlan: Int32
+        /// The name of the hosted connection.
+        public let connectionName: String
+        /// The ID of the interconnect or LAG.
+        public let connectionId: String
+        /// The bandwidth of the hosted connection, in Mbps. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, and 500Mbps.
+        public let bandwidth: String
+        /// The ID of the AWS account ID of the customer for the connection.
+        public let ownerAccount: String
 
-        public init(customerAddress: String? = nil, directConnectGatewayId: String? = nil, asn: Int32? = nil, virtualInterfaceState: VirtualInterfaceState? = nil, virtualInterfaceType: String? = nil, virtualGatewayId: String? = nil, location: String? = nil, virtualInterfaceId: String? = nil, ownerAccount: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, vlan: Int32? = nil, amazonSideAsn: Int64? = nil, authKey: String? = nil, virtualInterfaceName: String? = nil, connectionId: String? = nil, addressFamily: AddressFamily? = nil, region: String? = nil, customerRouterConfig: String? = nil, amazonAddress: String? = nil, awsDeviceV2: String? = nil, bgpPeers: [BGPPeer]? = nil) {
-            self.customerAddress = customerAddress
-            self.directConnectGatewayId = directConnectGatewayId
-            self.asn = asn
-            self.virtualInterfaceState = virtualInterfaceState
-            self.virtualInterfaceType = virtualInterfaceType
-            self.virtualGatewayId = virtualGatewayId
-            self.location = location
-            self.virtualInterfaceId = virtualInterfaceId
-            self.ownerAccount = ownerAccount
-            self.routeFilterPrefixes = routeFilterPrefixes
+        public init(vlan: Int32, connectionName: String, connectionId: String, bandwidth: String, ownerAccount: String) {
             self.vlan = vlan
-            self.amazonSideAsn = amazonSideAsn
+            self.connectionName = connectionName
+            self.connectionId = connectionId
+            self.bandwidth = bandwidth
+            self.ownerAccount = ownerAccount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vlan = "vlan"
+            case connectionName = "connectionName"
+            case connectionId = "connectionId"
+            case bandwidth = "bandwidth"
+            case ownerAccount = "ownerAccount"
+        }
+    }
+
+    public struct VirtualInterfaces: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterfaces", required: false, type: .list)
+        ]
+        /// The virtual interfaces
+        public let virtualInterfaces: [VirtualInterface]?
+
+        public init(virtualInterfaces: [VirtualInterface]? = nil) {
+            self.virtualInterfaces = virtualInterfaces
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaces = "virtualInterfaces"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+    }
+
+    public struct NewPublicVirtualInterfaceAllocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "asn", required: true, type: .integer), 
+            AWSShapeMember(label: "routeFilterPrefixes", required: false, type: .list), 
+            AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
+            AWSShapeMember(label: "vlan", required: true, type: .integer), 
+            AWSShapeMember(label: "authKey", required: false, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceName", required: true, type: .string), 
+            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
+            AWSShapeMember(label: "addressFamily", required: false, type: .enum)
+        ]
+        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        public let asn: Int32
+        /// The routes to be advertised to the AWS network in this Region. Applies to public virtual interfaces.
+        public let routeFilterPrefixes: [RouteFilterPrefix]?
+        /// The IP address assigned to the Amazon interface.
+        public let amazonAddress: String?
+        /// The ID of the VLAN.
+        public let vlan: Int32
+        /// The authentication key for BGP configuration.
+        public let authKey: String?
+        /// The name of the virtual interface assigned by the customer network.
+        public let virtualInterfaceName: String
+        /// The IP address assigned to the customer interface.
+        public let customerAddress: String?
+        /// The address family for the BGP peer.
+        public let addressFamily: AddressFamily?
+
+        public init(asn: Int32, routeFilterPrefixes: [RouteFilterPrefix]? = nil, amazonAddress: String? = nil, vlan: Int32, authKey: String? = nil, virtualInterfaceName: String, customerAddress: String? = nil, addressFamily: AddressFamily? = nil) {
+            self.asn = asn
+            self.routeFilterPrefixes = routeFilterPrefixes
+            self.amazonAddress = amazonAddress
+            self.vlan = vlan
             self.authKey = authKey
             self.virtualInterfaceName = virtualInterfaceName
-            self.connectionId = connectionId
+            self.customerAddress = customerAddress
             self.addressFamily = addressFamily
-            self.region = region
-            self.customerRouterConfig = customerRouterConfig
-            self.amazonAddress = amazonAddress
-            self.awsDeviceV2 = awsDeviceV2
-            self.bgpPeers = bgpPeers
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customerAddress = "customerAddress"
-            case directConnectGatewayId = "directConnectGatewayId"
             case asn = "asn"
-            case virtualInterfaceState = "virtualInterfaceState"
-            case virtualInterfaceType = "virtualInterfaceType"
-            case virtualGatewayId = "virtualGatewayId"
-            case location = "location"
-            case virtualInterfaceId = "virtualInterfaceId"
-            case ownerAccount = "ownerAccount"
             case routeFilterPrefixes = "routeFilterPrefixes"
+            case amazonAddress = "amazonAddress"
             case vlan = "vlan"
-            case amazonSideAsn = "amazonSideAsn"
             case authKey = "authKey"
             case virtualInterfaceName = "virtualInterfaceName"
-            case connectionId = "connectionId"
+            case customerAddress = "customerAddress"
             case addressFamily = "addressFamily"
-            case region = "region"
-            case customerRouterConfig = "customerRouterConfig"
-            case amazonAddress = "amazonAddress"
-            case awsDeviceV2 = "awsDeviceV2"
-            case bgpPeers = "bgpPeers"
-        }
-    }
-
-    public struct AllocateConnectionOnInterconnectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "connectionName", required: true, type: .string), 
-            AWSShapeMember(label: "bandwidth", required: true, type: .string), 
-            AWSShapeMember(label: "interconnectId", required: true, type: .string), 
-            AWSShapeMember(label: "ownerAccount", required: true, type: .string), 
-            AWSShapeMember(label: "vlan", required: true, type: .integer)
-        ]
-        /// Name of the provisioned connection. Example: "500M Connection to AWS" Default: None
-        public let connectionName: String
-        /// Bandwidth of the connection. Example: "500Mbps" Default: None Values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, or 500Mbps
-        public let bandwidth: String
-        /// ID of the interconnect on which the connection will be provisioned. Example: dxcon-456abc78 Default: None
-        public let interconnectId: String
-        /// Numeric account Id of the customer for whom the connection will be provisioned. Example: 123443215678 Default: None
-        public let ownerAccount: String
-        /// The dedicated VLAN provisioned to the connection. Example: 101 Default: None
-        public let vlan: Int32
-
-        public init(connectionName: String, bandwidth: String, interconnectId: String, ownerAccount: String, vlan: Int32) {
-            self.connectionName = connectionName
-            self.bandwidth = bandwidth
-            self.interconnectId = interconnectId
-            self.ownerAccount = ownerAccount
-            self.vlan = vlan
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectionName = "connectionName"
-            case bandwidth = "bandwidth"
-            case interconnectId = "interconnectId"
-            case ownerAccount = "ownerAccount"
-            case vlan = "vlan"
-        }
-    }
-
-    public struct DescribeDirectConnectGatewayAssociationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// The ID of the direct connect gateway. Example: "abcd1234-dcba-5678-be23-cdef9876ab45" Default: None
-        public let directConnectGatewayId: String?
-        /// The token provided in the previous describe result to retrieve the next page of the result. Default: None
-        public let nextToken: String?
-        /// The ID of the virtual private gateway. Example: "vgw-abc123ef" Default: None
-        public let virtualGatewayId: String?
-        /// The maximum number of direct connect gateway associations to return per page. Example: 15 Default: None
-        public let maxResults: Int32?
-
-        public init(directConnectGatewayId: String? = nil, nextToken: String? = nil, virtualGatewayId: String? = nil, maxResults: Int32? = nil) {
-            self.directConnectGatewayId = directConnectGatewayId
-            self.nextToken = nextToken
-            self.virtualGatewayId = virtualGatewayId
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayId = "directConnectGatewayId"
-            case nextToken = "nextToken"
-            case virtualGatewayId = "virtualGatewayId"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public enum DirectConnectGatewayState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case available = "available"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Connections: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "connections", required: false, type: .list)
-        ]
-        /// A list of connections.
-        public let connections: [Connection]?
-
-        public init(connections: [Connection]? = nil) {
-            self.connections = connections
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connections = "connections"
-        }
-    }
-
-    public struct DeleteVirtualInterfaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string)
-        ]
-        public let virtualInterfaceId: String
-
-        public init(virtualInterfaceId: String) {
-            self.virtualInterfaceId = virtualInterfaceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceId = "virtualInterfaceId"
-        }
-    }
-
-    public struct RouteFilterPrefix: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cidr", required: false, type: .string)
-        ]
-        /// CIDR notation for the advertised route. Multiple routes are separated by commas. IPv6 CIDRs must be at least a /64 or shorter Example: 10.10.10.0/24,10.10.11.0/24,2001:db8::/64
-        public let cidr: String?
-
-        public init(cidr: String? = nil) {
-            self.cidr = cidr
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cidr = "cidr"
-        }
-    }
-
-    public struct DeleteDirectConnectGatewayRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "directConnectGatewayId", required: true, type: .string)
-        ]
-        /// The ID of the direct connect gateway. Example: "abcd1234-dcba-5678-be23-cdef9876ab45" Default: None
-        public let directConnectGatewayId: String
-
-        public init(directConnectGatewayId: String) {
-            self.directConnectGatewayId = directConnectGatewayId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayId = "directConnectGatewayId"
         }
     }
 
     public struct VirtualGateway: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualGatewayState", required: false, type: .string), 
-            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string)
+            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "virtualGatewayState", required: false, type: .string)
         ]
-        public let virtualGatewayState: String?
+        /// The ID of the virtual private gateway.
         public let virtualGatewayId: String?
+        /// The state of the virtual private gateway. The following are the possible values:    pending: Initial state after creating the virtual private gateway.    available: Ready for use by a private virtual interface.    deleting: Initial state after deleting the virtual private gateway.    deleted: The virtual private gateway is deleted. The private virtual interface is unable to send traffic over this gateway.  
+        public let virtualGatewayState: String?
 
-        public init(virtualGatewayState: String? = nil, virtualGatewayId: String? = nil) {
-            self.virtualGatewayState = virtualGatewayState
+        public init(virtualGatewayId: String? = nil, virtualGatewayState: String? = nil) {
             self.virtualGatewayId = virtualGatewayId
+            self.virtualGatewayState = virtualGatewayState
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualGatewayState = "virtualGatewayState"
             case virtualGatewayId = "virtualGatewayId"
+            case virtualGatewayState = "virtualGatewayState"
+        }
+    }
+
+    public struct AssociateHostedConnectionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "parentConnectionId", required: true, type: .string)
+        ]
+        /// The ID of the hosted connection.
+        public let connectionId: String
+        /// The ID of the interconnect or the LAG.
+        public let parentConnectionId: String
+
+        public init(connectionId: String, parentConnectionId: String) {
+            self.connectionId = connectionId
+            self.parentConnectionId = parentConnectionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+            case parentConnectionId = "parentConnectionId"
+        }
+    }
+
+    public struct DescribeDirectConnectGatewaysResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "directConnectGateways", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The Direct Connect gateways.
+        public let directConnectGateways: [DirectConnectGateway]?
+        /// The token to retrieve the next page.
+        public let nextToken: String?
+
+        public init(directConnectGateways: [DirectConnectGateway]? = nil, nextToken: String? = nil) {
+            self.directConnectGateways = directConnectGateways
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directConnectGateways = "directConnectGateways"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct NewBGPPeer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
+            AWSShapeMember(label: "authKey", required: false, type: .string), 
+            AWSShapeMember(label: "addressFamily", required: false, type: .enum), 
+            AWSShapeMember(label: "asn", required: false, type: .integer), 
+            AWSShapeMember(label: "amazonAddress", required: false, type: .string)
+        ]
+        /// The IP address assigned to the customer interface.
+        public let customerAddress: String?
+        /// The authentication key for BGP configuration.
+        public let authKey: String?
+        /// The address family for the BGP peer.
+        public let addressFamily: AddressFamily?
+        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        public let asn: Int32?
+        /// The IP address assigned to the Amazon interface.
+        public let amazonAddress: String?
+
+        public init(customerAddress: String? = nil, authKey: String? = nil, addressFamily: AddressFamily? = nil, asn: Int32? = nil, amazonAddress: String? = nil) {
+            self.customerAddress = customerAddress
+            self.authKey = authKey
+            self.addressFamily = addressFamily
+            self.asn = asn
+            self.amazonAddress = amazonAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerAddress = "customerAddress"
+            case authKey = "authKey"
+            case addressFamily = "addressFamily"
+            case asn = "asn"
+            case amazonAddress = "amazonAddress"
         }
     }
 
@@ -1737,6 +1681,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "interconnectState", required: false, type: .enum)
         ]
+        /// The state of the interconnect. The following are the possible values:    requested: The initial state of an interconnect. The interconnect stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The interconnect is approved, and is being initialized.    available: The network link is up, and the interconnect is ready for use.    down: The network link is down.    deleting: The interconnect is being deleted.    deleted: The interconnect is deleted.  
         public let interconnectState: InterconnectState?
 
         public init(interconnectState: InterconnectState? = nil) {
@@ -1748,9 +1693,183 @@ extension DirectConnect {
         }
     }
 
-    public enum ConnectionState: String, CustomStringConvertible, Codable {
-        case ordering = "ordering"
-        case requested = "requested"
+    public struct Lag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionsBandwidth", required: false, type: .string), 
+            AWSShapeMember(label: "ownerAccount", required: false, type: .string), 
+            AWSShapeMember(label: "allowsHostedConnections", required: false, type: .boolean), 
+            AWSShapeMember(label: "location", required: false, type: .string), 
+            AWSShapeMember(label: "awsDeviceV2", required: false, type: .string), 
+            AWSShapeMember(label: "minimumLinks", required: false, type: .integer), 
+            AWSShapeMember(label: "region", required: false, type: .string), 
+            AWSShapeMember(label: "lagName", required: false, type: .string), 
+            AWSShapeMember(label: "lagState", required: false, type: .enum), 
+            AWSShapeMember(label: "numberOfConnections", required: false, type: .integer), 
+            AWSShapeMember(label: "lagId", required: false, type: .string), 
+            AWSShapeMember(label: "hasLogicalRedundancy", required: false, type: .enum), 
+            AWSShapeMember(label: "connections", required: false, type: .list), 
+            AWSShapeMember(label: "awsDevice", required: false, type: .string), 
+            AWSShapeMember(label: "jumboFrameCapable", required: false, type: .boolean)
+        ]
+        /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps and 10Gbps.
+        public let connectionsBandwidth: String?
+        /// The ID of the AWS account that owns the LAG.
+        public let ownerAccount: String?
+        /// Indicates whether the LAG can host other connections.
+        public let allowsHostedConnections: Bool?
+        /// The location of the LAG.
+        public let location: String?
+        /// The Direct Connect endpoint that hosts the LAG.
+        public let awsDeviceV2: String?
+        /// The minimum number of physical connections that must be operational for the LAG itself to be operational.
+        public let minimumLinks: Int32?
+        /// The AWS Region where the connection is located.
+        public let region: String?
+        /// The name of the LAG.
+        public let lagName: String?
+        /// The state of the LAG. The following are the possible values:    requested: The initial state of a LAG. The LAG stays in the requested state until the Letter of Authorization (LOA) is available.    pending: The LAG has been approved and is being initialized.    available: The network link is established and the LAG is ready for use.    down: The network link is down.    deleting: The LAG is being deleted.    deleted: The LAG is deleted.  
+        public let lagState: LagState?
+        /// The number of physical connections bundled by the LAG, up to a maximum of 10.
+        public let numberOfConnections: Int32?
+        /// The ID of the LAG.
+        public let lagId: String?
+        /// Indicates whether the LAG supports a secondary BGP peer in the same address family (IPv4/IPv6).
+        public let hasLogicalRedundancy: HasLogicalRedundancy?
+        /// The connections bundled by the LAG.
+        public let connections: [Connection]?
+        /// The Direct Connect endpoint that hosts the LAG.
+        public let awsDevice: String?
+        /// Indicates whether jumbo frames (9001 MTU) are supported.
+        public let jumboFrameCapable: Bool?
+
+        public init(connectionsBandwidth: String? = nil, ownerAccount: String? = nil, allowsHostedConnections: Bool? = nil, location: String? = nil, awsDeviceV2: String? = nil, minimumLinks: Int32? = nil, region: String? = nil, lagName: String? = nil, lagState: LagState? = nil, numberOfConnections: Int32? = nil, lagId: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, connections: [Connection]? = nil, awsDevice: String? = nil, jumboFrameCapable: Bool? = nil) {
+            self.connectionsBandwidth = connectionsBandwidth
+            self.ownerAccount = ownerAccount
+            self.allowsHostedConnections = allowsHostedConnections
+            self.location = location
+            self.awsDeviceV2 = awsDeviceV2
+            self.minimumLinks = minimumLinks
+            self.region = region
+            self.lagName = lagName
+            self.lagState = lagState
+            self.numberOfConnections = numberOfConnections
+            self.lagId = lagId
+            self.hasLogicalRedundancy = hasLogicalRedundancy
+            self.connections = connections
+            self.awsDevice = awsDevice
+            self.jumboFrameCapable = jumboFrameCapable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionsBandwidth = "connectionsBandwidth"
+            case ownerAccount = "ownerAccount"
+            case allowsHostedConnections = "allowsHostedConnections"
+            case location = "location"
+            case awsDeviceV2 = "awsDeviceV2"
+            case minimumLinks = "minimumLinks"
+            case region = "region"
+            case lagName = "lagName"
+            case lagState = "lagState"
+            case numberOfConnections = "numberOfConnections"
+            case lagId = "lagId"
+            case hasLogicalRedundancy = "hasLogicalRedundancy"
+            case connections = "connections"
+            case awsDevice = "awsDevice"
+            case jumboFrameCapable = "jumboFrameCapable"
+        }
+    }
+
+    public struct UpdateVirtualInterfaceAttributesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "mtu", required: false, type: .integer), 
+            AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string)
+        ]
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+        public let mtu: Int32?
+        /// The ID of the virtual private interface.
+        public let virtualInterfaceId: String
+
+        public init(mtu: Int32? = nil, virtualInterfaceId: String) {
+            self.mtu = mtu
+            self.virtualInterfaceId = virtualInterfaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mtu = "mtu"
+            case virtualInterfaceId = "virtualInterfaceId"
+        }
+    }
+
+    public struct BGPPeer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "asn", required: false, type: .integer), 
+            AWSShapeMember(label: "bgpStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "bgpPeerId", required: false, type: .string), 
+            AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
+            AWSShapeMember(label: "bgpPeerState", required: false, type: .enum), 
+            AWSShapeMember(label: "authKey", required: false, type: .string), 
+            AWSShapeMember(label: "awsDeviceV2", required: false, type: .string), 
+            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
+            AWSShapeMember(label: "addressFamily", required: false, type: .enum)
+        ]
+        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        public let asn: Int32?
+        /// The status of the BGP peer. The following are the possible values:    up: The BGP peer is established. This state does not indicate the state of the routing function. Ensure that you are receiving routes over the BGP session.    down: The BGP peer is down.    unknown: The BGP peer status is unknown.  
+        public let bgpStatus: BGPStatus?
+        /// The ID of the BGP peer.
+        public let bgpPeerId: String?
+        /// The IP address assigned to the Amazon interface.
+        public let amazonAddress: String?
+        /// The state of the BGP peer. The following are the possible values:    verifying: The BGP peering addresses or ASN require validation before the BGP peer can be created. This state applies only to public virtual interfaces.    pending: The BGP peer is created, and remains in this state until it is ready to be established.    available: The BGP peer is ready to be established.    deleting: The BGP peer is being deleted.    deleted: The BGP peer is deleted and cannot be established.  
+        public let bgpPeerState: BGPPeerState?
+        /// The authentication key for BGP configuration.
+        public let authKey: String?
+        /// The Direct Connect endpoint on which the BGP peer terminates.
+        public let awsDeviceV2: String?
+        /// The IP address assigned to the customer interface.
+        public let customerAddress: String?
+        /// The address family for the BGP peer.
+        public let addressFamily: AddressFamily?
+
+        public init(asn: Int32? = nil, bgpStatus: BGPStatus? = nil, bgpPeerId: String? = nil, amazonAddress: String? = nil, bgpPeerState: BGPPeerState? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, customerAddress: String? = nil, addressFamily: AddressFamily? = nil) {
+            self.asn = asn
+            self.bgpStatus = bgpStatus
+            self.bgpPeerId = bgpPeerId
+            self.amazonAddress = amazonAddress
+            self.bgpPeerState = bgpPeerState
+            self.authKey = authKey
+            self.awsDeviceV2 = awsDeviceV2
+            self.customerAddress = customerAddress
+            self.addressFamily = addressFamily
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asn = "asn"
+            case bgpStatus = "bgpStatus"
+            case bgpPeerId = "bgpPeerId"
+            case amazonAddress = "amazonAddress"
+            case bgpPeerState = "bgpPeerState"
+            case authKey = "authKey"
+            case awsDeviceV2 = "awsDeviceV2"
+            case customerAddress = "customerAddress"
+            case addressFamily = "addressFamily"
+        }
+    }
+
+    public enum LoaContentType: String, CustomStringConvertible, Codable {
+        case applicationPdf = "application/pdf"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AddressFamily: String, CustomStringConvertible, Codable {
+        case ipv4 = "ipv4"
+        case ipv6 = "ipv6"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VirtualInterfaceState: String, CustomStringConvertible, Codable {
+        case confirming = "confirming"
+        case verifying = "verifying"
         case pending = "pending"
         case available = "available"
         case down = "down"
@@ -1760,325 +1879,28 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
-    public struct Interconnect: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "interconnectName", required: false, type: .string), 
-            AWSShapeMember(label: "region", required: false, type: .string), 
-            AWSShapeMember(label: "bandwidth", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .string), 
-            AWSShapeMember(label: "awsDeviceV2", required: false, type: .string), 
-            AWSShapeMember(label: "interconnectState", required: false, type: .enum), 
-            AWSShapeMember(label: "interconnectId", required: false, type: .string), 
-            AWSShapeMember(label: "awsDevice", required: false, type: .string), 
-            AWSShapeMember(label: "loaIssueTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lagId", required: false, type: .string)
-        ]
-        public let interconnectName: String?
-        public let region: String?
-        public let bandwidth: String?
-        public let location: String?
-        /// The Direct Connection endpoint which the physical connection terminates on.
-        public let awsDeviceV2: String?
-        public let interconnectState: InterconnectState?
-        public let interconnectId: String?
-        /// Deprecated in favor of awsDeviceV2. The Direct Connection endpoint which the physical connection terminates on.
-        public let awsDevice: String?
-        /// The time of the most recent call to DescribeInterconnectLoa for this Interconnect.
-        public let loaIssueTime: TimeStamp?
-        public let lagId: String?
-
-        public init(interconnectName: String? = nil, region: String? = nil, bandwidth: String? = nil, location: String? = nil, awsDeviceV2: String? = nil, interconnectState: InterconnectState? = nil, interconnectId: String? = nil, awsDevice: String? = nil, loaIssueTime: TimeStamp? = nil, lagId: String? = nil) {
-            self.interconnectName = interconnectName
-            self.region = region
-            self.bandwidth = bandwidth
-            self.location = location
-            self.awsDeviceV2 = awsDeviceV2
-            self.interconnectState = interconnectState
-            self.interconnectId = interconnectId
-            self.awsDevice = awsDevice
-            self.loaIssueTime = loaIssueTime
-            self.lagId = lagId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case interconnectName = "interconnectName"
-            case region = "region"
-            case bandwidth = "bandwidth"
-            case location = "location"
-            case awsDeviceV2 = "awsDeviceV2"
-            case interconnectState = "interconnectState"
-            case interconnectId = "interconnectId"
-            case awsDevice = "awsDevice"
-            case loaIssueTime = "loaIssueTime"
-            case lagId = "lagId"
-        }
-    }
-
-    public struct DescribeConnectionsOnInterconnectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "interconnectId", required: true, type: .string)
-        ]
-        /// ID of the interconnect on which a list of connection is provisioned. Example: dxcon-abc123 Default: None
-        public let interconnectId: String
-
-        public init(interconnectId: String) {
-            self.interconnectId = interconnectId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case interconnectId = "interconnectId"
-        }
-    }
-
-    public struct DeleteConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "connectionId", required: true, type: .string)
-        ]
-        public let connectionId: String
-
-        public init(connectionId: String) {
-            self.connectionId = connectionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-        }
-    }
-
-    public struct CreateDirectConnectGatewayRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "directConnectGatewayName", required: true, type: .string), 
-            AWSShapeMember(label: "amazonSideAsn", required: false, type: .long)
-        ]
-        /// The name of the direct connect gateway. Example: "My direct connect gateway" Default: None
-        public let directConnectGatewayName: String
-        /// The autonomous system number (ASN) for Border Gateway Protocol (BGP) to be configured on the Amazon side of the connection. The ASN must be in the private range of 64,512 to 65,534 or 4,200,000,000 to 4,294,967,294  Example: 65200 Default: 64512
-        public let amazonSideAsn: Int64?
-
-        public init(directConnectGatewayName: String, amazonSideAsn: Int64? = nil) {
-            self.directConnectGatewayName = directConnectGatewayName
-            self.amazonSideAsn = amazonSideAsn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayName = "directConnectGatewayName"
-            case amazonSideAsn = "amazonSideAsn"
-        }
-    }
-
-    public struct CreateBGPPeerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualInterface", required: false, type: .structure)
-        ]
-        public let virtualInterface: VirtualInterface?
-
-        public init(virtualInterface: VirtualInterface? = nil) {
-            self.virtualInterface = virtualInterface
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case virtualInterface = "virtualInterface"
-        }
-    }
-
-    public struct DescribeVirtualInterfacesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string), 
-            AWSShapeMember(label: "connectionId", required: false, type: .string)
-        ]
-        public let virtualInterfaceId: String?
-        public let connectionId: String?
-
-        public init(virtualInterfaceId: String? = nil, connectionId: String? = nil) {
-            self.virtualInterfaceId = virtualInterfaceId
-            self.connectionId = connectionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceId = "virtualInterfaceId"
-            case connectionId = "connectionId"
-        }
-    }
-
-    public enum AddressFamily: String, CustomStringConvertible, Codable {
-        case ipv4 = "ipv4"
-        case ipv6 = "ipv6"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DirectConnectGatewayAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualGatewayRegion", required: false, type: .string), 
-            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
-            AWSShapeMember(label: "virtualGatewayOwnerAccount", required: false, type: .string), 
-            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string), 
-            AWSShapeMember(label: "stateChangeError", required: false, type: .string), 
-            AWSShapeMember(label: "associationState", required: false, type: .enum)
-        ]
-        public let virtualGatewayRegion: String?
-        public let directConnectGatewayId: String?
-        /// The AWS account ID of the owner of the virtual private gateway.
-        public let virtualGatewayOwnerAccount: String?
-        public let virtualGatewayId: String?
-        public let stateChangeError: String?
-        public let associationState: DirectConnectGatewayAssociationState?
-
-        public init(virtualGatewayRegion: String? = nil, directConnectGatewayId: String? = nil, virtualGatewayOwnerAccount: String? = nil, virtualGatewayId: String? = nil, stateChangeError: String? = nil, associationState: DirectConnectGatewayAssociationState? = nil) {
-            self.virtualGatewayRegion = virtualGatewayRegion
-            self.directConnectGatewayId = directConnectGatewayId
-            self.virtualGatewayOwnerAccount = virtualGatewayOwnerAccount
-            self.virtualGatewayId = virtualGatewayId
-            self.stateChangeError = stateChangeError
-            self.associationState = associationState
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case virtualGatewayRegion = "virtualGatewayRegion"
-            case directConnectGatewayId = "directConnectGatewayId"
-            case virtualGatewayOwnerAccount = "virtualGatewayOwnerAccount"
-            case virtualGatewayId = "virtualGatewayId"
-            case stateChangeError = "stateChangeError"
-            case associationState = "associationState"
-        }
-    }
-
-    public struct DescribeLagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lagId", required: false, type: .string)
-        ]
-        /// The ID of the LAG. Example: dxlag-abc123 Default: None
-        public let lagId: String?
-
-        public init(lagId: String? = nil) {
-            self.lagId = lagId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lagId = "lagId"
-        }
-    }
-
-    public struct CreateInterconnectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lagId", required: false, type: .string), 
-            AWSShapeMember(label: "bandwidth", required: true, type: .string), 
-            AWSShapeMember(label: "location", required: true, type: .string), 
-            AWSShapeMember(label: "interconnectName", required: true, type: .string)
-        ]
-        public let lagId: String?
-        /// The port bandwidth Example: 1Gbps Default: None Available values: 1Gbps,10Gbps
-        public let bandwidth: String
-        /// Where the interconnect is located Example: EqSV5 Default: None
-        public let location: String
-        /// The name of the interconnect. Example: "1G Interconnect to AWS" Default: None
-        public let interconnectName: String
-
-        public init(lagId: String? = nil, bandwidth: String, location: String, interconnectName: String) {
-            self.lagId = lagId
-            self.bandwidth = bandwidth
-            self.location = location
-            self.interconnectName = interconnectName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lagId = "lagId"
-            case bandwidth = "bandwidth"
-            case location = "location"
-            case interconnectName = "interconnectName"
-        }
-    }
-
-    public struct DeleteInterconnectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "interconnectId", required: true, type: .string)
-        ]
-        public let interconnectId: String
-
-        public init(interconnectId: String) {
-            self.interconnectId = interconnectId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case interconnectId = "interconnectId"
-        }
-    }
-
-    public struct DescribeDirectConnectGatewaysRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string)
-        ]
-        /// The maximum number of direct connect gateways to return per page. Example: 15 Default: None
-        public let maxResults: Int32?
-        /// The token provided in the previous describe result to retrieve the next page of the result. Default: None
-        public let nextToken: String?
-        /// The ID of the direct connect gateway. Example: "abcd1234-dcba-5678-be23-cdef9876ab45" Default: None
-        public let directConnectGatewayId: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, directConnectGatewayId: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.directConnectGatewayId = directConnectGatewayId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case directConnectGatewayId = "directConnectGatewayId"
-        }
-    }
-
     public struct TagResourceResponse: AWSShape {
 
     }
 
-    public struct DeleteVirtualInterfaceResponse: AWSShape {
+    public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum)
+            AWSShapeMember(label: "tagKeys", required: true, type: .list), 
+            AWSShapeMember(label: "resourceArn", required: true, type: .string)
         ]
-        public let virtualInterfaceState: VirtualInterfaceState?
+        /// The tag keys of the tags to remove.
+        public let tagKeys: [String]
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
 
-        public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
-            self.virtualInterfaceState = virtualInterfaceState
+        public init(tagKeys: [String], resourceArn: String) {
+            self.tagKeys = tagKeys
+            self.resourceArn = resourceArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceState = "virtualInterfaceState"
-        }
-    }
-
-    public enum DirectConnectGatewayAttachmentState: String, CustomStringConvertible, Codable {
-        case attaching = "attaching"
-        case attached = "attached"
-        case detaching = "detaching"
-        case detached = "detached"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AllocatePrivateVirtualInterfaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "newPrivateVirtualInterfaceAllocation", required: true, type: .structure), 
-            AWSShapeMember(label: "connectionId", required: true, type: .string), 
-            AWSShapeMember(label: "ownerAccount", required: true, type: .string)
-        ]
-        /// Detailed information for the private virtual interface to be provisioned. Default: None
-        public let newPrivateVirtualInterfaceAllocation: NewPrivateVirtualInterfaceAllocation
-        /// The connection ID on which the private virtual interface is provisioned. Default: None
-        public let connectionId: String
-        /// The AWS account that will own the new private virtual interface. Default: None
-        public let ownerAccount: String
-
-        public init(newPrivateVirtualInterfaceAllocation: NewPrivateVirtualInterfaceAllocation, connectionId: String, ownerAccount: String) {
-            self.newPrivateVirtualInterfaceAllocation = newPrivateVirtualInterfaceAllocation
-            self.connectionId = connectionId
-            self.ownerAccount = ownerAccount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case newPrivateVirtualInterfaceAllocation = "newPrivateVirtualInterfaceAllocation"
-            case connectionId = "connectionId"
-            case ownerAccount = "ownerAccount"
+            case tagKeys = "tagKeys"
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -2087,7 +1909,7 @@ extension DirectConnect {
             AWSShapeMember(label: "resourceArn", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
-        /// The Amazon Resource Name (ARN) of the Direct Connect resource.
+        /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
         /// The tags.
         public let tags: [Tag]?
@@ -2103,14 +1925,14 @@ extension DirectConnect {
         }
     }
 
-    public struct DeleteLagRequest: AWSShape {
+    public struct DescribeLagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lagId", required: true, type: .string)
+            AWSShapeMember(label: "lagId", required: false, type: .string)
         ]
-        /// The ID of the LAG to delete. Example: dxlag-abc123 Default: None
-        public let lagId: String
+        /// The ID of the LAG.
+        public let lagId: String?
 
-        public init(lagId: String) {
+        public init(lagId: String? = nil) {
             self.lagId = lagId
         }
 
@@ -2119,59 +1941,456 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeTagsRequest: AWSShape {
+    public struct ConfirmPublicVirtualInterfaceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArns", required: true, type: .list)
+            AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum)
         ]
-        /// The Amazon Resource Names (ARNs) of the Direct Connect resources.
-        public let resourceArns: [String]
+        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.  
+        public let virtualInterfaceState: VirtualInterfaceState?
 
-        public init(resourceArns: [String]) {
-            self.resourceArns = resourceArns
+        public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
+            self.virtualInterfaceState = virtualInterfaceState
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArns = "resourceArns"
+            case virtualInterfaceState = "virtualInterfaceState"
         }
     }
 
-    public struct DescribeConnectionLoaRequest: AWSShape {
+    public struct ConfirmPrivateVirtualInterfaceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "providerName", required: false, type: .string), 
-            AWSShapeMember(label: "loaContentType", required: false, type: .enum), 
+            AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum)
+        ]
+        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.  
+        public let virtualInterfaceState: VirtualInterfaceState?
+
+        public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
+            self.virtualInterfaceState = virtualInterfaceState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaceState = "virtualInterfaceState"
+        }
+    }
+
+    public struct DescribeInterconnectsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "interconnectId", required: false, type: .string)
+        ]
+        /// The ID of the interconnect.
+        public let interconnectId: String?
+
+        public init(interconnectId: String? = nil) {
+            self.interconnectId = interconnectId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interconnectId = "interconnectId"
+        }
+    }
+
+    public enum BGPPeerState: String, CustomStringConvertible, Codable {
+        case verifying = "verifying"
+        case pending = "pending"
+        case available = "available"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeDirectConnectGatewayAssociationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string)
+        ]
+        /// The ID of the Direct Connect gateway.
+        public let directConnectGatewayId: String?
+        /// The maximum number of associations to return per page.
+        public let maxResults: Int32?
+        /// The token provided in the previous call to retrieve the next page.
+        public let nextToken: String?
+        /// The ID of the virtual private gateway.
+        public let virtualGatewayId: String?
+
+        public init(directConnectGatewayId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, virtualGatewayId: String? = nil) {
+            self.directConnectGatewayId = directConnectGatewayId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.virtualGatewayId = virtualGatewayId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directConnectGatewayId = "directConnectGatewayId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case virtualGatewayId = "virtualGatewayId"
+        }
+    }
+
+    public enum ConnectionState: String, CustomStringConvertible, Codable {
+        case ordering = "ordering"
+        case requested = "requested"
+        case pending = "pending"
+        case available = "available"
+        case down = "down"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        case rejected = "rejected"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ConfirmConnectionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "connectionId", required: true, type: .string)
         ]
-        /// The name of the APN partner or service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect. Default: None
-        public let providerName: String?
-        public let loaContentType: LoaContentType?
+        /// The ID of the hosted connection.
         public let connectionId: String
 
-        public init(providerName: String? = nil, loaContentType: LoaContentType? = nil, connectionId: String) {
-            self.providerName = providerName
-            self.loaContentType = loaContentType
+        public init(connectionId: String) {
             self.connectionId = connectionId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case providerName = "providerName"
-            case loaContentType = "loaContentType"
             case connectionId = "connectionId"
         }
     }
 
-    public struct Interconnects: AWSShape {
+    public struct DescribeInterconnectLoaRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "interconnects", required: false, type: .list)
+            AWSShapeMember(label: "interconnectId", required: true, type: .string), 
+            AWSShapeMember(label: "loaContentType", required: false, type: .enum), 
+            AWSShapeMember(label: "providerName", required: false, type: .string)
         ]
-        /// A list of interconnects.
-        public let interconnects: [Interconnect]?
+        /// The ID of the interconnect.
+        public let interconnectId: String
+        /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
+        public let loaContentType: LoaContentType?
+        /// The name of the service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect.
+        public let providerName: String?
 
-        public init(interconnects: [Interconnect]? = nil) {
-            self.interconnects = interconnects
+        public init(interconnectId: String, loaContentType: LoaContentType? = nil, providerName: String? = nil) {
+            self.interconnectId = interconnectId
+            self.loaContentType = loaContentType
+            self.providerName = providerName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interconnects = "interconnects"
+            case interconnectId = "interconnectId"
+            case loaContentType = "loaContentType"
+            case providerName = "providerName"
+        }
+    }
+
+    public struct Loa: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "loaContentType", required: false, type: .enum), 
+            AWSShapeMember(label: "loaContent", required: false, type: .blob)
+        ]
+        /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
+        public let loaContentType: LoaContentType?
+        /// The binary contents of the LOA-CFA document.
+        public let loaContent: Data?
+
+        public init(loaContentType: LoaContentType? = nil, loaContent: Data? = nil) {
+            self.loaContentType = loaContentType
+            self.loaContent = loaContent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loaContentType = "loaContentType"
+            case loaContent = "loaContent"
+        }
+    }
+
+    public struct ConfirmConnectionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionState", required: false, type: .enum)
+        ]
+        /// The state of the connection. The following are the possible values:    ordering: The initial state of a hosted connection provisioned on an interconnect. The connection stays in the ordering state until the owner of the hosted connection confirms or declines the connection order.    requested: The initial state of a standard connection. The connection stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The connection has been approved and is being initialized.    available: The network link is up and the connection is ready for use.    down: The network link is down.    deleting: The connection is being deleted.    deleted: The connection has been deleted.    rejected: A hosted connection in the ordering state enters the rejected state if it is deleted by the customer.  
+        public let connectionState: ConnectionState?
+
+        public init(connectionState: ConnectionState? = nil) {
+            self.connectionState = connectionState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionState = "connectionState"
+        }
+    }
+
+    public struct DescribeVirtualInterfacesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: false, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string)
+        ]
+        /// The ID of the connection.
+        public let connectionId: String?
+        /// The ID of the virtual interface.
+        public let virtualInterfaceId: String?
+
+        public init(connectionId: String? = nil, virtualInterfaceId: String? = nil) {
+            self.connectionId = connectionId
+            self.virtualInterfaceId = virtualInterfaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+            case virtualInterfaceId = "virtualInterfaceId"
+        }
+    }
+
+    public struct NewPrivateVirtualInterfaceAllocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "asn", required: true, type: .integer), 
+            AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
+            AWSShapeMember(label: "vlan", required: true, type: .integer), 
+            AWSShapeMember(label: "authKey", required: false, type: .string), 
+            AWSShapeMember(label: "mtu", required: false, type: .integer), 
+            AWSShapeMember(label: "virtualInterfaceName", required: true, type: .string), 
+            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
+            AWSShapeMember(label: "addressFamily", required: false, type: .enum)
+        ]
+        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        public let asn: Int32
+        /// The IP address assigned to the Amazon interface.
+        public let amazonAddress: String?
+        /// The ID of the VLAN.
+        public let vlan: Int32
+        /// The authentication key for BGP configuration.
+        public let authKey: String?
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+        public let mtu: Int32?
+        /// The name of the virtual interface assigned by the customer network.
+        public let virtualInterfaceName: String
+        /// The IP address assigned to the customer interface.
+        public let customerAddress: String?
+        /// The address family for the BGP peer.
+        public let addressFamily: AddressFamily?
+
+        public init(asn: Int32, amazonAddress: String? = nil, vlan: Int32, authKey: String? = nil, mtu: Int32? = nil, virtualInterfaceName: String, customerAddress: String? = nil, addressFamily: AddressFamily? = nil) {
+            self.asn = asn
+            self.amazonAddress = amazonAddress
+            self.vlan = vlan
+            self.authKey = authKey
+            self.mtu = mtu
+            self.virtualInterfaceName = virtualInterfaceName
+            self.customerAddress = customerAddress
+            self.addressFamily = addressFamily
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asn = "asn"
+            case amazonAddress = "amazonAddress"
+            case vlan = "vlan"
+            case authKey = "authKey"
+            case mtu = "mtu"
+            case virtualInterfaceName = "virtualInterfaceName"
+            case customerAddress = "customerAddress"
+            case addressFamily = "addressFamily"
+        }
+    }
+
+    public struct DeleteBGPPeerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterface", required: false, type: .structure)
+        ]
+        /// The virtual interface.
+        public let virtualInterface: VirtualInterface?
+
+        public init(virtualInterface: VirtualInterface? = nil) {
+            self.virtualInterface = virtualInterface
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterface = "virtualInterface"
+        }
+    }
+
+    public struct AllocatePublicVirtualInterfaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "newPublicVirtualInterfaceAllocation", required: true, type: .structure), 
+            AWSShapeMember(label: "ownerAccount", required: true, type: .string)
+        ]
+        /// The ID of the connection on which the public virtual interface is provisioned.
+        public let connectionId: String
+        /// Information about the public virtual interface.
+        public let newPublicVirtualInterfaceAllocation: NewPublicVirtualInterfaceAllocation
+        /// The ID of the AWS account that owns the public virtual interface.
+        public let ownerAccount: String
+
+        public init(connectionId: String, newPublicVirtualInterfaceAllocation: NewPublicVirtualInterfaceAllocation, ownerAccount: String) {
+            self.connectionId = connectionId
+            self.newPublicVirtualInterfaceAllocation = newPublicVirtualInterfaceAllocation
+            self.ownerAccount = ownerAccount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+            case newPublicVirtualInterfaceAllocation = "newPublicVirtualInterfaceAllocation"
+            case ownerAccount = "ownerAccount"
+        }
+    }
+
+    public struct DirectConnectGatewayAssociation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualGatewayOwnerAccount", required: false, type: .string), 
+            AWSShapeMember(label: "associationState", required: false, type: .enum), 
+            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "virtualGatewayRegion", required: false, type: .string), 
+            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "stateChangeError", required: false, type: .string)
+        ]
+        /// The ID of the AWS account that owns the virtual private gateway.
+        public let virtualGatewayOwnerAccount: String?
+        /// The state of the association. The following are the possible values:    associating: The initial state after calling CreateDirectConnectGatewayAssociation.    associated: The Direct Connect gateway and virtual private gateway are successfully associated and ready to pass traffic.    disassociating: The initial state after calling DeleteDirectConnectGatewayAssociation.    disassociated: The virtual private gateway is disassociated from the Direct Connect gateway. Traffic flow between the Direct Connect gateway and virtual private gateway is stopped.  
+        public let associationState: DirectConnectGatewayAssociationState?
+        /// The ID of the Direct Connect gateway.
+        public let directConnectGatewayId: String?
+        /// The AWS Region where the virtual private gateway is located.
+        public let virtualGatewayRegion: String?
+        /// The ID of the virtual private gateway. Applies only to private virtual interfaces.
+        public let virtualGatewayId: String?
+        /// The error message if the state of an object failed to advance.
+        public let stateChangeError: String?
+
+        public init(virtualGatewayOwnerAccount: String? = nil, associationState: DirectConnectGatewayAssociationState? = nil, directConnectGatewayId: String? = nil, virtualGatewayRegion: String? = nil, virtualGatewayId: String? = nil, stateChangeError: String? = nil) {
+            self.virtualGatewayOwnerAccount = virtualGatewayOwnerAccount
+            self.associationState = associationState
+            self.directConnectGatewayId = directConnectGatewayId
+            self.virtualGatewayRegion = virtualGatewayRegion
+            self.virtualGatewayId = virtualGatewayId
+            self.stateChangeError = stateChangeError
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualGatewayOwnerAccount = "virtualGatewayOwnerAccount"
+            case associationState = "associationState"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case virtualGatewayRegion = "virtualGatewayRegion"
+            case virtualGatewayId = "virtualGatewayId"
+            case stateChangeError = "stateChangeError"
+        }
+    }
+
+    public struct Interconnect: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jumboFrameCapable", required: false, type: .boolean), 
+            AWSShapeMember(label: "interconnectId", required: false, type: .string), 
+            AWSShapeMember(label: "hasLogicalRedundancy", required: false, type: .enum), 
+            AWSShapeMember(label: "location", required: false, type: .string), 
+            AWSShapeMember(label: "region", required: false, type: .string), 
+            AWSShapeMember(label: "bandwidth", required: false, type: .string), 
+            AWSShapeMember(label: "awsDeviceV2", required: false, type: .string), 
+            AWSShapeMember(label: "interconnectState", required: false, type: .enum), 
+            AWSShapeMember(label: "interconnectName", required: false, type: .string), 
+            AWSShapeMember(label: "loaIssueTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lagId", required: false, type: .string), 
+            AWSShapeMember(label: "awsDevice", required: false, type: .string)
+        ]
+        /// Indicates whether jumbo frames (9001 MTU) are supported.
+        public let jumboFrameCapable: Bool?
+        /// The ID of the interconnect.
+        public let interconnectId: String?
+        /// Indicates whether the interconnect supports a secondary BGP in the same address family (IPv4/IPv6).
+        public let hasLogicalRedundancy: HasLogicalRedundancy?
+        /// The location of the connection.
+        public let location: String?
+        /// The AWS Region where the connection is located.
+        public let region: String?
+        /// The bandwidth of the connection.
+        public let bandwidth: String?
+        /// The Direct Connect endpoint on which the physical connection terminates.
+        public let awsDeviceV2: String?
+        /// The state of the interconnect. The following are the possible values:    requested: The initial state of an interconnect. The interconnect stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The interconnect is approved, and is being initialized.    available: The network link is up, and the interconnect is ready for use.    down: The network link is down.    deleting: The interconnect is being deleted.    deleted: The interconnect is deleted.  
+        public let interconnectState: InterconnectState?
+        /// The name of the interconnect.
+        public let interconnectName: String?
+        /// The time of the most recent call to DescribeLoa for this connection.
+        public let loaIssueTime: TimeStamp?
+        /// The ID of the LAG.
+        public let lagId: String?
+        /// The Direct Connect endpoint on which the physical connection terminates.
+        public let awsDevice: String?
+
+        public init(jumboFrameCapable: Bool? = nil, interconnectId: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, location: String? = nil, region: String? = nil, bandwidth: String? = nil, awsDeviceV2: String? = nil, interconnectState: InterconnectState? = nil, interconnectName: String? = nil, loaIssueTime: TimeStamp? = nil, lagId: String? = nil, awsDevice: String? = nil) {
+            self.jumboFrameCapable = jumboFrameCapable
+            self.interconnectId = interconnectId
+            self.hasLogicalRedundancy = hasLogicalRedundancy
+            self.location = location
+            self.region = region
+            self.bandwidth = bandwidth
+            self.awsDeviceV2 = awsDeviceV2
+            self.interconnectState = interconnectState
+            self.interconnectName = interconnectName
+            self.loaIssueTime = loaIssueTime
+            self.lagId = lagId
+            self.awsDevice = awsDevice
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jumboFrameCapable = "jumboFrameCapable"
+            case interconnectId = "interconnectId"
+            case hasLogicalRedundancy = "hasLogicalRedundancy"
+            case location = "location"
+            case region = "region"
+            case bandwidth = "bandwidth"
+            case awsDeviceV2 = "awsDeviceV2"
+            case interconnectState = "interconnectState"
+            case interconnectName = "interconnectName"
+            case loaIssueTime = "loaIssueTime"
+            case lagId = "lagId"
+            case awsDevice = "awsDevice"
+        }
+    }
+
+    public enum HasLogicalRedundancy: String, CustomStringConvertible, Codable {
+        case unknown = "unknown"
+        case yes = "yes"
+        case no = "no"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DirectConnectGateway: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "directConnectGatewayName", required: false, type: .string), 
+            AWSShapeMember(label: "directConnectGatewayState", required: false, type: .enum), 
+            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "amazonSideAsn", required: false, type: .long), 
+            AWSShapeMember(label: "stateChangeError", required: false, type: .string), 
+            AWSShapeMember(label: "ownerAccount", required: false, type: .string)
+        ]
+        /// The name of the Direct Connect gateway.
+        public let directConnectGatewayName: String?
+        /// The state of the Direct Connect gateway. The following are the possible values:    pending: The initial state after calling CreateDirectConnectGateway.    available: The Direct Connect gateway is ready for use.    deleting: The initial state after calling DeleteDirectConnectGateway.    deleted: The Direct Connect gateway is deleted and cannot pass traffic.  
+        public let directConnectGatewayState: DirectConnectGatewayState?
+        /// The ID of the Direct Connect gateway.
+        public let directConnectGatewayId: String?
+        /// The autonomous system number (ASN) for the Amazon side of the connection.
+        public let amazonSideAsn: Int64?
+        /// The error message if the state of an object failed to advance.
+        public let stateChangeError: String?
+        /// The ID of the AWS account that owns the Direct Connect gateway.
+        public let ownerAccount: String?
+
+        public init(directConnectGatewayName: String? = nil, directConnectGatewayState: DirectConnectGatewayState? = nil, directConnectGatewayId: String? = nil, amazonSideAsn: Int64? = nil, stateChangeError: String? = nil, ownerAccount: String? = nil) {
+            self.directConnectGatewayName = directConnectGatewayName
+            self.directConnectGatewayState = directConnectGatewayState
+            self.directConnectGatewayId = directConnectGatewayId
+            self.amazonSideAsn = amazonSideAsn
+            self.stateChangeError = stateChangeError
+            self.ownerAccount = ownerAccount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directConnectGatewayName = "directConnectGatewayName"
+            case directConnectGatewayState = "directConnectGatewayState"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case amazonSideAsn = "amazonSideAsn"
+            case stateChangeError = "stateChangeError"
+            case ownerAccount = "ownerAccount"
         }
     }
 

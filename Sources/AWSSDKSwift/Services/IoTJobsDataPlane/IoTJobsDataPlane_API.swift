@@ -24,11 +24,6 @@ public struct IoTJobsDataPlane {
         )
     }
 
-    ///  Gets details of a job execution.
-    public func describeJobExecution(_ input: DescribeJobExecutionRequest) throws -> DescribeJobExecutionResponse {
-        return try client.send(operation: "DescribeJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "GET", input: input)
-    }
-
     ///  Updates the status of a job execution.
     public func updateJobExecution(_ input: UpdateJobExecutionRequest) throws -> UpdateJobExecutionResponse {
         return try client.send(operation: "UpdateJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "POST", input: input)
@@ -42,6 +37,11 @@ public struct IoTJobsDataPlane {
     ///  Gets the list of all jobs for a thing that are not in a terminal status.
     public func getPendingJobExecutions(_ input: GetPendingJobExecutionsRequest) throws -> GetPendingJobExecutionsResponse {
         return try client.send(operation: "GetPendingJobExecutions", path: "/things/{thingName}/jobs", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets details of a job execution.
+    public func describeJobExecution(_ input: DescribeJobExecutionRequest) throws -> DescribeJobExecutionResponse {
+        return try client.send(operation: "DescribeJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "GET", input: input)
     }
 
 

@@ -6,12 +6,12 @@ import AWSSDKSwiftCore
 public enum MachineLearningErrorType: AWSErrorType {
     case invalidInputException(message: String?)
     case internalServerException(message: String?)
-    case resourceNotFoundException(message: String?)
     case idempotentParameterMismatchException(message: String?)
+    case resourceNotFoundException(message: String?)
     case invalidTagException(message: String?)
+    case tagLimitExceededException(message: String?)
     case limitExceededException(message: String?)
     case predictorNotMountedException(message: String?)
-    case tagLimitExceededException(message: String?)
 }
 
 extension MachineLearningErrorType {
@@ -25,18 +25,18 @@ extension MachineLearningErrorType {
             self = .invalidInputException(message: message)
         case "InternalServerException":
             self = .internalServerException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
         case "IdempotentParameterMismatchException":
             self = .idempotentParameterMismatchException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "InvalidTagException":
             self = .invalidTagException(message: message)
+        case "TagLimitExceededException":
+            self = .tagLimitExceededException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "PredictorNotMountedException":
             self = .predictorNotMountedException(message: message)
-        case "TagLimitExceededException":
-            self = .tagLimitExceededException(message: message)
         default:
             return nil
         }

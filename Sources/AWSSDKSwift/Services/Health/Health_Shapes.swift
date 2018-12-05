@@ -5,350 +5,6 @@ import AWSSDKSwiftCore
 
 extension Health {
 
-    public struct EventDetailsErrorItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errorName", required: false, type: .string), 
-            AWSShapeMember(label: "eventArn", required: false, type: .string), 
-            AWSShapeMember(label: "errorMessage", required: false, type: .string)
-        ]
-        /// The name of the error.
-        public let errorName: String?
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
-        public let eventArn: String?
-        /// A message that describes the error.
-        public let errorMessage: String?
-
-        public init(errorName: String? = nil, eventArn: String? = nil, errorMessage: String? = nil) {
-            self.errorName = errorName
-            self.eventArn = eventArn
-            self.errorMessage = errorMessage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorName = "errorName"
-            case eventArn = "eventArn"
-            case errorMessage = "errorMessage"
-        }
-    }
-
-    public enum EventTypeCategory: String, CustomStringConvertible, Codable {
-        case issue = "issue"
-        case accountnotification = "accountNotification"
-        case scheduledchange = "scheduledChange"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Event: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "region", required: false, type: .string), 
-            AWSShapeMember(label: "availabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "eventTypeCategory", required: false, type: .enum), 
-            AWSShapeMember(label: "statusCode", required: false, type: .enum), 
-            AWSShapeMember(label: "eventTypeCode", required: false, type: .string), 
-            AWSShapeMember(label: "service", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp)
-        ]
-        /// The most recent date and time that the event was updated.
-        public let lastUpdatedTime: TimeStamp?
-        /// The AWS region name of the event.
-        public let region: String?
-        /// The AWS Availability Zone of the event. For example, us-east-1a.
-        public let availabilityZone: String?
-        /// The 
-        public let eventTypeCategory: EventTypeCategory?
-        /// The most recent status of the event. Possible values are open, closed, and upcoming.
-        public let statusCode: EventStatusCode?
-        /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
-        public let eventTypeCode: String?
-        /// The AWS service that is affected by the event. For example, EC2, RDS.
-        public let service: String?
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
-        public let arn: String?
-        /// The date and time that the event ended.
-        public let endTime: TimeStamp?
-        /// The date and time that the event began.
-        public let startTime: TimeStamp?
-
-        public init(lastUpdatedTime: TimeStamp? = nil, region: String? = nil, availabilityZone: String? = nil, eventTypeCategory: EventTypeCategory? = nil, statusCode: EventStatusCode? = nil, eventTypeCode: String? = nil, service: String? = nil, arn: String? = nil, endTime: TimeStamp? = nil, startTime: TimeStamp? = nil) {
-            self.lastUpdatedTime = lastUpdatedTime
-            self.region = region
-            self.availabilityZone = availabilityZone
-            self.eventTypeCategory = eventTypeCategory
-            self.statusCode = statusCode
-            self.eventTypeCode = eventTypeCode
-            self.service = service
-            self.arn = arn
-            self.endTime = endTime
-            self.startTime = startTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastUpdatedTime = "lastUpdatedTime"
-            case region = "region"
-            case availabilityZone = "availabilityZone"
-            case eventTypeCategory = "eventTypeCategory"
-            case statusCode = "statusCode"
-            case eventTypeCode = "eventTypeCode"
-            case service = "service"
-            case arn = "arn"
-            case endTime = "endTime"
-            case startTime = "startTime"
-        }
-    }
-
-    public struct DescribeEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "locale", required: false, type: .string)
-        ]
-        /// Values to narrow the results returned.
-        public let filter: EventFilter?
-        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        public let nextToken: String?
-        /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
-        public let maxResults: Int32?
-        /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-        public let locale: String?
-
-        public init(filter: EventFilter? = nil, nextToken: String? = nil, maxResults: Int32? = nil, locale: String? = nil) {
-            self.filter = filter
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.locale = locale
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filter = "filter"
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-            case locale = "locale"
-        }
-    }
-
-    public struct AffectedEntity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "eventArn", required: false, type: .string), 
-            AWSShapeMember(label: "awsAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "statusCode", required: false, type: .enum), 
-            AWSShapeMember(label: "entityArn", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "entityValue", required: false, type: .string)
-        ]
-        /// The most recent time that the entity was updated.
-        public let lastUpdatedTime: TimeStamp?
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
-        public let eventArn: String?
-        /// The 12-digit AWS account number that contains the affected entity.
-        public let awsAccountId: String?
-        /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, and UNKNOWN.
-        public let statusCode: EntityStatusCode?
-        /// The unique identifier for the entity. Format: arn:aws:health:entity-region:aws-account:entity/entity-id . Example: arn:aws:health:us-east-1:111222333444:entity/AVh5GGT7ul1arKr1sE1K 
-        public let entityArn: String?
-        /// A map of entity tags attached to the affected entity.
-        public let tags: [String: String]?
-        /// The ID of the affected entity.
-        public let entityValue: String?
-
-        public init(lastUpdatedTime: TimeStamp? = nil, eventArn: String? = nil, awsAccountId: String? = nil, statusCode: EntityStatusCode? = nil, entityArn: String? = nil, tags: [String: String]? = nil, entityValue: String? = nil) {
-            self.lastUpdatedTime = lastUpdatedTime
-            self.eventArn = eventArn
-            self.awsAccountId = awsAccountId
-            self.statusCode = statusCode
-            self.entityArn = entityArn
-            self.tags = tags
-            self.entityValue = entityValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastUpdatedTime = "lastUpdatedTime"
-            case eventArn = "eventArn"
-            case awsAccountId = "awsAccountId"
-            case statusCode = "statusCode"
-            case entityArn = "entityArn"
-            case tags = "tags"
-            case entityValue = "entityValue"
-        }
-    }
-
-    public struct DescribeEventDetailsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "eventArns", required: true, type: .list), 
-            AWSShapeMember(label: "locale", required: false, type: .string)
-        ]
-        /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
-        public let eventArns: [String]
-        /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-        public let locale: String?
-
-        public init(eventArns: [String], locale: String? = nil) {
-            self.eventArns = eventArns
-            self.locale = locale
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventArns = "eventArns"
-            case locale = "locale"
-        }
-    }
-
-    public struct DescribeAffectedEntitiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "entities", required: false, type: .list)
-        ]
-        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        public let nextToken: String?
-        /// The entities that match the filter criteria.
-        public let entities: [AffectedEntity]?
-
-        public init(nextToken: String? = nil, entities: [AffectedEntity]? = nil) {
-            self.nextToken = nextToken
-            self.entities = entities
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case entities = "entities"
-        }
-    }
-
-    public struct DescribeEntityAggregatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "entityAggregates", required: false, type: .list)
-        ]
-        /// The number of entities that are affected by each of the specified events.
-        public let entityAggregates: [EntityAggregate]?
-
-        public init(entityAggregates: [EntityAggregate]? = nil) {
-            self.entityAggregates = entityAggregates
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case entityAggregates = "entityAggregates"
-        }
-    }
-
-    public struct DescribeEventAggregatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "aggregateField", required: true, type: .enum)
-        ]
-        /// Values to narrow the results returned.
-        public let filter: EventFilter?
-        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        public let nextToken: String?
-        /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
-        public let maxResults: Int32?
-        /// The only currently supported value is eventTypeCategory.
-        public let aggregateField: EventAggregateField
-
-        public init(filter: EventFilter? = nil, nextToken: String? = nil, maxResults: Int32? = nil, aggregateField: EventAggregateField) {
-            self.filter = filter
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.aggregateField = aggregateField
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filter = "filter"
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-            case aggregateField = "aggregateField"
-        }
-    }
-
-    public struct DescribeEventDetailsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failedSet", required: false, type: .list), 
-            AWSShapeMember(label: "successfulSet", required: false, type: .list)
-        ]
-        /// Error messages for any events that could not be retrieved.
-        public let failedSet: [EventDetailsErrorItem]?
-        /// Information about the events that could be retrieved.
-        public let successfulSet: [EventDetails]?
-
-        public init(failedSet: [EventDetailsErrorItem]? = nil, successfulSet: [EventDetails]? = nil) {
-            self.failedSet = failedSet
-            self.successfulSet = successfulSet
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failedSet = "failedSet"
-            case successfulSet = "successfulSet"
-        }
-    }
-
-    public struct DescribeEventAggregatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "eventAggregates", required: false, type: .list)
-        ]
-        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        public let nextToken: String?
-        /// The number of events in each category that meet the optional filter criteria.
-        public let eventAggregates: [EventAggregate]?
-
-        public init(nextToken: String? = nil, eventAggregates: [EventAggregate]? = nil) {
-            self.nextToken = nextToken
-            self.eventAggregates = eventAggregates
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case eventAggregates = "eventAggregates"
-        }
-    }
-
-    public struct EntityAggregate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "eventArn", required: false, type: .string), 
-            AWSShapeMember(label: "count", required: false, type: .integer)
-        ]
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
-        public let eventArn: String?
-        /// The number entities that match the criteria for the specified events.
-        public let count: Int32?
-
-        public init(eventArn: String? = nil, count: Int32? = nil) {
-            self.eventArn = eventArn
-            self.count = count
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventArn = "eventArn"
-            case count = "count"
-        }
-    }
-
-    public struct DescribeEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "events", required: false, type: .list)
-        ]
-        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        public let nextToken: String?
-        /// The events that match the specified filter criteria.
-        public let events: [Event]?
-
-        public init(nextToken: String? = nil, events: [Event]? = nil) {
-            self.nextToken = nextToken
-            self.events = events
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case events = "events"
-        }
-    }
-
     public struct EventDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "latestDescription", required: false, type: .string)
@@ -362,37 +18,6 @@ extension Health {
 
         private enum CodingKeys: String, CodingKey {
             case latestDescription = "latestDescription"
-        }
-    }
-
-    public struct DescribeAffectedEntitiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filter", required: true, type: .structure), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "locale", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// Values to narrow the results returned. At least one event ARN is required. 
-        public let filter: EntityFilter
-        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        public let nextToken: String?
-        /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-        public let locale: String?
-        /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
-        public let maxResults: Int32?
-
-        public init(filter: EntityFilter, nextToken: String? = nil, locale: String? = nil, maxResults: Int32? = nil) {
-            self.filter = filter
-            self.nextToken = nextToken
-            self.locale = locale
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filter = "filter"
-            case nextToken = "nextToken"
-            case locale = "locale"
-            case maxResults = "maxResults"
         }
     }
 
@@ -417,50 +42,90 @@ extension Health {
         }
     }
 
-    public struct DescribeEventTypesResponse: AWSShape {
+    public struct DescribeEventsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "eventTypes", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "events", required: false, type: .list)
         ]
-        /// A list of event types that match the filter criteria. Event types have a category (issue, accountNotification, or scheduledChange), a service (for example, EC2, RDS, DATAPIPELINE, BILLING), and a code (in the format AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT).
-        public let eventTypes: [EventType]?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
+        /// The events that match the specified filter criteria.
+        public let events: [Event]?
 
-        public init(eventTypes: [EventType]? = nil, nextToken: String? = nil) {
-            self.eventTypes = eventTypes
+        public init(nextToken: String? = nil, events: [Event]? = nil) {
             self.nextToken = nextToken
+            self.events = events
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTypes = "eventTypes"
             case nextToken = "nextToken"
+            case events = "events"
         }
     }
 
-    public struct EventTypeFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "eventTypeCodes", required: false, type: .list), 
-            AWSShapeMember(label: "eventTypeCategories", required: false, type: .list), 
-            AWSShapeMember(label: "services", required: false, type: .list)
-        ]
-        /// A list of event type codes.
-        public let eventTypeCodes: [String]?
-        /// A list of event type category codes (issue, scheduledChange, or accountNotification).
-        public let eventTypeCategories: [EventTypeCategory]?
-        /// The AWS services associated with the event. For example, EC2, RDS.
-        public let services: [String]?
+    public enum EventStatusCode: String, CustomStringConvertible, Codable {
+        case open = "open"
+        case closed = "closed"
+        case upcoming = "upcoming"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(eventTypeCodes: [String]? = nil, eventTypeCategories: [EventTypeCategory]? = nil, services: [String]? = nil) {
-            self.eventTypeCodes = eventTypeCodes
-            self.eventTypeCategories = eventTypeCategories
-            self.services = services
+    public enum EventAggregateField: String, CustomStringConvertible, Codable {
+        case eventtypecategory = "eventTypeCategory"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeEntityAggregatesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "entityAggregates", required: false, type: .list)
+        ]
+        /// The number of entities that are affected by each of the specified events.
+        public let entityAggregates: [EntityAggregate]?
+
+        public init(entityAggregates: [EntityAggregate]? = nil) {
+            self.entityAggregates = entityAggregates
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTypeCodes = "eventTypeCodes"
-            case eventTypeCategories = "eventTypeCategories"
-            case services = "services"
+            case entityAggregates = "entityAggregates"
+        }
+    }
+
+    public enum EntityStatusCode: String, CustomStringConvertible, Codable {
+        case impaired = "IMPAIRED"
+        case unimpaired = "UNIMPAIRED"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeEventAggregatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "aggregateField", required: true, type: .enum), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "filter", required: false, type: .structure)
+        ]
+        /// The only currently supported value is eventTypeCategory.
+        public let aggregateField: EventAggregateField
+        /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
+        public let maxResults: Int32?
+        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+        public let nextToken: String?
+        /// Values to narrow the results returned.
+        public let filter: EventFilter?
+
+        public init(aggregateField: EventAggregateField, maxResults: Int32? = nil, nextToken: String? = nil, filter: EventFilter? = nil) {
+            self.aggregateField = aggregateField
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.filter = filter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregateField = "aggregateField"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case filter = "filter"
         }
     }
 
@@ -490,42 +155,396 @@ extension Health {
         }
     }
 
-    public struct DescribeEventTypesRequest: AWSShape {
+    public struct AffectedEntity: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "locale", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
+            AWSShapeMember(label: "statusCode", required: false, type: .enum), 
+            AWSShapeMember(label: "eventArn", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "awsAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "entityArn", required: false, type: .string), 
+            AWSShapeMember(label: "entityUrl", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "entityValue", required: false, type: .string)
         ]
-        /// Values to narrow the results returned.
-        public let filter: EventTypeFilter?
-        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        public let nextToken: String?
-        /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-        public let locale: String?
-        /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
-        public let maxResults: Int32?
+        /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, and UNKNOWN.
+        public let statusCode: EntityStatusCode?
+        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
+        public let eventArn: String?
+        /// A map of entity tags attached to the affected entity.
+        public let tags: [String: String]?
+        /// The 12-digit AWS account number that contains the affected entity.
+        public let awsAccountId: String?
+        /// The unique identifier for the entity. Format: arn:aws:health:entity-region:aws-account:entity/entity-id . Example: arn:aws:health:us-east-1:111222333444:entity/AVh5GGT7ul1arKr1sE1K 
+        public let entityArn: String?
+        public let entityUrl: String?
+        /// The most recent time that the entity was updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// The ID of the affected entity.
+        public let entityValue: String?
 
-        public init(filter: EventTypeFilter? = nil, nextToken: String? = nil, locale: String? = nil, maxResults: Int32? = nil) {
-            self.filter = filter
-            self.nextToken = nextToken
-            self.locale = locale
-            self.maxResults = maxResults
+        public init(statusCode: EntityStatusCode? = nil, eventArn: String? = nil, tags: [String: String]? = nil, awsAccountId: String? = nil, entityArn: String? = nil, entityUrl: String? = nil, lastUpdatedTime: TimeStamp? = nil, entityValue: String? = nil) {
+            self.statusCode = statusCode
+            self.eventArn = eventArn
+            self.tags = tags
+            self.awsAccountId = awsAccountId
+            self.entityArn = entityArn
+            self.entityUrl = entityUrl
+            self.lastUpdatedTime = lastUpdatedTime
+            self.entityValue = entityValue
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter = "filter"
-            case nextToken = "nextToken"
-            case locale = "locale"
-            case maxResults = "maxResults"
+            case statusCode = "statusCode"
+            case eventArn = "eventArn"
+            case tags = "tags"
+            case awsAccountId = "awsAccountId"
+            case entityArn = "entityArn"
+            case entityUrl = "entityUrl"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case entityValue = "entityValue"
         }
     }
 
-    public enum EventStatusCode: String, CustomStringConvertible, Codable {
-        case open = "open"
-        case closed = "closed"
-        case upcoming = "upcoming"
+    public struct EventTypeFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "services", required: false, type: .list), 
+            AWSShapeMember(label: "eventTypeCategories", required: false, type: .list), 
+            AWSShapeMember(label: "eventTypeCodes", required: false, type: .list)
+        ]
+        /// The AWS services associated with the event. For example, EC2, RDS.
+        public let services: [String]?
+        /// A list of event type category codes (issue, scheduledChange, or accountNotification).
+        public let eventTypeCategories: [EventTypeCategory]?
+        /// A list of event type codes.
+        public let eventTypeCodes: [String]?
+
+        public init(services: [String]? = nil, eventTypeCategories: [EventTypeCategory]? = nil, eventTypeCodes: [String]? = nil) {
+            self.services = services
+            self.eventTypeCategories = eventTypeCategories
+            self.eventTypeCodes = eventTypeCodes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case services = "services"
+            case eventTypeCategories = "eventTypeCategories"
+            case eventTypeCodes = "eventTypeCodes"
+        }
+    }
+
+    public struct DescribeAffectedEntitiesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "entities", required: false, type: .list)
+        ]
+        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+        public let nextToken: String?
+        /// The entities that match the filter criteria.
+        public let entities: [AffectedEntity]?
+
+        public init(nextToken: String? = nil, entities: [AffectedEntity]? = nil) {
+            self.nextToken = nextToken
+            self.entities = entities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case entities = "entities"
+        }
+    }
+
+    public struct DescribeEventDetailsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "eventArns", required: true, type: .list), 
+            AWSShapeMember(label: "locale", required: false, type: .string)
+        ]
+        /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" 
+        public let eventArns: [String]
+        /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
+        public let locale: String?
+
+        public init(eventArns: [String], locale: String? = nil) {
+            self.eventArns = eventArns
+            self.locale = locale
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventArns = "eventArns"
+            case locale = "locale"
+        }
+    }
+
+    public struct DescribeEntityAggregatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "eventArns", required: false, type: .list)
+        ]
+        /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" 
+        public let eventArns: [String]?
+
+        public init(eventArns: [String]? = nil) {
+            self.eventArns = eventArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventArns = "eventArns"
+        }
+    }
+
+    public struct Event: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "statusCode", required: false, type: .enum), 
+            AWSShapeMember(label: "region", required: false, type: .string), 
+            AWSShapeMember(label: "eventTypeCategory", required: false, type: .enum), 
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "service", required: false, type: .string), 
+            AWSShapeMember(label: "availabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "eventTypeCode", required: false, type: .string)
+        ]
+        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
+        public let arn: String?
+        /// The date and time that the event began.
+        public let startTime: TimeStamp?
+        /// The most recent status of the event. Possible values are open, closed, and upcoming.
+        public let statusCode: EventStatusCode?
+        /// The AWS region name of the event.
+        public let region: String?
+        /// The category of the event. Possible values are issue, scheduledChange, and accountNotification.
+        public let eventTypeCategory: EventTypeCategory?
+        /// The date and time that the event ended.
+        public let endTime: TimeStamp?
+        /// The most recent date and time that the event was updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// The AWS service that is affected by the event. For example, EC2, RDS.
+        public let service: String?
+        /// The AWS Availability Zone of the event. For example, us-east-1a.
+        public let availabilityZone: String?
+        /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
+        public let eventTypeCode: String?
+
+        public init(arn: String? = nil, startTime: TimeStamp? = nil, statusCode: EventStatusCode? = nil, region: String? = nil, eventTypeCategory: EventTypeCategory? = nil, endTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, service: String? = nil, availabilityZone: String? = nil, eventTypeCode: String? = nil) {
+            self.arn = arn
+            self.startTime = startTime
+            self.statusCode = statusCode
+            self.region = region
+            self.eventTypeCategory = eventTypeCategory
+            self.endTime = endTime
+            self.lastUpdatedTime = lastUpdatedTime
+            self.service = service
+            self.availabilityZone = availabilityZone
+            self.eventTypeCode = eventTypeCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case startTime = "startTime"
+            case statusCode = "statusCode"
+            case region = "region"
+            case eventTypeCategory = "eventTypeCategory"
+            case endTime = "endTime"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case service = "service"
+            case availabilityZone = "availabilityZone"
+            case eventTypeCode = "eventTypeCode"
+        }
+    }
+
+    public enum EventTypeCategory: String, CustomStringConvertible, Codable {
+        case issue = "issue"
+        case accountnotification = "accountNotification"
+        case scheduledchange = "scheduledChange"
         public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeEventsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "locale", required: false, type: .string)
+        ]
+        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+        public let nextToken: String?
+        /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
+        public let maxResults: Int32?
+        /// Values to narrow the results returned.
+        public let filter: EventFilter?
+        /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
+        public let locale: String?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil, filter: EventFilter? = nil, locale: String? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.filter = filter
+            self.locale = locale
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case filter = "filter"
+            case locale = "locale"
+        }
+    }
+
+    public struct EventFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "lastUpdatedTimes", required: false, type: .list), 
+            AWSShapeMember(label: "regions", required: false, type: .list), 
+            AWSShapeMember(label: "eventTypeCodes", required: false, type: .list), 
+            AWSShapeMember(label: "endTimes", required: false, type: .list), 
+            AWSShapeMember(label: "availabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "eventArns", required: false, type: .list), 
+            AWSShapeMember(label: "eventStatusCodes", required: false, type: .list), 
+            AWSShapeMember(label: "services", required: false, type: .list), 
+            AWSShapeMember(label: "eventTypeCategories", required: false, type: .list), 
+            AWSShapeMember(label: "entityValues", required: false, type: .list), 
+            AWSShapeMember(label: "startTimes", required: false, type: .list), 
+            AWSShapeMember(label: "entityArns", required: false, type: .list)
+        ]
+        /// A map of entity tags attached to the affected entity.
+        public let tags: [[String: String]]?
+        /// A list of dates and times that the event was last updated.
+        public let lastUpdatedTimes: [DateTimeRange]?
+        /// A list of AWS regions.
+        public let regions: [String]?
+        /// A list of unique identifiers for event types. For example, "AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED" 
+        public let eventTypeCodes: [String]?
+        /// A list of dates and times that the event ended.
+        public let endTimes: [DateTimeRange]?
+        /// A list of AWS availability zones.
+        public let availabilityZones: [String]?
+        /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" 
+        public let eventArns: [String]?
+        /// A list of event status codes.
+        public let eventStatusCodes: [EventStatusCode]?
+        /// The AWS services associated with the event. For example, EC2, RDS.
+        public let services: [String]?
+        /// A list of event type category codes (issue, scheduledChange, or accountNotification).
+        public let eventTypeCategories: [EventTypeCategory]?
+        /// A list of entity identifiers, such as EC2 instance IDs (i-34ab692e) or EBS volumes (vol-426ab23e).
+        public let entityValues: [String]?
+        /// A list of dates and times that the event began.
+        public let startTimes: [DateTimeRange]?
+        /// A list of entity ARNs (unique identifiers).
+        public let entityArns: [String]?
+
+        public init(tags: [[String: String]]? = nil, lastUpdatedTimes: [DateTimeRange]? = nil, regions: [String]? = nil, eventTypeCodes: [String]? = nil, endTimes: [DateTimeRange]? = nil, availabilityZones: [String]? = nil, eventArns: [String]? = nil, eventStatusCodes: [EventStatusCode]? = nil, services: [String]? = nil, eventTypeCategories: [EventTypeCategory]? = nil, entityValues: [String]? = nil, startTimes: [DateTimeRange]? = nil, entityArns: [String]? = nil) {
+            self.tags = tags
+            self.lastUpdatedTimes = lastUpdatedTimes
+            self.regions = regions
+            self.eventTypeCodes = eventTypeCodes
+            self.endTimes = endTimes
+            self.availabilityZones = availabilityZones
+            self.eventArns = eventArns
+            self.eventStatusCodes = eventStatusCodes
+            self.services = services
+            self.eventTypeCategories = eventTypeCategories
+            self.entityValues = entityValues
+            self.startTimes = startTimes
+            self.entityArns = entityArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case lastUpdatedTimes = "lastUpdatedTimes"
+            case regions = "regions"
+            case eventTypeCodes = "eventTypeCodes"
+            case endTimes = "endTimes"
+            case availabilityZones = "availabilityZones"
+            case eventArns = "eventArns"
+            case eventStatusCodes = "eventStatusCodes"
+            case services = "services"
+            case eventTypeCategories = "eventTypeCategories"
+            case entityValues = "entityValues"
+            case startTimes = "startTimes"
+            case entityArns = "entityArns"
+        }
+    }
+
+    public struct DescribeEventTypesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "locale", required: false, type: .string), 
+            AWSShapeMember(label: "filter", required: false, type: .structure)
+        ]
+        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+        public let nextToken: String?
+        /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
+        public let maxResults: Int32?
+        /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
+        public let locale: String?
+        /// Values to narrow the results returned.
+        public let filter: EventTypeFilter?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil, locale: String? = nil, filter: EventTypeFilter? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.locale = locale
+            self.filter = filter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case locale = "locale"
+            case filter = "filter"
+        }
+    }
+
+    public struct DescribeAffectedEntitiesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "locale", required: false, type: .string), 
+            AWSShapeMember(label: "filter", required: true, type: .structure)
+        ]
+        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+        public let nextToken: String?
+        /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
+        public let maxResults: Int32?
+        /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
+        public let locale: String?
+        /// Values to narrow the results returned. At least one event ARN is required. 
+        public let filter: EntityFilter
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil, locale: String? = nil, filter: EntityFilter) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.locale = locale
+            self.filter = filter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case locale = "locale"
+            case filter = "filter"
+        }
+    }
+
+    public struct DescribeEventAggregatesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "eventAggregates", required: false, type: .list)
+        ]
+        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+        public let nextToken: String?
+        /// The number of events in each category that meet the optional filter criteria.
+        public let eventAggregates: [EventAggregate]?
+
+        public init(nextToken: String? = nil, eventAggregates: [EventAggregate]? = nil) {
+            self.nextToken = nextToken
+            self.eventAggregates = eventAggregates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case eventAggregates = "eventAggregates"
+        }
     }
 
     public struct DateTimeRange: AWSShape {
@@ -549,175 +568,160 @@ extension Health {
         }
     }
 
-    public enum EntityStatusCode: String, CustomStringConvertible, Codable {
-        case impaired = "IMPAIRED"
-        case unimpaired = "UNIMPAIRED"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeEntityAggregatesRequest: AWSShape {
+    public struct DescribeEventTypesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "eventArns", required: false, type: .list)
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "eventTypes", required: false, type: .list)
         ]
-        /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
-        public let eventArns: [String]?
+        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+        public let nextToken: String?
+        /// A list of event types that match the filter criteria. Event types have a category (issue, accountNotification, or scheduledChange), a service (for example, EC2, RDS, DATAPIPELINE, BILLING), and a code (in the format AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT).
+        public let eventTypes: [EventType]?
 
-        public init(eventArns: [String]? = nil) {
-            self.eventArns = eventArns
+        public init(nextToken: String? = nil, eventTypes: [EventType]? = nil) {
+            self.nextToken = nextToken
+            self.eventTypes = eventTypes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventArns = "eventArns"
+            case nextToken = "nextToken"
+            case eventTypes = "eventTypes"
         }
     }
 
-    public struct EventFilter: AWSShape {
+    public struct EntityFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "entityArns", required: false, type: .list), 
-            AWSShapeMember(label: "eventStatusCodes", required: false, type: .list), 
-            AWSShapeMember(label: "eventTypeCategories", required: false, type: .list), 
-            AWSShapeMember(label: "entityValues", required: false, type: .list), 
-            AWSShapeMember(label: "endTimes", required: false, type: .list), 
-            AWSShapeMember(label: "eventArns", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "lastUpdatedTimes", required: false, type: .list), 
-            AWSShapeMember(label: "startTimes", required: false, type: .list), 
-            AWSShapeMember(label: "services", required: false, type: .list), 
-            AWSShapeMember(label: "availabilityZones", required: false, type: .list), 
-            AWSShapeMember(label: "regions", required: false, type: .list), 
-            AWSShapeMember(label: "eventTypeCodes", required: false, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
+            AWSShapeMember(label: "entityValues", required: false, type: .list), 
+            AWSShapeMember(label: "statusCodes", required: false, type: .list), 
+            AWSShapeMember(label: "eventArns", required: true, type: .list)
         ]
         /// A list of entity ARNs (unique identifiers).
         public let entityArns: [String]?
-        /// A list of event status codes.
-        public let eventStatusCodes: [EventStatusCode]?
-        /// A list of event type category codes (issue, scheduledChange, or accountNotification).
-        public let eventTypeCategories: [EventTypeCategory]?
-        /// A list of entity identifiers, such as EC2 instance IDs (i-34ab692e) or EBS volumes (vol-426ab23e).
-        public let entityValues: [String]?
-        /// A list of dates and times that the event ended.
-        public let endTimes: [DateTimeRange]?
-        /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
-        public let eventArns: [String]?
-        /// A list of dates and times that the event was last updated.
-        public let lastUpdatedTimes: [DateTimeRange]?
-        /// A list of dates and times that the event began.
-        public let startTimes: [DateTimeRange]?
-        /// The AWS services associated with the event. For example, EC2, RDS.
-        public let services: [String]?
-        /// A list of AWS availability zones.
-        public let availabilityZones: [String]?
-        /// A list of AWS regions.
-        public let regions: [String]?
-        /// A list of unique identifiers for event types. For example, "AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED" 
-        public let eventTypeCodes: [String]?
         /// A map of entity tags attached to the affected entity.
         public let tags: [[String: String]]?
+        /// A list of the most recent dates and times that the entity was updated.
+        public let lastUpdatedTimes: [DateTimeRange]?
+        /// A list of IDs for affected entities.
+        public let entityValues: [String]?
+        /// A list of entity status codes (IMPAIRED, UNIMPAIRED, or UNKNOWN).
+        public let statusCodes: [EntityStatusCode]?
+        /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" 
+        public let eventArns: [String]
 
-        public init(entityArns: [String]? = nil, eventStatusCodes: [EventStatusCode]? = nil, eventTypeCategories: [EventTypeCategory]? = nil, entityValues: [String]? = nil, endTimes: [DateTimeRange]? = nil, eventArns: [String]? = nil, lastUpdatedTimes: [DateTimeRange]? = nil, startTimes: [DateTimeRange]? = nil, services: [String]? = nil, availabilityZones: [String]? = nil, regions: [String]? = nil, eventTypeCodes: [String]? = nil, tags: [[String: String]]? = nil) {
+        public init(entityArns: [String]? = nil, tags: [[String: String]]? = nil, lastUpdatedTimes: [DateTimeRange]? = nil, entityValues: [String]? = nil, statusCodes: [EntityStatusCode]? = nil, eventArns: [String]) {
             self.entityArns = entityArns
-            self.eventStatusCodes = eventStatusCodes
-            self.eventTypeCategories = eventTypeCategories
-            self.entityValues = entityValues
-            self.endTimes = endTimes
-            self.eventArns = eventArns
-            self.lastUpdatedTimes = lastUpdatedTimes
-            self.startTimes = startTimes
-            self.services = services
-            self.availabilityZones = availabilityZones
-            self.regions = regions
-            self.eventTypeCodes = eventTypeCodes
             self.tags = tags
+            self.lastUpdatedTimes = lastUpdatedTimes
+            self.entityValues = entityValues
+            self.statusCodes = statusCodes
+            self.eventArns = eventArns
         }
 
         private enum CodingKeys: String, CodingKey {
             case entityArns = "entityArns"
-            case eventStatusCodes = "eventStatusCodes"
-            case eventTypeCategories = "eventTypeCategories"
-            case entityValues = "entityValues"
-            case endTimes = "endTimes"
-            case eventArns = "eventArns"
-            case lastUpdatedTimes = "lastUpdatedTimes"
-            case startTimes = "startTimes"
-            case services = "services"
-            case availabilityZones = "availabilityZones"
-            case regions = "regions"
-            case eventTypeCodes = "eventTypeCodes"
             case tags = "tags"
+            case lastUpdatedTimes = "lastUpdatedTimes"
+            case entityValues = "entityValues"
+            case statusCodes = "statusCodes"
+            case eventArns = "eventArns"
         }
     }
 
     public struct EventDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "eventMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "eventDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "event", required: false, type: .structure)
+            AWSShapeMember(label: "event", required: false, type: .structure), 
+            AWSShapeMember(label: "eventDescription", required: false, type: .structure)
         ]
         /// Additional metadata about the event.
         public let eventMetadata: [String: String]?
-        /// The most recent description of the event.
-        public let eventDescription: EventDescription?
         /// Summary information about the event.
         public let event: Event?
+        /// The most recent description of the event.
+        public let eventDescription: EventDescription?
 
-        public init(eventMetadata: [String: String]? = nil, eventDescription: EventDescription? = nil, event: Event? = nil) {
+        public init(eventMetadata: [String: String]? = nil, event: Event? = nil, eventDescription: EventDescription? = nil) {
             self.eventMetadata = eventMetadata
-            self.eventDescription = eventDescription
             self.event = event
+            self.eventDescription = eventDescription
         }
 
         private enum CodingKeys: String, CodingKey {
             case eventMetadata = "eventMetadata"
-            case eventDescription = "eventDescription"
             case event = "event"
+            case eventDescription = "eventDescription"
         }
     }
 
-    public struct EntityFilter: AWSShape {
+    public struct EventDetailsErrorItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "eventArns", required: true, type: .list), 
-            AWSShapeMember(label: "entityArns", required: false, type: .list), 
-            AWSShapeMember(label: "lastUpdatedTimes", required: false, type: .list), 
-            AWSShapeMember(label: "statusCodes", required: false, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "entityValues", required: false, type: .list)
+            AWSShapeMember(label: "errorName", required: false, type: .string), 
+            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "eventArn", required: false, type: .string)
         ]
-        /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
-        public let eventArns: [String]
-        /// A list of entity ARNs (unique identifiers).
-        public let entityArns: [String]?
-        /// A list of the most recent dates and times that the entity was updated.
-        public let lastUpdatedTimes: [DateTimeRange]?
-        /// A list of entity status codes (IMPAIRED, UNIMPAIRED, or UNKNOWN).
-        public let statusCodes: [EntityStatusCode]?
-        /// A map of entity tags attached to the affected entity.
-        public let tags: [[String: String]]?
-        /// A list of IDs for affected entities.
-        public let entityValues: [String]?
+        /// The name of the error.
+        public let errorName: String?
+        /// A message that describes the error.
+        public let errorMessage: String?
+        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
+        public let eventArn: String?
 
-        public init(eventArns: [String], entityArns: [String]? = nil, lastUpdatedTimes: [DateTimeRange]? = nil, statusCodes: [EntityStatusCode]? = nil, tags: [[String: String]]? = nil, entityValues: [String]? = nil) {
-            self.eventArns = eventArns
-            self.entityArns = entityArns
-            self.lastUpdatedTimes = lastUpdatedTimes
-            self.statusCodes = statusCodes
-            self.tags = tags
-            self.entityValues = entityValues
+        public init(errorName: String? = nil, errorMessage: String? = nil, eventArn: String? = nil) {
+            self.errorName = errorName
+            self.errorMessage = errorMessage
+            self.eventArn = eventArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventArns = "eventArns"
-            case entityArns = "entityArns"
-            case lastUpdatedTimes = "lastUpdatedTimes"
-            case statusCodes = "statusCodes"
-            case tags = "tags"
-            case entityValues = "entityValues"
+            case errorName = "errorName"
+            case errorMessage = "errorMessage"
+            case eventArn = "eventArn"
         }
     }
 
-    public enum EventAggregateField: String, CustomStringConvertible, Codable {
-        case eventtypecategory = "eventTypeCategory"
-        public var description: String { return self.rawValue }
+    public struct DescribeEventDetailsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failedSet", required: false, type: .list), 
+            AWSShapeMember(label: "successfulSet", required: false, type: .list)
+        ]
+        /// Error messages for any events that could not be retrieved.
+        public let failedSet: [EventDetailsErrorItem]?
+        /// Information about the events that could be retrieved.
+        public let successfulSet: [EventDetails]?
+
+        public init(failedSet: [EventDetailsErrorItem]? = nil, successfulSet: [EventDetails]? = nil) {
+            self.failedSet = failedSet
+            self.successfulSet = successfulSet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedSet = "failedSet"
+            case successfulSet = "successfulSet"
+        }
+    }
+
+    public struct EntityAggregate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "count", required: false, type: .integer), 
+            AWSShapeMember(label: "eventArn", required: false, type: .string)
+        ]
+        /// The number entities that match the criteria for the specified events.
+        public let count: Int32?
+        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
+        public let eventArn: String?
+
+        public init(count: Int32? = nil, eventArn: String? = nil) {
+            self.count = count
+            self.eventArn = eventArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "count"
+            case eventArn = "eventArn"
+        }
     }
 
 }

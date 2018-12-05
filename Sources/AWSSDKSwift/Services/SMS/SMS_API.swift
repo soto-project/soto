@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-Amazon Server Migration Service automates the process of migrating servers to EC2.
+AAWS Sever Migration Service This is the AWS Sever Migration Service API Reference. It provides descriptions, syntax, and usage examples for each of the actions and data types for the AWS Sever Migration Service (AWS SMS). The topic for each action shows the Query API request parameters and the XML response. You can also view the XML request elements in the WSDL. Alternatively, you can use one of the AWS SDKs to access an API that's tailored to the programming language or platform that you're using. For more information, see AWS SDKs. To learn more about the Server Migration Service, see the following resources:    AWS Sever Migration Service product page     AWS Sever Migration Service User Guide   
 */
 public struct SMS {
 
@@ -25,59 +25,144 @@ public struct SMS {
         )
     }
 
-    ///  The DeleteServerCatalog API clears all servers from your server catalog. This means that these servers will no longer be accessible to the Server Migration Service.
-    public func deleteServerCatalog(_ input: DeleteServerCatalogRequest) throws -> DeleteServerCatalogResponse {
-        return try client.send(operation: "DeleteServerCatalog", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes existing replication configuration for an application.
+    public func deleteAppReplicationConfiguration(_ input: DeleteAppReplicationConfigurationRequest) throws -> DeleteAppReplicationConfigurationResponse {
+        return try client.send(operation: "DeleteAppReplicationConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  The GetConnectors API returns a list of connectors that are registered with the Server Migration Service.
+    ///  Describes the connectors registered with the AWS SMS.
     public func getConnectors(_ input: GetConnectorsRequest) throws -> GetConnectorsResponse {
         return try client.send(operation: "GetConnectors", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  The GetServers API returns a list of all servers in your server catalog. For this call to succeed, you must previously have called ImportServerCatalog.
-    public func getServers(_ input: GetServersRequest) throws -> GetServersResponse {
-        return try client.send(operation: "GetServers", path: "/", httpMethod: "POST", input: input)
+    ///  Terminates the stack for an application.
+    public func terminateApp(_ input: TerminateAppRequest) throws -> TerminateAppResponse {
+        return try client.send(operation: "TerminateApp", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  The DisassociateConnector API will disassociate a connector from the Server Migration Service, rendering it unavailable to support replication jobs.
-    public func disassociateConnector(_ input: DisassociateConnectorRequest) throws -> DisassociateConnectorResponse {
-        return try client.send(operation: "DisassociateConnector", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  The DeleteReplicationJob API is used to delete a ReplicationJob, resulting in no further ReplicationRuns. This will delete the contents of the S3 bucket used to store SMS artifacts, but will not delete any AMIs created by the SMS service.
-    public func deleteReplicationJob(_ input: DeleteReplicationJobRequest) throws -> DeleteReplicationJobResponse {
-        return try client.send(operation: "DeleteReplicationJob", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  The CreateReplicationJob API is used to create a ReplicationJob to replicate a server on AWS. Call this API to first create a ReplicationJob, which will then schedule periodic ReplicationRuns to replicate your server to AWS. Each ReplicationRun will result in the creation of an AWS AMI.
-    public func createReplicationJob(_ input: CreateReplicationJobRequest) throws -> CreateReplicationJobResponse {
-        return try client.send(operation: "CreateReplicationJob", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  The ImportServerCatalog API is used to gather the complete list of on-premises servers on your premises. This API call requires connectors to be installed and monitoring all servers you would like imported. This API call returns immediately, but may take some time to retrieve all of the servers.
-    public func importServerCatalog(_ input: ImportServerCatalogRequest) throws -> ImportServerCatalogResponse {
-        return try client.send(operation: "ImportServerCatalog", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  The GetReplicationRuns API will return all ReplicationRuns for a given ReplicationJob. This API returns a paginated list, that may be consecutively called with nextToken to retrieve all ReplicationRuns for a ReplicationJob.
-    public func getReplicationRuns(_ input: GetReplicationRunsRequest) throws -> GetReplicationRunsResponse {
-        return try client.send(operation: "GetReplicationRuns", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  The StartOnDemandReplicationRun API is used to start a ReplicationRun on demand (in addition to those that are scheduled based on your frequency). This ReplicationRun will start immediately. StartOnDemandReplicationRun is subject to limits on how many on demand ReplicationRuns you may call per 24-hour period.
+    ///  Starts an on-demand replication run for the specified replication job. This replication run starts immediately. This replication run is in addition to the ones already scheduled. There is a limit on the number of on-demand replications runs you can request in a 24-hour period.
     public func startOnDemandReplicationRun(_ input: StartOnDemandReplicationRunRequest) throws -> StartOnDemandReplicationRunResponse {
         return try client.send(operation: "StartOnDemandReplicationRun", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  The UpdateReplicationJob API is used to change the settings of your existing ReplicationJob created using CreateReplicationJob. Calling this API will affect the next scheduled ReplicationRun.
+    ///  Generates a target change set for a currently launched stack and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
+    public func generateChangeSet(_ input: GenerateChangeSetRequest) throws -> GenerateChangeSetResponse {
+        return try client.send(operation: "GenerateChangeSet", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the specified replication job or all of your replication jobs.
+    public func getReplicationJobs(_ input: GetReplicationJobsRequest) throws -> GetReplicationJobsResponse {
+        return try client.send(operation: "GetReplicationJobs", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Generates an Amazon CloudFormation template based on the current launch configuration and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
+    public func generateTemplate(_ input: GenerateTemplateRequest) throws -> GenerateTemplateResponse {
+        return try client.send(operation: "GenerateTemplate", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gathers a complete list of on-premises servers. Connectors must be installed and monitoring all servers that you want to import. This call returns immediately, but might take additional time to retrieve all the servers.
+    public func importServerCatalog(_ input: ImportServerCatalogRequest) throws -> ImportServerCatalogResponse {
+        return try client.send(operation: "ImportServerCatalog", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts replicating an application.
+    public func startAppReplication(_ input: StartAppReplicationRequest) throws -> StartAppReplicationResponse {
+        return try client.send(operation: "StartAppReplication", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops replicating an application.
+    public func stopAppReplication(_ input: StopAppReplicationRequest) throws -> StopAppReplicationResponse {
+        return try client.send(operation: "StopAppReplication", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of summaries for all applications.
+    public func listApps(_ input: ListAppsRequest) throws -> ListAppsResponse {
+        return try client.send(operation: "ListApps", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the servers in your server catalog. Before you can describe your servers, you must import them using ImportServerCatalog.
+    public func getServers(_ input: GetServersRequest) throws -> GetServersResponse {
+        return try client.send(operation: "GetServers", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the specified settings for the specified replication job.
     public func updateReplicationJob(_ input: UpdateReplicationJobRequest) throws -> UpdateReplicationJobResponse {
         return try client.send(operation: "UpdateReplicationJob", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  The GetReplicationJobs API will return all of your ReplicationJobs and their details. This API returns a paginated list, that may be consecutively called with nextToken to retrieve all ReplicationJobs.
-    public func getReplicationJobs(_ input: GetReplicationJobsRequest) throws -> GetReplicationJobsResponse {
-        return try client.send(operation: "GetReplicationJobs", path: "/", httpMethod: "POST", input: input)
+    ///  Retrieve information about an application.
+    public func getApp(_ input: GetAppRequest) throws -> GetAppResponse {
+        return try client.send(operation: "GetApp", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the application launch configuration associated with an application.
+    public func getAppLaunchConfiguration(_ input: GetAppLaunchConfigurationRequest) throws -> GetAppLaunchConfigurationResponse {
+        return try client.send(operation: "GetAppLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified replication job. After you delete a replication job, there are no further replication runs. AWS deletes the contents of the Amazon S3 bucket used to store AWS SMS artifacts. The AMIs created by the replication runs are not deleted.
+    public func deleteReplicationJob(_ input: DeleteReplicationJobRequest) throws -> DeleteReplicationJobResponse {
+        return try client.send(operation: "DeleteReplicationJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes all servers from your server catalog.
+    public func deleteServerCatalog(_ input: DeleteServerCatalogRequest) throws -> DeleteServerCatalogResponse {
+        return try client.send(operation: "DeleteServerCatalog", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the replication runs for the specified replication job.
+    public func getReplicationRuns(_ input: GetReplicationRunsRequest) throws -> GetReplicationRunsResponse {
+        return try client.send(operation: "GetReplicationRuns", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes an existing application. Optionally deletes the launched stack associated with the application and all AWS SMS replication jobs for servers in the application.
+    public func deleteApp(_ input: DeleteAppRequest) throws -> DeleteAppResponse {
+        return try client.send(operation: "DeleteApp", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Launches an application stack.
+    public func launchApp(_ input: LaunchAppRequest) throws -> LaunchAppResponse {
+        return try client.send(operation: "LaunchApp", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates an application.
+    public func updateApp(_ input: UpdateAppRequest) throws -> UpdateAppResponse {
+        return try client.send(operation: "UpdateApp", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a launch configuration for an application.
+    public func putAppLaunchConfiguration(_ input: PutAppLaunchConfigurationRequest) throws -> PutAppLaunchConfigurationResponse {
+        return try client.send(operation: "PutAppLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes existing launch configuration for an application.
+    public func deleteAppLaunchConfiguration(_ input: DeleteAppLaunchConfigurationRequest) throws -> DeleteAppLaunchConfigurationResponse {
+        return try client.send(operation: "DeleteAppLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves an application replication configuration associatd with an application.
+    public func getAppReplicationConfiguration(_ input: GetAppReplicationConfigurationRequest) throws -> GetAppReplicationConfigurationResponse {
+        return try client.send(operation: "GetAppReplicationConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an application. An application consists of one or more server groups. Each server group contain one or more servers.
+    public func createApp(_ input: CreateAppRequest) throws -> CreateAppResponse {
+        return try client.send(operation: "CreateApp", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a replication job. The replication job schedules periodic replication runs to replicate your server to AWS. Each replication run creates an Amazon Machine Image (AMI).
+    public func createReplicationJob(_ input: CreateReplicationJobRequest) throws -> CreateReplicationJobResponse {
+        return try client.send(operation: "CreateReplicationJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates or updates a replication configuration for an application.
+    public func putAppReplicationConfiguration(_ input: PutAppReplicationConfigurationRequest) throws -> PutAppReplicationConfigurationResponse {
+        return try client.send(operation: "PutAppReplicationConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Disassociates the specified connector from AWS SMS. After you disassociate a connector, it is no longer available to support replication jobs.
+    public func disassociateConnector(_ input: DisassociateConnectorRequest) throws -> DisassociateConnectorResponse {
+        return try client.send(operation: "DisassociateConnector", path: "/", httpMethod: "POST", input: input)
     }
 
 

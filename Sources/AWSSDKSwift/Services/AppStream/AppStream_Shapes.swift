@@ -5,201 +5,50 @@ import AWSSDKSwiftCore
 
 extension AppStream {
 
-    public struct StorageConnector: AWSShape {
+    public struct VpcConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domains", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "ConnectorType", required: true, type: .enum)
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list)
         ]
-        /// The names of the domains for the G Suite account.
-        public let domains: [String]?
-        /// The ARN of the storage connector.
-        public let resourceIdentifier: String?
-        /// The type of storage connector.
-        public let connectorType: StorageConnectorType
+        /// The security groups for the fleet.
+        public let securityGroupIds: [String]?
+        /// The subnets to which a network interface is established from the fleet instance.
+        public let subnetIds: [String]?
 
-        public init(domains: [String]? = nil, resourceIdentifier: String? = nil, connectorType: StorageConnectorType) {
-            self.domains = domains
-            self.resourceIdentifier = resourceIdentifier
-            self.connectorType = connectorType
+        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domains = "Domains"
-            case resourceIdentifier = "ResourceIdentifier"
-            case connectorType = "ConnectorType"
+            case securityGroupIds = "SecurityGroupIds"
+            case subnetIds = "SubnetIds"
         }
     }
 
-    public struct ExpireSessionRequest: AWSShape {
+    public struct DescribeImageBuildersResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SessionId", required: true, type: .string)
+            AWSShapeMember(label: "ImageBuilders", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The ID of the streaming session.
-        public let sessionId: String
-
-        public init(sessionId: String) {
-            self.sessionId = sessionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sessionId = "SessionId"
-        }
-    }
-
-    public struct ListAssociatedFleetsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Names", required: false, type: .list)
-        ]
+        /// Information about the image builders.
+        public let imageBuilders: [ImageBuilder]?
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
-        /// The name of the fleet.
-        public let names: [String]?
 
-        public init(nextToken: String? = nil, names: [String]? = nil) {
+        public init(imageBuilders: [ImageBuilder]? = nil, nextToken: String? = nil) {
+            self.imageBuilders = imageBuilders
             self.nextToken = nextToken
-            self.names = names
         }
 
         private enum CodingKeys: String, CodingKey {
+            case imageBuilders = "ImageBuilders"
             case nextToken = "NextToken"
-            case names = "Names"
         }
     }
 
-    public enum FleetAttribute: String, CustomStringConvertible, Codable {
-        case vpcConfiguration = "VPC_CONFIGURATION"
-        case vpcConfigurationSecurityGroupIds = "VPC_CONFIGURATION_SECURITY_GROUP_IDS"
-        case domainJoinInfo = "DOMAIN_JOIN_INFO"
-        public var description: String { return self.rawValue }
-    }
+    public struct DeleteStackResult: AWSShape {
 
-    public struct DeleteImagePermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SharedAccountId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The 12-digit ID of the AWS account for which to delete image permissions.
-        public let sharedAccountId: String
-        /// The name of the private image.
-        public let name: String
-
-        public init(sharedAccountId: String, name: String) {
-            self.sharedAccountId = sharedAccountId
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sharedAccountId = "SharedAccountId"
-            case name = "Name"
-        }
-    }
-
-    public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
-        /// The information about the tags.
-        public let tags: [String: String]?
-
-        public init(tags: [String: String]? = nil) {
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-        }
-    }
-
-    public struct DeleteImagePermissionsResult: AWSShape {
-
-    }
-
-    public struct ImageBuilder: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "ImageArn", required: false, type: .string), 
-            AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
-            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "DomainJoinInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "Platform", required: false, type: .enum), 
-            AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "ImageBuilderErrors", required: false, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "AppstreamAgentVersion", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp)
-        ]
-        /// The ARN for the image builder.
-        public let arn: String?
-        /// The image builder name for display.
-        public let displayName: String?
-        /// The name of the image builder.
-        public let name: String
-        /// The state of the image builder.
-        public let state: ImageBuilderState?
-        /// The ARN of the image from which this builder was created.
-        public let imageArn: String?
-        /// Enables or disables default internet access for the image builder.
-        public let enableDefaultInternetAccess: Bool?
-        /// The reason why the last state change occurred.
-        public let stateChangeReason: ImageBuilderStateChangeReason?
-        /// The instance type for the image builder.
-        public let instanceType: String?
-        /// The information needed to join a Microsoft Active Directory domain.
-        public let domainJoinInfo: DomainJoinInfo?
-        /// The operating system platform of the image builder.
-        public let platform: PlatformType?
-        /// The VPC configuration of the image builder.
-        public let vpcConfig: VpcConfig?
-        /// The image builder errors.
-        public let imageBuilderErrors: [ResourceError]?
-        /// The description for display.
-        public let description: String?
-        /// The version of the AppStream 2.0 agent that is currently being used by this image builder. 
-        public let appstreamAgentVersion: String?
-        /// The time stamp when the image builder was created.
-        public let createdTime: TimeStamp?
-
-        public init(arn: String? = nil, displayName: String? = nil, name: String, state: ImageBuilderState? = nil, imageArn: String? = nil, enableDefaultInternetAccess: Bool? = nil, stateChangeReason: ImageBuilderStateChangeReason? = nil, instanceType: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, platform: PlatformType? = nil, vpcConfig: VpcConfig? = nil, imageBuilderErrors: [ResourceError]? = nil, description: String? = nil, appstreamAgentVersion: String? = nil, createdTime: TimeStamp? = nil) {
-            self.arn = arn
-            self.displayName = displayName
-            self.name = name
-            self.state = state
-            self.imageArn = imageArn
-            self.enableDefaultInternetAccess = enableDefaultInternetAccess
-            self.stateChangeReason = stateChangeReason
-            self.instanceType = instanceType
-            self.domainJoinInfo = domainJoinInfo
-            self.platform = platform
-            self.vpcConfig = vpcConfig
-            self.imageBuilderErrors = imageBuilderErrors
-            self.description = description
-            self.appstreamAgentVersion = appstreamAgentVersion
-            self.createdTime = createdTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case displayName = "DisplayName"
-            case name = "Name"
-            case state = "State"
-            case imageArn = "ImageArn"
-            case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
-            case stateChangeReason = "StateChangeReason"
-            case instanceType = "InstanceType"
-            case domainJoinInfo = "DomainJoinInfo"
-            case platform = "Platform"
-            case vpcConfig = "VpcConfig"
-            case imageBuilderErrors = "ImageBuilderErrors"
-            case description = "Description"
-            case appstreamAgentVersion = "AppstreamAgentVersion"
-            case createdTime = "CreatedTime"
-        }
     }
 
     public enum FleetErrorCode: String, CustomStringConvertible, Codable {
@@ -232,149 +81,31 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public struct DescribeImagePermissionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SharedImagePermissionsList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The permissions for a private image that you own. 
-        public let sharedImagePermissionsList: [SharedImagePermissions]?
-        /// The pagination token to use to retrieve the next page of results. If this value is empty, only the first page is retrieved.
-        public let nextToken: String?
-        /// The name of the private image.
-        public let name: String?
+    public enum SessionState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case pending = "PENDING"
+        case expired = "EXPIRED"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(sharedImagePermissionsList: [SharedImagePermissions]? = nil, nextToken: String? = nil, name: String? = nil) {
-            self.sharedImagePermissionsList = sharedImagePermissionsList
-            self.nextToken = nextToken
-            self.name = name
+    public struct NetworkAccessConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EniId", required: false, type: .string), 
+            AWSShapeMember(label: "EniPrivateIpAddress", required: false, type: .string)
+        ]
+        /// The resource identifier of the elastic network interface that is attached to instances in your VPC. All network interfaces have the eni-xxxxxxxx resource identifier.
+        public let eniId: String?
+        /// The private IP address of the elastic network interface that is attached to instances in your VPC.
+        public let eniPrivateIpAddress: String?
+
+        public init(eniId: String? = nil, eniPrivateIpAddress: String? = nil) {
+            self.eniId = eniId
+            self.eniPrivateIpAddress = eniPrivateIpAddress
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sharedImagePermissionsList = "SharedImagePermissionsList"
-            case nextToken = "NextToken"
-            case name = "Name"
-        }
-    }
-
-    public struct DeleteFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The name of the fleet.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct ListAssociatedStacksResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Names", required: false, type: .list)
-        ]
-        /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public let nextToken: String?
-        /// The name of the stack.
-        public let names: [String]?
-
-        public init(nextToken: String? = nil, names: [String]? = nil) {
-            self.nextToken = nextToken
-            self.names = names
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case names = "Names"
-        }
-    }
-
-    public struct DisassociateFleetResult: AWSShape {
-
-    }
-
-    public struct UpdateImagePermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SharedAccountId", required: true, type: .string), 
-            AWSShapeMember(label: "ImagePermissions", required: true, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The 12-digit ID of the AWS account for which you want add or update image permissions.
-        public let sharedAccountId: String
-        /// The permissions for the image.
-        public let imagePermissions: ImagePermissions
-        /// The name of the private image.
-        public let name: String
-
-        public init(sharedAccountId: String, imagePermissions: ImagePermissions, name: String) {
-            self.sharedAccountId = sharedAccountId
-            self.imagePermissions = imagePermissions
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sharedAccountId = "SharedAccountId"
-            case imagePermissions = "ImagePermissions"
-            case name = "Name"
-        }
-    }
-
-    public struct CreateImageBuilderResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageBuilder", required: false, type: .structure)
-        ]
-        /// Information about the image builder.
-        public let imageBuilder: ImageBuilder?
-
-        public init(imageBuilder: ImageBuilder? = nil) {
-            self.imageBuilder = imageBuilder
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case imageBuilder = "ImageBuilder"
-        }
-    }
-
-    public struct UpdateStackResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Stack", required: false, type: .structure)
-        ]
-        /// Information about the stack.
-        public let stack: Stack?
-
-        public init(stack: Stack? = nil) {
-            self.stack = stack
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stack = "Stack"
-        }
-    }
-
-    public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
-        /// The Amazon Resource Name (ARN) of the resource.
-        public let resourceArn: String
-        /// The tag keys for the tags to disassociate.
-        public let tagKeys: [String]
-
-        public init(resourceArn: String, tagKeys: [String]) {
-            self.resourceArn = resourceArn
-            self.tagKeys = tagKeys
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-            case tagKeys = "TagKeys"
+            case eniId = "EniId"
+            case eniPrivateIpAddress = "EniPrivateIpAddress"
         }
     }
 
@@ -382,42 +113,11 @@ extension AppStream {
 
     }
 
-    public struct DirectoryConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ServiceAccountCredentials", required: false, type: .structure), 
-            AWSShapeMember(label: "OrganizationalUnitDistinguishedNames", required: false, type: .list), 
-            AWSShapeMember(label: "DirectoryName", required: true, type: .string)
-        ]
-        /// The time the directory configuration was created.
-        public let createdTime: TimeStamp?
-        /// The credentials for the service account used by the streaming instance to connect to the directory.
-        public let serviceAccountCredentials: ServiceAccountCredentials?
-        /// The distinguished names of the organizational units for computer accounts.
-        public let organizationalUnitDistinguishedNames: [String]?
-        /// The fully qualified name of the directory (for example, corp.example.com).
-        public let directoryName: String
-
-        public init(createdTime: TimeStamp? = nil, serviceAccountCredentials: ServiceAccountCredentials? = nil, organizationalUnitDistinguishedNames: [String]? = nil, directoryName: String) {
-            self.createdTime = createdTime
-            self.serviceAccountCredentials = serviceAccountCredentials
-            self.organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames
-            self.directoryName = directoryName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createdTime = "CreatedTime"
-            case serviceAccountCredentials = "ServiceAccountCredentials"
-            case organizationalUnitDistinguishedNames = "OrganizationalUnitDistinguishedNames"
-            case directoryName = "DirectoryName"
-        }
-    }
-
-    public struct CreateDirectoryConfigResult: AWSShape {
+    public struct UpdateDirectoryConfigResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryConfig", required: false, type: .structure)
         ]
-        /// Information about the directory configuration.
+        /// Information about the Directory Config object.
         public let directoryConfig: DirectoryConfig?
 
         public init(directoryConfig: DirectoryConfig? = nil) {
@@ -429,325 +129,36 @@ extension AppStream {
         }
     }
 
-    public struct UserSetting: AWSShape {
+    public struct UpdateDirectoryConfigRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Permission", required: true, type: .enum), 
-            AWSShapeMember(label: "Action", required: true, type: .enum)
+            AWSShapeMember(label: "DirectoryName", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceAccountCredentials", required: false, type: .structure), 
+            AWSShapeMember(label: "OrganizationalUnitDistinguishedNames", required: false, type: .list)
         ]
-        /// Indicates whether the action is enabled or disabled.
-        public let permission: Permission
-        /// The action that is enabled or disabled.
-        public let action: Action
+        /// The name of the Directory Config object.
+        public let directoryName: String
+        /// The credentials for the service account used by the streaming instance to connect to the directory.
+        public let serviceAccountCredentials: ServiceAccountCredentials?
+        /// The distinguished names of the organizational units for computer accounts.
+        public let organizationalUnitDistinguishedNames: [String]?
 
-        public init(permission: Permission, action: Action) {
-            self.permission = permission
-            self.action = action
+        public init(directoryName: String, serviceAccountCredentials: ServiceAccountCredentials? = nil, organizationalUnitDistinguishedNames: [String]? = nil) {
+            self.directoryName = directoryName
+            self.serviceAccountCredentials = serviceAccountCredentials
+            self.organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames
         }
 
         private enum CodingKeys: String, CodingKey {
-            case permission = "Permission"
-            case action = "Action"
+            case directoryName = "DirectoryName"
+            case serviceAccountCredentials = "ServiceAccountCredentials"
+            case organizationalUnitDistinguishedNames = "OrganizationalUnitDistinguishedNames"
         }
     }
 
-    public struct DescribeSessionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "AuthenticationType", required: false, type: .enum), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "FleetName", required: true, type: .string), 
-            AWSShapeMember(label: "UserId", required: false, type: .string), 
-            AWSShapeMember(label: "StackName", required: true, type: .string)
-        ]
-        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
-        public let nextToken: String?
-        /// The authentication method. Specify API for a user authenticated using a streaming URL or SAML for a SAML federated user. The default is to authenticate users using a streaming URL.
-        public let authenticationType: AuthenticationType?
-        /// The size of each page of results. The default value is 20 and the maximum value is 50.
-        public let limit: Int32?
-        /// The name of the fleet. This value is case-sensitive.
-        public let fleetName: String
-        /// The user ID.
-        public let userId: String?
-        /// The name of the stack. This value is case-sensitive.
-        public let stackName: String
-
-        public init(nextToken: String? = nil, authenticationType: AuthenticationType? = nil, limit: Int32? = nil, fleetName: String, userId: String? = nil, stackName: String) {
-            self.nextToken = nextToken
-            self.authenticationType = authenticationType
-            self.limit = limit
-            self.fleetName = fleetName
-            self.userId = userId
-            self.stackName = stackName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case authenticationType = "AuthenticationType"
-            case limit = "Limit"
-            case fleetName = "FleetName"
-            case userId = "UserId"
-            case stackName = "StackName"
-        }
-    }
-
-    public struct ListAssociatedStacksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetName", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The name of the fleet.
-        public let fleetName: String
-        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
-        public let nextToken: String?
-
-        public init(fleetName: String, nextToken: String? = nil) {
-            self.fleetName = fleetName
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetName = "FleetName"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DescribeStacksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Names", required: false, type: .list)
-        ]
-        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
-        public let nextToken: String?
-        /// The names of the stacks to describe.
-        public let names: [String]?
-
-        public init(nextToken: String? = nil, names: [String]? = nil) {
-            self.nextToken = nextToken
-            self.names = names
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case names = "Names"
-        }
-    }
-
-    public struct ImageStateChangeReason: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Code", required: false, type: .enum)
-        ]
-        /// The state change reason message.
-        public let message: String?
-        /// The state change reason code.
-        public let code: ImageStateChangeReasonCode?
-
-        public init(message: String? = nil, code: ImageStateChangeReasonCode? = nil) {
-            self.message = message
-            self.code = code
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-            case code = "Code"
-        }
-    }
-
-    public struct CreateFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "ImageArn", required: false, type: .string), 
-            AWSShapeMember(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
-            AWSShapeMember(label: "MaxUserDurationInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "DomainJoinInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "ImageName", required: false, type: .string), 
-            AWSShapeMember(label: "FleetType", required: false, type: .enum), 
-            AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "ComputeCapacity", required: true, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The fleet name for display.
-        public let displayName: String?
-        /// A unique name for the fleet.
-        public let name: String
-        /// The ARN of the public, private, or shared image to use.
-        public let imageArn: String?
-        /// The time after disconnection when a session is considered to have ended, in seconds. If a user who was disconnected reconnects within this time interval, the user is connected to their previous session. Specify a value between 60 and 57600.
-        public let disconnectTimeoutInSeconds: Int32?
-        /// Enables or disables default internet access for the fleet.
-        public let enableDefaultInternetAccess: Bool?
-        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge  
-        public let instanceType: String
-        /// The maximum time that a streaming session can run, in seconds. Specify a value between 600 and 57600.
-        public let maxUserDurationInSeconds: Int32?
-        /// The information needed to join a Microsoft Active Directory domain.
-        public let domainJoinInfo: DomainJoinInfo?
-        /// The name of the image used to create the fleet.
-        public let imageName: String?
-        /// The fleet type.  ALWAYS_ON  Provides users with instant-on access to their apps. You are charged for all running instances in your fleet, even if no users are streaming apps.  ON_DEMAND  Provide users with access to applications after they connect, which takes one to two minutes. You are charged for instance streaming when users are connected and a small hourly fee for instances that are not streaming apps.  
-        public let fleetType: FleetType?
-        /// The VPC configuration for the fleet.
-        public let vpcConfig: VpcConfig?
-        /// The desired capacity for the fleet.
-        public let computeCapacity: ComputeCapacity
-        /// The description for display.
-        public let description: String?
-
-        public init(displayName: String? = nil, name: String, imageArn: String? = nil, disconnectTimeoutInSeconds: Int32? = nil, enableDefaultInternetAccess: Bool? = nil, instanceType: String, maxUserDurationInSeconds: Int32? = nil, domainJoinInfo: DomainJoinInfo? = nil, imageName: String? = nil, fleetType: FleetType? = nil, vpcConfig: VpcConfig? = nil, computeCapacity: ComputeCapacity, description: String? = nil) {
-            self.displayName = displayName
-            self.name = name
-            self.imageArn = imageArn
-            self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
-            self.enableDefaultInternetAccess = enableDefaultInternetAccess
-            self.instanceType = instanceType
-            self.maxUserDurationInSeconds = maxUserDurationInSeconds
-            self.domainJoinInfo = domainJoinInfo
-            self.imageName = imageName
-            self.fleetType = fleetType
-            self.vpcConfig = vpcConfig
-            self.computeCapacity = computeCapacity
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case displayName = "DisplayName"
-            case name = "Name"
-            case imageArn = "ImageArn"
-            case disconnectTimeoutInSeconds = "DisconnectTimeoutInSeconds"
-            case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
-            case instanceType = "InstanceType"
-            case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
-            case domainJoinInfo = "DomainJoinInfo"
-            case imageName = "ImageName"
-            case fleetType = "FleetType"
-            case vpcConfig = "VpcConfig"
-            case computeCapacity = "ComputeCapacity"
-            case description = "Description"
-        }
-    }
-
-    public struct DeleteStackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The name of the stack.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct UntagResourceResponse: AWSShape {
-
-    }
-
-    public enum ImageBuilderStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case internalError = "INTERNAL_ERROR"
-        case imageUnavailable = "IMAGE_UNAVAILABLE"
+    public enum FleetType: String, CustomStringConvertible, Codable {
+        case alwaysOn = "ALWAYS_ON"
+        case onDemand = "ON_DEMAND"
         public var description: String { return self.rawValue }
-    }
-
-    public struct ComputeCapacityStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InUse", required: false, type: .integer), 
-            AWSShapeMember(label: "Running", required: false, type: .integer), 
-            AWSShapeMember(label: "Available", required: false, type: .integer), 
-            AWSShapeMember(label: "Desired", required: true, type: .integer)
-        ]
-        /// The number of instances in use for streaming.
-        public let inUse: Int32?
-        /// The total number of simultaneous streaming instances that are running.
-        public let running: Int32?
-        /// The number of currently available instances that can be used to stream sessions.
-        public let available: Int32?
-        /// The desired number of streaming instances.
-        public let desired: Int32
-
-        public init(inUse: Int32? = nil, running: Int32? = nil, available: Int32? = nil, desired: Int32) {
-            self.inUse = inUse
-            self.running = running
-            self.available = available
-            self.desired = desired
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inUse = "InUse"
-            case running = "Running"
-            case available = "Available"
-            case desired = "Desired"
-        }
-    }
-
-    public struct DisassociateFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetName", required: true, type: .string), 
-            AWSShapeMember(label: "StackName", required: true, type: .string)
-        ]
-        /// The name of the fleet.
-        public let fleetName: String
-        /// The name of the stack.
-        public let stackName: String
-
-        public init(fleetName: String, stackName: String) {
-            self.fleetName = fleetName
-            self.stackName = stackName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetName = "FleetName"
-            case stackName = "StackName"
-        }
-    }
-
-    public struct DescribeDirectoryConfigsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryNames", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
-        public let nextToken: String?
-        /// The directory names.
-        public let directoryNames: [String]?
-        /// The maximum size of each page of results.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, directoryNames: [String]? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.directoryNames = directoryNames
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case directoryNames = "DirectoryNames"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct CopyImageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationImageName", required: false, type: .string)
-        ]
-        /// The name of the destination image.
-        public let destinationImageName: String?
-
-        public init(destinationImageName: String? = nil) {
-            self.destinationImageName = destinationImageName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinationImageName = "DestinationImageName"
-        }
     }
 
     public struct StopImageBuilderRequest: AWSShape {
@@ -766,541 +177,45 @@ extension AppStream {
         }
     }
 
-    public enum SessionState: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case pending = "PENDING"
-        case expired = "EXPIRED"
+    public enum PlatformType: String, CustomStringConvertible, Codable {
+        case windows = "WINDOWS"
         public var description: String { return self.rawValue }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListAssociatedFleetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the resource.
-        public let resourceArn: String
-
-        public init(resourceArn: String) {
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-        }
-    }
-
-    public enum Permission: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeFleetsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Fleets", required: false, type: .list)
-        ]
-        /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public let nextToken: String?
-        /// Information about the fleets.
-        public let fleets: [Fleet]?
-
-        public init(nextToken: String? = nil, fleets: [Fleet]? = nil) {
-            self.nextToken = nextToken
-            self.fleets = fleets
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case fleets = "Fleets"
-        }
-    }
-
-    public struct StopFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The name of the fleet.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public enum StackErrorCode: String, CustomStringConvertible, Codable {
-        case storageConnectorError = "STORAGE_CONNECTOR_ERROR"
-        case internalServiceError = "INTERNAL_SERVICE_ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateDirectoryConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceAccountCredentials", required: false, type: .structure), 
-            AWSShapeMember(label: "DirectoryName", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationalUnitDistinguishedNames", required: false, type: .list)
-        ]
-        /// The credentials for the service account used by the streaming instance to connect to the directory.
-        public let serviceAccountCredentials: ServiceAccountCredentials?
-        /// The name of the Directory Config object.
-        public let directoryName: String
-        /// The distinguished names of the organizational units for computer accounts.
-        public let organizationalUnitDistinguishedNames: [String]?
-
-        public init(serviceAccountCredentials: ServiceAccountCredentials? = nil, directoryName: String, organizationalUnitDistinguishedNames: [String]? = nil) {
-            self.serviceAccountCredentials = serviceAccountCredentials
-            self.directoryName = directoryName
-            self.organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceAccountCredentials = "ServiceAccountCredentials"
-            case directoryName = "DirectoryName"
-            case organizationalUnitDistinguishedNames = "OrganizationalUnitDistinguishedNames"
-        }
-    }
-
-    public enum FleetState: String, CustomStringConvertible, Codable {
-        case starting = "STARTING"
-        case running = "RUNNING"
-        case stopping = "STOPPING"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Session: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", required: true, type: .enum), 
-            AWSShapeMember(label: "FleetName", required: true, type: .string), 
             AWSShapeMember(label: "StackName", required: true, type: .string), 
-            AWSShapeMember(label: "UserId", required: true, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "AuthenticationType", required: false, type: .enum), 
-            AWSShapeMember(label: "NetworkAccessConfiguration", required: false, type: .structure)
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The current state of the streaming session.
-        public let state: SessionState
-        /// The name of the fleet for the streaming session.
-        public let fleetName: String
-        /// The name of the stack for the streaming session.
-        public let stackName: String
-        /// The identifier of the user for whom the session was created.
-        public let userId: String
-        /// The ID of the streaming session.
-        public let id: String
-        /// The authentication method. The user is authenticated using a streaming URL (API) or SAML federation (SAML).
-        public let authenticationType: AuthenticationType?
-        /// The network details for the streaming session.
-        public let networkAccessConfiguration: NetworkAccessConfiguration?
-
-        public init(state: SessionState, fleetName: String, stackName: String, userId: String, id: String, authenticationType: AuthenticationType? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil) {
-            self.state = state
-            self.fleetName = fleetName
-            self.stackName = stackName
-            self.userId = userId
-            self.id = id
-            self.authenticationType = authenticationType
-            self.networkAccessConfiguration = networkAccessConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "State"
-            case fleetName = "FleetName"
-            case stackName = "StackName"
-            case userId = "UserId"
-            case id = "Id"
-            case authenticationType = "AuthenticationType"
-            case networkAccessConfiguration = "NetworkAccessConfiguration"
-        }
-    }
-
-    public struct CreateImageBuilderStreamingURLResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Expires", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StreamingURL", required: false, type: .string)
-        ]
-        /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
-        public let expires: TimeStamp?
-        /// The URL to start the AppStream 2.0 streaming session.
-        public let streamingURL: String?
-
-        public init(expires: TimeStamp? = nil, streamingURL: String? = nil) {
-            self.expires = expires
-            self.streamingURL = streamingURL
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case expires = "Expires"
-            case streamingURL = "StreamingURL"
-        }
-    }
-
-    public struct StopImageBuilderResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageBuilder", required: false, type: .structure)
-        ]
-        /// Information about the image builder.
-        public let imageBuilder: ImageBuilder?
-
-        public init(imageBuilder: ImageBuilder? = nil) {
-            self.imageBuilder = imageBuilder
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case imageBuilder = "ImageBuilder"
-        }
-    }
-
-    public struct Stack: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FeedbackURL", required: false, type: .string), 
-            AWSShapeMember(label: "RedirectURL", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "StorageConnectors", required: false, type: .list), 
-            AWSShapeMember(label: "UserSettings", required: false, type: .list), 
-            AWSShapeMember(label: "StackErrors", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string)
-        ]
-        /// The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
-        public let feedbackURL: String?
-        /// The URL that users are redirected to after their streaming session ends.
-        public let redirectURL: String?
-        /// The description for display.
-        public let description: String?
-        /// The time the stack was created.
-        public let createdTime: TimeStamp?
-        /// The ARN of the stack.
-        public let arn: String?
-        /// The storage connectors to enable.
-        public let storageConnectors: [StorageConnector]?
-        /// The actions that are enabled or disabled for users during their streaming sessions. By default these actions are enabled.
-        public let userSettings: [UserSetting]?
-        /// The errors for the stack.
-        public let stackErrors: [StackError]?
         /// The name of the stack.
-        public let name: String
-        /// The stack name for display.
-        public let displayName: String?
-
-        public init(feedbackURL: String? = nil, redirectURL: String? = nil, description: String? = nil, createdTime: TimeStamp? = nil, arn: String? = nil, storageConnectors: [StorageConnector]? = nil, userSettings: [UserSetting]? = nil, stackErrors: [StackError]? = nil, name: String, displayName: String? = nil) {
-            self.feedbackURL = feedbackURL
-            self.redirectURL = redirectURL
-            self.description = description
-            self.createdTime = createdTime
-            self.arn = arn
-            self.storageConnectors = storageConnectors
-            self.userSettings = userSettings
-            self.stackErrors = stackErrors
-            self.name = name
-            self.displayName = displayName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case feedbackURL = "FeedbackURL"
-            case redirectURL = "RedirectURL"
-            case description = "Description"
-            case createdTime = "CreatedTime"
-            case arn = "Arn"
-            case storageConnectors = "StorageConnectors"
-            case userSettings = "UserSettings"
-            case stackErrors = "StackErrors"
-            case name = "Name"
-            case displayName = "DisplayName"
-        }
-    }
-
-    public enum StackAttribute: String, CustomStringConvertible, Codable {
-        case storageConnectors = "STORAGE_CONNECTORS"
-        case storageConnectorHomefolders = "STORAGE_CONNECTOR_HOMEFOLDERS"
-        case storageConnectorGoogleDrive = "STORAGE_CONNECTOR_GOOGLE_DRIVE"
-        case storageConnectorOneDrive = "STORAGE_CONNECTOR_ONE_DRIVE"
-        case redirectUrl = "REDIRECT_URL"
-        case feedbackUrl = "FEEDBACK_URL"
-        case themeName = "THEME_NAME"
-        case userSettings = "USER_SETTINGS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct VpcConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list)
-        ]
-        /// The subnets to which a network interface is established from the fleet instance.
-        public let subnetIds: [String]?
-        /// The security groups for the fleet.
-        public let securityGroupIds: [String]?
-
-        public init(subnetIds: [String]? = nil, securityGroupIds: [String]? = nil) {
-            self.subnetIds = subnetIds
-            self.securityGroupIds = securityGroupIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnetIds = "SubnetIds"
-            case securityGroupIds = "SecurityGroupIds"
-        }
-    }
-
-    public struct StartFleetResult: AWSShape {
-
-    }
-
-    public struct ImageBuilderStateChangeReason: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Code", required: false, type: .enum)
-        ]
-        /// The state change reason message.
-        public let message: String?
-        /// The state change reason code.
-        public let code: ImageBuilderStateChangeReasonCode?
-
-        public init(message: String? = nil, code: ImageBuilderStateChangeReasonCode? = nil) {
-            self.message = message
-            self.code = code
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-            case code = "Code"
-        }
-    }
-
-    public struct StartFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The name of the fleet.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct Fleet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "State", required: true, type: .enum), 
-            AWSShapeMember(label: "ImageArn", required: false, type: .string), 
-            AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
-            AWSShapeMember(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "ComputeCapacityStatus", required: true, type: .structure), 
-            AWSShapeMember(label: "MaxUserDurationInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
-            AWSShapeMember(label: "DomainJoinInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "ImageName", required: false, type: .string), 
-            AWSShapeMember(label: "FleetType", required: false, type: .enum), 
-            AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "FleetErrors", required: false, type: .list), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp)
-        ]
-        /// The ARN for the fleet.
-        public let arn: String
-        /// The fleet name for display.
-        public let displayName: String?
-        /// The name of the fleet.
-        public let name: String
-        /// The current state for the fleet.
-        public let state: FleetState
-        /// The ARN for the public, private, or shared image.
-        public let imageArn: String?
-        /// Indicates whether default internet access is enabled for the fleet.
-        public let enableDefaultInternetAccess: Bool?
-        /// The time after disconnection when a session is considered to have ended, in seconds. If a user who was disconnected reconnects within this time interval, the user is connected to their previous session. Specify a value between 60 and 57600.
-        public let disconnectTimeoutInSeconds: Int32?
-        /// The capacity status for the fleet.
-        public let computeCapacityStatus: ComputeCapacityStatus
-        /// The maximum time that a streaming session can run, in seconds. Specify a value between 600 and 57600.
-        public let maxUserDurationInSeconds: Int32?
-        /// The instance type to use when launching fleet instances.
-        public let instanceType: String
-        /// The information needed to join a Microsoft Active Directory domain.
-        public let domainJoinInfo: DomainJoinInfo?
-        /// The name of the image used to create the fleet.
-        public let imageName: String?
-        /// The fleet type.  ALWAYS_ON  Provides users with instant-on access to their apps. You are charged for all running instances in your fleet, even if no users are streaming apps.  ON_DEMAND  Provide users with access to applications after they connect, which takes one to two minutes. You are charged for instance streaming when users are connected and a small hourly fee for instances that are not streaming apps.  
-        public let fleetType: FleetType?
-        /// The VPC configuration for the fleet.
-        public let vpcConfig: VpcConfig?
-        /// The description for display.
-        public let description: String?
-        /// The fleet errors.
-        public let fleetErrors: [FleetError]?
-        /// The time the fleet was created.
-        public let createdTime: TimeStamp?
-
-        public init(arn: String, displayName: String? = nil, name: String, state: FleetState, imageArn: String? = nil, enableDefaultInternetAccess: Bool? = nil, disconnectTimeoutInSeconds: Int32? = nil, computeCapacityStatus: ComputeCapacityStatus, maxUserDurationInSeconds: Int32? = nil, instanceType: String, domainJoinInfo: DomainJoinInfo? = nil, imageName: String? = nil, fleetType: FleetType? = nil, vpcConfig: VpcConfig? = nil, description: String? = nil, fleetErrors: [FleetError]? = nil, createdTime: TimeStamp? = nil) {
-            self.arn = arn
-            self.displayName = displayName
-            self.name = name
-            self.state = state
-            self.imageArn = imageArn
-            self.enableDefaultInternetAccess = enableDefaultInternetAccess
-            self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
-            self.computeCapacityStatus = computeCapacityStatus
-            self.maxUserDurationInSeconds = maxUserDurationInSeconds
-            self.instanceType = instanceType
-            self.domainJoinInfo = domainJoinInfo
-            self.imageName = imageName
-            self.fleetType = fleetType
-            self.vpcConfig = vpcConfig
-            self.description = description
-            self.fleetErrors = fleetErrors
-            self.createdTime = createdTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case displayName = "DisplayName"
-            case name = "Name"
-            case state = "State"
-            case imageArn = "ImageArn"
-            case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
-            case disconnectTimeoutInSeconds = "DisconnectTimeoutInSeconds"
-            case computeCapacityStatus = "ComputeCapacityStatus"
-            case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
-            case instanceType = "InstanceType"
-            case domainJoinInfo = "DomainJoinInfo"
-            case imageName = "ImageName"
-            case fleetType = "FleetType"
-            case vpcConfig = "VpcConfig"
-            case description = "Description"
-            case fleetErrors = "FleetErrors"
-            case createdTime = "CreatedTime"
-        }
-    }
-
-    public struct DeleteImageBuilderResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageBuilder", required: false, type: .structure)
-        ]
-        /// Information about the image builder.
-        public let imageBuilder: ImageBuilder?
-
-        public init(imageBuilder: ImageBuilder? = nil) {
-            self.imageBuilder = imageBuilder
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case imageBuilder = "ImageBuilder"
-        }
-    }
-
-    public struct DeleteImageBuilderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The name of the image builder.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public enum StorageConnectorType: String, CustomStringConvertible, Codable {
-        case homefolders = "HOMEFOLDERS"
-        case googleDrive = "GOOGLE_DRIVE"
-        case oneDrive = "ONE_DRIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeImageBuildersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Names", required: false, type: .list)
-        ]
+        public let stackName: String
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
-        /// The maximum size of each page of results.
-        public let maxResults: Int32?
-        /// The names of the image builders to describe.
-        public let names: [String]?
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, names: [String]? = nil) {
+        public init(stackName: String, nextToken: String? = nil) {
+            self.stackName = stackName
             self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.names = names
         }
 
         private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
             case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case names = "Names"
         }
     }
 
-    public enum VisibilityType: String, CustomStringConvertible, Codable {
-        case `public` = "PUBLIC"
-        case `private` = "PRIVATE"
-        case shared = "SHARED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateStackRequest: AWSShape {
+    public struct BatchDisassociateUserStackResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FeedbackURL", required: false, type: .string), 
-            AWSShapeMember(label: "RedirectURL", required: false, type: .string), 
-            AWSShapeMember(label: "StorageConnectors", required: false, type: .list), 
-            AWSShapeMember(label: "UserSettings", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
+            AWSShapeMember(label: "errors", required: false, type: .list)
         ]
-        /// The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
-        public let feedbackURL: String?
-        /// The URL that users are redirected to after their streaming session ends.
-        public let redirectURL: String?
-        /// The storage connectors to enable.
-        public let storageConnectors: [StorageConnector]?
-        /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled. 
-        public let userSettings: [UserSetting]?
-        /// The name of the stack.
-        public let name: String
-        /// The stack name for display.
-        public let displayName: String?
-        /// The description for display.
-        public let description: String?
+        /// The list of UserStackAssociationError objects.
+        public let errors: [UserStackAssociationError]?
 
-        public init(feedbackURL: String? = nil, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, userSettings: [UserSetting]? = nil, name: String, displayName: String? = nil, description: String? = nil) {
-            self.feedbackURL = feedbackURL
-            self.redirectURL = redirectURL
-            self.storageConnectors = storageConnectors
-            self.userSettings = userSettings
-            self.name = name
-            self.displayName = displayName
-            self.description = description
+        public init(errors: [UserStackAssociationError]? = nil) {
+            self.errors = errors
         }
 
         private enum CodingKeys: String, CodingKey {
-            case feedbackURL = "FeedbackURL"
-            case redirectURL = "RedirectURL"
-            case storageConnectors = "StorageConnectors"
-            case userSettings = "UserSettings"
-            case name = "Name"
-            case displayName = "DisplayName"
-            case description = "Description"
+            case errors = "errors"
         }
     }
 
@@ -1325,122 +240,482 @@ extension AppStream {
         }
     }
 
-    public struct StackError: AWSShape {
+    public struct CreateImageBuilderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .enum)
-        ]
-        /// The error message.
-        public let errorMessage: String?
-        /// The error code.
-        public let errorCode: StackErrorCode?
-
-        public init(errorMessage: String? = nil, errorCode: StackErrorCode? = nil) {
-            self.errorMessage = errorMessage
-            self.errorCode = errorCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorMessage = "ErrorMessage"
-            case errorCode = "ErrorCode"
-        }
-    }
-
-    public struct ServiceAccountCredentials: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountName", required: true, type: .string), 
-            AWSShapeMember(label: "AccountPassword", required: true, type: .string)
-        ]
-        /// The user name of the account. This account must have the following privileges: create computer objects, join computers to the domain, and change/reset the password on descendant computer objects for the organizational units specified.
-        public let accountName: String
-        /// The password for the account.
-        public let accountPassword: String
-
-        public init(accountName: String, accountPassword: String) {
-            self.accountName = accountName
-            self.accountPassword = accountPassword
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountName = "AccountName"
-            case accountPassword = "AccountPassword"
-        }
-    }
-
-    public struct UpdateStackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FeedbackURL", required: false, type: .string), 
-            AWSShapeMember(label: "RedirectURL", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "DeleteStorageConnectors", required: false, type: .boolean), 
-            AWSShapeMember(label: "StorageConnectors", required: false, type: .list), 
-            AWSShapeMember(label: "UserSettings", required: false, type: .list), 
-            AWSShapeMember(label: "AttributesToDelete", required: false, type: .list), 
+            AWSShapeMember(label: "AppstreamAgentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "ImageArn", required: false, type: .string), 
             AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
+            AWSShapeMember(label: "DomainJoinInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
+            AWSShapeMember(label: "ImageName", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .string)
         ]
-        /// The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
-        public let feedbackURL: String?
-        /// The URL that users are redirected to after their streaming session ends.
-        public let redirectURL: String?
-        /// The name of the stack.
-        public let name: String
-        /// Deletes the storage connectors currently enabled for the stack.
-        public let deleteStorageConnectors: Bool?
-        /// The storage connectors to enable.
-        public let storageConnectors: [StorageConnector]?
-        /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled.
-        public let userSettings: [UserSetting]?
-        /// The stack attributes to delete.
-        public let attributesToDelete: [StackAttribute]?
-        /// The stack name for display.
-        public let displayName: String?
+        /// The version of the AppStream 2.0 agent to use for this image builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST]. 
+        public let appstreamAgentVersion: String?
         /// The description for display.
         public let description: String?
+        /// The VPC configuration for the image builder. You can specify only one subnet.
+        public let vpcConfig: VpcConfig?
+        /// The ARN of the public, private, or shared image to use.
+        public let imageArn: String?
+        /// The image builder name for display.
+        public let displayName: String?
+        /// The information needed to join a Microsoft Active Directory domain.
+        public let domainJoinInfo: DomainJoinInfo?
+        /// Enables or disables default internet access for the image builder.
+        public let enableDefaultInternetAccess: Bool?
+        /// The name of the image used to create the builder.
+        public let imageName: String?
+        /// A unique name for the image builder.
+        public let name: String
+        /// The instance type to use when launching the image builder.
+        public let instanceType: String
 
-        public init(feedbackURL: String? = nil, redirectURL: String? = nil, name: String, deleteStorageConnectors: Bool? = nil, storageConnectors: [StorageConnector]? = nil, userSettings: [UserSetting]? = nil, attributesToDelete: [StackAttribute]? = nil, displayName: String? = nil, description: String? = nil) {
-            self.feedbackURL = feedbackURL
-            self.redirectURL = redirectURL
-            self.name = name
-            self.deleteStorageConnectors = deleteStorageConnectors
-            self.storageConnectors = storageConnectors
-            self.userSettings = userSettings
-            self.attributesToDelete = attributesToDelete
-            self.displayName = displayName
+        public init(appstreamAgentVersion: String? = nil, description: String? = nil, vpcConfig: VpcConfig? = nil, imageArn: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, imageName: String? = nil, name: String, instanceType: String) {
+            self.appstreamAgentVersion = appstreamAgentVersion
             self.description = description
+            self.vpcConfig = vpcConfig
+            self.imageArn = imageArn
+            self.displayName = displayName
+            self.domainJoinInfo = domainJoinInfo
+            self.enableDefaultInternetAccess = enableDefaultInternetAccess
+            self.imageName = imageName
+            self.name = name
+            self.instanceType = instanceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case feedbackURL = "FeedbackURL"
-            case redirectURL = "RedirectURL"
-            case name = "Name"
-            case deleteStorageConnectors = "DeleteStorageConnectors"
-            case storageConnectors = "StorageConnectors"
-            case userSettings = "UserSettings"
-            case attributesToDelete = "AttributesToDelete"
-            case displayName = "DisplayName"
+            case appstreamAgentVersion = "AppstreamAgentVersion"
             case description = "Description"
+            case vpcConfig = "VpcConfig"
+            case imageArn = "ImageArn"
+            case displayName = "DisplayName"
+            case domainJoinInfo = "DomainJoinInfo"
+            case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+            case imageName = "ImageName"
+            case name = "Name"
+            case instanceType = "InstanceType"
         }
     }
 
-    public struct DeleteDirectoryConfigRequest: AWSShape {
+    public struct DescribeFleetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryName", required: true, type: .string)
+            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The name of the directory configuration.
-        public let directoryName: String
+        /// The names of the fleets to describe.
+        public let names: [String]?
+        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
+        public let nextToken: String?
 
-        public init(directoryName: String) {
-            self.directoryName = directoryName
+        public init(names: [String]? = nil, nextToken: String? = nil) {
+            self.names = names
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryName = "DirectoryName"
+            case names = "Names"
+            case nextToken = "NextToken"
         }
     }
 
-    public struct DeleteStackResult: AWSShape {
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .map), 
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// The tags to associate. A tag is a key-value pair (the value is optional). For example, Environment=Test, or, if you do not specify a value, Environment=.  If you do not specify a value, we set the value to an empty string.
+        public let tags: [String: String]
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
 
+        public init(tags: [String: String], resourceArn: String) {
+            self.tags = tags
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public enum Action: String, CustomStringConvertible, Codable {
+        case clipboardCopyFromLocalDevice = "CLIPBOARD_COPY_FROM_LOCAL_DEVICE"
+        case clipboardCopyToLocalDevice = "CLIPBOARD_COPY_TO_LOCAL_DEVICE"
+        case fileUpload = "FILE_UPLOAD"
+        case fileDownload = "FILE_DOWNLOAD"
+        case printingToLocalDevice = "PRINTING_TO_LOCAL_DEVICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteStackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The name of the stack.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct BatchAssociateUserStackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserStackAssociations", required: true, type: .list)
+        ]
+        /// The list of UserStackAssociation objects.
+        public let userStackAssociations: [UserStackAssociation]
+
+        public init(userStackAssociations: [UserStackAssociation]) {
+            self.userStackAssociations = userStackAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userStackAssociations = "UserStackAssociations"
+        }
+    }
+
+    public struct FleetError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
+        ]
+        /// The error code.
+        public let errorCode: FleetErrorCode?
+        /// The error message.
+        public let errorMessage: String?
+
+        public init(errorCode: FleetErrorCode? = nil, errorMessage: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+        }
+    }
+
+    public struct StopFleetResult: AWSShape {
+
+    }
+
+    public struct DeleteImageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The name of the image.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct ListAssociatedFleetsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The name of the fleet.
+        public let names: [String]?
+        /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        public let nextToken: String?
+
+        public init(names: [String]? = nil, nextToken: String? = nil) {
+            self.names = names
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case names = "Names"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct CreateUserResult: AWSShape {
+
+    }
+
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct StackError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
+        ]
+        /// The error code.
+        public let errorCode: StackErrorCode?
+        /// The error message.
+        public let errorMessage: String?
+
+        public init(errorCode: StackErrorCode? = nil, errorMessage: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+    }
+
+    public struct DescribeUserStackAssociationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "AuthenticationType", required: false, type: .enum), 
+            AWSShapeMember(label: "StackName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
+        public let nextToken: String?
+        /// The email address of the user who is associated with the stack.
+        public let userName: String?
+        /// The authentication type for the user who is associated with the stack. You must specify USERPOOL.
+        public let authenticationType: AuthenticationType?
+        /// The name of the stack that is associated with the user.
+        public let stackName: String?
+        /// The maximum size of each page of results.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, userName: String? = nil, authenticationType: AuthenticationType? = nil, stackName: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.userName = userName
+            self.authenticationType = authenticationType
+            self.stackName = stackName
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case userName = "UserName"
+            case authenticationType = "AuthenticationType"
+            case stackName = "StackName"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct EnableUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationType", required: true, type: .enum), 
+            AWSShapeMember(label: "UserName", required: true, type: .string)
+        ]
+        /// The authentication type for the user. You must specify USERPOOL.
+        public let authenticationType: AuthenticationType
+        /// The email address of the user.
+        public let userName: String
+
+        public init(authenticationType: AuthenticationType, userName: String) {
+            self.authenticationType = authenticationType
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationType = "AuthenticationType"
+            case userName = "UserName"
+        }
+    }
+
+    public struct UpdateImagePermissionsResult: AWSShape {
+
+    }
+
+    public struct DescribeDirectoryConfigsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryNames", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The directory names.
+        public let directoryNames: [String]?
+        /// The maximum size of each page of results.
+        public let maxResults: Int32?
+        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
+        public let nextToken: String?
+
+        public init(directoryNames: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.directoryNames = directoryNames
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryNames = "DirectoryNames"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct CreateImageBuilderResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageBuilder", required: false, type: .structure)
+        ]
+        /// Information about the image builder.
+        public let imageBuilder: ImageBuilder?
+
+        public init(imageBuilder: ImageBuilder? = nil) {
+            self.imageBuilder = imageBuilder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageBuilder = "ImageBuilder"
+        }
+    }
+
+    public struct Image: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Visibility", required: false, type: .enum), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "BaseImageArn", required: false, type: .string), 
+            AWSShapeMember(label: "AppstreamAgentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ImagePermissions", required: false, type: .structure), 
+            AWSShapeMember(label: "ImageBuilderSupported", required: false, type: .boolean), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure), 
+            AWSShapeMember(label: "PublicBaseImageReleasedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Applications", required: false, type: .list), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "Platform", required: false, type: .enum)
+        ]
+        /// The ARN of the image.
+        public let arn: String?
+        /// Indicates whether the image is public or private.
+        public let visibility: VisibilityType?
+        /// The time the image was created.
+        public let createdTime: TimeStamp?
+        /// The image starts in the PENDING state. If image creation succeeds, the state is AVAILABLE. If image creation fails, the state is FAILED.
+        public let state: ImageState?
+        /// The ARN of the image from which this image was created.
+        public let baseImageArn: String?
+        /// The version of the AppStream 2.0 agent to use for instances that are launched from this image. 
+        public let appstreamAgentVersion: String?
+        /// The permissions to provide to the destination AWS account for the specified image.
+        public let imagePermissions: ImagePermissions?
+        /// Indicates whether an image builder can be launched from this image.
+        public let imageBuilderSupported: Bool?
+        /// The description for display.
+        public let description: String?
+        /// The reason why the last state change occurred.
+        public let stateChangeReason: ImageStateChangeReason?
+        /// The release date of the public base image. For private images, this date is the release date of the base image from which the image was created.
+        public let publicBaseImageReleasedDate: TimeStamp?
+        /// The name of the image.
+        public let name: String
+        /// The applications associated with the image.
+        public let applications: [Application]?
+        /// The image name for display.
+        public let displayName: String?
+        /// The operating system platform of the image.
+        public let platform: PlatformType?
+
+        public init(arn: String? = nil, visibility: VisibilityType? = nil, createdTime: TimeStamp? = nil, state: ImageState? = nil, baseImageArn: String? = nil, appstreamAgentVersion: String? = nil, imagePermissions: ImagePermissions? = nil, imageBuilderSupported: Bool? = nil, description: String? = nil, stateChangeReason: ImageStateChangeReason? = nil, publicBaseImageReleasedDate: TimeStamp? = nil, name: String, applications: [Application]? = nil, displayName: String? = nil, platform: PlatformType? = nil) {
+            self.arn = arn
+            self.visibility = visibility
+            self.createdTime = createdTime
+            self.state = state
+            self.baseImageArn = baseImageArn
+            self.appstreamAgentVersion = appstreamAgentVersion
+            self.imagePermissions = imagePermissions
+            self.imageBuilderSupported = imageBuilderSupported
+            self.description = description
+            self.stateChangeReason = stateChangeReason
+            self.publicBaseImageReleasedDate = publicBaseImageReleasedDate
+            self.name = name
+            self.applications = applications
+            self.displayName = displayName
+            self.platform = platform
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case visibility = "Visibility"
+            case createdTime = "CreatedTime"
+            case state = "State"
+            case baseImageArn = "BaseImageArn"
+            case appstreamAgentVersion = "AppstreamAgentVersion"
+            case imagePermissions = "ImagePermissions"
+            case imageBuilderSupported = "ImageBuilderSupported"
+            case description = "Description"
+            case stateChangeReason = "StateChangeReason"
+            case publicBaseImageReleasedDate = "PublicBaseImageReleasedDate"
+            case name = "Name"
+            case applications = "Applications"
+            case displayName = "DisplayName"
+            case platform = "Platform"
+        }
+    }
+
+    public enum StackErrorCode: String, CustomStringConvertible, Codable {
+        case storageConnectorError = "STORAGE_CONNECTOR_ERROR"
+        case internalServiceError = "INTERNAL_SERVICE_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteImageBuilderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The name of the image builder.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct BatchDisassociateUserStackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserStackAssociations", required: true, type: .list)
+        ]
+        /// The list of UserStackAssociation objects.
+        public let userStackAssociations: [UserStackAssociation]
+
+        public init(userStackAssociations: [UserStackAssociation]) {
+            self.userStackAssociations = userStackAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userStackAssociations = "UserStackAssociations"
+        }
     }
 
     public struct UpdateFleetResult: AWSShape {
@@ -1456,6 +731,455 @@ extension AppStream {
 
         private enum CodingKeys: String, CodingKey {
             case fleet = "Fleet"
+        }
+    }
+
+    public struct Fleet: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainJoinInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "ImageName", required: false, type: .string), 
+            AWSShapeMember(label: "ComputeCapacityStatus", required: true, type: .structure), 
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "FleetType", required: false, type: .enum), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: true, type: .enum), 
+            AWSShapeMember(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "MaxUserDurationInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ImageArn", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "FleetErrors", required: false, type: .list)
+        ]
+        /// The information needed to join a Microsoft Active Directory domain.
+        public let domainJoinInfo: DomainJoinInfo?
+        /// The VPC configuration for the fleet.
+        public let vpcConfig: VpcConfig?
+        /// The name of the image used to create the fleet.
+        public let imageName: String?
+        /// The capacity status for the fleet.
+        public let computeCapacityStatus: ComputeCapacityStatus
+        /// The ARN for the fleet.
+        public let arn: String
+        /// The fleet type.  ALWAYS_ON  Provides users with instant-on access to their apps. You are charged for all running instances in your fleet, even if no users are streaming apps.  ON_DEMAND  Provide users with access to applications after they connect, which takes one to two minutes. You are charged for instance streaming when users are connected and a small hourly fee for instances that are not streaming apps.  
+        public let fleetType: FleetType?
+        /// The time the fleet was created.
+        public let createdTime: TimeStamp?
+        /// The current state for the fleet.
+        public let state: FleetState
+        /// The time after disconnection when a session is considered to have ended, in seconds. If a user who was disconnected reconnects within this time interval, the user is connected to their previous session. Specify a value between 60 and 57600.
+        public let disconnectTimeoutInSeconds: Int32?
+        /// The instance type to use when launching fleet instances.
+        public let instanceType: String
+        /// The maximum time that a streaming session can run, in seconds. Specify a value between 600 and 57600.
+        public let maxUserDurationInSeconds: Int32?
+        /// Indicates whether default internet access is enabled for the fleet.
+        public let enableDefaultInternetAccess: Bool?
+        /// The description for display.
+        public let description: String?
+        /// The name of the fleet.
+        public let name: String
+        /// The ARN for the public, private, or shared image.
+        public let imageArn: String?
+        /// The fleet name for display.
+        public let displayName: String?
+        /// The fleet errors.
+        public let fleetErrors: [FleetError]?
+
+        public init(domainJoinInfo: DomainJoinInfo? = nil, vpcConfig: VpcConfig? = nil, imageName: String? = nil, computeCapacityStatus: ComputeCapacityStatus, arn: String, fleetType: FleetType? = nil, createdTime: TimeStamp? = nil, state: FleetState, disconnectTimeoutInSeconds: Int32? = nil, instanceType: String, maxUserDurationInSeconds: Int32? = nil, enableDefaultInternetAccess: Bool? = nil, description: String? = nil, name: String, imageArn: String? = nil, displayName: String? = nil, fleetErrors: [FleetError]? = nil) {
+            self.domainJoinInfo = domainJoinInfo
+            self.vpcConfig = vpcConfig
+            self.imageName = imageName
+            self.computeCapacityStatus = computeCapacityStatus
+            self.arn = arn
+            self.fleetType = fleetType
+            self.createdTime = createdTime
+            self.state = state
+            self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
+            self.instanceType = instanceType
+            self.maxUserDurationInSeconds = maxUserDurationInSeconds
+            self.enableDefaultInternetAccess = enableDefaultInternetAccess
+            self.description = description
+            self.name = name
+            self.imageArn = imageArn
+            self.displayName = displayName
+            self.fleetErrors = fleetErrors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainJoinInfo = "DomainJoinInfo"
+            case vpcConfig = "VpcConfig"
+            case imageName = "ImageName"
+            case computeCapacityStatus = "ComputeCapacityStatus"
+            case arn = "Arn"
+            case fleetType = "FleetType"
+            case createdTime = "CreatedTime"
+            case state = "State"
+            case disconnectTimeoutInSeconds = "DisconnectTimeoutInSeconds"
+            case instanceType = "InstanceType"
+            case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
+            case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+            case description = "Description"
+            case name = "Name"
+            case imageArn = "ImageArn"
+            case displayName = "DisplayName"
+            case fleetErrors = "FleetErrors"
+        }
+    }
+
+    public struct DescribeStacksResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Stacks", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Information about the stacks.
+        public let stacks: [Stack]?
+        /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        public let nextToken: String?
+
+        public init(stacks: [Stack]? = nil, nextToken: String? = nil) {
+            self.stacks = stacks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stacks = "Stacks"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeSessionsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Sessions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Information about the streaming sessions.
+        public let sessions: [Session]?
+        /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        public let nextToken: String?
+
+        public init(sessions: [Session]? = nil, nextToken: String? = nil) {
+            self.sessions = sessions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessions = "Sessions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DeleteImageResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Image", required: false, type: .structure)
+        ]
+        /// Information about the image.
+        public let image: Image?
+
+        public init(image: Image? = nil) {
+            self.image = image
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case image = "Image"
+        }
+    }
+
+    public struct Application: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metadata", required: false, type: .map), 
+            AWSShapeMember(label: "LaunchPath", required: false, type: .string), 
+            AWSShapeMember(label: "IconURL", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "LaunchParameters", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// Additional attributes that describe the application.
+        public let metadata: [String: String]?
+        /// The path to the application executable in the instance.
+        public let launchPath: String?
+        /// The URL for the application icon. This URL might be time-limited.
+        public let iconURL: String?
+        /// The application name for display.
+        public let displayName: String?
+        /// The arguments that are passed to the application at launch.
+        public let launchParameters: String?
+        /// If there is a problem, the application can be disabled after image creation.
+        public let enabled: Bool?
+        /// The name of the application.
+        public let name: String?
+
+        public init(metadata: [String: String]? = nil, launchPath: String? = nil, iconURL: String? = nil, displayName: String? = nil, launchParameters: String? = nil, enabled: Bool? = nil, name: String? = nil) {
+            self.metadata = metadata
+            self.launchPath = launchPath
+            self.iconURL = iconURL
+            self.displayName = displayName
+            self.launchParameters = launchParameters
+            self.enabled = enabled
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case launchPath = "LaunchPath"
+            case iconURL = "IconURL"
+            case displayName = "DisplayName"
+            case launchParameters = "LaunchParameters"
+            case enabled = "Enabled"
+            case name = "Name"
+        }
+    }
+
+    public enum UserStackAssociationErrorCode: String, CustomStringConvertible, Codable {
+        case stackNotFound = "STACK_NOT_FOUND"
+        case userNameNotFound = "USER_NAME_NOT_FOUND"
+        case internalError = "INTERNAL_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CopyImageResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationImageName", required: false, type: .string)
+        ]
+        /// The name of the destination image.
+        public let destinationImageName: String?
+
+        public init(destinationImageName: String? = nil) {
+            self.destinationImageName = destinationImageName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationImageName = "DestinationImageName"
+        }
+    }
+
+    public struct StartFleetResult: AWSShape {
+
+    }
+
+    public struct CopyImageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationImageDescription", required: false, type: .string), 
+            AWSShapeMember(label: "SourceImageName", required: true, type: .string), 
+            AWSShapeMember(label: "DestinationImageName", required: true, type: .string), 
+            AWSShapeMember(label: "DestinationRegion", required: true, type: .string)
+        ]
+        /// The description that the image will have when it is copied to the destination.
+        public let destinationImageDescription: String?
+        /// The name of the image to copy.
+        public let sourceImageName: String
+        /// The name that the image will have when it is copied to the destination.
+        public let destinationImageName: String
+        /// The destination region to which the image will be copied. This parameter is required, even if you are copying an image within the same region.
+        public let destinationRegion: String
+
+        public init(destinationImageDescription: String? = nil, sourceImageName: String, destinationImageName: String, destinationRegion: String) {
+            self.destinationImageDescription = destinationImageDescription
+            self.sourceImageName = sourceImageName
+            self.destinationImageName = destinationImageName
+            self.destinationRegion = destinationRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationImageDescription = "DestinationImageDescription"
+            case sourceImageName = "SourceImageName"
+            case destinationImageName = "DestinationImageName"
+            case destinationRegion = "DestinationRegion"
+        }
+    }
+
+    public struct CreateDirectoryConfigResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryConfig", required: false, type: .structure)
+        ]
+        /// Information about the directory configuration.
+        public let directoryConfig: DirectoryConfig?
+
+        public init(directoryConfig: DirectoryConfig? = nil) {
+            self.directoryConfig = directoryConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryConfig = "DirectoryConfig"
+        }
+    }
+
+    public struct CreateStackResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Stack", required: false, type: .structure)
+        ]
+        /// Information about the stack.
+        public let stack: Stack?
+
+        public init(stack: Stack? = nil) {
+            self.stack = stack
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stack = "Stack"
+        }
+    }
+
+    public struct ImagePermissions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "allowFleet", required: false, type: .boolean), 
+            AWSShapeMember(label: "allowImageBuilder", required: false, type: .boolean)
+        ]
+        /// Indicates whether the image can be used for a fleet.
+        public let allowFleet: Bool?
+        /// Indicates whether the image can be used for an image builder.
+        public let allowImageBuilder: Bool?
+
+        public init(allowFleet: Bool? = nil, allowImageBuilder: Bool? = nil) {
+            self.allowFleet = allowFleet
+            self.allowImageBuilder = allowImageBuilder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowFleet = "allowFleet"
+            case allowImageBuilder = "allowImageBuilder"
+        }
+    }
+
+    public struct StorageConnector: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Domains", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ConnectorType", required: true, type: .enum)
+        ]
+        /// The names of the domains for the G Suite account.
+        public let domains: [String]?
+        /// The ARN of the storage connector.
+        public let resourceIdentifier: String?
+        /// The type of storage connector.
+        public let connectorType: StorageConnectorType
+
+        public init(domains: [String]? = nil, resourceIdentifier: String? = nil, connectorType: StorageConnectorType) {
+            self.domains = domains
+            self.resourceIdentifier = resourceIdentifier
+            self.connectorType = connectorType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domains = "Domains"
+            case resourceIdentifier = "ResourceIdentifier"
+            case connectorType = "ConnectorType"
+        }
+    }
+
+    public struct ListAssociatedStacksRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetName", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The name of the fleet.
+        public let fleetName: String
+        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
+        public let nextToken: String?
+
+        public init(fleetName: String, nextToken: String? = nil) {
+            self.fleetName = fleetName
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetName = "FleetName"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct StopImageBuilderResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageBuilder", required: false, type: .structure)
+        ]
+        /// Information about the image builder.
+        public let imageBuilder: ImageBuilder?
+
+        public init(imageBuilder: ImageBuilder? = nil) {
+            self.imageBuilder = imageBuilder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageBuilder = "ImageBuilder"
+        }
+    }
+
+    public enum FleetAttribute: String, CustomStringConvertible, Codable {
+        case vpcConfiguration = "VPC_CONFIGURATION"
+        case vpcConfigurationSecurityGroupIds = "VPC_CONFIGURATION_SECURITY_GROUP_IDS"
+        case domainJoinInfo = "DOMAIN_JOIN_INFO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Permission: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateStreamingURLRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "Validity", required: false, type: .long), 
+            AWSShapeMember(label: "SessionContext", required: false, type: .string), 
+            AWSShapeMember(label: "UserId", required: true, type: .string), 
+            AWSShapeMember(label: "FleetName", required: true, type: .string), 
+            AWSShapeMember(label: "StackName", required: true, type: .string)
+        ]
+        /// The name of the application to launch after the session starts. This is the name that you specified as Name in the Image Assistant.
+        public let applicationId: String?
+        /// The time that the streaming URL will be valid, in seconds. Specify a value between 1 and 604800 seconds. The default is 60 seconds.
+        public let validity: Int64?
+        /// The session context. For more information, see Session Context in the Amazon AppStream 2.0 Developer Guide.
+        public let sessionContext: String?
+        /// The ID of the user.
+        public let userId: String
+        /// The name of the fleet.
+        public let fleetName: String
+        /// The name of the stack.
+        public let stackName: String
+
+        public init(applicationId: String? = nil, validity: Int64? = nil, sessionContext: String? = nil, userId: String, fleetName: String, stackName: String) {
+            self.applicationId = applicationId
+            self.validity = validity
+            self.sessionContext = sessionContext
+            self.userId = userId
+            self.fleetName = fleetName
+            self.stackName = stackName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case validity = "Validity"
+            case sessionContext = "SessionContext"
+            case userId = "UserId"
+            case fleetName = "FleetName"
+            case stackName = "StackName"
+        }
+    }
+
+    public struct CreateImageBuilderStreamingURLRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Validity", required: false, type: .long), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The time that the streaming URL will be valid, in seconds. Specify a value between 1 and 604800 seconds. The default is 3600 seconds.
+        public let validity: Int64?
+        /// The name of the image builder.
+        public let name: String
+
+        public init(validity: Int64? = nil, name: String) {
+            self.validity = validity
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case validity = "Validity"
+            case name = "Name"
         }
     }
 
@@ -1480,326 +1204,115 @@ extension AppStream {
         }
     }
 
-    public struct DeleteFleetResult: AWSShape {
-
-    }
-
-    public struct DescribeSessionsResult: AWSShape {
+    public struct UserStackAssociationError: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Sessions", required: false, type: .list)
-        ]
-        /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public let nextToken: String?
-        /// Information about the streaming sessions.
-        public let sessions: [Session]?
-
-        public init(nextToken: String? = nil, sessions: [Session]? = nil) {
-            self.nextToken = nextToken
-            self.sessions = sessions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case sessions = "Sessions"
-        }
-    }
-
-    public struct FleetError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .enum)
+            AWSShapeMember(label: "UserStackAssociation", required: false, type: .structure)
         ]
-        /// The error message.
+        /// The error code for the error that is returned when a user can’t be associated with or disassociated from a stack.
+        public let errorCode: UserStackAssociationErrorCode?
+        /// The error message for the error that is returned when a user can’t be associated with or disassociated from a stack.
         public let errorMessage: String?
-        /// The error code.
-        public let errorCode: FleetErrorCode?
+        /// Information about the user and associated stack.
+        public let userStackAssociation: UserStackAssociation?
 
-        public init(errorMessage: String? = nil, errorCode: FleetErrorCode? = nil) {
-            self.errorMessage = errorMessage
+        public init(errorCode: UserStackAssociationErrorCode? = nil, errorMessage: String? = nil, userStackAssociation: UserStackAssociation? = nil) {
             self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.userStackAssociation = userStackAssociation
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorMessage = "ErrorMessage"
             case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case userStackAssociation = "UserStackAssociation"
         }
     }
 
-    public struct DescribeStacksResult: AWSShape {
+    public struct ImageBuilder: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Stacks", required: false, type: .list)
-        ]
-        /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public let nextToken: String?
-        /// Information about the stacks.
-        public let stacks: [Stack]?
-
-        public init(nextToken: String? = nil, stacks: [Stack]? = nil) {
-            self.nextToken = nextToken
-            self.stacks = stacks
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case stacks = "Stacks"
-        }
-    }
-
-    public enum PlatformType: String, CustomStringConvertible, Codable {
-        case windows = "WINDOWS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Image: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "BaseImageArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ImageBuilderErrors", required: false, type: .list), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Applications", required: false, type: .list), 
-            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure), 
-            AWSShapeMember(label: "ImagePermissions", required: false, type: .structure), 
-            AWSShapeMember(label: "PublicBaseImageReleasedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Visibility", required: false, type: .enum), 
-            AWSShapeMember(label: "Platform", required: false, type: .enum), 
-            AWSShapeMember(label: "ImageBuilderSupported", required: false, type: .boolean), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "AppstreamAgentVersion", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
+            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ImageArn", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "Platform", required: false, type: .enum), 
+            AWSShapeMember(label: "DomainJoinInfo", required: false, type: .structure)
         ]
-        /// The image name for display.
-        public let displayName: String?
-        /// The ARN of the image.
+        /// The VPC configuration of the image builder.
+        public let vpcConfig: VpcConfig?
+        /// The ARN for the image builder.
         public let arn: String?
-        /// The ARN of the image from which this image was created.
-        public let baseImageArn: String?
-        /// The name of the image.
-        public let name: String
-        /// The image starts in the PENDING state. If image creation succeeds, the state is AVAILABLE. If image creation fails, the state is FAILED.
-        public let state: ImageState?
-        /// The applications associated with the image.
-        public let applications: [Application]?
+        /// The image builder errors.
+        public let imageBuilderErrors: [ResourceError]?
+        /// The time stamp when the image builder was created.
+        public let createdTime: TimeStamp?
+        /// The state of the image builder.
+        public let state: ImageBuilderState?
+        /// The version of the AppStream 2.0 agent that is currently being used by this image builder. 
+        public let appstreamAgentVersion: String?
+        /// The instance type for the image builder.
+        public let instanceType: String?
+        /// Enables or disables default internet access for the image builder.
+        public let enableDefaultInternetAccess: Bool?
         /// The reason why the last state change occurred.
-        public let stateChangeReason: ImageStateChangeReason?
-        /// The permissions to provide to the destination AWS account for the specified image.
-        public let imagePermissions: ImagePermissions?
-        /// The release date of the public base image. For private images, this date is the release date of the base image from which the image was created.
-        public let publicBaseImageReleasedDate: TimeStamp?
-        /// Indicates whether the image is public or private.
-        public let visibility: VisibilityType?
-        /// The operating system platform of the image.
-        public let platform: PlatformType?
-        /// Indicates whether an image builder can be launched from this image.
-        public let imageBuilderSupported: Bool?
+        public let stateChangeReason: ImageBuilderStateChangeReason?
         /// The description for display.
         public let description: String?
-        /// The version of the AppStream 2.0 agent to use for instances that are launched from this image. 
-        public let appstreamAgentVersion: String?
-        /// The time the image was created.
-        public let createdTime: TimeStamp?
-
-        public init(displayName: String? = nil, arn: String? = nil, baseImageArn: String? = nil, name: String, state: ImageState? = nil, applications: [Application]? = nil, stateChangeReason: ImageStateChangeReason? = nil, imagePermissions: ImagePermissions? = nil, publicBaseImageReleasedDate: TimeStamp? = nil, visibility: VisibilityType? = nil, platform: PlatformType? = nil, imageBuilderSupported: Bool? = nil, description: String? = nil, appstreamAgentVersion: String? = nil, createdTime: TimeStamp? = nil) {
-            self.displayName = displayName
-            self.arn = arn
-            self.baseImageArn = baseImageArn
-            self.name = name
-            self.state = state
-            self.applications = applications
-            self.stateChangeReason = stateChangeReason
-            self.imagePermissions = imagePermissions
-            self.publicBaseImageReleasedDate = publicBaseImageReleasedDate
-            self.visibility = visibility
-            self.platform = platform
-            self.imageBuilderSupported = imageBuilderSupported
-            self.description = description
-            self.appstreamAgentVersion = appstreamAgentVersion
-            self.createdTime = createdTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case displayName = "DisplayName"
-            case arn = "Arn"
-            case baseImageArn = "BaseImageArn"
-            case name = "Name"
-            case state = "State"
-            case applications = "Applications"
-            case stateChangeReason = "StateChangeReason"
-            case imagePermissions = "ImagePermissions"
-            case publicBaseImageReleasedDate = "PublicBaseImageReleasedDate"
-            case visibility = "Visibility"
-            case platform = "Platform"
-            case imageBuilderSupported = "ImageBuilderSupported"
-            case description = "Description"
-            case appstreamAgentVersion = "AppstreamAgentVersion"
-            case createdTime = "CreatedTime"
-        }
-    }
-
-    public struct StartImageBuilderResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageBuilder", required: false, type: .structure)
-        ]
-        /// Information about the image builder.
-        public let imageBuilder: ImageBuilder?
-
-        public init(imageBuilder: ImageBuilder? = nil) {
-            self.imageBuilder = imageBuilder
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case imageBuilder = "ImageBuilder"
-        }
-    }
-
-    public struct DescribeFleetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Names", required: false, type: .list)
-        ]
-        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
-        public let nextToken: String?
-        /// The names of the fleets to describe.
-        public let names: [String]?
-
-        public init(nextToken: String? = nil, names: [String]? = nil) {
-            self.nextToken = nextToken
-            self.names = names
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case names = "Names"
-        }
-    }
-
-    public struct UpdateFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ImageArn", required: false, type: .string), 
-            AWSShapeMember(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "MaxUserDurationInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "DomainJoinInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "DeleteVpcConfig", required: false, type: .boolean), 
-            AWSShapeMember(label: "ImageName", required: false, type: .string), 
-            AWSShapeMember(label: "AttributesToDelete", required: false, type: .list), 
-            AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "ComputeCapacity", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The fleet name for display.
-        public let displayName: String?
-        /// A unique name for the fleet.
-        public let name: String?
-        /// The ARN of the public, private, or shared image to use.
+        /// The name of the image builder.
+        public let name: String
+        /// The ARN of the image from which this builder was created.
         public let imageArn: String?
-        /// The time after disconnection when a session is considered to have ended, in seconds. If a user who was disconnected reconnects within this time interval, the user is connected to their previous session. Specify a value between 60 and 57600.
-        public let disconnectTimeoutInSeconds: Int32?
-        /// Enables or disables default internet access for the fleet.
-        public let enableDefaultInternetAccess: Bool?
-        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge  
-        public let instanceType: String?
-        /// The maximum time that a streaming session can run, in seconds. Specify a value between 600 and 57600.
-        public let maxUserDurationInSeconds: Int32?
+        /// The image builder name for display.
+        public let displayName: String?
+        /// The operating system platform of the image builder.
+        public let platform: PlatformType?
         /// The information needed to join a Microsoft Active Directory domain.
         public let domainJoinInfo: DomainJoinInfo?
-        /// Deletes the VPC association for the specified fleet.
-        public let deleteVpcConfig: Bool?
-        /// The name of the image used to create the fleet.
-        public let imageName: String?
-        /// The fleet attributes to delete.
-        public let attributesToDelete: [FleetAttribute]?
-        /// The VPC configuration for the fleet.
-        public let vpcConfig: VpcConfig?
-        /// The desired capacity for the fleet.
-        public let computeCapacity: ComputeCapacity?
-        /// The description for display.
-        public let description: String?
 
-        public init(displayName: String? = nil, name: String? = nil, imageArn: String? = nil, disconnectTimeoutInSeconds: Int32? = nil, enableDefaultInternetAccess: Bool? = nil, instanceType: String? = nil, maxUserDurationInSeconds: Int32? = nil, domainJoinInfo: DomainJoinInfo? = nil, deleteVpcConfig: Bool? = nil, imageName: String? = nil, attributesToDelete: [FleetAttribute]? = nil, vpcConfig: VpcConfig? = nil, computeCapacity: ComputeCapacity? = nil, description: String? = nil) {
-            self.displayName = displayName
+        public init(vpcConfig: VpcConfig? = nil, arn: String? = nil, imageBuilderErrors: [ResourceError]? = nil, createdTime: TimeStamp? = nil, state: ImageBuilderState? = nil, appstreamAgentVersion: String? = nil, instanceType: String? = nil, enableDefaultInternetAccess: Bool? = nil, stateChangeReason: ImageBuilderStateChangeReason? = nil, description: String? = nil, name: String, imageArn: String? = nil, displayName: String? = nil, platform: PlatformType? = nil, domainJoinInfo: DomainJoinInfo? = nil) {
+            self.vpcConfig = vpcConfig
+            self.arn = arn
+            self.imageBuilderErrors = imageBuilderErrors
+            self.createdTime = createdTime
+            self.state = state
+            self.appstreamAgentVersion = appstreamAgentVersion
+            self.instanceType = instanceType
+            self.enableDefaultInternetAccess = enableDefaultInternetAccess
+            self.stateChangeReason = stateChangeReason
+            self.description = description
             self.name = name
             self.imageArn = imageArn
-            self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
-            self.enableDefaultInternetAccess = enableDefaultInternetAccess
-            self.instanceType = instanceType
-            self.maxUserDurationInSeconds = maxUserDurationInSeconds
+            self.displayName = displayName
+            self.platform = platform
             self.domainJoinInfo = domainJoinInfo
-            self.deleteVpcConfig = deleteVpcConfig
-            self.imageName = imageName
-            self.attributesToDelete = attributesToDelete
-            self.vpcConfig = vpcConfig
-            self.computeCapacity = computeCapacity
-            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case displayName = "DisplayName"
+            case vpcConfig = "VpcConfig"
+            case arn = "Arn"
+            case imageBuilderErrors = "ImageBuilderErrors"
+            case createdTime = "CreatedTime"
+            case state = "State"
+            case appstreamAgentVersion = "AppstreamAgentVersion"
+            case instanceType = "InstanceType"
+            case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+            case stateChangeReason = "StateChangeReason"
+            case description = "Description"
             case name = "Name"
             case imageArn = "ImageArn"
-            case disconnectTimeoutInSeconds = "DisconnectTimeoutInSeconds"
-            case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
-            case instanceType = "InstanceType"
-            case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
+            case displayName = "DisplayName"
+            case platform = "Platform"
             case domainJoinInfo = "DomainJoinInfo"
-            case deleteVpcConfig = "DeleteVpcConfig"
-            case imageName = "ImageName"
-            case attributesToDelete = "AttributesToDelete"
-            case vpcConfig = "VpcConfig"
-            case computeCapacity = "ComputeCapacity"
-            case description = "Description"
-        }
-    }
-
-    public struct DescribeImagePermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SharedAwsAccountIds", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The pagination token to use to retrieve the next page of results. If this value is empty, only the first page is retrieved.
-        public let nextToken: String?
-        /// The name of the private image for which to describe permissions. The image must be one that you own. 
-        public let name: String
-        /// The 12-digit ID of one or more AWS accounts with which the image is shared.
-        public let sharedAwsAccountIds: [String]?
-        /// The maximum size of each results page.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, name: String, sharedAwsAccountIds: [String]? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.name = name
-            self.sharedAwsAccountIds = sharedAwsAccountIds
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case name = "Name"
-            case sharedAwsAccountIds = "SharedAwsAccountIds"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct DeleteImageResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Image", required: false, type: .structure)
-        ]
-        /// Information about the image.
-        public let image: Image?
-
-        public init(image: Image? = nil) {
-            self.image = image
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case image = "Image"
         }
     }
 
@@ -1824,41 +1337,241 @@ extension AppStream {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct ListTagsForResourceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .map)
+            AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
-        /// The Amazon Resource Name (ARN) of the resource.
-        public let resourceArn: String
-        /// The tags to associate. A tag is a key-value pair (the value is optional). For example, Environment=Test, or, if you do not specify a value, Environment=.  If you do not specify a value, we set the value to an empty string.
-        public let tags: [String: String]
+        /// The information about the tags.
+        public let tags: [String: String]?
 
-        public init(resourceArn: String, tags: [String: String]) {
-            self.resourceArn = resourceArn
+        public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
             case tags = "Tags"
         }
     }
 
-    public struct CreateFleetResult: AWSShape {
+    public struct UserStackAssociation: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Fleet", required: false, type: .structure)
+            AWSShapeMember(label: "SendEmailNotification", required: false, type: .boolean), 
+            AWSShapeMember(label: "AuthenticationType", required: true, type: .enum), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "StackName", required: true, type: .string)
         ]
-        /// Information about the fleet.
-        public let fleet: Fleet?
+        /// Specifies whether a welcome email is sent to a user after the user is created in the user pool.
+        public let sendEmailNotification: Bool?
+        /// The authentication type for the user.
+        public let authenticationType: AuthenticationType
+        /// The email address of the user who is associated with the stack.
+        public let userName: String
+        /// The name of the stack that is associated with the user.
+        public let stackName: String
 
-        public init(fleet: Fleet? = nil) {
-            self.fleet = fleet
+        public init(sendEmailNotification: Bool? = nil, authenticationType: AuthenticationType, userName: String, stackName: String) {
+            self.sendEmailNotification = sendEmailNotification
+            self.authenticationType = authenticationType
+            self.userName = userName
+            self.stackName = stackName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleet = "Fleet"
+            case sendEmailNotification = "SendEmailNotification"
+            case authenticationType = "AuthenticationType"
+            case userName = "UserName"
+            case stackName = "StackName"
         }
+    }
+
+    public enum ImageStateChangeReasonCode: String, CustomStringConvertible, Codable {
+        case internalError = "INTERNAL_ERROR"
+        case imageBuilderNotAvailable = "IMAGE_BUILDER_NOT_AVAILABLE"
+        case imageCopyFailure = "IMAGE_COPY_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StartImageBuilderResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageBuilder", required: false, type: .structure)
+        ]
+        /// Information about the image builder.
+        public let imageBuilder: ImageBuilder?
+
+        public init(imageBuilder: ImageBuilder? = nil) {
+            self.imageBuilder = imageBuilder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageBuilder = "ImageBuilder"
+        }
+    }
+
+    public struct DeleteImagePermissionsResult: AWSShape {
+
+    }
+
+    public struct DeleteFleetResult: AWSShape {
+
+    }
+
+    public struct AssociateFleetResult: AWSShape {
+
+    }
+
+    public struct DeleteDirectoryConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryName", required: true, type: .string)
+        ]
+        /// The name of the directory configuration.
+        public let directoryName: String
+
+        public init(directoryName: String) {
+            self.directoryName = directoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryName = "DirectoryName"
+        }
+    }
+
+    public struct DisassociateFleetResult: AWSShape {
+
+    }
+
+    public struct UpdateFleetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainJoinInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "ImageName", required: false, type: .string), 
+            AWSShapeMember(label: "ComputeCapacity", required: false, type: .structure), 
+            AWSShapeMember(label: "DeleteVpcConfig", required: false, type: .boolean), 
+            AWSShapeMember(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "MaxUserDurationInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ImageArn", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "AttributesToDelete", required: false, type: .list)
+        ]
+        /// The information needed to join a Microsoft Active Directory domain.
+        public let domainJoinInfo: DomainJoinInfo?
+        /// The VPC configuration for the fleet.
+        public let vpcConfig: VpcConfig?
+        /// The name of the image used to create the fleet.
+        public let imageName: String?
+        /// The desired capacity for the fleet.
+        public let computeCapacity: ComputeCapacity?
+        /// Deletes the VPC association for the specified fleet.
+        public let deleteVpcConfig: Bool?
+        /// The time after disconnection when a session is considered to have ended, in seconds. If a user who was disconnected reconnects within this time interval, the user is connected to their previous session. Specify a value between 60 and 57600.
+        public let disconnectTimeoutInSeconds: Int32?
+        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge  
+        public let instanceType: String?
+        /// The maximum time that a streaming session can run, in seconds. Specify a value between 600 and 57600.
+        public let maxUserDurationInSeconds: Int32?
+        /// Enables or disables default internet access for the fleet.
+        public let enableDefaultInternetAccess: Bool?
+        /// The description for display.
+        public let description: String?
+        /// A unique name for the fleet.
+        public let name: String?
+        /// The ARN of the public, private, or shared image to use.
+        public let imageArn: String?
+        /// The fleet name for display.
+        public let displayName: String?
+        /// The fleet attributes to delete.
+        public let attributesToDelete: [FleetAttribute]?
+
+        public init(domainJoinInfo: DomainJoinInfo? = nil, vpcConfig: VpcConfig? = nil, imageName: String? = nil, computeCapacity: ComputeCapacity? = nil, deleteVpcConfig: Bool? = nil, disconnectTimeoutInSeconds: Int32? = nil, instanceType: String? = nil, maxUserDurationInSeconds: Int32? = nil, enableDefaultInternetAccess: Bool? = nil, description: String? = nil, name: String? = nil, imageArn: String? = nil, displayName: String? = nil, attributesToDelete: [FleetAttribute]? = nil) {
+            self.domainJoinInfo = domainJoinInfo
+            self.vpcConfig = vpcConfig
+            self.imageName = imageName
+            self.computeCapacity = computeCapacity
+            self.deleteVpcConfig = deleteVpcConfig
+            self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
+            self.instanceType = instanceType
+            self.maxUserDurationInSeconds = maxUserDurationInSeconds
+            self.enableDefaultInternetAccess = enableDefaultInternetAccess
+            self.description = description
+            self.name = name
+            self.imageArn = imageArn
+            self.displayName = displayName
+            self.attributesToDelete = attributesToDelete
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainJoinInfo = "DomainJoinInfo"
+            case vpcConfig = "VpcConfig"
+            case imageName = "ImageName"
+            case computeCapacity = "ComputeCapacity"
+            case deleteVpcConfig = "DeleteVpcConfig"
+            case disconnectTimeoutInSeconds = "DisconnectTimeoutInSeconds"
+            case instanceType = "InstanceType"
+            case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
+            case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+            case description = "Description"
+            case name = "Name"
+            case imageArn = "ImageArn"
+            case displayName = "DisplayName"
+            case attributesToDelete = "AttributesToDelete"
+        }
+    }
+
+    public struct UserSetting: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Permission", required: true, type: .enum), 
+            AWSShapeMember(label: "Action", required: true, type: .enum)
+        ]
+        /// Indicates whether the action is enabled or disabled.
+        public let permission: Permission
+        /// The action that is enabled or disabled.
+        public let action: Action
+
+        public init(permission: Permission, action: Action) {
+            self.permission = permission
+            self.action = action
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permission = "Permission"
+            case action = "Action"
+        }
+    }
+
+    public struct DeleteImagePermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SharedAccountId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The 12-digit ID of the AWS account for which to delete image permissions.
+        public let sharedAccountId: String
+        /// The name of the private image.
+        public let name: String
+
+        public init(sharedAccountId: String, name: String) {
+            self.sharedAccountId = sharedAccountId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sharedAccountId = "SharedAccountId"
+            case name = "Name"
+        }
+    }
+
+    public enum StackAttribute: String, CustomStringConvertible, Codable {
+        case storageConnectors = "STORAGE_CONNECTORS"
+        case storageConnectorHomefolders = "STORAGE_CONNECTOR_HOMEFOLDERS"
+        case storageConnectorGoogleDrive = "STORAGE_CONNECTOR_GOOGLE_DRIVE"
+        case storageConnectorOneDrive = "STORAGE_CONNECTOR_ONE_DRIVE"
+        case redirectUrl = "REDIRECT_URL"
+        case feedbackUrl = "FEEDBACK_URL"
+        case themeName = "THEME_NAME"
+        case userSettings = "USER_SETTINGS"
+        public var description: String { return self.rawValue }
     }
 
     public struct ComputeCapacity: AWSShape {
@@ -1877,16 +1590,353 @@ extension AppStream {
         }
     }
 
-    public enum Action: String, CustomStringConvertible, Codable {
-        case clipboardCopyFromLocalDevice = "CLIPBOARD_COPY_FROM_LOCAL_DEVICE"
-        case clipboardCopyToLocalDevice = "CLIPBOARD_COPY_TO_LOCAL_DEVICE"
-        case fileUpload = "FILE_UPLOAD"
-        case fileDownload = "FILE_DOWNLOAD"
-        case printingToLocalDevice = "PRINTING_TO_LOCAL_DEVICE"
+    public enum ImageBuilderStateChangeReasonCode: String, CustomStringConvertible, Codable {
+        case internalError = "INTERNAL_ERROR"
+        case imageUnavailable = "IMAGE_UNAVAILABLE"
         public var description: String { return self.rawValue }
     }
 
-    public struct CreateStackResult: AWSShape {
+    public struct ListAssociatedStacksResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The name of the stack.
+        public let names: [String]?
+        /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        public let nextToken: String?
+
+        public init(names: [String]? = nil, nextToken: String? = nil) {
+            self.names = names
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case names = "Names"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public enum VisibilityType: String, CustomStringConvertible, Codable {
+        case `public` = "PUBLIC"
+        case `private` = "PRIVATE"
+        case shared = "SHARED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DisableUserResult: AWSShape {
+
+    }
+
+    public struct ExpireSessionResult: AWSShape {
+
+    }
+
+    public struct DescribeImageBuildersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The names of the image builders to describe.
+        public let names: [String]?
+        /// The maximum size of each page of results.
+        public let maxResults: Int32?
+        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
+        public let nextToken: String?
+
+        public init(names: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.names = names
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case names = "Names"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct EnableUserResult: AWSShape {
+
+    }
+
+    public struct CreateDirectoryConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryName", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceAccountCredentials", required: true, type: .structure), 
+            AWSShapeMember(label: "OrganizationalUnitDistinguishedNames", required: true, type: .list)
+        ]
+        /// The fully qualified name of the directory (for example, corp.example.com).
+        public let directoryName: String
+        /// The credentials for the service account used by the streaming instance to connect to the directory.
+        public let serviceAccountCredentials: ServiceAccountCredentials
+        /// The distinguished names of the organizational units for computer accounts.
+        public let organizationalUnitDistinguishedNames: [String]
+
+        public init(directoryName: String, serviceAccountCredentials: ServiceAccountCredentials, organizationalUnitDistinguishedNames: [String]) {
+            self.directoryName = directoryName
+            self.serviceAccountCredentials = serviceAccountCredentials
+            self.organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryName = "DirectoryName"
+            case serviceAccountCredentials = "ServiceAccountCredentials"
+            case organizationalUnitDistinguishedNames = "OrganizationalUnitDistinguishedNames"
+        }
+    }
+
+    public struct DisableUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationType", required: true, type: .enum), 
+            AWSShapeMember(label: "UserName", required: true, type: .string)
+        ]
+        /// The authentication type for the user. You must specify USERPOOL.
+        public let authenticationType: AuthenticationType
+        /// The email address of the user.
+        public let userName: String
+
+        public init(authenticationType: AuthenticationType, userName: String) {
+            self.authenticationType = authenticationType
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationType = "AuthenticationType"
+            case userName = "UserName"
+        }
+    }
+
+    public struct CreateStackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RedirectURL", required: false, type: .string), 
+            AWSShapeMember(label: "FeedbackURL", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "StorageConnectors", required: false, type: .list), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "UserSettings", required: false, type: .list)
+        ]
+        /// The URL that users are redirected to after their streaming session ends.
+        public let redirectURL: String?
+        /// The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
+        public let feedbackURL: String?
+        /// The description for display.
+        public let description: String?
+        /// The storage connectors to enable.
+        public let storageConnectors: [StorageConnector]?
+        /// The stack name for display.
+        public let displayName: String?
+        /// The name of the stack.
+        public let name: String
+        /// The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and applied to the next session.
+        public let applicationSettings: ApplicationSettings?
+        /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled. 
+        public let userSettings: [UserSetting]?
+
+        public init(redirectURL: String? = nil, feedbackURL: String? = nil, description: String? = nil, storageConnectors: [StorageConnector]? = nil, displayName: String? = nil, name: String, applicationSettings: ApplicationSettings? = nil, userSettings: [UserSetting]? = nil) {
+            self.redirectURL = redirectURL
+            self.feedbackURL = feedbackURL
+            self.description = description
+            self.storageConnectors = storageConnectors
+            self.displayName = displayName
+            self.name = name
+            self.applicationSettings = applicationSettings
+            self.userSettings = userSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case redirectURL = "RedirectURL"
+            case feedbackURL = "FeedbackURL"
+            case description = "Description"
+            case storageConnectors = "StorageConnectors"
+            case displayName = "DisplayName"
+            case name = "Name"
+            case applicationSettings = "ApplicationSettings"
+            case userSettings = "UserSettings"
+        }
+    }
+
+    public struct DescribeImagePermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "SharedAwsAccountIds", required: false, type: .list)
+        ]
+        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
+        public let nextToken: String?
+        /// The name of the private image for which to describe permissions. The image must be one that you own. 
+        public let name: String
+        /// The maximum size of each page of results.
+        public let maxResults: Int32?
+        /// The 12-digit ID of one or more AWS accounts with which the image is shared.
+        public let sharedAwsAccountIds: [String]?
+
+        public init(nextToken: String? = nil, name: String, maxResults: Int32? = nil, sharedAwsAccountIds: [String]? = nil) {
+            self.nextToken = nextToken
+            self.name = name
+            self.maxResults = maxResults
+            self.sharedAwsAccountIds = sharedAwsAccountIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case name = "Name"
+            case maxResults = "MaxResults"
+            case sharedAwsAccountIds = "SharedAwsAccountIds"
+        }
+    }
+
+    public struct ResourceError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorTimestamp", required: false, type: .timestamp)
+        ]
+        /// The error code.
+        public let errorCode: FleetErrorCode?
+        /// The error message.
+        public let errorMessage: String?
+        /// The time the error occurred.
+        public let errorTimestamp: TimeStamp?
+
+        public init(errorCode: FleetErrorCode? = nil, errorMessage: String? = nil, errorTimestamp: TimeStamp? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.errorTimestamp = errorTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case errorTimestamp = "ErrorTimestamp"
+        }
+    }
+
+    public struct DescribeSessionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "UserId", required: false, type: .string), 
+            AWSShapeMember(label: "AuthenticationType", required: false, type: .enum), 
+            AWSShapeMember(label: "FleetName", required: true, type: .string), 
+            AWSShapeMember(label: "StackName", required: true, type: .string)
+        ]
+        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
+        public let nextToken: String?
+        /// The size of each page of results. The default value is 20 and the maximum value is 50.
+        public let limit: Int32?
+        /// The user ID.
+        public let userId: String?
+        /// The authentication method. Specify API for a user authenticated using a streaming URL or SAML for a SAML federated user. The default is to authenticate users using a streaming URL.
+        public let authenticationType: AuthenticationType?
+        /// The name of the fleet. This value is case-sensitive.
+        public let fleetName: String
+        /// The name of the stack. This value is case-sensitive.
+        public let stackName: String
+
+        public init(nextToken: String? = nil, limit: Int32? = nil, userId: String? = nil, authenticationType: AuthenticationType? = nil, fleetName: String, stackName: String) {
+            self.nextToken = nextToken
+            self.limit = limit
+            self.userId = userId
+            self.authenticationType = authenticationType
+            self.fleetName = fleetName
+            self.stackName = stackName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case limit = "Limit"
+            case userId = "UserId"
+            case authenticationType = "AuthenticationType"
+            case fleetName = "FleetName"
+            case stackName = "StackName"
+        }
+    }
+
+    public struct DescribeFleetsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Fleets", required: false, type: .list)
+        ]
+        /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        public let nextToken: String?
+        /// Information about the fleets.
+        public let fleets: [Fleet]?
+
+        public init(nextToken: String? = nil, fleets: [Fleet]? = nil) {
+            self.nextToken = nextToken
+            self.fleets = fleets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case fleets = "Fleets"
+        }
+    }
+
+    public struct CreateUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastName", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "AuthenticationType", required: true, type: .enum), 
+            AWSShapeMember(label: "FirstName", required: false, type: .string), 
+            AWSShapeMember(label: "MessageAction", required: false, type: .enum)
+        ]
+        /// The last name, or surname, of the user.
+        public let lastName: String?
+        /// The email address of the user.
+        public let userName: String
+        /// The authentication type for the user. You must specify USERPOOL. 
+        public let authenticationType: AuthenticationType
+        /// The first name, or given name, of the user.
+        public let firstName: String?
+        /// The action to take for the welcome email that is sent to a user after the user is created in the user pool. If you specify SUPPRESS, no email is sent. If you specify RESEND, do not specify the first name or last name of the user. If the value is null, the email is sent.   The temporary password in the welcome email is valid for only 7 days. If users don’t set their passwords within 7 days, you must send them a new welcome email. 
+        public let messageAction: MessageAction?
+
+        public init(lastName: String? = nil, userName: String, authenticationType: AuthenticationType, firstName: String? = nil, messageAction: MessageAction? = nil) {
+            self.lastName = lastName
+            self.userName = userName
+            self.authenticationType = authenticationType
+            self.firstName = firstName
+            self.messageAction = messageAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastName = "LastName"
+            case userName = "UserName"
+            case authenticationType = "AuthenticationType"
+            case firstName = "FirstName"
+            case messageAction = "MessageAction"
+        }
+    }
+
+    public struct DescribeUserStackAssociationsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserStackAssociations", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The UserStackAssociation objects.
+        public let userStackAssociations: [UserStackAssociation]?
+        /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        public let nextToken: String?
+
+        public init(userStackAssociations: [UserStackAssociation]? = nil, nextToken: String? = nil) {
+            self.userStackAssociations = userStackAssociations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userStackAssociations = "UserStackAssociations"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct UpdateStackResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Stack", required: false, type: .structure)
         ]
@@ -1902,199 +1952,63 @@ extension AppStream {
         }
     }
 
-    public struct NetworkAccessConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EniPrivateIpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "EniId", required: false, type: .string)
-        ]
-        /// The private IP address of the elastic network interface that is attached to instances in your VPC.
-        public let eniPrivateIpAddress: String?
-        /// The resource identifier of the elastic network interface that is attached to instances in your VPC. All network interfaces have the eni-xxxxxxxx resource identifier.
-        public let eniId: String?
+    public struct UntagResourceResponse: AWSShape {
 
-        public init(eniPrivateIpAddress: String? = nil, eniId: String? = nil) {
-            self.eniPrivateIpAddress = eniPrivateIpAddress
-            self.eniId = eniId
+    }
+
+    public struct DeleteUserResult: AWSShape {
+
+    }
+
+    public struct DeleteUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationType", required: true, type: .enum), 
+            AWSShapeMember(label: "UserName", required: true, type: .string)
+        ]
+        /// The authentication type for the user. You must specify USERPOOL.
+        public let authenticationType: AuthenticationType
+        /// The email address of the user.
+        public let userName: String
+
+        public init(authenticationType: AuthenticationType, userName: String) {
+            self.authenticationType = authenticationType
+            self.userName = userName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eniPrivateIpAddress = "EniPrivateIpAddress"
-            case eniId = "EniId"
+            case authenticationType = "AuthenticationType"
+            case userName = "UserName"
         }
     }
 
-    public enum AuthenticationType: String, CustomStringConvertible, Codable {
-        case api = "API"
-        case saml = "SAML"
-        case userpool = "USERPOOL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateDirectoryConfigResult: AWSShape {
+    public struct DirectoryConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryConfig", required: false, type: .structure)
+            AWSShapeMember(label: "ServiceAccountCredentials", required: false, type: .structure), 
+            AWSShapeMember(label: "DirectoryName", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationalUnitDistinguishedNames", required: false, type: .list), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp)
         ]
-        /// Information about the Directory Config object.
-        public let directoryConfig: DirectoryConfig?
+        /// The credentials for the service account used by the streaming instance to connect to the directory.
+        public let serviceAccountCredentials: ServiceAccountCredentials?
+        /// The fully qualified name of the directory (for example, corp.example.com).
+        public let directoryName: String
+        /// The distinguished names of the organizational units for computer accounts.
+        public let organizationalUnitDistinguishedNames: [String]?
+        /// The time the directory configuration was created.
+        public let createdTime: TimeStamp?
 
-        public init(directoryConfig: DirectoryConfig? = nil) {
-            self.directoryConfig = directoryConfig
+        public init(serviceAccountCredentials: ServiceAccountCredentials? = nil, directoryName: String, organizationalUnitDistinguishedNames: [String]? = nil, createdTime: TimeStamp? = nil) {
+            self.serviceAccountCredentials = serviceAccountCredentials
+            self.directoryName = directoryName
+            self.organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames
+            self.createdTime = createdTime
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryConfig = "DirectoryConfig"
-        }
-    }
-
-    public struct ListAssociatedFleetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StackName", required: true, type: .string)
-        ]
-        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
-        public let nextToken: String?
-        /// The name of the stack.
-        public let stackName: String
-
-        public init(nextToken: String? = nil, stackName: String) {
-            self.nextToken = nextToken
-            self.stackName = stackName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case stackName = "StackName"
-        }
-    }
-
-    public struct CreateImageBuilderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageArn", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "ImageName", required: false, type: .string), 
-            AWSShapeMember(label: "DomainJoinInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
-            AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "AppstreamAgentVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The ARN of the public, private, or shared image to use.
-        public let imageArn: String?
-        /// The image builder name for display.
-        public let displayName: String?
-        /// The name of the image used to create the builder.
-        public let imageName: String?
-        /// The information needed to join a Microsoft Active Directory domain.
-        public let domainJoinInfo: DomainJoinInfo?
-        /// The instance type to use when launching the image builder.
-        public let instanceType: String
-        /// The VPC configuration for the image builder. You can specify only one subnet.
-        public let vpcConfig: VpcConfig?
-        /// Enables or disables default internet access for the image builder.
-        public let enableDefaultInternetAccess: Bool?
-        /// A unique name for the image builder.
-        public let name: String
-        /// The version of the AppStream 2.0 agent to use for this image builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST]. 
-        public let appstreamAgentVersion: String?
-        /// The description for display.
-        public let description: String?
-
-        public init(imageArn: String? = nil, displayName: String? = nil, imageName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, instanceType: String, vpcConfig: VpcConfig? = nil, enableDefaultInternetAccess: Bool? = nil, name: String, appstreamAgentVersion: String? = nil, description: String? = nil) {
-            self.imageArn = imageArn
-            self.displayName = displayName
-            self.imageName = imageName
-            self.domainJoinInfo = domainJoinInfo
-            self.instanceType = instanceType
-            self.vpcConfig = vpcConfig
-            self.enableDefaultInternetAccess = enableDefaultInternetAccess
-            self.name = name
-            self.appstreamAgentVersion = appstreamAgentVersion
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case imageArn = "ImageArn"
-            case displayName = "DisplayName"
-            case imageName = "ImageName"
-            case domainJoinInfo = "DomainJoinInfo"
-            case instanceType = "InstanceType"
-            case vpcConfig = "VpcConfig"
-            case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
-            case name = "Name"
-            case appstreamAgentVersion = "AppstreamAgentVersion"
-            case description = "Description"
-        }
-    }
-
-    public struct StopFleetResult: AWSShape {
-
-    }
-
-    public struct CreateStreamingURLRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserId", required: true, type: .string), 
-            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeMember(label: "SessionContext", required: false, type: .string), 
-            AWSShapeMember(label: "FleetName", required: true, type: .string), 
-            AWSShapeMember(label: "Validity", required: false, type: .long), 
-            AWSShapeMember(label: "StackName", required: true, type: .string)
-        ]
-        /// The ID of the user.
-        public let userId: String
-        /// The name of the application to launch after the session starts. This is the name that you specified as Name in the Image Assistant.
-        public let applicationId: String?
-        /// The session context. For more information, see Session Context in the Amazon AppStream 2.0 Developer Guide.
-        public let sessionContext: String?
-        /// The name of the fleet.
-        public let fleetName: String
-        /// The time that the streaming URL will be valid, in seconds. Specify a value between 1 and 604800 seconds. The default is 60 seconds.
-        public let validity: Int64?
-        /// The name of the stack.
-        public let stackName: String
-
-        public init(userId: String, applicationId: String? = nil, sessionContext: String? = nil, fleetName: String, validity: Int64? = nil, stackName: String) {
-            self.userId = userId
-            self.applicationId = applicationId
-            self.sessionContext = sessionContext
-            self.fleetName = fleetName
-            self.validity = validity
-            self.stackName = stackName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userId = "UserId"
-            case applicationId = "ApplicationId"
-            case sessionContext = "SessionContext"
-            case fleetName = "FleetName"
-            case validity = "Validity"
-            case stackName = "StackName"
-        }
-    }
-
-    public struct AssociateFleetResult: AWSShape {
-
-    }
-
-    public struct ImagePermissions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "allowFleet", required: false, type: .boolean), 
-            AWSShapeMember(label: "allowImageBuilder", required: false, type: .boolean)
-        ]
-        /// Indicates whether the image can be used for a fleet.
-        public let allowFleet: Bool?
-        /// Indicates whether the image can be used for an image builder.
-        public let allowImageBuilder: Bool?
-
-        public init(allowFleet: Bool? = nil, allowImageBuilder: Bool? = nil) {
-            self.allowFleet = allowFleet
-            self.allowImageBuilder = allowImageBuilder
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case allowFleet = "allowFleet"
-            case allowImageBuilder = "allowImageBuilder"
+            case serviceAccountCredentials = "ServiceAccountCredentials"
+            case directoryName = "DirectoryName"
+            case organizationalUnitDistinguishedNames = "OrganizationalUnitDistinguishedNames"
+            case createdTime = "CreatedTime"
         }
     }
 
@@ -2119,11 +2033,77 @@ extension AppStream {
         }
     }
 
-    public struct DeleteImageRequest: AWSShape {
+    public struct Stack: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackErrors", required: false, type: .list), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "RedirectURL", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FeedbackURL", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "StorageConnectors", required: false, type: .list), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "UserSettings", required: false, type: .list)
+        ]
+        /// The errors for the stack.
+        public let stackErrors: [StackError]?
+        /// The ARN of the stack.
+        public let arn: String?
+        /// The URL that users are redirected to after their streaming session ends.
+        public let redirectURL: String?
+        /// The time the stack was created.
+        public let createdTime: TimeStamp?
+        /// The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
+        public let feedbackURL: String?
+        /// The description for display.
+        public let description: String?
+        /// The storage connectors to enable.
+        public let storageConnectors: [StorageConnector]?
+        /// The stack name for display.
+        public let displayName: String?
+        /// The name of the stack.
+        public let name: String
+        /// The persistent application settings for users of the stack.
+        public let applicationSettings: ApplicationSettingsResponse?
+        /// The actions that are enabled or disabled for users during their streaming sessions. By default these actions are enabled.
+        public let userSettings: [UserSetting]?
+
+        public init(stackErrors: [StackError]? = nil, arn: String? = nil, redirectURL: String? = nil, createdTime: TimeStamp? = nil, feedbackURL: String? = nil, description: String? = nil, storageConnectors: [StorageConnector]? = nil, displayName: String? = nil, name: String, applicationSettings: ApplicationSettingsResponse? = nil, userSettings: [UserSetting]? = nil) {
+            self.stackErrors = stackErrors
+            self.arn = arn
+            self.redirectURL = redirectURL
+            self.createdTime = createdTime
+            self.feedbackURL = feedbackURL
+            self.description = description
+            self.storageConnectors = storageConnectors
+            self.displayName = displayName
+            self.name = name
+            self.applicationSettings = applicationSettings
+            self.userSettings = userSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackErrors = "StackErrors"
+            case arn = "Arn"
+            case redirectURL = "RedirectURL"
+            case createdTime = "CreatedTime"
+            case feedbackURL = "FeedbackURL"
+            case description = "Description"
+            case storageConnectors = "StorageConnectors"
+            case displayName = "DisplayName"
+            case name = "Name"
+            case applicationSettings = "ApplicationSettings"
+            case userSettings = "UserSettings"
+        }
+    }
+
+    public struct DeleteFleetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// The name of the image.
+        /// The name of the fleet.
         public let name: String
 
         public init(name: String) {
@@ -2135,34 +2115,534 @@ extension AppStream {
         }
     }
 
-    public struct CopyImageRequest: AWSShape {
+    public struct ImageStateChangeReason: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationImageName", required: true, type: .string), 
-            AWSShapeMember(label: "SourceImageName", required: true, type: .string), 
-            AWSShapeMember(label: "DestinationRegion", required: true, type: .string), 
-            AWSShapeMember(label: "DestinationImageDescription", required: false, type: .string)
+            AWSShapeMember(label: "Code", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
-        /// The name that the image will have when it is copied to the destination.
-        public let destinationImageName: String
-        /// The name of the image to copy.
-        public let sourceImageName: String
-        /// The destination region to which the image will be copied. This parameter is required, even if you are copying an image within the same region.
-        public let destinationRegion: String
-        /// The description that the image will have when it is copied to the destination.
-        public let destinationImageDescription: String?
+        /// The state change reason code.
+        public let code: ImageStateChangeReasonCode?
+        /// The state change reason message.
+        public let message: String?
 
-        public init(destinationImageName: String, sourceImageName: String, destinationRegion: String, destinationImageDescription: String? = nil) {
-            self.destinationImageName = destinationImageName
-            self.sourceImageName = sourceImageName
-            self.destinationRegion = destinationRegion
-            self.destinationImageDescription = destinationImageDescription
+        public init(code: ImageStateChangeReasonCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationImageName = "DestinationImageName"
-            case sourceImageName = "SourceImageName"
-            case destinationRegion = "DestinationRegion"
-            case destinationImageDescription = "DestinationImageDescription"
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public struct BatchAssociateUserStackResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "errors", required: false, type: .list)
+        ]
+        /// The list of UserStackAssociationError objects.
+        public let errors: [UserStackAssociationError]?
+
+        public init(errors: [UserStackAssociationError]? = nil) {
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+        }
+    }
+
+    public struct UpdateImagePermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImagePermissions", required: true, type: .structure), 
+            AWSShapeMember(label: "SharedAccountId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The permissions for the image.
+        public let imagePermissions: ImagePermissions
+        /// The 12-digit ID of the AWS account for which you want add or update image permissions.
+        public let sharedAccountId: String
+        /// The name of the private image.
+        public let name: String
+
+        public init(imagePermissions: ImagePermissions, sharedAccountId: String, name: String) {
+            self.imagePermissions = imagePermissions
+            self.sharedAccountId = sharedAccountId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imagePermissions = "ImagePermissions"
+            case sharedAccountId = "SharedAccountId"
+            case name = "Name"
+        }
+    }
+
+    public struct DescribeImagePermissionsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SharedImagePermissionsList", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The permissions for a private image that you own. 
+        public let sharedImagePermissionsList: [SharedImagePermissions]?
+        /// The name of the private image.
+        public let name: String?
+        /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        public let nextToken: String?
+
+        public init(sharedImagePermissionsList: [SharedImagePermissions]? = nil, name: String? = nil, nextToken: String? = nil) {
+            self.sharedImagePermissionsList = sharedImagePermissionsList
+            self.name = name
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sharedImagePermissionsList = "SharedImagePermissionsList"
+            case name = "Name"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ImageBuilderStateChangeReason: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
+        ]
+        /// The state change reason code.
+        public let code: ImageBuilderStateChangeReasonCode?
+        /// The state change reason message.
+        public let message: String?
+
+        public init(code: ImageBuilderStateChangeReasonCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public struct ServiceAccountCredentials: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountName", required: true, type: .string), 
+            AWSShapeMember(label: "AccountPassword", required: true, type: .string)
+        ]
+        /// The user name of the account. This account must have the following privileges: create computer objects, join computers to the domain, and change/reset the password on descendant computer objects for the organizational units specified.
+        public let accountName: String
+        /// The password for the account.
+        public let accountPassword: String
+
+        public init(accountName: String, accountPassword: String) {
+            self.accountName = accountName
+            self.accountPassword = accountPassword
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountName = "AccountName"
+            case accountPassword = "AccountPassword"
+        }
+    }
+
+    public struct ApplicationSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SettingsGroup", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
+        ]
+        /// The path prefix for the S3 bucket where users’ persistent application settings are stored. You can allow the same persistent application settings to be used across multiple stacks by specifying the same settings group for each stack. 
+        public let settingsGroup: String?
+        /// Enables or disables persistent application settings for users during their streaming sessions. 
+        public let enabled: Bool
+
+        public init(settingsGroup: String? = nil, enabled: Bool) {
+            self.settingsGroup = settingsGroup
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case settingsGroup = "SettingsGroup"
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct UpdateStackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RedirectURL", required: false, type: .string), 
+            AWSShapeMember(label: "DeleteStorageConnectors", required: false, type: .boolean), 
+            AWSShapeMember(label: "FeedbackURL", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "StorageConnectors", required: false, type: .list), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "AttributesToDelete", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "UserSettings", required: false, type: .list)
+        ]
+        /// The URL that users are redirected to after their streaming session ends.
+        public let redirectURL: String?
+        /// Deletes the storage connectors currently enabled for the stack.
+        public let deleteStorageConnectors: Bool?
+        /// The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
+        public let feedbackURL: String?
+        /// The description for display.
+        public let description: String?
+        /// The storage connectors to enable.
+        public let storageConnectors: [StorageConnector]?
+        /// The stack name for display.
+        public let displayName: String?
+        /// The stack attributes to delete.
+        public let attributesToDelete: [StackAttribute]?
+        /// The name of the stack.
+        public let name: String
+        /// The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and applied to the next session.
+        public let applicationSettings: ApplicationSettings?
+        /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled.
+        public let userSettings: [UserSetting]?
+
+        public init(redirectURL: String? = nil, deleteStorageConnectors: Bool? = nil, feedbackURL: String? = nil, description: String? = nil, storageConnectors: [StorageConnector]? = nil, displayName: String? = nil, attributesToDelete: [StackAttribute]? = nil, name: String, applicationSettings: ApplicationSettings? = nil, userSettings: [UserSetting]? = nil) {
+            self.redirectURL = redirectURL
+            self.deleteStorageConnectors = deleteStorageConnectors
+            self.feedbackURL = feedbackURL
+            self.description = description
+            self.storageConnectors = storageConnectors
+            self.displayName = displayName
+            self.attributesToDelete = attributesToDelete
+            self.name = name
+            self.applicationSettings = applicationSettings
+            self.userSettings = userSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case redirectURL = "RedirectURL"
+            case deleteStorageConnectors = "DeleteStorageConnectors"
+            case feedbackURL = "FeedbackURL"
+            case description = "Description"
+            case storageConnectors = "StorageConnectors"
+            case displayName = "DisplayName"
+            case attributesToDelete = "AttributesToDelete"
+            case name = "Name"
+            case applicationSettings = "ApplicationSettings"
+            case userSettings = "UserSettings"
+        }
+    }
+
+    public struct CreateFleetResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Fleet", required: false, type: .structure)
+        ]
+        /// Information about the fleet.
+        public let fleet: Fleet?
+
+        public init(fleet: Fleet? = nil) {
+            self.fleet = fleet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleet = "Fleet"
+        }
+    }
+
+    public struct DescribeStacksRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The names of the stacks to describe.
+        public let names: [String]?
+        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
+        public let nextToken: String?
+
+        public init(names: [String]? = nil, nextToken: String? = nil) {
+            self.names = names
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case names = "Names"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ComputeCapacityStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Desired", required: true, type: .integer), 
+            AWSShapeMember(label: "Available", required: false, type: .integer), 
+            AWSShapeMember(label: "Running", required: false, type: .integer), 
+            AWSShapeMember(label: "InUse", required: false, type: .integer)
+        ]
+        /// The desired number of streaming instances.
+        public let desired: Int32
+        /// The number of currently available instances that can be used to stream sessions.
+        public let available: Int32?
+        /// The total number of simultaneous streaming instances that are running.
+        public let running: Int32?
+        /// The number of instances in use for streaming.
+        public let inUse: Int32?
+
+        public init(desired: Int32, available: Int32? = nil, running: Int32? = nil, inUse: Int32? = nil) {
+            self.desired = desired
+            self.available = available
+            self.running = running
+            self.inUse = inUse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desired = "Desired"
+            case available = "Available"
+            case running = "Running"
+            case inUse = "InUse"
+        }
+    }
+
+    public struct DescribeImagesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Arns", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "Names", required: false, type: .list)
+        ]
+        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
+        public let nextToken: String?
+        /// The type of image (public, private, or shared) to describe. 
+        public let `type`: VisibilityType?
+        /// The ARNs of the public, private, and shared images to describe.
+        public let arns: [String]?
+        /// The maximum size of each page of results.
+        public let maxResults: Int32?
+        /// The names of the public or private images to describe.
+        public let names: [String]?
+
+        public init(nextToken: String? = nil, type: VisibilityType? = nil, arns: [String]? = nil, maxResults: Int32? = nil, names: [String]? = nil) {
+            self.nextToken = nextToken
+            self.`type` = `type`
+            self.arns = arns
+            self.maxResults = maxResults
+            self.names = names
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case `type` = "Type"
+            case arns = "Arns"
+            case maxResults = "MaxResults"
+            case names = "Names"
+        }
+    }
+
+    public struct ApplicationSettingsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "SettingsGroup", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
+        ]
+        /// The S3 bucket where users’ persistent application settings are stored. When persistent application settings are enabled for the first time for an account in an AWS Region, an S3 bucket is created. The bucket is unique to the AWS account and the Region. 
+        public let s3BucketName: String?
+        /// The path prefix for the S3 bucket where users’ persistent application settings are stored.
+        public let settingsGroup: String?
+        /// Specifies whether persistent application settings are enabled for users during their streaming sessions.
+        public let enabled: Bool?
+
+        public init(s3BucketName: String? = nil, settingsGroup: String? = nil, enabled: Bool? = nil) {
+            self.s3BucketName = s3BucketName
+            self.settingsGroup = settingsGroup
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3BucketName = "S3BucketName"
+            case settingsGroup = "SettingsGroup"
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct DescribeUsersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AuthenticationType", required: true, type: .enum), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
+        public let nextToken: String?
+        /// The authentication type for the users in the user pool to describe. You must specify USERPOOL.
+        public let authenticationType: AuthenticationType
+        /// The maximum size of each page of results.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, authenticationType: AuthenticationType, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.authenticationType = authenticationType
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case authenticationType = "AuthenticationType"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public enum StorageConnectorType: String, CustomStringConvertible, Codable {
+        case homefolders = "HOMEFOLDERS"
+        case googleDrive = "GOOGLE_DRIVE"
+        case oneDrive = "ONE_DRIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeImagesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Images", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Information about the images.
+        public let images: [Image]?
+        /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        public let nextToken: String?
+
+        public init(images: [Image]? = nil, nextToken: String? = nil) {
+            self.images = images
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case images = "Images"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ExpireSessionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SessionId", required: true, type: .string)
+        ]
+        /// The ID of the streaming session.
+        public let sessionId: String
+
+        public init(sessionId: String) {
+            self.sessionId = sessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct User: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AuthenticationType", required: true, type: .enum), 
+            AWSShapeMember(label: "LastName", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "FirstName", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
+        ]
+        /// The ARN of the user.
+        public let arn: String?
+        /// The status of the user in the user pool. The status can be one of the following:   UNCONFIRMED – The user is created but not confirmed.   CONFIRMED – The user is confirmed.   ARCHIVED – The user is no longer active.   COMPROMISED – The user is disabled because of a potential security threat.   UNKNOWN – The user status is not known.  
+        public let status: String?
+        /// The date and time the user was created in the user pool.
+        public let createdTime: TimeStamp?
+        /// The authentication type for the user.
+        public let authenticationType: AuthenticationType
+        /// The last name, or surname, of the user.
+        public let lastName: String?
+        /// Specifies whether the user in the user pool is enabled.
+        public let enabled: Bool?
+        /// The first name, or given name, of the user.
+        public let firstName: String?
+        /// The email address of the user.
+        public let userName: String?
+
+        public init(arn: String? = nil, status: String? = nil, createdTime: TimeStamp? = nil, authenticationType: AuthenticationType, lastName: String? = nil, enabled: Bool? = nil, firstName: String? = nil, userName: String? = nil) {
+            self.arn = arn
+            self.status = status
+            self.createdTime = createdTime
+            self.authenticationType = authenticationType
+            self.lastName = lastName
+            self.enabled = enabled
+            self.firstName = firstName
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case status = "Status"
+            case createdTime = "CreatedTime"
+            case authenticationType = "AuthenticationType"
+            case lastName = "LastName"
+            case enabled = "Enabled"
+            case firstName = "FirstName"
+            case userName = "UserName"
+        }
+    }
+
+    public struct Session: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserId", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "FleetName", required: true, type: .string), 
+            AWSShapeMember(label: "AuthenticationType", required: false, type: .enum), 
+            AWSShapeMember(label: "NetworkAccessConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "State", required: true, type: .enum)
+        ]
+        /// The identifier of the user for whom the session was created.
+        public let userId: String
+        /// The ID of the streaming session.
+        public let id: String
+        /// The name of the fleet for the streaming session.
+        public let fleetName: String
+        /// The authentication method. The user is authenticated using a streaming URL (API) or SAML federation (SAML).
+        public let authenticationType: AuthenticationType?
+        /// The network details for the streaming session.
+        public let networkAccessConfiguration: NetworkAccessConfiguration?
+        /// The name of the stack for the streaming session.
+        public let stackName: String
+        /// The current state of the streaming session.
+        public let state: SessionState
+
+        public init(userId: String, id: String, fleetName: String, authenticationType: AuthenticationType? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, stackName: String, state: SessionState) {
+            self.userId = userId
+            self.id = id
+            self.fleetName = fleetName
+            self.authenticationType = authenticationType
+            self.networkAccessConfiguration = networkAccessConfiguration
+            self.stackName = stackName
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userId = "UserId"
+            case id = "Id"
+            case fleetName = "FleetName"
+            case authenticationType = "AuthenticationType"
+            case networkAccessConfiguration = "NetworkAccessConfiguration"
+            case stackName = "StackName"
+            case state = "State"
+        }
+    }
+
+    public struct DisassociateFleetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetName", required: true, type: .string), 
+            AWSShapeMember(label: "StackName", required: true, type: .string)
+        ]
+        /// The name of the fleet.
+        public let fleetName: String
+        /// The name of the stack.
+        public let stackName: String
+
+        public init(fleetName: String, stackName: String) {
+            self.fleetName = fleetName
+            self.stackName = stackName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetName = "FleetName"
+            case stackName = "StackName"
         }
     }
 
@@ -2187,61 +2667,181 @@ extension AppStream {
         }
     }
 
-    public struct DescribeImagesRequest: AWSShape {
+    public struct StartFleetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Arns", required: false, type: .list), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Names", required: false, type: .list)
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// The pagination token to use to retrieve the next page of results. If this value is empty, only the first page is retrieved.
-        public let nextToken: String?
-        /// The ARNs of the public, private, and shared images to describe.
-        public let arns: [String]?
-        /// The type of image (public, private, or shared) to describe. 
-        public let `type`: VisibilityType?
-        /// The maximum size of each page of results.
-        public let maxResults: Int32?
-        /// The names of the images to describe.
-        public let names: [String]?
+        /// The name of the fleet.
+        public let name: String
 
-        public init(nextToken: String? = nil, arns: [String]? = nil, type: VisibilityType? = nil, maxResults: Int32? = nil, names: [String]? = nil) {
-            self.nextToken = nextToken
-            self.arns = arns
-            self.`type` = `type`
-            self.maxResults = maxResults
-            self.names = names
+        public init(name: String) {
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case arns = "Arns"
-            case `type` = "Type"
-            case maxResults = "MaxResults"
-            case names = "Names"
+            case name = "Name"
         }
     }
 
-    public struct DescribeImageBuildersResult: AWSShape {
+    public struct DescribeUsersResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageBuilders", required: false, type: .list), 
+            AWSShapeMember(label: "Users", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Information about the image builders.
-        public let imageBuilders: [ImageBuilder]?
+        /// Information about users in the user pool.
+        public let users: [User]?
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
 
-        public init(imageBuilders: [ImageBuilder]? = nil, nextToken: String? = nil) {
-            self.imageBuilders = imageBuilders
+        public init(users: [User]? = nil, nextToken: String? = nil) {
+            self.users = users
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageBuilders = "ImageBuilders"
+            case users = "Users"
             case nextToken = "NextToken"
         }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// The tag keys for the tags to disassociate.
+        public let tagKeys: [String]
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
+
+        public init(tagKeys: [String], resourceArn: String) {
+            self.tagKeys = tagKeys
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagKeys = "TagKeys"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct CreateFleetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "ImageName", required: false, type: .string), 
+            AWSShapeMember(label: "FleetType", required: false, type: .enum), 
+            AWSShapeMember(label: "ComputeCapacity", required: true, type: .structure), 
+            AWSShapeMember(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "MaxUserDurationInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ImageArn", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "DomainJoinInfo", required: false, type: .structure)
+        ]
+        /// The VPC configuration for the fleet.
+        public let vpcConfig: VpcConfig?
+        /// The name of the image used to create the fleet.
+        public let imageName: String?
+        /// The fleet type.  ALWAYS_ON  Provides users with instant-on access to their apps. You are charged for all running instances in your fleet, even if no users are streaming apps.  ON_DEMAND  Provide users with access to applications after they connect, which takes one to two minutes. You are charged for instance streaming when users are connected and a small hourly fee for instances that are not streaming apps.  
+        public let fleetType: FleetType?
+        /// The desired capacity for the fleet.
+        public let computeCapacity: ComputeCapacity
+        /// The time after disconnection when a session is considered to have ended, in seconds. If a user who was disconnected reconnects within this time interval, the user is connected to their previous session. Specify a value between 60 and 57600.
+        public let disconnectTimeoutInSeconds: Int32?
+        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge  
+        public let instanceType: String
+        /// The maximum time that a streaming session can run, in seconds. Specify a value between 600 and 57600.
+        public let maxUserDurationInSeconds: Int32?
+        /// Enables or disables default internet access for the fleet.
+        public let enableDefaultInternetAccess: Bool?
+        /// The description for display.
+        public let description: String?
+        /// A unique name for the fleet.
+        public let name: String
+        /// The ARN of the public, private, or shared image to use.
+        public let imageArn: String?
+        /// The fleet name for display.
+        public let displayName: String?
+        /// The information needed to join a Microsoft Active Directory domain.
+        public let domainJoinInfo: DomainJoinInfo?
+
+        public init(vpcConfig: VpcConfig? = nil, imageName: String? = nil, fleetType: FleetType? = nil, computeCapacity: ComputeCapacity, disconnectTimeoutInSeconds: Int32? = nil, instanceType: String, maxUserDurationInSeconds: Int32? = nil, enableDefaultInternetAccess: Bool? = nil, description: String? = nil, name: String, imageArn: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil) {
+            self.vpcConfig = vpcConfig
+            self.imageName = imageName
+            self.fleetType = fleetType
+            self.computeCapacity = computeCapacity
+            self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
+            self.instanceType = instanceType
+            self.maxUserDurationInSeconds = maxUserDurationInSeconds
+            self.enableDefaultInternetAccess = enableDefaultInternetAccess
+            self.description = description
+            self.name = name
+            self.imageArn = imageArn
+            self.displayName = displayName
+            self.domainJoinInfo = domainJoinInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcConfig = "VpcConfig"
+            case imageName = "ImageName"
+            case fleetType = "FleetType"
+            case computeCapacity = "ComputeCapacity"
+            case disconnectTimeoutInSeconds = "DisconnectTimeoutInSeconds"
+            case instanceType = "InstanceType"
+            case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
+            case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+            case description = "Description"
+            case name = "Name"
+            case imageArn = "ImageArn"
+            case displayName = "DisplayName"
+            case domainJoinInfo = "DomainJoinInfo"
+        }
+    }
+
+    public enum MessageAction: String, CustomStringConvertible, Codable {
+        case suppress = "SUPPRESS"
+        case resend = "RESEND"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateImageBuilderStreamingURLResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Expires", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StreamingURL", required: false, type: .string)
+        ]
+        /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
+        public let expires: TimeStamp?
+        /// The URL to start the AppStream 2.0 streaming session.
+        public let streamingURL: String?
+
+        public init(expires: TimeStamp? = nil, streamingURL: String? = nil) {
+            self.expires = expires
+            self.streamingURL = streamingURL
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expires = "Expires"
+            case streamingURL = "StreamingURL"
+        }
+    }
+
+    public enum AuthenticationType: String, CustomStringConvertible, Codable {
+        case api = "API"
+        case saml = "SAML"
+        case userpool = "USERPOOL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case available = "AVAILABLE"
+        case failed = "FAILED"
+        case copying = "COPYING"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
     }
 
     public enum ImageBuilderState: String, CustomStringConvertible, Codable {
@@ -2254,78 +2854,6 @@ extension AppStream {
         case snapshotting = "SNAPSHOTTING"
         case deleting = "DELETING"
         case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeImagesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Images", required: false, type: .list)
-        ]
-        /// The pagination token to use to retrieve the next page of results. If there are no more pages, this value is null.
-        public let nextToken: String?
-        /// Information about the images.
-        public let images: [Image]?
-
-        public init(nextToken: String? = nil, images: [Image]? = nil) {
-            self.nextToken = nextToken
-            self.images = images
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case images = "Images"
-        }
-    }
-
-    public struct TagResourceResponse: AWSShape {
-
-    }
-
-    public enum ImageStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case internalError = "INTERNAL_ERROR"
-        case imageBuilderNotAvailable = "IMAGE_BUILDER_NOT_AVAILABLE"
-        case imageCopyFailure = "IMAGE_COPY_FAILURE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ExpireSessionResult: AWSShape {
-
-    }
-
-    public struct CreateDirectoryConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceAccountCredentials", required: true, type: .structure), 
-            AWSShapeMember(label: "DirectoryName", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationalUnitDistinguishedNames", required: true, type: .list)
-        ]
-        /// The credentials for the service account used by the streaming instance to connect to the directory.
-        public let serviceAccountCredentials: ServiceAccountCredentials
-        /// The fully qualified name of the directory (for example, corp.example.com).
-        public let directoryName: String
-        /// The distinguished names of the organizational units for computer accounts.
-        public let organizationalUnitDistinguishedNames: [String]
-
-        public init(serviceAccountCredentials: ServiceAccountCredentials, directoryName: String, organizationalUnitDistinguishedNames: [String]) {
-            self.serviceAccountCredentials = serviceAccountCredentials
-            self.directoryName = directoryName
-            self.organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceAccountCredentials = "ServiceAccountCredentials"
-            case directoryName = "DirectoryName"
-            case organizationalUnitDistinguishedNames = "OrganizationalUnitDistinguishedNames"
-        }
-    }
-
-    public struct UpdateImagePermissionsResult: AWSShape {
-
-    }
-
-    public enum FleetType: String, CustomStringConvertible, Codable {
-        case alwaysOn = "ALWAYS_ON"
-        case onDemand = "ON_DEMAND"
         public var description: String { return self.rawValue }
     }
 
@@ -2350,106 +2878,44 @@ extension AppStream {
         }
     }
 
-    public struct Application: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Metadata", required: false, type: .map), 
-            AWSShapeMember(label: "LaunchParameters", required: false, type: .string), 
-            AWSShapeMember(label: "IconURL", required: false, type: .string), 
-            AWSShapeMember(label: "LaunchPath", required: false, type: .string), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string)
-        ]
-        /// Additional attributes that describe the application.
-        public let metadata: [String: String]?
-        /// The arguments that are passed to the application at launch.
-        public let launchParameters: String?
-        /// The URL for the application icon. This URL might be time-limited.
-        public let iconURL: String?
-        /// The path to the application executable in the instance.
-        public let launchPath: String?
-        /// If there is a problem, the application can be disabled after image creation.
-        public let enabled: Bool?
-        /// The name of the application.
-        public let name: String?
-        /// The application name for display.
-        public let displayName: String?
-
-        public init(metadata: [String: String]? = nil, launchParameters: String? = nil, iconURL: String? = nil, launchPath: String? = nil, enabled: Bool? = nil, name: String? = nil, displayName: String? = nil) {
-            self.metadata = metadata
-            self.launchParameters = launchParameters
-            self.iconURL = iconURL
-            self.launchPath = launchPath
-            self.enabled = enabled
-            self.name = name
-            self.displayName = displayName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metadata = "Metadata"
-            case launchParameters = "LaunchParameters"
-            case iconURL = "IconURL"
-            case launchPath = "LaunchPath"
-            case enabled = "Enabled"
-            case name = "Name"
-            case displayName = "DisplayName"
-        }
-    }
-
-    public struct ResourceError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
-            AWSShapeMember(label: "ErrorTimestamp", required: false, type: .timestamp)
-        ]
-        /// The error message.
-        public let errorMessage: String?
-        /// The error code.
-        public let errorCode: FleetErrorCode?
-        /// The time the error occurred.
-        public let errorTimestamp: TimeStamp?
-
-        public init(errorMessage: String? = nil, errorCode: FleetErrorCode? = nil, errorTimestamp: TimeStamp? = nil) {
-            self.errorMessage = errorMessage
-            self.errorCode = errorCode
-            self.errorTimestamp = errorTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorMessage = "ErrorMessage"
-            case errorCode = "ErrorCode"
-            case errorTimestamp = "ErrorTimestamp"
-        }
-    }
-
-    public struct CreateImageBuilderStreamingURLRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Validity", required: false, type: .long)
-        ]
-        /// The name of the image builder.
-        public let name: String
-        /// The time that the streaming URL will be valid, in seconds. Specify a value between 1 and 604800 seconds. The default is 3600 seconds.
-        public let validity: Int64?
-
-        public init(name: String, validity: Int64? = nil) {
-            self.name = name
-            self.validity = validity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case validity = "Validity"
-        }
-    }
-
-    public enum ImageState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case available = "AVAILABLE"
-        case failed = "FAILED"
-        case copying = "COPYING"
-        case deleting = "DELETING"
+    public enum FleetState: String, CustomStringConvertible, Codable {
+        case starting = "STARTING"
+        case running = "RUNNING"
+        case stopping = "STOPPING"
+        case stopped = "STOPPED"
         public var description: String { return self.rawValue }
+    }
+
+    public struct StopFleetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The name of the fleet.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteImageBuilderResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageBuilder", required: false, type: .structure)
+        ]
+        /// Information about the image builder.
+        public let imageBuilder: ImageBuilder?
+
+        public init(imageBuilder: ImageBuilder? = nil) {
+            self.imageBuilder = imageBuilder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageBuilder = "ImageBuilder"
+        }
     }
 
 }

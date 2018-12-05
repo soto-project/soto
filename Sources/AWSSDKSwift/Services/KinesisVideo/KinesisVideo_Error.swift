@@ -7,11 +7,11 @@ public enum KinesisVideoErrorType: AWSErrorType {
     case clientLimitExceededException(message: String?)
     case invalidArgumentException(message: String?)
     case resourceNotFoundException(message: String?)
+    case resourceInUseException(message: String?)
     case notAuthorizedException(message: String?)
+    case versionMismatchException(message: String?)
     case invalidResourceFormatException(message: String?)
     case tagsPerResourceExceededLimitException(message: String?)
-    case resourceInUseException(message: String?)
-    case versionMismatchException(message: String?)
     case accountStreamLimitExceededException(message: String?)
     case deviceStreamLimitExceededException(message: String?)
     case invalidDeviceException(message: String?)
@@ -30,16 +30,16 @@ extension KinesisVideoErrorType {
             self = .invalidArgumentException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
+        case "ResourceInUseException":
+            self = .resourceInUseException(message: message)
         case "NotAuthorizedException":
             self = .notAuthorizedException(message: message)
+        case "VersionMismatchException":
+            self = .versionMismatchException(message: message)
         case "InvalidResourceFormatException":
             self = .invalidResourceFormatException(message: message)
         case "TagsPerResourceExceededLimitException":
             self = .tagsPerResourceExceededLimitException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "VersionMismatchException":
-            self = .versionMismatchException(message: message)
         case "AccountStreamLimitExceededException":
             self = .accountStreamLimitExceededException(message: message)
         case "DeviceStreamLimitExceededException":

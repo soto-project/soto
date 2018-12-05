@@ -4,18 +4,16 @@ import AWSSDKSwiftCore
 
 /// Error enum for ImportExport
 public enum ImportExportErrorType: AWSErrorType {
+    case missingParameterException(message: String?)
     case invalidParameterException(message: String?)
     case invalidAccessKeyIdException(message: String?)
-    case invalidVersionException(message: String?)
-    case invalidJobIdException(message: String?)
-    case expiredJobIdException(message: String?)
-    case canceledJobIdException(message: String?)
     case invalidAddressException(message: String?)
-    case unableToCancelJobIdException(message: String?)
-    case missingParameterException(message: String?)
     case invalidManifestFieldException(message: String?)
+    case invalidJobIdException(message: String?)
     case missingManifestFieldException(message: String?)
     case noSuchBucketException(message: String?)
+    case expiredJobIdException(message: String?)
+    case canceledJobIdException(message: String?)
     case missingCustomsException(message: String?)
     case invalidCustomsException(message: String?)
     case invalidFileSystemException(message: String?)
@@ -23,6 +21,8 @@ public enum ImportExportErrorType: AWSErrorType {
     case bucketPermissionException(message: String?)
     case malformedManifestException(message: String?)
     case unableToUpdateJobIdException(message: String?)
+    case invalidVersionException(message: String?)
+    case unableToCancelJobIdException(message: String?)
     case createJobQuotaExceededException(message: String?)
 }
 
@@ -33,30 +33,26 @@ extension ImportExportErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "MissingParameterException":
+            self = .missingParameterException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
         case "InvalidAccessKeyIdException":
             self = .invalidAccessKeyIdException(message: message)
-        case "InvalidVersionException":
-            self = .invalidVersionException(message: message)
-        case "InvalidJobIdException":
-            self = .invalidJobIdException(message: message)
-        case "ExpiredJobIdException":
-            self = .expiredJobIdException(message: message)
-        case "CanceledJobIdException":
-            self = .canceledJobIdException(message: message)
         case "InvalidAddressException":
             self = .invalidAddressException(message: message)
-        case "UnableToCancelJobIdException":
-            self = .unableToCancelJobIdException(message: message)
-        case "MissingParameterException":
-            self = .missingParameterException(message: message)
         case "InvalidManifestFieldException":
             self = .invalidManifestFieldException(message: message)
+        case "InvalidJobIdException":
+            self = .invalidJobIdException(message: message)
         case "MissingManifestFieldException":
             self = .missingManifestFieldException(message: message)
         case "NoSuchBucketException":
             self = .noSuchBucketException(message: message)
+        case "ExpiredJobIdException":
+            self = .expiredJobIdException(message: message)
+        case "CanceledJobIdException":
+            self = .canceledJobIdException(message: message)
         case "MissingCustomsException":
             self = .missingCustomsException(message: message)
         case "InvalidCustomsException":
@@ -71,6 +67,10 @@ extension ImportExportErrorType {
             self = .malformedManifestException(message: message)
         case "UnableToUpdateJobIdException":
             self = .unableToUpdateJobIdException(message: message)
+        case "InvalidVersionException":
+            self = .invalidVersionException(message: message)
+        case "UnableToCancelJobIdException":
+            self = .unableToCancelJobIdException(message: message)
         case "CreateJobQuotaExceededException":
             self = .createJobQuotaExceededException(message: message)
         default:

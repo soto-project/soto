@@ -25,6 +25,96 @@ public struct ApplicationDiscoveryService {
         )
     }
 
+    ///  Retrieves a list of servers that are one network hop away from a specified server.
+    public func listServerNeighbors(_ input: ListServerNeighborsRequest) throws -> ListServerNeighborsResponse {
+        return try client.send(operation: "ListServerNeighbors", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Start the continuous flow of agent's discovered data into Amazon Athena.
+    public func startContinuousExport(_ input: StartContinuousExportRequest) throws -> StartContinuousExportResponse {
+        return try client.send(operation: "StartContinuousExport", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Begins the export of discovered data to an S3 bucket.  If you specify agentIds in a filter, the task exports up to 72 hours of detailed data collected by the identified Application Discovery Agent, including network, process, and performance details. A time range for exported agent data may be set by using startTime and endTime. Export of detailed agent data is limited to five concurrently running exports.   If you do not include an agentIds filter, summary data is exported that includes both AWS Agentless Discovery Connector data and summary data from AWS Discovery Agents. Export of summary data is limited to two exports per day. 
+    public func startExportTask(_ input: StartExportTaskRequest) throws -> StartExportTaskResponse {
+        return try client.send(operation: "StartExportTask", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves a list of configuration items as specified by the value passed to the required paramater configurationType. Optional filtering may be applied to refine search results.
+    public func listConfigurations(_ input: ListConfigurationsRequest) throws -> ListConfigurationsResponse {
+        return try client.send(operation: "ListConfigurations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists exports as specified by ID. All continuous exports associated with your user account can be listed if you call DescribeContinuousExports as is without passing any parameters.
+    public func describeContinuousExports(_ input: DescribeContinuousExportsRequest) throws -> DescribeContinuousExportsResponse {
+        return try client.send(operation: "DescribeContinuousExports", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves a short summary of discovered assets. This API operation takes no request parameters and is called as is at the command prompt as shown in the example.
+    public func getDiscoverySummary(_ input: GetDiscoverySummaryRequest) throws -> GetDiscoverySummaryResponse {
+        return try client.send(operation: "GetDiscoverySummary", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Disassociates one or more configuration items from an application.
+    public func disassociateConfigurationItemsFromApplication(_ input: DisassociateConfigurationItemsFromApplicationRequest) throws -> DisassociateConfigurationItemsFromApplicationResponse {
+        return try client.send(operation: "DisassociateConfigurationItemsFromApplication", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists agents or connectors as specified by ID or other filters. All agents/connectors associated with your user account can be listed if you call DescribeAgents as is without passing any parameters.
+    public func describeAgents(_ input: DescribeAgentsRequest) throws -> DescribeAgentsResponse {
+        return try client.send(operation: "DescribeAgents", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   DescribeExportConfigurations is deprecated. Use instead  DescribeExportTasks .
+    public func describeExportConfigurations(_ input: DescribeExportConfigurationsRequest) throws -> DescribeExportConfigurationsResponse {
+        return try client.send(operation: "DescribeExportConfigurations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deprecated. Use StartExportTask instead. Exports all discovered configuration data to an Amazon S3 bucket or an application that enables you to view and evaluate the data. Data includes tags and tag associations, processes, connections, servers, and system performance. This API returns an export ID that you can query using the DescribeExportConfigurations API. The system imposes a limit of two configuration exports in six hours.
+    public func exportConfigurations() throws -> ExportConfigurationsResponse {
+        return try client.send(operation: "ExportConfigurations", path: "/", httpMethod: "POST")
+    }
+
+    ///  Retrieves a list of configuration items that have tags as specified by the key-value pairs, name and value, passed to the optional parameter filters. There are three valid tag filter names:   tagKey   tagValue   configurationId   Also, all configuration items associated with your user account that have tags can be listed if you call DescribeTags as is without passing any parameters.
+    public func describeTags(_ input: DescribeTagsRequest) throws -> DescribeTagsResponse {
+        return try client.send(operation: "DescribeTags", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves attributes for a list of configuration item IDs.  All of the supplied IDs must be for the same asset type from one of the follwoing:   server   application   process   connection   Output fields are specific to the asset type specified. For example, the output for a server configuration item includes a list of attributes about the server, such as host name, operating system, number of network cards, etc. For a complete list of outputs for each asset type, see Using the DescribeConfigurations Action. 
+    public func describeConfigurations(_ input: DescribeConfigurationsRequest) throws -> DescribeConfigurationsResponse {
+        return try client.send(operation: "DescribeConfigurations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Instructs the specified agents or connectors to start collecting data.
+    public func startDataCollectionByAgentIds(_ input: StartDataCollectionByAgentIdsRequest) throws -> StartDataCollectionByAgentIdsResponse {
+        return try client.send(operation: "StartDataCollectionByAgentIds", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates one or more tags for configuration items. Tags are metadata that help you categorize IT assets. This API accepts a list of multiple configuration items.
+    public func createTags(_ input: CreateTagsRequest) throws -> CreateTagsResponse {
+        return try client.send(operation: "CreateTags", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a list of applications and their associations with configuration items.
+    public func deleteApplications(_ input: DeleteApplicationsRequest) throws -> DeleteApplicationsResponse {
+        return try client.send(operation: "DeleteApplications", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stop the continuous flow of agent's discovered data into Amazon Athena.
+    public func stopContinuousExport(_ input: StopContinuousExportRequest) throws -> StopContinuousExportResponse {
+        return try client.send(operation: "StopContinuousExport", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieve status of one or more export tasks. You can retrieve the status of up to 100 export tasks.
+    public func describeExportTasks(_ input: DescribeExportTasksRequest) throws -> DescribeExportTasksResponse {
+        return try client.send(operation: "DescribeExportTasks", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates metadata about an application.
+    public func updateApplication(_ input: UpdateApplicationRequest) throws -> UpdateApplicationResponse {
+        return try client.send(operation: "UpdateApplication", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Instructs the specified agents or connectors to stop collecting data.
     public func stopDataCollectionByAgentIds(_ input: StopDataCollectionByAgentIdsRequest) throws -> StopDataCollectionByAgentIdsResponse {
         return try client.send(operation: "StopDataCollectionByAgentIds", path: "/", httpMethod: "POST", input: input)
@@ -35,89 +125,14 @@ public struct ApplicationDiscoveryService {
         return try client.send(operation: "DeleteTags", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves a list of servers that are one network hop away from a specified server.
-    public func listServerNeighbors(_ input: ListServerNeighborsRequest) throws -> ListServerNeighborsResponse {
-        return try client.send(operation: "ListServerNeighbors", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Creates an application with the given name and description.
     public func createApplication(_ input: CreateApplicationRequest) throws -> CreateApplicationResponse {
         return try client.send(operation: "CreateApplication", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Disassociates one or more configuration items from an application.
-    public func disassociateConfigurationItemsFromApplication(_ input: DisassociateConfigurationItemsFromApplicationRequest) throws -> DisassociateConfigurationItemsFromApplicationResponse {
-        return try client.send(operation: "DisassociateConfigurationItemsFromApplication", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deprecated. Use DescribeExportTasks instead. Retrieves the status of a given export process. You can retrieve status from a maximum of 100 processes.
-    public func describeExportConfigurations(_ input: DescribeExportConfigurationsRequest) throws -> DescribeExportConfigurationsResponse {
-        return try client.send(operation: "DescribeExportConfigurations", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Instructs the specified agents or connectors to start collecting data.
-    public func startDataCollectionByAgentIds(_ input: StartDataCollectionByAgentIdsRequest) throws -> StartDataCollectionByAgentIdsResponse {
-        return try client.send(operation: "StartDataCollectionByAgentIds", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves a list of configuration items that are tagged with a specific tag. Or retrieves a list of all tags assigned to a specific configuration item.
-    public func describeTags(_ input: DescribeTagsRequest) throws -> DescribeTagsResponse {
-        return try client.send(operation: "DescribeTags", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates metadata about an application.
-    public func updateApplication(_ input: UpdateApplicationRequest) throws -> UpdateApplicationResponse {
-        return try client.send(operation: "UpdateApplication", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Associates one or more configuration items with an application.
     public func associateConfigurationItemsToApplication(_ input: AssociateConfigurationItemsToApplicationRequest) throws -> AssociateConfigurationItemsToApplicationResponse {
         return try client.send(operation: "AssociateConfigurationItemsToApplication", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates one or more tags for configuration items. Tags are metadata that help you categorize IT assets. This API accepts a list of multiple configuration items.
-    public func createTags(_ input: CreateTagsRequest) throws -> CreateTagsResponse {
-        return try client.send(operation: "CreateTags", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves a list of configuration items according to criteria that you specify in a filter. The filter criteria identifies the relationship requirements.
-    public func listConfigurations(_ input: ListConfigurationsRequest) throws -> ListConfigurationsResponse {
-        return try client.send(operation: "ListConfigurations", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///   Begins the export of discovered data to an S3 bucket.  If you specify agentIds in a filter, the task exports up to 72 hours of detailed data collected by the identified Application Discovery Agent, including network, process, and performance details. A time range for exported agent data may be set by using startTime and endTime. Export of detailed agent data is limited to five concurrently running exports.   If you do not include an agentIds filter, summary data is exported that includes both AWS Agentless Discovery Connector data and summary data from AWS Discovery Agents. Export of summary data is limited to two exports per day. 
-    public func startExportTask(_ input: StartExportTaskRequest) throws -> StartExportTaskResponse {
-        return try client.send(operation: "StartExportTask", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a list of applications and their associations with configuration items.
-    public func deleteApplications(_ input: DeleteApplicationsRequest) throws -> DeleteApplicationsResponse {
-        return try client.send(operation: "DeleteApplications", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieve status of one or more export tasks. You can retrieve the status of up to 100 export tasks.
-    public func describeExportTasks(_ input: DescribeExportTasksRequest) throws -> DescribeExportTasksResponse {
-        return try client.send(operation: "DescribeExportTasks", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists agents or the Connector by ID or lists all agents/Connectors associated with your user account if you did not specify an ID.
-    public func describeAgents(_ input: DescribeAgentsRequest) throws -> DescribeAgentsResponse {
-        return try client.send(operation: "DescribeAgents", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves a short summary of discovered assets.
-    public func getDiscoverySummary(_ input: GetDiscoverySummaryRequest) throws -> GetDiscoverySummaryResponse {
-        return try client.send(operation: "GetDiscoverySummary", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves attributes for a list of configuration item IDs. All of the supplied IDs must be for the same asset type (server, application, process, or connection). Output fields are specific to the asset type selected. For example, the output for a server configuration item includes a list of attributes about the server, such as host name, operating system, and number of network cards. For a complete list of outputs for each asset type, see Using the DescribeConfigurations Action.
-    public func describeConfigurations(_ input: DescribeConfigurationsRequest) throws -> DescribeConfigurationsResponse {
-        return try client.send(operation: "DescribeConfigurations", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deprecated. Use StartExportTask instead. Exports all discovered configuration data to an Amazon S3 bucket or an application that enables you to view and evaluate the data. Data includes tags and tag associations, processes, connections, servers, and system performance. This API returns an export ID that you can query using the DescribeExportConfigurations API. The system imposes a limit of two configuration exports in six hours.
-    public func exportConfigurations() throws -> ExportConfigurationsResponse {
-        return try client.send(operation: "ExportConfigurations", path: "/", httpMethod: "POST")
     }
 
 

@@ -5,262 +5,295 @@ import AWSSDKSwiftCore
 
 extension CloudWatchEvents {
 
-    public struct Target: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BatchParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "SqsParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "Input", required: false, type: .string), 
-            AWSShapeMember(label: "InputPath", required: false, type: .string), 
-            AWSShapeMember(label: "EcsParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "InputTransformer", required: false, type: .structure), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "RunCommandParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "KinesisParameters", required: false, type: .structure)
-        ]
-        /// Contains the job definition, job name, and other parameters if the event target is an AWS Batch job. For more information about AWS Batch, see Jobs in the AWS Batch User Guide.
-        public let batchParameters: BatchParameters?
-        /// Contains the message group ID to use when the target is a FIFO queue.
-        public let sqsParameters: SqsParameters?
-        /// Valid JSON text passed to the target. In this case, nothing from the event itself is passed to the target. For more information, see The JavaScript Object Notation (JSON) Data Interchange Format.
-        public let input: String?
-        /// The value of the JSONPath that is used for extracting part of the matched event when passing it to the target. You must use JSON dot notation, not bracket notation. For more information about JSON paths, see JSONPath.
-        public let inputPath: String?
-        /// Contains the Amazon ECS task definition and task count to be used, if the event target is an Amazon ECS task. For more information about Amazon ECS tasks, see Task Definitions  in the Amazon EC2 Container Service Developer Guide.
-        public let ecsParameters: EcsParameters?
-        /// The Amazon Resource Name (ARN) of the target.
-        public let arn: String
-        /// Settings to enable you to provide custom input to a target based on certain event data. You can extract one or more key-value pairs from the event and then use that data to send customized input to the target.
-        public let inputTransformer: InputTransformer?
-        /// The Amazon Resource Name (ARN) of the IAM role to be used for this target when the rule is triggered. If one rule triggers multiple targets, you can use a different IAM role for each target.
-        public let roleArn: String?
-        /// The ID of the target.
-        public let id: String
-        /// Parameters used when you are using the rule to invoke Amazon EC2 Run Command.
-        public let runCommandParameters: RunCommandParameters?
-        /// The custom parameter you can use to control shard assignment, when the target is an Amazon Kinesis stream. If you do not include this parameter, the default is to use the eventId as the partition key.
-        public let kinesisParameters: KinesisParameters?
+    public enum LaunchType: String, CustomStringConvertible, Codable {
+        case ec2 = "EC2"
+        case fargate = "FARGATE"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(batchParameters: BatchParameters? = nil, sqsParameters: SqsParameters? = nil, input: String? = nil, inputPath: String? = nil, ecsParameters: EcsParameters? = nil, arn: String, inputTransformer: InputTransformer? = nil, roleArn: String? = nil, id: String, runCommandParameters: RunCommandParameters? = nil, kinesisParameters: KinesisParameters? = nil) {
-            self.batchParameters = batchParameters
-            self.sqsParameters = sqsParameters
-            self.input = input
-            self.inputPath = inputPath
-            self.ecsParameters = ecsParameters
-            self.arn = arn
-            self.inputTransformer = inputTransformer
-            self.roleArn = roleArn
-            self.id = id
-            self.runCommandParameters = runCommandParameters
-            self.kinesisParameters = kinesisParameters
+    public struct ListRuleNamesByTargetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "TargetArn", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of results to return.
+        public let limit: Int32?
+        /// The Amazon Resource Name (ARN) of the target resource.
+        public let targetArn: String
+        /// The token returned by a previous call to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(limit: Int32? = nil, targetArn: String, nextToken: String? = nil) {
+            self.limit = limit
+            self.targetArn = targetArn
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchParameters = "BatchParameters"
-            case sqsParameters = "SqsParameters"
-            case input = "Input"
-            case inputPath = "InputPath"
-            case ecsParameters = "EcsParameters"
-            case arn = "Arn"
-            case inputTransformer = "InputTransformer"
-            case roleArn = "RoleArn"
-            case id = "Id"
-            case runCommandParameters = "RunCommandParameters"
-            case kinesisParameters = "KinesisParameters"
+            case limit = "Limit"
+            case targetArn = "TargetArn"
+            case nextToken = "NextToken"
         }
     }
 
-    public struct EnableRuleRequest: AWSShape {
+    public struct ListTargetsByRuleResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
+            AWSShapeMember(label: "Targets", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The name of the rule.
-        public let name: String
+        /// The targets assigned to the rule.
+        public let targets: [Target]?
+        /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
+        public let nextToken: String?
 
-        public init(name: String) {
-            self.name = name
+        public init(targets: [Target]? = nil, nextToken: String? = nil) {
+            self.targets = targets
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "Name"
+            case targets = "Targets"
+            case nextToken = "NextToken"
         }
+    }
+
+    public struct Condition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .string)
+        ]
+        /// Specifies the key for the condition. Currently the only supported key is aws:PrincipalOrgID.
+        public let key: String
+        /// Specifies the value for the key. Currently, this must be the ID of the organization.
+        public let value: String
+        /// Specifies the type of condition. Currently the only supported value is StringEquals.
+        public let `type`: String
+
+        public init(key: String, value: String, type: String) {
+            self.key = key
+            self.value = value
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+            case `type` = "Type"
+        }
+    }
+
+    public struct ListTargetsByRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "Rule", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of results to return.
+        public let limit: Int32?
+        /// The name of the rule.
+        public let rule: String
+        /// The token returned by a previous call to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(limit: Int32? = nil, rule: String, nextToken: String? = nil) {
+            self.limit = limit
+            self.rule = rule
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case rule = "Rule"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeEventBusRequest: AWSShape {
+
+    }
+
+    public struct PutPermissionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Principal", required: true, type: .string), 
+            AWSShapeMember(label: "StatementId", required: true, type: .string), 
+            AWSShapeMember(label: "Action", required: true, type: .string), 
+            AWSShapeMember(label: "Condition", required: false, type: .structure)
+        ]
+        /// The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify "*" to permit any account to put events to your default event bus. If you specify "*" without specifying Condition, avoid creating rules that may match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID from which to receive events. Rules with an account field do not match any events sent from other accounts.
+        public let principal: String
+        /// An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.
+        public let statementId: String
+        /// The action that you are enabling the other account to perform. Currently, this must be events:PutEvents.
+        public let action: String
+        /// This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain AWS organization. For more information about AWS Organizations, see What Is AWS Organizations in the AWS Organizations User Guide. If you specify Condition with an AWS organization ID, and specify "*" as the value for Principal, you grant permission to all the accounts in the named organization. The Condition is a JSON string which must contain Type, Key, and Value fields.
+        public let condition: Condition?
+
+        public init(principal: String, statementId: String, action: String, condition: Condition? = nil) {
+            self.principal = principal
+            self.statementId = statementId
+            self.action = action
+            self.condition = condition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principal = "Principal"
+            case statementId = "StatementId"
+            case action = "Action"
+            case condition = "Condition"
+        }
+    }
+
+    public struct RunCommandParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RunCommandTargets", required: true, type: .list)
+        ]
+        /// Currently, we support including only one RunCommandTarget block, which specifies either an array of InstanceIds or a tag.
+        public let runCommandTargets: [RunCommandTarget]
+
+        public init(runCommandTargets: [RunCommandTarget]) {
+            self.runCommandTargets = runCommandTargets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runCommandTargets = "RunCommandTargets"
+        }
+    }
+
+    public struct BatchParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ArrayProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "JobName", required: true, type: .string), 
+            AWSShapeMember(label: "RetryStrategy", required: false, type: .structure), 
+            AWSShapeMember(label: "JobDefinition", required: true, type: .string)
+        ]
+        /// The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. This parameter is used only if the target is an AWS Batch job.
+        public let arrayProperties: BatchArrayProperties?
+        /// The name to use for this execution of the job, if the target is an AWS Batch job.
+        public let jobName: String
+        /// The retry strategy to use for failed jobs, if the target is an AWS Batch job. The retry strategy is the number of times to retry the failed job execution. Valid values are 1–10. When you specify a retry strategy here, it overrides the retry strategy defined in the job definition.
+        public let retryStrategy: BatchRetryStrategy?
+        /// The ARN or name of the job definition to use if the event target is an AWS Batch job. This job definition must already exist.
+        public let jobDefinition: String
+
+        public init(arrayProperties: BatchArrayProperties? = nil, jobName: String, retryStrategy: BatchRetryStrategy? = nil, jobDefinition: String) {
+            self.arrayProperties = arrayProperties
+            self.jobName = jobName
+            self.retryStrategy = retryStrategy
+            self.jobDefinition = jobDefinition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arrayProperties = "ArrayProperties"
+            case jobName = "JobName"
+            case retryStrategy = "RetryStrategy"
+            case jobDefinition = "JobDefinition"
+        }
+    }
+
+    public enum RuleState: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
     }
 
     public struct EcsParameters: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TaskDefinitionArn", required: true, type: .string), 
+            AWSShapeMember(label: "Group", required: false, type: .string), 
+            AWSShapeMember(label: "NetworkConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "PlatformVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LaunchType", required: false, type: .enum), 
             AWSShapeMember(label: "TaskCount", required: false, type: .integer)
         ]
-        /// The ARN of the task definition to use if the event target is an Amazon ECS cluster. 
+        /// The ARN of the task definition to use if the event target is an Amazon ECS task. 
         public let taskDefinitionArn: String
-        /// The number of tasks to create based on the TaskDefinition. The default is one.
+        /// Specifies an ECS task group for the task. The maximum length is 255 characters.
+        public let group: String?
+        /// Use this structure if the ECS task uses the awsvpc network mode. This structure specifies the VPC subnets and security groups associated with the task, and whether a public IP address is to be used. This structure is required if LaunchType is FARGATE because the awsvpc mode is required for Fargate tasks. If you specify NetworkConfiguration when the target ECS task does not use the awsvpc network mode, the task fails.
+        public let networkConfiguration: NetworkConfiguration?
+        /// Specifies the platform version for the task. Specify only the numeric portion of the platform version, such as 1.1.0. This structure is used only if LaunchType is FARGATE. For more information about valid platform versions, see AWS Fargate Platform Versions in the Amazon Elastic Container Service Developer Guide.
+        public let platformVersion: String?
+        /// Specifies the launch type on which your task is running. The launch type that you specify here must match one of the launch type (compatibilities) of the target task. The FARGATE value is supported only in the Regions where AWS Fargate with Amazon ECS is supported. For more information, see AWS Fargate on Amazon ECS in the Amazon Elastic Container Service Developer Guide.
+        public let launchType: LaunchType?
+        /// The number of tasks to create based on TaskDefinition. The default is 1.
         public let taskCount: Int32?
 
-        public init(taskDefinitionArn: String, taskCount: Int32? = nil) {
+        public init(taskDefinitionArn: String, group: String? = nil, networkConfiguration: NetworkConfiguration? = nil, platformVersion: String? = nil, launchType: LaunchType? = nil, taskCount: Int32? = nil) {
             self.taskDefinitionArn = taskDefinitionArn
+            self.group = group
+            self.networkConfiguration = networkConfiguration
+            self.platformVersion = platformVersion
+            self.launchType = launchType
             self.taskCount = taskCount
         }
 
         private enum CodingKeys: String, CodingKey {
             case taskDefinitionArn = "TaskDefinitionArn"
+            case group = "Group"
+            case networkConfiguration = "NetworkConfiguration"
+            case platformVersion = "PlatformVersion"
+            case launchType = "LaunchType"
             case taskCount = "TaskCount"
         }
     }
 
-    public struct PutPermissionRequest: AWSShape {
+    public struct SqsParameters: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StatementId", required: true, type: .string), 
-            AWSShapeMember(label: "Principal", required: true, type: .string), 
-            AWSShapeMember(label: "Action", required: true, type: .string)
+            AWSShapeMember(label: "MessageGroupId", required: false, type: .string)
         ]
-        /// An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.
-        public let statementId: String
-        /// The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify "*" to permit any account to put events to your default event bus. If you specify "*", avoid creating rules that may match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID from which to receive events. Rules with an account field do not match any events sent from other accounts.
-        public let principal: String
-        /// The action that you are enabling the other account to perform. Currently, this must be events:PutEvents.
-        public let action: String
+        /// The FIFO message group ID to use as the target.
+        public let messageGroupId: String?
 
-        public init(statementId: String, principal: String, action: String) {
-            self.statementId = statementId
-            self.principal = principal
-            self.action = action
+        public init(messageGroupId: String? = nil) {
+            self.messageGroupId = messageGroupId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statementId = "StatementId"
-            case principal = "Principal"
-            case action = "Action"
-        }
-    }
-
-    public struct DeleteRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The name of the rule.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct DisableRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The name of the rule.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
+            case messageGroupId = "MessageGroupId"
         }
     }
 
     public struct RemoveTargetsResultEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "TargetId", required: false, type: .string)
         ]
-        /// The error message that explains why the target removal failed.
-        public let errorMessage: String?
         /// The error code that indicates why the target removal failed. If the value is ConcurrentModificationException, too many requests were made at the same time.
         public let errorCode: String?
+        /// The error message that explains why the target removal failed.
+        public let errorMessage: String?
         /// The ID of the target.
         public let targetId: String?
 
-        public init(errorMessage: String? = nil, errorCode: String? = nil, targetId: String? = nil) {
-            self.errorMessage = errorMessage
+        public init(errorCode: String? = nil, errorMessage: String? = nil, targetId: String? = nil) {
             self.errorCode = errorCode
+            self.errorMessage = errorMessage
             self.targetId = targetId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorMessage = "ErrorMessage"
             case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
             case targetId = "TargetId"
         }
     }
 
-    public struct ListRulesRequest: AWSShape {
+    public struct RemovePermissionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NamePrefix", required: false, type: .string)
+            AWSShapeMember(label: "StatementId", required: true, type: .string)
         ]
-        /// The token returned by a previous call to retrieve the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return.
-        public let limit: Int32?
-        /// The prefix matching the rule name.
-        public let namePrefix: String?
+        /// The statement ID corresponding to the account that is no longer allowed to put events to the default event bus.
+        public let statementId: String
 
-        public init(nextToken: String? = nil, limit: Int32? = nil, namePrefix: String? = nil) {
-            self.nextToken = nextToken
-            self.limit = limit
-            self.namePrefix = namePrefix
+        public init(statementId: String) {
+            self.statementId = statementId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case limit = "Limit"
-            case namePrefix = "NamePrefix"
-        }
-    }
-
-    public struct DescribeRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
-            AWSShapeMember(label: "EventPattern", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// Specifies whether the rule is enabled or disabled.
-        public let state: RuleState?
-        /// The name of the rule.
-        public let name: String?
-        /// The Amazon Resource Name (ARN) of the rule.
-        public let arn: String?
-        /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
-        public let roleArn: String?
-        /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5 minutes)".
-        public let scheduleExpression: String?
-        /// The event pattern. For more information, see Events and Event Patterns in the Amazon CloudWatch Events User Guide.
-        public let eventPattern: String?
-        /// The description of the rule.
-        public let description: String?
-
-        public init(state: RuleState? = nil, name: String? = nil, arn: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, eventPattern: String? = nil, description: String? = nil) {
-            self.state = state
-            self.name = name
-            self.arn = arn
-            self.roleArn = roleArn
-            self.scheduleExpression = scheduleExpression
-            self.eventPattern = eventPattern
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "State"
-            case name = "Name"
-            case arn = "Arn"
-            case roleArn = "RoleArn"
-            case scheduleExpression = "ScheduleExpression"
-            case eventPattern = "EventPattern"
-            case description = "Description"
+            case statementId = "StatementId"
         }
     }
 
@@ -280,153 +313,311 @@ extension CloudWatchEvents {
         }
     }
 
-    public struct RunCommandTarget: AWSShape {
+    public struct PutEventsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: true, type: .list), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
+            AWSShapeMember(label: "Entries", required: true, type: .list)
         ]
-        /// If Key is tag: tag-key, Values is a list of tag values. If Key is InstanceIds, Values is a list of Amazon EC2 instance IDs.
-        public let values: [String]
-        /// Can be either tag: tag-key or InstanceIds.
-        public let key: String
+        /// The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
+        public let entries: [PutEventsRequestEntry]
 
-        public init(values: [String], key: String) {
-            self.values = values
-            self.key = key
+        public init(entries: [PutEventsRequestEntry]) {
+            self.entries = entries
         }
 
         private enum CodingKeys: String, CodingKey {
-            case values = "Values"
-            case key = "Key"
+            case entries = "Entries"
         }
     }
 
-    public struct PutRuleRequest: AWSShape {
+    public struct DescribeRuleResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventPattern", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
-        /// The event pattern. For more information, see Events and Event Patterns in the Amazon CloudWatch Events User Guide.
-        public let eventPattern: String?
-        /// The name of the rule that you are creating or updating.
-        public let name: String
-        /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
-        public let roleArn: String?
-        /// A description of the rule.
-        public let description: String?
-        /// The scheduling expression. For example, "cron(0 20 * * ? *)" or "rate(5 minutes)".
-        public let scheduleExpression: String?
-        /// Indicates whether the rule is enabled or disabled.
-        public let state: RuleState?
-
-        public init(eventPattern: String? = nil, name: String, roleArn: String? = nil, description: String? = nil, scheduleExpression: String? = nil, state: RuleState? = nil) {
-            self.eventPattern = eventPattern
-            self.name = name
-            self.roleArn = roleArn
-            self.description = description
-            self.scheduleExpression = scheduleExpression
-            self.state = state
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventPattern = "EventPattern"
-            case name = "Name"
-            case roleArn = "RoleArn"
-            case description = "Description"
-            case scheduleExpression = "ScheduleExpression"
-            case state = "State"
-        }
-    }
-
-    public struct Rule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
             AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "EventPattern", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
+            AWSShapeMember(label: "ManagedBy", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// The state of the rule.
-        public let state: RuleState?
-        /// The name of the rule.
-        public let name: String?
         /// The Amazon Resource Name (ARN) of the rule.
         public let arn: String?
-        /// The Amazon Resource Name (ARN) of the role that is used for target invocation.
+        /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
         public let roleArn: String?
         /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5 minutes)".
         public let scheduleExpression: String?
-        /// The event pattern of the rule. For more information, see Events and Event Patterns in the Amazon CloudWatch Events User Guide.
-        public let eventPattern: String?
         /// The description of the rule.
         public let description: String?
+        /// The event pattern. For more information, see Events and Event Patterns in the Amazon CloudWatch Events User Guide.
+        public let eventPattern: String?
+        /// If this is a managed rule, created by an AWS service on your behalf, this field displays the principal name of the AWS service that created the rule.
+        public let managedBy: String?
+        /// Specifies whether the rule is enabled or disabled.
+        public let state: RuleState?
+        /// The name of the rule.
+        public let name: String?
 
-        public init(state: RuleState? = nil, name: String? = nil, arn: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, eventPattern: String? = nil, description: String? = nil) {
-            self.state = state
-            self.name = name
+        public init(arn: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, description: String? = nil, eventPattern: String? = nil, managedBy: String? = nil, state: RuleState? = nil, name: String? = nil) {
             self.arn = arn
             self.roleArn = roleArn
             self.scheduleExpression = scheduleExpression
-            self.eventPattern = eventPattern
             self.description = description
+            self.eventPattern = eventPattern
+            self.managedBy = managedBy
+            self.state = state
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state = "State"
-            case name = "Name"
             case arn = "Arn"
             case roleArn = "RoleArn"
             case scheduleExpression = "ScheduleExpression"
-            case eventPattern = "EventPattern"
             case description = "Description"
+            case eventPattern = "EventPattern"
+            case managedBy = "ManagedBy"
+            case state = "State"
+            case name = "Name"
         }
     }
 
-    public struct RemoveTargetsRequest: AWSShape {
+    public struct PutEventsResultEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ids", required: true, type: .list), 
-            AWSShapeMember(label: "Rule", required: true, type: .string)
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "EventId", required: false, type: .string)
         ]
-        /// The IDs of the targets to remove from the rule.
-        public let ids: [String]
-        /// The name of the rule.
-        public let rule: String
+        /// The error code that indicates why the event submission failed.
+        public let errorCode: String?
+        /// The error message that explains why the event submission failed.
+        public let errorMessage: String?
+        /// The ID of the event.
+        public let eventId: String?
 
-        public init(ids: [String], rule: String) {
-            self.ids = ids
-            self.rule = rule
+        public init(errorCode: String? = nil, errorMessage: String? = nil, eventId: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.eventId = eventId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids = "Ids"
-            case rule = "Rule"
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case eventId = "EventId"
         }
     }
 
-    public struct ListTargetsByRuleResponse: AWSShape {
+    public struct EnableRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Targets", required: false, type: .list)
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+        /// The name of the rule.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct ListRulesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of results to return.
+        public let limit: Int32?
+        /// The prefix matching the rule name.
+        public let namePrefix: String?
+        /// The token returned by a previous call to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(limit: Int32? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
+            self.limit = limit
+            self.namePrefix = namePrefix
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case namePrefix = "NamePrefix"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct PutEventsRequestEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Resources", required: false, type: .list), 
+            AWSShapeMember(label: "Detail", required: false, type: .string), 
+            AWSShapeMember(label: "DetailType", required: false, type: .string), 
+            AWSShapeMember(label: "Source", required: false, type: .string), 
+            AWSShapeMember(label: "Time", required: false, type: .timestamp)
+        ]
+        /// AWS resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
+        public let resources: [String]?
+        /// A valid JSON string. There is no other schema imposed. The JSON string may contain fields and nested subobjects.
+        public let detail: String?
+        /// Free-form string used to decide what fields to expect in the event detail.
+        public let detailType: String?
+        /// The source of the event. This field is required.
+        public let source: String?
+        /// The time stamp of the event, per RFC3339. If no time stamp is provided, the time stamp of the PutEvents call is used.
+        public let time: TimeStamp?
+
+        public init(resources: [String]? = nil, detail: String? = nil, detailType: String? = nil, source: String? = nil, time: TimeStamp? = nil) {
+            self.resources = resources
+            self.detail = detail
+            self.detailType = detailType
+            self.source = source
+            self.time = time
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resources = "Resources"
+            case detail = "Detail"
+            case detailType = "DetailType"
+            case source = "Source"
+            case time = "Time"
+        }
+    }
+
+    public struct InputTransformer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputTemplate", required: true, type: .string), 
+            AWSShapeMember(label: "InputPathsMap", required: false, type: .map)
+        ]
+        /// Input template where you specify placeholders that will be filled with the values of the keys from InputPathsMap to customize the data sent to the target. Enclose each InputPathsMaps value in brackets: &lt;value&gt; The InputTemplate must be valid JSON. If InputTemplate is a JSON object (surrounded by curly braces), the following restrictions apply:   The placeholder cannot be used as an object key.   Object values cannot include quote marks.   The following example shows the syntax for using InputPathsMap and InputTemplate.   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state &lt;status&gt;"   }  To have the InputTemplate include quote marks within a JSON string, escape each quote marks with a slash, as in the following example:   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state \"&lt;status&gt;\""   } 
+        public let inputTemplate: String
+        /// Map of JSON paths to be extracted from the event. You can then insert these in the template in InputTemplate to produce the output you want to be sent to the target.  InputPathsMap is an array key-value pairs, where each value is a valid JSON path. You can have as many as 10 key-value pairs. You must use JSON dot notation, not bracket notation. The keys cannot start with "AWS." 
+        public let inputPathsMap: [String: String]?
+
+        public init(inputTemplate: String, inputPathsMap: [String: String]? = nil) {
+            self.inputTemplate = inputTemplate
+            self.inputPathsMap = inputPathsMap
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputTemplate = "InputTemplate"
+            case inputPathsMap = "InputPathsMap"
+        }
+    }
+
+    public struct DisableRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The name of the rule.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct PutTargetsResultEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "TargetId", required: false, type: .string)
+        ]
+        /// The error code that indicates why the target addition failed. If the value is ConcurrentModificationException, too many requests were made at the same time.
+        public let errorCode: String?
+        /// The error message that explains why the target addition failed.
+        public let errorMessage: String?
+        /// The ID of the target.
+        public let targetId: String?
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil, targetId: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.targetId = targetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case targetId = "TargetId"
+        }
+    }
+
+    public struct BatchRetryStrategy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attempts", required: false, type: .integer)
+        ]
+        /// The number of times to attempt to retry, if the job fails. Valid values are 1–10.
+        public let attempts: Int32?
+
+        public init(attempts: Int32? = nil) {
+            self.attempts = attempts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attempts = "Attempts"
+        }
+    }
+
+    public struct ListRulesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rules", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The rules that match the specified criteria.
+        public let rules: [Rule]?
         /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
         public let nextToken: String?
-        /// The targets assigned to the rule.
-        public let targets: [Target]?
 
-        public init(nextToken: String? = nil, targets: [Target]? = nil) {
+        public init(rules: [Rule]? = nil, nextToken: String? = nil) {
+            self.rules = rules
             self.nextToken = nextToken
-            self.targets = targets
         }
 
         private enum CodingKeys: String, CodingKey {
+            case rules = "Rules"
             case nextToken = "NextToken"
-            case targets = "Targets"
+        }
+    }
+
+    public struct TestEventPatternResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Result", required: false, type: .boolean)
+        ]
+        /// Indicates whether the event matches the event pattern.
+        public let result: Bool?
+
+        public init(result: Bool? = nil) {
+            self.result = result
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case result = "Result"
+        }
+    }
+
+    public struct RemoveTargetsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedEntryCount", required: false, type: .integer), 
+            AWSShapeMember(label: "FailedEntries", required: false, type: .list)
+        ]
+        /// The number of failed entries.
+        public let failedEntryCount: Int32?
+        /// The failed target entries.
+        public let failedEntries: [RemoveTargetsResultEntry]?
+
+        public init(failedEntryCount: Int32? = nil, failedEntries: [RemoveTargetsResultEntry]? = nil) {
+            self.failedEntryCount = failedEntryCount
+            self.failedEntries = failedEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedEntryCount = "FailedEntryCount"
+            case failedEntries = "FailedEntries"
         }
     }
 
@@ -451,35 +642,45 @@ extension CloudWatchEvents {
         }
     }
 
-    public struct KinesisParameters: AWSShape {
+    public struct BatchArrayProperties: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PartitionKeyPath", required: true, type: .string)
+            AWSShapeMember(label: "Size", required: false, type: .integer)
         ]
-        /// The JSON path to be extracted from the event and used as the partition key. For more information, see Amazon Kinesis Streams Key Concepts in the Amazon Kinesis Streams Developer Guide.
-        public let partitionKeyPath: String
+        /// The size of the array, if this is an array batch job. Valid values are integers between 2 and 10,000.
+        public let size: Int32?
 
-        public init(partitionKeyPath: String) {
-            self.partitionKeyPath = partitionKeyPath
+        public init(size: Int32? = nil) {
+            self.size = size
         }
 
         private enum CodingKeys: String, CodingKey {
-            case partitionKeyPath = "PartitionKeyPath"
+            case size = "Size"
         }
     }
 
-    public struct RemovePermissionRequest: AWSShape {
+    public struct RemoveTargetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StatementId", required: true, type: .string)
+            AWSShapeMember(label: "Force", required: false, type: .boolean), 
+            AWSShapeMember(label: "Rule", required: true, type: .string), 
+            AWSShapeMember(label: "Ids", required: true, type: .list)
         ]
-        /// The statement ID corresponding to the account that is no longer allowed to put events to the default event bus.
-        public let statementId: String
+        /// If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to remove targets. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
+        public let force: Bool?
+        /// The name of the rule.
+        public let rule: String
+        /// The IDs of the targets to remove from the rule.
+        public let ids: [String]
 
-        public init(statementId: String) {
-            self.statementId = statementId
+        public init(force: Bool? = nil, rule: String, ids: [String]) {
+            self.force = force
+            self.rule = rule
+            self.ids = ids
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statementId = "StatementId"
+            case force = "Force"
+            case rule = "Rule"
+            case ids = "Ids"
         }
     }
 
@@ -504,6 +705,281 @@ extension CloudWatchEvents {
         }
     }
 
+    public struct NetworkConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "awsvpcConfiguration", required: false, type: .structure)
+        ]
+        /// Use this structure to specify the VPC subnets and security groups for the task, and whether a public IP address is to be used. This structure is relevant only for ECS tasks that use the awsvpc network mode.
+        public let awsvpcConfiguration: AwsVpcConfiguration?
+
+        public init(awsvpcConfiguration: AwsVpcConfiguration? = nil) {
+            self.awsvpcConfiguration = awsvpcConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsvpcConfiguration = "awsvpcConfiguration"
+        }
+    }
+
+    public struct ListRuleNamesByTargetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The names of the rules that can invoke the given target.
+        public let ruleNames: [String]?
+        /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
+        public let nextToken: String?
+
+        public init(ruleNames: [String]? = nil, nextToken: String? = nil) {
+            self.ruleNames = ruleNames
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleNames = "RuleNames"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct PutRuleResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the rule.
+        public let ruleArn: String?
+
+        public init(ruleArn: String? = nil) {
+            self.ruleArn = ruleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleArn = "RuleArn"
+        }
+    }
+
+    public struct Target: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SqsParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "Input", required: false, type: .string), 
+            AWSShapeMember(label: "KinesisParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "EcsParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "BatchParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "InputPath", required: false, type: .string), 
+            AWSShapeMember(label: "RunCommandParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "InputTransformer", required: false, type: .structure)
+        ]
+        /// Contains the message group ID to use when the target is a FIFO queue. If you specify an SQS FIFO queue as a target, the queue must have content-based deduplication enabled.
+        public let sqsParameters: SqsParameters?
+        /// The Amazon Resource Name (ARN) of the target.
+        public let arn: String
+        /// The ID of the target.
+        public let id: String
+        /// The Amazon Resource Name (ARN) of the IAM role to be used for this target when the rule is triggered. If one rule triggers multiple targets, you can use a different IAM role for each target.
+        public let roleArn: String?
+        /// Valid JSON text passed to the target. In this case, nothing from the event itself is passed to the target. For more information, see The JavaScript Object Notation (JSON) Data Interchange Format.
+        public let input: String?
+        /// The custom parameter you can use to control the shard assignment, when the target is a Kinesis data stream. If you do not include this parameter, the default is to use the eventId as the partition key.
+        public let kinesisParameters: KinesisParameters?
+        /// Contains the Amazon ECS task definition and task count to be used, if the event target is an Amazon ECS task. For more information about Amazon ECS tasks, see Task Definitions  in the Amazon EC2 Container Service Developer Guide.
+        public let ecsParameters: EcsParameters?
+        /// If the event target is an AWS Batch job, this contains the job definition, job name, and other parameters. For more information, see Jobs in the AWS Batch User Guide.
+        public let batchParameters: BatchParameters?
+        /// The value of the JSONPath that is used for extracting part of the matched event when passing it to the target. You must use JSON dot notation, not bracket notation. For more information about JSON paths, see JSONPath.
+        public let inputPath: String?
+        /// Parameters used when you are using the rule to invoke Amazon EC2 Run Command.
+        public let runCommandParameters: RunCommandParameters?
+        /// Settings to enable you to provide custom input to a target based on certain event data. You can extract one or more key-value pairs from the event and then use that data to send customized input to the target.
+        public let inputTransformer: InputTransformer?
+
+        public init(sqsParameters: SqsParameters? = nil, arn: String, id: String, roleArn: String? = nil, input: String? = nil, kinesisParameters: KinesisParameters? = nil, ecsParameters: EcsParameters? = nil, batchParameters: BatchParameters? = nil, inputPath: String? = nil, runCommandParameters: RunCommandParameters? = nil, inputTransformer: InputTransformer? = nil) {
+            self.sqsParameters = sqsParameters
+            self.arn = arn
+            self.id = id
+            self.roleArn = roleArn
+            self.input = input
+            self.kinesisParameters = kinesisParameters
+            self.ecsParameters = ecsParameters
+            self.batchParameters = batchParameters
+            self.inputPath = inputPath
+            self.runCommandParameters = runCommandParameters
+            self.inputTransformer = inputTransformer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sqsParameters = "SqsParameters"
+            case arn = "Arn"
+            case id = "Id"
+            case roleArn = "RoleArn"
+            case input = "Input"
+            case kinesisParameters = "KinesisParameters"
+            case ecsParameters = "EcsParameters"
+            case batchParameters = "BatchParameters"
+            case inputPath = "InputPath"
+            case runCommandParameters = "RunCommandParameters"
+            case inputTransformer = "InputTransformer"
+        }
+    }
+
+    public struct RunCommandTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Values", required: true, type: .list)
+        ]
+        /// Can be either tag: tag-key or InstanceIds.
+        public let key: String
+        /// If Key is tag: tag-key, Values is a list of tag values. If Key is InstanceIds, Values is a list of Amazon EC2 instance IDs.
+        public let values: [String]
+
+        public init(key: String, values: [String]) {
+            self.key = key
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case values = "Values"
+        }
+    }
+
+    public struct DeleteRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Force", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to delete the rule. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
+        public let force: Bool?
+        /// The name of the rule.
+        public let name: String
+
+        public init(force: Bool? = nil, name: String) {
+            self.force = force
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case force = "Force"
+            case name = "Name"
+        }
+    }
+
+    public struct PutRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EventPattern", required: false, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string)
+        ]
+        /// The scheduling expression. For example, "cron(0 20 * * ? *)" or "rate(5 minutes)".
+        public let scheduleExpression: String?
+        /// Indicates whether the rule is enabled or disabled.
+        public let state: RuleState?
+        /// The name of the rule that you are creating or updating.
+        public let name: String
+        /// A description of the rule.
+        public let description: String?
+        /// The event pattern. For more information, see Events and Event Patterns in the Amazon CloudWatch Events User Guide.
+        public let eventPattern: String?
+        /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
+        public let roleArn: String?
+
+        public init(scheduleExpression: String? = nil, state: RuleState? = nil, name: String, description: String? = nil, eventPattern: String? = nil, roleArn: String? = nil) {
+            self.scheduleExpression = scheduleExpression
+            self.state = state
+            self.name = name
+            self.description = description
+            self.eventPattern = eventPattern
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduleExpression = "ScheduleExpression"
+            case state = "State"
+            case name = "Name"
+            case description = "Description"
+            case eventPattern = "EventPattern"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct KinesisParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PartitionKeyPath", required: true, type: .string)
+        ]
+        /// The JSON path to be extracted from the event and used as the partition key. For more information, see Amazon Kinesis Streams Key Concepts in the Amazon Kinesis Streams Developer Guide.
+        public let partitionKeyPath: String
+
+        public init(partitionKeyPath: String) {
+            self.partitionKeyPath = partitionKeyPath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case partitionKeyPath = "PartitionKeyPath"
+        }
+    }
+
+    public enum AssignPublicIp: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Rule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EventPattern", required: false, type: .string), 
+            AWSShapeMember(label: "ManagedBy", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the rule.
+        public let arn: String?
+        /// The Amazon Resource Name (ARN) of the role that is used for target invocation.
+        public let roleArn: String?
+        /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5 minutes)".
+        public let scheduleExpression: String?
+        /// The description of the rule.
+        public let description: String?
+        /// The event pattern of the rule. For more information, see Events and Event Patterns in the Amazon CloudWatch Events User Guide.
+        public let eventPattern: String?
+        /// If the rule was created on behalf of your account by an AWS service, this field displays the principal name of the service that created the rule.
+        public let managedBy: String?
+        /// The state of the rule.
+        public let state: RuleState?
+        /// The name of the rule.
+        public let name: String?
+
+        public init(arn: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, description: String? = nil, eventPattern: String? = nil, managedBy: String? = nil, state: RuleState? = nil, name: String? = nil) {
+            self.arn = arn
+            self.roleArn = roleArn
+            self.scheduleExpression = scheduleExpression
+            self.description = description
+            self.eventPattern = eventPattern
+            self.managedBy = managedBy
+            self.state = state
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case roleArn = "RoleArn"
+            case scheduleExpression = "ScheduleExpression"
+            case description = "Description"
+            case eventPattern = "EventPattern"
+            case managedBy = "ManagedBy"
+            case state = "State"
+            case name = "Name"
+        }
+    }
+
     public struct TestEventPatternRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Event", required: true, type: .string), 
@@ -522,6 +998,53 @@ extension CloudWatchEvents {
         private enum CodingKeys: String, CodingKey {
             case event = "Event"
             case eventPattern = "EventPattern"
+        }
+    }
+
+    public struct AwsVpcConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subnets", required: true, type: .list), 
+            AWSShapeMember(label: "AssignPublicIp", required: false, type: .enum), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list)
+        ]
+        /// Specifies the subnets associated with the task. These subnets must all be in the same VPC. You can specify as many as 16 subnets.
+        public let subnets: [String]
+        /// Specifies whether the task's elastic network interface receives a public IP address. You can specify ENABLED only when LaunchType in EcsParameters is set to FARGATE.
+        public let assignPublicIp: AssignPublicIp?
+        /// Specifies the security groups associated with the task. These security groups must all be in the same VPC. You can specify as many as five security groups. If you do not specify a security group, the default security group for the VPC is used.
+        public let securityGroups: [String]?
+
+        public init(subnets: [String], assignPublicIp: AssignPublicIp? = nil, securityGroups: [String]? = nil) {
+            self.subnets = subnets
+            self.assignPublicIp = assignPublicIp
+            self.securityGroups = securityGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnets = "Subnets"
+            case assignPublicIp = "AssignPublicIp"
+            case securityGroups = "SecurityGroups"
+        }
+    }
+
+    public struct PutEventsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Entries", required: false, type: .list), 
+            AWSShapeMember(label: "FailedEntryCount", required: false, type: .integer)
+        ]
+        /// The successfully and unsuccessfully ingested events results. If the ingestion was successful, the entry has the event ID in it. Otherwise, you can use the error code and error message to identify the problem with the entry.
+        public let entries: [PutEventsResultEntry]?
+        /// The number of failed entries.
+        public let failedEntryCount: Int32?
+
+        public init(entries: [PutEventsResultEntry]? = nil, failedEntryCount: Int32? = nil) {
+            self.entries = entries
+            self.failedEntryCount = failedEntryCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "Entries"
+            case failedEntryCount = "FailedEntryCount"
         }
     }
 
@@ -548,404 +1071,6 @@ extension CloudWatchEvents {
             case arn = "Arn"
             case name = "Name"
             case policy = "Policy"
-        }
-    }
-
-    public struct RunCommandParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RunCommandTargets", required: true, type: .list)
-        ]
-        /// Currently, we support including only one RunCommandTarget block, which specifies either an array of InstanceIds or a tag.
-        public let runCommandTargets: [RunCommandTarget]
-
-        public init(runCommandTargets: [RunCommandTarget]) {
-            self.runCommandTargets = runCommandTargets
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case runCommandTargets = "RunCommandTargets"
-        }
-    }
-
-    public struct BatchParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobDefinition", required: true, type: .string), 
-            AWSShapeMember(label: "JobName", required: true, type: .string), 
-            AWSShapeMember(label: "ArrayProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "RetryStrategy", required: false, type: .structure)
-        ]
-        /// The ARN or name of the job definition to use if the event target is an AWS Batch job. This job definition must already exist.
-        public let jobDefinition: String
-        /// The name to use for this execution of the job, if the target is an AWS Batch job.
-        public let jobName: String
-        /// The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. This parameter is used only if the target is an AWS Batch job.
-        public let arrayProperties: BatchArrayProperties?
-        /// The retry strategy to use for failed jobs, if the target is an AWS Batch job. The retry strategy is the number of times to retry the failed job execution. Valid values are 1 to 10. When you specify a retry strategy here, it overrides the retry strategy defined in the job definition.
-        public let retryStrategy: BatchRetryStrategy?
-
-        public init(jobDefinition: String, jobName: String, arrayProperties: BatchArrayProperties? = nil, retryStrategy: BatchRetryStrategy? = nil) {
-            self.jobDefinition = jobDefinition
-            self.jobName = jobName
-            self.arrayProperties = arrayProperties
-            self.retryStrategy = retryStrategy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobDefinition = "JobDefinition"
-            case jobName = "JobName"
-            case arrayProperties = "ArrayProperties"
-            case retryStrategy = "RetryStrategy"
-        }
-    }
-
-    public struct TestEventPatternResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Result", required: false, type: .boolean)
-        ]
-        /// Indicates whether the event matches the event pattern.
-        public let result: Bool?
-
-        public init(result: Bool? = nil) {
-            self.result = result
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case result = "Result"
-        }
-    }
-
-    public struct PutEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedEntryCount", required: false, type: .integer), 
-            AWSShapeMember(label: "Entries", required: false, type: .list)
-        ]
-        /// The number of failed entries.
-        public let failedEntryCount: Int32?
-        /// The successfully and unsuccessfully ingested events results. If the ingestion was successful, the entry has the event ID in it. Otherwise, you can use the error code and error message to identify the problem with the entry.
-        public let entries: [PutEventsResultEntry]?
-
-        public init(failedEntryCount: Int32? = nil, entries: [PutEventsResultEntry]? = nil) {
-            self.failedEntryCount = failedEntryCount
-            self.entries = entries
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failedEntryCount = "FailedEntryCount"
-            case entries = "Entries"
-        }
-    }
-
-    public struct PutEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Entries", required: true, type: .list)
-        ]
-        /// The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
-        public let entries: [PutEventsRequestEntry]
-
-        public init(entries: [PutEventsRequestEntry]) {
-            self.entries = entries
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case entries = "Entries"
-        }
-    }
-
-    public struct PutEventsRequestEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Time", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DetailType", required: false, type: .string), 
-            AWSShapeMember(label: "Detail", required: false, type: .string), 
-            AWSShapeMember(label: "Resources", required: false, type: .list), 
-            AWSShapeMember(label: "Source", required: false, type: .string)
-        ]
-        /// The timestamp of the event, per RFC3339. If no timestamp is provided, the timestamp of the PutEvents call is used.
-        public let time: TimeStamp?
-        /// Free-form string used to decide what fields to expect in the event detail.
-        public let detailType: String?
-        /// A valid JSON string. There is no other schema imposed. The JSON string may contain fields and nested subobjects.
-        public let detail: String?
-        /// AWS resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
-        public let resources: [String]?
-        /// The source of the event.
-        public let source: String?
-
-        public init(time: TimeStamp? = nil, detailType: String? = nil, detail: String? = nil, resources: [String]? = nil, source: String? = nil) {
-            self.time = time
-            self.detailType = detailType
-            self.detail = detail
-            self.resources = resources
-            self.source = source
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case time = "Time"
-            case detailType = "DetailType"
-            case detail = "Detail"
-            case resources = "Resources"
-            case source = "Source"
-        }
-    }
-
-    public struct PutTargetsResultEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "TargetId", required: false, type: .string)
-        ]
-        /// The error message that explains why the target addition failed.
-        public let errorMessage: String?
-        /// The error code that indicates why the target addition failed. If the value is ConcurrentModificationException, too many requests were made at the same time.
-        public let errorCode: String?
-        /// The ID of the target.
-        public let targetId: String?
-
-        public init(errorMessage: String? = nil, errorCode: String? = nil, targetId: String? = nil) {
-            self.errorMessage = errorMessage
-            self.errorCode = errorCode
-            self.targetId = targetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorMessage = "ErrorMessage"
-            case errorCode = "ErrorCode"
-            case targetId = "TargetId"
-        }
-    }
-
-    public struct DescribeEventBusRequest: AWSShape {
-
-    }
-
-    public struct RemoveTargetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedEntryCount", required: false, type: .integer), 
-            AWSShapeMember(label: "FailedEntries", required: false, type: .list)
-        ]
-        /// The number of failed entries.
-        public let failedEntryCount: Int32?
-        /// The failed target entries.
-        public let failedEntries: [RemoveTargetsResultEntry]?
-
-        public init(failedEntryCount: Int32? = nil, failedEntries: [RemoveTargetsResultEntry]? = nil) {
-            self.failedEntryCount = failedEntryCount
-            self.failedEntries = failedEntries
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failedEntryCount = "FailedEntryCount"
-            case failedEntries = "FailedEntries"
-        }
-    }
-
-    public struct ListRulesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The rules that match the specified criteria.
-        public let rules: [Rule]?
-        /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
-        public let nextToken: String?
-
-        public init(rules: [Rule]? = nil, nextToken: String? = nil) {
-            self.rules = rules
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rules = "Rules"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum RuleState: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListRuleNamesByTargetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "TargetArn", required: true, type: .string)
-        ]
-        /// The token returned by a previous call to retrieve the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return.
-        public let limit: Int32?
-        /// The Amazon Resource Name (ARN) of the target resource.
-        public let targetArn: String
-
-        public init(nextToken: String? = nil, limit: Int32? = nil, targetArn: String) {
-            self.nextToken = nextToken
-            self.limit = limit
-            self.targetArn = targetArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case limit = "Limit"
-            case targetArn = "TargetArn"
-        }
-    }
-
-    public struct ListTargetsByRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "Rule", required: true, type: .string)
-        ]
-        /// The token returned by a previous call to retrieve the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return.
-        public let limit: Int32?
-        /// The name of the rule.
-        public let rule: String
-
-        public init(nextToken: String? = nil, limit: Int32? = nil, rule: String) {
-            self.nextToken = nextToken
-            self.limit = limit
-            self.rule = rule
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case limit = "Limit"
-            case rule = "Rule"
-        }
-    }
-
-    public struct PutRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleArn", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the rule.
-        public let ruleArn: String?
-
-        public init(ruleArn: String? = nil) {
-            self.ruleArn = ruleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ruleArn = "RuleArn"
-        }
-    }
-
-    public struct SqsParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MessageGroupId", required: false, type: .string)
-        ]
-        /// The FIFO message group ID to use as the target.
-        public let messageGroupId: String?
-
-        public init(messageGroupId: String? = nil) {
-            self.messageGroupId = messageGroupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case messageGroupId = "MessageGroupId"
-        }
-    }
-
-    public struct PutEventsResultEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventId", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string)
-        ]
-        /// The ID of the event.
-        public let eventId: String?
-        /// The error message that explains why the event submission failed.
-        public let errorMessage: String?
-        /// The error code that indicates why the event submission failed.
-        public let errorCode: String?
-
-        public init(eventId: String? = nil, errorMessage: String? = nil, errorCode: String? = nil) {
-            self.eventId = eventId
-            self.errorMessage = errorMessage
-            self.errorCode = errorCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventId = "EventId"
-            case errorMessage = "ErrorMessage"
-            case errorCode = "ErrorCode"
-        }
-    }
-
-    public struct InputTransformer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputPathsMap", required: false, type: .map), 
-            AWSShapeMember(label: "InputTemplate", required: true, type: .string)
-        ]
-        /// Map of JSON paths to be extracted from the event. These are key-value pairs, where each value is a JSON path. You must use JSON dot notation, not bracket notation.
-        public let inputPathsMap: [String: String]?
-        /// Input template where you can use the values of the keys from InputPathsMap to customize the data sent to the target.
-        public let inputTemplate: String
-
-        public init(inputPathsMap: [String: String]? = nil, inputTemplate: String) {
-            self.inputPathsMap = inputPathsMap
-            self.inputTemplate = inputTemplate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputPathsMap = "InputPathsMap"
-            case inputTemplate = "InputTemplate"
-        }
-    }
-
-    public struct BatchArrayProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Size", required: false, type: .integer)
-        ]
-        /// The size of the array, if this is an array batch job. Valid values are integers between 2 and 10,000.
-        public let size: Int32?
-
-        public init(size: Int32? = nil) {
-            self.size = size
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case size = "Size"
-        }
-    }
-
-    public struct ListRuleNamesByTargetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleNames", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The names of the rules that can invoke the given target.
-        public let ruleNames: [String]?
-        /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
-        public let nextToken: String?
-
-        public init(ruleNames: [String]? = nil, nextToken: String? = nil) {
-            self.ruleNames = ruleNames
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ruleNames = "RuleNames"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct BatchRetryStrategy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attempts", required: false, type: .integer)
-        ]
-        /// The number of times to attempt to retry, if the job fails. Valid values are 1 to 10.
-        public let attempts: Int32?
-
-        public init(attempts: Int32? = nil) {
-            self.attempts = attempts
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attempts = "Attempts"
         }
     }
 

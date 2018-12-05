@@ -5,37 +5,73 @@ import AWSSDKSwiftCore
 
 extension MediaTailor {
 
-    public struct ListPlaybackConfigurationsRequest: AWSShape {
+    public struct PutPlaybackConfigurationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer)
+            AWSShapeMember(label: "DashConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "TranscodeProfileName", required: false, type: .string), 
+            AWSShapeMember(label: "VideoContentSourceUrl", required: false, type: .string), 
+            AWSShapeMember(label: "CdnConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "AdDecisionServerUrl", required: false, type: .string), 
+            AWSShapeMember(label: "HlsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "SessionInitializationEndpointPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "SlateAdUrl", required: false, type: .string), 
+            AWSShapeMember(label: "PlaybackEndpointPrefix", required: false, type: .string)
         ]
-        public let nextToken: String?
-        public let maxResults: Int32?
+        public let dashConfiguration: DashConfiguration?
+        public let transcodeProfileName: String?
+        public let videoContentSourceUrl: String?
+        public let cdnConfiguration: CdnConfiguration?
+        public let adDecisionServerUrl: String?
+        public let hlsConfiguration: HlsConfiguration?
+        public let sessionInitializationEndpointPrefix: String?
+        public let name: String?
+        public let slateAdUrl: String?
+        public let playbackEndpointPrefix: String?
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
+        public init(dashConfiguration: DashConfiguration? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, adDecisionServerUrl: String? = nil, hlsConfiguration: HlsConfiguration? = nil, sessionInitializationEndpointPrefix: String? = nil, name: String? = nil, slateAdUrl: String? = nil, playbackEndpointPrefix: String? = nil) {
+            self.dashConfiguration = dashConfiguration
+            self.transcodeProfileName = transcodeProfileName
+            self.videoContentSourceUrl = videoContentSourceUrl
+            self.cdnConfiguration = cdnConfiguration
+            self.adDecisionServerUrl = adDecisionServerUrl
+            self.hlsConfiguration = hlsConfiguration
+            self.sessionInitializationEndpointPrefix = sessionInitializationEndpointPrefix
+            self.name = name
+            self.slateAdUrl = slateAdUrl
+            self.playbackEndpointPrefix = playbackEndpointPrefix
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
+            case dashConfiguration = "DashConfiguration"
+            case transcodeProfileName = "TranscodeProfileName"
+            case videoContentSourceUrl = "VideoContentSourceUrl"
+            case cdnConfiguration = "CdnConfiguration"
+            case adDecisionServerUrl = "AdDecisionServerUrl"
+            case hlsConfiguration = "HlsConfiguration"
+            case sessionInitializationEndpointPrefix = "SessionInitializationEndpointPrefix"
+            case name = "Name"
+            case slateAdUrl = "SlateAdUrl"
+            case playbackEndpointPrefix = "PlaybackEndpointPrefix"
         }
     }
 
-    public struct GetPlaybackConfigurationRequest: AWSShape {
+    public struct ListPlaybackConfigurationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .uri(locationName: "Name"), required: true, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
-        public let name: String
+        public let maxResults: Int32?
+        public let nextToken: String?
 
-        public init(name: String) {
-            self.name = name
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "Name"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
         }
     }
 
@@ -51,173 +87,6 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-        }
-    }
-
-    public struct GetPlaybackConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VideoContentSourceUrl", required: false, type: .string), 
-            AWSShapeMember(label: "PlaybackEndpointPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "SessionInitializationEndpointPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "HlsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "SlateAdUrl", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "CdnConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "AdDecisionServerUrl", required: false, type: .string)
-        ]
-        /// The URL prefix for the master playlist for the stream, minus the asset ID. The maximum length is 512 characters.
-        public let videoContentSourceUrl: String?
-        /// The URL that the player accesses to get a manifest from AWS Elemental MediaTailor. This session will use server-side reporting. 
-        public let playbackEndpointPrefix: String?
-        /// The URL that the player uses to initialize a session that uses client-side reporting. 
-        public let sessionInitializationEndpointPrefix: String?
-        /// The configuration for HLS content. 
-        public let hlsConfiguration: HlsConfiguration?
-        /// URL for a high-quality video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID configurations. For VPAID, the slate is required because AWS Elemental MediaTailor provides it in the slots designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video. 
-        public let slateAdUrl: String?
-        /// The identifier for the configuration.
-        public let name: String?
-        /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management. 
-        public let cdnConfiguration: CdnConfiguration?
-        /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25000 characters.
-        public let adDecisionServerUrl: String?
-
-        public init(videoContentSourceUrl: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, hlsConfiguration: HlsConfiguration? = nil, slateAdUrl: String? = nil, name: String? = nil, cdnConfiguration: CdnConfiguration? = nil, adDecisionServerUrl: String? = nil) {
-            self.videoContentSourceUrl = videoContentSourceUrl
-            self.playbackEndpointPrefix = playbackEndpointPrefix
-            self.sessionInitializationEndpointPrefix = sessionInitializationEndpointPrefix
-            self.hlsConfiguration = hlsConfiguration
-            self.slateAdUrl = slateAdUrl
-            self.name = name
-            self.cdnConfiguration = cdnConfiguration
-            self.adDecisionServerUrl = adDecisionServerUrl
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case videoContentSourceUrl = "VideoContentSourceUrl"
-            case playbackEndpointPrefix = "PlaybackEndpointPrefix"
-            case sessionInitializationEndpointPrefix = "SessionInitializationEndpointPrefix"
-            case hlsConfiguration = "HlsConfiguration"
-            case slateAdUrl = "SlateAdUrl"
-            case name = "Name"
-            case cdnConfiguration = "CdnConfiguration"
-            case adDecisionServerUrl = "AdDecisionServerUrl"
-        }
-    }
-
-    public struct PlaybackConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "VideoContentSourceUrl", required: false, type: .string), 
-            AWSShapeMember(label: "CdnConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "AdDecisionServerUrl", required: false, type: .string), 
-            AWSShapeMember(label: "SlateAdUrl", required: false, type: .string)
-        ]
-        public let name: String?
-        public let videoContentSourceUrl: String?
-        public let cdnConfiguration: CdnConfiguration?
-        public let adDecisionServerUrl: String?
-        public let slateAdUrl: String?
-
-        public init(name: String? = nil, videoContentSourceUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, adDecisionServerUrl: String? = nil, slateAdUrl: String? = nil) {
-            self.name = name
-            self.videoContentSourceUrl = videoContentSourceUrl
-            self.cdnConfiguration = cdnConfiguration
-            self.adDecisionServerUrl = adDecisionServerUrl
-            self.slateAdUrl = slateAdUrl
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case videoContentSourceUrl = "VideoContentSourceUrl"
-            case cdnConfiguration = "CdnConfiguration"
-            case adDecisionServerUrl = "AdDecisionServerUrl"
-            case slateAdUrl = "SlateAdUrl"
-        }
-    }
-
-    public struct CdnConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentSegmentUrlPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "AdSegmentUrlPrefix", required: false, type: .string)
-        ]
-        /// A content delivery network (CDN) to cache content segments, so that content requests don’t always have to go to the origin server. First, create a rule in your CDN for the content segment origin server. Then specify the rule's name in this ContentSegmentUrlPrefix. When AWS Elemental MediaTailor serves a manifest, it reports your CDN as the source for content segments.
-        public let contentSegmentUrlPrefix: String?
-        /// A non-default content delivery network (CDN) to serve ad segments. By default, AWS Elemental MediaTailor uses Amazon CloudFront with default cache settings as its CDN for ad segments. To set up an alternate CDN, create a rule in your CDN for the following origin: ads.mediatailor.&lt;region>.amazonaws.com. Then specify the rule's name in this AdSegmentUrlPrefix. When AWS Elemental MediaTailor serves a manifest, it reports your CDN as the source for ad segments.
-        public let adSegmentUrlPrefix: String?
-
-        public init(contentSegmentUrlPrefix: String? = nil, adSegmentUrlPrefix: String? = nil) {
-            self.contentSegmentUrlPrefix = contentSegmentUrlPrefix
-            self.adSegmentUrlPrefix = adSegmentUrlPrefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contentSegmentUrlPrefix = "ContentSegmentUrlPrefix"
-            case adSegmentUrlPrefix = "AdSegmentUrlPrefix"
-        }
-    }
-
-    public struct ListPlaybackConfigurationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Items", required: false, type: .list)
-        ]
-        /// Pagination token returned by the GET list request when results overrun the meximum allowed. Use the token to fetch the next page of results.
-        public let nextToken: String?
-        /// Array of playback configurations. This may be all of the available configurations or a subset, depending on the settings you provide and on the total number of configurations stored. 
-        public let items: [PlaybackConfiguration]?
-
-        public init(nextToken: String? = nil, items: [PlaybackConfiguration]? = nil) {
-            self.nextToken = nextToken
-            self.items = items
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case items = "Items"
-        }
-    }
-
-    public struct PutPlaybackConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VideoContentSourceUrl", required: false, type: .string), 
-            AWSShapeMember(label: "PlaybackEndpointPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "SessionInitializationEndpointPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "HlsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "SlateAdUrl", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "CdnConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "AdDecisionServerUrl", required: false, type: .string)
-        ]
-        public let videoContentSourceUrl: String?
-        public let playbackEndpointPrefix: String?
-        public let sessionInitializationEndpointPrefix: String?
-        public let hlsConfiguration: HlsConfiguration?
-        public let slateAdUrl: String?
-        public let name: String?
-        public let cdnConfiguration: CdnConfiguration?
-        public let adDecisionServerUrl: String?
-
-        public init(videoContentSourceUrl: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, hlsConfiguration: HlsConfiguration? = nil, slateAdUrl: String? = nil, name: String? = nil, cdnConfiguration: CdnConfiguration? = nil, adDecisionServerUrl: String? = nil) {
-            self.videoContentSourceUrl = videoContentSourceUrl
-            self.playbackEndpointPrefix = playbackEndpointPrefix
-            self.sessionInitializationEndpointPrefix = sessionInitializationEndpointPrefix
-            self.hlsConfiguration = hlsConfiguration
-            self.slateAdUrl = slateAdUrl
-            self.name = name
-            self.cdnConfiguration = cdnConfiguration
-            self.adDecisionServerUrl = adDecisionServerUrl
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case videoContentSourceUrl = "VideoContentSourceUrl"
-            case playbackEndpointPrefix = "PlaybackEndpointPrefix"
-            case sessionInitializationEndpointPrefix = "SessionInitializationEndpointPrefix"
-            case hlsConfiguration = "HlsConfiguration"
-            case slateAdUrl = "SlateAdUrl"
-            case name = "Name"
-            case cdnConfiguration = "CdnConfiguration"
-            case adDecisionServerUrl = "AdDecisionServerUrl"
         }
     }
 
@@ -237,39 +106,209 @@ extension MediaTailor {
         }
     }
 
-    public struct PutPlaybackConfigurationRequest: AWSShape {
+    public struct GetPlaybackConfigurationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "DashConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "TranscodeProfileName", required: false, type: .string), 
             AWSShapeMember(label: "VideoContentSourceUrl", required: false, type: .string), 
             AWSShapeMember(label: "CdnConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "AdDecisionServerUrl", required: false, type: .string), 
-            AWSShapeMember(label: "SlateAdUrl", required: false, type: .string)
+            AWSShapeMember(label: "HlsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "SessionInitializationEndpointPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "SlateAdUrl", required: false, type: .string), 
+            AWSShapeMember(label: "PlaybackEndpointPrefix", required: false, type: .string)
         ]
-        /// The identifier for the configuration.
-        public let name: String?
+        /// The configuration object for dash content. 
+        public let dashConfiguration: DashConfiguration?
+        /// Associate this playbackConfiguration with a custom transcode profile, overriding MediaTailor's dynamic transcoding defaults. Do not include this field if you have not setup custom profiles with the MediaTailor service team. 
+        public let transcodeProfileName: String?
         /// The URL prefix for the master playlist for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
         /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management. 
         public let cdnConfiguration: CdnConfiguration?
-        /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25000 characters.
+        /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25000 characters.
         public let adDecisionServerUrl: String?
-        /// The URL for a high-quality video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID configurations. For VPAID, the slate is required because AWS Elemental MediaTailor provides it in the slots that are designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video. 
+        /// The configuration for HLS content. 
+        public let hlsConfiguration: HlsConfiguration?
+        /// The URL that the player uses to initialize a session that uses client-side reporting. 
+        public let sessionInitializationEndpointPrefix: String?
+        /// The identifier for the configuration.
+        public let name: String?
+        /// URL for a high-quality video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID configurations. For VPAID, the slate is required because AWS Elemental MediaTailor provides it in the slots designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video. 
         public let slateAdUrl: String?
+        /// The URL that the player accesses to get a manifest from AWS Elemental MediaTailor. This session will use server-side reporting. 
+        public let playbackEndpointPrefix: String?
 
-        public init(name: String? = nil, videoContentSourceUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, adDecisionServerUrl: String? = nil, slateAdUrl: String? = nil) {
-            self.name = name
+        public init(dashConfiguration: DashConfiguration? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, adDecisionServerUrl: String? = nil, hlsConfiguration: HlsConfiguration? = nil, sessionInitializationEndpointPrefix: String? = nil, name: String? = nil, slateAdUrl: String? = nil, playbackEndpointPrefix: String? = nil) {
+            self.dashConfiguration = dashConfiguration
+            self.transcodeProfileName = transcodeProfileName
             self.videoContentSourceUrl = videoContentSourceUrl
             self.cdnConfiguration = cdnConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
+            self.hlsConfiguration = hlsConfiguration
+            self.sessionInitializationEndpointPrefix = sessionInitializationEndpointPrefix
+            self.name = name
             self.slateAdUrl = slateAdUrl
+            self.playbackEndpointPrefix = playbackEndpointPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashConfiguration = "DashConfiguration"
+            case transcodeProfileName = "TranscodeProfileName"
+            case videoContentSourceUrl = "VideoContentSourceUrl"
+            case cdnConfiguration = "CdnConfiguration"
+            case adDecisionServerUrl = "AdDecisionServerUrl"
+            case hlsConfiguration = "HlsConfiguration"
+            case sessionInitializationEndpointPrefix = "SessionInitializationEndpointPrefix"
+            case name = "Name"
+            case slateAdUrl = "SlateAdUrl"
+            case playbackEndpointPrefix = "PlaybackEndpointPrefix"
+        }
+    }
+
+    public struct CdnConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdSegmentUrlPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "ContentSegmentUrlPrefix", required: false, type: .string)
+        ]
+        /// A non-default content delivery network (CDN) to serve ad segments. By default, AWS Elemental MediaTailor uses Amazon CloudFront with default cache settings as its CDN for ad segments. To set up an alternate CDN, create a rule in your CDN for the following origin: ads.mediatailor.&lt;region>.amazonaws.com. Then specify the rule's name in this AdSegmentUrlPrefix. When AWS Elemental MediaTailor serves a manifest, it reports your CDN as the source for ad segments.
+        public let adSegmentUrlPrefix: String?
+        /// A content delivery network (CDN) to cache content segments, so that content requests don’t always have to go to the origin server. First, create a rule in your CDN for the content segment origin server. Then specify the rule's name in this ContentSegmentUrlPrefix. When AWS Elemental MediaTailor serves a manifest, it reports your CDN as the source for content segments.
+        public let contentSegmentUrlPrefix: String?
+
+        public init(adSegmentUrlPrefix: String? = nil, contentSegmentUrlPrefix: String? = nil) {
+            self.adSegmentUrlPrefix = adSegmentUrlPrefix
+            self.contentSegmentUrlPrefix = contentSegmentUrlPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adSegmentUrlPrefix = "AdSegmentUrlPrefix"
+            case contentSegmentUrlPrefix = "ContentSegmentUrlPrefix"
+        }
+    }
+
+    public struct PutPlaybackConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdDecisionServerUrl", required: false, type: .string), 
+            AWSShapeMember(label: "VideoContentSourceUrl", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "SlateAdUrl", required: false, type: .string), 
+            AWSShapeMember(label: "TranscodeProfileName", required: false, type: .string), 
+            AWSShapeMember(label: "CdnConfiguration", required: false, type: .structure)
+        ]
+        /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25000 characters.
+        public let adDecisionServerUrl: String?
+        /// The URL prefix for the master playlist for the stream, minus the asset ID. The maximum length is 512 characters.
+        public let videoContentSourceUrl: String?
+        /// The identifier for the configuration.
+        public let name: String?
+        /// The URL for a high-quality video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID configurations. For VPAID, the slate is required because AWS Elemental MediaTailor provides it in the slots that are designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video. 
+        public let slateAdUrl: String?
+        /// Associate this playbackConfiguration with a custom transcode profile, overriding MediaTailor's dynamic transcoding defaults. Do not include this field if you have not setup custom profiles with the MediaTailor service team. 
+        public let transcodeProfileName: String?
+        /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management. 
+        public let cdnConfiguration: CdnConfiguration?
+
+        public init(adDecisionServerUrl: String? = nil, videoContentSourceUrl: String? = nil, name: String? = nil, slateAdUrl: String? = nil, transcodeProfileName: String? = nil, cdnConfiguration: CdnConfiguration? = nil) {
+            self.adDecisionServerUrl = adDecisionServerUrl
+            self.videoContentSourceUrl = videoContentSourceUrl
+            self.name = name
+            self.slateAdUrl = slateAdUrl
+            self.transcodeProfileName = transcodeProfileName
+            self.cdnConfiguration = cdnConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adDecisionServerUrl = "AdDecisionServerUrl"
+            case videoContentSourceUrl = "VideoContentSourceUrl"
+            case name = "Name"
+            case slateAdUrl = "SlateAdUrl"
+            case transcodeProfileName = "TranscodeProfileName"
+            case cdnConfiguration = "CdnConfiguration"
+        }
+    }
+
+    public struct ListPlaybackConfigurationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Array of playback configurations. This may be all of the available configurations or a subset, depending on the settings you provide and on the total number of configurations stored. 
+        public let items: [PlaybackConfiguration]?
+        /// Pagination token returned by the GET list request when results overrun the meximum allowed. Use the token to fetch the next page of results.
+        public let nextToken: String?
+
+        public init(items: [PlaybackConfiguration]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetPlaybackConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", location: .uri(locationName: "Name"), required: true, type: .string)
+        ]
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case videoContentSourceUrl = "VideoContentSourceUrl"
-            case cdnConfiguration = "CdnConfiguration"
+        }
+    }
+
+    public struct PlaybackConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdDecisionServerUrl", required: false, type: .string), 
+            AWSShapeMember(label: "VideoContentSourceUrl", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "SlateAdUrl", required: false, type: .string), 
+            AWSShapeMember(label: "CdnConfiguration", required: false, type: .structure)
+        ]
+        public let adDecisionServerUrl: String?
+        public let videoContentSourceUrl: String?
+        public let name: String?
+        public let slateAdUrl: String?
+        public let cdnConfiguration: CdnConfiguration?
+
+        public init(adDecisionServerUrl: String? = nil, videoContentSourceUrl: String? = nil, name: String? = nil, slateAdUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil) {
+            self.adDecisionServerUrl = adDecisionServerUrl
+            self.videoContentSourceUrl = videoContentSourceUrl
+            self.name = name
+            self.slateAdUrl = slateAdUrl
+            self.cdnConfiguration = cdnConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case adDecisionServerUrl = "AdDecisionServerUrl"
+            case videoContentSourceUrl = "VideoContentSourceUrl"
+            case name = "Name"
             case slateAdUrl = "SlateAdUrl"
+            case cdnConfiguration = "CdnConfiguration"
+        }
+    }
+
+    public struct DashConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ManifestEndpointPrefix", required: false, type: .string)
+        ]
+        /// The URL that is used to initiate a playback session for devices that support DASH. 
+        public let manifestEndpointPrefix: String?
+
+        public init(manifestEndpointPrefix: String? = nil) {
+            self.manifestEndpointPrefix = manifestEndpointPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case manifestEndpointPrefix = "ManifestEndpointPrefix"
         }
     }
 

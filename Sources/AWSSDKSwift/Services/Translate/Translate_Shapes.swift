@@ -5,55 +5,399 @@ import AWSSDKSwiftCore
 
 extension Translate {
 
-    public struct TranslateTextResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TranslatedText", required: true, type: .string), 
-            AWSShapeMember(label: "TargetLanguageCode", required: true, type: .string), 
-            AWSShapeMember(label: "SourceLanguageCode", required: true, type: .string)
-        ]
-        /// The text translated into the target language.
-        public let translatedText: String
-        /// The language code for the language of the translated text. 
-        public let targetLanguageCode: String
-        /// The language code for the language of the input text. 
-        public let sourceLanguageCode: String
+    public enum EncryptionKeyType: String, CustomStringConvertible, Codable {
+        case kms = "KMS"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(translatedText: String, targetLanguageCode: String, sourceLanguageCode: String) {
-            self.translatedText = translatedText
-            self.targetLanguageCode = targetLanguageCode
-            self.sourceLanguageCode = sourceLanguageCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case translatedText = "TranslatedText"
-            case targetLanguageCode = "TargetLanguageCode"
-            case sourceLanguageCode = "SourceLanguageCode"
-        }
+    public enum TerminologyDataFormat: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        case tmx = "TMX"
+        public var description: String { return self.rawValue }
     }
 
     public struct TranslateTextRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetLanguageCode", required: true, type: .string), 
             AWSShapeMember(label: "Text", required: true, type: .string), 
-            AWSShapeMember(label: "SourceLanguageCode", required: true, type: .string)
+            AWSShapeMember(label: "TargetLanguageCode", required: true, type: .string), 
+            AWSShapeMember(label: "SourceLanguageCode", required: true, type: .string), 
+            AWSShapeMember(label: "TerminologyNames", required: false, type: .list)
         ]
-        /// One of the supported language codes for the target text. If the SourceLanguageCode is not "en", the TargetLanguageCode must be "en".
-        public let targetLanguageCode: String
-        /// The text to translate.
+        /// The text to translate. The text string can be a maximum of 5,000 bytes long. Depending on your character set, this may be fewer than 5,000 characters.
         public let text: String
-        /// One of the supported language codes for the source text. If the TargetLanguageCode is not "en", the SourceLanguageCode must be "en". To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call Amazon Comprehend to determine the source language.
+        /// The language code requested for the language of the target text. The language must be a language supported by Amazon Translate.
+        public let targetLanguageCode: String
+        /// The language code for the language of the source text. The language must be a language supported by Amazon Translate.  To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call Amazon Comprehend to determine the source language.
         public let sourceLanguageCode: String
+        /// The TerminologyNames list that is taken as input to the TranslateText request. This has a minimum length of 0 and a maximum length of 1.
+        public let terminologyNames: [String]?
 
-        public init(targetLanguageCode: String, text: String, sourceLanguageCode: String) {
-            self.targetLanguageCode = targetLanguageCode
+        public init(text: String, targetLanguageCode: String, sourceLanguageCode: String, terminologyNames: [String]? = nil) {
             self.text = text
+            self.targetLanguageCode = targetLanguageCode
             self.sourceLanguageCode = sourceLanguageCode
+            self.terminologyNames = terminologyNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "Text"
+            case targetLanguageCode = "TargetLanguageCode"
+            case sourceLanguageCode = "SourceLanguageCode"
+            case terminologyNames = "TerminologyNames"
+        }
+    }
+
+    public struct EncryptionKey: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+        /// The Amazon Resource Name (ARN) of the encryption key being used to encrypt the custom terminology.
+        public let id: String
+        /// The type of encryption key used by Amazon Translate to encrypt custom terminologies.
+        public let `type`: EncryptionKeyType
+
+        public init(id: String, type: EncryptionKeyType) {
+            self.id = id
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case `type` = "Type"
+        }
+    }
+
+    public struct GetTerminologyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TerminologyDataFormat", required: true, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The data format of the custom terminology being retrieved, either CSV or TMX.
+        public let terminologyDataFormat: TerminologyDataFormat
+        /// The name of the custom terminology being retrieved.
+        public let name: String
+
+        public init(terminologyDataFormat: TerminologyDataFormat, name: String) {
+            self.terminologyDataFormat = terminologyDataFormat
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case terminologyDataFormat = "TerminologyDataFormat"
+            case name = "Name"
+        }
+    }
+
+    public struct ImportTerminologyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionKey", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "TerminologyData", required: true, type: .structure), 
+            AWSShapeMember(label: "MergeStrategy", required: true, type: .enum)
+        ]
+        /// The encryption key for the custom terminology being imported.
+        public let encryptionKey: EncryptionKey?
+        /// The name of the custom terminology being imported.
+        public let name: String
+        /// The description of the custom terminology being imported.
+        public let description: String?
+        /// The terminology data for the custom terminology being imported.
+        public let terminologyData: TerminologyData
+        /// The merge strategy of the custom terminology being imported. Currently, only the OVERWRITE merge strategy is supported. In this case, the imported terminology will overwrite an existing terminology of the same name.
+        public let mergeStrategy: MergeStrategy
+
+        public init(encryptionKey: EncryptionKey? = nil, name: String, description: String? = nil, terminologyData: TerminologyData, mergeStrategy: MergeStrategy) {
+            self.encryptionKey = encryptionKey
+            self.name = name
+            self.description = description
+            self.terminologyData = terminologyData
+            self.mergeStrategy = mergeStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionKey = "EncryptionKey"
+            case name = "Name"
+            case description = "Description"
+            case terminologyData = "TerminologyData"
+            case mergeStrategy = "MergeStrategy"
+        }
+    }
+
+    public struct TerminologyDataLocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Location", required: true, type: .string), 
+            AWSShapeMember(label: "RepositoryType", required: true, type: .string)
+        ]
+        /// The location of the custom terminology data.
+        public let location: String
+        /// The repository type for the custom terminology data.
+        public let repositoryType: String
+
+        public init(location: String, repositoryType: String) {
+            self.location = location
+            self.repositoryType = repositoryType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+            case repositoryType = "RepositoryType"
+        }
+    }
+
+    public struct Term: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetText", required: false, type: .string), 
+            AWSShapeMember(label: "SourceText", required: false, type: .string)
+        ]
+        /// The target text of the term being translated by the custom terminology.
+        public let targetText: String?
+        /// The source text of the term being translated by the custom terminology.
+        public let sourceText: String?
+
+        public init(targetText: String? = nil, sourceText: String? = nil) {
+            self.targetText = targetText
+            self.sourceText = sourceText
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetText = "TargetText"
+            case sourceText = "SourceText"
+        }
+    }
+
+    public struct AppliedTerminology: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Terms", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The specific terms of the custom terminology applied to the input text by Amazon Translate for the translated text response. A maximum of 250 terms will be returned, and the specific terms applied will be the first 250 terms in the source text. 
+        public let terms: [Term]?
+        /// The name of the custom terminology applied to the input text by Amazon Translate for the translated text response.
+        public let name: String?
+
+        public init(terms: [Term]? = nil, name: String? = nil) {
+            self.terms = terms
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case terms = "Terms"
+            case name = "Name"
+        }
+    }
+
+    public struct ImportTerminologyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TerminologyProperties", required: false, type: .structure)
+        ]
+        /// The properties of the custom terminology being imported.
+        public let terminologyProperties: TerminologyProperties?
+
+        public init(terminologyProperties: TerminologyProperties? = nil) {
+            self.terminologyProperties = terminologyProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case terminologyProperties = "TerminologyProperties"
+        }
+    }
+
+    public struct GetTerminologyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TerminologyProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "TerminologyDataLocation", required: false, type: .structure)
+        ]
+        /// The properties of the custom terminology being retrieved.
+        public let terminologyProperties: TerminologyProperties?
+        /// The data location of the custom terminology being retrieved. The custom terminology file is returned in a presigned url that has a 30 minute expiration.
+        public let terminologyDataLocation: TerminologyDataLocation?
+
+        public init(terminologyProperties: TerminologyProperties? = nil, terminologyDataLocation: TerminologyDataLocation? = nil) {
+            self.terminologyProperties = terminologyProperties
+            self.terminologyDataLocation = terminologyDataLocation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case terminologyProperties = "TerminologyProperties"
+            case terminologyDataLocation = "TerminologyDataLocation"
+        }
+    }
+
+    public struct TerminologyProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EncryptionKey", required: false, type: .structure), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "TermCount", required: false, type: .integer), 
+            AWSShapeMember(label: "SizeBytes", required: false, type: .integer), 
+            AWSShapeMember(label: "SourceLanguageCode", required: false, type: .string), 
+            AWSShapeMember(label: "TargetLanguageCodes", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The time at which the custom terminology was last update, based on the timestamp.
+        public let lastUpdatedAt: TimeStamp?
+        /// The encryption key for the custom terminology.
+        public let encryptionKey: EncryptionKey?
+        /// The time at which the custom terminology was created, based on the timestamp.
+        public let createdAt: TimeStamp?
+        ///  The Amazon Resource Name (ARN) of the custom terminology. 
+        public let arn: String?
+        /// The description of the custom terminology properties.
+        public let description: String?
+        /// The number of terms included in the custom terminology.
+        public let termCount: Int32?
+        /// The size of the file used when importing a custom terminology.
+        public let sizeBytes: Int32?
+        /// The language code for the source text of the translation request for which the custom terminology is being used.
+        public let sourceLanguageCode: String?
+        /// The language codes for the target languages available with the custom terminology file. All possible target languages are returned in array.
+        public let targetLanguageCodes: [String]?
+        /// The name of the custom terminology.
+        public let name: String?
+
+        public init(lastUpdatedAt: TimeStamp? = nil, encryptionKey: EncryptionKey? = nil, createdAt: TimeStamp? = nil, arn: String? = nil, description: String? = nil, termCount: Int32? = nil, sizeBytes: Int32? = nil, sourceLanguageCode: String? = nil, targetLanguageCodes: [String]? = nil, name: String? = nil) {
+            self.lastUpdatedAt = lastUpdatedAt
+            self.encryptionKey = encryptionKey
+            self.createdAt = createdAt
+            self.arn = arn
+            self.description = description
+            self.termCount = termCount
+            self.sizeBytes = sizeBytes
+            self.sourceLanguageCode = sourceLanguageCode
+            self.targetLanguageCodes = targetLanguageCodes
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedAt = "LastUpdatedAt"
+            case encryptionKey = "EncryptionKey"
+            case createdAt = "CreatedAt"
+            case arn = "Arn"
+            case description = "Description"
+            case termCount = "TermCount"
+            case sizeBytes = "SizeBytes"
+            case sourceLanguageCode = "SourceLanguageCode"
+            case targetLanguageCodes = "TargetLanguageCodes"
+            case name = "Name"
+        }
+    }
+
+    public struct TerminologyData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "File", required: true, type: .blob), 
+            AWSShapeMember(label: "Format", required: true, type: .enum)
+        ]
+        /// The file containing the custom terminology data.
+        public let file: Data
+        /// The data format of the custom terminology. Either CSV or TMX.
+        public let format: TerminologyDataFormat
+
+        public init(file: Data, format: TerminologyDataFormat) {
+            self.file = file
+            self.format = format
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case file = "File"
+            case format = "Format"
+        }
+    }
+
+    public struct ListTerminologiesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of custom terminologies returned per list request.
+        public let maxResults: Int32?
+        /// If the result of the request to ListTerminologies was truncated, include the NextToken to fetch the next group of custom terminologies. 
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct TranslateTextResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetLanguageCode", required: true, type: .string), 
+            AWSShapeMember(label: "SourceLanguageCode", required: true, type: .string), 
+            AWSShapeMember(label: "TranslatedText", required: true, type: .string), 
+            AWSShapeMember(label: "AppliedTerminologies", required: false, type: .list)
+        ]
+        /// The language code for the language of the target text. 
+        public let targetLanguageCode: String
+        /// The language code for the language of the source text. 
+        public let sourceLanguageCode: String
+        /// The the translated text. The maximum length of this text is 5kb.
+        public let translatedText: String
+        /// The names of the custom terminologies applied to the input text by Amazon Translate for the translated text response.
+        public let appliedTerminologies: [AppliedTerminology]?
+
+        public init(targetLanguageCode: String, sourceLanguageCode: String, translatedText: String, appliedTerminologies: [AppliedTerminology]? = nil) {
+            self.targetLanguageCode = targetLanguageCode
+            self.sourceLanguageCode = sourceLanguageCode
+            self.translatedText = translatedText
+            self.appliedTerminologies = appliedTerminologies
         }
 
         private enum CodingKeys: String, CodingKey {
             case targetLanguageCode = "TargetLanguageCode"
-            case text = "Text"
             case sourceLanguageCode = "SourceLanguageCode"
+            case translatedText = "TranslatedText"
+            case appliedTerminologies = "AppliedTerminologies"
+        }
+    }
+
+    public enum MergeStrategy: String, CustomStringConvertible, Codable {
+        case overwrite = "OVERWRITE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListTerminologiesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TerminologyPropertiesList", required: false, type: .list)
+        ]
+        ///  If the response to the ListTerminologies was truncated, the NextToken fetches the next group of custom terminologies. 
+        public let nextToken: String?
+        /// The properties list of the custom terminologies returned on the list request.
+        public let terminologyPropertiesList: [TerminologyProperties]?
+
+        public init(nextToken: String? = nil, terminologyPropertiesList: [TerminologyProperties]? = nil) {
+            self.nextToken = nextToken
+            self.terminologyPropertiesList = terminologyPropertiesList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case terminologyPropertiesList = "TerminologyPropertiesList"
+        }
+    }
+
+    public struct DeleteTerminologyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The name of the custom terminology being deleted. 
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 

@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-Amazon Elastic Container Service for Kubernetes (Amazon EKS) is a managed service that makes it easy for you to run Kubernetes on AWS without needing to stand up or maintain your own Kubernetes control plane. Kubernetes is an open-source system for automating the deployment, scaling, and management of containerized applications.  Amazon EKS runs three Kubernetes control plane instances across three Availability Zones to ensure high availability. Amazon EKS automatically detects and replaces unhealthy control plane instances, and it provides automated version upgrades and patching for them. Amazon EKS is also integrated with many AWS services to provide scalability and security for your applications, including the following:    Elastic Load Balancing for load distribution   IAM for authentication   Amazon VPC for isolation   Amazon EKS runs up to date versions of the open-source Kubernetes software, so you can use all the existing plugins and tooling from the Kubernetes community. Applications running on Amazon EKS are fully compatible with applications running on any standard Kubernetes environment, whether running in on-premises data centers or public clouds. This means that you can easily migrate any standard Kubernetes application to Amazon EKS without any code modification required.
+Amazon Elastic Container Service for Kubernetes (Amazon EKS) is a managed service that makes it easy for you to run Kubernetes on AWS without needing to stand up or maintain your own Kubernetes control plane. Kubernetes is an open-source system for automating the deployment, scaling, and management of containerized applications.  Amazon EKS runs up-to-date versions of the open-source Kubernetes software, so you can use all the existing plugins and tooling from the Kubernetes community. Applications running on Amazon EKS are fully compatible with applications running on any standard Kubernetes environment, whether running in on-premises data centers or public clouds. This means that you can easily migrate any standard Kubernetes application to Amazon EKS without any code modification required.
 */
 public struct EKS {
 
@@ -24,11 +24,6 @@ public struct EKS {
         )
     }
 
-    ///  Lists the Amazon EKS clusters in your AWS account in the specified region.
-    public func listClusters(_ input: ListClustersRequest) throws -> ListClustersResponse {
-        return try client.send(operation: "ListClusters", path: "/clusters", httpMethod: "GET", input: input)
-    }
-
     ///  Returns descriptive information about an Amazon EKS cluster. The API server endpoint and certificate authority data returned by this operation are required for kubelet and kubectl to communicate with your Kubernetes API server. For more information, see Create a kubeconfig for Amazon EKS.  The API server endpoint and certificate authority data are not available until the cluster reaches the ACTIVE state. 
     public func describeCluster(_ input: DescribeClusterRequest) throws -> DescribeClusterResponse {
         return try client.send(operation: "DescribeCluster", path: "/clusters/{name}", httpMethod: "GET", input: input)
@@ -42,6 +37,11 @@ public struct EKS {
     ///  Deletes the Amazon EKS cluster control plane.   If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC. For more information, see Deleting a Cluster in the Amazon EKS User Guide. 
     public func deleteCluster(_ input: DeleteClusterRequest) throws -> DeleteClusterResponse {
         return try client.send(operation: "DeleteCluster", path: "/clusters/{name}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Lists the Amazon EKS clusters in your AWS account in the specified Region.
+    public func listClusters(_ input: ListClustersRequest) throws -> ListClustersResponse {
+        return try client.send(operation: "ListClusters", path: "/clusters", httpMethod: "GET", input: input)
     }
 
 

@@ -6,14 +6,15 @@ import AWSSDKSwiftCore
 public enum KinesisAnalyticsErrorType: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case resourceInUseException(message: String?)
+    case unsupportedOperationException(message: String?)
     case invalidArgumentException(message: String?)
+    case invalidApplicationConfigurationException(message: String?)
     case concurrentModificationException(message: String?)
     case unableToDetectSchemaException(message: String?)
     case resourceProvisionedThroughputExceededException(message: String?)
     case serviceUnavailableException(message: String?)
     case codeValidationException(message: String?)
     case limitExceededException(message: String?)
-    case invalidApplicationConfigurationException(message: String?)
 }
 
 extension KinesisAnalyticsErrorType {
@@ -27,8 +28,12 @@ extension KinesisAnalyticsErrorType {
             self = .resourceNotFoundException(message: message)
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)
+        case "UnsupportedOperationException":
+            self = .unsupportedOperationException(message: message)
         case "InvalidArgumentException":
             self = .invalidArgumentException(message: message)
+        case "InvalidApplicationConfigurationException":
+            self = .invalidApplicationConfigurationException(message: message)
         case "ConcurrentModificationException":
             self = .concurrentModificationException(message: message)
         case "UnableToDetectSchemaException":
@@ -41,8 +46,6 @@ extension KinesisAnalyticsErrorType {
             self = .codeValidationException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
-        case "InvalidApplicationConfigurationException":
-            self = .invalidApplicationConfigurationException(message: message)
         default:
             return nil
         }

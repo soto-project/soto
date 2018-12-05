@@ -6,23 +6,25 @@ import AWSSDKSwiftCore
 public enum GlueErrorType: AWSErrorType {
     case entityNotFoundException(message: String?)
     case invalidInputException(message: String?)
-    case internalServiceException(message: String?)
     case operationTimeoutException(message: String?)
-    case crawlerNotRunningException(message: String?)
-    case crawlerStoppingException(message: String?)
+    case internalServiceException(message: String?)
+    case glueEncryptionException(message: String?)
+    case versionMismatchException(message: String?)
+    case crawlerRunningException(message: String?)
+    case concurrentModificationException(message: String?)
     case alreadyExistsException(message: String?)
     case resourceNumberLimitExceededException(message: String?)
-    case concurrentModificationException(message: String?)
-    case concurrentRunsExceededException(message: String?)
-    case versionMismatchException(message: String?)
-    case schedulerTransitioningException(message: String?)
-    case crawlerRunningException(message: String?)
     case schedulerRunningException(message: String?)
+    case schedulerTransitioningException(message: String?)
     case noScheduleException(message: String?)
-    case validationException(message: String?)
-    case idempotentParameterMismatchException(message: String?)
-    case schedulerNotRunningException(message: String?)
+    case conditionCheckFailureException(message: String?)
     case accessDeniedException(message: String?)
+    case idempotentParameterMismatchException(message: String?)
+    case validationException(message: String?)
+    case concurrentRunsExceededException(message: String?)
+    case crawlerNotRunningException(message: String?)
+    case crawlerStoppingException(message: String?)
+    case schedulerNotRunningException(message: String?)
 }
 
 extension GlueErrorType {
@@ -36,40 +38,44 @@ extension GlueErrorType {
             self = .entityNotFoundException(message: message)
         case "InvalidInputException":
             self = .invalidInputException(message: message)
-        case "InternalServiceException":
-            self = .internalServiceException(message: message)
         case "OperationTimeoutException":
             self = .operationTimeoutException(message: message)
-        case "CrawlerNotRunningException":
-            self = .crawlerNotRunningException(message: message)
-        case "CrawlerStoppingException":
-            self = .crawlerStoppingException(message: message)
+        case "InternalServiceException":
+            self = .internalServiceException(message: message)
+        case "GlueEncryptionException":
+            self = .glueEncryptionException(message: message)
+        case "VersionMismatchException":
+            self = .versionMismatchException(message: message)
+        case "CrawlerRunningException":
+            self = .crawlerRunningException(message: message)
+        case "ConcurrentModificationException":
+            self = .concurrentModificationException(message: message)
         case "AlreadyExistsException":
             self = .alreadyExistsException(message: message)
         case "ResourceNumberLimitExceededException":
             self = .resourceNumberLimitExceededException(message: message)
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "ConcurrentRunsExceededException":
-            self = .concurrentRunsExceededException(message: message)
-        case "VersionMismatchException":
-            self = .versionMismatchException(message: message)
-        case "SchedulerTransitioningException":
-            self = .schedulerTransitioningException(message: message)
-        case "CrawlerRunningException":
-            self = .crawlerRunningException(message: message)
         case "SchedulerRunningException":
             self = .schedulerRunningException(message: message)
+        case "SchedulerTransitioningException":
+            self = .schedulerTransitioningException(message: message)
         case "NoScheduleException":
             self = .noScheduleException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        case "IdempotentParameterMismatchException":
-            self = .idempotentParameterMismatchException(message: message)
-        case "SchedulerNotRunningException":
-            self = .schedulerNotRunningException(message: message)
+        case "ConditionCheckFailureException":
+            self = .conditionCheckFailureException(message: message)
         case "AccessDeniedException":
             self = .accessDeniedException(message: message)
+        case "IdempotentParameterMismatchException":
+            self = .idempotentParameterMismatchException(message: message)
+        case "ValidationException":
+            self = .validationException(message: message)
+        case "ConcurrentRunsExceededException":
+            self = .concurrentRunsExceededException(message: message)
+        case "CrawlerNotRunningException":
+            self = .crawlerNotRunningException(message: message)
+        case "CrawlerStoppingException":
+            self = .crawlerStoppingException(message: message)
+        case "SchedulerNotRunningException":
+            self = .schedulerNotRunningException(message: message)
         default:
             return nil
         }

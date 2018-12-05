@@ -6,9 +6,10 @@ import AWSSDKSwiftCore
 public enum FMSErrorType: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case invalidOperationException(message: String?)
-    case internalErrorException(message: String?)
     case invalidInputException(message: String?)
     case limitExceededException(message: String?)
+    case internalErrorException(message: String?)
+    case invalidTypeException(message: String?)
 }
 
 extension FMSErrorType {
@@ -22,12 +23,14 @@ extension FMSErrorType {
             self = .resourceNotFoundException(message: message)
         case "InvalidOperationException":
             self = .invalidOperationException(message: message)
-        case "InternalErrorException":
-            self = .internalErrorException(message: message)
         case "InvalidInputException":
             self = .invalidInputException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "InternalErrorException":
+            self = .internalErrorException(message: message)
+        case "InvalidTypeException":
+            self = .invalidTypeException(message: message)
         default:
             return nil
         }

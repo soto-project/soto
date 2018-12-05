@@ -5,84 +5,51 @@ import AWSSDKSwiftCore
 
 extension ImportExport {
 
-    public struct Artifact: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "URL", required: false, type: .string)
-        ]
-        public let description: String?
-        public let url: String?
-
-        public init(description: String? = nil, url: String? = nil) {
-            self.description = description
-            self.url = url
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "Description"
-            case url = "URL"
-        }
+    public enum JobType: String, CustomStringConvertible, Codable {
+        case `import` = "Import"
+        case export = "Export"
+        public var description: String { return self.rawValue }
     }
 
-    public struct CreateJobInput: AWSShape {
+    public struct ListJobsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "APIVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Manifest", required: true, type: .string), 
-            AWSShapeMember(label: "JobType", required: true, type: .enum), 
-            AWSShapeMember(label: "ManifestAddendum", required: false, type: .string), 
-            AWSShapeMember(label: "ValidateOnly", required: true, type: .boolean)
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxJobs", required: false, type: .integer), 
+            AWSShapeMember(label: "APIVersion", required: false, type: .string)
         ]
+        public let marker: String?
+        public let maxJobs: Int32?
         public let aPIVersion: String?
-        public let manifest: String
-        public let jobType: JobType
-        public let manifestAddendum: String?
-        public let validateOnly: Bool
 
-        public init(aPIVersion: String? = nil, manifest: String, jobType: JobType, manifestAddendum: String? = nil, validateOnly: Bool) {
+        public init(marker: String? = nil, maxJobs: Int32? = nil, aPIVersion: String? = nil) {
+            self.marker = marker
+            self.maxJobs = maxJobs
             self.aPIVersion = aPIVersion
-            self.manifest = manifest
-            self.jobType = jobType
-            self.manifestAddendum = manifestAddendum
-            self.validateOnly = validateOnly
         }
 
         private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxJobs = "MaxJobs"
             case aPIVersion = "APIVersion"
-            case manifest = "Manifest"
-            case jobType = "JobType"
-            case manifestAddendum = "ManifestAddendum"
-            case validateOnly = "ValidateOnly"
         }
     }
 
-    public struct UpdateJobInput: AWSShape {
+    public struct GetStatusInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "APIVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Manifest", required: true, type: .string), 
-            AWSShapeMember(label: "JobType", required: true, type: .enum), 
             AWSShapeMember(label: "JobId", required: true, type: .string), 
-            AWSShapeMember(label: "ValidateOnly", required: true, type: .boolean)
+            AWSShapeMember(label: "APIVersion", required: false, type: .string)
         ]
-        public let aPIVersion: String?
-        public let manifest: String
-        public let jobType: JobType
         public let jobId: String
-        public let validateOnly: Bool
+        public let aPIVersion: String?
 
-        public init(aPIVersion: String? = nil, manifest: String, jobType: JobType, jobId: String, validateOnly: Bool) {
-            self.aPIVersion = aPIVersion
-            self.manifest = manifest
-            self.jobType = jobType
+        public init(jobId: String, aPIVersion: String? = nil) {
             self.jobId = jobId
-            self.validateOnly = validateOnly
+            self.aPIVersion = aPIVersion
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aPIVersion = "APIVersion"
-            case manifest = "Manifest"
-            case jobType = "JobType"
             case jobId = "JobId"
-            case validateOnly = "ValidateOnly"
+            case aPIVersion = "APIVersion"
         }
     }
 
@@ -105,100 +72,53 @@ extension ImportExport {
         }
     }
 
-    public struct GetShippingLabelInput: AWSShape {
+    public struct CancelJobInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "APIVersion", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "stateOrProvince", required: false, type: .string), 
-            AWSShapeMember(label: "street2", required: false, type: .string), 
-            AWSShapeMember(label: "street3", required: false, type: .string), 
-            AWSShapeMember(label: "company", required: false, type: .string), 
-            AWSShapeMember(label: "city", required: false, type: .string), 
-            AWSShapeMember(label: "jobIds", required: true, type: .list), 
-            AWSShapeMember(label: "postalCode", required: false, type: .string), 
-            AWSShapeMember(label: "country", required: false, type: .string), 
-            AWSShapeMember(label: "phoneNumber", required: false, type: .string), 
-            AWSShapeMember(label: "street1", required: false, type: .string)
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "APIVersion", required: false, type: .string)
         ]
+        public let jobId: String
         public let aPIVersion: String?
-        public let name: String?
-        public let stateOrProvince: String?
-        public let street2: String?
-        public let street3: String?
-        public let company: String?
-        public let city: String?
-        public let jobIds: [String]
-        public let postalCode: String?
-        public let country: String?
-        public let phoneNumber: String?
-        public let street1: String?
 
-        public init(aPIVersion: String? = nil, name: String? = nil, stateOrProvince: String? = nil, street2: String? = nil, street3: String? = nil, company: String? = nil, city: String? = nil, jobIds: [String], postalCode: String? = nil, country: String? = nil, phoneNumber: String? = nil, street1: String? = nil) {
+        public init(jobId: String, aPIVersion: String? = nil) {
+            self.jobId = jobId
             self.aPIVersion = aPIVersion
-            self.name = name
-            self.stateOrProvince = stateOrProvince
-            self.street2 = street2
-            self.street3 = street3
-            self.company = company
-            self.city = city
-            self.jobIds = jobIds
-            self.postalCode = postalCode
-            self.country = country
-            self.phoneNumber = phoneNumber
-            self.street1 = street1
         }
 
         private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
             case aPIVersion = "APIVersion"
-            case name = "name"
-            case stateOrProvince = "stateOrProvince"
-            case street2 = "street2"
-            case street3 = "street3"
-            case company = "company"
-            case city = "city"
-            case jobIds = "jobIds"
-            case postalCode = "postalCode"
-            case country = "country"
-            case phoneNumber = "phoneNumber"
-            case street1 = "street1"
         }
     }
 
-    public struct CancelJobOutput: AWSShape {
+    public struct CreateJobInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Success", required: false, type: .boolean)
+            AWSShapeMember(label: "JobType", required: true, type: .enum), 
+            AWSShapeMember(label: "ValidateOnly", required: true, type: .boolean), 
+            AWSShapeMember(label: "Manifest", required: true, type: .string), 
+            AWSShapeMember(label: "APIVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ManifestAddendum", required: false, type: .string)
         ]
-        public let success: Bool?
+        public let jobType: JobType
+        public let validateOnly: Bool
+        public let manifest: String
+        public let aPIVersion: String?
+        public let manifestAddendum: String?
 
-        public init(success: Bool? = nil) {
-            self.success = success
+        public init(jobType: JobType, validateOnly: Bool, manifest: String, aPIVersion: String? = nil, manifestAddendum: String? = nil) {
+            self.jobType = jobType
+            self.validateOnly = validateOnly
+            self.manifest = manifest
+            self.aPIVersion = aPIVersion
+            self.manifestAddendum = manifestAddendum
         }
 
         private enum CodingKeys: String, CodingKey {
-            case success = "Success"
-        }
-    }
-
-    public struct UpdateJobOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Success", required: false, type: .boolean), 
-            AWSShapeMember(label: "WarningMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ArtifactList", required: false, type: .list)
-        ]
-        public let success: Bool?
-        public let warningMessage: String?
-        public let artifactList: [Artifact]?
-
-        public init(success: Bool? = nil, warningMessage: String? = nil, artifactList: [Artifact]? = nil) {
-            self.success = success
-            self.warningMessage = warningMessage
-            self.artifactList = artifactList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case success = "Success"
-            case warningMessage = "WarningMessage"
-            case artifactList = "ArtifactList"
+            case jobType = "JobType"
+            case validateOnly = "ValidateOnly"
+            case manifest = "Manifest"
+            case aPIVersion = "APIVersion"
+            case manifestAddendum = "ManifestAddendum"
         }
     }
 
@@ -221,207 +141,287 @@ extension ImportExport {
         }
     }
 
+    public struct UpdateJobOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Success", required: false, type: .boolean), 
+            AWSShapeMember(label: "ArtifactList", required: false, type: .list), 
+            AWSShapeMember(label: "WarningMessage", required: false, type: .string)
+        ]
+        public let success: Bool?
+        public let artifactList: [Artifact]?
+        public let warningMessage: String?
+
+        public init(success: Bool? = nil, artifactList: [Artifact]? = nil, warningMessage: String? = nil) {
+            self.success = success
+            self.artifactList = artifactList
+            self.warningMessage = warningMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case success = "Success"
+            case artifactList = "ArtifactList"
+            case warningMessage = "WarningMessage"
+        }
+    }
+
+    public struct UpdateJobInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobType", required: true, type: .enum), 
+            AWSShapeMember(label: "ValidateOnly", required: true, type: .boolean), 
+            AWSShapeMember(label: "Manifest", required: true, type: .string), 
+            AWSShapeMember(label: "APIVersion", required: false, type: .string), 
+            AWSShapeMember(label: "JobId", required: true, type: .string)
+        ]
+        public let jobType: JobType
+        public let validateOnly: Bool
+        public let manifest: String
+        public let aPIVersion: String?
+        public let jobId: String
+
+        public init(jobType: JobType, validateOnly: Bool, manifest: String, aPIVersion: String? = nil, jobId: String) {
+            self.jobType = jobType
+            self.validateOnly = validateOnly
+            self.manifest = manifest
+            self.aPIVersion = aPIVersion
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobType = "JobType"
+            case validateOnly = "ValidateOnly"
+            case manifest = "Manifest"
+            case aPIVersion = "APIVersion"
+            case jobId = "JobId"
+        }
+    }
+
     public struct Job: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsCanceled", required: false, type: .boolean), 
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
             AWSShapeMember(label: "JobType", required: false, type: .enum), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp)
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "IsCanceled", required: false, type: .boolean), 
+            AWSShapeMember(label: "JobId", required: false, type: .string)
         ]
+        public let jobType: JobType?
+        public let creationDate: TimeStamp?
         public let isCanceled: Bool?
         public let jobId: String?
-        public let jobType: JobType?
-        public let creationDate: TimeStamp?
 
-        public init(isCanceled: Bool? = nil, jobId: String? = nil, jobType: JobType? = nil, creationDate: TimeStamp? = nil) {
+        public init(jobType: JobType? = nil, creationDate: TimeStamp? = nil, isCanceled: Bool? = nil, jobId: String? = nil) {
+            self.jobType = jobType
+            self.creationDate = creationDate
             self.isCanceled = isCanceled
             self.jobId = jobId
-            self.jobType = jobType
-            self.creationDate = creationDate
         }
 
         private enum CodingKeys: String, CodingKey {
+            case jobType = "JobType"
+            case creationDate = "CreationDate"
             case isCanceled = "IsCanceled"
             case jobId = "JobId"
-            case jobType = "JobType"
-            case creationDate = "CreationDate"
         }
     }
 
-    public struct ListJobsInput: AWSShape {
+    public struct Artifact: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxJobs", required: false, type: .integer), 
-            AWSShapeMember(label: "APIVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "URL", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        public let maxJobs: Int32?
-        public let aPIVersion: String?
-        public let marker: String?
+        public let url: String?
+        public let description: String?
 
-        public init(maxJobs: Int32? = nil, aPIVersion: String? = nil, marker: String? = nil) {
-            self.maxJobs = maxJobs
-            self.aPIVersion = aPIVersion
-            self.marker = marker
+        public init(url: String? = nil, description: String? = nil) {
+            self.url = url
+            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxJobs = "MaxJobs"
-            case aPIVersion = "APIVersion"
-            case marker = "Marker"
-        }
-    }
-
-    public enum JobType: String, CustomStringConvertible, Codable {
-        case `import` = "Import"
-        case export = "Export"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CancelJobInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: true, type: .string), 
-            AWSShapeMember(label: "APIVersion", required: false, type: .string)
-        ]
-        public let jobId: String
-        public let aPIVersion: String?
-
-        public init(jobId: String, aPIVersion: String? = nil) {
-            self.jobId = jobId
-            self.aPIVersion = aPIVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-            case aPIVersion = "APIVersion"
-        }
-    }
-
-    public struct GetStatusOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LogKey", required: false, type: .string), 
-            AWSShapeMember(label: "ProgressCode", required: false, type: .string), 
-            AWSShapeMember(label: "LogBucket", required: false, type: .string), 
-            AWSShapeMember(label: "LocationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ArtifactList", required: false, type: .list), 
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "CurrentManifest", required: false, type: .string), 
-            AWSShapeMember(label: "Carrier", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TrackingNumber", required: false, type: .string), 
-            AWSShapeMember(label: "LocationCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorCount", required: false, type: .integer), 
-            AWSShapeMember(label: "JobType", required: false, type: .enum), 
-            AWSShapeMember(label: "SignatureFileContents", required: false, type: .string), 
-            AWSShapeMember(label: "Signature", required: false, type: .string), 
-            AWSShapeMember(label: "ProgressMessage", required: false, type: .string)
-        ]
-        public let logKey: String?
-        public let progressCode: String?
-        public let logBucket: String?
-        public let locationMessage: String?
-        public let artifactList: [Artifact]?
-        public let jobId: String?
-        public let currentManifest: String?
-        public let carrier: String?
-        public let creationDate: TimeStamp?
-        public let trackingNumber: String?
-        public let locationCode: String?
-        public let errorCount: Int32?
-        public let jobType: JobType?
-        public let signatureFileContents: String?
-        public let signature: String?
-        public let progressMessage: String?
-
-        public init(logKey: String? = nil, progressCode: String? = nil, logBucket: String? = nil, locationMessage: String? = nil, artifactList: [Artifact]? = nil, jobId: String? = nil, currentManifest: String? = nil, carrier: String? = nil, creationDate: TimeStamp? = nil, trackingNumber: String? = nil, locationCode: String? = nil, errorCount: Int32? = nil, jobType: JobType? = nil, signatureFileContents: String? = nil, signature: String? = nil, progressMessage: String? = nil) {
-            self.logKey = logKey
-            self.progressCode = progressCode
-            self.logBucket = logBucket
-            self.locationMessage = locationMessage
-            self.artifactList = artifactList
-            self.jobId = jobId
-            self.currentManifest = currentManifest
-            self.carrier = carrier
-            self.creationDate = creationDate
-            self.trackingNumber = trackingNumber
-            self.locationCode = locationCode
-            self.errorCount = errorCount
-            self.jobType = jobType
-            self.signatureFileContents = signatureFileContents
-            self.signature = signature
-            self.progressMessage = progressMessage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logKey = "LogKey"
-            case progressCode = "ProgressCode"
-            case logBucket = "LogBucket"
-            case locationMessage = "LocationMessage"
-            case artifactList = "ArtifactList"
-            case jobId = "JobId"
-            case currentManifest = "CurrentManifest"
-            case carrier = "Carrier"
-            case creationDate = "CreationDate"
-            case trackingNumber = "TrackingNumber"
-            case locationCode = "LocationCode"
-            case errorCount = "ErrorCount"
-            case jobType = "JobType"
-            case signatureFileContents = "SignatureFileContents"
-            case signature = "Signature"
-            case progressMessage = "ProgressMessage"
+            case url = "URL"
+            case description = "Description"
         }
     }
 
     public struct CreateJobOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobType", required: false, type: .enum), 
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "WarningMessage", required: false, type: .string), 
-            AWSShapeMember(label: "SignatureFileContents", required: false, type: .string), 
             AWSShapeMember(label: "ArtifactList", required: false, type: .list), 
-            AWSShapeMember(label: "Signature", required: false, type: .string)
+            AWSShapeMember(label: "SignatureFileContents", required: false, type: .string), 
+            AWSShapeMember(label: "WarningMessage", required: false, type: .string), 
+            AWSShapeMember(label: "Signature", required: false, type: .string), 
+            AWSShapeMember(label: "JobId", required: false, type: .string)
         ]
         public let jobType: JobType?
-        public let jobId: String?
-        public let warningMessage: String?
-        public let signatureFileContents: String?
         public let artifactList: [Artifact]?
+        public let signatureFileContents: String?
+        public let warningMessage: String?
         public let signature: String?
+        public let jobId: String?
 
-        public init(jobType: JobType? = nil, jobId: String? = nil, warningMessage: String? = nil, signatureFileContents: String? = nil, artifactList: [Artifact]? = nil, signature: String? = nil) {
+        public init(jobType: JobType? = nil, artifactList: [Artifact]? = nil, signatureFileContents: String? = nil, warningMessage: String? = nil, signature: String? = nil, jobId: String? = nil) {
             self.jobType = jobType
-            self.jobId = jobId
-            self.warningMessage = warningMessage
-            self.signatureFileContents = signatureFileContents
             self.artifactList = artifactList
+            self.signatureFileContents = signatureFileContents
+            self.warningMessage = warningMessage
             self.signature = signature
+            self.jobId = jobId
         }
 
         private enum CodingKeys: String, CodingKey {
             case jobType = "JobType"
-            case jobId = "JobId"
-            case warningMessage = "WarningMessage"
-            case signatureFileContents = "SignatureFileContents"
             case artifactList = "ArtifactList"
+            case signatureFileContents = "SignatureFileContents"
+            case warningMessage = "WarningMessage"
             case signature = "Signature"
+            case jobId = "JobId"
         }
     }
 
-    public struct GetStatusInput: AWSShape {
+    public struct CancelJobOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: true, type: .string), 
-            AWSShapeMember(label: "APIVersion", required: false, type: .string)
+            AWSShapeMember(label: "Success", required: false, type: .boolean)
         ]
-        public let jobId: String
-        public let aPIVersion: String?
+        public let success: Bool?
 
-        public init(jobId: String, aPIVersion: String? = nil) {
-            self.jobId = jobId
-            self.aPIVersion = aPIVersion
+        public init(success: Bool? = nil) {
+            self.success = success
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
+            case success = "Success"
+        }
+    }
+
+    public struct GetShippingLabelInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobIds", required: true, type: .list), 
+            AWSShapeMember(label: "street3", required: false, type: .string), 
+            AWSShapeMember(label: "postalCode", required: false, type: .string), 
+            AWSShapeMember(label: "city", required: false, type: .string), 
+            AWSShapeMember(label: "stateOrProvince", required: false, type: .string), 
+            AWSShapeMember(label: "street1", required: false, type: .string), 
+            AWSShapeMember(label: "country", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "street2", required: false, type: .string), 
+            AWSShapeMember(label: "phoneNumber", required: false, type: .string), 
+            AWSShapeMember(label: "APIVersion", required: false, type: .string), 
+            AWSShapeMember(label: "company", required: false, type: .string)
+        ]
+        public let jobIds: [String]
+        public let street3: String?
+        public let postalCode: String?
+        public let city: String?
+        public let stateOrProvince: String?
+        public let street1: String?
+        public let country: String?
+        public let name: String?
+        public let street2: String?
+        public let phoneNumber: String?
+        public let aPIVersion: String?
+        public let company: String?
+
+        public init(jobIds: [String], street3: String? = nil, postalCode: String? = nil, city: String? = nil, stateOrProvince: String? = nil, street1: String? = nil, country: String? = nil, name: String? = nil, street2: String? = nil, phoneNumber: String? = nil, aPIVersion: String? = nil, company: String? = nil) {
+            self.jobIds = jobIds
+            self.street3 = street3
+            self.postalCode = postalCode
+            self.city = city
+            self.stateOrProvince = stateOrProvince
+            self.street1 = street1
+            self.country = country
+            self.name = name
+            self.street2 = street2
+            self.phoneNumber = phoneNumber
+            self.aPIVersion = aPIVersion
+            self.company = company
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobIds = "jobIds"
+            case street3 = "street3"
+            case postalCode = "postalCode"
+            case city = "city"
+            case stateOrProvince = "stateOrProvince"
+            case street1 = "street1"
+            case country = "country"
+            case name = "name"
+            case street2 = "street2"
+            case phoneNumber = "phoneNumber"
             case aPIVersion = "APIVersion"
+            case company = "company"
+        }
+    }
+
+    public struct GetStatusOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrentManifest", required: false, type: .string), 
+            AWSShapeMember(label: "ArtifactList", required: false, type: .list), 
+            AWSShapeMember(label: "TrackingNumber", required: false, type: .string), 
+            AWSShapeMember(label: "Carrier", required: false, type: .string), 
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "JobType", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Signature", required: false, type: .string), 
+            AWSShapeMember(label: "LogKey", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCount", required: false, type: .integer), 
+            AWSShapeMember(label: "ProgressCode", required: false, type: .string), 
+            AWSShapeMember(label: "SignatureFileContents", required: false, type: .string), 
+            AWSShapeMember(label: "LocationCode", required: false, type: .string), 
+            AWSShapeMember(label: "LogBucket", required: false, type: .string), 
+            AWSShapeMember(label: "ProgressMessage", required: false, type: .string), 
+            AWSShapeMember(label: "LocationMessage", required: false, type: .string)
+        ]
+        public let currentManifest: String?
+        public let artifactList: [Artifact]?
+        public let trackingNumber: String?
+        public let carrier: String?
+        public let jobId: String?
+        public let jobType: JobType?
+        public let creationDate: TimeStamp?
+        public let signature: String?
+        public let logKey: String?
+        public let errorCount: Int32?
+        public let progressCode: String?
+        public let signatureFileContents: String?
+        public let locationCode: String?
+        public let logBucket: String?
+        public let progressMessage: String?
+        public let locationMessage: String?
+
+        public init(currentManifest: String? = nil, artifactList: [Artifact]? = nil, trackingNumber: String? = nil, carrier: String? = nil, jobId: String? = nil, jobType: JobType? = nil, creationDate: TimeStamp? = nil, signature: String? = nil, logKey: String? = nil, errorCount: Int32? = nil, progressCode: String? = nil, signatureFileContents: String? = nil, locationCode: String? = nil, logBucket: String? = nil, progressMessage: String? = nil, locationMessage: String? = nil) {
+            self.currentManifest = currentManifest
+            self.artifactList = artifactList
+            self.trackingNumber = trackingNumber
+            self.carrier = carrier
+            self.jobId = jobId
+            self.jobType = jobType
+            self.creationDate = creationDate
+            self.signature = signature
+            self.logKey = logKey
+            self.errorCount = errorCount
+            self.progressCode = progressCode
+            self.signatureFileContents = signatureFileContents
+            self.locationCode = locationCode
+            self.logBucket = logBucket
+            self.progressMessage = progressMessage
+            self.locationMessage = locationMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentManifest = "CurrentManifest"
+            case artifactList = "ArtifactList"
+            case trackingNumber = "TrackingNumber"
+            case carrier = "Carrier"
+            case jobId = "JobId"
+            case jobType = "JobType"
+            case creationDate = "CreationDate"
+            case signature = "Signature"
+            case logKey = "LogKey"
+            case errorCount = "ErrorCount"
+            case progressCode = "ProgressCode"
+            case signatureFileContents = "SignatureFileContents"
+            case locationCode = "LocationCode"
+            case logBucket = "LogBucket"
+            case progressMessage = "ProgressMessage"
+            case locationMessage = "LocationMessage"
         }
     }
 

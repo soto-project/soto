@@ -5,11 +5,11 @@ import AWSSDKSwiftCore
 /// Error enum for IoTAnalytics
 public enum IoTAnalyticsErrorType: AWSErrorType {
     case invalidRequestException(message: String?)
-    case resourceNotFoundException(message: String?)
     case internalFailureException(message: String?)
     case serviceUnavailableException(message: String?)
     case throttlingException(message: String?)
     case limitExceededException(message: String?)
+    case resourceNotFoundException(message: String?)
     case resourceAlreadyExistsException(message: String?)
 }
 
@@ -22,8 +22,6 @@ extension IoTAnalyticsErrorType {
         switch errorCode {
         case "InvalidRequestException":
             self = .invalidRequestException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
         case "InternalFailureException":
             self = .internalFailureException(message: message)
         case "ServiceUnavailableException":
@@ -32,6 +30,8 @@ extension IoTAnalyticsErrorType {
             self = .throttlingException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "ResourceAlreadyExistsException":
             self = .resourceAlreadyExistsException(message: message)
         default:

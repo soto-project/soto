@@ -8,9 +8,9 @@ public enum DeviceFarmErrorType: AWSErrorType {
     case notFoundException(message: String?)
     case limitExceededException(message: String?)
     case serviceAccountException(message: String?)
+    case idempotencyException(message: String?)
     case notEligibleException(message: String?)
     case invalidOperationException(message: String?)
-    case idempotencyException(message: String?)
 }
 
 extension DeviceFarmErrorType {
@@ -28,12 +28,12 @@ extension DeviceFarmErrorType {
             self = .limitExceededException(message: message)
         case "ServiceAccountException":
             self = .serviceAccountException(message: message)
+        case "IdempotencyException":
+            self = .idempotencyException(message: message)
         case "NotEligibleException":
             self = .notEligibleException(message: message)
         case "InvalidOperationException":
             self = .invalidOperationException(message: message)
-        case "IdempotencyException":
-            self = .idempotencyException(message: message)
         default:
             return nil
         }

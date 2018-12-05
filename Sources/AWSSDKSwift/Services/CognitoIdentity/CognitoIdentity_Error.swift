@@ -7,13 +7,13 @@ public enum CognitoIdentityErrorType: AWSErrorType {
     case invalidParameterException(message: String?)
     case resourceNotFoundException(message: String?)
     case notAuthorizedException(message: String?)
+    case resourceConflictException(message: String?)
     case tooManyRequestsException(message: String?)
     case internalErrorException(message: String?)
-    case resourceConflictException(message: String?)
-    case concurrentModificationException(message: String?)
     case limitExceededException(message: String?)
     case externalServiceException(message: String?)
     case developerUserAlreadyRegisteredException(message: String?)
+    case concurrentModificationException(message: String?)
     case invalidIdentityPoolConfigurationException(message: String?)
 }
 
@@ -30,20 +30,20 @@ extension CognitoIdentityErrorType {
             self = .resourceNotFoundException(message: message)
         case "NotAuthorizedException":
             self = .notAuthorizedException(message: message)
+        case "ResourceConflictException":
+            self = .resourceConflictException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
         case "InternalErrorException":
             self = .internalErrorException(message: message)
-        case "ResourceConflictException":
-            self = .resourceConflictException(message: message)
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "ExternalServiceException":
             self = .externalServiceException(message: message)
         case "DeveloperUserAlreadyRegisteredException":
             self = .developerUserAlreadyRegisteredException(message: message)
+        case "ConcurrentModificationException":
+            self = .concurrentModificationException(message: message)
         case "InvalidIdentityPoolConfigurationException":
             self = .invalidIdentityPoolConfigurationException(message: message)
         default:

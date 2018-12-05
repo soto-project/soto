@@ -4,20 +4,20 @@ import AWSSDKSwiftCore
 
 /// Error enum for DatabaseMigrationService
 public enum DatabaseMigrationServiceErrorType: AWSErrorType {
-    case resourceAlreadyExistsFault(message: String?)
-    case invalidCertificateFault(message: String?)
-    case resourceQuotaExceededFault(message: String?)
     case resourceNotFoundFault(message: String?)
     case invalidResourceStateFault(message: String?)
-    case kMSKeyNotAccessibleFault(message: String?)
     case accessDeniedFault(message: String?)
+    case resourceAlreadyExistsFault(message: String?)
+    case resourceQuotaExceededFault(message: String?)
     case replicationSubnetGroupDoesNotCoverEnoughAZs(message: String?)
     case invalidSubnet(message: String?)
+    case subnetAlreadyInUse(message: String?)
     case sNSInvalidTopicFault(message: String?)
     case sNSNoAuthorizationFault(message: String?)
+    case kMSKeyNotAccessibleFault(message: String?)
+    case invalidCertificateFault(message: String?)
     case insufficientResourceCapacityFault(message: String?)
     case storageQuotaExceededFault(message: String?)
-    case subnetAlreadyInUse(message: String?)
     case upgradeDependencyFailureFault(message: String?)
 }
 
@@ -28,34 +28,34 @@ extension DatabaseMigrationServiceErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ResourceAlreadyExistsFault":
-            self = .resourceAlreadyExistsFault(message: message)
-        case "InvalidCertificateFault":
-            self = .invalidCertificateFault(message: message)
-        case "ResourceQuotaExceededFault":
-            self = .resourceQuotaExceededFault(message: message)
         case "ResourceNotFoundFault":
             self = .resourceNotFoundFault(message: message)
         case "InvalidResourceStateFault":
             self = .invalidResourceStateFault(message: message)
-        case "KMSKeyNotAccessibleFault":
-            self = .kMSKeyNotAccessibleFault(message: message)
         case "AccessDeniedFault":
             self = .accessDeniedFault(message: message)
+        case "ResourceAlreadyExistsFault":
+            self = .resourceAlreadyExistsFault(message: message)
+        case "ResourceQuotaExceededFault":
+            self = .resourceQuotaExceededFault(message: message)
         case "ReplicationSubnetGroupDoesNotCoverEnoughAZs":
             self = .replicationSubnetGroupDoesNotCoverEnoughAZs(message: message)
         case "InvalidSubnet":
             self = .invalidSubnet(message: message)
+        case "SubnetAlreadyInUse":
+            self = .subnetAlreadyInUse(message: message)
         case "SNSInvalidTopicFault":
             self = .sNSInvalidTopicFault(message: message)
         case "SNSNoAuthorizationFault":
             self = .sNSNoAuthorizationFault(message: message)
+        case "KMSKeyNotAccessibleFault":
+            self = .kMSKeyNotAccessibleFault(message: message)
+        case "InvalidCertificateFault":
+            self = .invalidCertificateFault(message: message)
         case "InsufficientResourceCapacityFault":
             self = .insufficientResourceCapacityFault(message: message)
         case "StorageQuotaExceededFault":
             self = .storageQuotaExceededFault(message: message)
-        case "SubnetAlreadyInUse":
-            self = .subnetAlreadyInUse(message: message)
         case "UpgradeDependencyFailureFault":
             self = .upgradeDependencyFailureFault(message: message)
         default:

@@ -5,959 +5,75 @@ import AWSSDKSwiftCore
 
 extension ECR {
 
-    public struct ImageFailure: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
-            AWSShapeMember(label: "imageId", required: false, type: .structure), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string)
-        ]
-        /// The code associated with the failure.
-        public let failureCode: ImageFailureCode?
-        /// The image ID associated with the failure.
-        public let imageId: ImageIdentifier?
-        /// The reason for the failure.
-        public let failureReason: String?
-
-        public init(failureCode: ImageFailureCode? = nil, imageId: ImageIdentifier? = nil, failureReason: String? = nil) {
-            self.failureCode = failureCode
-            self.imageId = imageId
-            self.failureReason = failureReason
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failureCode = "failureCode"
-            case imageId = "imageId"
-            case failureReason = "failureReason"
-        }
-    }
-
-    public struct PutImageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageTag", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "imageManifest", required: true, type: .string)
-        ]
-        /// The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or OCI formats.
-        public let imageTag: String?
-        /// The name of the repository in which to put the image.
-        public let repositoryName: String
-        /// The AWS account ID associated with the registry that contains the repository in which to put the image. If you do not specify a registry, the default registry is assumed.
-        public let registryId: String?
-        /// The image manifest corresponding to the image to be uploaded.
-        public let imageManifest: String
-
-        public init(imageTag: String? = nil, repositoryName: String, registryId: String? = nil, imageManifest: String) {
-            self.imageTag = imageTag
-            self.repositoryName = repositoryName
-            self.registryId = registryId
-            self.imageManifest = imageManifest
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case imageTag = "imageTag"
-            case repositoryName = "repositoryName"
-            case registryId = "registryId"
-            case imageManifest = "imageManifest"
-        }
-    }
-
-    public struct StartLifecyclePolicyPreviewResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "lifecyclePolicyText", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string)
-        ]
-        /// The status of the lifecycle policy preview request.
-        public let status: LifecyclePolicyPreviewStatus?
-        /// The repository name associated with the request.
-        public let repositoryName: String?
-        /// The JSON repository policy text.
-        public let lifecyclePolicyText: String?
-        /// The registry ID associated with the request.
-        public let registryId: String?
-
-        public init(status: LifecyclePolicyPreviewStatus? = nil, repositoryName: String? = nil, lifecyclePolicyText: String? = nil, registryId: String? = nil) {
-            self.status = status
-            self.repositoryName = repositoryName
-            self.lifecyclePolicyText = lifecyclePolicyText
-            self.registryId = registryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "status"
-            case repositoryName = "repositoryName"
-            case lifecyclePolicyText = "lifecyclePolicyText"
-            case registryId = "registryId"
-        }
-    }
-
     public struct UploadLayerPartResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
             AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
             AWSShapeMember(label: "uploadId", required: false, type: .string), 
             AWSShapeMember(label: "lastByteReceived", required: false, type: .long)
         ]
-        /// The repository name associated with the request.
-        public let repositoryName: String?
         /// The registry ID associated with the request.
         public let registryId: String?
+        /// The repository name associated with the request.
+        public let repositoryName: String?
         /// The upload ID associated with the request.
         public let uploadId: String?
         /// The integer value of the last byte received in the request.
         public let lastByteReceived: Int64?
 
-        public init(repositoryName: String? = nil, registryId: String? = nil, uploadId: String? = nil, lastByteReceived: Int64? = nil) {
-            self.repositoryName = repositoryName
+        public init(registryId: String? = nil, repositoryName: String? = nil, uploadId: String? = nil, lastByteReceived: Int64? = nil) {
             self.registryId = registryId
+            self.repositoryName = repositoryName
             self.uploadId = uploadId
             self.lastByteReceived = lastByteReceived
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
             case registryId = "registryId"
+            case repositoryName = "repositoryName"
             case uploadId = "uploadId"
             case lastByteReceived = "lastByteReceived"
         }
     }
 
-    public struct DeleteRepositoryPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
-        /// The AWS account ID associated with the registry that contains the repository policy to delete. If you do not specify a registry, the default registry is assumed.
-        public let registryId: String?
-        /// The name of the repository that is associated with the repository policy to delete.
-        public let repositoryName: String
-
-        public init(registryId: String? = nil, repositoryName: String) {
-            self.registryId = registryId
-            self.repositoryName = repositoryName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case registryId = "registryId"
-            case repositoryName = "repositoryName"
-        }
-    }
-
-    public struct LifecyclePolicyPreviewFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tagStatus", required: false, type: .enum)
-        ]
-        /// The tag status of the image.
-        public let tagStatus: TagStatus?
-
-        public init(tagStatus: TagStatus? = nil) {
-            self.tagStatus = tagStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagStatus = "tagStatus"
-        }
-    }
-
-    public enum TagStatus: String, CustomStringConvertible, Codable {
-        case tagged = "TAGGED"
-        case untagged = "UNTAGGED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct BatchDeleteImageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failures", required: false, type: .list), 
-            AWSShapeMember(label: "imageIds", required: false, type: .list)
-        ]
-        /// Any failures associated with the call.
-        public let failures: [ImageFailure]?
-        /// The image IDs of the deleted images.
-        public let imageIds: [ImageIdentifier]?
-
-        public init(failures: [ImageFailure]? = nil, imageIds: [ImageIdentifier]? = nil) {
-            self.failures = failures
-            self.imageIds = imageIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failures = "failures"
-            case imageIds = "imageIds"
-        }
-    }
-
-    public struct GetLifecyclePolicyPreviewRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "imageIds", required: false, type: .list)
-        ]
-        /// The name of the repository.
-        public let repositoryName: String
-        /// An optional parameter that filters results based on image tag status and all tags, if tagged.
-        public let filter: LifecyclePolicyPreviewFilter?
-        /// The nextToken value returned from a previous paginated&#x2028; GetLifecyclePolicyPreviewRequest request where maxResults was used and the&#x2028; results exceeded the value of that parameter. Pagination continues from the end of the&#x2028; previous results that returned the nextToken value. This value is&#x2028; null when there are no more results to return. This option cannot be used when you specify images with imageIds.
-        public let nextToken: String?
-        /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
-        public let registryId: String?
-        /// The maximum number of repository results returned by GetLifecyclePolicyPreviewRequest in&#x2028; paginated output. When this parameter is used, GetLifecyclePolicyPreviewRequest only returns&#x2028; maxResults results in a single page along with a nextToken&#x2028; response element. The remaining results of the initial request can be seen by sending&#x2028; another GetLifecyclePolicyPreviewRequest request with the returned nextToken&#x2028; value. This value can be between 1 and 100. If this&#x2028; parameter is not used, then GetLifecyclePolicyPreviewRequest returns up to&#x2028; 100 results and a nextToken value, if&#x2028; applicable. This option cannot be used when you specify images with imageIds.
-        public let maxResults: Int32?
-        /// The list of imageIDs to be included.
-        public let imageIds: [ImageIdentifier]?
-
-        public init(repositoryName: String, filter: LifecyclePolicyPreviewFilter? = nil, nextToken: String? = nil, registryId: String? = nil, maxResults: Int32? = nil, imageIds: [ImageIdentifier]? = nil) {
-            self.repositoryName = repositoryName
-            self.filter = filter
-            self.nextToken = nextToken
-            self.registryId = registryId
-            self.maxResults = maxResults
-            self.imageIds = imageIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case filter = "filter"
-            case nextToken = "nextToken"
-            case registryId = "registryId"
-            case maxResults = "maxResults"
-            case imageIds = "imageIds"
-        }
-    }
-
-    public struct DeleteLifecyclePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "lifecyclePolicyText", required: false, type: .string), 
-            AWSShapeMember(label: "lastEvaluatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "registryId", required: false, type: .string)
-        ]
-        /// The repository name associated with the request.
-        public let repositoryName: String?
-        /// The JSON lifecycle policy text.
-        public let lifecyclePolicyText: String?
-        /// The time stamp of the last time that the lifecycle policy was run.
-        public let lastEvaluatedAt: TimeStamp?
-        /// The registry ID associated with the request.
-        public let registryId: String?
-
-        public init(repositoryName: String? = nil, lifecyclePolicyText: String? = nil, lastEvaluatedAt: TimeStamp? = nil, registryId: String? = nil) {
-            self.repositoryName = repositoryName
-            self.lifecyclePolicyText = lifecyclePolicyText
-            self.lastEvaluatedAt = lastEvaluatedAt
-            self.registryId = registryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case lifecyclePolicyText = "lifecyclePolicyText"
-            case lastEvaluatedAt = "lastEvaluatedAt"
-            case registryId = "registryId"
-        }
-    }
-
-    public struct StartLifecyclePolicyPreviewRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lifecyclePolicyText", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
-        /// The policy to be evaluated against. If you do not specify a policy, the current policy for the repository is used.
-        public let lifecyclePolicyText: String?
-        /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
-        public let registryId: String?
-        /// The name of the repository to be evaluated.
-        public let repositoryName: String
-
-        public init(lifecyclePolicyText: String? = nil, registryId: String? = nil, repositoryName: String) {
-            self.lifecyclePolicyText = lifecyclePolicyText
-            self.registryId = registryId
-            self.repositoryName = repositoryName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lifecyclePolicyText = "lifecyclePolicyText"
-            case registryId = "registryId"
-            case repositoryName = "repositoryName"
-        }
-    }
-
-    public struct ImageDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "imageDigest", required: false, type: .string), 
-            AWSShapeMember(label: "imageSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "imagePushedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "imageTags", required: false, type: .list), 
-            AWSShapeMember(label: "registryId", required: false, type: .string)
-        ]
-        /// The name of the repository to which this image belongs.
-        public let repositoryName: String?
-        /// The sha256 digest of the image manifest.
-        public let imageDigest: String?
-        /// The size, in bytes, of the image in the repository.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages. 
-        public let imageSizeInBytes: Int64?
-        /// The date and time, expressed in standard JavaScript date format, at which the current image was pushed to the repository. 
-        public let imagePushedAt: TimeStamp?
-        /// The list of tags associated with this image.
-        public let imageTags: [String]?
-        /// The AWS account ID associated with the registry to which this image belongs.
-        public let registryId: String?
-
-        public init(repositoryName: String? = nil, imageDigest: String? = nil, imageSizeInBytes: Int64? = nil, imagePushedAt: TimeStamp? = nil, imageTags: [String]? = nil, registryId: String? = nil) {
-            self.repositoryName = repositoryName
-            self.imageDigest = imageDigest
-            self.imageSizeInBytes = imageSizeInBytes
-            self.imagePushedAt = imagePushedAt
-            self.imageTags = imageTags
-            self.registryId = registryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case imageDigest = "imageDigest"
-            case imageSizeInBytes = "imageSizeInBytes"
-            case imagePushedAt = "imagePushedAt"
-            case imageTags = "imageTags"
-            case registryId = "registryId"
-        }
-    }
-
-    public struct SetRepositoryPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "force", required: false, type: .boolean), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "policyText", required: true, type: .string)
-        ]
-        /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to prevent accidental repository lock outs.
-        public let force: Bool?
-        /// The name of the repository to receive the policy.
-        public let repositoryName: String
-        /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
-        public let registryId: String?
-        /// The JSON repository policy text to apply to the repository.
-        public let policyText: String
-
-        public init(force: Bool? = nil, repositoryName: String, registryId: String? = nil, policyText: String) {
-            self.force = force
-            self.repositoryName = repositoryName
-            self.registryId = registryId
-            self.policyText = policyText
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case force = "force"
-            case repositoryName = "repositoryName"
-            case registryId = "registryId"
-            case policyText = "policyText"
-        }
-    }
-
-    public struct BatchCheckLayerAvailabilityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "layerDigests", required: true, type: .list), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
-        /// The digests of the image layers to check.
-        public let layerDigests: [String]
-        /// The AWS account ID associated with the registry that contains the image layers to check. If you do not specify a registry, the default registry is assumed.
-        public let registryId: String?
-        /// The name of the repository that is associated with the image layers to check.
-        public let repositoryName: String
-
-        public init(layerDigests: [String], registryId: String? = nil, repositoryName: String) {
-            self.layerDigests = layerDigests
-            self.registryId = registryId
-            self.repositoryName = repositoryName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case layerDigests = "layerDigests"
-            case registryId = "registryId"
-            case repositoryName = "repositoryName"
-        }
-    }
-
-    public struct SetRepositoryPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "policyText", required: false, type: .string)
-        ]
-        /// The registry ID associated with the request.
-        public let registryId: String?
-        /// The repository name associated with the request.
-        public let repositoryName: String?
-        /// The JSON repository policy text applied to the repository.
-        public let policyText: String?
-
-        public init(registryId: String? = nil, repositoryName: String? = nil, policyText: String? = nil) {
-            self.registryId = registryId
-            self.repositoryName = repositoryName
-            self.policyText = policyText
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case registryId = "registryId"
-            case repositoryName = "repositoryName"
-            case policyText = "policyText"
-        }
-    }
-
-    public struct DeleteLifecyclePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
-        /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
-        public let registryId: String?
-        /// The name of the repository.
-        public let repositoryName: String
-
-        public init(registryId: String? = nil, repositoryName: String) {
-            self.registryId = registryId
-            self.repositoryName = repositoryName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case registryId = "registryId"
-            case repositoryName = "repositoryName"
-        }
-    }
-
-    public struct GetAuthorizationTokenRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "registryIds", required: false, type: .list)
-        ]
-        /// A list of AWS account IDs that are associated with the registries for which to get authorization tokens. If you do not specify a registry, the default registry is assumed.
-        public let registryIds: [String]?
-
-        public init(registryIds: [String]? = nil) {
-            self.registryIds = registryIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case registryIds = "registryIds"
-        }
-    }
-
-    public enum LayerFailureCode: String, CustomStringConvertible, Codable {
-        case invalidlayerdigest = "InvalidLayerDigest"
-        case missinglayerdigest = "MissingLayerDigest"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct InitiateLayerUploadRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
-        /// The AWS account ID associated with the registry to which you intend to upload layers. If you do not specify a registry, the default registry is assumed.
-        public let registryId: String?
-        /// The name of the repository to which you intend to upload layers.
-        public let repositoryName: String
-
-        public init(registryId: String? = nil, repositoryName: String) {
-            self.registryId = registryId
-            self.repositoryName = repositoryName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case registryId = "registryId"
-            case repositoryName = "repositoryName"
-        }
-    }
-
-    public struct DescribeRepositoriesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "repositoryNames", required: false, type: .list)
-        ]
-        /// The nextToken value returned from a previous paginated DescribeRepositories request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify repositories with repositoryNames.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public let nextToken: String?
-        /// The AWS account ID associated with the registry that contains the repositories to be described. If you do not specify a registry, the default registry is assumed.
-        public let registryId: String?
-        /// The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify repositories with repositoryNames.
-        public let maxResults: Int32?
-        /// A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
-        public let repositoryNames: [String]?
-
-        public init(nextToken: String? = nil, registryId: String? = nil, maxResults: Int32? = nil, repositoryNames: [String]? = nil) {
-            self.nextToken = nextToken
-            self.registryId = registryId
-            self.maxResults = maxResults
-            self.repositoryNames = repositoryNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case registryId = "registryId"
-            case maxResults = "maxResults"
-            case repositoryNames = "repositoryNames"
-        }
-    }
-
-    public struct DescribeImagesFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tagStatus", required: false, type: .enum)
-        ]
-        /// The tag status with which to filter your DescribeImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
-        public let tagStatus: TagStatus?
-
-        public init(tagStatus: TagStatus? = nil) {
-            self.tagStatus = tagStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagStatus = "tagStatus"
-        }
-    }
-
     public struct UploadLayerPartRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "partFirstByte", required: true, type: .long), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "partLastByte", required: true, type: .long), 
+            AWSShapeMember(label: "layerPartBlob", required: true, type: .blob), 
             AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "partFirstByte", required: true, type: .long), 
             AWSShapeMember(label: "uploadId", required: true, type: .string), 
-            AWSShapeMember(label: "layerPartBlob", required: true, type: .blob)
+            AWSShapeMember(label: "partLastByte", required: true, type: .long)
         ]
-        /// The integer value of the first byte of the layer part.
-        public let partFirstByte: Int64
-        /// The name of the repository to which you are uploading layer parts.
-        public let repositoryName: String
-        /// The integer value of the last byte of the layer part.
-        public let partLastByte: Int64
-        /// The AWS account ID associated with the registry to which you are uploading layer parts. If you do not specify a registry, the default registry is assumed.
-        public let registryId: String?
-        /// The upload ID from a previous InitiateLayerUpload operation to associate with the layer part upload.
-        public let uploadId: String
         /// The base64-encoded layer part payload.
         public let layerPartBlob: Data
-
-        public init(partFirstByte: Int64, repositoryName: String, partLastByte: Int64, registryId: String? = nil, uploadId: String, layerPartBlob: Data) {
-            self.partFirstByte = partFirstByte
-            self.repositoryName = repositoryName
-            self.partLastByte = partLastByte
-            self.registryId = registryId
-            self.uploadId = uploadId
-            self.layerPartBlob = layerPartBlob
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case partFirstByte = "partFirstByte"
-            case repositoryName = "repositoryName"
-            case partLastByte = "partLastByte"
-            case registryId = "registryId"
-            case uploadId = "uploadId"
-            case layerPartBlob = "layerPartBlob"
-        }
-    }
-
-    public struct CompleteLayerUploadResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "layerDigest", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "uploadId", required: false, type: .string)
-        ]
-        /// The repository name associated with the request.
-        public let repositoryName: String?
-        /// The sha256 digest of the image layer.
-        public let layerDigest: String?
-        /// The registry ID associated with the request.
+        /// The AWS account ID associated with the registry to which you are uploading layer parts. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
-        /// The upload ID associated with the layer.
-        public let uploadId: String?
-
-        public init(repositoryName: String? = nil, layerDigest: String? = nil, registryId: String? = nil, uploadId: String? = nil) {
-            self.repositoryName = repositoryName
-            self.layerDigest = layerDigest
-            self.registryId = registryId
-            self.uploadId = uploadId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case layerDigest = "layerDigest"
-            case registryId = "registryId"
-            case uploadId = "uploadId"
-        }
-    }
-
-    public struct CreateRepositoryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repository", required: false, type: .structure)
-        ]
-        /// The repository that was created.
-        public let repository: Repository?
-
-        public init(repository: Repository? = nil) {
-            self.repository = repository
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repository = "repository"
-        }
-    }
-
-    public struct LifecyclePolicyRuleAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
-        /// The type of action to be taken.
-        public let `type`: ImageActionType?
-
-        public init(type: ImageActionType? = nil) {
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "type"
-        }
-    }
-
-    public struct CompleteLayerUploadRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "layerDigests", required: true, type: .list), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "uploadId", required: true, type: .string)
-        ]
-        /// The name of the repository to associate with the image layer.
+        /// The name of the repository to which you are uploading layer parts.
         public let repositoryName: String
-        /// The sha256 digest of the image layer.
-        public let layerDigests: [String]
-        /// The AWS account ID associated with the registry to which to upload layers. If you do not specify a registry, the default registry is assumed.
-        public let registryId: String?
-        /// The upload ID from a previous InitiateLayerUpload operation to associate with the image layer.
+        /// The integer value of the first byte of the layer part.
+        public let partFirstByte: Int64
+        /// The upload ID from a previous InitiateLayerUpload operation to associate with the layer part upload.
         public let uploadId: String
+        /// The integer value of the last byte of the layer part.
+        public let partLastByte: Int64
 
-        public init(repositoryName: String, layerDigests: [String], registryId: String? = nil, uploadId: String) {
-            self.repositoryName = repositoryName
-            self.layerDigests = layerDigests
+        public init(layerPartBlob: Data, registryId: String? = nil, repositoryName: String, partFirstByte: Int64, uploadId: String, partLastByte: Int64) {
+            self.layerPartBlob = layerPartBlob
             self.registryId = registryId
+            self.repositoryName = repositoryName
+            self.partFirstByte = partFirstByte
             self.uploadId = uploadId
+            self.partLastByte = partLastByte
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case layerDigests = "layerDigests"
+            case layerPartBlob = "layerPartBlob"
             case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case partFirstByte = "partFirstByte"
             case uploadId = "uploadId"
-        }
-    }
-
-    public struct BatchCheckLayerAvailabilityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failures", required: false, type: .list), 
-            AWSShapeMember(label: "layers", required: false, type: .list)
-        ]
-        /// Any failures associated with the call.
-        public let failures: [LayerFailure]?
-        /// A list of image layer objects corresponding to the image layer references in the request.
-        public let layers: [Layer]?
-
-        public init(failures: [LayerFailure]? = nil, layers: [Layer]? = nil) {
-            self.failures = failures
-            self.layers = layers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failures = "failures"
-            case layers = "layers"
-        }
-    }
-
-    public struct LayerFailure: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "layerDigest", required: false, type: .string), 
-            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string)
-        ]
-        /// The layer digest associated with the failure.
-        public let layerDigest: String?
-        /// The failure code associated with the failure.
-        public let failureCode: LayerFailureCode?
-        /// The reason for the failure.
-        public let failureReason: String?
-
-        public init(layerDigest: String? = nil, failureCode: LayerFailureCode? = nil, failureReason: String? = nil) {
-            self.layerDigest = layerDigest
-            self.failureCode = failureCode
-            self.failureReason = failureReason
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case layerDigest = "layerDigest"
-            case failureCode = "failureCode"
-            case failureReason = "failureReason"
-        }
-    }
-
-    public struct ListImagesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageIds", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// The list of image IDs for the requested repository.
-        public let imageIds: [ImageIdentifier]?
-        /// The nextToken value to include in a future ListImages request. When the results of a ListImages request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public let nextToken: String?
-
-        public init(imageIds: [ImageIdentifier]? = nil, nextToken: String? = nil) {
-            self.imageIds = imageIds
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case imageIds = "imageIds"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct DeleteRepositoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "force", required: false, type: .boolean), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
-        ///  If a repository contains images, forces the deletion.
-        public let force: Bool?
-        /// The AWS account ID associated with the registry that contains the repository to delete. If you do not specify a registry, the default registry is assumed.
-        public let registryId: String?
-        /// The name of the repository to delete.
-        public let repositoryName: String
-
-        public init(force: Bool? = nil, registryId: String? = nil, repositoryName: String) {
-            self.force = force
-            self.registryId = registryId
-            self.repositoryName = repositoryName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case force = "force"
-            case registryId = "registryId"
-            case repositoryName = "repositoryName"
-        }
-    }
-
-    public struct GetRepositoryPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
-        /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
-        public let registryId: String?
-        /// The name of the repository with the policy to retrieve.
-        public let repositoryName: String
-
-        public init(registryId: String? = nil, repositoryName: String) {
-            self.registryId = registryId
-            self.repositoryName = repositoryName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case registryId = "registryId"
-            case repositoryName = "repositoryName"
-        }
-    }
-
-    public struct GetLifecyclePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "lifecyclePolicyText", required: false, type: .string), 
-            AWSShapeMember(label: "lastEvaluatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "registryId", required: false, type: .string)
-        ]
-        /// The repository name associated with the request.
-        public let repositoryName: String?
-        /// The JSON lifecycle policy text.
-        public let lifecyclePolicyText: String?
-        /// The time stamp of the last time that the lifecycle policy was run.
-        public let lastEvaluatedAt: TimeStamp?
-        /// The registry ID associated with the request.
-        public let registryId: String?
-
-        public init(repositoryName: String? = nil, lifecyclePolicyText: String? = nil, lastEvaluatedAt: TimeStamp? = nil, registryId: String? = nil) {
-            self.repositoryName = repositoryName
-            self.lifecyclePolicyText = lifecyclePolicyText
-            self.lastEvaluatedAt = lastEvaluatedAt
-            self.registryId = registryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case lifecyclePolicyText = "lifecyclePolicyText"
-            case lastEvaluatedAt = "lastEvaluatedAt"
-            case registryId = "registryId"
-        }
-    }
-
-    public struct CreateRepositoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
-        /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app).
-        public let repositoryName: String
-
-        public init(repositoryName: String) {
-            self.repositoryName = repositoryName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-        }
-    }
-
-    public enum ImageFailureCode: String, CustomStringConvertible, Codable {
-        case invalidimagedigest = "InvalidImageDigest"
-        case invalidimagetag = "InvalidImageTag"
-        case imagetagdoesnotmatchdigest = "ImageTagDoesNotMatchDigest"
-        case imagenotfound = "ImageNotFound"
-        case missingdigestandtag = "MissingDigestAndTag"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct LifecyclePolicyPreviewResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageDigest", required: false, type: .string), 
-            AWSShapeMember(label: "appliedRulePriority", required: false, type: .integer), 
-            AWSShapeMember(label: "imagePushedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "imageTags", required: false, type: .list), 
-            AWSShapeMember(label: "action", required: false, type: .structure)
-        ]
-        /// The sha256 digest of the image manifest.
-        public let imageDigest: String?
-        /// The priority of the applied rule.
-        public let appliedRulePriority: Int32?
-        /// The date and time, expressed in standard JavaScript date format, at which the current image was pushed to the repository.
-        public let imagePushedAt: TimeStamp?
-        /// The list of tags associated with this image.
-        public let imageTags: [String]?
-        /// The type of action to be taken.
-        public let action: LifecyclePolicyRuleAction?
-
-        public init(imageDigest: String? = nil, appliedRulePriority: Int32? = nil, imagePushedAt: TimeStamp? = nil, imageTags: [String]? = nil, action: LifecyclePolicyRuleAction? = nil) {
-            self.imageDigest = imageDigest
-            self.appliedRulePriority = appliedRulePriority
-            self.imagePushedAt = imagePushedAt
-            self.imageTags = imageTags
-            self.action = action
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case imageDigest = "imageDigest"
-            case appliedRulePriority = "appliedRulePriority"
-            case imagePushedAt = "imagePushedAt"
-            case imageTags = "imageTags"
-            case action = "action"
-        }
-    }
-
-    public struct AuthorizationData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "proxyEndpoint", required: false, type: .string), 
-            AWSShapeMember(label: "authorizationToken", required: false, type: .string), 
-            AWSShapeMember(label: "expiresAt", required: false, type: .timestamp)
-        ]
-        /// The registry URL to use for this authorization token in a docker login command. The Amazon ECR registry URL format is https://aws_account_id.dkr.ecr.region.amazonaws.com. For example, https://012345678910.dkr.ecr.us-east-1.amazonaws.com.. 
-        public let proxyEndpoint: String?
-        /// A base64-encoded string that contains authorization data for the specified Amazon ECR registry. When the string is decoded, it is presented in the format user:password for private registry authentication using docker login.
-        public let authorizationToken: String?
-        /// The Unix time in seconds and milliseconds when the authorization token expires. Authorization tokens are valid for 12 hours.
-        public let expiresAt: TimeStamp?
-
-        public init(proxyEndpoint: String? = nil, authorizationToken: String? = nil, expiresAt: TimeStamp? = nil) {
-            self.proxyEndpoint = proxyEndpoint
-            self.authorizationToken = authorizationToken
-            self.expiresAt = expiresAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyEndpoint = "proxyEndpoint"
-            case authorizationToken = "authorizationToken"
-            case expiresAt = "expiresAt"
-        }
-    }
-
-    public struct GetDownloadUrlForLayerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "layerDigest", required: true, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
-        /// The digest of the image layer to download.
-        public let layerDigest: String
-        /// The AWS account ID associated with the registry that contains the image layer to download. If you do not specify a registry, the default registry is assumed.
-        public let registryId: String?
-        /// The name of the repository that is associated with the image layer to download.
-        public let repositoryName: String
-
-        public init(layerDigest: String, registryId: String? = nil, repositoryName: String) {
-            self.layerDigest = layerDigest
-            self.registryId = registryId
-            self.repositoryName = repositoryName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case layerDigest = "layerDigest"
-            case registryId = "registryId"
-            case repositoryName = "repositoryName"
-        }
-    }
-
-    public struct GetLifecyclePolicyPreviewResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "summary", required: false, type: .structure), 
-            AWSShapeMember(label: "lifecyclePolicyText", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "previewResults", required: false, type: .list)
-        ]
-        /// The list of images that is returned as a result of the action.
-        public let summary: LifecyclePolicyPreviewSummary?
-        /// The JSON lifecycle policy text.
-        public let lifecyclePolicyText: String?
-        /// The nextToken value to include in a future GetLifecyclePolicyPreview request. When the results of a GetLifecyclePolicyPreview request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public let nextToken: String?
-        /// The repository name associated with the request.
-        public let repositoryName: String?
-        /// The registry ID associated with the request.
-        public let registryId: String?
-        /// The status of the lifecycle policy preview request.
-        public let status: LifecyclePolicyPreviewStatus?
-        /// The results of the lifecycle policy preview request.
-        public let previewResults: [LifecyclePolicyPreviewResult]?
-
-        public init(summary: LifecyclePolicyPreviewSummary? = nil, lifecyclePolicyText: String? = nil, nextToken: String? = nil, repositoryName: String? = nil, registryId: String? = nil, status: LifecyclePolicyPreviewStatus? = nil, previewResults: [LifecyclePolicyPreviewResult]? = nil) {
-            self.summary = summary
-            self.lifecyclePolicyText = lifecyclePolicyText
-            self.nextToken = nextToken
-            self.repositoryName = repositoryName
-            self.registryId = registryId
-            self.status = status
-            self.previewResults = previewResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case summary = "summary"
-            case lifecyclePolicyText = "lifecyclePolicyText"
-            case nextToken = "nextToken"
-            case repositoryName = "repositoryName"
-            case registryId = "registryId"
-            case status = "status"
-            case previewResults = "previewResults"
+            case partLastByte = "partLastByte"
         }
     }
 
@@ -982,6 +98,37 @@ extension ECR {
         }
     }
 
+    public struct CompleteLayerUploadResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "layerDigest", required: false, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "uploadId", required: false, type: .string)
+        ]
+        /// The sha256 digest of the image layer.
+        public let layerDigest: String?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The repository name associated with the request.
+        public let repositoryName: String?
+        /// The upload ID associated with the layer.
+        public let uploadId: String?
+
+        public init(layerDigest: String? = nil, registryId: String? = nil, repositoryName: String? = nil, uploadId: String? = nil) {
+            self.layerDigest = layerDigest
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+            self.uploadId = uploadId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case layerDigest = "layerDigest"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case uploadId = "uploadId"
+        }
+    }
+
     public struct LifecyclePolicyPreviewSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "expiringImageTotalCount", required: false, type: .integer)
@@ -998,154 +145,195 @@ extension ECR {
         }
     }
 
-    public struct GetLifecyclePolicyRequest: AWSShape {
+    public struct ImageIdentifier: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+            AWSShapeMember(label: "imageTag", required: false, type: .string), 
+            AWSShapeMember(label: "imageDigest", required: false, type: .string)
         ]
+        /// The tag used for the image.
+        public let imageTag: String?
+        /// The sha256 digest of the image manifest.
+        public let imageDigest: String?
+
+        public init(imageTag: String? = nil, imageDigest: String? = nil) {
+            self.imageTag = imageTag
+            self.imageDigest = imageDigest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageTag = "imageTag"
+            case imageDigest = "imageDigest"
+        }
+    }
+
+    public struct AuthorizationData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "expiresAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "proxyEndpoint", required: false, type: .string), 
+            AWSShapeMember(label: "authorizationToken", required: false, type: .string)
+        ]
+        /// The Unix time in seconds and milliseconds when the authorization token expires. Authorization tokens are valid for 12 hours.
+        public let expiresAt: TimeStamp?
+        /// The registry URL to use for this authorization token in a docker login command. The Amazon ECR registry URL format is https://aws_account_id.dkr.ecr.region.amazonaws.com. For example, https://012345678910.dkr.ecr.us-east-1.amazonaws.com.. 
+        public let proxyEndpoint: String?
+        /// A base64-encoded string that contains authorization data for the specified Amazon ECR registry. When the string is decoded, it is presented in the format user:password for private registry authentication using docker login.
+        public let authorizationToken: String?
+
+        public init(expiresAt: TimeStamp? = nil, proxyEndpoint: String? = nil, authorizationToken: String? = nil) {
+            self.expiresAt = expiresAt
+            self.proxyEndpoint = proxyEndpoint
+            self.authorizationToken = authorizationToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expiresAt = "expiresAt"
+            case proxyEndpoint = "proxyEndpoint"
+            case authorizationToken = "authorizationToken"
+        }
+    }
+
+    public struct GetLifecyclePolicyPreviewResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "previewResults", required: false, type: .list), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "summary", required: false, type: .structure), 
+            AWSShapeMember(label: "lifecyclePolicyText", required: false, type: .string)
+        ]
+        /// The nextToken value to include in a future GetLifecyclePolicyPreview request. When the results of a GetLifecyclePolicyPreview request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The repository name associated with the request.
+        public let repositoryName: String?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The results of the lifecycle policy preview request.
+        public let previewResults: [LifecyclePolicyPreviewResult]?
+        /// The status of the lifecycle policy preview request.
+        public let status: LifecyclePolicyPreviewStatus?
+        /// The list of images that is returned as a result of the action.
+        public let summary: LifecyclePolicyPreviewSummary?
+        /// The JSON lifecycle policy text.
+        public let lifecyclePolicyText: String?
+
+        public init(nextToken: String? = nil, repositoryName: String? = nil, registryId: String? = nil, previewResults: [LifecyclePolicyPreviewResult]? = nil, status: LifecyclePolicyPreviewStatus? = nil, summary: LifecyclePolicyPreviewSummary? = nil, lifecyclePolicyText: String? = nil) {
+            self.nextToken = nextToken
+            self.repositoryName = repositoryName
+            self.registryId = registryId
+            self.previewResults = previewResults
+            self.status = status
+            self.summary = summary
+            self.lifecyclePolicyText = lifecyclePolicyText
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case repositoryName = "repositoryName"
+            case registryId = "registryId"
+            case previewResults = "previewResults"
+            case status = "status"
+            case summary = "summary"
+            case lifecyclePolicyText = "lifecyclePolicyText"
+        }
+    }
+
+    public struct DeleteRepositoryResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repository", required: false, type: .structure)
+        ]
+        /// The repository that was deleted.
+        public let repository: Repository?
+
+        public init(repository: Repository? = nil) {
+            self.repository = repository
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repository = "repository"
+        }
+    }
+
+    public struct ListImagesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "imageIds", required: false, type: .list)
+        ]
+        /// The nextToken value to include in a future ListImages request. When the results of a ListImages request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The list of image IDs for the requested repository.
+        public let imageIds: [ImageIdentifier]?
+
+        public init(nextToken: String? = nil, imageIds: [ImageIdentifier]? = nil) {
+            self.nextToken = nextToken
+            self.imageIds = imageIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case imageIds = "imageIds"
+        }
+    }
+
+    public enum ImageActionType: String, CustomStringConvertible, Codable {
+        case expire = "EXPIRE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StartLifecyclePolicyPreviewRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "lifecyclePolicyText", required: false, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
+        ]
+        /// The name of the repository to be evaluated.
+        public let repositoryName: String
+        /// The policy to be evaluated against. If you do not specify a policy, the current policy for the repository is used.
+        public let lifecyclePolicyText: String?
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
-        /// The name of the repository.
-        public let repositoryName: String
 
-        public init(registryId: String? = nil, repositoryName: String) {
-            self.registryId = registryId
+        public init(repositoryName: String, lifecyclePolicyText: String? = nil, registryId: String? = nil) {
             self.repositoryName = repositoryName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case registryId = "registryId"
-            case repositoryName = "repositoryName"
-        }
-    }
-
-    public struct Repository: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "repositoryUri", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryArn", required: false, type: .string)
-        ]
-        /// The name of the repository.
-        public let repositoryName: String?
-        /// The date and time, in JavaScript date format, when the repository was created.
-        public let createdAt: TimeStamp?
-        /// The URI for the repository. You can use this URI for Docker push or pull operations.
-        public let repositoryUri: String?
-        /// The AWS account ID associated with the registry that contains the repository.
-        public let registryId: String?
-        /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, AWS account ID of the repository owner, repository namespace, and repository name. For example, arn:aws:ecr:region:012345678910:repository/test.
-        public let repositoryArn: String?
-
-        public init(repositoryName: String? = nil, createdAt: TimeStamp? = nil, repositoryUri: String? = nil, registryId: String? = nil, repositoryArn: String? = nil) {
-            self.repositoryName = repositoryName
-            self.createdAt = createdAt
-            self.repositoryUri = repositoryUri
+            self.lifecyclePolicyText = lifecyclePolicyText
             self.registryId = registryId
-            self.repositoryArn = repositoryArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case repositoryName = "repositoryName"
-            case createdAt = "createdAt"
-            case repositoryUri = "repositoryUri"
+            case lifecyclePolicyText = "lifecyclePolicyText"
             case registryId = "registryId"
-            case repositoryArn = "repositoryArn"
         }
     }
 
-    public struct Image: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "imageId", required: false, type: .structure), 
-            AWSShapeMember(label: "imageManifest", required: false, type: .string)
-        ]
-        /// The name of the repository associated with the image.
-        public let repositoryName: String?
-        /// The AWS account ID associated with the registry containing the image.
-        public let registryId: String?
-        /// An object containing the image tag and image digest associated with an image.
-        public let imageId: ImageIdentifier?
-        /// The image manifest associated with the image.
-        public let imageManifest: String?
-
-        public init(repositoryName: String? = nil, registryId: String? = nil, imageId: ImageIdentifier? = nil, imageManifest: String? = nil) {
-            self.repositoryName = repositoryName
-            self.registryId = registryId
-            self.imageId = imageId
-            self.imageManifest = imageManifest
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case registryId = "registryId"
-            case imageId = "imageId"
-            case imageManifest = "imageManifest"
-        }
-    }
-
-    public struct InitiateLayerUploadResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "uploadId", required: false, type: .string), 
-            AWSShapeMember(label: "partSize", required: false, type: .long)
-        ]
-        /// The upload ID for the layer upload. This parameter is passed to further UploadLayerPart and CompleteLayerUpload operations.
-        public let uploadId: String?
-        /// The size, in bytes, that Amazon ECR expects future layer part uploads to be.
-        public let partSize: Int64?
-
-        public init(uploadId: String? = nil, partSize: Int64? = nil) {
-            self.uploadId = uploadId
-            self.partSize = partSize
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case uploadId = "uploadId"
-            case partSize = "partSize"
-        }
-    }
-
-    public struct PutImageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "image", required: false, type: .structure)
-        ]
-        /// Details of the image uploaded.
-        public let image: Image?
-
-        public init(image: Image? = nil) {
-            self.image = image
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case image = "image"
-        }
-    }
-
-    public struct DeleteRepositoryPolicyResponse: AWSShape {
+    public struct StartLifecyclePolicyPreviewResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "policyText", required: false, type: .string)
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "lifecyclePolicyText", required: false, type: .string)
         ]
         /// The registry ID associated with the request.
         public let registryId: String?
         /// The repository name associated with the request.
         public let repositoryName: String?
-        /// The JSON repository policy that was deleted from the repository.
-        public let policyText: String?
+        /// The status of the lifecycle policy preview request.
+        public let status: LifecyclePolicyPreviewStatus?
+        /// The JSON repository policy text.
+        public let lifecyclePolicyText: String?
 
-        public init(registryId: String? = nil, repositoryName: String? = nil, policyText: String? = nil) {
+        public init(registryId: String? = nil, repositoryName: String? = nil, status: LifecyclePolicyPreviewStatus? = nil, lifecyclePolicyText: String? = nil) {
             self.registryId = registryId
             self.repositoryName = repositoryName
-            self.policyText = policyText
+            self.status = status
+            self.lifecyclePolicyText = lifecyclePolicyText
         }
 
         private enum CodingKeys: String, CodingKey {
             case registryId = "registryId"
             case repositoryName = "repositoryName"
-            case policyText = "policyText"
+            case status = "status"
+            case lifecyclePolicyText = "lifecyclePolicyText"
         }
     }
 
@@ -1170,19 +358,498 @@ extension ECR {
         }
     }
 
-    public struct ListImagesFilter: AWSShape {
+    public struct GetAuthorizationTokenRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tagStatus", required: false, type: .enum)
+            AWSShapeMember(label: "registryIds", required: false, type: .list)
         ]
-        /// The tag status with which to filter your ListImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
-        public let tagStatus: TagStatus?
+        /// A list of AWS account IDs that are associated with the registries for which to get authorization tokens. If you do not specify a registry, the default registry is assumed.
+        public let registryIds: [String]?
 
-        public init(tagStatus: TagStatus? = nil) {
-            self.tagStatus = tagStatus
+        public init(registryIds: [String]? = nil) {
+            self.registryIds = registryIds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagStatus = "tagStatus"
+            case registryIds = "registryIds"
+        }
+    }
+
+    public struct DescribeRepositoriesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryNames", required: false, type: .list), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
+        ]
+        /// A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
+        public let repositoryNames: [String]?
+        /// The AWS account ID associated with the registry that contains the repositories to be described. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+        /// The nextToken value returned from a previous paginated DescribeRepositories request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify repositories with repositoryNames.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
+        public let nextToken: String?
+        /// The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify repositories with repositoryNames.
+        public let maxResults: Int32?
+
+        public init(repositoryNames: [String]? = nil, registryId: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.repositoryNames = repositoryNames
+            self.registryId = registryId
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryNames = "repositoryNames"
+            case registryId = "registryId"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct GetRepositoryPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "policyText", required: false, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
+        ]
+        /// The repository name associated with the request.
+        public let repositoryName: String?
+        /// The JSON repository policy text associated with the repository.
+        public let policyText: String?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+
+        public init(repositoryName: String? = nil, policyText: String? = nil, registryId: String? = nil) {
+            self.repositoryName = repositoryName
+            self.policyText = policyText
+            self.registryId = registryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+            case policyText = "policyText"
+            case registryId = "registryId"
+        }
+    }
+
+    public struct BatchGetImageResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "images", required: false, type: .list), 
+            AWSShapeMember(label: "failures", required: false, type: .list)
+        ]
+        /// A list of image objects corresponding to the image references in the request.
+        public let images: [Image]?
+        /// Any failures associated with the call.
+        public let failures: [ImageFailure]?
+
+        public init(images: [Image]? = nil, failures: [ImageFailure]? = nil) {
+            self.images = images
+            self.failures = failures
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case images = "images"
+            case failures = "failures"
+        }
+    }
+
+    public struct PutImageResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "image", required: false, type: .structure)
+        ]
+        /// Details of the image uploaded.
+        public let image: Image?
+
+        public init(image: Image? = nil) {
+            self.image = image
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case image = "image"
+        }
+    }
+
+    public struct BatchCheckLayerAvailabilityResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "layers", required: false, type: .list), 
+            AWSShapeMember(label: "failures", required: false, type: .list)
+        ]
+        /// A list of image layer objects corresponding to the image layer references in the request.
+        public let layers: [Layer]?
+        /// Any failures associated with the call.
+        public let failures: [LayerFailure]?
+
+        public init(layers: [Layer]? = nil, failures: [LayerFailure]? = nil) {
+            self.layers = layers
+            self.failures = failures
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case layers = "layers"
+            case failures = "failures"
+        }
+    }
+
+    public struct DeleteRepositoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "force", required: false, type: .boolean), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
+        ]
+        /// The name of the repository to delete.
+        public let repositoryName: String
+        ///  If a repository contains images, forces the deletion.
+        public let force: Bool?
+        /// The AWS account ID associated with the registry that contains the repository to delete. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+
+        public init(repositoryName: String, force: Bool? = nil, registryId: String? = nil) {
+            self.repositoryName = repositoryName
+            self.force = force
+            self.registryId = registryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+            case force = "force"
+            case registryId = "registryId"
+        }
+    }
+
+    public struct ImageFailure: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imageId", required: false, type: .structure), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string), 
+            AWSShapeMember(label: "failureCode", required: false, type: .enum)
+        ]
+        /// The image ID associated with the failure.
+        public let imageId: ImageIdentifier?
+        /// The reason for the failure.
+        public let failureReason: String?
+        /// The code associated with the failure.
+        public let failureCode: ImageFailureCode?
+
+        public init(imageId: ImageIdentifier? = nil, failureReason: String? = nil, failureCode: ImageFailureCode? = nil) {
+            self.imageId = imageId
+            self.failureReason = failureReason
+            self.failureCode = failureCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "imageId"
+            case failureReason = "failureReason"
+            case failureCode = "failureCode"
+        }
+    }
+
+    public struct ImageDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imageSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "imageTags", required: false, type: .list), 
+            AWSShapeMember(label: "imagePushedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "imageDigest", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
+        ]
+        /// The size, in bytes, of the image in the repository.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages. 
+        public let imageSizeInBytes: Int64?
+        /// The list of tags associated with this image.
+        public let imageTags: [String]?
+        /// The date and time, expressed in standard JavaScript date format, at which the current image was pushed to the repository. 
+        public let imagePushedAt: TimeStamp?
+        /// The sha256 digest of the image manifest.
+        public let imageDigest: String?
+        /// The name of the repository to which this image belongs.
+        public let repositoryName: String?
+        /// The AWS account ID associated with the registry to which this image belongs.
+        public let registryId: String?
+
+        public init(imageSizeInBytes: Int64? = nil, imageTags: [String]? = nil, imagePushedAt: TimeStamp? = nil, imageDigest: String? = nil, repositoryName: String? = nil, registryId: String? = nil) {
+            self.imageSizeInBytes = imageSizeInBytes
+            self.imageTags = imageTags
+            self.imagePushedAt = imagePushedAt
+            self.imageDigest = imageDigest
+            self.repositoryName = repositoryName
+            self.registryId = registryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageSizeInBytes = "imageSizeInBytes"
+            case imageTags = "imageTags"
+            case imagePushedAt = "imagePushedAt"
+            case imageDigest = "imageDigest"
+            case repositoryName = "repositoryName"
+            case registryId = "registryId"
+        }
+    }
+
+    public struct InitiateLayerUploadRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
+        ]
+        /// The name of the repository to which you intend to upload layers.
+        public let repositoryName: String
+        /// The AWS account ID associated with the registry to which you intend to upload layers. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+
+        public init(repositoryName: String, registryId: String? = nil) {
+            self.repositoryName = repositoryName
+            self.registryId = registryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+            case registryId = "registryId"
+        }
+    }
+
+    public struct InitiateLayerUploadResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "partSize", required: false, type: .long), 
+            AWSShapeMember(label: "uploadId", required: false, type: .string)
+        ]
+        /// The size, in bytes, that Amazon ECR expects future layer part uploads to be.
+        public let partSize: Int64?
+        /// The upload ID for the layer upload. This parameter is passed to further UploadLayerPart and CompleteLayerUpload operations.
+        public let uploadId: String?
+
+        public init(partSize: Int64? = nil, uploadId: String? = nil) {
+            self.partSize = partSize
+            self.uploadId = uploadId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case partSize = "partSize"
+            case uploadId = "uploadId"
+        }
+    }
+
+    public struct DeleteRepositoryPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
+        ]
+        /// The name of the repository that is associated with the repository policy to delete.
+        public let repositoryName: String
+        /// The AWS account ID associated with the registry that contains the repository policy to delete. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+
+        public init(repositoryName: String, registryId: String? = nil) {
+            self.repositoryName = repositoryName
+            self.registryId = registryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+            case registryId = "registryId"
+        }
+    }
+
+    public struct GetDownloadUrlForLayerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "layerDigest", required: true, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
+        ]
+        /// The name of the repository that is associated with the image layer to download.
+        public let repositoryName: String
+        /// The digest of the image layer to download.
+        public let layerDigest: String
+        /// The AWS account ID associated with the registry that contains the image layer to download. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+
+        public init(repositoryName: String, layerDigest: String, registryId: String? = nil) {
+            self.repositoryName = repositoryName
+            self.layerDigest = layerDigest
+            self.registryId = registryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+            case layerDigest = "layerDigest"
+            case registryId = "registryId"
+        }
+    }
+
+    public struct GetLifecyclePolicyPreviewRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imageIds", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
+        ]
+        /// The list of imageIDs to be included.
+        public let imageIds: [ImageIdentifier]?
+        /// The nextToken value returned from a previous paginated&#x2028; GetLifecyclePolicyPreviewRequest request where maxResults was used and the&#x2028; results exceeded the value of that parameter. Pagination continues from the end of the&#x2028; previous results that returned the nextToken value. This value is&#x2028; null when there are no more results to return. This option cannot be used when you specify images with imageIds.
+        public let nextToken: String?
+        /// The maximum number of repository results returned by GetLifecyclePolicyPreviewRequest in&#x2028; paginated output. When this parameter is used, GetLifecyclePolicyPreviewRequest only returns&#x2028; maxResults results in a single page along with a nextToken&#x2028; response element. The remaining results of the initial request can be seen by sending&#x2028; another GetLifecyclePolicyPreviewRequest request with the returned nextToken&#x2028; value. This value can be between 1 and 100. If this&#x2028; parameter is not used, then GetLifecyclePolicyPreviewRequest returns up to&#x2028; 100 results and a nextToken value, if&#x2028; applicable. This option cannot be used when you specify images with imageIds.
+        public let maxResults: Int32?
+        /// An optional parameter that filters results based on image tag status and all tags, if tagged.
+        public let filter: LifecyclePolicyPreviewFilter?
+        /// The name of the repository.
+        public let repositoryName: String
+        /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+
+        public init(imageIds: [ImageIdentifier]? = nil, nextToken: String? = nil, maxResults: Int32? = nil, filter: LifecyclePolicyPreviewFilter? = nil, repositoryName: String, registryId: String? = nil) {
+            self.imageIds = imageIds
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.filter = filter
+            self.repositoryName = repositoryName
+            self.registryId = registryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageIds = "imageIds"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case filter = "filter"
+            case repositoryName = "repositoryName"
+            case registryId = "registryId"
+        }
+    }
+
+    public struct CreateRepositoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+        /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app).
+        public let repositoryName: String
+
+        public init(repositoryName: String) {
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct SetRepositoryPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "policyText", required: false, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
+        ]
+        /// The repository name associated with the request.
+        public let repositoryName: String?
+        /// The JSON repository policy text applied to the repository.
+        public let policyText: String?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+
+        public init(repositoryName: String? = nil, policyText: String? = nil, registryId: String? = nil) {
+            self.repositoryName = repositoryName
+            self.policyText = policyText
+            self.registryId = registryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+            case policyText = "policyText"
+            case registryId = "registryId"
+        }
+    }
+
+    public struct CreateRepositoryResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repository", required: false, type: .structure)
+        ]
+        /// The repository that was created.
+        public let repository: Repository?
+
+        public init(repository: Repository? = nil) {
+            self.repository = repository
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repository = "repository"
+        }
+    }
+
+    public struct GetLifecyclePolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "lifecyclePolicyText", required: false, type: .string), 
+            AWSShapeMember(label: "lastEvaluatedAt", required: false, type: .timestamp)
+        ]
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The repository name associated with the request.
+        public let repositoryName: String?
+        /// The JSON lifecycle policy text.
+        public let lifecyclePolicyText: String?
+        /// The time stamp of the last time that the lifecycle policy was run.
+        public let lastEvaluatedAt: TimeStamp?
+
+        public init(registryId: String? = nil, repositoryName: String? = nil, lifecyclePolicyText: String? = nil, lastEvaluatedAt: TimeStamp? = nil) {
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+            self.lifecyclePolicyText = lifecyclePolicyText
+            self.lastEvaluatedAt = lastEvaluatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case lifecyclePolicyText = "lifecyclePolicyText"
+            case lastEvaluatedAt = "lastEvaluatedAt"
+        }
+    }
+
+    public struct GetLifecyclePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
+        ]
+        /// The name of the repository.
+        public let repositoryName: String
+        /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+
+        public init(repositoryName: String, registryId: String? = nil) {
+            self.repositoryName = repositoryName
+            self.registryId = registryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+            case registryId = "registryId"
+        }
+    }
+
+    public struct Image: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "imageManifest", required: false, type: .string), 
+            AWSShapeMember(label: "imageId", required: false, type: .structure)
+        ]
+        /// The AWS account ID associated with the registry containing the image.
+        public let registryId: String?
+        /// The name of the repository associated with the image.
+        public let repositoryName: String?
+        /// The image manifest associated with the image.
+        public let imageManifest: String?
+        /// An object containing the image tag and image digest associated with an image.
+        public let imageId: ImageIdentifier?
+
+        public init(registryId: String? = nil, repositoryName: String? = nil, imageManifest: String? = nil, imageId: ImageIdentifier? = nil) {
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+            self.imageManifest = imageManifest
+            self.imageId = imageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case imageManifest = "imageManifest"
+            case imageId = "imageId"
         }
     }
 
@@ -1217,93 +884,231 @@ extension ECR {
         }
     }
 
-    public struct BatchGetImageRequest: AWSShape {
+    public struct LifecyclePolicyRuleAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "acceptedMediaTypes", required: false, type: .list), 
-            AWSShapeMember(label: "imageIds", required: true, type: .list)
+            AWSShapeMember(label: "type", required: false, type: .enum)
         ]
-        /// The repository that contains the images to describe.
-        public let repositoryName: String
-        /// The AWS account ID associated with the registry that contains the images to describe. If you do not specify a registry, the default registry is assumed.
-        public let registryId: String?
-        /// The accepted media types for the request. Valid values: application/vnd.docker.distribution.manifest.v1+json | application/vnd.docker.distribution.manifest.v2+json | application/vnd.oci.image.manifest.v1+json 
-        public let acceptedMediaTypes: [String]?
-        /// A list of image ID references that correspond to images to describe. The format of the imageIds reference is imageTag=tag or imageDigest=digest.
-        public let imageIds: [ImageIdentifier]
+        /// The type of action to be taken.
+        public let `type`: ImageActionType?
 
-        public init(repositoryName: String, registryId: String? = nil, acceptedMediaTypes: [String]? = nil, imageIds: [ImageIdentifier]) {
-            self.repositoryName = repositoryName
-            self.registryId = registryId
-            self.acceptedMediaTypes = acceptedMediaTypes
+        public init(type: ImageActionType? = nil) {
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+        }
+    }
+
+    public struct BatchDeleteImageResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failures", required: false, type: .list), 
+            AWSShapeMember(label: "imageIds", required: false, type: .list)
+        ]
+        /// Any failures associated with the call.
+        public let failures: [ImageFailure]?
+        /// The image IDs of the deleted images.
+        public let imageIds: [ImageIdentifier]?
+
+        public init(failures: [ImageFailure]? = nil, imageIds: [ImageIdentifier]? = nil) {
+            self.failures = failures
             self.imageIds = imageIds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case registryId = "registryId"
-            case acceptedMediaTypes = "acceptedMediaTypes"
+            case failures = "failures"
             case imageIds = "imageIds"
         }
     }
 
-    public enum LayerAvailability: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case unavailable = "UNAVAILABLE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct BatchGetImageResponse: AWSShape {
+    public struct LifecyclePolicyPreviewFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failures", required: false, type: .list), 
-            AWSShapeMember(label: "images", required: false, type: .list)
+            AWSShapeMember(label: "tagStatus", required: false, type: .enum)
         ]
-        /// Any failures associated with the call.
-        public let failures: [ImageFailure]?
-        /// A list of image objects corresponding to the image references in the request.
-        public let images: [Image]?
+        /// The tag status of the image.
+        public let tagStatus: TagStatus?
 
-        public init(failures: [ImageFailure]? = nil, images: [Image]? = nil) {
-            self.failures = failures
-            self.images = images
+        public init(tagStatus: TagStatus? = nil) {
+            self.tagStatus = tagStatus
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures = "failures"
-            case images = "images"
+            case tagStatus = "tagStatus"
+        }
+    }
+
+    public struct PutLifecyclePolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "lifecyclePolicyText", required: false, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
+        ]
+        /// The repository name associated with the request.
+        public let repositoryName: String?
+        /// The JSON repository policy text.
+        public let lifecyclePolicyText: String?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+
+        public init(repositoryName: String? = nil, lifecyclePolicyText: String? = nil, registryId: String? = nil) {
+            self.repositoryName = repositoryName
+            self.lifecyclePolicyText = lifecyclePolicyText
+            self.registryId = registryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+            case lifecyclePolicyText = "lifecyclePolicyText"
+            case registryId = "registryId"
+        }
+    }
+
+    public enum LifecyclePolicyPreviewStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case complete = "COMPLETE"
+        case expired = "EXPIRED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CompleteLayerUploadRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "uploadId", required: true, type: .string), 
+            AWSShapeMember(label: "layerDigests", required: true, type: .list)
+        ]
+        /// The AWS account ID associated with the registry to which to upload layers. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+        /// The name of the repository to associate with the image layer.
+        public let repositoryName: String
+        /// The upload ID from a previous InitiateLayerUpload operation to associate with the image layer.
+        public let uploadId: String
+        /// The sha256 digest of the image layer.
+        public let layerDigests: [String]
+
+        public init(registryId: String? = nil, repositoryName: String, uploadId: String, layerDigests: [String]) {
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+            self.uploadId = uploadId
+            self.layerDigests = layerDigests
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case uploadId = "uploadId"
+            case layerDigests = "layerDigests"
+        }
+    }
+
+    public struct BatchCheckLayerAvailabilityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "layerDigests", required: true, type: .list), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
+        ]
+        /// The digests of the image layers to check.
+        public let layerDigests: [String]
+        /// The name of the repository that is associated with the image layers to check.
+        public let repositoryName: String
+        /// The AWS account ID associated with the registry that contains the image layers to check. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+
+        public init(layerDigests: [String], repositoryName: String, registryId: String? = nil) {
+            self.layerDigests = layerDigests
+            self.repositoryName = repositoryName
+            self.registryId = registryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case layerDigests = "layerDigests"
+            case repositoryName = "repositoryName"
+            case registryId = "registryId"
         }
     }
 
     public struct PutLifecyclePolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "lifecyclePolicyText", required: true, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+            AWSShapeMember(label: "registryId", required: false, type: .string)
         ]
+        /// The name of the repository to receive the policy.
+        public let repositoryName: String
         /// The JSON repository policy text to apply to the repository.
         public let lifecyclePolicyText: String
         /// The AWS account ID associated with the registry that contains the repository. If you do&#x2028; not specify a registry, the default registry is assumed.
         public let registryId: String?
-        /// The name of the repository to receive the policy.
-        public let repositoryName: String
 
-        public init(lifecyclePolicyText: String, registryId: String? = nil, repositoryName: String) {
+        public init(repositoryName: String, lifecyclePolicyText: String, registryId: String? = nil) {
+            self.repositoryName = repositoryName
             self.lifecyclePolicyText = lifecyclePolicyText
             self.registryId = registryId
-            self.repositoryName = repositoryName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
             case lifecyclePolicyText = "lifecyclePolicyText"
             case registryId = "registryId"
-            case repositoryName = "repositoryName"
         }
     }
 
-    public enum ImageActionType: String, CustomStringConvertible, Codable {
-        case expire = "EXPIRE"
-        public var description: String { return self.rawValue }
+    public struct LayerFailure: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string), 
+            AWSShapeMember(label: "layerDigest", required: false, type: .string)
+        ]
+        /// The failure code associated with the failure.
+        public let failureCode: LayerFailureCode?
+        /// The reason for the failure.
+        public let failureReason: String?
+        /// The layer digest associated with the failure.
+        public let layerDigest: String?
+
+        public init(failureCode: LayerFailureCode? = nil, failureReason: String? = nil, layerDigest: String? = nil) {
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+            self.layerDigest = layerDigest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case layerDigest = "layerDigest"
+        }
+    }
+
+    public struct BatchGetImageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "imageIds", required: true, type: .list), 
+            AWSShapeMember(label: "acceptedMediaTypes", required: false, type: .list)
+        ]
+        /// The AWS account ID associated with the registry that contains the images to describe. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+        /// The repository that contains the images to describe.
+        public let repositoryName: String
+        /// A list of image ID references that correspond to images to describe. The format of the imageIds reference is imageTag=tag or imageDigest=digest.
+        public let imageIds: [ImageIdentifier]
+        /// The accepted media types for the request. Valid values: application/vnd.docker.distribution.manifest.v1+json | application/vnd.docker.distribution.manifest.v2+json | application/vnd.oci.image.manifest.v1+json 
+        public let acceptedMediaTypes: [String]?
+
+        public init(registryId: String? = nil, repositoryName: String, imageIds: [ImageIdentifier], acceptedMediaTypes: [String]? = nil) {
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+            self.imageIds = imageIds
+            self.acceptedMediaTypes = acceptedMediaTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case imageIds = "imageIds"
+            case acceptedMediaTypes = "acceptedMediaTypes"
+        }
     }
 
     public struct DescribeImagesResponse: AWSShape {
@@ -1327,104 +1132,34 @@ extension ECR {
         }
     }
 
-    public struct DeleteRepositoryResponse: AWSShape {
+    public struct SetRepositoryPolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repository", required: false, type: .structure)
-        ]
-        /// The repository that was deleted.
-        public let repository: Repository?
-
-        public init(repository: Repository? = nil) {
-            self.repository = repository
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repository = "repository"
-        }
-    }
-
-    public struct DescribeImagesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "policyText", required: true, type: .string), 
             AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "imageIds", required: false, type: .list)
-        ]
-        /// A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
-        public let repositoryName: String
-        /// The filter key and value with which to filter your DescribeImages results.
-        public let filter: DescribeImagesFilter?
-        /// The nextToken value returned from a previous paginated DescribeImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify images with imageIds.
-        public let nextToken: String?
-        /// The AWS account ID associated with the registry that contains the repository in which to describe images. If you do not specify a registry, the default registry is assumed.
-        public let registryId: String?
-        /// The maximum number of repository results returned by DescribeImages in paginated output. When this parameter is used, DescribeImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeImages returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify images with imageIds.
-        public let maxResults: Int32?
-        /// The list of image IDs for the requested repository.
-        public let imageIds: [ImageIdentifier]?
-
-        public init(repositoryName: String, filter: DescribeImagesFilter? = nil, nextToken: String? = nil, registryId: String? = nil, maxResults: Int32? = nil, imageIds: [ImageIdentifier]? = nil) {
-            self.repositoryName = repositoryName
-            self.filter = filter
-            self.nextToken = nextToken
-            self.registryId = registryId
-            self.maxResults = maxResults
-            self.imageIds = imageIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case filter = "filter"
-            case nextToken = "nextToken"
-            case registryId = "registryId"
-            case maxResults = "maxResults"
-            case imageIds = "imageIds"
-        }
-    }
-
-    public enum LifecyclePolicyPreviewStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case complete = "COMPLETE"
-        case expired = "EXPIRED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListImagesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
+            AWSShapeMember(label: "force", required: false, type: .boolean)
         ]
-        /// The repository with image IDs to be listed.
-        public let repositoryName: String
-        /// The filter key and value with which to filter your ListImages results.
-        public let filter: ListImagesFilter?
-        /// The nextToken value returned from a previous paginated ListImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public let nextToken: String?
-        /// The AWS account ID associated with the registry that contains the repository in which to list images. If you do not specify a registry, the default registry is assumed.
+        /// The JSON repository policy text to apply to the repository.
+        public let policyText: String
+        /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
-        /// The maximum number of image results returned by ListImages in paginated output. When this parameter is used, ListImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListImages returns up to 100 results and a nextToken value, if applicable.
-        public let maxResults: Int32?
+        /// The name of the repository to receive the policy.
+        public let repositoryName: String
+        /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to prevent accidental repository lock outs.
+        public let force: Bool?
 
-        public init(repositoryName: String, filter: ListImagesFilter? = nil, nextToken: String? = nil, registryId: String? = nil, maxResults: Int32? = nil) {
-            self.repositoryName = repositoryName
-            self.filter = filter
-            self.nextToken = nextToken
+        public init(policyText: String, registryId: String? = nil, repositoryName: String, force: Bool? = nil) {
+            self.policyText = policyText
             self.registryId = registryId
-            self.maxResults = maxResults
+            self.repositoryName = repositoryName
+            self.force = force
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case filter = "filter"
-            case nextToken = "nextToken"
+            case policyText = "policyText"
             case registryId = "registryId"
-            case maxResults = "maxResults"
+            case repositoryName = "repositoryName"
+            case force = "force"
         }
     }
 
@@ -1444,102 +1179,367 @@ extension ECR {
         }
     }
 
-    public struct GetRepositoryPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "policyText", required: false, type: .string)
-        ]
-        /// The registry ID associated with the request.
-        public let registryId: String?
-        /// The repository name associated with the request.
-        public let repositoryName: String?
-        /// The JSON repository policy text associated with the repository.
-        public let policyText: String?
-
-        public init(registryId: String? = nil, repositoryName: String? = nil, policyText: String? = nil) {
-            self.registryId = registryId
-            self.repositoryName = repositoryName
-            self.policyText = policyText
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case registryId = "registryId"
-            case repositoryName = "repositoryName"
-            case policyText = "policyText"
-        }
-    }
-
-    public struct ImageIdentifier: AWSShape {
+    public struct PutImageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "imageTag", required: false, type: .string), 
-            AWSShapeMember(label: "imageDigest", required: false, type: .string)
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "imageManifest", required: true, type: .string)
         ]
-        /// The tag used for the image.
+        /// The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or OCI formats.
         public let imageTag: String?
-        /// The sha256 digest of the image manifest.
-        public let imageDigest: String?
+        /// The AWS account ID associated with the registry that contains the repository in which to put the image. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+        /// The name of the repository in which to put the image.
+        public let repositoryName: String
+        /// The image manifest corresponding to the image to be uploaded.
+        public let imageManifest: String
 
-        public init(imageTag: String? = nil, imageDigest: String? = nil) {
+        public init(imageTag: String? = nil, registryId: String? = nil, repositoryName: String, imageManifest: String) {
             self.imageTag = imageTag
-            self.imageDigest = imageDigest
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+            self.imageManifest = imageManifest
         }
 
         private enum CodingKeys: String, CodingKey {
             case imageTag = "imageTag"
-            case imageDigest = "imageDigest"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case imageManifest = "imageManifest"
         }
     }
 
-    public struct BatchDeleteImageRequest: AWSShape {
+    public struct DescribeImagesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageIds", required: true, type: .list), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+            AWSShapeMember(label: "imageIds", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
         ]
-        /// A list of image ID references that correspond to images to delete. The format of the imageIds reference is imageTag=tag or imageDigest=digest.
-        public let imageIds: [ImageIdentifier]
-        /// The AWS account ID associated with the registry that contains the image to delete. If you do not specify a registry, the default registry is assumed.
-        public let registryId: String?
-        /// The repository that contains the image to delete.
+        /// The list of image IDs for the requested repository.
+        public let imageIds: [ImageIdentifier]?
+        /// The nextToken value returned from a previous paginated DescribeImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify images with imageIds.
+        public let nextToken: String?
+        /// The maximum number of repository results returned by DescribeImages in paginated output. When this parameter is used, DescribeImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeImages returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify images with imageIds.
+        public let maxResults: Int32?
+        /// The filter key and value with which to filter your DescribeImages results.
+        public let filter: DescribeImagesFilter?
+        /// A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
         public let repositoryName: String
+        /// The AWS account ID associated with the registry that contains the repository in which to describe images. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
 
-        public init(imageIds: [ImageIdentifier], registryId: String? = nil, repositoryName: String) {
+        public init(imageIds: [ImageIdentifier]? = nil, nextToken: String? = nil, maxResults: Int32? = nil, filter: DescribeImagesFilter? = nil, repositoryName: String, registryId: String? = nil) {
             self.imageIds = imageIds
-            self.registryId = registryId
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.filter = filter
             self.repositoryName = repositoryName
+            self.registryId = registryId
         }
 
         private enum CodingKeys: String, CodingKey {
             case imageIds = "imageIds"
-            case registryId = "registryId"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case filter = "filter"
             case repositoryName = "repositoryName"
+            case registryId = "registryId"
         }
     }
 
-    public struct PutLifecyclePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lifecyclePolicyText", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
-        /// The JSON repository policy text.
-        public let lifecyclePolicyText: String?
-        /// The registry ID associated with the request.
-        public let registryId: String?
-        /// The repository name associated with the request.
-        public let repositoryName: String?
+    public enum LayerAvailability: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case unavailable = "UNAVAILABLE"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(lifecyclePolicyText: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
-            self.lifecyclePolicyText = lifecyclePolicyText
+    public struct ListImagesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+        /// The AWS account ID associated with the registry that contains the repository in which to list images. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+        /// The nextToken value returned from a previous paginated ListImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
+        public let nextToken: String?
+        /// The maximum number of image results returned by ListImages in paginated output. When this parameter is used, ListImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListImages returns up to 100 results and a nextToken value, if applicable.
+        public let maxResults: Int32?
+        /// The filter key and value with which to filter your ListImages results.
+        public let filter: ListImagesFilter?
+        /// The repository with image IDs to be listed.
+        public let repositoryName: String
+
+        public init(registryId: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil, filter: ListImagesFilter? = nil, repositoryName: String) {
             self.registryId = registryId
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.filter = filter
             self.repositoryName = repositoryName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lifecyclePolicyText = "lifecyclePolicyText"
+            case registryId = "registryId"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case filter = "filter"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct DescribeImagesFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tagStatus", required: false, type: .enum)
+        ]
+        /// The tag status with which to filter your DescribeImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
+        public let tagStatus: TagStatus?
+
+        public init(tagStatus: TagStatus? = nil) {
+            self.tagStatus = tagStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagStatus = "tagStatus"
+        }
+    }
+
+    public struct ListImagesFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tagStatus", required: false, type: .enum)
+        ]
+        /// The tag status with which to filter your ListImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
+        public let tagStatus: TagStatus?
+
+        public init(tagStatus: TagStatus? = nil) {
+            self.tagStatus = tagStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagStatus = "tagStatus"
+        }
+    }
+
+    public struct DeleteLifecyclePolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "lifecyclePolicyText", required: false, type: .string), 
+            AWSShapeMember(label: "lastEvaluatedAt", required: false, type: .timestamp)
+        ]
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The repository name associated with the request.
+        public let repositoryName: String?
+        /// The JSON lifecycle policy text.
+        public let lifecyclePolicyText: String?
+        /// The time stamp of the last time that the lifecycle policy was run.
+        public let lastEvaluatedAt: TimeStamp?
+
+        public init(registryId: String? = nil, repositoryName: String? = nil, lifecyclePolicyText: String? = nil, lastEvaluatedAt: TimeStamp? = nil) {
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+            self.lifecyclePolicyText = lifecyclePolicyText
+            self.lastEvaluatedAt = lastEvaluatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case registryId = "registryId"
             case repositoryName = "repositoryName"
+            case lifecyclePolicyText = "lifecyclePolicyText"
+            case lastEvaluatedAt = "lastEvaluatedAt"
+        }
+    }
+
+    public struct DeleteRepositoryPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "policyText", required: false, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
+        ]
+        /// The repository name associated with the request.
+        public let repositoryName: String?
+        /// The JSON repository policy that was deleted from the repository.
+        public let policyText: String?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+
+        public init(repositoryName: String? = nil, policyText: String? = nil, registryId: String? = nil) {
+            self.repositoryName = repositoryName
+            self.policyText = policyText
+            self.registryId = registryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+            case policyText = "policyText"
+            case registryId = "registryId"
+        }
+    }
+
+    public enum TagStatus: String, CustomStringConvertible, Codable {
+        case tagged = "TAGGED"
+        case untagged = "UNTAGGED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageFailureCode: String, CustomStringConvertible, Codable {
+        case invalidimagedigest = "InvalidImageDigest"
+        case invalidimagetag = "InvalidImageTag"
+        case imagetagdoesnotmatchdigest = "ImageTagDoesNotMatchDigest"
+        case imagenotfound = "ImageNotFound"
+        case missingdigestandtag = "MissingDigestAndTag"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct BatchDeleteImageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "imageIds", required: true, type: .list), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
+        ]
+        /// The repository that contains the image to delete.
+        public let repositoryName: String
+        /// A list of image ID references that correspond to images to delete. The format of the imageIds reference is imageTag=tag or imageDigest=digest.
+        public let imageIds: [ImageIdentifier]
+        /// The AWS account ID associated with the registry that contains the image to delete. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+
+        public init(repositoryName: String, imageIds: [ImageIdentifier], registryId: String? = nil) {
+            self.repositoryName = repositoryName
+            self.imageIds = imageIds
+            self.registryId = registryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+            case imageIds = "imageIds"
+            case registryId = "registryId"
+        }
+    }
+
+    public struct DeleteLifecyclePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
+        ]
+        /// The name of the repository.
+        public let repositoryName: String
+        /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+
+        public init(repositoryName: String, registryId: String? = nil) {
+            self.repositoryName = repositoryName
+            self.registryId = registryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+            case registryId = "registryId"
+        }
+    }
+
+    public struct LifecyclePolicyPreviewResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imagePushedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "imageTags", required: false, type: .list), 
+            AWSShapeMember(label: "imageDigest", required: false, type: .string), 
+            AWSShapeMember(label: "appliedRulePriority", required: false, type: .integer), 
+            AWSShapeMember(label: "action", required: false, type: .structure)
+        ]
+        /// The date and time, expressed in standard JavaScript date format, at which the current image was pushed to the repository.
+        public let imagePushedAt: TimeStamp?
+        /// The list of tags associated with this image.
+        public let imageTags: [String]?
+        /// The sha256 digest of the image manifest.
+        public let imageDigest: String?
+        /// The priority of the applied rule.
+        public let appliedRulePriority: Int32?
+        /// The type of action to be taken.
+        public let action: LifecyclePolicyRuleAction?
+
+        public init(imagePushedAt: TimeStamp? = nil, imageTags: [String]? = nil, imageDigest: String? = nil, appliedRulePriority: Int32? = nil, action: LifecyclePolicyRuleAction? = nil) {
+            self.imagePushedAt = imagePushedAt
+            self.imageTags = imageTags
+            self.imageDigest = imageDigest
+            self.appliedRulePriority = appliedRulePriority
+            self.action = action
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imagePushedAt = "imagePushedAt"
+            case imageTags = "imageTags"
+            case imageDigest = "imageDigest"
+            case appliedRulePriority = "appliedRulePriority"
+            case action = "action"
+        }
+    }
+
+    public struct GetRepositoryPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
+        ]
+        /// The name of the repository with the policy to retrieve.
+        public let repositoryName: String
+        /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+
+        public init(repositoryName: String, registryId: String? = nil) {
+            self.repositoryName = repositoryName
+            self.registryId = registryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+            case registryId = "registryId"
+        }
+    }
+
+    public enum LayerFailureCode: String, CustomStringConvertible, Codable {
+        case invalidlayerdigest = "InvalidLayerDigest"
+        case missinglayerdigest = "MissingLayerDigest"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Repository: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryArn", required: false, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "repositoryUri", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, AWS account ID of the repository owner, repository namespace, and repository name. For example, arn:aws:ecr:region:012345678910:repository/test.
+        public let repositoryArn: String?
+        /// The AWS account ID associated with the registry that contains the repository.
+        public let registryId: String?
+        /// The name of the repository.
+        public let repositoryName: String?
+        /// The date and time, in JavaScript date format, when the repository was created.
+        public let createdAt: TimeStamp?
+        /// The URI for the repository. You can use this URI for Docker push or pull operations.
+        public let repositoryUri: String?
+
+        public init(repositoryArn: String? = nil, registryId: String? = nil, repositoryName: String? = nil, createdAt: TimeStamp? = nil, repositoryUri: String? = nil) {
+            self.repositoryArn = repositoryArn
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+            self.createdAt = createdAt
+            self.repositoryUri = repositoryUri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryArn = "repositoryArn"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case createdAt = "createdAt"
+            case repositoryUri = "repositoryUri"
         }
     }
 
