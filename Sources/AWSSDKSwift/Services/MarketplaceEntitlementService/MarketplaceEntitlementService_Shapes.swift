@@ -7,22 +7,22 @@ extension MarketplaceEntitlementService {
 
     public struct GetEntitlementsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Entitlements", required: false, type: .list)
+            AWSShapeMember(label: "Entitlements", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// For paginated results, use NextToken in subsequent calls to GetEntitlements. If the result contains an empty set of entitlements, NextToken might still be present and should be used.
-        public let nextToken: String?
         /// The set of entitlements found through the GetEntitlements operation. If the result contains an empty set of entitlements, NextToken might still be present and should be used.
         public let entitlements: [Entitlement]?
+        /// For paginated results, use NextToken in subsequent calls to GetEntitlements. If the result contains an empty set of entitlements, NextToken might still be present and should be used.
+        public let nextToken: String?
 
-        public init(nextToken: String? = nil, entitlements: [Entitlement]? = nil) {
-            self.nextToken = nextToken
+        public init(entitlements: [Entitlement]? = nil, nextToken: String? = nil) {
             self.entitlements = entitlements
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
             case entitlements = "Entitlements"
+            case nextToken = "NextToken"
         }
     }
 
@@ -35,31 +35,31 @@ extension MarketplaceEntitlementService {
     public struct EntitlementValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BooleanValue", required: false, type: .boolean), 
-            AWSShapeMember(label: "StringValue", required: false, type: .string), 
+            AWSShapeMember(label: "DoubleValue", required: false, type: .double), 
             AWSShapeMember(label: "IntegerValue", required: false, type: .integer), 
-            AWSShapeMember(label: "DoubleValue", required: false, type: .double)
+            AWSShapeMember(label: "StringValue", required: false, type: .string)
         ]
         /// The BooleanValue field will be populated with a boolean value when the entitlement is a boolean type. Otherwise, the field will not be set.
         public let booleanValue: Bool?
-        /// The StringValue field will be populated with a string value when the entitlement is a string type. Otherwise, the field will not be set.
-        public let stringValue: String?
-        /// The IntegerValue field will be populated with an integer value when the entitlement is an integer type. Otherwise, the field will not be set.
-        public let integerValue: Int32?
         /// The DoubleValue field will be populated with a double value when the entitlement is a double type. Otherwise, the field will not be set.
         public let doubleValue: Double?
+        /// The IntegerValue field will be populated with an integer value when the entitlement is an integer type. Otherwise, the field will not be set.
+        public let integerValue: Int32?
+        /// The StringValue field will be populated with a string value when the entitlement is a string type. Otherwise, the field will not be set.
+        public let stringValue: String?
 
-        public init(booleanValue: Bool? = nil, stringValue: String? = nil, integerValue: Int32? = nil, doubleValue: Double? = nil) {
+        public init(booleanValue: Bool? = nil, doubleValue: Double? = nil, integerValue: Int32? = nil, stringValue: String? = nil) {
             self.booleanValue = booleanValue
-            self.stringValue = stringValue
-            self.integerValue = integerValue
             self.doubleValue = doubleValue
+            self.integerValue = integerValue
+            self.stringValue = stringValue
         }
 
         private enum CodingKeys: String, CodingKey {
             case booleanValue = "BooleanValue"
-            case stringValue = "StringValue"
-            case integerValue = "IntegerValue"
             case doubleValue = "DoubleValue"
+            case integerValue = "IntegerValue"
+            case stringValue = "StringValue"
         }
     }
 
@@ -97,36 +97,36 @@ extension MarketplaceEntitlementService {
     public struct Entitlement: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProductCode", required: false, type: .string), 
-            AWSShapeMember(label: "ExpirationDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "CustomerIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Dimension", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .structure)
+            AWSShapeMember(label: "Value", required: false, type: .structure), 
+            AWSShapeMember(label: "ExpirationDate", required: false, type: .timestamp)
         ]
         /// The product code for which the given entitlement applies. Product codes are provided by AWS Marketplace when the product listing is created.
         public let productCode: String?
-        /// The expiration date represents the minimum date through which this entitlement is expected to remain valid. For contractual products listed on AWS Marketplace, the expiration date is the date at which the customer will renew or cancel their contract. Customers who are opting to renew their contract will still have entitlements with an expiration date.
-        public let expirationDate: TimeStamp?
         /// The customer identifier is a handle to each unique customer in an application. Customer identifiers are obtained through the ResolveCustomer operation in AWS Marketplace Metering Service.
         public let customerIdentifier: String?
         /// The dimension for which the given entitlement applies. Dimensions represent categories of capacity in a product and are specified when the product is listed in AWS Marketplace.
         public let dimension: String?
         /// The EntitlementValue represents the amount of capacity that the customer is entitled to for the product.
         public let value: EntitlementValue?
+        /// The expiration date represents the minimum date through which this entitlement is expected to remain valid. For contractual products listed on AWS Marketplace, the expiration date is the date at which the customer will renew or cancel their contract. Customers who are opting to renew their contract will still have entitlements with an expiration date.
+        public let expirationDate: TimeStamp?
 
-        public init(productCode: String? = nil, expirationDate: TimeStamp? = nil, customerIdentifier: String? = nil, dimension: String? = nil, value: EntitlementValue? = nil) {
+        public init(productCode: String? = nil, customerIdentifier: String? = nil, dimension: String? = nil, value: EntitlementValue? = nil, expirationDate: TimeStamp? = nil) {
             self.productCode = productCode
-            self.expirationDate = expirationDate
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
             self.value = value
+            self.expirationDate = expirationDate
         }
 
         private enum CodingKeys: String, CodingKey {
             case productCode = "ProductCode"
-            case expirationDate = "ExpirationDate"
             case customerIdentifier = "CustomerIdentifier"
             case dimension = "Dimension"
             case value = "Value"
+            case expirationDate = "ExpirationDate"
         }
     }
 

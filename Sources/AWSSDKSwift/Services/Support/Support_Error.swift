@@ -5,13 +5,13 @@ import AWSSDKSwiftCore
 /// Error enum for Support
 public enum SupportErrorType: AWSErrorType {
     case internalServerError(message: String?)
-    case caseIdNotFound(message: String?)
-    case describeAttachmentLimitExceeded(message: String?)
-    case attachmentIdNotFound(message: String?)
     case attachmentSetIdNotFound(message: String?)
     case attachmentSetExpired(message: String?)
     case attachmentSetSizeLimitExceeded(message: String?)
     case attachmentLimitExceeded(message: String?)
+    case caseIdNotFound(message: String?)
+    case describeAttachmentLimitExceeded(message: String?)
+    case attachmentIdNotFound(message: String?)
     case caseCreationLimitExceeded(message: String?)
 }
 
@@ -24,12 +24,6 @@ extension SupportErrorType {
         switch errorCode {
         case "InternalServerError":
             self = .internalServerError(message: message)
-        case "CaseIdNotFound":
-            self = .caseIdNotFound(message: message)
-        case "DescribeAttachmentLimitExceeded":
-            self = .describeAttachmentLimitExceeded(message: message)
-        case "AttachmentIdNotFound":
-            self = .attachmentIdNotFound(message: message)
         case "AttachmentSetIdNotFound":
             self = .attachmentSetIdNotFound(message: message)
         case "AttachmentSetExpired":
@@ -38,6 +32,12 @@ extension SupportErrorType {
             self = .attachmentSetSizeLimitExceeded(message: message)
         case "AttachmentLimitExceeded":
             self = .attachmentLimitExceeded(message: message)
+        case "CaseIdNotFound":
+            self = .caseIdNotFound(message: message)
+        case "DescribeAttachmentLimitExceeded":
+            self = .describeAttachmentLimitExceeded(message: message)
+        case "AttachmentIdNotFound":
+            self = .attachmentIdNotFound(message: message)
         case "CaseCreationLimitExceeded":
             self = .caseCreationLimitExceeded(message: message)
         default:

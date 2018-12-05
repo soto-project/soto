@@ -5,193 +5,50 @@ import AWSSDKSwiftCore
 
 extension IoT1ClickProjects {
 
-    public struct DescribeProjectRequest: AWSShape {
+    public struct CreateProjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"), required: true, type: .string)
-        ]
-        /// The name of the project to be described.
-        public let projectName: String
-
-        public init(projectName: String) {
-            self.projectName = projectName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case projectName = "projectName"
-        }
-    }
-
-    public struct CreatePlacementRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "placementName", required: true, type: .string), 
-            AWSShapeMember(label: "attributes", required: false, type: .map), 
-            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"), required: true, type: .string)
-        ]
-        /// The name of the placement to be created.
-        public let placementName: String
-        /// Optional user-defined key/value pairs providing contextual data (such as location or function) for the placement.
-        public let attributes: [String: String]?
-        /// The name of the project in which to create the placement.
-        public let projectName: String
-
-        public init(placementName: String, attributes: [String: String]? = nil, projectName: String) {
-            self.placementName = placementName
-            self.attributes = attributes
-            self.projectName = projectName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case placementName = "placementName"
-            case attributes = "attributes"
-            case projectName = "projectName"
-        }
-    }
-
-    public struct PlacementTemplate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deviceTemplates", required: false, type: .map), 
-            AWSShapeMember(label: "defaultAttributes", required: false, type: .map)
-        ]
-        /// An object specifying the DeviceTemplate for all placements using this (PlacementTemplate) template.
-        public let deviceTemplates: [String: DeviceTemplate]?
-        /// The default attributes (key/value pairs) to be applied to all placements using this template.
-        public let defaultAttributes: [String: String]?
-
-        public init(deviceTemplates: [String: DeviceTemplate]? = nil, defaultAttributes: [String: String]? = nil) {
-            self.deviceTemplates = deviceTemplates
-            self.defaultAttributes = defaultAttributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deviceTemplates = "deviceTemplates"
-            case defaultAttributes = "defaultAttributes"
-        }
-    }
-
-    public struct CreateProjectResponse: AWSShape {
-
-    }
-
-    public struct DeviceTemplate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deviceType", required: false, type: .string), 
-            AWSShapeMember(label: "callbackOverrides", required: false, type: .map)
-        ]
-        /// The device type, which currently must be "button".
-        public let deviceType: String?
-        /// An optional Lambda function to invoke instead of the default Lambda function provided by the placement template.
-        public let callbackOverrides: [String: String]?
-
-        public init(deviceType: String? = nil, callbackOverrides: [String: String]? = nil) {
-            self.deviceType = deviceType
-            self.callbackOverrides = callbackOverrides
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deviceType = "deviceType"
-            case callbackOverrides = "callbackOverrides"
-        }
-    }
-
-    public struct UpdatePlacementRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "placementName", location: .uri(locationName: "placementName"), required: true, type: .string), 
-            AWSShapeMember(label: "attributes", required: false, type: .map), 
-            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"), required: true, type: .string)
-        ]
-        /// The name of the placement to update.
-        public let placementName: String
-        /// The user-defined object of attributes used to update the placement. The maximum number of key/value pairs is 50.
-        public let attributes: [String: String]?
-        /// The name of the project containing the placement to be updated.
-        public let projectName: String
-
-        public init(placementName: String, attributes: [String: String]? = nil, projectName: String) {
-            self.placementName = placementName
-            self.attributes = attributes
-            self.projectName = projectName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case placementName = "placementName"
-            case attributes = "attributes"
-            case projectName = "projectName"
-        }
-    }
-
-    public struct CreatePlacementResponse: AWSShape {
-
-    }
-
-    public struct ProjectSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "projectName", required: true, type: .string), 
-            AWSShapeMember(label: "updatedDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "createdDate", required: true, type: .timestamp)
+            AWSShapeMember(label: "placementTemplate", required: false, type: .structure)
         ]
-        /// The name of the project being summarized.
+        /// An optional description for the project.
+        public let description: String?
+        /// The name of the project to create.
         public let projectName: String
-        /// The date when the project was last updated, in UNIX epoch time format. If the project was not updated, then createdDate and updatedDate are the same.
-        public let updatedDate: TimeStamp
-        /// The date when the project was originally created, in UNIX epoch time format.
-        public let createdDate: TimeStamp
+        /// The schema defining the placement to be created. A placement template defines placement default attributes and device templates. You cannot add or remove device templates after the project has been created. However, you can update callbackOverrides for the device templates using the UpdateProject API.
+        public let placementTemplate: PlacementTemplate?
 
-        public init(projectName: String, updatedDate: TimeStamp, createdDate: TimeStamp) {
+        public init(description: String? = nil, projectName: String, placementTemplate: PlacementTemplate? = nil) {
+            self.description = description
             self.projectName = projectName
-            self.updatedDate = updatedDate
-            self.createdDate = createdDate
+            self.placementTemplate = placementTemplate
         }
 
         private enum CodingKeys: String, CodingKey {
+            case description = "description"
             case projectName = "projectName"
-            case updatedDate = "updatedDate"
-            case createdDate = "createdDate"
+            case placementTemplate = "placementTemplate"
         }
     }
 
-    public struct UpdatePlacementResponse: AWSShape {
-
-    }
-
-    public struct DeletePlacementRequest: AWSShape {
+    public struct GetDevicesInPlacementRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "placementName", location: .uri(locationName: "placementName"), required: true, type: .string), 
-            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"), required: true, type: .string)
+            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"), required: true, type: .string), 
+            AWSShapeMember(label: "placementName", location: .uri(locationName: "placementName"), required: true, type: .string)
         ]
-        /// The name of the empty placement to delete.
+        /// The name of the project containing the placement.
+        public let projectName: String
+        /// The name of the placement to get the devices from.
         public let placementName: String
-        /// The project containing the empty placement to delete.
-        public let projectName: String
 
-        public init(placementName: String, projectName: String) {
-            self.placementName = placementName
+        public init(projectName: String, placementName: String) {
             self.projectName = projectName
+            self.placementName = placementName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case placementName = "placementName"
             case projectName = "projectName"
-        }
-    }
-
-    public struct ListProjectsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "projects", required: true, type: .list)
-        ]
-        /// The token used to retrieve the next set of results - will be effectively empty if there are no further results.
-        public let nextToken: String?
-        /// An object containing the list of projects.
-        public let projects: [ProjectSummary]
-
-        public init(nextToken: String? = nil, projects: [ProjectSummary]) {
-            self.nextToken = nextToken
-            self.projects = projects
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case projects = "projects"
+            case placementName = "placementName"
         }
     }
 
@@ -216,66 +73,50 @@ extension IoT1ClickProjects {
         }
     }
 
-    public struct UpdateProjectRequest: AWSShape {
+    public struct ListPlacementsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "placementTemplate", required: false, type: .structure), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"), required: true, type: .string)
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "placements", required: true, type: .list)
         ]
-        /// An object defining the project update. Once a project has been created, you cannot add device template names to the project. However, for a given placementTemplate, you can update the associated callbackOverrides for the device definition using this API.
-        public let placementTemplate: PlacementTemplate?
-        /// An optional user-defined description for the project.
-        public let description: String?
-        /// The name of the project to be updated.
-        public let projectName: String
+        /// The token used to retrieve the next set of results - will be effectively empty if there are no further results.
+        public let nextToken: String?
+        /// An object listing the requested placements.
+        public let placements: [PlacementSummary]
 
-        public init(placementTemplate: PlacementTemplate? = nil, description: String? = nil, projectName: String) {
-            self.placementTemplate = placementTemplate
-            self.description = description
-            self.projectName = projectName
+        public init(nextToken: String? = nil, placements: [PlacementSummary]) {
+            self.nextToken = nextToken
+            self.placements = placements
         }
 
         private enum CodingKeys: String, CodingKey {
-            case placementTemplate = "placementTemplate"
-            case description = "description"
-            case projectName = "projectName"
+            case nextToken = "nextToken"
+            case placements = "placements"
         }
     }
 
-    public struct PlacementDescription: AWSShape {
+    public struct DeletePlacementRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "updatedDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "attributes", required: true, type: .map), 
-            AWSShapeMember(label: "placementName", required: true, type: .string), 
-            AWSShapeMember(label: "projectName", required: true, type: .string)
+            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"), required: true, type: .string), 
+            AWSShapeMember(label: "placementName", location: .uri(locationName: "placementName"), required: true, type: .string)
         ]
-        /// The date when the placement was initially created, in UNIX epoch time format.
-        public let createdDate: TimeStamp
-        /// The date when the placement was last updated, in UNIX epoch time format. If the placement was not updated, then createdDate and updatedDate are the same.
-        public let updatedDate: TimeStamp
-        /// The user-defined attributes associated with the placement.
-        public let attributes: [String: String]
-        /// The name of the placement.
-        public let placementName: String
-        /// The name of the project containing the placement.
+        /// The project containing the empty placement to delete.
         public let projectName: String
+        /// The name of the empty placement to delete.
+        public let placementName: String
 
-        public init(createdDate: TimeStamp, updatedDate: TimeStamp, attributes: [String: String], placementName: String, projectName: String) {
-            self.createdDate = createdDate
-            self.updatedDate = updatedDate
-            self.attributes = attributes
-            self.placementName = placementName
+        public init(projectName: String, placementName: String) {
             self.projectName = projectName
+            self.placementName = placementName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdDate = "createdDate"
-            case updatedDate = "updatedDate"
-            case attributes = "attributes"
-            case placementName = "placementName"
             case projectName = "projectName"
+            case placementName = "placementName"
         }
+    }
+
+    public struct CreateProjectResponse: AWSShape {
+
     }
 
     public struct DisassociateDeviceFromPlacementRequest: AWSShape {
@@ -304,14 +145,111 @@ extension IoT1ClickProjects {
         }
     }
 
-    public struct GetDevicesInPlacementRequest: AWSShape {
+    public struct CreatePlacementRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributes", required: false, type: .map), 
+            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"), required: true, type: .string), 
+            AWSShapeMember(label: "placementName", required: true, type: .string)
+        ]
+        /// Optional user-defined key/value pairs providing contextual data (such as location or function) for the placement.
+        public let attributes: [String: String]?
+        /// The name of the project in which to create the placement.
+        public let projectName: String
+        /// The name of the placement to be created.
+        public let placementName: String
+
+        public init(attributes: [String: String]? = nil, projectName: String, placementName: String) {
+            self.attributes = attributes
+            self.projectName = projectName
+            self.placementName = placementName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case projectName = "projectName"
+            case placementName = "placementName"
+        }
+    }
+
+    public struct ProjectSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "updatedDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "projectName", required: true, type: .string), 
+            AWSShapeMember(label: "createdDate", required: true, type: .timestamp)
+        ]
+        /// The date when the project was last updated, in UNIX epoch time format. If the project was not updated, then createdDate and updatedDate are the same.
+        public let updatedDate: TimeStamp
+        /// The name of the project being summarized.
+        public let projectName: String
+        /// The date when the project was originally created, in UNIX epoch time format.
+        public let createdDate: TimeStamp
+
+        public init(updatedDate: TimeStamp, projectName: String, createdDate: TimeStamp) {
+            self.updatedDate = updatedDate
+            self.projectName = projectName
+            self.createdDate = createdDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case updatedDate = "updatedDate"
+            case projectName = "projectName"
+            case createdDate = "createdDate"
+        }
+    }
+
+    public struct DeviceTemplate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deviceType", required: false, type: .string), 
+            AWSShapeMember(label: "callbackOverrides", required: false, type: .map)
+        ]
+        /// The device type, which currently must be "button".
+        public let deviceType: String?
+        /// An optional Lambda function to invoke instead of the default Lambda function provided by the placement template.
+        public let callbackOverrides: [String: String]?
+
+        public init(deviceType: String? = nil, callbackOverrides: [String: String]? = nil) {
+            self.deviceType = deviceType
+            self.callbackOverrides = callbackOverrides
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceType = "deviceType"
+            case callbackOverrides = "callbackOverrides"
+        }
+    }
+
+    public struct DescribeProjectResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "project", required: true, type: .structure)
+        ]
+        /// An object describing the project.
+        public let project: ProjectDescription
+
+        public init(project: ProjectDescription) {
+            self.project = project
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case project = "project"
+        }
+    }
+
+    public struct DeleteProjectResponse: AWSShape {
+
+    }
+
+    public struct UpdateProjectResponse: AWSShape {
+
+    }
+
+    public struct DescribePlacementRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"), required: true, type: .string), 
             AWSShapeMember(label: "placementName", location: .uri(locationName: "placementName"), required: true, type: .string)
         ]
-        /// The name of the project containing the placement.
+        /// The project containing the placement to be described.
         public let projectName: String
-        /// The name of the placement to get the devices from.
+        /// The name of the placement within a project.
         public let placementName: String
 
         public init(projectName: String, placementName: String) {
@@ -325,23 +263,29 @@ extension IoT1ClickProjects {
         }
     }
 
-    public struct DeleteProjectResponse: AWSShape {
-
-    }
-
-    public struct DeleteProjectRequest: AWSShape {
+    public struct ListPlacementsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"), required: true, type: .string)
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"), required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
         ]
-        /// The name of the empty project to delete.
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+        /// The project containing the placements to be listed.
         public let projectName: String
+        /// The maximum number of results to return per request. If not set, a default value of 100 is used.
+        public let maxResults: Int32?
 
-        public init(projectName: String) {
+        public init(nextToken: String? = nil, projectName: String, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
             self.projectName = projectName
+            self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
             case projectName = "projectName"
+            case maxResults = "maxResults"
         }
     }
 
@@ -361,60 +305,116 @@ extension IoT1ClickProjects {
         }
     }
 
-    public struct AssociateDeviceWithPlacementRequest: AWSShape {
+    public struct DeleteProjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deviceId", required: true, type: .string), 
-            AWSShapeMember(label: "placementName", location: .uri(locationName: "placementName"), required: true, type: .string), 
-            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"), required: true, type: .string), 
-            AWSShapeMember(label: "deviceTemplateName", location: .uri(locationName: "deviceTemplateName"), required: true, type: .string)
+            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"), required: true, type: .string)
         ]
-        /// The ID of the physical device to be associated with the given placement in the project. Note that a mandatory 4 character prefix is required for all deviceId values.
-        public let deviceId: String
-        /// The name of the placement in which to associate the device.
-        public let placementName: String
-        /// The name of the project containing the placement in which to associate the device.
+        /// The name of the empty project to delete.
         public let projectName: String
-        /// The device template name to associate with the device ID.
-        public let deviceTemplateName: String
 
-        public init(deviceId: String, placementName: String, projectName: String, deviceTemplateName: String) {
-            self.deviceId = deviceId
-            self.placementName = placementName
+        public init(projectName: String) {
             self.projectName = projectName
-            self.deviceTemplateName = deviceTemplateName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceId = "deviceId"
-            case placementName = "placementName"
             case projectName = "projectName"
-            case deviceTemplateName = "deviceTemplateName"
         }
     }
 
-    public struct CreateProjectRequest: AWSShape {
+    public struct UpdateProjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "placementTemplate", required: false, type: .structure), 
             AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "projectName", required: true, type: .string)
+            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"), required: true, type: .string), 
+            AWSShapeMember(label: "placementTemplate", required: false, type: .structure)
         ]
-        /// The schema defining the placement to be created. A placement template defines placement default attributes and device templates. You cannot add or remove device templates after the project has been created. However, you can update callbackOverrides for the device templates using the UpdateProject API.
-        public let placementTemplate: PlacementTemplate?
-        /// An optional description for the project.
+        /// An optional user-defined description for the project.
         public let description: String?
-        /// The name of the project to create.
+        /// The name of the project to be updated.
         public let projectName: String
+        /// An object defining the project update. Once a project has been created, you cannot add device template names to the project. However, for a given placementTemplate, you can update the associated callbackOverrides for the device definition using this API.
+        public let placementTemplate: PlacementTemplate?
 
-        public init(placementTemplate: PlacementTemplate? = nil, description: String? = nil, projectName: String) {
-            self.placementTemplate = placementTemplate
+        public init(description: String? = nil, projectName: String, placementTemplate: PlacementTemplate? = nil) {
             self.description = description
             self.projectName = projectName
+            self.placementTemplate = placementTemplate
         }
 
         private enum CodingKeys: String, CodingKey {
-            case placementTemplate = "placementTemplate"
             case description = "description"
             case projectName = "projectName"
+            case placementTemplate = "placementTemplate"
+        }
+    }
+
+    public struct PlacementDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "placementName", required: true, type: .string), 
+            AWSShapeMember(label: "attributes", required: true, type: .map), 
+            AWSShapeMember(label: "projectName", required: true, type: .string), 
+            AWSShapeMember(label: "createdDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "updatedDate", required: true, type: .timestamp)
+        ]
+        /// The name of the placement.
+        public let placementName: String
+        /// The user-defined attributes associated with the placement.
+        public let attributes: [String: String]
+        /// The name of the project containing the placement.
+        public let projectName: String
+        /// The date when the placement was initially created, in UNIX epoch time format.
+        public let createdDate: TimeStamp
+        /// The date when the placement was last updated, in UNIX epoch time format. If the placement was not updated, then createdDate and updatedDate are the same.
+        public let updatedDate: TimeStamp
+
+        public init(placementName: String, attributes: [String: String], projectName: String, createdDate: TimeStamp, updatedDate: TimeStamp) {
+            self.placementName = placementName
+            self.attributes = attributes
+            self.projectName = projectName
+            self.createdDate = createdDate
+            self.updatedDate = updatedDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case placementName = "placementName"
+            case attributes = "attributes"
+            case projectName = "projectName"
+            case createdDate = "createdDate"
+            case updatedDate = "updatedDate"
+        }
+    }
+
+    public struct UpdatePlacementResponse: AWSShape {
+
+    }
+
+    public struct AssociateDeviceWithPlacementRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "placementName", location: .uri(locationName: "placementName"), required: true, type: .string), 
+            AWSShapeMember(label: "deviceTemplateName", location: .uri(locationName: "deviceTemplateName"), required: true, type: .string), 
+            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"), required: true, type: .string), 
+            AWSShapeMember(label: "deviceId", required: true, type: .string)
+        ]
+        /// The name of the placement in which to associate the device.
+        public let placementName: String
+        /// The device template name to associate with the device ID.
+        public let deviceTemplateName: String
+        /// The name of the project containing the placement in which to associate the device.
+        public let projectName: String
+        /// The ID of the physical device to be associated with the given placement in the project. Note that a mandatory 4 character prefix is required for all deviceId values.
+        public let deviceId: String
+
+        public init(placementName: String, deviceTemplateName: String, projectName: String, deviceId: String) {
+            self.placementName = placementName
+            self.deviceTemplateName = deviceTemplateName
+            self.projectName = projectName
+            self.deviceId = deviceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case placementName = "placementName"
+            case deviceTemplateName = "deviceTemplateName"
+            case projectName = "projectName"
+            case deviceId = "deviceId"
         }
     }
 
@@ -422,91 +422,127 @@ extension IoT1ClickProjects {
 
     }
 
-    public struct DescribePlacementRequest: AWSShape {
+    public struct DescribeProjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "placementName", location: .uri(locationName: "placementName"), required: true, type: .string), 
             AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"), required: true, type: .string)
         ]
-        /// The name of the placement within a project.
-        public let placementName: String
-        /// The project containing the placement to be described.
+        /// The name of the project to be described.
         public let projectName: String
 
-        public init(placementName: String, projectName: String) {
-            self.placementName = placementName
+        public init(projectName: String) {
             self.projectName = projectName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectName = "projectName"
+        }
+    }
+
+    public struct UpdatePlacementRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributes", required: false, type: .map), 
+            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"), required: true, type: .string), 
+            AWSShapeMember(label: "placementName", location: .uri(locationName: "placementName"), required: true, type: .string)
+        ]
+        /// The user-defined object of attributes used to update the placement. The maximum number of key/value pairs is 50.
+        public let attributes: [String: String]?
+        /// The name of the project containing the placement to be updated.
+        public let projectName: String
+        /// The name of the placement to update.
+        public let placementName: String
+
+        public init(attributes: [String: String]? = nil, projectName: String, placementName: String) {
+            self.attributes = attributes
+            self.projectName = projectName
+            self.placementName = placementName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case projectName = "projectName"
+            case placementName = "placementName"
+        }
+    }
+
+    public struct PlacementTemplate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deviceTemplates", required: false, type: .map), 
+            AWSShapeMember(label: "defaultAttributes", required: false, type: .map)
+        ]
+        /// An object specifying the DeviceTemplate for all placements using this (PlacementTemplate) template.
+        public let deviceTemplates: [String: DeviceTemplate]?
+        /// The default attributes (key/value pairs) to be applied to all placements using this template.
+        public let defaultAttributes: [String: String]?
+
+        public init(deviceTemplates: [String: DeviceTemplate]? = nil, defaultAttributes: [String: String]? = nil) {
+            self.deviceTemplates = deviceTemplates
+            self.defaultAttributes = defaultAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceTemplates = "deviceTemplates"
+            case defaultAttributes = "defaultAttributes"
+        }
+    }
+
+    public struct CreatePlacementResponse: AWSShape {
+
+    }
+
+    public struct PlacementSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "placementName", required: true, type: .string), 
+            AWSShapeMember(label: "createdDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "projectName", required: true, type: .string), 
+            AWSShapeMember(label: "updatedDate", required: true, type: .timestamp)
+        ]
+        /// The name of the placement being summarized.
+        public let placementName: String
+        /// The date when the placement was originally created, in UNIX epoch time format.
+        public let createdDate: TimeStamp
+        /// The name of the project containing the placement.
+        public let projectName: String
+        /// The date when the placement was last updated, in UNIX epoch time format. If the placement was not updated, then createdDate and updatedDate are the same.
+        public let updatedDate: TimeStamp
+
+        public init(placementName: String, createdDate: TimeStamp, projectName: String, updatedDate: TimeStamp) {
+            self.placementName = placementName
+            self.createdDate = createdDate
+            self.projectName = projectName
+            self.updatedDate = updatedDate
         }
 
         private enum CodingKeys: String, CodingKey {
             case placementName = "placementName"
-            case projectName = "projectName"
-        }
-    }
-
-    public struct ProjectDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "placementTemplate", required: false, type: .structure), 
-            AWSShapeMember(label: "createdDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "updatedDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "projectName", required: true, type: .string)
-        ]
-        /// The description of the project.
-        public let description: String?
-        /// An object describing the project's placement specifications.
-        public let placementTemplate: PlacementTemplate?
-        /// The date when the project was originally created, in UNIX epoch time format.
-        public let createdDate: TimeStamp
-        /// The date when the project was last updated, in UNIX epoch time format. If the project was not updated, then createdDate and updatedDate are the same.
-        public let updatedDate: TimeStamp
-        /// The name of the project for which to obtain information from.
-        public let projectName: String
-
-        public init(description: String? = nil, placementTemplate: PlacementTemplate? = nil, createdDate: TimeStamp, updatedDate: TimeStamp, projectName: String) {
-            self.description = description
-            self.placementTemplate = placementTemplate
-            self.createdDate = createdDate
-            self.updatedDate = updatedDate
-            self.projectName = projectName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case placementTemplate = "placementTemplate"
             case createdDate = "createdDate"
+            case projectName = "projectName"
             case updatedDate = "updatedDate"
-            case projectName = "projectName"
-        }
-    }
-
-    public struct ListPlacementsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"), required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
-        ]
-        /// The project containing the placements to be listed.
-        public let projectName: String
-        /// The token to retrieve the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return per request. If not set, a default value of 100 is used.
-        public let maxResults: Int32?
-
-        public init(projectName: String, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.projectName = projectName
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case projectName = "projectName"
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
         }
     }
 
     public struct DisassociateDeviceFromPlacementResponse: AWSShape {
 
+    }
+
+    public struct ListProjectsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "projects", required: true, type: .list)
+        ]
+        /// The token used to retrieve the next set of results - will be effectively empty if there are no further results.
+        public let nextToken: String?
+        /// An object containing the list of projects.
+        public let projects: [ProjectSummary]
+
+        public init(nextToken: String? = nil, projects: [ProjectSummary]) {
+            self.nextToken = nextToken
+            self.projects = projects
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case projects = "projects"
+        }
     }
 
     public struct GetDevicesInPlacementResponse: AWSShape {
@@ -525,80 +561,44 @@ extension IoT1ClickProjects {
         }
     }
 
-    public struct PlacementSummary: AWSShape {
+    public struct ProjectDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "placementTemplate", required: false, type: .structure), 
             AWSShapeMember(label: "createdDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "updatedDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "placementName", required: true, type: .string), 
-            AWSShapeMember(label: "projectName", required: true, type: .string)
+            AWSShapeMember(label: "projectName", required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "updatedDate", required: true, type: .timestamp)
         ]
-        /// The date when the placement was originally created, in UNIX epoch time format.
+        /// An object describing the project's placement specifications.
+        public let placementTemplate: PlacementTemplate?
+        /// The date when the project was originally created, in UNIX epoch time format.
         public let createdDate: TimeStamp
-        /// The date when the placement was last updated, in UNIX epoch time format. If the placement was not updated, then createdDate and updatedDate are the same.
-        public let updatedDate: TimeStamp
-        /// The name of the placement being summarized.
-        public let placementName: String
-        /// The name of the project containing the placement.
+        /// The name of the project for which to obtain information from.
         public let projectName: String
+        /// The description of the project.
+        public let description: String?
+        /// The date when the project was last updated, in UNIX epoch time format. If the project was not updated, then createdDate and updatedDate are the same.
+        public let updatedDate: TimeStamp
 
-        public init(createdDate: TimeStamp, updatedDate: TimeStamp, placementName: String, projectName: String) {
+        public init(placementTemplate: PlacementTemplate? = nil, createdDate: TimeStamp, projectName: String, description: String? = nil, updatedDate: TimeStamp) {
+            self.placementTemplate = placementTemplate
             self.createdDate = createdDate
-            self.updatedDate = updatedDate
-            self.placementName = placementName
             self.projectName = projectName
+            self.description = description
+            self.updatedDate = updatedDate
         }
 
         private enum CodingKeys: String, CodingKey {
+            case placementTemplate = "placementTemplate"
             case createdDate = "createdDate"
-            case updatedDate = "updatedDate"
-            case placementName = "placementName"
             case projectName = "projectName"
+            case description = "description"
+            case updatedDate = "updatedDate"
         }
-    }
-
-    public struct ListPlacementsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "placements", required: true, type: .list)
-        ]
-        /// The token used to retrieve the next set of results - will be effectively empty if there are no further results.
-        public let nextToken: String?
-        /// An object listing the requested placements.
-        public let placements: [PlacementSummary]
-
-        public init(nextToken: String? = nil, placements: [PlacementSummary]) {
-            self.nextToken = nextToken
-            self.placements = placements
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case placements = "placements"
-        }
-    }
-
-    public struct UpdateProjectResponse: AWSShape {
-
     }
 
     public struct DeletePlacementResponse: AWSShape {
 
-    }
-
-    public struct DescribeProjectResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "project", required: true, type: .structure)
-        ]
-        /// An object describing the project.
-        public let project: ProjectDescription
-
-        public init(project: ProjectDescription) {
-            self.project = project
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case project = "project"
-        }
     }
 
 }

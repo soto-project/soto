@@ -4,12 +4,12 @@ import AWSSDKSwiftCore
 
 /// Error enum for MQ
 public enum MQErrorType: AWSErrorType {
+    case notFoundException(message: String?)
     case badRequestException(message: String?)
-    case unauthorizedException(message: String?)
     case internalServerErrorException(message: String?)
     case conflictException(message: String?)
     case forbiddenException(message: String?)
-    case notFoundException(message: String?)
+    case unauthorizedException(message: String?)
 }
 
 extension MQErrorType {
@@ -19,18 +19,18 @@ extension MQErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "NotFoundException":
+            self = .notFoundException(message: message)
         case "BadRequestException":
             self = .badRequestException(message: message)
-        case "UnauthorizedException":
-            self = .unauthorizedException(message: message)
         case "InternalServerErrorException":
             self = .internalServerErrorException(message: message)
         case "ConflictException":
             self = .conflictException(message: message)
         case "ForbiddenException":
             self = .forbiddenException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
+        case "UnauthorizedException":
+            self = .unauthorizedException(message: message)
         default:
             return nil
         }

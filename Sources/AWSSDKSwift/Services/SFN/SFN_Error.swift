@@ -4,25 +4,25 @@ import AWSSDKSwiftCore
 
 /// Error enum for SFN
 public enum SFNErrorType: AWSErrorType {
-    case activityDoesNotExist(message: String?)
-    case invalidArn(message: String?)
-    case stateMachineDoesNotExist(message: String?)
-    case executionDoesNotExist(message: String?)
-    case invalidToken(message: String?)
-    case taskDoesNotExist(message: String?)
-    case taskTimedOut(message: String?)
     case activityLimitExceeded(message: String?)
     case invalidName(message: String?)
+    case invalidArn(message: String?)
+    case activityDoesNotExist(message: String?)
+    case taskDoesNotExist(message: String?)
+    case invalidToken(message: String?)
+    case taskTimedOut(message: String?)
+    case executionDoesNotExist(message: String?)
     case invalidDefinition(message: String?)
     case missingRequiredParameter(message: String?)
     case stateMachineDeleting(message: String?)
-    case invalidOutput(message: String?)
+    case stateMachineDoesNotExist(message: String?)
+    case activityWorkerLimitExceeded(message: String?)
     case executionLimitExceeded(message: String?)
     case executionAlreadyExists(message: String?)
     case invalidExecutionInput(message: String?)
-    case activityWorkerLimitExceeded(message: String?)
     case stateMachineAlreadyExists(message: String?)
     case stateMachineLimitExceeded(message: String?)
+    case invalidOutput(message: String?)
 }
 
 extension SFNErrorType {
@@ -32,44 +32,44 @@ extension SFNErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ActivityDoesNotExist":
-            self = .activityDoesNotExist(message: message)
-        case "InvalidArn":
-            self = .invalidArn(message: message)
-        case "StateMachineDoesNotExist":
-            self = .stateMachineDoesNotExist(message: message)
-        case "ExecutionDoesNotExist":
-            self = .executionDoesNotExist(message: message)
-        case "InvalidToken":
-            self = .invalidToken(message: message)
-        case "TaskDoesNotExist":
-            self = .taskDoesNotExist(message: message)
-        case "TaskTimedOut":
-            self = .taskTimedOut(message: message)
         case "ActivityLimitExceeded":
             self = .activityLimitExceeded(message: message)
         case "InvalidName":
             self = .invalidName(message: message)
+        case "InvalidArn":
+            self = .invalidArn(message: message)
+        case "ActivityDoesNotExist":
+            self = .activityDoesNotExist(message: message)
+        case "TaskDoesNotExist":
+            self = .taskDoesNotExist(message: message)
+        case "InvalidToken":
+            self = .invalidToken(message: message)
+        case "TaskTimedOut":
+            self = .taskTimedOut(message: message)
+        case "ExecutionDoesNotExist":
+            self = .executionDoesNotExist(message: message)
         case "InvalidDefinition":
             self = .invalidDefinition(message: message)
         case "MissingRequiredParameter":
             self = .missingRequiredParameter(message: message)
         case "StateMachineDeleting":
             self = .stateMachineDeleting(message: message)
-        case "InvalidOutput":
-            self = .invalidOutput(message: message)
+        case "StateMachineDoesNotExist":
+            self = .stateMachineDoesNotExist(message: message)
+        case "ActivityWorkerLimitExceeded":
+            self = .activityWorkerLimitExceeded(message: message)
         case "ExecutionLimitExceeded":
             self = .executionLimitExceeded(message: message)
         case "ExecutionAlreadyExists":
             self = .executionAlreadyExists(message: message)
         case "InvalidExecutionInput":
             self = .invalidExecutionInput(message: message)
-        case "ActivityWorkerLimitExceeded":
-            self = .activityWorkerLimitExceeded(message: message)
         case "StateMachineAlreadyExists":
             self = .stateMachineAlreadyExists(message: message)
         case "StateMachineLimitExceeded":
             self = .stateMachineLimitExceeded(message: message)
+        case "InvalidOutput":
+            self = .invalidOutput(message: message)
         default:
             return nil
         }

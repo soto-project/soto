@@ -5,270 +5,285 @@ import AWSSDKSwiftCore
 
 extension SFN {
 
-    public struct ExecutionFailedEventDetails: AWSShape {
+    public struct CreateStateMachineOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeMember(label: "creationDate", required: true, type: .timestamp)
         ]
-        /// A more detailed explanation of the cause of the failure.
-        public let cause: String?
-        /// The error code of the failure.
-        public let error: String?
+        /// The Amazon Resource Name (ARN) that identifies the created state machine.
+        public let stateMachineArn: String
+        /// The date the state machine is created.
+        public let creationDate: TimeStamp
 
-        public init(cause: String? = nil, error: String? = nil) {
-            self.cause = cause
-            self.error = error
+        public init(stateMachineArn: String, creationDate: TimeStamp) {
+            self.stateMachineArn = stateMachineArn
+            self.creationDate = creationDate
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause = "cause"
-            case error = "error"
+            case stateMachineArn = "stateMachineArn"
+            case creationDate = "creationDate"
         }
     }
 
-    public struct GetActivityTaskInput: AWSShape {
+    public struct ListExecutionsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "workerName", required: false, type: .string), 
-            AWSShapeMember(label: "activityArn", required: true, type: .string)
+            AWSShapeMember(label: "statusFilter", required: false, type: .enum), 
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// You can provide an arbitrary name in order to identify the worker that the task is assigned to. This name is used when it is logged in the execution history.
-        public let workerName: String?
-        /// The Amazon Resource Name (ARN) of the activity to retrieve tasks from (assigned when you create the task using CreateActivity.)
-        public let activityArn: String
+        /// If specified, only list the executions whose current execution status matches the given filter.
+        public let statusFilter: ExecutionStatus?
+        /// The Amazon Resource Name (ARN) of the state machine whose executions is listed.
+        public let stateMachineArn: String
+        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+        public let maxResults: Int32?
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
 
-        public init(workerName: String? = nil, activityArn: String) {
+        public init(statusFilter: ExecutionStatus? = nil, stateMachineArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.statusFilter = statusFilter
+            self.stateMachineArn = stateMachineArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusFilter = "statusFilter"
+            case stateMachineArn = "stateMachineArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct LambdaFunctionSucceededEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "output", required: false, type: .string)
+        ]
+        /// The JSON data output by the lambda function.
+        public let output: String?
+
+        public init(output: String? = nil) {
+            self.output = output
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case output = "output"
+        }
+    }
+
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable {
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case timedOut = "TIMED_OUT"
+        case aborted = "ABORTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ActivityStartedEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "workerName", required: false, type: .string)
+        ]
+        /// The name of the worker that the task is assigned to. These names are provided by the workers when calling GetActivityTask.
+        public let workerName: String?
+
+        public init(workerName: String? = nil) {
             self.workerName = workerName
-            self.activityArn = activityArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case workerName = "workerName"
-            case activityArn = "activityArn"
-        }
-    }
-
-    public struct LambdaFunctionFailedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
-        ]
-        /// A more detailed explanation of the cause of the failure.
-        public let cause: String?
-        /// The error code of the failure.
-        public let error: String?
-
-        public init(cause: String? = nil, error: String? = nil) {
-            self.cause = cause
-            self.error = error
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cause = "cause"
-            case error = "error"
-        }
-    }
-
-    public struct UpdateStateMachineOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "updateDate", required: true, type: .timestamp)
-        ]
-        /// The date and time the state machine was updated.
-        public let updateDate: TimeStamp
-
-        public init(updateDate: TimeStamp) {
-            self.updateDate = updateDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case updateDate = "updateDate"
-        }
-    }
-
-    public struct StateEnteredEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "input", required: false, type: .string)
-        ]
-        /// The name of the state.
-        public let name: String
-        /// The string that contains the JSON input data for the state.
-        public let input: String?
-
-        public init(name: String, input: String? = nil) {
-            self.name = name
-            self.input = input
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case input = "input"
-        }
-    }
-
-    public struct HistoryEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "activitySucceededEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "activityScheduledEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "activityStartedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "executionFailedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "type", required: true, type: .enum), 
-            AWSShapeMember(label: "lambdaFunctionTimedOutEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "executionTimedOutEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "lambdaFunctionScheduledEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "stateExitedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "lambdaFunctionFailedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "activityScheduleFailedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "executionAbortedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "timestamp", required: true, type: .timestamp), 
-            AWSShapeMember(label: "lambdaFunctionStartFailedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "activityFailedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "id", required: true, type: .long), 
-            AWSShapeMember(label: "lambdaFunctionScheduleFailedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "activityTimedOutEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "lambdaFunctionSucceededEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "stateEnteredEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "executionStartedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "executionSucceededEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "previousEventId", required: false, type: .long)
-        ]
-        public let activitySucceededEventDetails: ActivitySucceededEventDetails?
-        public let activityScheduledEventDetails: ActivityScheduledEventDetails?
-        public let activityStartedEventDetails: ActivityStartedEventDetails?
-        public let executionFailedEventDetails: ExecutionFailedEventDetails?
-        /// The type of the event.
-        public let `type`: HistoryEventType
-        public let lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails?
-        public let executionTimedOutEventDetails: ExecutionTimedOutEventDetails?
-        public let lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails?
-        public let stateExitedEventDetails: StateExitedEventDetails?
-        public let lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails?
-        /// Contains details about an activity schedule event which failed during an execution.
-        public let activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails?
-        public let executionAbortedEventDetails: ExecutionAbortedEventDetails?
-        /// The date the event occurred.
-        public let timestamp: TimeStamp
-        /// Contains details about a lambda function which failed to start during an execution.
-        public let lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails?
-        public let activityFailedEventDetails: ActivityFailedEventDetails?
-        /// The id of the event. Events are numbered sequentially, starting at one.
-        public let id: Int64
-        public let lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails?
-        public let activityTimedOutEventDetails: ActivityTimedOutEventDetails?
-        /// Contains details about a lambda function which terminated successfully during an execution.
-        public let lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails?
-        public let stateEnteredEventDetails: StateEnteredEventDetails?
-        public let executionStartedEventDetails: ExecutionStartedEventDetails?
-        public let executionSucceededEventDetails: ExecutionSucceededEventDetails?
-        /// The id of the previous event.
-        public let previousEventId: Int64?
-
-        public init(activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, type: HistoryEventType, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, timestamp: TimeStamp, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil, activityFailedEventDetails: ActivityFailedEventDetails? = nil, id: Int64, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, stateEnteredEventDetails: StateEnteredEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, previousEventId: Int64? = nil) {
-            self.activitySucceededEventDetails = activitySucceededEventDetails
-            self.activityScheduledEventDetails = activityScheduledEventDetails
-            self.activityStartedEventDetails = activityStartedEventDetails
-            self.executionFailedEventDetails = executionFailedEventDetails
-            self.`type` = `type`
-            self.lambdaFunctionTimedOutEventDetails = lambdaFunctionTimedOutEventDetails
-            self.executionTimedOutEventDetails = executionTimedOutEventDetails
-            self.lambdaFunctionScheduledEventDetails = lambdaFunctionScheduledEventDetails
-            self.stateExitedEventDetails = stateExitedEventDetails
-            self.lambdaFunctionFailedEventDetails = lambdaFunctionFailedEventDetails
-            self.activityScheduleFailedEventDetails = activityScheduleFailedEventDetails
-            self.executionAbortedEventDetails = executionAbortedEventDetails
-            self.timestamp = timestamp
-            self.lambdaFunctionStartFailedEventDetails = lambdaFunctionStartFailedEventDetails
-            self.activityFailedEventDetails = activityFailedEventDetails
-            self.id = id
-            self.lambdaFunctionScheduleFailedEventDetails = lambdaFunctionScheduleFailedEventDetails
-            self.activityTimedOutEventDetails = activityTimedOutEventDetails
-            self.lambdaFunctionSucceededEventDetails = lambdaFunctionSucceededEventDetails
-            self.stateEnteredEventDetails = stateEnteredEventDetails
-            self.executionStartedEventDetails = executionStartedEventDetails
-            self.executionSucceededEventDetails = executionSucceededEventDetails
-            self.previousEventId = previousEventId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case activitySucceededEventDetails = "activitySucceededEventDetails"
-            case activityScheduledEventDetails = "activityScheduledEventDetails"
-            case activityStartedEventDetails = "activityStartedEventDetails"
-            case executionFailedEventDetails = "executionFailedEventDetails"
-            case `type` = "type"
-            case lambdaFunctionTimedOutEventDetails = "lambdaFunctionTimedOutEventDetails"
-            case executionTimedOutEventDetails = "executionTimedOutEventDetails"
-            case lambdaFunctionScheduledEventDetails = "lambdaFunctionScheduledEventDetails"
-            case stateExitedEventDetails = "stateExitedEventDetails"
-            case lambdaFunctionFailedEventDetails = "lambdaFunctionFailedEventDetails"
-            case activityScheduleFailedEventDetails = "activityScheduleFailedEventDetails"
-            case executionAbortedEventDetails = "executionAbortedEventDetails"
-            case timestamp = "timestamp"
-            case lambdaFunctionStartFailedEventDetails = "lambdaFunctionStartFailedEventDetails"
-            case activityFailedEventDetails = "activityFailedEventDetails"
-            case id = "id"
-            case lambdaFunctionScheduleFailedEventDetails = "lambdaFunctionScheduleFailedEventDetails"
-            case activityTimedOutEventDetails = "activityTimedOutEventDetails"
-            case lambdaFunctionSucceededEventDetails = "lambdaFunctionSucceededEventDetails"
-            case stateEnteredEventDetails = "stateEnteredEventDetails"
-            case executionStartedEventDetails = "executionStartedEventDetails"
-            case executionSucceededEventDetails = "executionSucceededEventDetails"
-            case previousEventId = "previousEventId"
         }
     }
 
     public struct LambdaFunctionScheduleFailedEventDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
+            AWSShapeMember(label: "error", required: false, type: .string), 
+            AWSShapeMember(label: "cause", required: false, type: .string)
         ]
-        /// A more detailed explanation of the cause of the failure.
-        public let cause: String?
         /// The error code of the failure.
         public let error: String?
+        /// A more detailed explanation of the cause of the failure.
+        public let cause: String?
 
-        public init(cause: String? = nil, error: String? = nil) {
-            self.cause = cause
+        public init(error: String? = nil, cause: String? = nil) {
             self.error = error
+            self.cause = cause
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause = "cause"
             case error = "error"
+            case cause = "cause"
         }
     }
 
-    public struct DescribeStateMachineForExecutionOutput: AWSShape {
+    public struct DescribeStateMachineInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "updateDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
-            AWSShapeMember(label: "definition", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string)
         ]
-        /// The date and time the state machine associated with an execution was updated. For a newly created state machine, this is the creation date.
-        public let updateDate: TimeStamp
-        /// The name of the state machine associated with the execution.
-        public let name: String
-        /// The Amazon Resource Name (ARN) of the state machine associated with the execution.
+        /// The Amazon Resource Name (ARN) of the state machine to describe.
         public let stateMachineArn: String
-        /// The Amazon States Language definition of the state machine.
-        public let definition: String
-        /// The Amazon Resource Name (ARN) of the IAM role of the State Machine for the execution. 
-        public let roleArn: String
 
-        public init(updateDate: TimeStamp, name: String, stateMachineArn: String, definition: String, roleArn: String) {
-            self.updateDate = updateDate
-            self.name = name
+        public init(stateMachineArn: String) {
+            self.stateMachineArn = stateMachineArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stateMachineArn = "stateMachineArn"
+        }
+    }
+
+    public struct TaskStartedEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceType", required: true, type: .string), 
+            AWSShapeMember(label: "resource", required: true, type: .string)
+        ]
+        /// The action of the connected service called by a task state.
+        public let resourceType: String
+        /// The service name of the connected service in a task state.
+        public let resource: String
+
+        public init(resourceType: String, resource: String) {
+            self.resourceType = resourceType
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "resourceType"
+            case resource = "resource"
+        }
+    }
+
+    public struct UpdateStateMachineInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeMember(label: "definition", required: false, type: .string), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the state machine.
+        public let stateMachineArn: String
+        /// The Amazon States Language definition of the state machine. See Amazon States Language.
+        public let definition: String?
+        /// The Amazon Resource Name (ARN) of the IAM role of the state machine.
+        public let roleArn: String?
+
+        public init(stateMachineArn: String, definition: String? = nil, roleArn: String? = nil) {
             self.stateMachineArn = stateMachineArn
             self.definition = definition
             self.roleArn = roleArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case updateDate = "updateDate"
-            case name = "name"
             case stateMachineArn = "stateMachineArn"
             case definition = "definition"
             case roleArn = "roleArn"
+        }
+    }
+
+    public struct DescribeStateMachineForExecutionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "executionArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the execution you want state machine information for.
+        public let executionArn: String
+
+        public init(executionArn: String) {
+            self.executionArn = executionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionArn = "executionArn"
+        }
+    }
+
+    public struct ActivityListItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "activityArn", required: true, type: .string), 
+            AWSShapeMember(label: "creationDate", required: true, type: .timestamp)
+        ]
+        /// The name of the activity. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        public let name: String
+        /// The Amazon Resource Name (ARN) that identifies the activity.
+        public let activityArn: String
+        /// The date the activity is created.
+        public let creationDate: TimeStamp
+
+        public init(name: String, activityArn: String, creationDate: TimeStamp) {
+            self.name = name
+            self.activityArn = activityArn
+            self.creationDate = creationDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case activityArn = "activityArn"
+            case creationDate = "creationDate"
+        }
+    }
+
+    public struct StopExecutionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "executionArn", required: true, type: .string), 
+            AWSShapeMember(label: "error", required: false, type: .string), 
+            AWSShapeMember(label: "cause", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the execution to stop.
+        public let executionArn: String
+        /// The error code of the failure.
+        public let error: String?
+        /// A more detailed explanation of the cause of the failure.
+        public let cause: String?
+
+        public init(executionArn: String, error: String? = nil, cause: String? = nil) {
+            self.executionArn = executionArn
+            self.error = error
+            self.cause = cause
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionArn = "executionArn"
+            case error = "error"
+            case cause = "cause"
+        }
+    }
+
+    public struct DescribeActivityInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "activityArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the activity to describe.
+        public let activityArn: String
+
+        public init(activityArn: String) {
+            self.activityArn = activityArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activityArn = "activityArn"
+        }
+    }
+
+    public struct ExecutionStartedEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "input", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the IAM role used for executing AWS Lambda tasks.
+        public let roleArn: String?
+        /// The JSON data input to the execution.
+        public let input: String?
+
+        public init(roleArn: String? = nil, input: String? = nil) {
+            self.roleArn = roleArn
+            self.input = input
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case input = "input"
         }
     }
 
@@ -293,6 +308,563 @@ extension SFN {
         }
     }
 
+    public struct SendTaskSuccessOutput: AWSShape {
+
+    }
+
+    public struct ListExecutionsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "executions", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The list of matching executions.
+        public let executions: [ExecutionListItem]
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+
+        public init(executions: [ExecutionListItem], nextToken: String? = nil) {
+            self.executions = executions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executions = "executions"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct TaskSubmittedEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "output", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: true, type: .string), 
+            AWSShapeMember(label: "resource", required: true, type: .string)
+        ]
+        /// The response from a connected service when a task has started.
+        public let output: String?
+        /// The action of the connected service called by a task state.
+        public let resourceType: String
+        /// The service name of the connected service in a task state.
+        public let resource: String
+
+        public init(output: String? = nil, resourceType: String, resource: String) {
+            self.output = output
+            self.resourceType = resourceType
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case output = "output"
+            case resourceType = "resourceType"
+            case resource = "resource"
+        }
+    }
+
+    public struct ExecutionTimedOutEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "error", required: false, type: .string), 
+            AWSShapeMember(label: "cause", required: false, type: .string)
+        ]
+        /// The error code of the failure.
+        public let error: String?
+        /// A more detailed explanation of the cause of the timeout.
+        public let cause: String?
+
+        public init(error: String? = nil, cause: String? = nil) {
+            self.error = error
+            self.cause = cause
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case cause = "cause"
+        }
+    }
+
+    public struct DescribeExecutionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "executionArn", required: true, type: .string), 
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeMember(label: "startDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "input", required: true, type: .string), 
+            AWSShapeMember(label: "stopDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "status", required: true, type: .enum), 
+            AWSShapeMember(label: "output", required: false, type: .string)
+        ]
+        /// The name of the execution. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        public let name: String?
+        /// The Amazon Resource Name (ARN) that identifies the execution.
+        public let executionArn: String
+        /// The Amazon Resource Name (ARN) of the executed stated machine.
+        public let stateMachineArn: String
+        /// The date the execution is started.
+        public let startDate: TimeStamp
+        /// The string that contains the JSON input data of the execution.
+        public let input: String
+        /// If the execution has already ended, the date the execution stopped.
+        public let stopDate: TimeStamp?
+        /// The current status of the execution.
+        public let status: ExecutionStatus
+        /// The JSON output data of the execution.  This field is set only if the execution succeeds. If the execution fails, this field is null. 
+        public let output: String?
+
+        public init(name: String? = nil, executionArn: String, stateMachineArn: String, startDate: TimeStamp, input: String, stopDate: TimeStamp? = nil, status: ExecutionStatus, output: String? = nil) {
+            self.name = name
+            self.executionArn = executionArn
+            self.stateMachineArn = stateMachineArn
+            self.startDate = startDate
+            self.input = input
+            self.stopDate = stopDate
+            self.status = status
+            self.output = output
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case executionArn = "executionArn"
+            case stateMachineArn = "stateMachineArn"
+            case startDate = "startDate"
+            case input = "input"
+            case stopDate = "stopDate"
+            case status = "status"
+            case output = "output"
+        }
+    }
+
+    public struct SendTaskHeartbeatOutput: AWSShape {
+
+    }
+
+    public struct ListActivitiesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "activities", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The list of activities.
+        public let activities: [ActivityListItem]
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+
+        public init(activities: [ActivityListItem], nextToken: String? = nil) {
+            self.activities = activities
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activities = "activities"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DeleteActivityInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "activityArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the activity to delete.
+        public let activityArn: String
+
+        public init(activityArn: String) {
+            self.activityArn = activityArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activityArn = "activityArn"
+        }
+    }
+
+    public struct LambdaFunctionFailedEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "error", required: false, type: .string), 
+            AWSShapeMember(label: "cause", required: false, type: .string)
+        ]
+        /// The error code of the failure.
+        public let error: String?
+        /// A more detailed explanation of the cause of the failure.
+        public let cause: String?
+
+        public init(error: String? = nil, cause: String? = nil) {
+            self.error = error
+            self.cause = cause
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case cause = "cause"
+        }
+    }
+
+    public struct DeleteStateMachineOutput: AWSShape {
+
+    }
+
+    public struct TaskStartFailedEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceType", required: true, type: .string), 
+            AWSShapeMember(label: "cause", required: false, type: .string), 
+            AWSShapeMember(label: "error", required: false, type: .string), 
+            AWSShapeMember(label: "resource", required: true, type: .string)
+        ]
+        /// The action of the connected service called by a task state.
+        public let resourceType: String
+        /// A more detailed explanation of the cause of the failure.
+        public let cause: String?
+        /// The error code of the failure.
+        public let error: String?
+        /// The service name of the connected service in a task state.
+        public let resource: String
+
+        public init(resourceType: String, cause: String? = nil, error: String? = nil, resource: String) {
+            self.resourceType = resourceType
+            self.cause = cause
+            self.error = error
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "resourceType"
+            case cause = "cause"
+            case error = "error"
+            case resource = "resource"
+        }
+    }
+
+    public struct DescribeStateMachineForExecutionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "updateDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeMember(label: "definition", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
+        ]
+        /// The date and time the state machine associated with an execution was updated. For a newly created state machine, this is the creation date.
+        public let updateDate: TimeStamp
+        /// The name of the state machine associated with the execution.
+        public let name: String
+        /// The Amazon Resource Name (ARN) of the state machine associated with the execution.
+        public let stateMachineArn: String
+        /// The Amazon States Language definition of the state machine. See Amazon States Language.
+        public let definition: String
+        /// The Amazon Resource Name (ARN) of the IAM role of the State Machine for the execution. 
+        public let roleArn: String
+
+        public init(updateDate: TimeStamp, name: String, stateMachineArn: String, definition: String, roleArn: String) {
+            self.updateDate = updateDate
+            self.name = name
+            self.stateMachineArn = stateMachineArn
+            self.definition = definition
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case updateDate = "updateDate"
+            case name = "name"
+            case stateMachineArn = "stateMachineArn"
+            case definition = "definition"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct TaskSucceededEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "output", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: true, type: .string), 
+            AWSShapeMember(label: "resource", required: true, type: .string)
+        ]
+        /// The full JSON response from a connected service when a task has succeeded. This response becomes the output of the related task.
+        public let output: String?
+        /// The action of the connected service called by a task state.
+        public let resourceType: String
+        /// The service name of the connected service in a task state.
+        public let resource: String
+
+        public init(output: String? = nil, resourceType: String, resource: String) {
+            self.output = output
+            self.resourceType = resourceType
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case output = "output"
+            case resourceType = "resourceType"
+            case resource = "resource"
+        }
+    }
+
+    public struct StartExecutionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "input", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the state machine to execute.
+        public let stateMachineArn: String
+        /// The name of the execution. This name must be unique for your AWS account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        public let name: String?
+        /// The string that contains the JSON input data for the execution, for example:  "input": "{\"first_name\" : \"test\"}"   If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}"  
+        public let input: String?
+
+        public init(stateMachineArn: String, name: String? = nil, input: String? = nil) {
+            self.stateMachineArn = stateMachineArn
+            self.name = name
+            self.input = input
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stateMachineArn = "stateMachineArn"
+            case name = "name"
+            case input = "input"
+        }
+    }
+
+    public struct SendTaskFailureInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskToken", required: true, type: .string), 
+            AWSShapeMember(label: "error", required: false, type: .string), 
+            AWSShapeMember(label: "cause", required: false, type: .string)
+        ]
+        /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTask::taskToken).
+        public let taskToken: String
+        /// The error code of the failure.
+        public let error: String?
+        /// A more detailed explanation of the cause of the failure.
+        public let cause: String?
+
+        public init(taskToken: String, error: String? = nil, cause: String? = nil) {
+            self.taskToken = taskToken
+            self.error = error
+            self.cause = cause
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskToken = "taskToken"
+            case error = "error"
+            case cause = "cause"
+        }
+    }
+
+    public struct ExecutionListItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeMember(label: "status", required: true, type: .enum), 
+            AWSShapeMember(label: "stopDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "startDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "executionArn", required: true, type: .string)
+        ]
+        /// The name of the execution. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        public let name: String
+        /// The Amazon Resource Name (ARN) of the executed state machine.
+        public let stateMachineArn: String
+        /// The current status of the execution.
+        public let status: ExecutionStatus
+        /// If the execution already ended, the date the execution stopped.
+        public let stopDate: TimeStamp?
+        /// The date the execution started.
+        public let startDate: TimeStamp
+        /// The Amazon Resource Name (ARN) that identifies the execution.
+        public let executionArn: String
+
+        public init(name: String, stateMachineArn: String, status: ExecutionStatus, stopDate: TimeStamp? = nil, startDate: TimeStamp, executionArn: String) {
+            self.name = name
+            self.stateMachineArn = stateMachineArn
+            self.status = status
+            self.stopDate = stopDate
+            self.startDate = startDate
+            self.executionArn = executionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case stateMachineArn = "stateMachineArn"
+            case status = "status"
+            case stopDate = "stopDate"
+            case startDate = "startDate"
+            case executionArn = "executionArn"
+        }
+    }
+
+    public enum StateMachineStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeStateMachineOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "creationDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "definition", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
+        ]
+        /// The name of the state machine. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        public let name: String
+        /// The Amazon Resource Name (ARN) that identifies the state machine.
+        public let stateMachineArn: String
+        /// The current status of the state machine.
+        public let status: StateMachineStatus?
+        /// The date the state machine is created.
+        public let creationDate: TimeStamp
+        /// The Amazon States Language definition of the state machine. See Amazon States Language.
+        public let definition: String
+        /// The Amazon Resource Name (ARN) of the IAM role used when creating this state machine. (The IAM role maintains security by granting Step Functions access to AWS resources.)
+        public let roleArn: String
+
+        public init(name: String, stateMachineArn: String, status: StateMachineStatus? = nil, creationDate: TimeStamp, definition: String, roleArn: String) {
+            self.name = name
+            self.stateMachineArn = stateMachineArn
+            self.status = status
+            self.creationDate = creationDate
+            self.definition = definition
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case stateMachineArn = "stateMachineArn"
+            case status = "status"
+            case creationDate = "creationDate"
+            case definition = "definition"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct DeleteActivityOutput: AWSShape {
+
+    }
+
+    public struct CreateActivityInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string)
+        ]
+        /// The name of the activity to create. This name must be unique for your AWS account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct StopExecutionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stopDate", required: true, type: .timestamp)
+        ]
+        /// The date the execution is stopped.
+        public let stopDate: TimeStamp
+
+        public init(stopDate: TimeStamp) {
+            self.stopDate = stopDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stopDate = "stopDate"
+        }
+    }
+
+    public struct TaskSubmitFailedEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceType", required: true, type: .string), 
+            AWSShapeMember(label: "cause", required: false, type: .string), 
+            AWSShapeMember(label: "error", required: false, type: .string), 
+            AWSShapeMember(label: "resource", required: true, type: .string)
+        ]
+        /// The action of the connected service called by a task state.
+        public let resourceType: String
+        /// A more detailed explanation of the cause of the failure.
+        public let cause: String?
+        /// The error code of the failure.
+        public let error: String?
+        /// The service name of the connected service in a task state.
+        public let resource: String
+
+        public init(resourceType: String, cause: String? = nil, error: String? = nil, resource: String) {
+            self.resourceType = resourceType
+            self.cause = cause
+            self.error = error
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "resourceType"
+            case cause = "cause"
+            case error = "error"
+            case resource = "resource"
+        }
+    }
+
+    public struct ActivityTimedOutEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "error", required: false, type: .string), 
+            AWSShapeMember(label: "cause", required: false, type: .string)
+        ]
+        /// The error code of the failure.
+        public let error: String?
+        /// A more detailed explanation of the cause of the timeout.
+        public let cause: String?
+
+        public init(error: String? = nil, cause: String? = nil) {
+            self.error = error
+            self.cause = cause
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case cause = "cause"
+        }
+    }
+
+    public struct ActivityScheduledEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "timeoutInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "heartbeatInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "resource", required: true, type: .string)
+        ]
+        /// The JSON data input to the activity task.
+        public let input: String?
+        /// The maximum allowed duration of the activity task.
+        public let timeoutInSeconds: Int64?
+        /// The maximum allowed duration between two heartbeats for the activity task.
+        public let heartbeatInSeconds: Int64?
+        /// The Amazon Resource Name (ARN) of the scheduled activity.
+        public let resource: String
+
+        public init(input: String? = nil, timeoutInSeconds: Int64? = nil, heartbeatInSeconds: Int64? = nil, resource: String) {
+            self.input = input
+            self.timeoutInSeconds = timeoutInSeconds
+            self.heartbeatInSeconds = heartbeatInSeconds
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case input = "input"
+            case timeoutInSeconds = "timeoutInSeconds"
+            case heartbeatInSeconds = "heartbeatInSeconds"
+            case resource = "resource"
+        }
+    }
+
+    public struct UpdateStateMachineOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "updateDate", required: true, type: .timestamp)
+        ]
+        /// The date and time the state machine was updated.
+        public let updateDate: TimeStamp
+
+        public init(updateDate: TimeStamp) {
+            self.updateDate = updateDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case updateDate = "updateDate"
+        }
+    }
+
     public enum HistoryEventType: String, CustomStringConvertible, Codable {
         case activityfailed = "ActivityFailed"
         case activityschedulefailed = "ActivityScheduleFailed"
@@ -302,6 +874,14 @@ extension SFN {
         case activitytimedout = "ActivityTimedOut"
         case choicestateentered = "ChoiceStateEntered"
         case choicestateexited = "ChoiceStateExited"
+        case taskfailed = "TaskFailed"
+        case taskscheduled = "TaskScheduled"
+        case taskstartfailed = "TaskStartFailed"
+        case taskstarted = "TaskStarted"
+        case tasksubmitfailed = "TaskSubmitFailed"
+        case tasksubmitted = "TaskSubmitted"
+        case tasksucceeded = "TaskSucceeded"
+        case tasktimedout = "TaskTimedOut"
         case executionfailed = "ExecutionFailed"
         case executionstarted = "ExecutionStarted"
         case executionsucceeded = "ExecutionSucceeded"
@@ -334,423 +914,6 @@ extension SFN {
         public var description: String { return self.rawValue }
     }
 
-    public struct CreateActivityInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
-        /// The name of the activity to create. This name must be unique for your AWS account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
-    }
-
-    public struct StopExecutionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "executionArn", required: true, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
-        ]
-        /// A more detailed explanation of the cause of the termination.
-        public let cause: String?
-        /// The Amazon Resource Name (ARN) of the execution to stop.
-        public let executionArn: String
-        /// An arbitrary error code that identifies the cause of the termination.
-        public let error: String?
-
-        public init(cause: String? = nil, executionArn: String, error: String? = nil) {
-            self.cause = cause
-            self.executionArn = executionArn
-            self.error = error
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cause = "cause"
-            case executionArn = "executionArn"
-            case error = "error"
-        }
-    }
-
-    public struct StartExecutionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
-            AWSShapeMember(label: "input", required: false, type: .string)
-        ]
-        /// The name of the execution. This name must be unique for your AWS account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide.  An execution can't use the name of another execution for 90 days. When you make multiple StartExecution calls with the same name, the new execution doesn't run and the following rules apply:   When the original execution is open and the execution input from the new call is different, the ExecutionAlreadyExists message is returned.   When the original execution is open and the execution input from the new call is identical, the Success message is returned.   When the original execution is closed, the ExecutionAlreadyExists message is returned regardless of input.    A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
-        public let name: String?
-        /// The Amazon Resource Name (ARN) of the state machine to execute.
-        public let stateMachineArn: String
-        /// The string that contains the JSON input data for the execution, for example:  "input": "{\"first_name\" : \"test\"}"   If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}"  
-        public let input: String?
-
-        public init(name: String? = nil, stateMachineArn: String, input: String? = nil) {
-            self.name = name
-            self.stateMachineArn = stateMachineArn
-            self.input = input
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case stateMachineArn = "stateMachineArn"
-            case input = "input"
-        }
-    }
-
-    public struct LambdaFunctionTimedOutEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
-        ]
-        /// A more detailed explanation of the cause of the timeout.
-        public let cause: String?
-        /// The error code of the failure.
-        public let error: String?
-
-        public init(cause: String? = nil, error: String? = nil) {
-            self.cause = cause
-            self.error = error
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cause = "cause"
-            case error = "error"
-        }
-    }
-
-    public struct DeleteStateMachineOutput: AWSShape {
-
-    }
-
-    public enum StateMachineStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteActivityOutput: AWSShape {
-
-    }
-
-    public struct CreateActivityOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "activityArn", required: true, type: .string)
-        ]
-        /// The date the activity is created.
-        public let creationDate: TimeStamp
-        /// The Amazon Resource Name (ARN) that identifies the created activity.
-        public let activityArn: String
-
-        public init(creationDate: TimeStamp, activityArn: String) {
-            self.creationDate = creationDate
-            self.activityArn = activityArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationDate = "creationDate"
-            case activityArn = "activityArn"
-        }
-    }
-
-    public struct DescribeStateMachineOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "definition", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
-            AWSShapeMember(label: "creationDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
-        /// The current status of the state machine.
-        public let status: StateMachineStatus?
-        /// The Amazon States Language definition of the state machine.
-        public let definition: String
-        /// The name of the state machine. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
-        public let name: String
-        /// The Amazon Resource Name (ARN) that identifies the state machine.
-        public let stateMachineArn: String
-        /// The date the state machine is created.
-        public let creationDate: TimeStamp
-        /// The Amazon Resource Name (ARN) of the IAM role used when creating this state machine. (The IAM role maintains security by granting Step Functions access to AWS resources.)
-        public let roleArn: String
-
-        public init(status: StateMachineStatus? = nil, definition: String, name: String, stateMachineArn: String, creationDate: TimeStamp, roleArn: String) {
-            self.status = status
-            self.definition = definition
-            self.name = name
-            self.stateMachineArn = stateMachineArn
-            self.creationDate = creationDate
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "status"
-            case definition = "definition"
-            case name = "name"
-            case stateMachineArn = "stateMachineArn"
-            case creationDate = "creationDate"
-            case roleArn = "roleArn"
-        }
-    }
-
-    public struct UpdateStateMachineInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "definition", required: false, type: .string), 
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
-        /// The Amazon States Language definition of the state machine.
-        public let definition: String?
-        /// The Amazon Resource Name (ARN) of the state machine.
-        public let stateMachineArn: String
-        /// The Amazon Resource Name (ARN) of the IAM role of the state machine.
-        public let roleArn: String?
-
-        public init(definition: String? = nil, stateMachineArn: String, roleArn: String? = nil) {
-            self.definition = definition
-            self.stateMachineArn = stateMachineArn
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case definition = "definition"
-            case stateMachineArn = "stateMachineArn"
-            case roleArn = "roleArn"
-        }
-    }
-
-    public struct CreateStateMachineInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "definition", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
-        /// The name of the state machine. This name must be unique for your AWS account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
-        public let name: String
-        /// The Amazon States Language definition of the state machine.
-        public let definition: String
-        /// The Amazon Resource Name (ARN) of the IAM role to use for this state machine.
-        public let roleArn: String
-
-        public init(name: String, definition: String, roleArn: String) {
-            self.name = name
-            self.definition = definition
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case definition = "definition"
-            case roleArn = "roleArn"
-        }
-    }
-
-    public struct SendTaskSuccessInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskToken", required: true, type: .string), 
-            AWSShapeMember(label: "output", required: true, type: .string)
-        ]
-        /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTaskOutput$taskToken).
-        public let taskToken: String
-        /// The JSON output of the task.
-        public let output: String
-
-        public init(taskToken: String, output: String) {
-            self.taskToken = taskToken
-            self.output = output
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskToken = "taskToken"
-            case output = "output"
-        }
-    }
-
-    public struct ExecutionSucceededEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "output", required: false, type: .string)
-        ]
-        /// The JSON data output by the execution.
-        public let output: String?
-
-        public init(output: String? = nil) {
-            self.output = output
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case output = "output"
-        }
-    }
-
-    public struct ExecutionAbortedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
-        ]
-        /// A more detailed explanation of the cause of the failure.
-        public let cause: String?
-        /// The error code of the failure.
-        public let error: String?
-
-        public init(cause: String? = nil, error: String? = nil) {
-            self.cause = cause
-            self.error = error
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cause = "cause"
-            case error = "error"
-        }
-    }
-
-    public struct ExecutionStartedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "input", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
-        /// The JSON data input to the execution.
-        public let input: String?
-        /// The Amazon Resource Name (ARN) of the IAM role used for executing AWS Lambda tasks.
-        public let roleArn: String?
-
-        public init(input: String? = nil, roleArn: String? = nil) {
-            self.input = input
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case input = "input"
-            case roleArn = "roleArn"
-        }
-    }
-
-    public struct StopExecutionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "stopDate", required: true, type: .timestamp)
-        ]
-        /// The date the execution is stopped.
-        public let stopDate: TimeStamp
-
-        public init(stopDate: TimeStamp) {
-            self.stopDate = stopDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stopDate = "stopDate"
-        }
-    }
-
-    public struct SendTaskFailureInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "taskToken", required: true, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
-        ]
-        /// A more detailed explanation of the cause of the failure.
-        public let cause: String?
-        /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTask::taskToken).
-        public let taskToken: String
-        /// An arbitrary error code that identifies the cause of the failure.
-        public let error: String?
-
-        public init(cause: String? = nil, taskToken: String, error: String? = nil) {
-            self.cause = cause
-            self.taskToken = taskToken
-            self.error = error
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cause = "cause"
-            case taskToken = "taskToken"
-            case error = "error"
-        }
-    }
-
-    public struct SendTaskHeartbeatInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskToken", required: true, type: .string)
-        ]
-        /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTaskOutput$taskToken).
-        public let taskToken: String
-
-        public init(taskToken: String) {
-            self.taskToken = taskToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskToken = "taskToken"
-        }
-    }
-
-    public struct ActivityStartedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "workerName", required: false, type: .string)
-        ]
-        /// The name of the worker that the task is assigned to. These names are provided by the workers when calling GetActivityTask.
-        public let workerName: String?
-
-        public init(workerName: String? = nil) {
-            self.workerName = workerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case workerName = "workerName"
-        }
-    }
-
-    public struct StartExecutionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionArn", required: true, type: .string), 
-            AWSShapeMember(label: "startDate", required: true, type: .timestamp)
-        ]
-        /// The Amazon Resource Name (ARN) that identifies the execution.
-        public let executionArn: String
-        /// The date the execution is started.
-        public let startDate: TimeStamp
-
-        public init(executionArn: String, startDate: TimeStamp) {
-            self.executionArn = executionArn
-            self.startDate = startDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case executionArn = "executionArn"
-            case startDate = "startDate"
-        }
-    }
-
-    public struct StateMachineListItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
-        /// The date the state machine is created.
-        public let creationDate: TimeStamp
-        /// The Amazon Resource Name (ARN) that identifies the state machine.
-        public let stateMachineArn: String
-        /// The name of the state machine. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
-        public let name: String
-
-        public init(creationDate: TimeStamp, stateMachineArn: String, name: String) {
-            self.creationDate = creationDate
-            self.stateMachineArn = stateMachineArn
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationDate = "creationDate"
-            case stateMachineArn = "stateMachineArn"
-            case name = "name"
-        }
-    }
-
     public struct DescribeExecutionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "executionArn", required: true, type: .string)
@@ -767,66 +930,144 @@ extension SFN {
         }
     }
 
-    public struct ListActivitiesInput: AWSShape {
+    public struct DescribeActivityOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "activityArn", required: true, type: .string), 
+            AWSShapeMember(label: "creationDate", required: true, type: .timestamp)
         ]
-        /// If a nextToken is returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        public let nextToken: String?
-        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 100. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
-        public let maxResults: Int32?
+        /// The name of the activity. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        public let name: String
+        /// The Amazon Resource Name (ARN) that identifies the activity.
+        public let activityArn: String
+        /// The date the activity is created.
+        public let creationDate: TimeStamp
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
+        public init(name: String, activityArn: String, creationDate: TimeStamp) {
+            self.name = name
+            self.activityArn = activityArn
+            self.creationDate = creationDate
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
+            case name = "name"
+            case activityArn = "activityArn"
+            case creationDate = "creationDate"
         }
     }
 
-    public struct ListActivitiesOutput: AWSShape {
+    public struct LambdaFunctionTimedOutEventDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "activities", required: true, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
+            AWSShapeMember(label: "error", required: false, type: .string), 
+            AWSShapeMember(label: "cause", required: false, type: .string)
         ]
-        /// The list of activities.
-        public let activities: [ActivityListItem]
-        /// If a nextToken is returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        public let nextToken: String?
+        /// The error code of the failure.
+        public let error: String?
+        /// A more detailed explanation of the cause of the timeout.
+        public let cause: String?
 
-        public init(activities: [ActivityListItem], nextToken: String? = nil) {
-            self.activities = activities
-            self.nextToken = nextToken
+        public init(error: String? = nil, cause: String? = nil) {
+            self.error = error
+            self.cause = cause
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activities = "activities"
-            case nextToken = "nextToken"
+            case error = "error"
+            case cause = "cause"
+        }
+    }
+
+    public struct ExecutionAbortedEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "error", required: false, type: .string), 
+            AWSShapeMember(label: "cause", required: false, type: .string)
+        ]
+        /// The error code of the failure.
+        public let error: String?
+        /// A more detailed explanation of the cause of the failure.
+        public let cause: String?
+
+        public init(error: String? = nil, cause: String? = nil) {
+            self.error = error
+            self.cause = cause
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case cause = "cause"
+        }
+    }
+
+    public struct TaskFailedEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceType", required: true, type: .string), 
+            AWSShapeMember(label: "cause", required: false, type: .string), 
+            AWSShapeMember(label: "error", required: false, type: .string), 
+            AWSShapeMember(label: "resource", required: true, type: .string)
+        ]
+        /// The action of the connected service called by a task state.
+        public let resourceType: String
+        /// A more detailed explanation of the cause of the failure.
+        public let cause: String?
+        /// The error code of the failure.
+        public let error: String?
+        /// The service name of the connected service in a task state.
+        public let resource: String
+
+        public init(resourceType: String, cause: String? = nil, error: String? = nil, resource: String) {
+            self.resourceType = resourceType
+            self.cause = cause
+            self.error = error
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "resourceType"
+            case cause = "cause"
+            case error = "error"
+            case resource = "resource"
+        }
+    }
+
+    public struct CreateActivityOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "activityArn", required: true, type: .string), 
+            AWSShapeMember(label: "creationDate", required: true, type: .timestamp)
+        ]
+        /// The Amazon Resource Name (ARN) that identifies the created activity.
+        public let activityArn: String
+        /// The date the activity is created.
+        public let creationDate: TimeStamp
+
+        public init(activityArn: String, creationDate: TimeStamp) {
+            self.activityArn = activityArn
+            self.creationDate = creationDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activityArn = "activityArn"
+            case creationDate = "creationDate"
         }
     }
 
     public struct ActivityScheduleFailedEventDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
+            AWSShapeMember(label: "error", required: false, type: .string), 
+            AWSShapeMember(label: "cause", required: false, type: .string)
         ]
-        /// A more detailed explanation of the cause of the failure.
-        public let cause: String?
         /// The error code of the failure.
         public let error: String?
+        /// A more detailed explanation of the cause of the failure.
+        public let cause: String?
 
-        public init(cause: String? = nil, error: String? = nil) {
-            self.cause = cause
+        public init(error: String? = nil, cause: String? = nil) {
             self.error = error
+            self.cause = cause
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause = "cause"
             case error = "error"
+            case cause = "cause"
         }
     }
 
@@ -835,7 +1076,7 @@ extension SFN {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "events", required: true, type: .list)
         ]
-        /// If a nextToken is returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
         /// The list of events that occurred in the execution.
         public let events: [HistoryEvent]
@@ -851,510 +1092,81 @@ extension SFN {
         }
     }
 
-    public struct SendTaskFailureOutput: AWSShape {
-
-    }
-
-    public struct ActivityScheduledEventDetails: AWSShape {
+    public struct GetExecutionHistoryInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "input", required: false, type: .string), 
-            AWSShapeMember(label: "timeoutInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "resource", required: true, type: .string), 
-            AWSShapeMember(label: "heartbeatInSeconds", required: false, type: .long)
-        ]
-        /// The JSON data input to the activity task.
-        public let input: String?
-        /// The maximum allowed duration of the activity task.
-        public let timeoutInSeconds: Int64?
-        /// The Amazon Resource Name (ARN) of the scheduled activity.
-        public let resource: String
-        /// The maximum allowed duration between two heartbeats for the activity task.
-        public let heartbeatInSeconds: Int64?
-
-        public init(input: String? = nil, timeoutInSeconds: Int64? = nil, resource: String, heartbeatInSeconds: Int64? = nil) {
-            self.input = input
-            self.timeoutInSeconds = timeoutInSeconds
-            self.resource = resource
-            self.heartbeatInSeconds = heartbeatInSeconds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case input = "input"
-            case timeoutInSeconds = "timeoutInSeconds"
-            case resource = "resource"
-            case heartbeatInSeconds = "heartbeatInSeconds"
-        }
-    }
-
-    public struct ListExecutionsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executions", required: true, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// The list of matching executions.
-        public let executions: [ExecutionListItem]
-        /// If a nextToken is returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        public let nextToken: String?
-
-        public init(executions: [ExecutionListItem], nextToken: String? = nil) {
-            self.executions = executions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case executions = "executions"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct SendTaskHeartbeatOutput: AWSShape {
-
-    }
-
-    public struct DescribeActivityOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "activityArn", required: true, type: .string)
-        ]
-        /// The date the activity is created.
-        public let creationDate: TimeStamp
-        /// The name of the activity. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
-        public let name: String
-        /// The Amazon Resource Name (ARN) that identifies the activity.
-        public let activityArn: String
-
-        public init(creationDate: TimeStamp, name: String, activityArn: String) {
-            self.creationDate = creationDate
-            self.name = name
-            self.activityArn = activityArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationDate = "creationDate"
-            case name = "name"
-            case activityArn = "activityArn"
-        }
-    }
-
-    public struct DescribeExecutionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "input", required: true, type: .string), 
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
-            AWSShapeMember(label: "executionArn", required: true, type: .string), 
-            AWSShapeMember(label: "stopDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "output", required: false, type: .string), 
-            AWSShapeMember(label: "startDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "status", required: true, type: .enum)
-        ]
-        /// The name of the execution. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
-        public let name: String?
-        /// The string that contains the JSON input data of the execution.
-        public let input: String
-        /// The Amazon Resource Name (ARN) of the executed stated machine.
-        public let stateMachineArn: String
-        /// The Amazon Resource Name (ARN) that identifies the execution.
-        public let executionArn: String
-        /// If the execution has already ended, the date the execution stopped.
-        public let stopDate: TimeStamp?
-        /// The JSON output data of the execution.  This field is set only if the execution succeeds. If the execution fails, this field is null. 
-        public let output: String?
-        /// The date the execution is started.
-        public let startDate: TimeStamp
-        /// The current status of the execution.
-        public let status: ExecutionStatus
-
-        public init(name: String? = nil, input: String, stateMachineArn: String, executionArn: String, stopDate: TimeStamp? = nil, output: String? = nil, startDate: TimeStamp, status: ExecutionStatus) {
-            self.name = name
-            self.input = input
-            self.stateMachineArn = stateMachineArn
-            self.executionArn = executionArn
-            self.stopDate = stopDate
-            self.output = output
-            self.startDate = startDate
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case input = "input"
-            case stateMachineArn = "stateMachineArn"
-            case executionArn = "executionArn"
-            case stopDate = "stopDate"
-            case output = "output"
-            case startDate = "startDate"
-            case status = "status"
-        }
-    }
-
-    public struct CreateStateMachineOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string)
-        ]
-        /// The date the state machine is created.
-        public let creationDate: TimeStamp
-        /// The Amazon Resource Name (ARN) that identifies the created state machine.
-        public let stateMachineArn: String
-
-        public init(creationDate: TimeStamp, stateMachineArn: String) {
-            self.creationDate = creationDate
-            self.stateMachineArn = stateMachineArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationDate = "creationDate"
-            case stateMachineArn = "stateMachineArn"
-        }
-    }
-
-    public struct ListStateMachinesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "stateMachines", required: true, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        public let stateMachines: [StateMachineListItem]
-        /// If a nextToken is returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        public let nextToken: String?
-
-        public init(stateMachines: [StateMachineListItem], nextToken: String? = nil) {
-            self.stateMachines = stateMachines
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stateMachines = "stateMachines"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct DescribeActivityInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "activityArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the activity to describe.
-        public let activityArn: String
-
-        public init(activityArn: String) {
-            self.activityArn = activityArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case activityArn = "activityArn"
-        }
-    }
-
-    public struct SendTaskSuccessOutput: AWSShape {
-
-    }
-
-    public struct ActivityTimedOutEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
-        ]
-        /// A more detailed explanation of the cause of the timeout.
-        public let cause: String?
-        /// The error code of the failure.
-        public let error: String?
-
-        public init(cause: String? = nil, error: String? = nil) {
-            self.cause = cause
-            self.error = error
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cause = "cause"
-            case error = "error"
-        }
-    }
-
-    public struct ActivitySucceededEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "output", required: false, type: .string)
-        ]
-        /// The JSON data output by the activity task.
-        public let output: String?
-
-        public init(output: String? = nil) {
-            self.output = output
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case output = "output"
-        }
-    }
-
-    public struct ExecutionTimedOutEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
-        ]
-        /// A more detailed explanation of the cause of the timeout.
-        public let cause: String?
-        /// The error code of the failure.
-        public let error: String?
-
-        public init(cause: String? = nil, error: String? = nil) {
-            self.cause = cause
-            self.error = error
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cause = "cause"
-            case error = "error"
-        }
-    }
-
-    public struct DeleteStateMachineInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the state machine to delete.
-        public let stateMachineArn: String
-
-        public init(stateMachineArn: String) {
-            self.stateMachineArn = stateMachineArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stateMachineArn = "stateMachineArn"
-        }
-    }
-
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable {
-        case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case timedOut = "TIMED_OUT"
-        case aborted = "ABORTED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteActivityInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "activityArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the activity to delete.
-        public let activityArn: String
-
-        public init(activityArn: String) {
-            self.activityArn = activityArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case activityArn = "activityArn"
-        }
-    }
-
-    public struct ActivityFailedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
-        ]
-        /// A more detailed explanation of the cause of the failure.
-        public let cause: String?
-        /// The error code of the failure.
-        public let error: String?
-
-        public init(cause: String? = nil, error: String? = nil) {
-            self.cause = cause
-            self.error = error
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cause = "cause"
-            case error = "error"
-        }
-    }
-
-    public struct DescribeStateMachineInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the state machine to describe.
-        public let stateMachineArn: String
-
-        public init(stateMachineArn: String) {
-            self.stateMachineArn = stateMachineArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stateMachineArn = "stateMachineArn"
-        }
-    }
-
-    public struct DescribeStateMachineForExecutionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "reverseOrder", required: false, type: .boolean), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "executionArn", required: true, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the execution you want state machine information for.
+        /// Lists events in descending order of their timeStamp.
+        public let reverseOrder: Bool?
+        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+        public let maxResults: Int32?
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the execution.
         public let executionArn: String
 
-        public init(executionArn: String) {
+        public init(reverseOrder: Bool? = nil, maxResults: Int32? = nil, nextToken: String? = nil, executionArn: String) {
+            self.reverseOrder = reverseOrder
+            self.maxResults = maxResults
+            self.nextToken = nextToken
             self.executionArn = executionArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case reverseOrder = "reverseOrder"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
             case executionArn = "executionArn"
         }
     }
 
     public struct LambdaFunctionStartFailedEventDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
+            AWSShapeMember(label: "error", required: false, type: .string), 
+            AWSShapeMember(label: "cause", required: false, type: .string)
         ]
-        /// A more detailed explanation of the cause of the failure.
-        public let cause: String?
         /// The error code of the failure.
         public let error: String?
+        /// A more detailed explanation of the cause of the failure.
+        public let cause: String?
 
-        public init(cause: String? = nil, error: String? = nil) {
-            self.cause = cause
+        public init(error: String? = nil, cause: String? = nil) {
             self.error = error
+            self.cause = cause
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause = "cause"
             case error = "error"
+            case cause = "cause"
         }
     }
 
-    public struct ActivityListItem: AWSShape {
+    public struct SendTaskSuccessInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "activityArn", required: true, type: .string)
+            AWSShapeMember(label: "output", required: true, type: .string), 
+            AWSShapeMember(label: "taskToken", required: true, type: .string)
         ]
-        /// The date the activity is created.
-        public let creationDate: TimeStamp
-        /// The name of the activity. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
-        public let name: String
-        /// The Amazon Resource Name (ARN) that identifies the activity.
-        public let activityArn: String
+        /// The JSON output of the task.
+        public let output: String
+        /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTaskOutput$taskToken).
+        public let taskToken: String
 
-        public init(creationDate: TimeStamp, name: String, activityArn: String) {
-            self.creationDate = creationDate
-            self.name = name
-            self.activityArn = activityArn
+        public init(output: String, taskToken: String) {
+            self.output = output
+            self.taskToken = taskToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate = "creationDate"
-            case name = "name"
-            case activityArn = "activityArn"
+            case output = "output"
+            case taskToken = "taskToken"
         }
     }
 
-    public struct LambdaFunctionScheduledEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "timeoutInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "resource", required: true, type: .string), 
-            AWSShapeMember(label: "input", required: false, type: .string)
-        ]
-        /// The maximum allowed duration of the lambda function.
-        public let timeoutInSeconds: Int64?
-        /// The Amazon Resource Name (ARN) of the scheduled lambda function.
-        public let resource: String
-        /// The JSON data input to the lambda function.
-        public let input: String?
+    public struct SendTaskFailureOutput: AWSShape {
 
-        public init(timeoutInSeconds: Int64? = nil, resource: String, input: String? = nil) {
-            self.timeoutInSeconds = timeoutInSeconds
-            self.resource = resource
-            self.input = input
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case timeoutInSeconds = "timeoutInSeconds"
-            case resource = "resource"
-            case input = "input"
-        }
-    }
-
-    public struct ListExecutionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "statusFilter", required: false, type: .enum)
-        ]
-        /// If a nextToken is returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        public let nextToken: String?
-        /// The Amazon Resource Name (ARN) of the state machine whose executions is listed.
-        public let stateMachineArn: String
-        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 100. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
-        public let maxResults: Int32?
-        /// If specified, only list the executions whose current execution status matches the given filter.
-        public let statusFilter: ExecutionStatus?
-
-        public init(nextToken: String? = nil, stateMachineArn: String, maxResults: Int32? = nil, statusFilter: ExecutionStatus? = nil) {
-            self.nextToken = nextToken
-            self.stateMachineArn = stateMachineArn
-            self.maxResults = maxResults
-            self.statusFilter = statusFilter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case stateMachineArn = "stateMachineArn"
-            case maxResults = "maxResults"
-            case statusFilter = "statusFilter"
-        }
-    }
-
-    public struct ListStateMachinesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// If a nextToken is returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        public let nextToken: String?
-        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 100. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct GetExecutionHistoryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "executionArn", required: true, type: .string), 
-            AWSShapeMember(label: "reverseOrder", required: false, type: .boolean), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// If a nextToken is returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        public let nextToken: String?
-        /// The Amazon Resource Name (ARN) of the execution.
-        public let executionArn: String
-        /// Lists events in descending order of their timeStamp.
-        public let reverseOrder: Bool?
-        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 100. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, executionArn: String, reverseOrder: Bool? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.executionArn = executionArn
-            self.reverseOrder = reverseOrder
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case executionArn = "executionArn"
-            case reverseOrder = "reverseOrder"
-            case maxResults = "maxResults"
-        }
     }
 
     public struct GetActivityTaskOutput: AWSShape {
@@ -1378,11 +1190,199 @@ extension SFN {
         }
     }
 
-    public struct LambdaFunctionSucceededEventDetails: AWSShape {
+    public struct TaskTimedOutEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceType", required: true, type: .string), 
+            AWSShapeMember(label: "cause", required: false, type: .string), 
+            AWSShapeMember(label: "error", required: false, type: .string), 
+            AWSShapeMember(label: "resource", required: true, type: .string)
+        ]
+        /// The action of the connected service called by a task state.
+        public let resourceType: String
+        /// A more detailed explanation of the cause of the failure.
+        public let cause: String?
+        /// The error code of the failure.
+        public let error: String?
+        /// The service name of the connected service in a task state.
+        public let resource: String
+
+        public init(resourceType: String, cause: String? = nil, error: String? = nil, resource: String) {
+            self.resourceType = resourceType
+            self.cause = cause
+            self.error = error
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "resourceType"
+            case cause = "cause"
+            case error = "error"
+            case resource = "resource"
+        }
+    }
+
+    public struct StateMachineListItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "creationDate", required: true, type: .timestamp)
+        ]
+        /// The Amazon Resource Name (ARN) that identifies the state machine.
+        public let stateMachineArn: String
+        /// The name of the state machine. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        public let name: String
+        /// The date the state machine is created.
+        public let creationDate: TimeStamp
+
+        public init(stateMachineArn: String, name: String, creationDate: TimeStamp) {
+            self.stateMachineArn = stateMachineArn
+            self.name = name
+            self.creationDate = creationDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stateMachineArn = "stateMachineArn"
+            case name = "name"
+            case creationDate = "creationDate"
+        }
+    }
+
+    public struct LambdaFunctionScheduledEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "timeoutInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "resource", required: true, type: .string)
+        ]
+        /// The maximum allowed duration of the lambda function.
+        public let timeoutInSeconds: Int64?
+        /// The JSON data input to the lambda function.
+        public let input: String?
+        /// The Amazon Resource Name (ARN) of the scheduled lambda function.
+        public let resource: String
+
+        public init(timeoutInSeconds: Int64? = nil, input: String? = nil, resource: String) {
+            self.timeoutInSeconds = timeoutInSeconds
+            self.input = input
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timeoutInSeconds = "timeoutInSeconds"
+            case input = "input"
+            case resource = "resource"
+        }
+    }
+
+    public struct ListActivitiesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+        public let maxResults: Int32?
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct StateEnteredEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "input", required: false, type: .string)
+        ]
+        /// The name of the state.
+        public let name: String
+        /// The string that contains the JSON input data for the state.
+        public let input: String?
+
+        public init(name: String, input: String? = nil) {
+            self.name = name
+            self.input = input
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case input = "input"
+        }
+    }
+
+    public struct ListStateMachinesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+        public let maxResults: Int32?
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct CreateStateMachineInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "definition", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
+        ]
+        /// The name of the state machine.  A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        public let name: String
+        /// The Amazon States Language definition of the state machine. See Amazon States Language.
+        public let definition: String
+        /// The Amazon Resource Name (ARN) of the IAM role to use for this state machine.
+        public let roleArn: String
+
+        public init(name: String, definition: String, roleArn: String) {
+            self.name = name
+            self.definition = definition
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case definition = "definition"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct DeleteStateMachineInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the state machine to delete.
+        public let stateMachineArn: String
+
+        public init(stateMachineArn: String) {
+            self.stateMachineArn = stateMachineArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stateMachineArn = "stateMachineArn"
+        }
+    }
+
+    public struct ActivitySucceededEventDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "output", required: false, type: .string)
         ]
-        /// The JSON data output by the lambda function.
+        /// The JSON data output by the activity task.
         public let output: String?
 
         public init(output: String? = nil) {
@@ -1394,44 +1394,316 @@ extension SFN {
         }
     }
 
-    public struct ExecutionListItem: AWSShape {
+    public struct StartExecutionOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: true, type: .enum), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "executionArn", required: true, type: .string), 
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
             AWSShapeMember(label: "startDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "stopDate", required: false, type: .timestamp)
+            AWSShapeMember(label: "executionArn", required: true, type: .string)
         ]
-        /// The current status of the execution.
-        public let status: ExecutionStatus
-        /// The name of the execution. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
-        public let name: String
+        /// The date the execution is started.
+        public let startDate: TimeStamp
         /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
-        /// The Amazon Resource Name (ARN) of the executed state machine.
-        public let stateMachineArn: String
-        /// The date the execution started.
-        public let startDate: TimeStamp
-        /// If the execution already ended, the date the execution stopped.
-        public let stopDate: TimeStamp?
 
-        public init(status: ExecutionStatus, name: String, executionArn: String, stateMachineArn: String, startDate: TimeStamp, stopDate: TimeStamp? = nil) {
-            self.status = status
-            self.name = name
-            self.executionArn = executionArn
-            self.stateMachineArn = stateMachineArn
+        public init(startDate: TimeStamp, executionArn: String) {
             self.startDate = startDate
-            self.stopDate = stopDate
+            self.executionArn = executionArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status = "status"
-            case name = "name"
-            case executionArn = "executionArn"
-            case stateMachineArn = "stateMachineArn"
             case startDate = "startDate"
-            case stopDate = "stopDate"
+            case executionArn = "executionArn"
+        }
+    }
+
+    public struct TaskScheduledEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceType", required: true, type: .string), 
+            AWSShapeMember(label: "region", required: true, type: .string), 
+            AWSShapeMember(label: "timeoutInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "resource", required: true, type: .string), 
+            AWSShapeMember(label: "parameters", required: true, type: .string)
+        ]
+        /// The action of the connected service called by a task state.
+        public let resourceType: String
+        public let region: String
+        /// The maximum allowed duration of the task.
+        public let timeoutInSeconds: Int64?
+        /// The service name of the connected service in a task state.
+        public let resource: String
+        /// The JSON data passed to the connected service referenced in a task state.
+        public let parameters: String
+
+        public init(resourceType: String, region: String, timeoutInSeconds: Int64? = nil, resource: String, parameters: String) {
+            self.resourceType = resourceType
+            self.region = region
+            self.timeoutInSeconds = timeoutInSeconds
+            self.resource = resource
+            self.parameters = parameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "resourceType"
+            case region = "region"
+            case timeoutInSeconds = "timeoutInSeconds"
+            case resource = "resource"
+            case parameters = "parameters"
+        }
+    }
+
+    public struct SendTaskHeartbeatInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskToken", required: true, type: .string)
+        ]
+        /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTaskOutput$taskToken).
+        public let taskToken: String
+
+        public init(taskToken: String) {
+            self.taskToken = taskToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskToken = "taskToken"
+        }
+    }
+
+    public struct ActivityFailedEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "error", required: false, type: .string), 
+            AWSShapeMember(label: "cause", required: false, type: .string)
+        ]
+        /// The error code of the failure.
+        public let error: String?
+        /// A more detailed explanation of the cause of the failure.
+        public let cause: String?
+
+        public init(error: String? = nil, cause: String? = nil) {
+            self.error = error
+            self.cause = cause
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case cause = "cause"
+        }
+    }
+
+    public struct HistoryEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lambdaFunctionScheduleFailedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "timestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "taskSubmitFailedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "executionSucceededEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "taskStartFailedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "executionStartedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "taskFailedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "activityScheduledEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "taskTimedOutEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "taskSubmittedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "taskScheduledEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "lambdaFunctionFailedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "stateEnteredEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "stateExitedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "activityStartedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "activityTimedOutEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "previousEventId", required: false, type: .long), 
+            AWSShapeMember(label: "id", required: true, type: .long), 
+            AWSShapeMember(label: "activityFailedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "executionTimedOutEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "taskSucceededEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "lambdaFunctionSucceededEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "taskStartedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "lambdaFunctionStartFailedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "activityScheduleFailedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "lambdaFunctionTimedOutEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "activitySucceededEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "executionFailedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "lambdaFunctionScheduledEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "executionAbortedEventDetails", required: false, type: .structure)
+        ]
+        public let lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails?
+        /// The date and time the event occurred.
+        public let timestamp: TimeStamp
+        public let taskSubmitFailedEventDetails: TaskSubmitFailedEventDetails?
+        public let executionSucceededEventDetails: ExecutionSucceededEventDetails?
+        public let taskStartFailedEventDetails: TaskStartFailedEventDetails?
+        /// The type of the event.
+        public let `type`: HistoryEventType
+        public let executionStartedEventDetails: ExecutionStartedEventDetails?
+        public let taskFailedEventDetails: TaskFailedEventDetails?
+        public let activityScheduledEventDetails: ActivityScheduledEventDetails?
+        public let taskTimedOutEventDetails: TaskTimedOutEventDetails?
+        public let taskSubmittedEventDetails: TaskSubmittedEventDetails?
+        public let taskScheduledEventDetails: TaskScheduledEventDetails?
+        public let lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails?
+        public let stateEnteredEventDetails: StateEnteredEventDetails?
+        public let stateExitedEventDetails: StateExitedEventDetails?
+        public let activityStartedEventDetails: ActivityStartedEventDetails?
+        public let activityTimedOutEventDetails: ActivityTimedOutEventDetails?
+        /// The id of the previous event.
+        public let previousEventId: Int64?
+        /// The id of the event. Events are numbered sequentially, starting at one.
+        public let id: Int64
+        public let activityFailedEventDetails: ActivityFailedEventDetails?
+        public let executionTimedOutEventDetails: ExecutionTimedOutEventDetails?
+        public let taskSucceededEventDetails: TaskSucceededEventDetails?
+        /// Contains details about a lambda function that terminated successfully during an execution.
+        public let lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails?
+        public let taskStartedEventDetails: TaskStartedEventDetails?
+        /// Contains details about a lambda function that failed to start during an execution.
+        public let lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails?
+        /// Contains details about an activity schedule event that failed during an execution.
+        public let activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails?
+        public let lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails?
+        public let activitySucceededEventDetails: ActivitySucceededEventDetails?
+        public let executionFailedEventDetails: ExecutionFailedEventDetails?
+        public let lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails?
+        public let executionAbortedEventDetails: ExecutionAbortedEventDetails?
+
+        public init(lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, timestamp: TimeStamp, taskSubmitFailedEventDetails: TaskSubmitFailedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, taskStartFailedEventDetails: TaskStartFailedEventDetails? = nil, type: HistoryEventType, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, taskFailedEventDetails: TaskFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, taskTimedOutEventDetails: TaskTimedOutEventDetails? = nil, taskSubmittedEventDetails: TaskSubmittedEventDetails? = nil, taskScheduledEventDetails: TaskScheduledEventDetails? = nil, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, stateEnteredEventDetails: StateEnteredEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, previousEventId: Int64? = nil, id: Int64, activityFailedEventDetails: ActivityFailedEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, taskSucceededEventDetails: TaskSucceededEventDetails? = nil, lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, taskStartedEventDetails: TaskStartedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil) {
+            self.lambdaFunctionScheduleFailedEventDetails = lambdaFunctionScheduleFailedEventDetails
+            self.timestamp = timestamp
+            self.taskSubmitFailedEventDetails = taskSubmitFailedEventDetails
+            self.executionSucceededEventDetails = executionSucceededEventDetails
+            self.taskStartFailedEventDetails = taskStartFailedEventDetails
+            self.`type` = `type`
+            self.executionStartedEventDetails = executionStartedEventDetails
+            self.taskFailedEventDetails = taskFailedEventDetails
+            self.activityScheduledEventDetails = activityScheduledEventDetails
+            self.taskTimedOutEventDetails = taskTimedOutEventDetails
+            self.taskSubmittedEventDetails = taskSubmittedEventDetails
+            self.taskScheduledEventDetails = taskScheduledEventDetails
+            self.lambdaFunctionFailedEventDetails = lambdaFunctionFailedEventDetails
+            self.stateEnteredEventDetails = stateEnteredEventDetails
+            self.stateExitedEventDetails = stateExitedEventDetails
+            self.activityStartedEventDetails = activityStartedEventDetails
+            self.activityTimedOutEventDetails = activityTimedOutEventDetails
+            self.previousEventId = previousEventId
+            self.id = id
+            self.activityFailedEventDetails = activityFailedEventDetails
+            self.executionTimedOutEventDetails = executionTimedOutEventDetails
+            self.taskSucceededEventDetails = taskSucceededEventDetails
+            self.lambdaFunctionSucceededEventDetails = lambdaFunctionSucceededEventDetails
+            self.taskStartedEventDetails = taskStartedEventDetails
+            self.lambdaFunctionStartFailedEventDetails = lambdaFunctionStartFailedEventDetails
+            self.activityScheduleFailedEventDetails = activityScheduleFailedEventDetails
+            self.lambdaFunctionTimedOutEventDetails = lambdaFunctionTimedOutEventDetails
+            self.activitySucceededEventDetails = activitySucceededEventDetails
+            self.executionFailedEventDetails = executionFailedEventDetails
+            self.lambdaFunctionScheduledEventDetails = lambdaFunctionScheduledEventDetails
+            self.executionAbortedEventDetails = executionAbortedEventDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambdaFunctionScheduleFailedEventDetails = "lambdaFunctionScheduleFailedEventDetails"
+            case timestamp = "timestamp"
+            case taskSubmitFailedEventDetails = "taskSubmitFailedEventDetails"
+            case executionSucceededEventDetails = "executionSucceededEventDetails"
+            case taskStartFailedEventDetails = "taskStartFailedEventDetails"
+            case `type` = "type"
+            case executionStartedEventDetails = "executionStartedEventDetails"
+            case taskFailedEventDetails = "taskFailedEventDetails"
+            case activityScheduledEventDetails = "activityScheduledEventDetails"
+            case taskTimedOutEventDetails = "taskTimedOutEventDetails"
+            case taskSubmittedEventDetails = "taskSubmittedEventDetails"
+            case taskScheduledEventDetails = "taskScheduledEventDetails"
+            case lambdaFunctionFailedEventDetails = "lambdaFunctionFailedEventDetails"
+            case stateEnteredEventDetails = "stateEnteredEventDetails"
+            case stateExitedEventDetails = "stateExitedEventDetails"
+            case activityStartedEventDetails = "activityStartedEventDetails"
+            case activityTimedOutEventDetails = "activityTimedOutEventDetails"
+            case previousEventId = "previousEventId"
+            case id = "id"
+            case activityFailedEventDetails = "activityFailedEventDetails"
+            case executionTimedOutEventDetails = "executionTimedOutEventDetails"
+            case taskSucceededEventDetails = "taskSucceededEventDetails"
+            case lambdaFunctionSucceededEventDetails = "lambdaFunctionSucceededEventDetails"
+            case taskStartedEventDetails = "taskStartedEventDetails"
+            case lambdaFunctionStartFailedEventDetails = "lambdaFunctionStartFailedEventDetails"
+            case activityScheduleFailedEventDetails = "activityScheduleFailedEventDetails"
+            case lambdaFunctionTimedOutEventDetails = "lambdaFunctionTimedOutEventDetails"
+            case activitySucceededEventDetails = "activitySucceededEventDetails"
+            case executionFailedEventDetails = "executionFailedEventDetails"
+            case lambdaFunctionScheduledEventDetails = "lambdaFunctionScheduledEventDetails"
+            case executionAbortedEventDetails = "executionAbortedEventDetails"
+        }
+    }
+
+    public struct ExecutionFailedEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "error", required: false, type: .string), 
+            AWSShapeMember(label: "cause", required: false, type: .string)
+        ]
+        /// The error code of the failure.
+        public let error: String?
+        /// A more detailed explanation of the cause of the failure.
+        public let cause: String?
+
+        public init(error: String? = nil, cause: String? = nil) {
+            self.error = error
+            self.cause = cause
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case cause = "cause"
+        }
+    }
+
+    public struct GetActivityTaskInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "workerName", required: false, type: .string), 
+            AWSShapeMember(label: "activityArn", required: true, type: .string)
+        ]
+        /// You can provide an arbitrary name in order to identify the worker that the task is assigned to. This name is used when it is logged in the execution history.
+        public let workerName: String?
+        /// The Amazon Resource Name (ARN) of the activity to retrieve tasks from (assigned when you create the task using CreateActivity.)
+        public let activityArn: String
+
+        public init(workerName: String? = nil, activityArn: String) {
+            self.workerName = workerName
+            self.activityArn = activityArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workerName = "workerName"
+            case activityArn = "activityArn"
+        }
+    }
+
+    public struct ListStateMachinesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stateMachines", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        public let stateMachines: [StateMachineListItem]
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+
+        public init(stateMachines: [StateMachineListItem], nextToken: String? = nil) {
+            self.stateMachines = stateMachines
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stateMachines = "stateMachines"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ExecutionSucceededEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "output", required: false, type: .string)
+        ]
+        /// The JSON data output by the execution.
+        public let output: String?
+
+        public init(output: String? = nil) {
+            self.output = output
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case output = "output"
         }
     }
 

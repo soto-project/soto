@@ -10,9 +10,9 @@ public enum MediaLiveErrorType: AWSErrorType {
     case badGatewayException(message: String?)
     case notFoundException(message: String?)
     case gatewayTimeoutException(message: String?)
-    case tooManyRequestsException(message: String?)
     case conflictException(message: String?)
     case unprocessableEntityException(message: String?)
+    case tooManyRequestsException(message: String?)
 }
 
 extension MediaLiveErrorType {
@@ -34,12 +34,12 @@ extension MediaLiveErrorType {
             self = .notFoundException(message: message)
         case "GatewayTimeoutException":
             self = .gatewayTimeoutException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
         case "ConflictException":
             self = .conflictException(message: message)
         case "UnprocessableEntityException":
             self = .unprocessableEntityException(message: message)
+        case "TooManyRequestsException":
+            self = .tooManyRequestsException(message: message)
         default:
             return nil
         }

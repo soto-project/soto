@@ -33,16 +33,16 @@ class DynamoDBTests: XCTestCase {
 
     func prepare() throws {
         let createTableInput = DynamoDB.CreateTableInput(
-            keySchema: [
-                DynamoDB.KeySchemaElement(attributeName: "hashKey", keyType: .hash),
-                DynamoDB.KeySchemaElement(attributeName: "rangeKey", keyType: .range)
-            ],
+            provisionedThroughput: DynamoDB.ProvisionedThroughput(readCapacityUnits: 10, writeCapacityUnits: 10),
             tableName: tableName,
             attributeDefinitions: [
                 DynamoDB.AttributeDefinition(attributeName: "hashKey", attributeType: .s),
                 DynamoDB.AttributeDefinition(attributeName: "rangeKey", attributeType: .s)
             ],
-            provisionedThroughput: DynamoDB.ProvisionedThroughput(readCapacityUnits: 10, writeCapacityUnits: 10)
+            keySchema: [
+                DynamoDB.KeySchemaElement(keyType: .hash, attributeName: "hashKey"),
+                DynamoDB.KeySchemaElement(keyType: .range, attributeName: "rangeKey")
+            ]
         )
         _ = try client.createTable(createTableInput)
         

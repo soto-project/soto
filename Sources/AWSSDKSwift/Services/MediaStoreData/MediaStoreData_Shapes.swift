@@ -5,29 +5,61 @@ import AWSSDKSwiftCore
 
 extension MediaStoreData {
 
-    public struct ListItemsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "Path", location: .querystring(locationName: "Path"), required: false, type: .string)
-        ]
-        /// The NextToken received in the ListItemsResponse for the same container and path. Tokens expire after 15 minutes.
-        public let nextToken: String?
-        /// The maximum results to return. The service might return fewer results.
-        public let maxResults: Int32?
-        /// The path in the container from which to retrieve items. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
-        public let path: String?
+    public enum StorageClass: String, CustomStringConvertible, Codable {
+        case temporal = "TEMPORAL"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, path: String? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.path = path
+    public struct GetObjectResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Body"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContentRange", location: .header(locationName: "Content-Range"), required: false, type: .string), 
+            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
+            AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "Body", required: false, type: .blob), 
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
+            AWSShapeMember(label: "StatusCode", required: true, type: .integer), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long)
+        ]
+        /// The range of bytes to retrieve.
+        public let contentRange: String?
+        /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP spec at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
+        public let cacheControl: String?
+        /// The date and time that the object was last modified.
+        public let lastModified: TimeStamp?
+        /// The bytes of the object. 
+        public let body: Data?
+        /// The content type of the object.
+        public let contentType: String?
+        /// The HTML status code of the request. Status codes ranging from 200 to 299 indicate success. All other status codes indicate the type of error that occurred.
+        public let statusCode: Int32
+        /// The ETag that represents a unique instance of the object.
+        public let eTag: String?
+        /// The length of the object in bytes.
+        public let contentLength: Int64?
+
+        public init(contentRange: String? = nil, cacheControl: String? = nil, lastModified: TimeStamp? = nil, body: Data? = nil, contentType: String? = nil, statusCode: Int32, eTag: String? = nil, contentLength: Int64? = nil) {
+            self.contentRange = contentRange
+            self.cacheControl = cacheControl
+            self.lastModified = lastModified
+            self.body = body
+            self.contentType = contentType
+            self.statusCode = statusCode
+            self.eTag = eTag
+            self.contentLength = contentLength
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case path = "Path"
+            case contentRange = "Content-Range"
+            case cacheControl = "Cache-Control"
+            case lastModified = "Last-Modified"
+            case body = "Body"
+            case contentType = "Content-Type"
+            case statusCode = "StatusCode"
+            case eTag = "ETag"
+            case contentLength = "Content-Length"
         }
     }
 
@@ -35,93 +67,48 @@ extension MediaStoreData {
 
     }
 
-    public struct DescribeObjectRequest: AWSShape {
+    public struct Item: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Path", location: .uri(locationName: "Path"), required: true, type: .string)
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "ContentLength", required: false, type: .long), 
+            AWSShapeMember(label: "ETag", required: false, type: .string), 
+            AWSShapeMember(label: "ContentType", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LastModified", required: false, type: .timestamp)
         ]
-        /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
-        public let path: String
-
-        public init(path: String) {
-            self.path = path
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case path = "Path"
-        }
-    }
-
-    public struct PutObjectRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "Body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Path", location: .uri(locationName: "Path"), required: true, type: .string), 
-            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
-            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "Body", required: true, type: .blob)
-        ]
-        /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt; For example, to upload the file mlaw.avi to the folder path premium\canada in the container movies, enter the path premium/canada/mlaw.avi. Do not include the container name in this path. If the path includes any folders that don't exist yet, the service creates them. For example, suppose you have an existing premium/usa subfolder. If you specify premium/canada, the service creates a canada subfolder in the premium folder. You then have two subfolders, usa and canada, in the premium folder.  There is no correlation between the path to the source and the path (folders) in the container in AWS Elemental MediaStore. For more information about folders and how they exist in a container, see the AWS Elemental MediaStore User Guide. The file name is the name that is assigned to the file that you upload. The file can have the same name inside and outside of AWS Elemental MediaStore, or it can have the same name. The file name can include or omit an extension. 
-        public let path: String
-        /// Indicates the storage class of a Put request. Defaults to high-performance temporal storage class, and objects are persisted into durable storage shortly after being received.
-        public let storageClass: StorageClass?
-        /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
-        public let cacheControl: String?
-        /// The content type of the object.
+        /// The item type (folder or object).
+        public let `type`: ItemType?
+        /// The length of the item in bytes.
+        public let contentLength: Int64?
+        /// The ETag that represents a unique instance of the item.
+        public let eTag: String?
+        /// The content type of the item.
         public let contentType: String?
-        /// The bytes to be stored. 
-        public let body: Data
+        /// The name of the item.
+        public let name: String?
+        /// The date and time that the item was last modified.
+        public let lastModified: TimeStamp?
 
-        public init(path: String, storageClass: StorageClass? = nil, cacheControl: String? = nil, contentType: String? = nil, body: Data) {
-            self.path = path
-            self.storageClass = storageClass
-            self.cacheControl = cacheControl
+        public init(type: ItemType? = nil, contentLength: Int64? = nil, eTag: String? = nil, contentType: String? = nil, name: String? = nil, lastModified: TimeStamp? = nil) {
+            self.`type` = `type`
+            self.contentLength = contentLength
+            self.eTag = eTag
             self.contentType = contentType
-            self.body = body
+            self.name = name
+            self.lastModified = lastModified
         }
 
         private enum CodingKeys: String, CodingKey {
-            case path = "Path"
-            case storageClass = "x-amz-storage-class"
-            case cacheControl = "Cache-Control"
-            case contentType = "Content-Type"
-            case body = "Body"
+            case `type` = "Type"
+            case contentLength = "ContentLength"
+            case eTag = "ETag"
+            case contentType = "ContentType"
+            case name = "Name"
+            case lastModified = "LastModified"
         }
     }
 
-    public enum StorageClass: String, CustomStringConvertible, Codable {
-        case temporal = "TEMPORAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListItemsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Items", required: false, type: .list)
-        ]
-        /// The NextToken used to request the next page of results using ListItems.
-        public let nextToken: String?
-        /// Metadata entries for the folders and objects at the requested path.
-        public let items: [Item]?
-
-        public init(nextToken: String? = nil, items: [Item]? = nil) {
-            self.nextToken = nextToken
-            self.items = items
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case items = "Items"
-        }
-    }
-
-    public enum ItemType: String, CustomStringConvertible, Codable {
-        case object = "OBJECT"
-        case folder = "FOLDER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteObjectRequest: AWSShape {
+    public struct DescribeObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Path", location: .uri(locationName: "Path"), required: true, type: .string)
         ]
@@ -158,159 +145,172 @@ extension MediaStoreData {
         }
     }
 
-    public struct GetObjectResponse: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "Body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Body", required: false, type: .blob), 
-            AWSShapeMember(label: "StatusCode", required: true, type: .integer), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentRange", location: .header(locationName: "Content-Range"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long), 
-            AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp)
-        ]
-        /// The bytes of the object. 
-        public let body: Data?
-        /// The HTML status code of the request. Status codes ranging from 200 to 299 indicate success. All other status codes indicate the type of error that occurred.
-        public let statusCode: Int32
-        /// The content type of the object.
-        public let contentType: String?
-        /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP spec at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
-        public let cacheControl: String?
-        /// The ETag that represents a unique instance of the object.
-        public let eTag: String?
-        /// The range of bytes to retrieve.
-        public let contentRange: String?
-        /// The length of the object in bytes.
-        public let contentLength: Int64?
-        /// The date and time that the object was last modified.
-        public let lastModified: TimeStamp?
-
-        public init(body: Data? = nil, statusCode: Int32, contentType: String? = nil, cacheControl: String? = nil, eTag: String? = nil, contentRange: String? = nil, contentLength: Int64? = nil, lastModified: TimeStamp? = nil) {
-            self.body = body
-            self.statusCode = statusCode
-            self.contentType = contentType
-            self.cacheControl = cacheControl
-            self.eTag = eTag
-            self.contentRange = contentRange
-            self.contentLength = contentLength
-            self.lastModified = lastModified
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case body = "Body"
-            case statusCode = "StatusCode"
-            case contentType = "Content-Type"
-            case cacheControl = "Cache-Control"
-            case eTag = "ETag"
-            case contentRange = "Content-Range"
-            case contentLength = "Content-Length"
-            case lastModified = "Last-Modified"
-        }
+    public enum ItemType: String, CustomStringConvertible, Codable {
+        case object = "OBJECT"
+        case folder = "FOLDER"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeObjectResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long), 
-            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
-            AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp), 
             AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string)
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
+            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
+            AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp)
         ]
         /// The length of the object in bytes.
         public let contentLength: Int64?
-        /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
-        public let cacheControl: String?
-        /// The date and time that the object was last modified.
-        public let lastModified: TimeStamp?
         /// The ETag that represents a unique instance of the object.
         public let eTag: String?
         /// The content type of the object.
         public let contentType: String?
+        /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
+        public let cacheControl: String?
+        /// The date and time that the object was last modified.
+        public let lastModified: TimeStamp?
 
-        public init(contentLength: Int64? = nil, cacheControl: String? = nil, lastModified: TimeStamp? = nil, eTag: String? = nil, contentType: String? = nil) {
+        public init(contentLength: Int64? = nil, eTag: String? = nil, contentType: String? = nil, cacheControl: String? = nil, lastModified: TimeStamp? = nil) {
             self.contentLength = contentLength
-            self.cacheControl = cacheControl
-            self.lastModified = lastModified
             self.eTag = eTag
             self.contentType = contentType
+            self.cacheControl = cacheControl
+            self.lastModified = lastModified
         }
 
         private enum CodingKeys: String, CodingKey {
             case contentLength = "Content-Length"
-            case cacheControl = "Cache-Control"
-            case lastModified = "Last-Modified"
             case eTag = "ETag"
             case contentType = "Content-Type"
+            case cacheControl = "Cache-Control"
+            case lastModified = "Last-Modified"
         }
     }
 
-    public struct Item: AWSShape {
+    public struct ListItemsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ContentLength", required: false, type: .long), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ETag", required: false, type: .string), 
-            AWSShapeMember(label: "ContentType", required: false, type: .string)
+            AWSShapeMember(label: "Items", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The name of the item.
-        public let name: String?
-        /// The length of the item in bytes.
-        public let contentLength: Int64?
-        /// The item type (folder or object).
-        public let `type`: ItemType?
-        /// The date and time that the item was last modified.
-        public let lastModified: TimeStamp?
-        /// The ETag that represents a unique instance of the item.
-        public let eTag: String?
-        /// The content type of the item.
-        public let contentType: String?
+        /// The metadata entries for the folders and objects at the requested path.
+        public let items: [Item]?
+        /// The token that can be used in a request to view the next set of results. For example, you submit a ListItems request that matches 2,000 items with MaxResults set at 500. The service returns the first batch of results (up to 500) and a NextToken value that can be used to fetch the next batch of results.
+        public let nextToken: String?
 
-        public init(name: String? = nil, contentLength: Int64? = nil, type: ItemType? = nil, lastModified: TimeStamp? = nil, eTag: String? = nil, contentType: String? = nil) {
-            self.name = name
-            self.contentLength = contentLength
-            self.`type` = `type`
-            self.lastModified = lastModified
-            self.eTag = eTag
-            self.contentType = contentType
+        public init(items: [Item]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case contentLength = "ContentLength"
-            case `type` = "Type"
-            case lastModified = "LastModified"
-            case eTag = "ETag"
-            case contentType = "ContentType"
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DeleteObjectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Path", location: .uri(locationName: "Path"), required: true, type: .string)
+        ]
+        /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
+        public let path: String
+
+        public init(path: String) {
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
+        }
+    }
+
+    public struct ListItemsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "Path", location: .querystring(locationName: "Path"), required: false, type: .string)
+        ]
+        /// The token that identifies which batch of results that you want to see. For example, you submit a ListItems request with MaxResults set at 500. The service returns the first batch of results (up to 500) and a NextToken value. To see the next batch of results, you can submit the ListItems request a second time and specify the NextToken value. Tokens expire after 15 minutes.
+        public let nextToken: String?
+        /// The maximum number of results to return per API request. For example, you submit a ListItems request with MaxResults set at 500. Although 2,000 items match your request, the service returns no more than the first 500 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 1,000 results per page.
+        public let maxResults: Int32?
+        /// The path in the container from which to retrieve items. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
+        public let path: String?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil, path: String? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+            case path = "Path"
+        }
+    }
+
+    public struct PutObjectRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Body"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
+            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
+            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
+            AWSShapeMember(label: "Body", required: true, type: .blob), 
+            AWSShapeMember(label: "Path", location: .uri(locationName: "Path"), required: true, type: .string)
+        ]
+        /// The content type of the object.
+        public let contentType: String?
+        /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
+        public let cacheControl: String?
+        /// Indicates the storage class of a Put request. Defaults to high-performance temporal storage class, and objects are persisted into durable storage shortly after being received.
+        public let storageClass: StorageClass?
+        /// The bytes to be stored. 
+        public let body: Data
+        /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt; For example, to upload the file mlaw.avi to the folder path premium\canada in the container movies, enter the path premium/canada/mlaw.avi. Do not include the container name in this path. If the path includes any folders that don't exist yet, the service creates them. For example, suppose you have an existing premium/usa subfolder. If you specify premium/canada, the service creates a canada subfolder in the premium folder. You then have two subfolders, usa and canada, in the premium folder.  There is no correlation between the path to the source and the path (folders) in the container in AWS Elemental MediaStore. For more information about folders and how they exist in a container, see the AWS Elemental MediaStore User Guide. The file name is the name that is assigned to the file that you upload. The file can have the same name inside and outside of AWS Elemental MediaStore, or it can have the same name. The file name can include or omit an extension. 
+        public let path: String
+
+        public init(contentType: String? = nil, cacheControl: String? = nil, storageClass: StorageClass? = nil, body: Data, path: String) {
+            self.contentType = contentType
+            self.cacheControl = cacheControl
+            self.storageClass = storageClass
+            self.body = body
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentType = "Content-Type"
+            case cacheControl = "Cache-Control"
+            case storageClass = "x-amz-storage-class"
+            case body = "Body"
+            case path = "Path"
         }
     }
 
     public struct PutObjectResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
+            AWSShapeMember(label: "ETag", required: false, type: .string), 
             AWSShapeMember(label: "ContentSHA256", required: false, type: .string), 
-            AWSShapeMember(label: "ETag", required: false, type: .string)
+            AWSShapeMember(label: "StorageClass", required: false, type: .enum)
         ]
-        /// The storage class where the object was persisted. Should be “Temporal”.
-        public let storageClass: StorageClass?
-        /// The SHA256 digest of the object that is persisted.
-        public let contentSHA256: String?
         /// Unique identifier of the object in the container.
         public let eTag: String?
+        /// The SHA256 digest of the object that is persisted.
+        public let contentSHA256: String?
+        /// The storage class where the object was persisted. The class should be “Temporal”.
+        public let storageClass: StorageClass?
 
-        public init(storageClass: StorageClass? = nil, contentSHA256: String? = nil, eTag: String? = nil) {
-            self.storageClass = storageClass
-            self.contentSHA256 = contentSHA256
+        public init(eTag: String? = nil, contentSHA256: String? = nil, storageClass: StorageClass? = nil) {
             self.eTag = eTag
+            self.contentSHA256 = contentSHA256
+            self.storageClass = storageClass
         }
 
         private enum CodingKeys: String, CodingKey {
-            case storageClass = "StorageClass"
-            case contentSHA256 = "ContentSHA256"
             case eTag = "ETag"
+            case contentSHA256 = "ContentSHA256"
+            case storageClass = "StorageClass"
         }
     }
 

@@ -5,195 +5,122 @@ import AWSSDKSwiftCore
 
 extension CodeStar {
 
-    public struct UpdateUserProfileRequest: AWSShape {
+    public struct UpdateTeamMemberRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "userArn", required: true, type: .string), 
-            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "displayName", required: false, type: .string)
+            AWSShapeMember(label: "projectRole", required: false, type: .string), 
+            AWSShapeMember(label: "remoteAccessAllowed", required: false, type: .boolean), 
+            AWSShapeMember(label: "projectId", required: true, type: .string), 
+            AWSShapeMember(label: "userArn", required: true, type: .string)
         ]
-        /// The email address that is displayed as part of the user's profile in AWS CodeStar.
-        public let emailAddress: String?
-        /// The name that will be displayed as the friendly name for the user in AWS CodeStar.
-        public let userArn: String
-        /// The SSH public key associated with the user in AWS CodeStar. If a project owner allows the user remote access to project resources, this public key will be used along with the user's private key for SSH access.
-        public let sshPublicKey: String?
-        /// The name that is displayed as the friendly name for the user in AWS CodeStar.
-        public let displayName: String?
-
-        public init(emailAddress: String? = nil, userArn: String, sshPublicKey: String? = nil, displayName: String? = nil) {
-            self.emailAddress = emailAddress
-            self.userArn = userArn
-            self.sshPublicKey = sshPublicKey
-            self.displayName = displayName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case emailAddress = "emailAddress"
-            case userArn = "userArn"
-            case sshPublicKey = "sshPublicKey"
-            case displayName = "displayName"
-        }
-    }
-
-    public struct Resource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the resource.
-        public let id: String
-
-        public init(id: String) {
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
-    }
-
-    public struct TagProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .map)
-        ]
-        /// The ID of the project you want to add a tag to.
-        public let id: String
-        /// The tags you want to add to the project.
-        public let tags: [String: String]
-
-        public init(id: String, tags: [String: String]) {
-            self.id = id
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case tags = "tags"
-        }
-    }
-
-    public struct DescribeUserProfileResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "displayName", required: false, type: .string), 
-            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "lastModifiedTimestamp", required: true, type: .timestamp), 
-            AWSShapeMember(label: "userArn", required: true, type: .string), 
-            AWSShapeMember(label: "createdTimestamp", required: true, type: .timestamp)
-        ]
-        /// The display name shown for the user in AWS CodeStar projects. For example, this could be set to both first and last name ("Mary Major") or a single name ("Mary"). The display name is also used to generate the initial icon associated with the user in AWS CodeStar projects. If spaces are included in the display name, the first character that appears after the space will be used as the second character in the user initial icon. The initial icon displays a maximum of two characters, so a display name with more than one space (for example "Mary Jane Major") would generate an initial icon using the first character and the first character after the space ("MJ", not "MM").
-        public let displayName: String?
-        /// The SSH public key associated with the user. This SSH public key is associated with the user profile, and can be used in conjunction with the associated private key for access to project resources, such as Amazon EC2 instances, if a project owner grants remote access to those resources.
-        public let sshPublicKey: String?
-        /// The email address for the user. Optional.
-        public let emailAddress: String?
-        /// The date and time when the user profile was last modified, in timestamp format.
-        public let lastModifiedTimestamp: TimeStamp
-        /// The Amazon Resource Name (ARN) of the user.
-        public let userArn: String
-        /// The date and time when the user profile was created in AWS CodeStar, in timestamp format.
-        public let createdTimestamp: TimeStamp
-
-        public init(displayName: String? = nil, sshPublicKey: String? = nil, emailAddress: String? = nil, lastModifiedTimestamp: TimeStamp, userArn: String, createdTimestamp: TimeStamp) {
-            self.displayName = displayName
-            self.sshPublicKey = sshPublicKey
-            self.emailAddress = emailAddress
-            self.lastModifiedTimestamp = lastModifiedTimestamp
-            self.userArn = userArn
-            self.createdTimestamp = createdTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case displayName = "displayName"
-            case sshPublicKey = "sshPublicKey"
-            case emailAddress = "emailAddress"
-            case lastModifiedTimestamp = "lastModifiedTimestamp"
-            case userArn = "userArn"
-            case createdTimestamp = "createdTimestamp"
-        }
-    }
-
-    public struct DescribeProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string)
-        ]
+        /// The role assigned to the user in the project. Project roles have different levels of access. For more information, see Working with Teams in the AWS CodeStar User Guide.
+        public let projectRole: String?
+        /// Whether a team member is allowed to remotely access project resources using the SSH public key associated with the user's profile. Even if this is set to True, the user must associate a public key with their profile before the user can access resources.
+        public let remoteAccessAllowed: Bool?
         /// The ID of the project.
-        public let id: String
+        public let projectId: String
+        /// The Amazon Resource Name (ARN) of the user for whom you want to change team membership attributes.
+        public let userArn: String
 
-        public init(id: String) {
-            self.id = id
+        public init(projectRole: String? = nil, remoteAccessAllowed: Bool? = nil, projectId: String, userArn: String) {
+            self.projectRole = projectRole
+            self.remoteAccessAllowed = remoteAccessAllowed
+            self.projectId = projectId
+            self.userArn = userArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "id"
+            case projectRole = "projectRole"
+            case remoteAccessAllowed = "remoteAccessAllowed"
+            case projectId = "projectId"
+            case userArn = "userArn"
         }
     }
 
-    public struct ListTagsForProjectRequest: AWSShape {
+    public struct DeleteProjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deleteStack", required: false, type: .boolean), 
             AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string)
         ]
-        /// The ID of the project to get tags for.
+        /// Whether to send a delete request for the primary stack in AWS CloudFormation originally used to generate the project and its resources. This option will delete all AWS resources for the project (except for any buckets in Amazon S3) as well as deleting the project itself. Recommended for most use cases.
+        public let deleteStack: Bool?
+        /// The ID of the project to be deleted in AWS CodeStar.
         public let id: String
-        /// Reserved for future use.
-        public let nextToken: String?
-        /// Reserved for future use.
-        public let maxResults: Int32?
+        /// A user- or system-generated token that identifies the entity that requested project deletion. This token can be used to repeat the request. 
+        public let clientRequestToken: String?
 
-        public init(id: String, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(deleteStack: Bool? = nil, id: String, clientRequestToken: String? = nil) {
+            self.deleteStack = deleteStack
             self.id = id
+            self.clientRequestToken = clientRequestToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteStack = "deleteStack"
+            case id = "id"
+            case clientRequestToken = "clientRequestToken"
+        }
+    }
+
+    public struct UpdateProjectResult: AWSShape {
+
+    }
+
+    public struct ListTeamMembersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "projectId", required: true, type: .string)
+        ]
+        /// The continuation token for the next set of results, if the results cannot be returned in one response.
+        public let nextToken: String?
+        /// The maximum number of team members you want returned in a response.
+        public let maxResults: Int32?
+        /// The ID of the project for which you want to list team members.
+        public let projectId: String
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil, projectId: String) {
             self.nextToken = nextToken
             self.maxResults = maxResults
+            self.projectId = projectId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "id"
             case nextToken = "nextToken"
             case maxResults = "maxResults"
+            case projectId = "projectId"
         }
     }
 
-    public struct AssociateTeamMemberRequest: AWSShape {
+    public struct UpdateUserProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectId", required: true, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "remoteAccessAllowed", required: false, type: .boolean), 
-            AWSShapeMember(label: "userArn", required: true, type: .string), 
-            AWSShapeMember(label: "projectRole", required: true, type: .string)
+            AWSShapeMember(label: "displayName", required: false, type: .string), 
+            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "userArn", required: true, type: .string)
         ]
-        /// The ID of the project to which you will add the IAM user.
-        public let projectId: String
-        /// A user- or system-generated token that identifies the entity that requested the team member association to the project. This token can be used to repeat the request.
-        public let clientRequestToken: String?
-        /// Whether the team member is allowed to use an SSH public/private key pair to remotely access project resources, for example Amazon EC2 instances.
-        public let remoteAccessAllowed: Bool?
-        /// The Amazon Resource Name (ARN) for the IAM user you want to add to the AWS CodeStar project.
+        /// The name that is displayed as the friendly name for the user in AWS CodeStar.
+        public let displayName: String?
+        /// The email address that is displayed as part of the user's profile in AWS CodeStar.
+        public let emailAddress: String?
+        /// The SSH public key associated with the user in AWS CodeStar. If a project owner allows the user remote access to project resources, this public key will be used along with the user's private key for SSH access.
+        public let sshPublicKey: String?
+        /// The name that will be displayed as the friendly name for the user in AWS CodeStar.
         public let userArn: String
-        /// The AWS CodeStar project role that will apply to this user. This role determines what actions a user can take in an AWS CodeStar project.
-        public let projectRole: String
 
-        public init(projectId: String, clientRequestToken: String? = nil, remoteAccessAllowed: Bool? = nil, userArn: String, projectRole: String) {
-            self.projectId = projectId
-            self.clientRequestToken = clientRequestToken
-            self.remoteAccessAllowed = remoteAccessAllowed
+        public init(displayName: String? = nil, emailAddress: String? = nil, sshPublicKey: String? = nil, userArn: String) {
+            self.displayName = displayName
+            self.emailAddress = emailAddress
+            self.sshPublicKey = sshPublicKey
             self.userArn = userArn
-            self.projectRole = projectRole
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectId = "projectId"
-            case clientRequestToken = "clientRequestToken"
-            case remoteAccessAllowed = "remoteAccessAllowed"
+            case displayName = "displayName"
+            case emailAddress = "emailAddress"
+            case sshPublicKey = "sshPublicKey"
             case userArn = "userArn"
-            case projectRole = "projectRole"
         }
-    }
-
-    public struct DisassociateTeamMemberResult: AWSShape {
-
     }
 
     public struct ListResourcesResult: AWSShape {
@@ -217,65 +144,219 @@ extension CodeStar {
         }
     }
 
-    public struct UpdateUserProfileResult: AWSShape {
+    public struct DeleteUserProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "displayName", required: false, type: .string), 
-            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "lastModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "userArn", required: true, type: .string), 
-            AWSShapeMember(label: "createdTimestamp", required: false, type: .timestamp)
+            AWSShapeMember(label: "userArn", required: true, type: .string)
         ]
-        /// The name that is displayed as the friendly name for the user in AWS CodeStar.
-        public let displayName: String?
-        /// The SSH public key associated with the user in AWS CodeStar. This is the public portion of the public/private keypair the user can use to access project resources if a project owner allows the user remote access to those resources.
-        public let sshPublicKey: String?
-        /// The email address that is displayed as part of the user's profile in AWS CodeStar.
-        public let emailAddress: String?
-        /// The date the user profile was last modified, in timestamp format.
-        public let lastModifiedTimestamp: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the user in IAM.
+        /// The Amazon Resource Name (ARN) of the user to delete from AWS CodeStar.
         public let userArn: String
-        /// The date the user profile was created, in timestamp format.
-        public let createdTimestamp: TimeStamp?
 
-        public init(displayName: String? = nil, sshPublicKey: String? = nil, emailAddress: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, userArn: String, createdTimestamp: TimeStamp? = nil) {
-            self.displayName = displayName
-            self.sshPublicKey = sshPublicKey
-            self.emailAddress = emailAddress
-            self.lastModifiedTimestamp = lastModifiedTimestamp
+        public init(userArn: String) {
             self.userArn = userArn
-            self.createdTimestamp = createdTimestamp
         }
 
         private enum CodingKeys: String, CodingKey {
-            case displayName = "displayName"
-            case sshPublicKey = "sshPublicKey"
-            case emailAddress = "emailAddress"
-            case lastModifiedTimestamp = "lastModifiedTimestamp"
             case userArn = "userArn"
-            case createdTimestamp = "createdTimestamp"
+        }
+    }
+
+    public struct DescribeUserProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "userArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the user.
+        public let userArn: String
+
+        public init(userArn: String) {
+            self.userArn = userArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userArn = "userArn"
+        }
+    }
+
+    public struct CodeDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "gitHub", required: false, type: .structure), 
+            AWSShapeMember(label: "codeCommit", required: false, type: .structure)
+        ]
+        /// Information about the GitHub repository to be created in AWS CodeStar. This is where the source code files provided with the project request will be uploaded after project creation.
+        public let gitHub: GitHubCodeDestination?
+        /// Information about the AWS CodeCommit repository to be created in AWS CodeStar. This is where the source code files provided with the project request will be uploaded after project creation.
+        public let codeCommit: CodeCommitCodeDestination?
+
+        public init(gitHub: GitHubCodeDestination? = nil, codeCommit: CodeCommitCodeDestination? = nil) {
+            self.gitHub = gitHub
+            self.codeCommit = codeCommit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gitHub = "gitHub"
+            case codeCommit = "codeCommit"
         }
     }
 
     public struct UntagProjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .list)
+            AWSShapeMember(label: "tags", required: true, type: .list), 
+            AWSShapeMember(label: "id", required: true, type: .string)
         ]
-        /// The ID of the project to remove tags from.
-        public let id: String
         /// The tags to remove from the project.
         public let tags: [String]
+        /// The ID of the project to remove tags from.
+        public let id: String
 
-        public init(id: String, tags: [String]) {
+        public init(tags: [String], id: String) {
+            self.tags = tags
             self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case id = "id"
+        }
+    }
+
+    public struct ListTagsForProjectResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
+        ]
+        /// Reserved for future use.
+        public let nextToken: String?
+        /// The tags for the project.
+        public let tags: [String: String]?
+
+        public init(nextToken: String? = nil, tags: [String: String]? = nil) {
+            self.nextToken = nextToken
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "id"
+            case nextToken = "nextToken"
             case tags = "tags"
+        }
+    }
+
+    public struct DescribeProjectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: true, type: .string)
+        ]
+        /// The ID of the project.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct ToolchainSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "s3", required: true, type: .structure)
+        ]
+        /// The Amazon S3 bucket where the toolchain template file provided with the project request is stored.
+        public let s3: S3Location
+
+        public init(s3: S3Location) {
+            self.s3 = s3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
+        }
+    }
+
+    public struct CodeSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "s3", required: true, type: .structure)
+        ]
+        /// Information about the Amazon S3 location where the source code files provided with the project request are stored. 
+        public let s3: S3Location
+
+        public init(s3: S3Location) {
+            self.s3 = s3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
+        }
+    }
+
+    public struct Toolchain: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stackParameters", required: false, type: .map), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "source", required: true, type: .structure)
+        ]
+        /// The list of parameter overrides to be passed into the toolchain template during stack provisioning, if any.
+        public let stackParameters: [String: String]?
+        /// The service role ARN for AWS CodeStar to use for the toolchain template during stack provisioning.
+        public let roleArn: String?
+        /// The Amazon S3 location where the toolchain template file provided with the project request is stored. AWS CodeStar retrieves the file during project creation.
+        public let source: ToolchainSource
+
+        public init(stackParameters: [String: String]? = nil, roleArn: String? = nil, source: ToolchainSource) {
+            self.stackParameters = stackParameters
+            self.roleArn = roleArn
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackParameters = "stackParameters"
+            case roleArn = "roleArn"
+            case source = "source"
+        }
+    }
+
+    public struct S3Location: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bucketKey", required: false, type: .string), 
+            AWSShapeMember(label: "bucketName", required: false, type: .string)
+        ]
+        /// The Amazon S3 object key where the source code files provided with the project request are stored.
+        public let bucketKey: String?
+        /// The Amazon S3 bucket name where the source code files provided with the project request are stored.
+        public let bucketName: String?
+
+        public init(bucketKey: String? = nil, bucketName: String? = nil) {
+            self.bucketKey = bucketKey
+            self.bucketName = bucketName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketKey = "bucketKey"
+            case bucketName = "bucketName"
+        }
+    }
+
+    public struct ListTagsForProjectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
+        ]
+        /// Reserved for future use.
+        public let nextToken: String?
+        /// The ID of the project to get tags for.
+        public let id: String
+        /// Reserved for future use.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, id: String, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.id = id
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case id = "id"
+            case maxResults = "maxResults"
         }
     }
 
@@ -297,571 +378,6 @@ extension CodeStar {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case userProfiles = "userProfiles"
-        }
-    }
-
-    public struct DisassociateTeamMemberRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "userArn", required: true, type: .string), 
-            AWSShapeMember(label: "projectId", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the IAM user or group whom you want to remove from the project.
-        public let userArn: String
-        /// The ID of the AWS CodeStar project from which you want to remove a team member.
-        public let projectId: String
-
-        public init(userArn: String, projectId: String) {
-            self.userArn = userArn
-            self.projectId = projectId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userArn = "userArn"
-            case projectId = "projectId"
-        }
-    }
-
-    public struct DeleteUserProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "userArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the user to delete from AWS CodeStar.
-        public let userArn: String
-
-        public init(userArn: String) {
-            self.userArn = userArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userArn = "userArn"
-        }
-    }
-
-    public struct ProjectSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectArn", required: false, type: .string), 
-            AWSShapeMember(label: "projectId", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the project.
-        public let projectArn: String?
-        /// The ID of the project.
-        public let projectId: String?
-
-        public init(projectArn: String? = nil, projectId: String? = nil) {
-            self.projectArn = projectArn
-            self.projectId = projectId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case projectArn = "projectArn"
-            case projectId = "projectId"
-        }
-    }
-
-    public struct DeleteProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectArn", required: false, type: .string), 
-            AWSShapeMember(label: "stackId", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the deleted project.
-        public let projectArn: String?
-        /// The ID of the primary stack in AWS CloudFormation that will be deleted as part of deleting the project and its resources.
-        public let stackId: String?
-
-        public init(projectArn: String? = nil, stackId: String? = nil) {
-            self.projectArn = projectArn
-            self.stackId = stackId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case projectArn = "projectArn"
-            case stackId = "stackId"
-        }
-    }
-
-    public struct UserProfileSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "userArn", required: false, type: .string), 
-            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "displayName", required: false, type: .string)
-        ]
-        /// The email address associated with the user.
-        public let emailAddress: String?
-        /// The Amazon Resource Name (ARN) of the user in IAM.
-        public let userArn: String?
-        /// The SSH public key associated with the user in AWS CodeStar. If a project owner allows the user remote access to project resources, this public key will be used along with the user's private key for SSH access.
-        public let sshPublicKey: String?
-        /// The display name of a user in AWS CodeStar. For example, this could be set to both first and last name ("Mary Major") or a single name ("Mary"). The display name is also used to generate the initial icon associated with the user in AWS CodeStar projects. If spaces are included in the display name, the first character that appears after the space will be used as the second character in the user initial icon. The initial icon displays a maximum of two characters, so a display name with more than one space (for example "Mary Jane Major") would generate an initial icon using the first character and the first character after the space ("MJ", not "MM").
-        public let displayName: String?
-
-        public init(emailAddress: String? = nil, userArn: String? = nil, sshPublicKey: String? = nil, displayName: String? = nil) {
-            self.emailAddress = emailAddress
-            self.userArn = userArn
-            self.sshPublicKey = sshPublicKey
-            self.displayName = displayName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case emailAddress = "emailAddress"
-            case userArn = "userArn"
-            case sshPublicKey = "sshPublicKey"
-            case displayName = "displayName"
-        }
-    }
-
-    public struct CreateProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "projectTemplateId", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
-        /// Reserved for future use.
-        public let id: String
-        /// Reserved for future use.
-        public let clientRequestToken: String?
-        /// Reserved for future use.
-        public let projectTemplateId: String?
-        /// Reserved for future use.
-        public let arn: String
-
-        public init(id: String, clientRequestToken: String? = nil, projectTemplateId: String? = nil, arn: String) {
-            self.id = id
-            self.clientRequestToken = clientRequestToken
-            self.projectTemplateId = projectTemplateId
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case clientRequestToken = "clientRequestToken"
-            case projectTemplateId = "projectTemplateId"
-            case arn = "arn"
-        }
-    }
-
-    public struct ListProjectsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// The continuation token to be used to return the next set of results, if the results cannot be returned in one response.
-        public let nextToken: String?
-        /// The maximum amount of data that can be contained in a single set of results.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct UpdateProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
-        /// The ID of the project you want to update.
-        public let id: String
-        /// The description of the project, if any.
-        public let description: String?
-        /// The name of the project you want to update.
-        public let name: String?
-
-        public init(id: String, description: String? = nil, name: String? = nil) {
-            self.id = id
-            self.description = description
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case description = "description"
-            case name = "name"
-        }
-    }
-
-    public struct ListTagsForProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// The tags for the project.
-        public let tags: [String: String]?
-        /// Reserved for future use.
-        public let nextToken: String?
-
-        public init(tags: [String: String]? = nil, nextToken: String? = nil) {
-            self.tags = tags
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct DeleteUserProfileResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "userArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the user deleted from AWS CodeStar.
-        public let userArn: String
-
-        public init(userArn: String) {
-            self.userArn = userArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userArn = "userArn"
-        }
-    }
-
-    public struct TagProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
-        /// The tags for the project.
-        public let tags: [String: String]?
-
-        public init(tags: [String: String]? = nil) {
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-        }
-    }
-
-    public struct UntagProjectResult: AWSShape {
-
-    }
-
-    public struct ListTeamMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectId", required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// The ID of the project for which you want to list team members.
-        public let projectId: String
-        /// The continuation token for the next set of results, if the results cannot be returned in one response.
-        public let nextToken: String?
-        /// The maximum number of team members you want returned in a response.
-        public let maxResults: Int32?
-
-        public init(projectId: String, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.projectId = projectId
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case projectId = "projectId"
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct UpdateProjectResult: AWSShape {
-
-    }
-
-    public struct DeleteProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "deleteStack", required: false, type: .boolean)
-        ]
-        /// The ID of the project to be deleted in AWS CodeStar.
-        public let id: String
-        /// A user- or system-generated token that identifies the entity that requested project deletion. This token can be used to repeat the request. 
-        public let clientRequestToken: String?
-        /// Whether to send a delete request for the primary stack in AWS CloudFormation originally used to generate the project and its resources. This option will delete all AWS resources for the project (except for any buckets in Amazon S3) as well as deleting the project itself. Recommended for most use cases.
-        public let deleteStack: Bool?
-
-        public init(id: String, clientRequestToken: String? = nil, deleteStack: Bool? = nil) {
-            self.id = id
-            self.clientRequestToken = clientRequestToken
-            self.deleteStack = deleteStack
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case clientRequestToken = "clientRequestToken"
-            case deleteStack = "deleteStack"
-        }
-    }
-
-    public struct UpdateTeamMemberRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectId", required: true, type: .string), 
-            AWSShapeMember(label: "remoteAccessAllowed", required: false, type: .boolean), 
-            AWSShapeMember(label: "userArn", required: true, type: .string), 
-            AWSShapeMember(label: "projectRole", required: false, type: .string)
-        ]
-        /// The ID of the project.
-        public let projectId: String
-        /// Whether a team member is allowed to remotely access project resources using the SSH public key associated with the user's profile. Even if this is set to True, the user must associate a public key with their profile before the user can access resources.
-        public let remoteAccessAllowed: Bool?
-        /// The Amazon Resource Name (ARN) of the user for whom you want to change team membership attributes.
-        public let userArn: String
-        /// The role assigned to the user in the project. Project roles have different levels of access. For more information, see Working with Teams in the AWS CodeStar User Guide.
-        public let projectRole: String?
-
-        public init(projectId: String, remoteAccessAllowed: Bool? = nil, userArn: String, projectRole: String? = nil) {
-            self.projectId = projectId
-            self.remoteAccessAllowed = remoteAccessAllowed
-            self.userArn = userArn
-            self.projectRole = projectRole
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case projectId = "projectId"
-            case remoteAccessAllowed = "remoteAccessAllowed"
-            case userArn = "userArn"
-            case projectRole = "projectRole"
-        }
-    }
-
-    public struct CreateUserProfileResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "displayName", required: false, type: .string), 
-            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "lastModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "userArn", required: true, type: .string), 
-            AWSShapeMember(label: "createdTimestamp", required: false, type: .timestamp)
-        ]
-        /// The name that is displayed as the friendly name for the user in AWS CodeStar.
-        public let displayName: String?
-        /// The SSH public key associated with the user in AWS CodeStar. This is the public portion of the public/private keypair the user can use to access project resources if a project owner allows the user remote access to those resources.
-        public let sshPublicKey: String?
-        /// The email address that is displayed as part of the user's profile in AWS CodeStar.
-        public let emailAddress: String?
-        /// The date the user profile was last modified, in timestamp format.
-        public let lastModifiedTimestamp: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the user in IAM.
-        public let userArn: String
-        /// The date the user profile was created, in timestamp format.
-        public let createdTimestamp: TimeStamp?
-
-        public init(displayName: String? = nil, sshPublicKey: String? = nil, emailAddress: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, userArn: String, createdTimestamp: TimeStamp? = nil) {
-            self.displayName = displayName
-            self.sshPublicKey = sshPublicKey
-            self.emailAddress = emailAddress
-            self.lastModifiedTimestamp = lastModifiedTimestamp
-            self.userArn = userArn
-            self.createdTimestamp = createdTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case displayName = "displayName"
-            case sshPublicKey = "sshPublicKey"
-            case emailAddress = "emailAddress"
-            case lastModifiedTimestamp = "lastModifiedTimestamp"
-            case userArn = "userArn"
-            case createdTimestamp = "createdTimestamp"
-        }
-    }
-
-    public struct CreateUserProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "emailAddress", required: true, type: .string), 
-            AWSShapeMember(label: "userArn", required: true, type: .string), 
-            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "displayName", required: true, type: .string)
-        ]
-        /// The email address that will be displayed as part of the user's profile in AWS CodeStar.
-        public let emailAddress: String
-        /// The Amazon Resource Name (ARN) of the user in IAM.
-        public let userArn: String
-        /// The SSH public key associated with the user in AWS CodeStar. If a project owner allows the user remote access to project resources, this public key will be used along with the user's private key for SSH access.
-        public let sshPublicKey: String?
-        /// The name that will be displayed as the friendly name for the user in AWS CodeStar. 
-        public let displayName: String
-
-        public init(emailAddress: String, userArn: String, sshPublicKey: String? = nil, displayName: String) {
-            self.emailAddress = emailAddress
-            self.userArn = userArn
-            self.sshPublicKey = sshPublicKey
-            self.displayName = displayName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case emailAddress = "emailAddress"
-            case userArn = "userArn"
-            case sshPublicKey = "sshPublicKey"
-            case displayName = "displayName"
-        }
-    }
-
-    public struct ListTeamMembersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "teamMembers", required: true, type: .list)
-        ]
-        /// The continuation token to use when requesting the next set of results, if there are more results to be returned.
-        public let nextToken: String?
-        /// A list of team member objects for the project.
-        public let teamMembers: [TeamMember]
-
-        public init(nextToken: String? = nil, teamMembers: [TeamMember]) {
-            self.nextToken = nextToken
-            self.teamMembers = teamMembers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case teamMembers = "teamMembers"
-        }
-    }
-
-    public struct ListProjectsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "projects", required: true, type: .list)
-        ]
-        /// The continuation token to use when requesting the next set of results, if there are more results to be returned.
-        public let nextToken: String?
-        /// A list of projects.
-        public let projects: [ProjectSummary]
-
-        public init(nextToken: String? = nil, projects: [ProjectSummary]) {
-            self.nextToken = nextToken
-            self.projects = projects
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case projects = "projects"
-        }
-    }
-
-    public struct CreateProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
-        /// Reserved for future use.
-        public let description: String?
-        /// Reserved for future use.
-        public let id: String
-        /// Reserved for future use.
-        public let clientRequestToken: String?
-        /// Reserved for future use.
-        public let name: String
-
-        public init(description: String? = nil, id: String, clientRequestToken: String? = nil, name: String) {
-            self.description = description
-            self.id = id
-            self.clientRequestToken = clientRequestToken
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case id = "id"
-            case clientRequestToken = "clientRequestToken"
-            case name = "name"
-        }
-    }
-
-    public struct DescribeProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "stackId", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "createdTimeStamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "projectTemplateId", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string)
-        ]
-        /// The ID of the primary stack in AWS CloudFormation used to generate resources for the project.
-        public let stackId: String?
-        /// The display name for the project.
-        public let name: String?
-        /// The date and time the project was created, in timestamp format.
-        public let createdTimeStamp: TimeStamp?
-        /// The Amazon Resource Name (ARN) for the project.
-        public let arn: String?
-        /// The ID for the AWS CodeStar project template used to create the project.
-        public let projectTemplateId: String?
-        /// The ID of the project.
-        public let id: String?
-        /// A user- or system-generated token that identifies the entity that requested project creation. 
-        public let clientRequestToken: String?
-        /// The description of the project, if any.
-        public let description: String?
-
-        public init(stackId: String? = nil, name: String? = nil, createdTimeStamp: TimeStamp? = nil, arn: String? = nil, projectTemplateId: String? = nil, id: String? = nil, clientRequestToken: String? = nil, description: String? = nil) {
-            self.stackId = stackId
-            self.name = name
-            self.createdTimeStamp = createdTimeStamp
-            self.arn = arn
-            self.projectTemplateId = projectTemplateId
-            self.id = id
-            self.clientRequestToken = clientRequestToken
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackId = "stackId"
-            case name = "name"
-            case createdTimeStamp = "createdTimeStamp"
-            case arn = "arn"
-            case projectTemplateId = "projectTemplateId"
-            case id = "id"
-            case clientRequestToken = "clientRequestToken"
-            case description = "description"
-        }
-    }
-
-    public struct ListUserProfilesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// The continuation token for the next set of results, if the results cannot be returned in one response.
-        public let nextToken: String?
-        /// The maximum number of results to return in a response.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct DescribeUserProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "userArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the user.
-        public let userArn: String
-
-        public init(userArn: String) {
-            self.userArn = userArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userArn = "userArn"
         }
     }
 
@@ -891,29 +407,541 @@ extension CodeStar {
         }
     }
 
-    public struct ListResourcesRequest: AWSShape {
+    public struct ProjectStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectId", required: true, type: .string), 
+            AWSShapeMember(label: "state", required: true, type: .string), 
+            AWSShapeMember(label: "reason", required: false, type: .string)
+        ]
+        /// The phase of completion for a project creation or deletion.
+        public let state: String
+        /// In the case of a project creation or deletion failure, a reason for the failure.
+        public let reason: String?
+
+        public init(state: String, reason: String? = nil) {
+            self.state = state
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case reason = "reason"
+        }
+    }
+
+    public struct CreateUserProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "displayName", required: true, type: .string), 
+            AWSShapeMember(label: "emailAddress", required: true, type: .string), 
+            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "userArn", required: true, type: .string)
+        ]
+        /// The name that will be displayed as the friendly name for the user in AWS CodeStar. 
+        public let displayName: String
+        /// The email address that will be displayed as part of the user's profile in AWS CodeStar.
+        public let emailAddress: String
+        /// The SSH public key associated with the user in AWS CodeStar. If a project owner allows the user remote access to project resources, this public key will be used along with the user's private key for SSH access.
+        public let sshPublicKey: String?
+        /// The Amazon Resource Name (ARN) of the user in IAM.
+        public let userArn: String
+
+        public init(displayName: String, emailAddress: String, sshPublicKey: String? = nil, userArn: String) {
+            self.displayName = displayName
+            self.emailAddress = emailAddress
+            self.sshPublicKey = sshPublicKey
+            self.userArn = userArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "displayName"
+            case emailAddress = "emailAddress"
+            case sshPublicKey = "sshPublicKey"
+            case userArn = "userArn"
+        }
+    }
+
+    public struct ListTeamMembersResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "teamMembers", required: true, type: .list)
+        ]
+        /// The continuation token to use when requesting the next set of results, if there are more results to be returned.
+        public let nextToken: String?
+        /// A list of team member objects for the project.
+        public let teamMembers: [TeamMember]
+
+        public init(nextToken: String? = nil, teamMembers: [TeamMember]) {
+            self.nextToken = nextToken
+            self.teamMembers = teamMembers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case teamMembers = "teamMembers"
+        }
+    }
+
+    public struct GitHubCodeDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .string), 
+            AWSShapeMember(label: "issuesEnabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "token", required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "owner", required: true, type: .string), 
+            AWSShapeMember(label: "privateRepository", required: true, type: .boolean)
+        ]
+        /// Name of the GitHub repository to be created in AWS CodeStar.
+        public let name: String
+        /// The type of GitHub repository to be created in AWS CodeStar. Valid values are User or Organization.
+        public let `type`: String
+        /// Whether to enable issues for the GitHub repository.
+        public let issuesEnabled: Bool
+        /// The GitHub user's personal access token for the GitHub repository.
+        public let token: String
+        /// Description for the GitHub repository to be created in AWS CodeStar. This description displays in GitHub after the repository is created.
+        public let description: String?
+        /// The GitHub username for the owner of the GitHub repository to be created in AWS CodeStar. If this repository should be owned by a GitHub organization, provide its name.
+        public let owner: String
+        /// Whether the GitHub repository is to be a private repository.
+        public let privateRepository: Bool
+
+        public init(name: String, type: String, issuesEnabled: Bool, token: String, description: String? = nil, owner: String, privateRepository: Bool) {
+            self.name = name
+            self.`type` = `type`
+            self.issuesEnabled = issuesEnabled
+            self.token = token
+            self.description = description
+            self.owner = owner
+            self.privateRepository = privateRepository
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case `type` = "type"
+            case issuesEnabled = "issuesEnabled"
+            case token = "token"
+            case description = "description"
+            case owner = "owner"
+            case privateRepository = "privateRepository"
+        }
+    }
+
+    public struct CreateProjectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: true, type: .string), 
+            AWSShapeMember(label: "sourceCode", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "toolchain", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string)
+        ]
+        /// The display name for the project to be created in AWS CodeStar.
+        public let name: String
+        /// A user- or system-generated token that identifies the entity that requested project creation. This token can be used to repeat the request.
+        public let clientRequestToken: String?
+        /// The ID of the project to be created in AWS CodeStar.
+        public let id: String
+        /// A list of the Code objects submitted with the project request. If this parameter is specified, the request must also include the toolchain parameter.
+        public let sourceCode: [Code]?
+        /// The tags created for the project.
+        public let tags: [String: String]?
+        /// The name of the toolchain template file submitted with the project request. If this parameter is specified, the request must also include the sourceCode parameter.
+        public let toolchain: Toolchain?
+        /// The description of the project, if any.
+        public let description: String?
+
+        public init(name: String, clientRequestToken: String? = nil, id: String, sourceCode: [Code]? = nil, tags: [String: String]? = nil, toolchain: Toolchain? = nil, description: String? = nil) {
+            self.name = name
+            self.clientRequestToken = clientRequestToken
+            self.id = id
+            self.sourceCode = sourceCode
+            self.tags = tags
+            self.toolchain = toolchain
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case clientRequestToken = "clientRequestToken"
+            case id = "id"
+            case sourceCode = "sourceCode"
+            case tags = "tags"
+            case toolchain = "toolchain"
+            case description = "description"
+        }
+    }
+
+    public struct UserProfileSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "displayName", required: false, type: .string), 
+            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "userArn", required: false, type: .string)
+        ]
+        /// The display name of a user in AWS CodeStar. For example, this could be set to both first and last name ("Mary Major") or a single name ("Mary"). The display name is also used to generate the initial icon associated with the user in AWS CodeStar projects. If spaces are included in the display name, the first character that appears after the space will be used as the second character in the user initial icon. The initial icon displays a maximum of two characters, so a display name with more than one space (for example "Mary Jane Major") would generate an initial icon using the first character and the first character after the space ("MJ", not "MM").
+        public let displayName: String?
+        /// The email address associated with the user.
+        public let emailAddress: String?
+        /// The SSH public key associated with the user in AWS CodeStar. If a project owner allows the user remote access to project resources, this public key will be used along with the user's private key for SSH access.
+        public let sshPublicKey: String?
+        /// The Amazon Resource Name (ARN) of the user in IAM.
+        public let userArn: String?
+
+        public init(displayName: String? = nil, emailAddress: String? = nil, sshPublicKey: String? = nil, userArn: String? = nil) {
+            self.displayName = displayName
+            self.emailAddress = emailAddress
+            self.sshPublicKey = sshPublicKey
+            self.userArn = userArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "displayName"
+            case emailAddress = "emailAddress"
+            case sshPublicKey = "sshPublicKey"
+            case userArn = "userArn"
+        }
+    }
+
+    public struct ListProjectsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "projects", required: true, type: .list)
+        ]
+        /// The continuation token to use when requesting the next set of results, if there are more results to be returned.
+        public let nextToken: String?
+        /// A list of projects.
+        public let projects: [ProjectSummary]
+
+        public init(nextToken: String? = nil, projects: [ProjectSummary]) {
+            self.nextToken = nextToken
+            self.projects = projects
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case projects = "projects"
+        }
+    }
+
+    public struct DisassociateTeamMemberResult: AWSShape {
+
+    }
+
+    public struct DescribeUserProfileResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "displayName", required: false, type: .string), 
+            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "lastModifiedTimestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "userArn", required: true, type: .string), 
+            AWSShapeMember(label: "createdTimestamp", required: true, type: .timestamp)
+        ]
+        /// The display name shown for the user in AWS CodeStar projects. For example, this could be set to both first and last name ("Mary Major") or a single name ("Mary"). The display name is also used to generate the initial icon associated with the user in AWS CodeStar projects. If spaces are included in the display name, the first character that appears after the space will be used as the second character in the user initial icon. The initial icon displays a maximum of two characters, so a display name with more than one space (for example "Mary Jane Major") would generate an initial icon using the first character and the first character after the space ("MJ", not "MM").
+        public let displayName: String?
+        /// The email address for the user. Optional.
+        public let emailAddress: String?
+        /// The date and time when the user profile was last modified, in timestamp format.
+        public let lastModifiedTimestamp: TimeStamp
+        /// The SSH public key associated with the user. This SSH public key is associated with the user profile, and can be used in conjunction with the associated private key for access to project resources, such as Amazon EC2 instances, if a project owner grants remote access to those resources.
+        public let sshPublicKey: String?
+        /// The Amazon Resource Name (ARN) of the user.
+        public let userArn: String
+        /// The date and time when the user profile was created in AWS CodeStar, in timestamp format.
+        public let createdTimestamp: TimeStamp
+
+        public init(displayName: String? = nil, emailAddress: String? = nil, lastModifiedTimestamp: TimeStamp, sshPublicKey: String? = nil, userArn: String, createdTimestamp: TimeStamp) {
+            self.displayName = displayName
+            self.emailAddress = emailAddress
+            self.lastModifiedTimestamp = lastModifiedTimestamp
+            self.sshPublicKey = sshPublicKey
+            self.userArn = userArn
+            self.createdTimestamp = createdTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "displayName"
+            case emailAddress = "emailAddress"
+            case lastModifiedTimestamp = "lastModifiedTimestamp"
+            case sshPublicKey = "sshPublicKey"
+            case userArn = "userArn"
+            case createdTimestamp = "createdTimestamp"
+        }
+    }
+
+    public struct Resource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct CodeCommitCodeDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string)
+        ]
+        /// The name of the AWS CodeCommit repository to be created in AWS CodeStar.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct AssociateTeamMemberResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string)
+        ]
+        /// The user- or system-generated token from the initial request that can be used to repeat the request.
+        public let clientRequestToken: String?
+
+        public init(clientRequestToken: String? = nil) {
+            self.clientRequestToken = clientRequestToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+        }
+    }
+
+    public struct DeleteUserProfileResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "userArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the user deleted from AWS CodeStar.
+        public let userArn: String
+
+        public init(userArn: String) {
+            self.userArn = userArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userArn = "userArn"
+        }
+    }
+
+    public struct CreateProjectResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "projectTemplateId", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: true, type: .string)
+        ]
+        /// Reserved for future use.
+        public let projectTemplateId: String?
+        /// The Amazon Resource Name (ARN) of the created project.
+        public let arn: String
+        /// A user- or system-generated token that identifies the entity that requested project creation.
+        public let clientRequestToken: String?
+        /// The ID of the project.
+        public let id: String
+
+        public init(projectTemplateId: String? = nil, arn: String, clientRequestToken: String? = nil, id: String) {
+            self.projectTemplateId = projectTemplateId
+            self.arn = arn
+            self.clientRequestToken = clientRequestToken
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectTemplateId = "projectTemplateId"
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case id = "id"
+        }
+    }
+
+    public struct DescribeProjectResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "stackId", required: false, type: .string), 
+            AWSShapeMember(label: "projectTemplateId", required: false, type: .string), 
+            AWSShapeMember(label: "createdTimeStamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) for the project.
+        public let arn: String?
+        /// A user- or system-generated token that identifies the entity that requested project creation. 
+        public let clientRequestToken: String?
+        /// The ID of the project.
+        public let id: String?
+        /// The ID of the primary stack in AWS CloudFormation used to generate resources for the project.
+        public let stackId: String?
+        /// The ID for the AWS CodeStar project template used to create the project.
+        public let projectTemplateId: String?
+        /// The date and time the project was created, in timestamp format.
+        public let createdTimeStamp: TimeStamp?
+        /// The display name for the project.
+        public let name: String?
+        /// The project creation or deletion status.
+        public let status: ProjectStatus?
+        /// The description of the project, if any.
+        public let description: String?
+
+        public init(arn: String? = nil, clientRequestToken: String? = nil, id: String? = nil, stackId: String? = nil, projectTemplateId: String? = nil, createdTimeStamp: TimeStamp? = nil, name: String? = nil, status: ProjectStatus? = nil, description: String? = nil) {
+            self.arn = arn
+            self.clientRequestToken = clientRequestToken
+            self.id = id
+            self.stackId = stackId
+            self.projectTemplateId = projectTemplateId
+            self.createdTimeStamp = createdTimeStamp
+            self.name = name
+            self.status = status
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case id = "id"
+            case stackId = "stackId"
+            case projectTemplateId = "projectTemplateId"
+            case createdTimeStamp = "createdTimeStamp"
+            case name = "name"
+            case status = "status"
+            case description = "description"
+        }
+    }
+
+    public struct DisassociateTeamMemberRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "userArn", required: true, type: .string), 
+            AWSShapeMember(label: "projectId", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the IAM user or group whom you want to remove from the project.
+        public let userArn: String
+        /// The ID of the AWS CodeStar project from which you want to remove a team member.
+        public let projectId: String
+
+        public init(userArn: String, projectId: String) {
+            self.userArn = userArn
+            self.projectId = projectId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userArn = "userArn"
+            case projectId = "projectId"
+        }
+    }
+
+    public struct ListUserProfilesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer)
         ]
-        /// The ID of the project.
-        public let projectId: String
         /// The continuation token for the next set of results, if the results cannot be returned in one response.
         public let nextToken: String?
-        /// The maximum amount of data that can be contained in a single set of results.
+        /// The maximum number of results to return in a response.
         public let maxResults: Int32?
 
-        public init(projectId: String, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.projectId = projectId
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
             self.nextToken = nextToken
             self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectId = "projectId"
             case nextToken = "nextToken"
             case maxResults = "maxResults"
+        }
+    }
+
+    public struct TagProjectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: true, type: .map), 
+            AWSShapeMember(label: "id", required: true, type: .string)
+        ]
+        /// The tags you want to add to the project.
+        public let tags: [String: String]
+        /// The ID of the project you want to add a tag to.
+        public let id: String
+
+        public init(tags: [String: String], id: String) {
+            self.tags = tags
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case id = "id"
+        }
+    }
+
+    public struct CreateUserProfileResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "displayName", required: false, type: .string), 
+            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "lastModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "userArn", required: true, type: .string), 
+            AWSShapeMember(label: "createdTimestamp", required: false, type: .timestamp)
+        ]
+        /// The name that is displayed as the friendly name for the user in AWS CodeStar.
+        public let displayName: String?
+        /// The email address that is displayed as part of the user's profile in AWS CodeStar.
+        public let emailAddress: String?
+        /// The date the user profile was last modified, in timestamp format.
+        public let lastModifiedTimestamp: TimeStamp?
+        /// The SSH public key associated with the user in AWS CodeStar. This is the public portion of the public/private keypair the user can use to access project resources if a project owner allows the user remote access to those resources.
+        public let sshPublicKey: String?
+        /// The Amazon Resource Name (ARN) of the user in IAM.
+        public let userArn: String
+        /// The date the user profile was created, in timestamp format.
+        public let createdTimestamp: TimeStamp?
+
+        public init(displayName: String? = nil, emailAddress: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, sshPublicKey: String? = nil, userArn: String, createdTimestamp: TimeStamp? = nil) {
+            self.displayName = displayName
+            self.emailAddress = emailAddress
+            self.lastModifiedTimestamp = lastModifiedTimestamp
+            self.sshPublicKey = sshPublicKey
+            self.userArn = userArn
+            self.createdTimestamp = createdTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "displayName"
+            case emailAddress = "emailAddress"
+            case lastModifiedTimestamp = "lastModifiedTimestamp"
+            case sshPublicKey = "sshPublicKey"
+            case userArn = "userArn"
+            case createdTimestamp = "createdTimestamp"
+        }
+    }
+
+    public struct Code: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destination", required: true, type: .structure), 
+            AWSShapeMember(label: "source", required: true, type: .structure)
+        ]
+        /// The repository to be created in AWS CodeStar. Valid values are AWS CodeCommit or GitHub. After AWS CodeStar provisions the new repository, the source code files provided with the project request are placed in the repository.
+        public let destination: CodeDestination
+        /// The location where the source code files provided with the project request are stored. AWS CodeStar retrieves the files during project creation.
+        public let source: CodeSource
+
+        public init(destination: CodeDestination, source: CodeSource) {
+            self.destination = destination
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case source = "source"
         }
     }
 
@@ -943,19 +971,215 @@ extension CodeStar {
         }
     }
 
-    public struct AssociateTeamMemberResult: AWSShape {
+    public struct ListResourcesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string)
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "projectId", required: true, type: .string)
         ]
-        /// The user- or system-generated token from the initial request that can be used to repeat the request.
-        public let clientRequestToken: String?
+        /// The continuation token for the next set of results, if the results cannot be returned in one response.
+        public let nextToken: String?
+        /// The maximum amount of data that can be contained in a single set of results.
+        public let maxResults: Int32?
+        /// The ID of the project.
+        public let projectId: String
 
-        public init(clientRequestToken: String? = nil) {
-            self.clientRequestToken = clientRequestToken
+        public init(nextToken: String? = nil, maxResults: Int32? = nil, projectId: String) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.projectId = projectId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case projectId = "projectId"
+        }
+    }
+
+    public struct ProjectSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "projectArn", required: false, type: .string), 
+            AWSShapeMember(label: "projectId", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the project.
+        public let projectArn: String?
+        /// The ID of the project.
+        public let projectId: String?
+
+        public init(projectArn: String? = nil, projectId: String? = nil) {
+            self.projectArn = projectArn
+            self.projectId = projectId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectArn = "projectArn"
+            case projectId = "projectId"
+        }
+    }
+
+    public struct ListProjectsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
+        ]
+        /// The continuation token to be used to return the next set of results, if the results cannot be returned in one response.
+        public let nextToken: String?
+        /// The maximum amount of data that can be contained in a single set of results.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct UntagProjectResult: AWSShape {
+
+    }
+
+    public struct UpdateUserProfileResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "displayName", required: false, type: .string), 
+            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "lastModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "userArn", required: true, type: .string), 
+            AWSShapeMember(label: "createdTimestamp", required: false, type: .timestamp)
+        ]
+        /// The name that is displayed as the friendly name for the user in AWS CodeStar.
+        public let displayName: String?
+        /// The email address that is displayed as part of the user's profile in AWS CodeStar.
+        public let emailAddress: String?
+        /// The date the user profile was last modified, in timestamp format.
+        public let lastModifiedTimestamp: TimeStamp?
+        /// The SSH public key associated with the user in AWS CodeStar. This is the public portion of the public/private keypair the user can use to access project resources if a project owner allows the user remote access to those resources.
+        public let sshPublicKey: String?
+        /// The Amazon Resource Name (ARN) of the user in IAM.
+        public let userArn: String
+        /// The date the user profile was created, in timestamp format.
+        public let createdTimestamp: TimeStamp?
+
+        public init(displayName: String? = nil, emailAddress: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, sshPublicKey: String? = nil, userArn: String, createdTimestamp: TimeStamp? = nil) {
+            self.displayName = displayName
+            self.emailAddress = emailAddress
+            self.lastModifiedTimestamp = lastModifiedTimestamp
+            self.sshPublicKey = sshPublicKey
+            self.userArn = userArn
+            self.createdTimestamp = createdTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "displayName"
+            case emailAddress = "emailAddress"
+            case lastModifiedTimestamp = "lastModifiedTimestamp"
+            case sshPublicKey = "sshPublicKey"
+            case userArn = "userArn"
+            case createdTimestamp = "createdTimestamp"
+        }
+    }
+
+    public struct DeleteProjectResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "projectArn", required: false, type: .string), 
+            AWSShapeMember(label: "stackId", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the deleted project.
+        public let projectArn: String?
+        /// The ID of the primary stack in AWS CloudFormation that will be deleted as part of deleting the project and its resources.
+        public let stackId: String?
+
+        public init(projectArn: String? = nil, stackId: String? = nil) {
+            self.projectArn = projectArn
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectArn = "projectArn"
+            case stackId = "stackId"
+        }
+    }
+
+    public struct TagProjectResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .map)
+        ]
+        /// The tags for the project.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct UpdateProjectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: true, type: .string)
+        ]
+        /// The name of the project you want to update.
+        public let name: String?
+        /// The description of the project, if any.
+        public let description: String?
+        /// The ID of the project you want to update.
+        public let id: String
+
+        public init(name: String? = nil, description: String? = nil, id: String) {
+            self.name = name
+            self.description = description
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case description = "description"
+            case id = "id"
+        }
+    }
+
+    public struct AssociateTeamMemberRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "projectRole", required: true, type: .string), 
+            AWSShapeMember(label: "remoteAccessAllowed", required: false, type: .boolean), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "projectId", required: true, type: .string), 
+            AWSShapeMember(label: "userArn", required: true, type: .string)
+        ]
+        /// The AWS CodeStar project role that will apply to this user. This role determines what actions a user can take in an AWS CodeStar project.
+        public let projectRole: String
+        /// Whether the team member is allowed to use an SSH public/private key pair to remotely access project resources, for example Amazon EC2 instances.
+        public let remoteAccessAllowed: Bool?
+        /// A user- or system-generated token that identifies the entity that requested the team member association to the project. This token can be used to repeat the request.
+        public let clientRequestToken: String?
+        /// The ID of the project to which you will add the IAM user.
+        public let projectId: String
+        /// The Amazon Resource Name (ARN) for the IAM user you want to add to the AWS CodeStar project.
+        public let userArn: String
+
+        public init(projectRole: String, remoteAccessAllowed: Bool? = nil, clientRequestToken: String? = nil, projectId: String, userArn: String) {
+            self.projectRole = projectRole
+            self.remoteAccessAllowed = remoteAccessAllowed
+            self.clientRequestToken = clientRequestToken
+            self.projectId = projectId
+            self.userArn = userArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectRole = "projectRole"
+            case remoteAccessAllowed = "remoteAccessAllowed"
             case clientRequestToken = "clientRequestToken"
+            case projectId = "projectId"
+            case userArn = "userArn"
         }
     }
 

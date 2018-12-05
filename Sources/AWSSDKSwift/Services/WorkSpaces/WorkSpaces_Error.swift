@@ -7,15 +7,15 @@ public enum WorkSpacesErrorType: AWSErrorType {
     case resourceLimitExceededException(message: String?)
     case invalidParameterValuesException(message: String?)
     case resourceNotFoundException(message: String?)
-    case invalidResourceStateException(message: String?)
     case accessDeniedException(message: String?)
-    case operationNotSupportedException(message: String?)
+    case invalidResourceStateException(message: String?)
     case resourceAssociatedException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case resourceCreationFailedException(message: String?)
+    case resourceUnavailableException(message: String?)
+    case operationNotSupportedException(message: String?)
     case operationInProgressException(message: String?)
     case unsupportedWorkspaceConfigurationException(message: String?)
-    case resourceUnavailableException(message: String?)
+    case resourceAlreadyExistsException(message: String?)
+    case resourceCreationFailedException(message: String?)
 }
 
 extension WorkSpacesErrorType {
@@ -31,24 +31,24 @@ extension WorkSpacesErrorType {
             self = .invalidParameterValuesException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
-        case "InvalidResourceStateException":
-            self = .invalidResourceStateException(message: message)
         case "AccessDeniedException":
             self = .accessDeniedException(message: message)
-        case "OperationNotSupportedException":
-            self = .operationNotSupportedException(message: message)
+        case "InvalidResourceStateException":
+            self = .invalidResourceStateException(message: message)
         case "ResourceAssociatedException":
             self = .resourceAssociatedException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "ResourceCreationFailedException":
-            self = .resourceCreationFailedException(message: message)
+        case "ResourceUnavailableException":
+            self = .resourceUnavailableException(message: message)
+        case "OperationNotSupportedException":
+            self = .operationNotSupportedException(message: message)
         case "OperationInProgressException":
             self = .operationInProgressException(message: message)
         case "UnsupportedWorkspaceConfigurationException":
             self = .unsupportedWorkspaceConfigurationException(message: message)
-        case "ResourceUnavailableException":
-            self = .resourceUnavailableException(message: message)
+        case "ResourceAlreadyExistsException":
+            self = .resourceAlreadyExistsException(message: message)
+        case "ResourceCreationFailedException":
+            self = .resourceCreationFailedException(message: message)
         default:
             return nil
         }

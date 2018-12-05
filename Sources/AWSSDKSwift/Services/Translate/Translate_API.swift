@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-Provides translation between English and one of six languages, or between one of the six languages and English.
+Provides translation between one source language and another of the same set of languages.
 */
 public struct Translate {
 
@@ -20,14 +20,35 @@ public struct Translate {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-07-01",
             endpoint: endpoint,
+            serviceEndpoints: ["us-west-2-fips": "translate-fips.us-west-2.amazonaws.com", "us-east-2-fips": "translate-fips.us-east-2.amazonaws.com", "us-east-1-fips": "translate-fips.us-east-1.amazonaws.com"],
             middlewares: [],
             possibleErrorTypes: [TranslateErrorType.self]
         )
     }
 
-    ///  Translates input text from the source language to the target language. You can translate between English (en) and one of the following languages, or between one of the following languages and English.   Arabic (ar)   Chinese (Simplified) (zh)   French (fr)   German (de)   Portuguese (pt)   Spanish (es)   To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call Amazon Comprehend to determine the source language.
+    ///  A synchronous action that deletes a custom terminology.
+    public func deleteTerminology(_ input: DeleteTerminologyRequest) throws {
+        _ = try client.send(operation: "DeleteTerminology", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves a custom terminology.
+    public func getTerminology(_ input: GetTerminologyRequest) throws -> GetTerminologyResponse {
+        return try client.send(operation: "GetTerminology", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates or updates a custom terminology, depending on whether or not one already exists for the given terminology name. Importing a terminology with the same name as an existing one will merge the terminologies based on the chosen merge strategy. Currently, the only supported merge strategy is OVERWRITE, and so the imported terminology will overwrite an existing terminology of the same name. If you import a terminology that overwrites an existing one, the new terminology take up to 10 minutes to fully propagate and be available for use in a translation due to cache policies with the DataPlane service that performs the translations.
+    public func importTerminology(_ input: ImportTerminologyRequest) throws -> ImportTerminologyResponse {
+        return try client.send(operation: "ImportTerminology", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Translates input text from the source language to the target language. It is not necessary to use English (en) as either the source or the target language but not all language combinations are supported by Amazon Translate. For more information, see Supported Language Pairs.   Arabic (ar)   Chinese (Simplified) (zh)   Chinese (Traditional) (zh-TW)   Czech (cs)   Danish (da)   Dutch (nl)   English (en)   Finnish (fi)   French (fr)   German (de)   Hebrew (he)   Indonesian (id)   Italian (it)   Japanese (ja)   Korean (ko)   Polish (pl)   Portuguese (pt)   Russian (ru)   Spanish (es)   Swedish (sv)   Turkish (tr)   To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call Amazon Comprehend to determine the source language.
     public func translateText(_ input: TranslateTextRequest) throws -> TranslateTextResponse {
         return try client.send(operation: "TranslateText", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Provides a list of custom terminologies associated with your account.
+    public func listTerminologies(_ input: ListTerminologiesRequest) throws -> ListTerminologiesResponse {
+        return try client.send(operation: "ListTerminologies", path: "/", httpMethod: "POST", input: input)
     }
 
 

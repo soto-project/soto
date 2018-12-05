@@ -36,17 +36,17 @@ class S3Tests: XCTestCase {
     }
     
     override func tearDown() {
-        let deleteRequest = S3.DeleteObjectRequest(bucket: TestData.shared.bucket, key: TestData.shared.key)
+        let deleteRequest = S3.DeleteObjectRequest(key: TestData.shared.key, bucket: TestData.shared.bucket)
         _ = try? client.deleteObject(deleteRequest)
     }
     
     func testPutObject() throws {
         let putRequest = S3.PutObjectRequest(
-            body: TestData.shared.bodyData,
+            acl: .publicRead,
+            bucket: TestData.shared.bucket,
             contentLength: Int64(TestData.shared.bodyData.count),
             key: TestData.shared.key,
-            acl: .publicRead,
-            bucket: TestData.shared.bucket
+            body: TestData.shared.bodyData
         )
         
         let output = try client.putObject(putRequest)
@@ -56,11 +56,11 @@ class S3Tests: XCTestCase {
     
     func testGetObject() throws {
         let putRequest = S3.PutObjectRequest(
-            body: TestData.shared.bodyData,
+            acl: .publicRead,
+            bucket: TestData.shared.bucket,
             contentLength: Int64(TestData.shared.bodyData.count),
             key: TestData.shared.key,
-            acl: .publicRead,
-            bucket: TestData.shared.bucket
+            body: TestData.shared.bodyData
         )
         
         _ = try client.putObject(putRequest)
@@ -70,11 +70,11 @@ class S3Tests: XCTestCase {
     
     func testListObjects() throws {
         let putRequest = S3.PutObjectRequest(
-            body: TestData.shared.bodyData,
+            acl: .publicRead,
+            bucket: TestData.shared.bucket,
             contentLength: Int64(TestData.shared.bodyData.count),
             key: TestData.shared.key,
-            acl: .publicRead,
-            bucket: TestData.shared.bucket
+            body: TestData.shared.bodyData
         )
         
         let putResult = try client.putObject(putRequest)

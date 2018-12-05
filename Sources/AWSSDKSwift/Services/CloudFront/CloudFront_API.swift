@@ -17,7 +17,7 @@ public struct CloudFront {
             region: region,
             service: "cloudfront",
             serviceProtocol: ServiceProtocol(type: .restxml),
-            apiVersion: "2017-10-30",
+            apiVersion: "2018-11-05",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "cloudfront.amazonaws.com"],
             partitionEndpoint: "aws-global",
@@ -26,184 +26,184 @@ public struct CloudFront {
         )
     }
 
-    public func getDistribution20171030(_ input: GetDistributionRequest) throws -> GetDistributionResult {
-        return try client.send(operation: "GetDistribution2017_10_30", path: "/2017-10-30/distribution/{Id}", httpMethod: "GET", input: input)
+    public func createPublicKey20181105(_ input: CreatePublicKeyRequest) throws -> CreatePublicKeyResult {
+        return try client.send(operation: "CreatePublicKey2018_11_05", path: "/2018-11-05/public-key", httpMethod: "POST", input: input)
     }
 
-    public func createFieldLevelEncryptionProfile20171030(_ input: CreateFieldLevelEncryptionProfileRequest) throws -> CreateFieldLevelEncryptionProfileResult {
-        return try client.send(operation: "CreateFieldLevelEncryptionProfile2017_10_30", path: "/2017-10-30/field-level-encryption-profile", httpMethod: "POST", input: input)
+    public func untagResource20181105(_ input: UntagResourceRequest) throws {
+        _ = try client.send(operation: "UntagResource2018_11_05", path: "/2018-11-05/tagging?Operation=Untag", httpMethod: "POST", input: input)
     }
 
-    public func updateFieldLevelEncryptionProfile20171030(_ input: UpdateFieldLevelEncryptionProfileRequest) throws -> UpdateFieldLevelEncryptionProfileResult {
-        return try client.send(operation: "UpdateFieldLevelEncryptionProfile2017_10_30", path: "/2017-10-30/field-level-encryption-profile/{Id}/config", httpMethod: "PUT", input: input)
+    public func listDistributions20181105(_ input: ListDistributionsRequest) throws -> ListDistributionsResult {
+        return try client.send(operation: "ListDistributions2018_11_05", path: "/2018-11-05/distribution", httpMethod: "GET", input: input)
     }
 
-    public func createStreamingDistributionWithTags20171030(_ input: CreateStreamingDistributionWithTagsRequest) throws -> CreateStreamingDistributionWithTagsResult {
-        return try client.send(operation: "CreateStreamingDistributionWithTags2017_10_30", path: "/2017-10-30/streaming-distribution?WithTags", httpMethod: "POST", input: input)
+    public func listStreamingDistributions20181105(_ input: ListStreamingDistributionsRequest) throws -> ListStreamingDistributionsResult {
+        return try client.send(operation: "ListStreamingDistributions2018_11_05", path: "/2018-11-05/streaming-distribution", httpMethod: "GET", input: input)
     }
 
-    public func listPublicKeys20171030(_ input: ListPublicKeysRequest) throws -> ListPublicKeysResult {
-        return try client.send(operation: "ListPublicKeys2017_10_30", path: "/2017-10-30/public-key", httpMethod: "GET", input: input)
+    public func getCloudFrontOriginAccessIdentity20181105(_ input: GetCloudFrontOriginAccessIdentityRequest) throws -> GetCloudFrontOriginAccessIdentityResult {
+        return try client.send(operation: "GetCloudFrontOriginAccessIdentity2018_11_05", path: "/2018-11-05/origin-access-identity/cloudfront/{Id}", httpMethod: "GET", input: input)
     }
 
-    public func listFieldLevelEncryptionProfiles20171030(_ input: ListFieldLevelEncryptionProfilesRequest) throws -> ListFieldLevelEncryptionProfilesResult {
-        return try client.send(operation: "ListFieldLevelEncryptionProfiles2017_10_30", path: "/2017-10-30/field-level-encryption-profile", httpMethod: "GET", input: input)
+    public func updateFieldLevelEncryptionProfile20181105(_ input: UpdateFieldLevelEncryptionProfileRequest) throws -> UpdateFieldLevelEncryptionProfileResult {
+        return try client.send(operation: "UpdateFieldLevelEncryptionProfile2018_11_05", path: "/2018-11-05/field-level-encryption-profile/{Id}/config", httpMethod: "PUT", input: input)
     }
 
-    public func getDistributionConfig20171030(_ input: GetDistributionConfigRequest) throws -> GetDistributionConfigResult {
-        return try client.send(operation: "GetDistributionConfig2017_10_30", path: "/2017-10-30/distribution/{Id}/config", httpMethod: "GET", input: input)
+    public func updateCloudFrontOriginAccessIdentity20181105(_ input: UpdateCloudFrontOriginAccessIdentityRequest) throws -> UpdateCloudFrontOriginAccessIdentityResult {
+        return try client.send(operation: "UpdateCloudFrontOriginAccessIdentity2018_11_05", path: "/2018-11-05/origin-access-identity/cloudfront/{Id}/config", httpMethod: "PUT", input: input)
     }
 
-    public func getCloudFrontOriginAccessIdentity20171030(_ input: GetCloudFrontOriginAccessIdentityRequest) throws -> GetCloudFrontOriginAccessIdentityResult {
-        return try client.send(operation: "GetCloudFrontOriginAccessIdentity2017_10_30", path: "/2017-10-30/origin-access-identity/cloudfront/{Id}", httpMethod: "GET", input: input)
+    public func updateDistribution20181105(_ input: UpdateDistributionRequest) throws -> UpdateDistributionResult {
+        return try client.send(operation: "UpdateDistribution2018_11_05", path: "/2018-11-05/distribution/{Id}/config", httpMethod: "PUT", input: input)
     }
 
-    public func getInvalidation20171030(_ input: GetInvalidationRequest) throws -> GetInvalidationResult {
-        return try client.send(operation: "GetInvalidation2017_10_30", path: "/2017-10-30/distribution/{DistributionId}/invalidation/{Id}", httpMethod: "GET", input: input)
+    public func deletePublicKey20181105(_ input: DeletePublicKeyRequest) throws {
+        _ = try client.send(operation: "DeletePublicKey2018_11_05", path: "/2018-11-05/public-key/{Id}", httpMethod: "DELETE", input: input)
     }
 
-    public func untagResource20171030(_ input: UntagResourceRequest) throws {
-        _ = try client.send(operation: "UntagResource2017_10_30", path: "/2017-10-30/tagging?Operation=Untag", httpMethod: "POST", input: input)
+    public func updateFieldLevelEncryptionConfig20181105(_ input: UpdateFieldLevelEncryptionConfigRequest) throws -> UpdateFieldLevelEncryptionConfigResult {
+        return try client.send(operation: "UpdateFieldLevelEncryptionConfig2018_11_05", path: "/2018-11-05/field-level-encryption/{Id}/config", httpMethod: "PUT", input: input)
     }
 
-    public func createCloudFrontOriginAccessIdentity20171030(_ input: CreateCloudFrontOriginAccessIdentityRequest) throws -> CreateCloudFrontOriginAccessIdentityResult {
-        return try client.send(operation: "CreateCloudFrontOriginAccessIdentity2017_10_30", path: "/2017-10-30/origin-access-identity/cloudfront", httpMethod: "POST", input: input)
+    public func createDistributionWithTags20181105(_ input: CreateDistributionWithTagsRequest) throws -> CreateDistributionWithTagsResult {
+        return try client.send(operation: "CreateDistributionWithTags2018_11_05", path: "/2018-11-05/distribution?WithTags", httpMethod: "POST", input: input)
     }
 
-    public func listCloudFrontOriginAccessIdentities20171030(_ input: ListCloudFrontOriginAccessIdentitiesRequest) throws -> ListCloudFrontOriginAccessIdentitiesResult {
-        return try client.send(operation: "ListCloudFrontOriginAccessIdentities2017_10_30", path: "/2017-10-30/origin-access-identity/cloudfront", httpMethod: "GET", input: input)
+    public func getPublicKeyConfig20181105(_ input: GetPublicKeyConfigRequest) throws -> GetPublicKeyConfigResult {
+        return try client.send(operation: "GetPublicKeyConfig2018_11_05", path: "/2018-11-05/public-key/{Id}/config", httpMethod: "GET", input: input)
     }
 
-    public func tagResource20171030(_ input: TagResourceRequest) throws {
-        _ = try client.send(operation: "TagResource2017_10_30", path: "/2017-10-30/tagging?Operation=Tag", httpMethod: "POST", input: input)
+    public func getFieldLevelEncryption20181105(_ input: GetFieldLevelEncryptionRequest) throws -> GetFieldLevelEncryptionResult {
+        return try client.send(operation: "GetFieldLevelEncryption2018_11_05", path: "/2018-11-05/field-level-encryption/{Id}", httpMethod: "GET", input: input)
     }
 
-    public func getFieldLevelEncryptionConfig20171030(_ input: GetFieldLevelEncryptionConfigRequest) throws -> GetFieldLevelEncryptionConfigResult {
-        return try client.send(operation: "GetFieldLevelEncryptionConfig2017_10_30", path: "/2017-10-30/field-level-encryption/{Id}/config", httpMethod: "GET", input: input)
+    public func tagResource20181105(_ input: TagResourceRequest) throws {
+        _ = try client.send(operation: "TagResource2018_11_05", path: "/2018-11-05/tagging?Operation=Tag", httpMethod: "POST", input: input)
     }
 
-    public func updatePublicKey20171030(_ input: UpdatePublicKeyRequest) throws -> UpdatePublicKeyResult {
-        return try client.send(operation: "UpdatePublicKey2017_10_30", path: "/2017-10-30/public-key/{Id}/config", httpMethod: "PUT", input: input)
+    public func createStreamingDistribution20181105(_ input: CreateStreamingDistributionRequest) throws -> CreateStreamingDistributionResult {
+        return try client.send(operation: "CreateStreamingDistribution2018_11_05", path: "/2018-11-05/streaming-distribution", httpMethod: "POST", input: input)
     }
 
-    public func createDistribution20171030(_ input: CreateDistributionRequest) throws -> CreateDistributionResult {
-        return try client.send(operation: "CreateDistribution2017_10_30", path: "/2017-10-30/distribution", httpMethod: "POST", input: input)
+    public func getFieldLevelEncryptionProfileConfig20181105(_ input: GetFieldLevelEncryptionProfileConfigRequest) throws -> GetFieldLevelEncryptionProfileConfigResult {
+        return try client.send(operation: "GetFieldLevelEncryptionProfileConfig2018_11_05", path: "/2018-11-05/field-level-encryption-profile/{Id}/config", httpMethod: "GET", input: input)
     }
 
-    public func deleteStreamingDistribution20171030(_ input: DeleteStreamingDistributionRequest) throws {
-        _ = try client.send(operation: "DeleteStreamingDistribution2017_10_30", path: "/2017-10-30/streaming-distribution/{Id}", httpMethod: "DELETE", input: input)
+    public func deleteFieldLevelEncryptionConfig20181105(_ input: DeleteFieldLevelEncryptionConfigRequest) throws {
+        _ = try client.send(operation: "DeleteFieldLevelEncryptionConfig2018_11_05", path: "/2018-11-05/field-level-encryption/{Id}", httpMethod: "DELETE", input: input)
     }
 
-    public func updateDistribution20171030(_ input: UpdateDistributionRequest) throws -> UpdateDistributionResult {
-        return try client.send(operation: "UpdateDistribution2017_10_30", path: "/2017-10-30/distribution/{Id}/config", httpMethod: "PUT", input: input)
+    public func getPublicKey20181105(_ input: GetPublicKeyRequest) throws -> GetPublicKeyResult {
+        return try client.send(operation: "GetPublicKey2018_11_05", path: "/2018-11-05/public-key/{Id}", httpMethod: "GET", input: input)
     }
 
-    public func createDistributionWithTags20171030(_ input: CreateDistributionWithTagsRequest) throws -> CreateDistributionWithTagsResult {
-        return try client.send(operation: "CreateDistributionWithTags2017_10_30", path: "/2017-10-30/distribution?WithTags", httpMethod: "POST", input: input)
+    public func createFieldLevelEncryptionProfile20181105(_ input: CreateFieldLevelEncryptionProfileRequest) throws -> CreateFieldLevelEncryptionProfileResult {
+        return try client.send(operation: "CreateFieldLevelEncryptionProfile2018_11_05", path: "/2018-11-05/field-level-encryption-profile", httpMethod: "POST", input: input)
     }
 
-    public func getFieldLevelEncryptionProfile20171030(_ input: GetFieldLevelEncryptionProfileRequest) throws -> GetFieldLevelEncryptionProfileResult {
-        return try client.send(operation: "GetFieldLevelEncryptionProfile2017_10_30", path: "/2017-10-30/field-level-encryption-profile/{Id}", httpMethod: "GET", input: input)
+    public func listPublicKeys20181105(_ input: ListPublicKeysRequest) throws -> ListPublicKeysResult {
+        return try client.send(operation: "ListPublicKeys2018_11_05", path: "/2018-11-05/public-key", httpMethod: "GET", input: input)
     }
 
-    public func deleteFieldLevelEncryptionProfile20171030(_ input: DeleteFieldLevelEncryptionProfileRequest) throws {
-        _ = try client.send(operation: "DeleteFieldLevelEncryptionProfile2017_10_30", path: "/2017-10-30/field-level-encryption-profile/{Id}", httpMethod: "DELETE", input: input)
+    public func listInvalidations20181105(_ input: ListInvalidationsRequest) throws -> ListInvalidationsResult {
+        return try client.send(operation: "ListInvalidations2018_11_05", path: "/2018-11-05/distribution/{DistributionId}/invalidation", httpMethod: "GET", input: input)
     }
 
-    public func listTagsForResource20171030(_ input: ListTagsForResourceRequest) throws -> ListTagsForResourceResult {
-        return try client.send(operation: "ListTagsForResource2017_10_30", path: "/2017-10-30/tagging", httpMethod: "GET", input: input)
+    public func deleteDistribution20181105(_ input: DeleteDistributionRequest) throws {
+        _ = try client.send(operation: "DeleteDistribution2018_11_05", path: "/2018-11-05/distribution/{Id}", httpMethod: "DELETE", input: input)
     }
 
-    public func getCloudFrontOriginAccessIdentityConfig20171030(_ input: GetCloudFrontOriginAccessIdentityConfigRequest) throws -> GetCloudFrontOriginAccessIdentityConfigResult {
-        return try client.send(operation: "GetCloudFrontOriginAccessIdentityConfig2017_10_30", path: "/2017-10-30/origin-access-identity/cloudfront/{Id}/config", httpMethod: "GET", input: input)
+    public func getFieldLevelEncryptionProfile20181105(_ input: GetFieldLevelEncryptionProfileRequest) throws -> GetFieldLevelEncryptionProfileResult {
+        return try client.send(operation: "GetFieldLevelEncryptionProfile2018_11_05", path: "/2018-11-05/field-level-encryption-profile/{Id}", httpMethod: "GET", input: input)
     }
 
-    public func deletePublicKey20171030(_ input: DeletePublicKeyRequest) throws {
-        _ = try client.send(operation: "DeletePublicKey2017_10_30", path: "/2017-10-30/public-key/{Id}", httpMethod: "DELETE", input: input)
+    public func getDistributionConfig20181105(_ input: GetDistributionConfigRequest) throws -> GetDistributionConfigResult {
+        return try client.send(operation: "GetDistributionConfig2018_11_05", path: "/2018-11-05/distribution/{Id}/config", httpMethod: "GET", input: input)
     }
 
-    public func getPublicKey20171030(_ input: GetPublicKeyRequest) throws -> GetPublicKeyResult {
-        return try client.send(operation: "GetPublicKey2017_10_30", path: "/2017-10-30/public-key/{Id}", httpMethod: "GET", input: input)
+    public func updatePublicKey20181105(_ input: UpdatePublicKeyRequest) throws -> UpdatePublicKeyResult {
+        return try client.send(operation: "UpdatePublicKey2018_11_05", path: "/2018-11-05/public-key/{Id}/config", httpMethod: "PUT", input: input)
     }
 
-    public func updateCloudFrontOriginAccessIdentity20171030(_ input: UpdateCloudFrontOriginAccessIdentityRequest) throws -> UpdateCloudFrontOriginAccessIdentityResult {
-        return try client.send(operation: "UpdateCloudFrontOriginAccessIdentity2017_10_30", path: "/2017-10-30/origin-access-identity/cloudfront/{Id}/config", httpMethod: "PUT", input: input)
+    public func getInvalidation20181105(_ input: GetInvalidationRequest) throws -> GetInvalidationResult {
+        return try client.send(operation: "GetInvalidation2018_11_05", path: "/2018-11-05/distribution/{DistributionId}/invalidation/{Id}", httpMethod: "GET", input: input)
     }
 
-    public func createInvalidation20171030(_ input: CreateInvalidationRequest) throws -> CreateInvalidationResult {
-        return try client.send(operation: "CreateInvalidation2017_10_30", path: "/2017-10-30/distribution/{DistributionId}/invalidation", httpMethod: "POST", input: input)
+    public func deleteCloudFrontOriginAccessIdentity20181105(_ input: DeleteCloudFrontOriginAccessIdentityRequest) throws {
+        _ = try client.send(operation: "DeleteCloudFrontOriginAccessIdentity2018_11_05", path: "/2018-11-05/origin-access-identity/cloudfront/{Id}", httpMethod: "DELETE", input: input)
     }
 
-    public func listDistributionsByWebACLId20171030(_ input: ListDistributionsByWebACLIdRequest) throws -> ListDistributionsByWebACLIdResult {
-        return try client.send(operation: "ListDistributionsByWebACLId2017_10_30", path: "/2017-10-30/distributionsByWebACLId/{WebACLId}", httpMethod: "GET", input: input)
+    public func createInvalidation20181105(_ input: CreateInvalidationRequest) throws -> CreateInvalidationResult {
+        return try client.send(operation: "CreateInvalidation2018_11_05", path: "/2018-11-05/distribution/{DistributionId}/invalidation", httpMethod: "POST", input: input)
     }
 
-    public func deleteFieldLevelEncryptionConfig20171030(_ input: DeleteFieldLevelEncryptionConfigRequest) throws {
-        _ = try client.send(operation: "DeleteFieldLevelEncryptionConfig2017_10_30", path: "/2017-10-30/field-level-encryption/{Id}", httpMethod: "DELETE", input: input)
+    public func createDistribution20181105(_ input: CreateDistributionRequest) throws -> CreateDistributionResult {
+        return try client.send(operation: "CreateDistribution2018_11_05", path: "/2018-11-05/distribution", httpMethod: "POST", input: input)
     }
 
-    public func deleteDistribution20171030(_ input: DeleteDistributionRequest) throws {
-        _ = try client.send(operation: "DeleteDistribution2017_10_30", path: "/2017-10-30/distribution/{Id}", httpMethod: "DELETE", input: input)
+    public func listDistributionsByWebACLId20181105(_ input: ListDistributionsByWebACLIdRequest) throws -> ListDistributionsByWebACLIdResult {
+        return try client.send(operation: "ListDistributionsByWebACLId2018_11_05", path: "/2018-11-05/distributionsByWebACLId/{WebACLId}", httpMethod: "GET", input: input)
     }
 
-    public func getPublicKeyConfig20171030(_ input: GetPublicKeyConfigRequest) throws -> GetPublicKeyConfigResult {
-        return try client.send(operation: "GetPublicKeyConfig2017_10_30", path: "/2017-10-30/public-key/{Id}/config", httpMethod: "GET", input: input)
+    public func listCloudFrontOriginAccessIdentities20181105(_ input: ListCloudFrontOriginAccessIdentitiesRequest) throws -> ListCloudFrontOriginAccessIdentitiesResult {
+        return try client.send(operation: "ListCloudFrontOriginAccessIdentities2018_11_05", path: "/2018-11-05/origin-access-identity/cloudfront", httpMethod: "GET", input: input)
     }
 
-    public func updateFieldLevelEncryptionConfig20171030(_ input: UpdateFieldLevelEncryptionConfigRequest) throws -> UpdateFieldLevelEncryptionConfigResult {
-        return try client.send(operation: "UpdateFieldLevelEncryptionConfig2017_10_30", path: "/2017-10-30/field-level-encryption/{Id}/config", httpMethod: "PUT", input: input)
+    public func deleteStreamingDistribution20181105(_ input: DeleteStreamingDistributionRequest) throws {
+        _ = try client.send(operation: "DeleteStreamingDistribution2018_11_05", path: "/2018-11-05/streaming-distribution/{Id}", httpMethod: "DELETE", input: input)
     }
 
-    public func getFieldLevelEncryptionProfileConfig20171030(_ input: GetFieldLevelEncryptionProfileConfigRequest) throws -> GetFieldLevelEncryptionProfileConfigResult {
-        return try client.send(operation: "GetFieldLevelEncryptionProfileConfig2017_10_30", path: "/2017-10-30/field-level-encryption-profile/{Id}/config", httpMethod: "GET", input: input)
+    public func listFieldLevelEncryptionConfigs20181105(_ input: ListFieldLevelEncryptionConfigsRequest) throws -> ListFieldLevelEncryptionConfigsResult {
+        return try client.send(operation: "ListFieldLevelEncryptionConfigs2018_11_05", path: "/2018-11-05/field-level-encryption", httpMethod: "GET", input: input)
     }
 
-    public func createFieldLevelEncryptionConfig20171030(_ input: CreateFieldLevelEncryptionConfigRequest) throws -> CreateFieldLevelEncryptionConfigResult {
-        return try client.send(operation: "CreateFieldLevelEncryptionConfig2017_10_30", path: "/2017-10-30/field-level-encryption", httpMethod: "POST", input: input)
+    public func getCloudFrontOriginAccessIdentityConfig20181105(_ input: GetCloudFrontOriginAccessIdentityConfigRequest) throws -> GetCloudFrontOriginAccessIdentityConfigResult {
+        return try client.send(operation: "GetCloudFrontOriginAccessIdentityConfig2018_11_05", path: "/2018-11-05/origin-access-identity/cloudfront/{Id}/config", httpMethod: "GET", input: input)
     }
 
-    public func getStreamingDistribution20171030(_ input: GetStreamingDistributionRequest) throws -> GetStreamingDistributionResult {
-        return try client.send(operation: "GetStreamingDistribution2017_10_30", path: "/2017-10-30/streaming-distribution/{Id}", httpMethod: "GET", input: input)
+    public func createStreamingDistributionWithTags20181105(_ input: CreateStreamingDistributionWithTagsRequest) throws -> CreateStreamingDistributionWithTagsResult {
+        return try client.send(operation: "CreateStreamingDistributionWithTags2018_11_05", path: "/2018-11-05/streaming-distribution?WithTags", httpMethod: "POST", input: input)
     }
 
-    public func listDistributions20171030(_ input: ListDistributionsRequest) throws -> ListDistributionsResult {
-        return try client.send(operation: "ListDistributions2017_10_30", path: "/2017-10-30/distribution", httpMethod: "GET", input: input)
+    public func listFieldLevelEncryptionProfiles20181105(_ input: ListFieldLevelEncryptionProfilesRequest) throws -> ListFieldLevelEncryptionProfilesResult {
+        return try client.send(operation: "ListFieldLevelEncryptionProfiles2018_11_05", path: "/2018-11-05/field-level-encryption-profile", httpMethod: "GET", input: input)
     }
 
-    public func listFieldLevelEncryptionConfigs20171030(_ input: ListFieldLevelEncryptionConfigsRequest) throws -> ListFieldLevelEncryptionConfigsResult {
-        return try client.send(operation: "ListFieldLevelEncryptionConfigs2017_10_30", path: "/2017-10-30/field-level-encryption", httpMethod: "GET", input: input)
+    public func deleteFieldLevelEncryptionProfile20181105(_ input: DeleteFieldLevelEncryptionProfileRequest) throws {
+        _ = try client.send(operation: "DeleteFieldLevelEncryptionProfile2018_11_05", path: "/2018-11-05/field-level-encryption-profile/{Id}", httpMethod: "DELETE", input: input)
     }
 
-    public func getFieldLevelEncryption20171030(_ input: GetFieldLevelEncryptionRequest) throws -> GetFieldLevelEncryptionResult {
-        return try client.send(operation: "GetFieldLevelEncryption2017_10_30", path: "/2017-10-30/field-level-encryption/{Id}", httpMethod: "GET", input: input)
+    public func createCloudFrontOriginAccessIdentity20181105(_ input: CreateCloudFrontOriginAccessIdentityRequest) throws -> CreateCloudFrontOriginAccessIdentityResult {
+        return try client.send(operation: "CreateCloudFrontOriginAccessIdentity2018_11_05", path: "/2018-11-05/origin-access-identity/cloudfront", httpMethod: "POST", input: input)
     }
 
-    public func listInvalidations20171030(_ input: ListInvalidationsRequest) throws -> ListInvalidationsResult {
-        return try client.send(operation: "ListInvalidations2017_10_30", path: "/2017-10-30/distribution/{DistributionId}/invalidation", httpMethod: "GET", input: input)
+    public func getFieldLevelEncryptionConfig20181105(_ input: GetFieldLevelEncryptionConfigRequest) throws -> GetFieldLevelEncryptionConfigResult {
+        return try client.send(operation: "GetFieldLevelEncryptionConfig2018_11_05", path: "/2018-11-05/field-level-encryption/{Id}/config", httpMethod: "GET", input: input)
     }
 
-    public func updateStreamingDistribution20171030(_ input: UpdateStreamingDistributionRequest) throws -> UpdateStreamingDistributionResult {
-        return try client.send(operation: "UpdateStreamingDistribution2017_10_30", path: "/2017-10-30/streaming-distribution/{Id}/config", httpMethod: "PUT", input: input)
+    public func createFieldLevelEncryptionConfig20181105(_ input: CreateFieldLevelEncryptionConfigRequest) throws -> CreateFieldLevelEncryptionConfigResult {
+        return try client.send(operation: "CreateFieldLevelEncryptionConfig2018_11_05", path: "/2018-11-05/field-level-encryption", httpMethod: "POST", input: input)
     }
 
-    public func createStreamingDistribution20171030(_ input: CreateStreamingDistributionRequest) throws -> CreateStreamingDistributionResult {
-        return try client.send(operation: "CreateStreamingDistribution2017_10_30", path: "/2017-10-30/streaming-distribution", httpMethod: "POST", input: input)
+    public func getStreamingDistribution20181105(_ input: GetStreamingDistributionRequest) throws -> GetStreamingDistributionResult {
+        return try client.send(operation: "GetStreamingDistribution2018_11_05", path: "/2018-11-05/streaming-distribution/{Id}", httpMethod: "GET", input: input)
     }
 
-    public func deleteCloudFrontOriginAccessIdentity20171030(_ input: DeleteCloudFrontOriginAccessIdentityRequest) throws {
-        _ = try client.send(operation: "DeleteCloudFrontOriginAccessIdentity2017_10_30", path: "/2017-10-30/origin-access-identity/cloudfront/{Id}", httpMethod: "DELETE", input: input)
+    public func getDistribution20181105(_ input: GetDistributionRequest) throws -> GetDistributionResult {
+        return try client.send(operation: "GetDistribution2018_11_05", path: "/2018-11-05/distribution/{Id}", httpMethod: "GET", input: input)
     }
 
-    public func getStreamingDistributionConfig20171030(_ input: GetStreamingDistributionConfigRequest) throws -> GetStreamingDistributionConfigResult {
-        return try client.send(operation: "GetStreamingDistributionConfig2017_10_30", path: "/2017-10-30/streaming-distribution/{Id}/config", httpMethod: "GET", input: input)
+    public func updateStreamingDistribution20181105(_ input: UpdateStreamingDistributionRequest) throws -> UpdateStreamingDistributionResult {
+        return try client.send(operation: "UpdateStreamingDistribution2018_11_05", path: "/2018-11-05/streaming-distribution/{Id}/config", httpMethod: "PUT", input: input)
     }
 
-    public func createPublicKey20171030(_ input: CreatePublicKeyRequest) throws -> CreatePublicKeyResult {
-        return try client.send(operation: "CreatePublicKey2017_10_30", path: "/2017-10-30/public-key", httpMethod: "POST", input: input)
+    public func getStreamingDistributionConfig20181105(_ input: GetStreamingDistributionConfigRequest) throws -> GetStreamingDistributionConfigResult {
+        return try client.send(operation: "GetStreamingDistributionConfig2018_11_05", path: "/2018-11-05/streaming-distribution/{Id}/config", httpMethod: "GET", input: input)
     }
 
-    public func listStreamingDistributions20171030(_ input: ListStreamingDistributionsRequest) throws -> ListStreamingDistributionsResult {
-        return try client.send(operation: "ListStreamingDistributions2017_10_30", path: "/2017-10-30/streaming-distribution", httpMethod: "GET", input: input)
+    public func listTagsForResource20181105(_ input: ListTagsForResourceRequest) throws -> ListTagsForResourceResult {
+        return try client.send(operation: "ListTagsForResource2018_11_05", path: "/2018-11-05/tagging", httpMethod: "GET", input: input)
     }
 
 

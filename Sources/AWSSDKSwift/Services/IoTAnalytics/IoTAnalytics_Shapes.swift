@@ -5,75 +5,906 @@ import AWSSDKSwiftCore
 
 extension IoTAnalytics {
 
-    public struct DatastoreActivity: AWSShape {
+    public struct ListDatasetsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datastoreName", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string)
+            AWSShapeMember(label: "datasetSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// The name of the data store where processed messages are stored.
-        public let datastoreName: String
-        /// The name of the 'datastore' activity.
-        public let name: String
+        /// A list of "DatasetSummary" objects.
+        public let datasetSummaries: [DatasetSummary]?
+        /// The token to retrieve the next set of results, or null if there are no more results.
+        public let nextToken: String?
 
-        public init(datastoreName: String, name: String) {
-            self.datastoreName = datastoreName
-            self.name = name
+        public init(datasetSummaries: [DatasetSummary]? = nil, nextToken: String? = nil) {
+            self.datasetSummaries = datasetSummaries
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datastoreName = "datastoreName"
-            case name = "name"
+            case datasetSummaries = "datasetSummaries"
+            case nextToken = "nextToken"
         }
     }
 
-    public struct CancelPipelineReprocessingResponse: AWSShape {
+    public struct CreateDatasetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
+            AWSShapeMember(label: "datasetArn", required: false, type: .string), 
+            AWSShapeMember(label: "datasetName", required: false, type: .string)
+        ]
+        /// How long, in days, message data is kept for the data set.
+        public let retentionPeriod: RetentionPeriod?
+        /// The ARN of the data set.
+        public let datasetArn: String?
+        /// The name of the data set.
+        public let datasetName: String?
 
+        public init(retentionPeriod: RetentionPeriod? = nil, datasetArn: String? = nil, datasetName: String? = nil) {
+            self.retentionPeriod = retentionPeriod
+            self.datasetArn = datasetArn
+            self.datasetName = datasetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retentionPeriod = "retentionPeriod"
+            case datasetArn = "datasetArn"
+            case datasetName = "datasetName"
+        }
+    }
+
+    public struct UpdatePipelineRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineActivities", required: true, type: .list), 
+            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"), required: true, type: .string)
+        ]
+        /// A list of "PipelineActivity" objects. The list can be 1-25 PipelineActivity objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data.
+        public let pipelineActivities: [PipelineActivity]
+        /// The name of the pipeline to update.
+        public let pipelineName: String
+
+        public init(pipelineActivities: [PipelineActivity], pipelineName: String) {
+            self.pipelineActivities = pipelineActivities
+            self.pipelineName = pipelineName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineActivities = "pipelineActivities"
+            case pipelineName = "pipelineName"
+        }
+    }
+
+    public struct DescribeLoggingOptionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "loggingOptions", required: false, type: .structure)
+        ]
+        /// The current settings of the AWS IoT Analytics logging options.
+        public let loggingOptions: LoggingOptions?
+
+        public init(loggingOptions: LoggingOptions? = nil) {
+            self.loggingOptions = loggingOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loggingOptions = "loggingOptions"
+        }
     }
 
     public struct DatastoreSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "datastoreName", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "status", required: false, type: .enum)
         ]
-        /// When the data store was created.
-        public let creationTime: TimeStamp?
-        /// The status of the data store.
-        public let status: DatastoreStatus?
         /// The name of the data store.
         public let datastoreName: String?
         /// The last time the data store was updated.
         public let lastUpdateTime: TimeStamp?
+        /// When the data store was created.
+        public let creationTime: TimeStamp?
+        /// The status of the data store.
+        public let status: DatastoreStatus?
 
-        public init(creationTime: TimeStamp? = nil, status: DatastoreStatus? = nil, datastoreName: String? = nil, lastUpdateTime: TimeStamp? = nil) {
-            self.creationTime = creationTime
-            self.status = status
+        public init(datastoreName: String? = nil, lastUpdateTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, status: DatastoreStatus? = nil) {
             self.datastoreName = datastoreName
             self.lastUpdateTime = lastUpdateTime
+            self.creationTime = creationTime
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime = "creationTime"
-            case status = "status"
             case datastoreName = "datastoreName"
             case lastUpdateTime = "lastUpdateTime"
+            case creationTime = "creationTime"
+            case status = "status"
         }
     }
 
-    public struct DatasetTrigger: AWSShape {
+    public struct DatasetContentStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "schedule", required: false, type: .structure)
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "reason", required: false, type: .string)
         ]
-        /// The "Schedule" when the trigger is initiated.
-        public let schedule: Schedule?
+        /// The state of the data set contents. Can be one of "READY", "CREATING", "SUCCEEDED" or "FAILED".
+        public let state: DatasetContentState?
+        /// The reason the data set contents are in this state.
+        public let reason: String?
 
-        public init(schedule: Schedule? = nil) {
-            self.schedule = schedule
+        public init(state: DatasetContentState? = nil, reason: String? = nil) {
+            self.state = state
+            self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case schedule = "schedule"
+            case state = "state"
+            case reason = "reason"
+        }
+    }
+
+    public struct DeltaTime: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "offsetSeconds", required: true, type: .integer), 
+            AWSShapeMember(label: "timeExpression", required: true, type: .string)
+        ]
+        /// The number of seconds of estimated "in flight" lag time of message data.
+        public let offsetSeconds: Int32
+        /// An expression by which the time of the message data may be determined. This may be the name of a timestamp field, or a SQL expression which is used to derive the time the message data was generated.
+        public let timeExpression: String
+
+        public init(offsetSeconds: Int32, timeExpression: String) {
+            self.offsetSeconds = offsetSeconds
+            self.timeExpression = timeExpression
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case offsetSeconds = "offsetSeconds"
+            case timeExpression = "timeExpression"
+        }
+    }
+
+    public enum DatastoreStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CancelPipelineReprocessingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "reprocessingId", location: .uri(locationName: "reprocessingId"), required: true, type: .string), 
+            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"), required: true, type: .string)
+        ]
+        /// The ID of the reprocessing task (returned by "StartPipelineReprocessing").
+        public let reprocessingId: String
+        /// The name of pipeline for which data reprocessing is canceled.
+        public let pipelineName: String
+
+        public init(reprocessingId: String, pipelineName: String) {
+            self.reprocessingId = reprocessingId
+            self.pipelineName = pipelineName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reprocessingId = "reprocessingId"
+            case pipelineName = "pipelineName"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .list)
+        ]
+        /// The ARN of the resource whose tags will be modified.
+        public let resourceArn: String
+        /// The new or modified tags for the resource.
+        public let tags: [Tag]
+
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct DeleteDatasetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string)
+        ]
+        /// The name of the data set to delete.
+        public let datasetName: String
+
+        public init(datasetName: String) {
+            self.datasetName = datasetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetName = "datasetName"
+        }
+    }
+
+    public struct DatasetActionSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionName", required: false, type: .string), 
+            AWSShapeMember(label: "actionType", required: false, type: .enum)
+        ]
+        /// The name of the action which automatically creates the data set's contents.
+        public let actionName: String?
+        /// The type of action by which the data set's contents are automatically created.
+        public let actionType: DatasetActionType?
+
+        public init(actionName: String? = nil, actionType: DatasetActionType? = nil) {
+            self.actionName = actionName
+            self.actionType = actionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionName = "actionName"
+            case actionType = "actionType"
+        }
+    }
+
+    public struct ListChannelsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "channelSummaries", required: false, type: .list)
+        ]
+        /// The token to retrieve the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// A list of "ChannelSummary" objects.
+        public let channelSummaries: [ChannelSummary]?
+
+        public init(nextToken: String? = nil, channelSummaries: [ChannelSummary]? = nil) {
+            self.nextToken = nextToken
+            self.channelSummaries = channelSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case channelSummaries = "channelSummaries"
+        }
+    }
+
+    public struct CreateDatastoreResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "datastoreName", required: false, type: .string), 
+            AWSShapeMember(label: "datastoreArn", required: false, type: .string), 
+            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure)
+        ]
+        /// The name of the data store.
+        public let datastoreName: String?
+        /// The ARN of the data store.
+        public let datastoreArn: String?
+        /// How long, in days, message data is kept for the data store.
+        public let retentionPeriod: RetentionPeriod?
+
+        public init(datastoreName: String? = nil, datastoreArn: String? = nil, retentionPeriod: RetentionPeriod? = nil) {
+            self.datastoreName = datastoreName
+            self.datastoreArn = datastoreArn
+            self.retentionPeriod = retentionPeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datastoreName = "datastoreName"
+            case datastoreArn = "datastoreArn"
+            case retentionPeriod = "retentionPeriod"
+        }
+    }
+
+    public struct CreatePipelineResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineArn", required: false, type: .string), 
+            AWSShapeMember(label: "pipelineName", required: false, type: .string)
+        ]
+        /// The ARN of the pipeline.
+        public let pipelineArn: String?
+        /// The name of the pipeline.
+        public let pipelineName: String?
+
+        public init(pipelineArn: String? = nil, pipelineName: String? = nil) {
+            self.pipelineArn = pipelineArn
+            self.pipelineName = pipelineName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineArn = "pipelineArn"
+            case pipelineName = "pipelineName"
+        }
+    }
+
+    public enum DatasetStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeviceShadowEnrichActivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attribute", required: true, type: .string), 
+            AWSShapeMember(label: "next", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "thingName", required: true, type: .string)
+        ]
+        /// The name of the attribute that is added to the message.
+        public let attribute: String
+        /// The next activity in the pipeline.
+        public let next: String?
+        /// The name of the 'deviceShadowEnrich' activity.
+        public let name: String
+        /// The ARN of the role that allows access to the device's shadow.
+        public let roleArn: String
+        /// The name of the IoT device whose shadow information is added to the message.
+        public let thingName: String
+
+        public init(attribute: String, next: String? = nil, name: String, roleArn: String, thingName: String) {
+            self.attribute = attribute
+            self.next = next
+            self.name = name
+            self.roleArn = roleArn
+            self.thingName = thingName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "attribute"
+            case next = "next"
+            case name = "name"
+            case roleArn = "roleArn"
+            case thingName = "thingName"
+        }
+    }
+
+    public struct DatasetContentDeliveryDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "iotEventsDestinationConfiguration", required: false, type: .structure)
+        ]
+        public let iotEventsDestinationConfiguration: IotEventsDestinationConfiguration?
+
+        public init(iotEventsDestinationConfiguration: IotEventsDestinationConfiguration? = nil) {
+            self.iotEventsDestinationConfiguration = iotEventsDestinationConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iotEventsDestinationConfiguration = "iotEventsDestinationConfiguration"
+        }
+    }
+
+    public struct DeleteChannelRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName"), required: true, type: .string)
+        ]
+        /// The name of the channel to delete.
+        public let channelName: String
+
+        public init(channelName: String) {
+            self.channelName = channelName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelName = "channelName"
+        }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: true, type: .string)
+        ]
+        /// The tag's key.
+        public let key: String
+        /// The tag's value.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct DescribeLoggingOptionsRequest: AWSShape {
+
+    }
+
+    public struct PipelineActivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "math", required: false, type: .structure), 
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "deviceShadowEnrich", required: false, type: .structure), 
+            AWSShapeMember(label: "lambda", required: false, type: .structure), 
+            AWSShapeMember(label: "removeAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "deviceRegistryEnrich", required: false, type: .structure), 
+            AWSShapeMember(label: "addAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "selectAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "datastore", required: false, type: .structure), 
+            AWSShapeMember(label: "channel", required: false, type: .structure)
+        ]
+        /// Computes an arithmetic expression using the message's attributes and adds it to the message.
+        public let math: MathActivity?
+        /// Filters a message based on its attributes.
+        public let filter: FilterActivity?
+        /// Adds information from the AWS IoT Device Shadows service to a message.
+        public let deviceShadowEnrich: DeviceShadowEnrichActivity?
+        /// Runs a Lambda function to modify the message.
+        public let lambda: LambdaActivity?
+        /// Removes attributes from a message.
+        public let removeAttributes: RemoveAttributesActivity?
+        /// Adds data from the AWS IoT device registry to your message.
+        public let deviceRegistryEnrich: DeviceRegistryEnrichActivity?
+        /// Adds other attributes based on existing attributes in the message.
+        public let addAttributes: AddAttributesActivity?
+        /// Creates a new message using only the specified attributes from the original message. 
+        public let selectAttributes: SelectAttributesActivity?
+        /// Specifies where to store the processed message data.
+        public let datastore: DatastoreActivity?
+        /// Determines the source of the messages to be processed.
+        public let channel: ChannelActivity?
+
+        public init(math: MathActivity? = nil, filter: FilterActivity? = nil, deviceShadowEnrich: DeviceShadowEnrichActivity? = nil, lambda: LambdaActivity? = nil, removeAttributes: RemoveAttributesActivity? = nil, deviceRegistryEnrich: DeviceRegistryEnrichActivity? = nil, addAttributes: AddAttributesActivity? = nil, selectAttributes: SelectAttributesActivity? = nil, datastore: DatastoreActivity? = nil, channel: ChannelActivity? = nil) {
+            self.math = math
+            self.filter = filter
+            self.deviceShadowEnrich = deviceShadowEnrich
+            self.lambda = lambda
+            self.removeAttributes = removeAttributes
+            self.deviceRegistryEnrich = deviceRegistryEnrich
+            self.addAttributes = addAttributes
+            self.selectAttributes = selectAttributes
+            self.datastore = datastore
+            self.channel = channel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case math = "math"
+            case filter = "filter"
+            case deviceShadowEnrich = "deviceShadowEnrich"
+            case lambda = "lambda"
+            case removeAttributes = "removeAttributes"
+            case deviceRegistryEnrich = "deviceRegistryEnrich"
+            case addAttributes = "addAttributes"
+            case selectAttributes = "selectAttributes"
+            case datastore = "datastore"
+            case channel = "channel"
+        }
+    }
+
+    public struct Pipeline: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "activities", required: false, type: .list), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "reprocessingSummaries", required: false, type: .list)
+        ]
+        /// The last time the pipeline was updated.
+        public let lastUpdateTime: TimeStamp?
+        /// The activities that perform transformations on the messages.
+        public let activities: [PipelineActivity]?
+        /// The name of the pipeline.
+        public let name: String?
+        /// When the pipeline was created.
+        public let creationTime: TimeStamp?
+        /// The ARN of the pipeline.
+        public let arn: String?
+        /// A summary of information about the pipeline reprocessing.
+        public let reprocessingSummaries: [ReprocessingSummary]?
+
+        public init(lastUpdateTime: TimeStamp? = nil, activities: [PipelineActivity]? = nil, name: String? = nil, creationTime: TimeStamp? = nil, arn: String? = nil, reprocessingSummaries: [ReprocessingSummary]? = nil) {
+            self.lastUpdateTime = lastUpdateTime
+            self.activities = activities
+            self.name = name
+            self.creationTime = creationTime
+            self.arn = arn
+            self.reprocessingSummaries = reprocessingSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdateTime = "lastUpdateTime"
+            case activities = "activities"
+            case name = "name"
+            case creationTime = "creationTime"
+            case arn = "arn"
+            case reprocessingSummaries = "reprocessingSummaries"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string)
+        ]
+        /// The ARN of the resource whose tags you want to list.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct DatasetEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "dataURI", required: false, type: .string), 
+            AWSShapeMember(label: "entryName", required: false, type: .string)
+        ]
+        /// The pre-signed URI of the data set item.
+        public let dataURI: String?
+        /// The name of the data set item.
+        public let entryName: String?
+
+        public init(dataURI: String? = nil, entryName: String? = nil) {
+            self.dataURI = dataURI
+            self.entryName = entryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataURI = "dataURI"
+            case entryName = "entryName"
+        }
+    }
+
+    public struct DatastoreActivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "datastoreName", required: true, type: .string)
+        ]
+        /// The name of the 'datastore' activity.
+        public let name: String
+        /// The name of the data store where processed messages are stored.
+        public let datastoreName: String
+
+        public init(name: String, datastoreName: String) {
+            self.name = name
+            self.datastoreName = datastoreName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case datastoreName = "datastoreName"
+        }
+    }
+
+    public struct OutputFileUriValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fileName", required: true, type: .string)
+        ]
+        /// The URI of the location where data set contents are stored, usually the URI of a file in an S3 bucket.
+        public let fileName: String
+
+        public init(fileName: String) {
+            self.fileName = fileName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileName = "fileName"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+    }
+
+    public struct CreateChannelRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "channelName", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure)
+        ]
+        /// The name of the channel.
+        public let channelName: String
+        /// Metadata which can be used to manage the channel.
+        public let tags: [Tag]?
+        /// How long, in days, message data is kept for the channel.
+        public let retentionPeriod: RetentionPeriod?
+
+        public init(channelName: String, tags: [Tag]? = nil, retentionPeriod: RetentionPeriod? = nil) {
+            self.channelName = channelName
+            self.tags = tags
+            self.retentionPeriod = retentionPeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelName = "channelName"
+            case tags = "tags"
+            case retentionPeriod = "retentionPeriod"
+        }
+    }
+
+    public struct ListDatasetContentsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "datasetContentSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// Summary information about data set contents that have been created.
+        public let datasetContentSummaries: [DatasetContentSummary]?
+        /// The token to retrieve the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        public init(datasetContentSummaries: [DatasetContentSummary]? = nil, nextToken: String? = nil) {
+            self.datasetContentSummaries = datasetContentSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetContentSummaries = "datasetContentSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct RemoveAttributesActivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "next", required: false, type: .string), 
+            AWSShapeMember(label: "attributes", required: true, type: .list)
+        ]
+        /// The name of the 'removeAttributes' activity.
+        public let name: String
+        /// The next activity in the pipeline.
+        public let next: String?
+        /// A list of 1-50 attributes to remove from the message.
+        public let attributes: [String]
+
+        public init(name: String, next: String? = nil, attributes: [String]) {
+            self.name = name
+            self.next = next
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case next = "next"
+            case attributes = "attributes"
+        }
+    }
+
+    public struct DatasetContentVersionValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "datasetName", required: true, type: .string)
+        ]
+        /// The name of the data set whose latest contents will be used as input to the notebook or application.
+        public let datasetName: String
+
+        public init(datasetName: String) {
+            self.datasetName = datasetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetName = "datasetName"
+        }
+    }
+
+    public struct Datastore: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure)
+        ]
+        /// The last time the data store was updated.
+        public let lastUpdateTime: TimeStamp?
+        /// When the data store was created.
+        public let creationTime: TimeStamp?
+        /// The name of the data store.
+        public let name: String?
+        /// The status of a data store:  CREATING  The data store is being created.  ACTIVE  The data store has been created and can be used.  DELETING  The data store is being deleted.  
+        public let status: DatastoreStatus?
+        /// The ARN of the data store.
+        public let arn: String?
+        /// How long, in days, message data is kept for the data store.
+        public let retentionPeriod: RetentionPeriod?
+
+        public init(lastUpdateTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, name: String? = nil, status: DatastoreStatus? = nil, arn: String? = nil, retentionPeriod: RetentionPeriod? = nil) {
+            self.lastUpdateTime = lastUpdateTime
+            self.creationTime = creationTime
+            self.name = name
+            self.status = status
+            self.arn = arn
+            self.retentionPeriod = retentionPeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdateTime = "lastUpdateTime"
+            case creationTime = "creationTime"
+            case name = "name"
+            case status = "status"
+            case arn = "arn"
+            case retentionPeriod = "retentionPeriod"
+        }
+    }
+
+    public struct CreateChannelResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "channelName", required: false, type: .string), 
+            AWSShapeMember(label: "channelArn", required: false, type: .string), 
+            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure)
+        ]
+        /// The name of the channel.
+        public let channelName: String?
+        /// The ARN of the channel.
+        public let channelArn: String?
+        /// How long, in days, message data is kept for the channel.
+        public let retentionPeriod: RetentionPeriod?
+
+        public init(channelName: String? = nil, channelArn: String? = nil, retentionPeriod: RetentionPeriod? = nil) {
+            self.channelName = channelName
+            self.channelArn = channelArn
+            self.retentionPeriod = retentionPeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelName = "channelName"
+            case channelArn = "channelArn"
+            case retentionPeriod = "retentionPeriod"
+        }
+    }
+
+    public struct LambdaActivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "batchSize", required: true, type: .integer), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "lambdaName", required: true, type: .string), 
+            AWSShapeMember(label: "next", required: false, type: .string)
+        ]
+        /// The number of messages passed to the Lambda function for processing. The AWS Lambda function must be able to process all of these messages within five minutes, which is the maximum timeout duration for Lambda functions.
+        public let batchSize: Int32
+        /// The name of the 'lambda' activity.
+        public let name: String
+        /// The name of the Lambda function that is run on the message.
+        public let lambdaName: String
+        /// The next activity in the pipeline.
+        public let next: String?
+
+        public init(batchSize: Int32, name: String, lambdaName: String, next: String? = nil) {
+            self.batchSize = batchSize
+            self.name = name
+            self.lambdaName = lambdaName
+            self.next = next
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchSize = "batchSize"
+            case name = "name"
+            case lambdaName = "lambdaName"
+            case next = "next"
+        }
+    }
+
+    public struct UpdateDatastoreRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "datastoreName", location: .uri(locationName: "datastoreName"), required: true, type: .string), 
+            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure)
+        ]
+        /// The name of the data store to be updated.
+        public let datastoreName: String
+        /// How long, in days, message data is kept for the data store.
+        public let retentionPeriod: RetentionPeriod?
+
+        public init(datastoreName: String, retentionPeriod: RetentionPeriod? = nil) {
+            self.datastoreName = datastoreName
+            self.retentionPeriod = retentionPeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datastoreName = "datastoreName"
+            case retentionPeriod = "retentionPeriod"
+        }
+    }
+
+    public struct Message: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "messageId", required: true, type: .string), 
+            AWSShapeMember(label: "payload", required: true, type: .blob)
+        ]
+        /// The ID you wish to assign to the message. Each "messageId" must be unique within each batch sent.
+        public let messageId: String
+        /// The payload of the message. This may be a JSON string or a Base64-encoded string representing binary data (in which case you must decode it by means of a pipeline activity).
+        public let payload: Data
+
+        public init(messageId: String, payload: Data) {
+            self.messageId = messageId
+            self.payload = payload
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageId = "messageId"
+            case payload = "payload"
+        }
+    }
+
+    public struct QueryFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deltaTime", required: false, type: .structure)
+        ]
+        /// Used to limit data to that which has arrived since the last execution of the action. When you create data set contents using message data from a specified time frame, some message data may still be "in flight" when processing begins, and so will not arrive in time to be processed. Use this field to make allowances for the "in flight" time of you message data, so that data not processed from a previous time frame will be included with the next time frame. Without this, missed message data would be excluded from processing during the next time frame as well, because its timestamp places it within the previous time frame.
+        public let deltaTime: DeltaTime?
+
+        public init(deltaTime: DeltaTime? = nil) {
+            self.deltaTime = deltaTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deltaTime = "deltaTime"
+        }
+    }
+
+    public struct CreateDatastoreRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "datastoreName", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure)
+        ]
+        /// The name of the data store.
+        public let datastoreName: String
+        /// Metadata which can be used to manage the data store.
+        public let tags: [Tag]?
+        /// How long, in days, message data is kept for the data store.
+        public let retentionPeriod: RetentionPeriod?
+
+        public init(datastoreName: String, tags: [Tag]? = nil, retentionPeriod: RetentionPeriod? = nil) {
+            self.datastoreName = datastoreName
+            self.tags = tags
+            self.retentionPeriod = retentionPeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datastoreName = "datastoreName"
+            case tags = "tags"
+            case retentionPeriod = "retentionPeriod"
+        }
+    }
+
+    public struct GetDatasetContentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string), 
+            AWSShapeMember(label: "versionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
+        ]
+        /// The name of the data set whose contents are retrieved.
+        public let datasetName: String
+        /// The version of the data set whose contents are retrieved. You can also use the strings "$LATEST" or "$LATEST_SUCCEEDED" to retrieve the contents of the latest or latest successfully completed data set. If not specified, "$LATEST_SUCCEEDED" is the default.
+        public let versionId: String?
+
+        public init(datasetName: String, versionId: String? = nil) {
+            self.datasetName = datasetName
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetName = "datasetName"
+            case versionId = "versionId"
+        }
+    }
+
+    public struct DescribeChannelResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "statistics", required: false, type: .structure), 
+            AWSShapeMember(label: "channel", required: false, type: .structure)
+        ]
+        /// Statistics about the channel. Included if the 'includeStatistics' parameter is set to true in the request.
+        public let statistics: ChannelStatistics?
+        /// An object that contains information about the channel.
+        public let channel: Channel?
+
+        public init(statistics: ChannelStatistics? = nil, channel: Channel? = nil) {
+            self.statistics = statistics
+            self.channel = channel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statistics = "statistics"
+            case channel = "channel"
         }
     }
 
@@ -93,29 +924,166 @@ extension IoTAnalytics {
         }
     }
 
-    public struct SelectAttributesActivity: AWSShape {
+    public struct DeleteDatasetContentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "next", required: false, type: .string), 
-            AWSShapeMember(label: "attributes", required: true, type: .list), 
+            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string), 
+            AWSShapeMember(label: "versionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
+        ]
+        /// The name of the data set whose content is deleted.
+        public let datasetName: String
+        /// The version of the data set whose content is deleted. You can also use the strings "$LATEST" or "$LATEST_SUCCEEDED" to delete the latest or latest successfully completed data set. If not specified, "$LATEST_SUCCEEDED" is the default.
+        public let versionId: String?
+
+        public init(datasetName: String, versionId: String? = nil) {
+            self.datasetName = datasetName
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetName = "datasetName"
+            case versionId = "versionId"
+        }
+    }
+
+    public struct TriggeringDataset: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string)
         ]
-        /// The next activity in the pipeline.
-        public let next: String?
-        /// A list of the attributes to select from the message.
-        public let attributes: [String]
-        /// The name of the 'selectAttributes' activity.
+        /// The name of the data set whose content generation will trigger the new data set content generation.
         public let name: String
 
-        public init(next: String? = nil, attributes: [String], name: String) {
-            self.next = next
-            self.attributes = attributes
+        public init(name: String) {
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct DescribeDatastoreRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "datastoreName", location: .uri(locationName: "datastoreName"), required: true, type: .string), 
+            AWSShapeMember(label: "includeStatistics", location: .querystring(locationName: "includeStatistics"), required: false, type: .boolean)
+        ]
+        /// The name of the data store
+        public let datastoreName: String
+        /// If true, additional statistical information about the datastore is included in the response.
+        public let includeStatistics: Bool?
+
+        public init(datastoreName: String, includeStatistics: Bool? = nil) {
+            self.datastoreName = datastoreName
+            self.includeStatistics = includeStatistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datastoreName = "datastoreName"
+            case includeStatistics = "includeStatistics"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .list)
+        ]
+        /// The tags (metadata) which you have assigned to the resource.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateDatasetContentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "versionId", required: false, type: .string)
+        ]
+        /// The version ID of the data set contents which are being created.
+        public let versionId: String?
+
+        public init(versionId: String? = nil) {
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case versionId = "versionId"
+        }
+    }
+
+    public struct ListChannelsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The maximum number of results to return in this request. The default value is 100.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct BatchPutMessageErrorEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "messageId", required: false, type: .string), 
+            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "errorCode", required: false, type: .string)
+        ]
+        /// The ID of the message that caused the error. (See the value corresponding to the "messageId" key in the message object.)
+        public let messageId: String?
+        /// The message associated with the error.
+        public let errorMessage: String?
+        /// The code associated with the error.
+        public let errorCode: String?
+
+        public init(messageId: String? = nil, errorMessage: String? = nil, errorCode: String? = nil) {
+            self.messageId = messageId
+            self.errorMessage = errorMessage
+            self.errorCode = errorCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageId = "messageId"
+            case errorMessage = "errorMessage"
+            case errorCode = "errorCode"
+        }
+    }
+
+    public struct AddAttributesActivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "next", required: false, type: .string), 
+            AWSShapeMember(label: "attributes", required: true, type: .map)
+        ]
+        /// The name of the 'addAttributes' activity.
+        public let name: String
+        /// The next activity in the pipeline.
+        public let next: String?
+        /// A list of 1-50 "AttributeNameMapping" objects that map an existing attribute to a new attribute.  The existing attributes remain in the message, so if you want to remove the originals, use "RemoveAttributeActivity". 
+        public let attributes: [String: String]
+
+        public init(name: String, next: String? = nil, attributes: [String: String]) {
+            self.name = name
+            self.next = next
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
             case next = "next"
             case attributes = "attributes"
-            case name = "name"
         }
     }
 
@@ -124,7 +1092,7 @@ extension IoTAnalytics {
             AWSShapeMember(label: "includeStatistics", location: .querystring(locationName: "includeStatistics"), required: false, type: .boolean), 
             AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName"), required: true, type: .string)
         ]
-        /// If true, include statistics about the channel in the response.
+        /// If true, additional statistical information about the channel is included in the response.
         public let includeStatistics: Bool?
         /// The name of the channel whose information is retrieved.
         public let channelName: String
@@ -140,65 +1108,523 @@ extension IoTAnalytics {
         }
     }
 
-    public enum ReprocessingStatus: String, CustomStringConvertible, Codable {
-        case running = "RUNNING"
+    public struct PipelineSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "pipelineName", required: false, type: .string), 
+            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "reprocessingSummaries", required: false, type: .list)
+        ]
+        /// When the pipeline was last updated.
+        public let lastUpdateTime: TimeStamp?
+        /// The name of the pipeline.
+        public let pipelineName: String?
+        /// When the pipeline was created.
+        public let creationTime: TimeStamp?
+        /// A summary of information about the pipeline reprocessing.
+        public let reprocessingSummaries: [ReprocessingSummary]?
+
+        public init(lastUpdateTime: TimeStamp? = nil, pipelineName: String? = nil, creationTime: TimeStamp? = nil, reprocessingSummaries: [ReprocessingSummary]? = nil) {
+            self.lastUpdateTime = lastUpdateTime
+            self.pipelineName = pipelineName
+            self.creationTime = creationTime
+            self.reprocessingSummaries = reprocessingSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdateTime = "lastUpdateTime"
+            case pipelineName = "pipelineName"
+            case creationTime = "creationTime"
+            case reprocessingSummaries = "reprocessingSummaries"
+        }
+    }
+
+    public enum DatasetContentState: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
         case succeeded = "SUCCEEDED"
-        case cancelled = "CANCELLED"
         case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
-    public struct Dataset: AWSShape {
+    public struct GetDatasetContentResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "actions", required: false, type: .list), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "triggers", required: false, type: .list), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
+            AWSShapeMember(label: "status", required: false, type: .structure), 
+            AWSShapeMember(label: "timestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "entries", required: false, type: .list)
         ]
-        /// The name of the data set.
-        public let name: String?
-        /// The last time the data set was updated.
-        public let lastUpdateTime: TimeStamp?
-        /// The "DatasetAction" objects that create the data set.
-        public let actions: [DatasetAction]?
-        /// The ARN of the data set.
-        public let arn: String?
-        /// When the data set was created.
-        public let creationTime: TimeStamp?
-        /// The "DatasetTrigger" objects that specify when the data set is automatically updated.
-        public let triggers: [DatasetTrigger]?
-        /// The status of the data set.
-        public let status: DatasetStatus?
+        /// The status of the data set content.
+        public let status: DatasetContentStatus?
+        /// The time when the request was made.
+        public let timestamp: TimeStamp?
+        /// A list of "DatasetEntry" objects.
+        public let entries: [DatasetEntry]?
 
-        public init(name: String? = nil, lastUpdateTime: TimeStamp? = nil, actions: [DatasetAction]? = nil, arn: String? = nil, creationTime: TimeStamp? = nil, triggers: [DatasetTrigger]? = nil, status: DatasetStatus? = nil) {
-            self.name = name
-            self.lastUpdateTime = lastUpdateTime
-            self.actions = actions
-            self.arn = arn
-            self.creationTime = creationTime
-            self.triggers = triggers
+        public init(status: DatasetContentStatus? = nil, timestamp: TimeStamp? = nil, entries: [DatasetEntry]? = nil) {
             self.status = status
+            self.timestamp = timestamp
+            self.entries = entries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case timestamp = "timestamp"
+            case entries = "entries"
+        }
+    }
+
+    public struct ListDatastoresRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The maximum number of results to return in this request. The default value is 100.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct DeleteDatastoreRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "datastoreName", location: .uri(locationName: "datastoreName"), required: true, type: .string)
+        ]
+        /// The name of the data store to delete.
+        public let datastoreName: String
+
+        public init(datastoreName: String) {
+            self.datastoreName = datastoreName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datastoreName = "datastoreName"
+        }
+    }
+
+    public struct ListPipelinesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "pipelineSummaries", required: false, type: .list)
+        ]
+        /// The token to retrieve the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// A list of "PipelineSummary" objects.
+        public let pipelineSummaries: [PipelineSummary]?
+
+        public init(nextToken: String? = nil, pipelineSummaries: [PipelineSummary]? = nil) {
+            self.nextToken = nextToken
+            self.pipelineSummaries = pipelineSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case pipelineSummaries = "pipelineSummaries"
+        }
+    }
+
+    public struct ListDatastoresResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "datastoreSummaries", required: false, type: .list)
+        ]
+        /// The token to retrieve the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// A list of "DatastoreSummary" objects.
+        public let datastoreSummaries: [DatastoreSummary]?
+
+        public init(nextToken: String? = nil, datastoreSummaries: [DatastoreSummary]? = nil) {
+            self.nextToken = nextToken
+            self.datastoreSummaries = datastoreSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case datastoreSummaries = "datastoreSummaries"
+        }
+    }
+
+    public struct RunPipelineActivityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "payloads", required: true, type: .list), 
+            AWSShapeMember(label: "pipelineActivity", required: true, type: .structure)
+        ]
+        /// The sample message payloads on which the pipeline activity is run.
+        public let payloads: [Data]
+        /// The pipeline activity that is run. This must not be a 'channel' activity or a 'datastore' activity because these activities are used in a pipeline only to load the original message and to store the (possibly) transformed message. If a 'lambda' activity is specified, only short-running Lambda functions (those with a timeout of less than 30 seconds or less) can be used.
+        public let pipelineActivity: PipelineActivity
+
+        public init(payloads: [Data], pipelineActivity: PipelineActivity) {
+            self.payloads = payloads
+            self.pipelineActivity = pipelineActivity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case payloads = "payloads"
+            case pipelineActivity = "pipelineActivity"
+        }
+    }
+
+    public struct DescribeDatastoreResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "datastore", required: false, type: .structure), 
+            AWSShapeMember(label: "statistics", required: false, type: .structure)
+        ]
+        /// Information about the data store.
+        public let datastore: Datastore?
+        /// Additional statistical information about the data store. Included if the 'includeStatistics' parameter is set to true in the request.
+        public let statistics: DatastoreStatistics?
+
+        public init(datastore: Datastore? = nil, statistics: DatastoreStatistics? = nil) {
+            self.datastore = datastore
+            self.statistics = statistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datastore = "datastore"
+            case statistics = "statistics"
+        }
+    }
+
+    public struct DeviceRegistryEnrichActivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attribute", required: true, type: .string), 
+            AWSShapeMember(label: "next", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "thingName", required: true, type: .string)
+        ]
+        /// The name of the attribute that is added to the message.
+        public let attribute: String
+        /// The next activity in the pipeline.
+        public let next: String?
+        /// The name of the 'deviceRegistryEnrich' activity.
+        public let name: String
+        /// The ARN of the role that allows access to the device's registry information.
+        public let roleArn: String
+        /// The name of the IoT device whose registry information is added to the message.
+        public let thingName: String
+
+        public init(attribute: String, next: String? = nil, name: String, roleArn: String, thingName: String) {
+            self.attribute = attribute
+            self.next = next
+            self.name = name
+            self.roleArn = roleArn
+            self.thingName = thingName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "attribute"
+            case next = "next"
+            case name = "name"
+            case roleArn = "roleArn"
+            case thingName = "thingName"
+        }
+    }
+
+    public struct DatasetContentDeliveryRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destination", required: true, type: .structure), 
+            AWSShapeMember(label: "entryName", required: false, type: .string)
+        ]
+        public let destination: DatasetContentDeliveryDestination
+        public let entryName: String?
+
+        public init(destination: DatasetContentDeliveryDestination, entryName: String? = nil) {
+            self.destination = destination
+            self.entryName = entryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case entryName = "entryName"
+        }
+    }
+
+    public struct DatasetTrigger: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "schedule", required: false, type: .structure), 
+            AWSShapeMember(label: "dataset", required: false, type: .structure)
+        ]
+        /// The "Schedule" when the trigger is initiated.
+        public let schedule: Schedule?
+        /// The data set whose content creation will trigger the creation of this data set's contents.
+        public let dataset: TriggeringDataset?
+
+        public init(schedule: Schedule? = nil, dataset: TriggeringDataset? = nil) {
+            self.schedule = schedule
+            self.dataset = dataset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schedule = "schedule"
+            case dataset = "dataset"
+        }
+    }
+
+    public struct RetentionPeriod: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "unlimited", required: false, type: .boolean), 
+            AWSShapeMember(label: "numberOfDays", required: false, type: .integer)
+        ]
+        /// If true, message data is kept indefinitely.
+        public let unlimited: Bool?
+        /// The number of days that message data is kept. The "unlimited" parameter must be false.
+        public let numberOfDays: Int32?
+
+        public init(unlimited: Bool? = nil, numberOfDays: Int32? = nil) {
+            self.unlimited = unlimited
+            self.numberOfDays = numberOfDays
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unlimited = "unlimited"
+            case numberOfDays = "numberOfDays"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+    }
+
+    public struct UpdateDatasetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actions", required: true, type: .list), 
+            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string), 
+            AWSShapeMember(label: "contentDeliveryRules", required: false, type: .list), 
+            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
+            AWSShapeMember(label: "triggers", required: false, type: .list)
+        ]
+        /// A list of "DatasetAction" objects.
+        public let actions: [DatasetAction]
+        /// The name of the data set to update.
+        public let datasetName: String
+        public let contentDeliveryRules: [DatasetContentDeliveryRule]?
+        /// How long, in days, message data is kept for the data set.
+        public let retentionPeriod: RetentionPeriod?
+        /// A list of "DatasetTrigger" objects. The list can be empty or can contain up to five DataSetTrigger objects.
+        public let triggers: [DatasetTrigger]?
+
+        public init(actions: [DatasetAction], datasetName: String, contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, retentionPeriod: RetentionPeriod? = nil, triggers: [DatasetTrigger]? = nil) {
+            self.actions = actions
+            self.datasetName = datasetName
+            self.contentDeliveryRules = contentDeliveryRules
+            self.retentionPeriod = retentionPeriod
+            self.triggers = triggers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+            case datasetName = "datasetName"
+            case contentDeliveryRules = "contentDeliveryRules"
+            case retentionPeriod = "retentionPeriod"
+            case triggers = "triggers"
+        }
+    }
+
+    public struct RunPipelineActivityResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "payloads", required: false, type: .list), 
+            AWSShapeMember(label: "logResult", required: false, type: .string)
+        ]
+        /// The enriched or transformed sample message payloads as base64-encoded strings. (The results of running the pipeline activity on each input sample message payload, encoded in base64.)
+        public let payloads: [Data]?
+        /// In case the pipeline activity fails, the log message that is generated.
+        public let logResult: String?
+
+        public init(payloads: [Data]? = nil, logResult: String? = nil) {
+            self.payloads = payloads
+            self.logResult = logResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case payloads = "payloads"
+            case logResult = "logResult"
+        }
+    }
+
+    public struct ContainerDatasetAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "variables", required: false, type: .list), 
+            AWSShapeMember(label: "resourceConfiguration", required: true, type: .structure), 
+            AWSShapeMember(label: "executionRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "image", required: true, type: .string)
+        ]
+        /// The values of variables used within the context of the execution of the containerized application (basically, parameters passed to the application). Each variable must have a name and a value given by one of "stringValue", "datasetContentVersionValue", or "outputFileUriValue".
+        public let variables: [Variable]?
+        /// Configuration of the resource which executes the "containerAction".
+        public let resourceConfiguration: ResourceConfiguration
+        /// The ARN of the role which gives permission to the system to access needed resources in order to run the "containerAction". This includes, at minimum, permission to retrieve the data set contents which are the input to the containerized application.
+        public let executionRoleArn: String
+        /// The ARN of the Docker container stored in your account. The Docker container contains an application and needed support libraries and is used to generate data set contents.
+        public let image: String
+
+        public init(variables: [Variable]? = nil, resourceConfiguration: ResourceConfiguration, executionRoleArn: String, image: String) {
+            self.variables = variables
+            self.resourceConfiguration = resourceConfiguration
+            self.executionRoleArn = executionRoleArn
+            self.image = image
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case variables = "variables"
+            case resourceConfiguration = "resourceConfiguration"
+            case executionRoleArn = "executionRoleArn"
+            case image = "image"
+        }
+    }
+
+    public struct CreateDatasetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "actions", required: true, type: .list), 
+            AWSShapeMember(label: "datasetName", required: true, type: .string), 
+            AWSShapeMember(label: "contentDeliveryRules", required: false, type: .list), 
+            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
+            AWSShapeMember(label: "triggers", required: false, type: .list)
+        ]
+        /// Metadata which can be used to manage the data set.
+        public let tags: [Tag]?
+        /// A list of actions that create the data set contents.
+        public let actions: [DatasetAction]
+        /// The name of the data set.
+        public let datasetName: String
+        public let contentDeliveryRules: [DatasetContentDeliveryRule]?
+        /// [Optional] How long, in days, message data is kept for the data set. If not given or set to null, the latest version of the dataset content plus the latest succeeded version (if they are different) are retained for at most 90 days.
+        public let retentionPeriod: RetentionPeriod?
+        /// A list of triggers. A trigger causes data set contents to be populated at a specified time interval or when another data set's contents are created. The list of triggers can be empty or contain up to five DataSetTrigger objects.
+        public let triggers: [DatasetTrigger]?
+
+        public init(tags: [Tag]? = nil, actions: [DatasetAction], datasetName: String, contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, retentionPeriod: RetentionPeriod? = nil, triggers: [DatasetTrigger]? = nil) {
+            self.tags = tags
+            self.actions = actions
+            self.datasetName = datasetName
+            self.contentDeliveryRules = contentDeliveryRules
+            self.retentionPeriod = retentionPeriod
+            self.triggers = triggers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case actions = "actions"
+            case datasetName = "datasetName"
+            case contentDeliveryRules = "contentDeliveryRules"
+            case retentionPeriod = "retentionPeriod"
+            case triggers = "triggers"
+        }
+    }
+
+    public struct ChannelSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "channelName", required: false, type: .string)
+        ]
+        /// The last time the channel was updated.
+        public let lastUpdateTime: TimeStamp?
+        /// When the channel was created.
+        public let creationTime: TimeStamp?
+        /// The status of the channel.
+        public let status: ChannelStatus?
+        /// The name of the channel.
+        public let channelName: String?
+
+        public init(lastUpdateTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, status: ChannelStatus? = nil, channelName: String? = nil) {
+            self.lastUpdateTime = lastUpdateTime
+            self.creationTime = creationTime
+            self.status = status
+            self.channelName = channelName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdateTime = "lastUpdateTime"
+            case creationTime = "creationTime"
+            case status = "status"
+            case channelName = "channelName"
+        }
+    }
+
+    public struct DescribeDatasetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "dataset", required: false, type: .structure)
+        ]
+        /// An object that contains information about the data set.
+        public let dataset: Dataset?
+
+        public init(dataset: Dataset? = nil) {
+            self.dataset = dataset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataset = "dataset"
+        }
+    }
+
+    public struct ReprocessingSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "creationTime", required: false, type: .timestamp)
+        ]
+        /// The status of the pipeline reprocessing.
+        public let status: ReprocessingStatus?
+        /// The 'reprocessingId' returned by "StartPipelineReprocessing".
+        public let id: String?
+        /// The time the pipeline reprocessing was created.
+        public let creationTime: TimeStamp?
+
+        public init(status: ReprocessingStatus? = nil, id: String? = nil, creationTime: TimeStamp? = nil) {
+            self.status = status
+            self.id = id
+            self.creationTime = creationTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case id = "id"
+            case creationTime = "creationTime"
+        }
+    }
+
+    public struct SelectAttributesActivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "next", required: false, type: .string), 
+            AWSShapeMember(label: "attributes", required: true, type: .list)
+        ]
+        /// The name of the 'selectAttributes' activity.
+        public let name: String
+        /// The next activity in the pipeline.
+        public let next: String?
+        /// A list of the attributes to select from the message.
+        public let attributes: [String]
+
+        public init(name: String, next: String? = nil, attributes: [String]) {
+            self.name = name
+            self.next = next
+            self.attributes = attributes
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
-            case lastUpdateTime = "lastUpdateTime"
-            case actions = "actions"
-            case arn = "arn"
-            case creationTime = "creationTime"
-            case triggers = "triggers"
-            case status = "status"
+            case next = "next"
+            case attributes = "attributes"
         }
     }
 
-    public struct DeleteDatasetRequest: AWSShape {
+    public struct DescribeDatasetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string)
         ]
-        /// The name of the data set to delete.
+        /// The name of the data set whose information is retrieved.
         public let datasetName: String
 
         public init(datasetName: String) {
@@ -207,6 +1633,353 @@ extension IoTAnalytics {
 
         private enum CodingKeys: String, CodingKey {
             case datasetName = "datasetName"
+        }
+    }
+
+    public enum DatasetActionType: String, CustomStringConvertible, Codable {
+        case query = "QUERY"
+        case container = "CONTAINER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReprocessingStatus: String, CustomStringConvertible, Codable {
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StartPipelineReprocessingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"), required: true, type: .string)
+        ]
+        /// The end time (exclusive) of raw message data that is reprocessed.
+        public let endTime: TimeStamp?
+        /// The start time (inclusive) of raw message data that is reprocessed.
+        public let startTime: TimeStamp?
+        /// The name of the pipeline on which to start reprocessing.
+        public let pipelineName: String
+
+        public init(endTime: TimeStamp? = nil, startTime: TimeStamp? = nil, pipelineName: String) {
+            self.endTime = endTime
+            self.startTime = startTime
+            self.pipelineName = pipelineName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case startTime = "startTime"
+            case pipelineName = "pipelineName"
+        }
+    }
+
+    public struct StartPipelineReprocessingResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "reprocessingId", required: false, type: .string)
+        ]
+        /// The ID of the pipeline reprocessing activity that was started.
+        public let reprocessingId: String?
+
+        public init(reprocessingId: String? = nil) {
+            self.reprocessingId = reprocessingId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reprocessingId = "reprocessingId"
+        }
+    }
+
+    public struct DescribePipelineResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipeline", required: false, type: .structure)
+        ]
+        /// A "Pipeline" object that contains information about the pipeline.
+        public let pipeline: Pipeline?
+
+        public init(pipeline: Pipeline? = nil) {
+            self.pipeline = pipeline
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipeline = "pipeline"
+        }
+    }
+
+    public struct Dataset: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "contentDeliveryRules", required: false, type: .list), 
+            AWSShapeMember(label: "actions", required: false, type: .list), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
+            AWSShapeMember(label: "triggers", required: false, type: .list), 
+            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp)
+        ]
+        /// When the data set was created.
+        public let creationTime: TimeStamp?
+        /// The name of the data set.
+        public let name: String?
+        /// The ARN of the data set.
+        public let arn: String?
+        public let contentDeliveryRules: [DatasetContentDeliveryRule]?
+        /// The "DatasetAction" objects that automatically create the data set contents.
+        public let actions: [DatasetAction]?
+        /// The status of the data set.
+        public let status: DatasetStatus?
+        /// [Optional] How long, in days, message data is kept for the data set.
+        public let retentionPeriod: RetentionPeriod?
+        /// The "DatasetTrigger" objects that specify when the data set is automatically updated.
+        public let triggers: [DatasetTrigger]?
+        /// The last time the data set was updated.
+        public let lastUpdateTime: TimeStamp?
+
+        public init(creationTime: TimeStamp? = nil, name: String? = nil, arn: String? = nil, contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, actions: [DatasetAction]? = nil, status: DatasetStatus? = nil, retentionPeriod: RetentionPeriod? = nil, triggers: [DatasetTrigger]? = nil, lastUpdateTime: TimeStamp? = nil) {
+            self.creationTime = creationTime
+            self.name = name
+            self.arn = arn
+            self.contentDeliveryRules = contentDeliveryRules
+            self.actions = actions
+            self.status = status
+            self.retentionPeriod = retentionPeriod
+            self.triggers = triggers
+            self.lastUpdateTime = lastUpdateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case name = "name"
+            case arn = "arn"
+            case contentDeliveryRules = "contentDeliveryRules"
+            case actions = "actions"
+            case status = "status"
+            case retentionPeriod = "retentionPeriod"
+            case triggers = "triggers"
+            case lastUpdateTime = "lastUpdateTime"
+        }
+    }
+
+    public struct CreateDatasetContentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string)
+        ]
+        /// The name of the data set.
+        public let datasetName: String
+
+        public init(datasetName: String) {
+            self.datasetName = datasetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetName = "datasetName"
+        }
+    }
+
+    public struct ListPipelinesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The maximum number of results to return in this request. The default value is 100.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct BatchPutMessageResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "batchPutMessageErrorEntries", required: false, type: .list)
+        ]
+        /// A list of any errors encountered when sending the messages to the channel.
+        public let batchPutMessageErrorEntries: [BatchPutMessageErrorEntry]?
+
+        public init(batchPutMessageErrorEntries: [BatchPutMessageErrorEntry]? = nil) {
+            self.batchPutMessageErrorEntries = batchPutMessageErrorEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchPutMessageErrorEntries = "batchPutMessageErrorEntries"
+        }
+    }
+
+    public enum ChannelStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListDatasetsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The maximum number of results to return in this request. The default value is 100.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct SqlQueryDatasetAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filters", required: false, type: .list), 
+            AWSShapeMember(label: "sqlQuery", required: true, type: .string)
+        ]
+        /// Pre-filters applied to message data.
+        public let filters: [QueryFilter]?
+        /// A SQL query string.
+        public let sqlQuery: String
+
+        public init(filters: [QueryFilter]? = nil, sqlQuery: String) {
+            self.filters = filters
+            self.sqlQuery = sqlQuery
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case sqlQuery = "sqlQuery"
+        }
+    }
+
+    public struct DatastoreStatistics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "size", required: false, type: .structure)
+        ]
+        /// The estimated size of the data store.
+        public let size: EstimatedResourceSize?
+
+        public init(size: EstimatedResourceSize? = nil) {
+            self.size = size
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case size = "size"
+        }
+    }
+
+    public enum LoggingLevel: String, CustomStringConvertible, Codable {
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Channel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure)
+        ]
+        /// When the channel was last updated.
+        public let lastUpdateTime: TimeStamp?
+        /// When the channel was created.
+        public let creationTime: TimeStamp?
+        /// The name of the channel.
+        public let name: String?
+        /// The status of the channel.
+        public let status: ChannelStatus?
+        /// The ARN of the channel.
+        public let arn: String?
+        /// How long, in days, message data is kept for the channel.
+        public let retentionPeriod: RetentionPeriod?
+
+        public init(lastUpdateTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, name: String? = nil, status: ChannelStatus? = nil, arn: String? = nil, retentionPeriod: RetentionPeriod? = nil) {
+            self.lastUpdateTime = lastUpdateTime
+            self.creationTime = creationTime
+            self.name = name
+            self.status = status
+            self.arn = arn
+            self.retentionPeriod = retentionPeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdateTime = "lastUpdateTime"
+            case creationTime = "creationTime"
+            case name = "name"
+            case status = "status"
+            case arn = "arn"
+            case retentionPeriod = "retentionPeriod"
+        }
+    }
+
+    public struct IotEventsDestinationConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "inputName", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
+        ]
+        public let inputName: String
+        public let roleArn: String
+
+        public init(inputName: String, roleArn: String) {
+            self.inputName = inputName
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputName = "inputName"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct DescribePipelineRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"), required: true, type: .string)
+        ]
+        /// The name of the pipeline whose information is retrieved.
+        public let pipelineName: String
+
+        public init(pipelineName: String) {
+            self.pipelineName = pipelineName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineName = "pipelineName"
+        }
+    }
+
+    public struct BatchPutMessageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "messages", required: true, type: .list), 
+            AWSShapeMember(label: "channelName", required: true, type: .string)
+        ]
+        /// The list of messages to be sent. Each message has format: '{ "messageId": "string", "payload": "string"}'.
+        public let messages: [Message]
+        /// The name of the channel where the messages are sent.
+        public let channelName: String
+
+        public init(messages: [Message], channelName: String) {
+            self.messages = messages
+            self.channelName = channelName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messages = "messages"
+            case channelName = "channelName"
         }
     }
 
@@ -236,264 +2009,24 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ResourceConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .list)
+            AWSShapeMember(label: "computeType", required: true, type: .enum), 
+            AWSShapeMember(label: "volumeSizeInGB", required: true, type: .integer)
         ]
-        /// The tags (metadata) which you have assigned to the resource.
-        public let tags: [Tag]?
+        /// The type of the compute resource used to execute the "containerAction". Possible values are: ACU_1 (vCPU=4, memory=16GiB) or ACU_2 (vCPU=8, memory=32GiB).
+        public let computeType: ComputeType
+        /// The size (in GB) of the persistent storage available to the resource instance used to execute the "containerAction" (min: 1, max: 50).
+        public let volumeSizeInGB: Int32
 
-        public init(tags: [Tag]? = nil) {
-            self.tags = tags
+        public init(computeType: ComputeType, volumeSizeInGB: Int32) {
+            self.computeType = computeType
+            self.volumeSizeInGB = volumeSizeInGB
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-        }
-    }
-
-    public struct DatasetAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionName", required: false, type: .string), 
-            AWSShapeMember(label: "queryAction", required: false, type: .structure)
-        ]
-        /// The name of the data set action.
-        public let actionName: String?
-        /// An "SqlQueryDatasetAction" object that contains the SQL query to modify the message.
-        public let queryAction: SqlQueryDatasetAction?
-
-        public init(actionName: String? = nil, queryAction: SqlQueryDatasetAction? = nil) {
-            self.actionName = actionName
-            self.queryAction = queryAction
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case actionName = "actionName"
-            case queryAction = "queryAction"
-        }
-    }
-
-    public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
-        ]
-        /// The ARN of the resource whose tags will be removed.
-        public let resourceArn: String
-        /// The keys of those tags which will be removed.
-        public let tagKeys: [String]
-
-        public init(resourceArn: String, tagKeys: [String]) {
-            self.resourceArn = resourceArn
-            self.tagKeys = tagKeys
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
-    }
-
-    public struct ChannelStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "size", required: false, type: .structure)
-        ]
-        /// The estimated size of the channel.
-        public let size: EstimatedResourceSize?
-
-        public init(size: EstimatedResourceSize? = nil) {
-            self.size = size
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case size = "size"
-        }
-    }
-
-    public struct Channel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "arn", required: false, type: .string)
-        ]
-        /// When the channel was created.
-        public let creationTime: TimeStamp?
-        /// The status of the channel.
-        public let status: ChannelStatus?
-        /// How long, in days, message data is kept for the channel.
-        public let retentionPeriod: RetentionPeriod?
-        /// The name of the channel.
-        public let name: String?
-        /// When the channel was last updated.
-        public let lastUpdateTime: TimeStamp?
-        /// The ARN of the channel.
-        public let arn: String?
-
-        public init(creationTime: TimeStamp? = nil, status: ChannelStatus? = nil, retentionPeriod: RetentionPeriod? = nil, name: String? = nil, lastUpdateTime: TimeStamp? = nil, arn: String? = nil) {
-            self.creationTime = creationTime
-            self.status = status
-            self.retentionPeriod = retentionPeriod
-            self.name = name
-            self.lastUpdateTime = lastUpdateTime
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTime = "creationTime"
-            case status = "status"
-            case retentionPeriod = "retentionPeriod"
-            case name = "name"
-            case lastUpdateTime = "lastUpdateTime"
-            case arn = "arn"
-        }
-    }
-
-    public struct ListPipelinesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
-        ]
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return in this request. The default value is 100.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct DatasetEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "entryName", required: false, type: .string), 
-            AWSShapeMember(label: "dataURI", required: false, type: .string)
-        ]
-        /// The name of the data set item.
-        public let entryName: String?
-        /// The pre-signed URI of the data set item.
-        public let dataURI: String?
-
-        public init(entryName: String? = nil, dataURI: String? = nil) {
-            self.entryName = entryName
-            self.dataURI = dataURI
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case entryName = "entryName"
-            case dataURI = "dataURI"
-        }
-    }
-
-    public struct ListChannelsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "channelSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// A list of "ChannelSummary" objects.
-        public let channelSummaries: [ChannelSummary]?
-        /// The token to retrieve the next set of results, or null if there are no more results.
-        public let nextToken: String?
-
-        public init(channelSummaries: [ChannelSummary]? = nil, nextToken: String? = nil) {
-            self.channelSummaries = channelSummaries
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case channelSummaries = "channelSummaries"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct DescribePipelineRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"), required: true, type: .string)
-        ]
-        /// The name of the pipeline whose information is retrieved.
-        public let pipelineName: String
-
-        public init(pipelineName: String) {
-            self.pipelineName = pipelineName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pipelineName = "pipelineName"
-        }
-    }
-
-    public struct ListChannelsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
-        ]
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return in this request. The default value is 100.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct DescribeDatasetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string)
-        ]
-        /// The name of the data set whose information is retrieved.
-        public let datasetName: String
-
-        public init(datasetName: String) {
-            self.datasetName = datasetName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case datasetName = "datasetName"
-        }
-    }
-
-    public struct UntagResourceResponse: AWSShape {
-
-    }
-
-    public struct CreateDatastoreResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datastoreName", required: false, type: .string), 
-            AWSShapeMember(label: "datastoreArn", required: false, type: .string), 
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure)
-        ]
-        /// The name of the data store.
-        public let datastoreName: String?
-        /// The ARN of the data store.
-        public let datastoreArn: String?
-        /// How long, in days, message data is kept for the data store.
-        public let retentionPeriod: RetentionPeriod?
-
-        public init(datastoreName: String? = nil, datastoreArn: String? = nil, retentionPeriod: RetentionPeriod? = nil) {
-            self.datastoreName = datastoreName
-            self.datastoreArn = datastoreArn
-            self.retentionPeriod = retentionPeriod
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case datastoreName = "datastoreName"
-            case datastoreArn = "datastoreArn"
-            case retentionPeriod = "retentionPeriod"
+            case computeType = "computeType"
+            case volumeSizeInGB = "volumeSizeInGB"
         }
     }
 
@@ -513,266 +2046,45 @@ extension IoTAnalytics {
         }
     }
 
-    public struct StartPipelineReprocessingRequest: AWSShape {
+    public struct CreatePipelineRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"), required: true, type: .string), 
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp)
-        ]
-        /// The name of the pipeline on which to start reprocessing.
-        public let pipelineName: String
-        /// The end time (exclusive) of raw message data that is reprocessed.
-        public let endTime: TimeStamp?
-        /// The start time (inclusive) of raw message data that is reprocessed.
-        public let startTime: TimeStamp?
-
-        public init(pipelineName: String, endTime: TimeStamp? = nil, startTime: TimeStamp? = nil) {
-            self.pipelineName = pipelineName
-            self.endTime = endTime
-            self.startTime = startTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pipelineName = "pipelineName"
-            case endTime = "endTime"
-            case startTime = "startTime"
-        }
-    }
-
-    public struct RemoveAttributesActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "next", required: false, type: .string), 
-            AWSShapeMember(label: "attributes", required: true, type: .list), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
-        /// The next activity in the pipeline.
-        public let next: String?
-        /// A list of 1-50 attributes to remove from the message.
-        public let attributes: [String]
-        /// The name of the 'removeAttributes' activity.
-        public let name: String
-
-        public init(next: String? = nil, attributes: [String], name: String) {
-            self.next = next
-            self.attributes = attributes
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case next = "next"
-            case attributes = "attributes"
-            case name = "name"
-        }
-    }
-
-    public struct SampleChannelDataRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "maxMessages", location: .querystring(locationName: "maxMessages"), required: false, type: .integer), 
-            AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName"), required: true, type: .string)
-        ]
-        /// The end of the time window from which sample messages are retrieved.
-        public let endTime: TimeStamp?
-        /// The start of the time window from which sample messages are retrieved.
-        public let startTime: TimeStamp?
-        /// The number of sample messages to be retrieved. The limit is 10, the default is also 10.
-        public let maxMessages: Int32?
-        /// The name of the channel whose message samples are retrieved.
-        public let channelName: String
-
-        public init(endTime: TimeStamp? = nil, startTime: TimeStamp? = nil, maxMessages: Int32? = nil, channelName: String) {
-            self.endTime = endTime
-            self.startTime = startTime
-            self.maxMessages = maxMessages
-            self.channelName = channelName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endTime = "endTime"
-            case startTime = "startTime"
-            case maxMessages = "maxMessages"
-            case channelName = "channelName"
-        }
-    }
-
-    public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string)
-        ]
-        /// The ARN of the resource whose tags you want to list.
-        public let resourceArn: String
-
-        public init(resourceArn: String) {
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
-    }
-
-    public enum ChannelStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateDatastoreRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datastoreName", location: .uri(locationName: "datastoreName"), required: true, type: .string), 
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure)
-        ]
-        /// The name of the data store to be updated.
-        public let datastoreName: String
-        /// How long, in days, message data is kept for the data store.
-        public let retentionPeriod: RetentionPeriod?
-
-        public init(datastoreName: String, retentionPeriod: RetentionPeriod? = nil) {
-            self.datastoreName = datastoreName
-            self.retentionPeriod = retentionPeriod
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case datastoreName = "datastoreName"
-            case retentionPeriod = "retentionPeriod"
-        }
-    }
-
-    public struct DescribeLoggingOptionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loggingOptions", required: false, type: .structure)
-        ]
-        /// The current settings of the AWS IoT Analytics logging options.
-        public let loggingOptions: LoggingOptions?
-
-        public init(loggingOptions: LoggingOptions? = nil) {
-            self.loggingOptions = loggingOptions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loggingOptions = "loggingOptions"
-        }
-    }
-
-    public struct RetentionPeriod: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "numberOfDays", required: false, type: .integer), 
-            AWSShapeMember(label: "unlimited", required: false, type: .boolean)
-        ]
-        /// The number of days that message data is kept. The "unlimited" parameter must be false.
-        public let numberOfDays: Int32?
-        /// If true, message data is kept indefinitely.
-        public let unlimited: Bool?
-
-        public init(numberOfDays: Int32? = nil, unlimited: Bool? = nil) {
-            self.numberOfDays = numberOfDays
-            self.unlimited = unlimited
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case numberOfDays = "numberOfDays"
-            case unlimited = "unlimited"
-        }
-    }
-
-    public struct DeviceRegistryEnrichActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "next", required: false, type: .string), 
-            AWSShapeMember(label: "attribute", required: true, type: .string), 
-            AWSShapeMember(label: "thingName", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
-        /// The name of the 'deviceRegistryEnrich' activity.
-        public let name: String
-        /// The next activity in the pipeline.
-        public let next: String?
-        /// The name of the attribute that is added to the message.
-        public let attribute: String
-        /// The name of the IoT device whose registry information is added to the message.
-        public let thingName: String
-        /// The ARN of the role that allows access to the device's registry information.
-        public let roleArn: String
-
-        public init(name: String, next: String? = nil, attribute: String, thingName: String, roleArn: String) {
-            self.name = name
-            self.next = next
-            self.attribute = attribute
-            self.thingName = thingName
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case next = "next"
-            case attribute = "attribute"
-            case thingName = "thingName"
-            case roleArn = "roleArn"
-        }
-    }
-
-    public struct GetDatasetContentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .structure), 
-            AWSShapeMember(label: "entries", required: false, type: .list), 
-            AWSShapeMember(label: "timestamp", required: false, type: .timestamp)
-        ]
-        /// The status of the data set content.
-        public let status: DatasetContentStatus?
-        /// A list of "DatasetEntry" objects.
-        public let entries: [DatasetEntry]?
-        /// The time when the request was made.
-        public let timestamp: TimeStamp?
-
-        public init(status: DatasetContentStatus? = nil, entries: [DatasetEntry]? = nil, timestamp: TimeStamp? = nil) {
-            self.status = status
-            self.entries = entries
-            self.timestamp = timestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "status"
-            case entries = "entries"
-            case timestamp = "timestamp"
-        }
-    }
-
-    public struct DeleteDatastoreRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datastoreName", location: .uri(locationName: "datastoreName"), required: true, type: .string)
-        ]
-        /// The name of the data store to delete.
-        public let datastoreName: String
-
-        public init(datastoreName: String) {
-            self.datastoreName = datastoreName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case datastoreName = "datastoreName"
-        }
-    }
-
-    public struct UpdatePipelineRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "pipelineActivities", required: true, type: .list), 
-            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"), required: true, type: .string)
+            AWSShapeMember(label: "pipelineName", required: true, type: .string)
         ]
-        /// A list of "PipelineActivity" objects. The list can be 1-25 PipelineActivity objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data.
+        /// Metadata which can be used to manage the pipeline.
+        public let tags: [Tag]?
+        /// A list of pipeline activities. The list can be 1-25 PipelineActivity objects. Activities perform transformations on your messages, such as removing, renaming, or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data.
         public let pipelineActivities: [PipelineActivity]
-        /// The name of the pipeline to update.
+        /// The name of the pipeline.
         public let pipelineName: String
 
-        public init(pipelineActivities: [PipelineActivity], pipelineName: String) {
+        public init(tags: [Tag]? = nil, pipelineActivities: [PipelineActivity], pipelineName: String) {
+            self.tags = tags
             self.pipelineActivities = pipelineActivities
             self.pipelineName = pipelineName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
             case pipelineActivities = "pipelineActivities"
             case pipelineName = "pipelineName"
+        }
+    }
+
+    public struct PutLoggingOptionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "loggingOptions", required: true, type: .structure)
+        ]
+        /// The new values of the AWS IoT Analytics logging options.
+        public let loggingOptions: LoggingOptions
+
+        public init(loggingOptions: LoggingOptions) {
+            self.loggingOptions = loggingOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loggingOptions = "loggingOptions"
         }
     }
 
@@ -797,156 +2109,164 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DescribeLoggingOptionsRequest: AWSShape {
-
-    }
-
-    public enum DatastoreStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateChannelRequest: AWSShape {
+    public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "channelName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
+            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list), 
+            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string)
         ]
+        /// The keys of those tags which will be removed.
+        public let tagKeys: [String]
+        /// The ARN of the resource whose tags will be removed.
+        public let resourceArn: String
+
+        public init(tagKeys: [String], resourceArn: String) {
+            self.tagKeys = tagKeys
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagKeys = "tagKeys"
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct MathActivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attribute", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "math", required: true, type: .string), 
+            AWSShapeMember(label: "next", required: false, type: .string)
+        ]
+        /// The name of the attribute that will contain the result of the math operation.
+        public let attribute: String
+        /// The name of the 'math' activity.
+        public let name: String
+        /// An expression that uses one or more existing attributes and must return an integer value.
+        public let math: String
+        /// The next activity in the pipeline.
+        public let next: String?
+
+        public init(attribute: String, name: String, math: String, next: String? = nil) {
+            self.attribute = attribute
+            self.name = name
+            self.math = math
+            self.next = next
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "attribute"
+            case name = "name"
+            case math = "math"
+            case next = "next"
+        }
+    }
+
+    public struct Variable: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "datasetContentVersionValue", required: false, type: .structure), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "doubleValue", required: false, type: .double), 
+            AWSShapeMember(label: "outputFileUriValue", required: false, type: .structure), 
+            AWSShapeMember(label: "stringValue", required: false, type: .string)
+        ]
+        /// The value of the variable as a structure that specifies a data set content version.
+        public let datasetContentVersionValue: DatasetContentVersionValue?
+        /// The name of the variable.
+        public let name: String
+        /// The value of the variable as a double (numeric).
+        public let doubleValue: Double?
+        /// The value of the variable as a structure that specifies an output file URI.
+        public let outputFileUriValue: OutputFileUriValue?
+        /// The value of the variable as a string.
+        public let stringValue: String?
+
+        public init(datasetContentVersionValue: DatasetContentVersionValue? = nil, name: String, doubleValue: Double? = nil, outputFileUriValue: OutputFileUriValue? = nil, stringValue: String? = nil) {
+            self.datasetContentVersionValue = datasetContentVersionValue
+            self.name = name
+            self.doubleValue = doubleValue
+            self.outputFileUriValue = outputFileUriValue
+            self.stringValue = stringValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetContentVersionValue = "datasetContentVersionValue"
+            case name = "name"
+            case doubleValue = "doubleValue"
+            case outputFileUriValue = "outputFileUriValue"
+            case stringValue = "stringValue"
+        }
+    }
+
+    public struct ListDatasetContentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The name of the data set whose contents information you want to list.
+        public let datasetName: String
+        /// The maximum number of results to return in this request.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, datasetName: String, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.datasetName = datasetName
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case datasetName = "datasetName"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct DatasetAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "containerAction", required: false, type: .structure), 
+            AWSShapeMember(label: "actionName", required: false, type: .string), 
+            AWSShapeMember(label: "queryAction", required: false, type: .structure)
+        ]
+        /// Information which allows the system to run a containerized application in order to create the data set contents. The application must be in a Docker container along with any needed support libraries.
+        public let containerAction: ContainerDatasetAction?
+        /// The name of the data set action by which data set contents are automatically created.
+        public let actionName: String?
+        /// An "SqlQueryDatasetAction" object that contains the SQL query to modify the message.
+        public let queryAction: SqlQueryDatasetAction?
+
+        public init(containerAction: ContainerDatasetAction? = nil, actionName: String? = nil, queryAction: SqlQueryDatasetAction? = nil) {
+            self.containerAction = containerAction
+            self.actionName = actionName
+            self.queryAction = queryAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerAction = "containerAction"
+            case actionName = "actionName"
+            case queryAction = "queryAction"
+        }
+    }
+
+    public struct UpdateChannelRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName"), required: true, type: .string), 
+            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure)
+        ]
+        /// The name of the channel to be updated.
+        public let channelName: String
         /// How long, in days, message data is kept for the channel.
         public let retentionPeriod: RetentionPeriod?
-        /// The name of the channel.
-        public let channelName: String
-        /// Metadata which can be used to manage the channel.
-        public let tags: [Tag]?
 
-        public init(retentionPeriod: RetentionPeriod? = nil, channelName: String, tags: [Tag]? = nil) {
-            self.retentionPeriod = retentionPeriod
+        public init(channelName: String, retentionPeriod: RetentionPeriod? = nil) {
             self.channelName = channelName
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case retentionPeriod = "retentionPeriod"
-            case channelName = "channelName"
-            case tags = "tags"
-        }
-    }
-
-    public struct DatastoreStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "size", required: false, type: .structure)
-        ]
-        /// The estimated size of the data store.
-        public let size: EstimatedResourceSize?
-
-        public init(size: EstimatedResourceSize? = nil) {
-            self.size = size
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case size = "size"
-        }
-    }
-
-    public struct ListPipelinesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// A list of "PipelineSummary" objects.
-        public let pipelineSummaries: [PipelineSummary]?
-        /// The token to retrieve the next set of results, or null if there are no more results.
-        public let nextToken: String?
-
-        public init(pipelineSummaries: [PipelineSummary]? = nil, nextToken: String? = nil) {
-            self.pipelineSummaries = pipelineSummaries
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pipelineSummaries = "pipelineSummaries"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct CreateDatastoreRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datastoreName", required: true, type: .string), 
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
-        /// The name of the data store.
-        public let datastoreName: String
-        /// How long, in days, message data is kept for the data store.
-        public let retentionPeriod: RetentionPeriod?
-        /// Metadata which can be used to manage the data store.
-        public let tags: [Tag]?
-
-        public init(datastoreName: String, retentionPeriod: RetentionPeriod? = nil, tags: [Tag]? = nil) {
-            self.datastoreName = datastoreName
             self.retentionPeriod = retentionPeriod
-            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datastoreName = "datastoreName"
+            case channelName = "channelName"
             case retentionPeriod = "retentionPeriod"
-            case tags = "tags"
-        }
-    }
-
-    public struct CreateDatasetContentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string)
-        ]
-        /// The name of the data set.
-        public let datasetName: String
-
-        public init(datasetName: String) {
-            self.datasetName = datasetName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case datasetName = "datasetName"
-        }
-    }
-
-    public struct StartPipelineReprocessingResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "reprocessingId", required: false, type: .string)
-        ]
-        /// The ID of the pipeline reprocessing activity that was started.
-        public let reprocessingId: String?
-
-        public init(reprocessingId: String? = nil) {
-            self.reprocessingId = reprocessingId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reprocessingId = "reprocessingId"
-        }
-    }
-
-    public struct DescribeChannelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "statistics", required: false, type: .structure), 
-            AWSShapeMember(label: "channel", required: false, type: .structure)
-        ]
-        /// Statistics about the channel. Included if the 'includeStatistics' parameter is set to true in the request.
-        public let statistics: ChannelStatistics?
-        /// An object that contains information about the channel.
-        public let channel: Channel?
-
-        public init(statistics: ChannelStatistics? = nil, channel: Channel? = nil) {
-            self.statistics = statistics
-            self.channel = channel
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case statistics = "statistics"
-            case channel = "channel"
         }
     }
 
@@ -966,1094 +2286,184 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DeleteChannelRequest: AWSShape {
+    public struct SampleChannelDataRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxMessages", location: .querystring(locationName: "maxMessages"), required: false, type: .integer), 
+            AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime"), required: false, type: .timestamp), 
             AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName"), required: true, type: .string)
         ]
-        /// The name of the channel to delete.
+        /// The number of sample messages to be retrieved. The limit is 10, the default is also 10.
+        public let maxMessages: Int32?
+        /// The start of the time window from which sample messages are retrieved.
+        public let startTime: TimeStamp?
+        /// The end of the time window from which sample messages are retrieved.
+        public let endTime: TimeStamp?
+        /// The name of the channel whose message samples are retrieved.
         public let channelName: String
 
-        public init(channelName: String) {
+        public init(maxMessages: Int32? = nil, startTime: TimeStamp? = nil, endTime: TimeStamp? = nil, channelName: String) {
+            self.maxMessages = maxMessages
+            self.startTime = startTime
+            self.endTime = endTime
             self.channelName = channelName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case maxMessages = "maxMessages"
+            case startTime = "startTime"
+            case endTime = "endTime"
             case channelName = "channelName"
-        }
-    }
-
-    public enum LoggingLevel: String, CustomStringConvertible, Codable {
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DatasetContentState: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct BatchPutMessageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "batchPutMessageErrorEntries", required: false, type: .list)
-        ]
-        /// A list of any errors encountered when sending the messages to the channel.
-        public let batchPutMessageErrorEntries: [BatchPutMessageErrorEntry]?
-
-        public init(batchPutMessageErrorEntries: [BatchPutMessageErrorEntry]? = nil) {
-            self.batchPutMessageErrorEntries = batchPutMessageErrorEntries
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case batchPutMessageErrorEntries = "batchPutMessageErrorEntries"
-        }
-    }
-
-    public struct DatasetSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "datasetName", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp)
-        ]
-        /// The time the data set was created.
-        public let creationTime: TimeStamp?
-        /// The status of the data set.
-        public let status: DatasetStatus?
-        /// The name of the data set.
-        public let datasetName: String?
-        /// The last time the data set was updated.
-        public let lastUpdateTime: TimeStamp?
-
-        public init(creationTime: TimeStamp? = nil, status: DatasetStatus? = nil, datasetName: String? = nil, lastUpdateTime: TimeStamp? = nil) {
-            self.creationTime = creationTime
-            self.status = status
-            self.datasetName = datasetName
-            self.lastUpdateTime = lastUpdateTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTime = "creationTime"
-            case status = "status"
-            case datasetName = "datasetName"
-            case lastUpdateTime = "lastUpdateTime"
-        }
-    }
-
-    public struct UpdateDatasetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actions", required: true, type: .list), 
-            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string), 
-            AWSShapeMember(label: "triggers", required: false, type: .list)
-        ]
-        /// A list of "DatasetAction" objects. Only one action is supported at this time.
-        public let actions: [DatasetAction]
-        /// The name of the data set to update.
-        public let datasetName: String
-        /// A list of "DatasetTrigger" objects. The list can be empty or can contain up to five DataSetTrigger objects.
-        public let triggers: [DatasetTrigger]?
-
-        public init(actions: [DatasetAction], datasetName: String, triggers: [DatasetTrigger]? = nil) {
-            self.actions = actions
-            self.datasetName = datasetName
-            self.triggers = triggers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case actions = "actions"
-            case datasetName = "datasetName"
-            case triggers = "triggers"
-        }
-    }
-
-    public struct CreateDatasetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", required: false, type: .string), 
-            AWSShapeMember(label: "datasetArn", required: false, type: .string)
-        ]
-        /// The name of the data set.
-        public let datasetName: String?
-        /// The ARN of the data set.
-        public let datasetArn: String?
-
-        public init(datasetName: String? = nil, datasetArn: String? = nil) {
-            self.datasetName = datasetName
-            self.datasetArn = datasetArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case datasetName = "datasetName"
-            case datasetArn = "datasetArn"
-        }
-    }
-
-    public struct RunPipelineActivityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "payloads", required: true, type: .list), 
-            AWSShapeMember(label: "pipelineActivity", required: true, type: .structure)
-        ]
-        /// The sample message payloads on which the pipeline activity is run.
-        public let payloads: [Data]
-        /// The pipeline activity that is run. This must not be a 'channel' activity or a 'datastore' activity because these activities are used in a pipeline only to load the original message and to store the (possibly) transformed message. If a 'lambda' activity is specified, only short-running Lambda functions (those with a timeout of less than 30 seconds or less) can be used.
-        public let pipelineActivity: PipelineActivity
-
-        public init(payloads: [Data], pipelineActivity: PipelineActivity) {
-            self.payloads = payloads
-            self.pipelineActivity = pipelineActivity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case payloads = "payloads"
-            case pipelineActivity = "pipelineActivity"
-        }
-    }
-
-    public struct Message: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "payload", required: true, type: .blob), 
-            AWSShapeMember(label: "messageId", required: true, type: .string)
-        ]
-        /// The payload of the message. This may be a JSON string or a Base64-encoded string representing binary data (in which case you must decode it by means of a pipeline activity).
-        public let payload: Data
-        /// The ID you wish to assign to the message. Each "messageId" must be unique within each batch sent.
-        public let messageId: String
-
-        public init(payload: Data, messageId: String) {
-            self.payload = payload
-            self.messageId = messageId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case payload = "payload"
-            case messageId = "messageId"
-        }
-    }
-
-    public struct BatchPutMessageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "channelName", required: true, type: .string), 
-            AWSShapeMember(label: "messages", required: true, type: .list)
-        ]
-        /// The name of the channel where the messages are sent.
-        public let channelName: String
-        /// The list of messages to be sent. Each message has format: '{ "messageId": "string", "payload": "string"}'.
-        public let messages: [Message]
-
-        public init(channelName: String, messages: [Message]) {
-            self.channelName = channelName
-            self.messages = messages
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case channelName = "channelName"
-            case messages = "messages"
-        }
-    }
-
-    public struct ListDatastoresRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
-        ]
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return in this request. The default value is 100.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: true, type: .string), 
-            AWSShapeMember(label: "value", required: true, type: .string)
-        ]
-        /// The tag's key.
-        public let key: String
-        /// The tag's value.
-        public let value: String
-
-        public init(key: String, value: String) {
-            self.key = key
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "key"
-            case value = "value"
-        }
-    }
-
-    public struct DescribeDatasetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataset", required: false, type: .structure)
-        ]
-        /// An object that contains information about the data set.
-        public let dataset: Dataset?
-
-        public init(dataset: Dataset? = nil) {
-            self.dataset = dataset
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataset = "dataset"
-        }
-    }
-
-    public struct SqlQueryDatasetAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sqlQuery", required: true, type: .string)
-        ]
-        /// An SQL query string.
-        public let sqlQuery: String
-
-        public init(sqlQuery: String) {
-            self.sqlQuery = sqlQuery
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sqlQuery = "sqlQuery"
-        }
-    }
-
-    public struct ListDatasetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "datasetSummaries", required: false, type: .list)
-        ]
-        /// The token to retrieve the next set of results, or null if there are no more results.
-        public let nextToken: String?
-        /// A list of "DatasetSummary" objects.
-        public let datasetSummaries: [DatasetSummary]?
-
-        public init(nextToken: String? = nil, datasetSummaries: [DatasetSummary]? = nil) {
-            self.nextToken = nextToken
-            self.datasetSummaries = datasetSummaries
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case datasetSummaries = "datasetSummaries"
-        }
-    }
-
-    public struct DescribePipelineResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipeline", required: false, type: .structure)
-        ]
-        /// A "Pipeline" object that contains information about the pipeline.
-        public let pipeline: Pipeline?
-
-        public init(pipeline: Pipeline? = nil) {
-            self.pipeline = pipeline
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pipeline = "pipeline"
-        }
-    }
-
-    public struct PipelineSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "reprocessingSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "pipelineName", required: false, type: .string)
-        ]
-        /// When the pipeline was created.
-        public let creationTime: TimeStamp?
-        /// When the pipeline was last updated.
-        public let lastUpdateTime: TimeStamp?
-        /// A summary of information about the pipeline reprocessing.
-        public let reprocessingSummaries: [ReprocessingSummary]?
-        /// The name of the pipeline.
-        public let pipelineName: String?
-
-        public init(creationTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, reprocessingSummaries: [ReprocessingSummary]? = nil, pipelineName: String? = nil) {
-            self.creationTime = creationTime
-            self.lastUpdateTime = lastUpdateTime
-            self.reprocessingSummaries = reprocessingSummaries
-            self.pipelineName = pipelineName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTime = "creationTime"
-            case lastUpdateTime = "lastUpdateTime"
-            case reprocessingSummaries = "reprocessingSummaries"
-            case pipelineName = "pipelineName"
-        }
-    }
-
-    public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .list)
-        ]
-        /// The ARN of the resource whose tags will be modified.
-        public let resourceArn: String
-        /// The new or modified tags for the resource.
-        public let tags: [Tag]
-
-        public init(resourceArn: String, tags: [Tag]) {
-            self.resourceArn = resourceArn
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tags = "tags"
-        }
-    }
-
-    public struct UpdateChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName"), required: true, type: .string)
-        ]
-        /// How long, in days, message data is kept for the channel.
-        public let retentionPeriod: RetentionPeriod?
-        /// The name of the channel to be updated.
-        public let channelName: String
-
-        public init(retentionPeriod: RetentionPeriod? = nil, channelName: String) {
-            self.retentionPeriod = retentionPeriod
-            self.channelName = channelName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case retentionPeriod = "retentionPeriod"
-            case channelName = "channelName"
-        }
-    }
-
-    public struct DeleteDatasetContentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string), 
-            AWSShapeMember(label: "versionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
-        ]
-        /// The name of the data set whose content is deleted.
-        public let datasetName: String
-        /// The version of the data set whose content is deleted. You can also use the strings "$LATEST" or "$LATEST_SUCCEEDED" to delete the latest or latest successfully completed data set. If not specified, "$LATEST_SUCCEEDED" is the default.
-        public let versionId: String?
-
-        public init(datasetName: String, versionId: String? = nil) {
-            self.datasetName = datasetName
-            self.versionId = versionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case datasetName = "datasetName"
-            case versionId = "versionId"
-        }
-    }
-
-    public struct DatasetContentStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "state", required: false, type: .enum), 
-            AWSShapeMember(label: "reason", required: false, type: .string)
-        ]
-        /// The state of the data set. Can be one of "CREATING", "SUCCEEDED" or "FAILED".
-        public let state: DatasetContentState?
-        /// The reason the data set is in this state.
-        public let reason: String?
-
-        public init(state: DatasetContentState? = nil, reason: String? = nil) {
-            self.state = state
-            self.reason = reason
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "state"
-            case reason = "reason"
-        }
-    }
-
-    public struct GetDatasetContentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string), 
-            AWSShapeMember(label: "versionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
-        ]
-        /// The name of the data set whose contents are retrieved.
-        public let datasetName: String
-        /// The version of the data set whose contents are retrieved. You can also use the strings "$LATEST" or "$LATEST_SUCCEEDED" to retrieve the contents of the latest or latest successfully completed data set. If not specified, "$LATEST_SUCCEEDED" is the default.
-        public let versionId: String?
-
-        public init(datasetName: String, versionId: String? = nil) {
-            self.datasetName = datasetName
-            self.versionId = versionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case datasetName = "datasetName"
-            case versionId = "versionId"
-        }
-    }
-
-    public struct BatchPutMessageErrorEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "messageId", required: false, type: .string), 
-            AWSShapeMember(label: "errorCode", required: false, type: .string), 
-            AWSShapeMember(label: "errorMessage", required: false, type: .string)
-        ]
-        /// The ID of the message that caused the error. (See the value corresponding to the "messageId" key in the message object.)
-        public let messageId: String?
-        /// The code associated with the error.
-        public let errorCode: String?
-        /// The message associated with the error.
-        public let errorMessage: String?
-
-        public init(messageId: String? = nil, errorCode: String? = nil, errorMessage: String? = nil) {
-            self.messageId = messageId
-            self.errorCode = errorCode
-            self.errorMessage = errorMessage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case messageId = "messageId"
-            case errorCode = "errorCode"
-            case errorMessage = "errorMessage"
-        }
-    }
-
-    public struct PutLoggingOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loggingOptions", required: true, type: .structure)
-        ]
-        /// The new values of the AWS IoT Analytics logging options.
-        public let loggingOptions: LoggingOptions
-
-        public init(loggingOptions: LoggingOptions) {
-            self.loggingOptions = loggingOptions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loggingOptions = "loggingOptions"
         }
     }
 
     public struct ChannelActivity: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "next", required: false, type: .string), 
-            AWSShapeMember(label: "channelName", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string)
+            AWSShapeMember(label: "channelName", required: true, type: .string)
         ]
+        /// The name of the 'channel' activity.
+        public let name: String
         /// The next activity in the pipeline.
         public let next: String?
         /// The name of the channel from which the messages are processed.
         public let channelName: String
-        /// The name of the 'channel' activity.
-        public let name: String
 
-        public init(next: String? = nil, channelName: String, name: String) {
+        public init(name: String, next: String? = nil, channelName: String) {
+            self.name = name
             self.next = next
             self.channelName = channelName
-            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
+            case name = "name"
             case next = "next"
             case channelName = "channelName"
-            case name = "name"
         }
     }
 
-    public struct PipelineActivity: AWSShape {
+    public struct DatasetSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "selectAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
-            AWSShapeMember(label: "lambda", required: false, type: .structure), 
-            AWSShapeMember(label: "channel", required: false, type: .structure), 
-            AWSShapeMember(label: "datastore", required: false, type: .structure), 
-            AWSShapeMember(label: "deviceShadowEnrich", required: false, type: .structure), 
-            AWSShapeMember(label: "deviceRegistryEnrich", required: false, type: .structure), 
-            AWSShapeMember(label: "math", required: false, type: .structure), 
-            AWSShapeMember(label: "addAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "removeAttributes", required: false, type: .structure)
-        ]
-        /// Creates a new message using only the specified attributes from the original message. 
-        public let selectAttributes: SelectAttributesActivity?
-        /// Filters a message based on its attributes.
-        public let filter: FilterActivity?
-        /// Runs a Lambda function to modify the message.
-        public let lambda: LambdaActivity?
-        /// Determines the source of the messages to be processed.
-        public let channel: ChannelActivity?
-        /// Specifies where to store the processed message data.
-        public let datastore: DatastoreActivity?
-        /// Adds information from the AWS IoT Device Shadows service to a message.
-        public let deviceShadowEnrich: DeviceShadowEnrichActivity?
-        /// Adds data from the AWS IoT device registry to your message.
-        public let deviceRegistryEnrich: DeviceRegistryEnrichActivity?
-        /// Computes an arithmetic expression using the message's attributes and adds it to the message.
-        public let math: MathActivity?
-        /// Adds other attributes based on existing attributes in the message.
-        public let addAttributes: AddAttributesActivity?
-        /// Removes attributes from a message.
-        public let removeAttributes: RemoveAttributesActivity?
-
-        public init(selectAttributes: SelectAttributesActivity? = nil, filter: FilterActivity? = nil, lambda: LambdaActivity? = nil, channel: ChannelActivity? = nil, datastore: DatastoreActivity? = nil, deviceShadowEnrich: DeviceShadowEnrichActivity? = nil, deviceRegistryEnrich: DeviceRegistryEnrichActivity? = nil, math: MathActivity? = nil, addAttributes: AddAttributesActivity? = nil, removeAttributes: RemoveAttributesActivity? = nil) {
-            self.selectAttributes = selectAttributes
-            self.filter = filter
-            self.lambda = lambda
-            self.channel = channel
-            self.datastore = datastore
-            self.deviceShadowEnrich = deviceShadowEnrich
-            self.deviceRegistryEnrich = deviceRegistryEnrich
-            self.math = math
-            self.addAttributes = addAttributes
-            self.removeAttributes = removeAttributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case selectAttributes = "selectAttributes"
-            case filter = "filter"
-            case lambda = "lambda"
-            case channel = "channel"
-            case datastore = "datastore"
-            case deviceShadowEnrich = "deviceShadowEnrich"
-            case deviceRegistryEnrich = "deviceRegistryEnrich"
-            case math = "math"
-            case addAttributes = "addAttributes"
-            case removeAttributes = "removeAttributes"
-        }
-    }
-
-    public struct Datastore: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "arn", required: false, type: .string)
-        ]
-        /// When the data store was created.
-        public let creationTime: TimeStamp?
-        /// The status of a data store:  CREATING  The data store is being created.  ACTIVE  The data store has been created and can be used.  DELETING  The data store is being deleted.  
-        public let status: DatastoreStatus?
-        /// How long, in days, message data is kept for the data store.
-        public let retentionPeriod: RetentionPeriod?
-        /// The name of the data store.
-        public let name: String?
-        /// The last time the data store was updated.
-        public let lastUpdateTime: TimeStamp?
-        /// The ARN of the data store.
-        public let arn: String?
-
-        public init(creationTime: TimeStamp? = nil, status: DatastoreStatus? = nil, retentionPeriod: RetentionPeriod? = nil, name: String? = nil, lastUpdateTime: TimeStamp? = nil, arn: String? = nil) {
-            self.creationTime = creationTime
-            self.status = status
-            self.retentionPeriod = retentionPeriod
-            self.name = name
-            self.lastUpdateTime = lastUpdateTime
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTime = "creationTime"
-            case status = "status"
-            case retentionPeriod = "retentionPeriod"
-            case name = "name"
-            case lastUpdateTime = "lastUpdateTime"
-            case arn = "arn"
-        }
-    }
-
-    public struct AddAttributesActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "next", required: false, type: .string), 
-            AWSShapeMember(label: "attributes", required: true, type: .map), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
-        /// The next activity in the pipeline.
-        public let next: String?
-        /// A list of 1-50 "AttributeNameMapping" objects that map an existing attribute to a new attribute.  The existing attributes remain in the message, so if you want to remove the originals, use "RemoveAttributeActivity". 
-        public let attributes: [String: String]
-        /// The name of the 'addAttributes' activity.
-        public let name: String
-
-        public init(next: String? = nil, attributes: [String: String], name: String) {
-            self.next = next
-            self.attributes = attributes
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case next = "next"
-            case attributes = "attributes"
-            case name = "name"
-        }
-    }
-
-    public struct DescribeDatastoreRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datastoreName", location: .uri(locationName: "datastoreName"), required: true, type: .string), 
-            AWSShapeMember(label: "includeStatistics", location: .querystring(locationName: "includeStatistics"), required: false, type: .boolean)
-        ]
-        /// The name of the data store
-        public let datastoreName: String
-        /// If true, include statistics about the data store in the response.
-        public let includeStatistics: Bool?
-
-        public init(datastoreName: String, includeStatistics: Bool? = nil) {
-            self.datastoreName = datastoreName
-            self.includeStatistics = includeStatistics
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case datastoreName = "datastoreName"
-            case includeStatistics = "includeStatistics"
-        }
-    }
-
-    public struct LambdaActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "batchSize", required: true, type: .integer), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "next", required: false, type: .string), 
-            AWSShapeMember(label: "lambdaName", required: true, type: .string)
-        ]
-        /// The number of messages passed to the Lambda function for processing. The AWS Lambda function must be able to process all of these messages within five minutes, which is the maximum timeout duration for Lambda functions.
-        public let batchSize: Int32
-        /// The name of the 'lambda' activity.
-        public let name: String
-        /// The next activity in the pipeline.
-        public let next: String?
-        /// The name of the Lambda function that is run on the message.
-        public let lambdaName: String
-
-        public init(batchSize: Int32, name: String, next: String? = nil, lambdaName: String) {
-            self.batchSize = batchSize
-            self.name = name
-            self.next = next
-            self.lambdaName = lambdaName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case batchSize = "batchSize"
-            case name = "name"
-            case next = "next"
-            case lambdaName = "lambdaName"
-        }
-    }
-
-    public struct MathActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "math", required: true, type: .string), 
-            AWSShapeMember(label: "next", required: false, type: .string), 
-            AWSShapeMember(label: "attribute", required: true, type: .string)
-        ]
-        /// The name of the 'math' activity.
-        public let name: String
-        /// An expression that uses one or more existing attributes and must return an integer value.
-        public let math: String
-        /// The next activity in the pipeline.
-        public let next: String?
-        /// The name of the attribute that will contain the result of the math operation.
-        public let attribute: String
-
-        public init(name: String, math: String, next: String? = nil, attribute: String) {
-            self.name = name
-            self.math = math
-            self.next = next
-            self.attribute = attribute
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case math = "math"
-            case next = "next"
-            case attribute = "attribute"
-        }
-    }
-
-    public struct ReprocessingSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: false, type: .string), 
             AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
-        /// The 'reprocessingId' returned by "StartPipelineReprocessing".
-        public let id: String?
-        /// The time the pipeline reprocessing was created.
-        public let creationTime: TimeStamp?
-        /// The status of the pipeline reprocessing.
-        public let status: ReprocessingStatus?
-
-        public init(id: String? = nil, creationTime: TimeStamp? = nil, status: ReprocessingStatus? = nil) {
-            self.id = id
-            self.creationTime = creationTime
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case creationTime = "creationTime"
-            case status = "status"
-        }
-    }
-
-    public struct ListDatastoresResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "datastoreSummaries", required: false, type: .list)
-        ]
-        /// The token to retrieve the next set of results, or null if there are no more results.
-        public let nextToken: String?
-        /// A list of "DatastoreSummary" objects.
-        public let datastoreSummaries: [DatastoreSummary]?
-
-        public init(nextToken: String? = nil, datastoreSummaries: [DatastoreSummary]? = nil) {
-            self.nextToken = nextToken
-            self.datastoreSummaries = datastoreSummaries
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case datastoreSummaries = "datastoreSummaries"
-        }
-    }
-
-    public struct TagResourceResponse: AWSShape {
-
-    }
-
-    public struct RunPipelineActivityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "payloads", required: false, type: .list), 
-            AWSShapeMember(label: "logResult", required: false, type: .string)
-        ]
-        /// The enriched or transformed sample message payloads as base64-encoded strings. (The results of running the pipeline activity on each input sample message payload, encoded in base64.)
-        public let payloads: [Data]?
-        /// In case the pipeline activity fails, the log message that is generated.
-        public let logResult: String?
-
-        public init(payloads: [Data]? = nil, logResult: String? = nil) {
-            self.payloads = payloads
-            self.logResult = logResult
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case payloads = "payloads"
-            case logResult = "logResult"
-        }
-    }
-
-    public struct DeviceShadowEnrichActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "next", required: false, type: .string), 
-            AWSShapeMember(label: "attribute", required: true, type: .string), 
-            AWSShapeMember(label: "thingName", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
-        /// The name of the 'deviceShadowEnrich' activity.
-        public let name: String
-        /// The next activity in the pipeline.
-        public let next: String?
-        /// The name of the attribute that is added to the message.
-        public let attribute: String
-        /// The name of the IoT device whose shadow information is added to the message.
-        public let thingName: String
-        /// The ARN of the role that allows access to the device's shadow.
-        public let roleArn: String
-
-        public init(name: String, next: String? = nil, attribute: String, thingName: String, roleArn: String) {
-            self.name = name
-            self.next = next
-            self.attribute = attribute
-            self.thingName = thingName
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case next = "next"
-            case attribute = "attribute"
-            case thingName = "thingName"
-            case roleArn = "roleArn"
-        }
-    }
-
-    public struct CreateChannelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "channelName", required: false, type: .string), 
-            AWSShapeMember(label: "channelArn", required: false, type: .string)
-        ]
-        /// How long, in days, message data is kept for the channel.
-        public let retentionPeriod: RetentionPeriod?
-        /// The name of the channel.
-        public let channelName: String?
-        /// The ARN of the channel.
-        public let channelArn: String?
-
-        public init(retentionPeriod: RetentionPeriod? = nil, channelName: String? = nil, channelArn: String? = nil) {
-            self.retentionPeriod = retentionPeriod
-            self.channelName = channelName
-            self.channelArn = channelArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case retentionPeriod = "retentionPeriod"
-            case channelName = "channelName"
-            case channelArn = "channelArn"
-        }
-    }
-
-    public struct ChannelSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "actions", required: false, type: .list), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "channelName", required: false, type: .string)
+            AWSShapeMember(label: "triggers", required: false, type: .list), 
+            AWSShapeMember(label: "datasetName", required: false, type: .string)
         ]
-        /// When the channel was created.
-        public let creationTime: TimeStamp?
-        /// The status of the channel.
-        public let status: ChannelStatus?
-        /// The last time the channel was updated.
+        /// The last time the data set was updated.
         public let lastUpdateTime: TimeStamp?
-        /// The name of the channel.
-        public let channelName: String?
+        /// The time the data set was created.
+        public let creationTime: TimeStamp?
+        /// A list of "DataActionSummary" objects.
+        public let actions: [DatasetActionSummary]?
+        /// The status of the data set.
+        public let status: DatasetStatus?
+        /// A list of triggers. A trigger causes data set content to be populated at a specified time interval or when another data set is populated. The list of triggers can be empty or contain up to five DataSetTrigger objects
+        public let triggers: [DatasetTrigger]?
+        /// The name of the data set.
+        public let datasetName: String?
 
-        public init(creationTime: TimeStamp? = nil, status: ChannelStatus? = nil, lastUpdateTime: TimeStamp? = nil, channelName: String? = nil) {
-            self.creationTime = creationTime
-            self.status = status
+        public init(lastUpdateTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, actions: [DatasetActionSummary]? = nil, status: DatasetStatus? = nil, triggers: [DatasetTrigger]? = nil, datasetName: String? = nil) {
             self.lastUpdateTime = lastUpdateTime
-            self.channelName = channelName
+            self.creationTime = creationTime
+            self.actions = actions
+            self.status = status
+            self.triggers = triggers
+            self.datasetName = datasetName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime = "creationTime"
-            case status = "status"
             case lastUpdateTime = "lastUpdateTime"
-            case channelName = "channelName"
+            case creationTime = "creationTime"
+            case actions = "actions"
+            case status = "status"
+            case triggers = "triggers"
+            case datasetName = "datasetName"
         }
     }
 
-    public struct CancelPipelineReprocessingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "reprocessingId", location: .uri(locationName: "reprocessingId"), required: true, type: .string), 
-            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"), required: true, type: .string)
-        ]
-        /// The ID of the reprocessing task (returned by "StartPipelineReprocessing").
-        public let reprocessingId: String
-        /// The name of pipeline for which data reprocessing is canceled.
-        public let pipelineName: String
-
-        public init(reprocessingId: String, pipelineName: String) {
-            self.reprocessingId = reprocessingId
-            self.pipelineName = pipelineName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reprocessingId = "reprocessingId"
-            case pipelineName = "pipelineName"
-        }
+    public enum ComputeType: String, CustomStringConvertible, Codable {
+        case acu1 = "ACU_1"
+        case acu2 = "ACU_2"
+        public var description: String { return self.rawValue }
     }
 
-    public struct CreatePipelineResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineArn", required: false, type: .string), 
-            AWSShapeMember(label: "pipelineName", required: false, type: .string)
-        ]
-        /// The ARN of the pipeline.
-        public let pipelineArn: String?
-        /// The name of the pipeline.
-        public let pipelineName: String?
+    public struct CancelPipelineReprocessingResponse: AWSShape {
 
-        public init(pipelineArn: String? = nil, pipelineName: String? = nil) {
-            self.pipelineArn = pipelineArn
-            self.pipelineName = pipelineName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pipelineArn = "pipelineArn"
-            case pipelineName = "pipelineName"
-        }
-    }
-
-    public struct ListDatasetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
-        ]
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return in this request. The default value is 100.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
     }
 
     public struct FilterActivity: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "filter", required: true, type: .string), 
-            AWSShapeMember(label: "next", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string)
+            AWSShapeMember(label: "next", required: false, type: .string)
         ]
-        /// An expression that looks like an SQL WHERE clause that must return a Boolean value.
+        /// The name of the 'filter' activity.
+        public let name: String
+        /// An expression that looks like a SQL WHERE clause that must return a Boolean value.
         public let filter: String
         /// The next activity in the pipeline.
         public let next: String?
-        /// The name of the 'filter' activity.
-        public let name: String
 
-        public init(filter: String, next: String? = nil, name: String) {
+        public init(name: String, filter: String, next: String? = nil) {
+            self.name = name
             self.filter = filter
             self.next = next
-            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
+            case name = "name"
             case filter = "filter"
             case next = "next"
-            case name = "name"
         }
     }
 
-    public enum DatasetStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateDatasetRequest: AWSShape {
+    public struct ChannelStatistics: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "actions", required: true, type: .list), 
-            AWSShapeMember(label: "triggers", required: false, type: .list)
+            AWSShapeMember(label: "size", required: false, type: .structure)
         ]
-        /// The name of the data set.
-        public let datasetName: String
-        /// Metadata which can be used to manage the data set.
-        public let tags: [Tag]?
-        /// A list of actions that create the data set. Only one action is supported at this time.
-        public let actions: [DatasetAction]
-        /// A list of triggers. A trigger causes data set content to be populated at a specified time or time interval. The list of triggers can be empty or contain up to five DataSetTrigger objects.
-        public let triggers: [DatasetTrigger]?
+        /// The estimated size of the channel.
+        public let size: EstimatedResourceSize?
 
-        public init(datasetName: String, tags: [Tag]? = nil, actions: [DatasetAction], triggers: [DatasetTrigger]? = nil) {
-            self.datasetName = datasetName
-            self.tags = tags
-            self.actions = actions
-            self.triggers = triggers
+        public init(size: EstimatedResourceSize? = nil) {
+            self.size = size
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetName = "datasetName"
-            case tags = "tags"
-            case actions = "actions"
-            case triggers = "triggers"
+            case size = "size"
         }
     }
 
-    public struct CreatePipelineRequest: AWSShape {
+    public struct DatasetContentSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineActivities", required: true, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "pipelineName", required: true, type: .string)
-        ]
-        /// A list of pipeline activities. The list can be 1-25 PipelineActivity objects. Activities perform transformations on your messages, such as removing, renaming, or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data.
-        public let pipelineActivities: [PipelineActivity]
-        /// Metadata which can be used to manage the pipeline.
-        public let tags: [Tag]?
-        /// The name of the pipeline.
-        public let pipelineName: String
-
-        public init(pipelineActivities: [PipelineActivity], tags: [Tag]? = nil, pipelineName: String) {
-            self.pipelineActivities = pipelineActivities
-            self.tags = tags
-            self.pipelineName = pipelineName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pipelineActivities = "pipelineActivities"
-            case tags = "tags"
-            case pipelineName = "pipelineName"
-        }
-    }
-
-    public struct Pipeline: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "scheduleTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "activities", required: false, type: .list), 
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "reprocessingSummaries", required: false, type: .list)
+            AWSShapeMember(label: "status", required: false, type: .structure)
         ]
-        /// When the pipeline was created.
+        /// The version of the data set contents.
+        public let version: String?
+        /// The time the creation of the data set contents was scheduled to start.
+        public let scheduleTime: TimeStamp?
+        /// The actual time the creation of the data set contents was started.
         public let creationTime: TimeStamp?
-        /// The name of the pipeline.
-        public let name: String?
-        /// The activities that perform transformations on the messages.
-        public let activities: [PipelineActivity]?
-        /// The last time the pipeline was updated.
-        public let lastUpdateTime: TimeStamp?
-        /// The ARN of the pipeline.
-        public let arn: String?
-        /// A summary of information about the pipeline reprocessing.
-        public let reprocessingSummaries: [ReprocessingSummary]?
+        /// The status of the data set contents.
+        public let status: DatasetContentStatus?
 
-        public init(creationTime: TimeStamp? = nil, name: String? = nil, activities: [PipelineActivity]? = nil, lastUpdateTime: TimeStamp? = nil, arn: String? = nil, reprocessingSummaries: [ReprocessingSummary]? = nil) {
+        public init(version: String? = nil, scheduleTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, status: DatasetContentStatus? = nil) {
+            self.version = version
+            self.scheduleTime = scheduleTime
             self.creationTime = creationTime
-            self.name = name
-            self.activities = activities
-            self.lastUpdateTime = lastUpdateTime
-            self.arn = arn
-            self.reprocessingSummaries = reprocessingSummaries
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case version = "version"
+            case scheduleTime = "scheduleTime"
             case creationTime = "creationTime"
-            case name = "name"
-            case activities = "activities"
-            case lastUpdateTime = "lastUpdateTime"
-            case arn = "arn"
-            case reprocessingSummaries = "reprocessingSummaries"
-        }
-    }
-
-    public struct DescribeDatastoreResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datastore", required: false, type: .structure), 
-            AWSShapeMember(label: "statistics", required: false, type: .structure)
-        ]
-        /// Information about the data store.
-        public let datastore: Datastore?
-        /// Statistics about the data store. Included if the 'includeStatistics' parameter is set to true in the request.
-        public let statistics: DatastoreStatistics?
-
-        public init(datastore: Datastore? = nil, statistics: DatastoreStatistics? = nil) {
-            self.datastore = datastore
-            self.statistics = statistics
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case datastore = "datastore"
-            case statistics = "statistics"
+            case status = "status"
         }
     }
 

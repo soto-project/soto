@@ -5,101 +5,101 @@ import AWSSDKSwiftCore
 
 extension MobileAnalytics {
 
+    public struct Event: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "attributes", required: false, type: .map), 
+            AWSShapeMember(label: "eventType", required: true, type: .string), 
+            AWSShapeMember(label: "metrics", required: false, type: .map), 
+            AWSShapeMember(label: "timestamp", required: true, type: .string), 
+            AWSShapeMember(label: "session", required: false, type: .structure)
+        ]
+        /// The version of the event.
+        public let version: String?
+        /// A collection of key-value pairs that give additional context to the event. The key-value pairs are specified by the developer. This collection can be empty or the attribute object can be omitted.
+        public let attributes: [String: String]?
+        /// A name signifying an event that occurred in your app. This is used for grouping and aggregating like events together for reporting purposes.
+        public let eventType: String
+        /// A collection of key-value pairs that gives additional, measurable context to the event. The key-value pairs are specified by the developer. This collection can be empty or the attribute object can be omitted.
+        public let metrics: [String: Double]?
+        /// The time the event occurred in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
+        public let timestamp: String
+        /// The session the event occured within. 
+        public let session: Session?
+
+        public init(version: String? = nil, attributes: [String: String]? = nil, eventType: String, metrics: [String: Double]? = nil, timestamp: String, session: Session? = nil) {
+            self.version = version
+            self.attributes = attributes
+            self.eventType = eventType
+            self.metrics = metrics
+            self.timestamp = timestamp
+            self.session = session
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case version = "version"
+            case attributes = "attributes"
+            case eventType = "eventType"
+            case metrics = "metrics"
+            case timestamp = "timestamp"
+            case session = "session"
+        }
+    }
+
     public struct Session: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "duration", required: false, type: .long), 
             AWSShapeMember(label: "stopTimestamp", required: false, type: .string), 
             AWSShapeMember(label: "startTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "duration", required: false, type: .long)
+            AWSShapeMember(label: "id", required: false, type: .string)
         ]
+        /// The duration of the session.
+        public let duration: Int64?
         /// The time the event terminated in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
         public let stopTimestamp: String?
         /// The time the event started in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
         public let startTimestamp: String?
         /// A unique identifier for the session
         public let id: String?
-        /// The duration of the session.
-        public let duration: Int64?
 
-        public init(stopTimestamp: String? = nil, startTimestamp: String? = nil, id: String? = nil, duration: Int64? = nil) {
+        public init(duration: Int64? = nil, stopTimestamp: String? = nil, startTimestamp: String? = nil, id: String? = nil) {
+            self.duration = duration
             self.stopTimestamp = stopTimestamp
             self.startTimestamp = startTimestamp
             self.id = id
-            self.duration = duration
         }
 
         private enum CodingKeys: String, CodingKey {
+            case duration = "duration"
             case stopTimestamp = "stopTimestamp"
             case startTimestamp = "startTimestamp"
             case id = "id"
-            case duration = "duration"
         }
     }
 
     public struct PutEventsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientContextEncoding", location: .header(locationName: "x-amz-Client-Context-Encoding"), required: false, type: .string), 
             AWSShapeMember(label: "clientContext", location: .header(locationName: "x-amz-Client-Context"), required: true, type: .string), 
-            AWSShapeMember(label: "events", required: true, type: .list)
+            AWSShapeMember(label: "events", required: true, type: .list), 
+            AWSShapeMember(label: "clientContextEncoding", location: .header(locationName: "x-amz-Client-Context-Encoding"), required: false, type: .string)
         ]
-        /// The encoding used for the client context.
-        public let clientContextEncoding: String?
         /// The client context including the client ID, app title, app version and package name.
         public let clientContext: String
         /// An array of Event JSON objects
         public let events: [Event]
+        /// The encoding used for the client context.
+        public let clientContextEncoding: String?
 
-        public init(clientContextEncoding: String? = nil, clientContext: String, events: [Event]) {
-            self.clientContextEncoding = clientContextEncoding
+        public init(clientContext: String, events: [Event], clientContextEncoding: String? = nil) {
             self.clientContext = clientContext
             self.events = events
+            self.clientContextEncoding = clientContextEncoding
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientContextEncoding = "x-amz-Client-Context-Encoding"
             case clientContext = "x-amz-Client-Context"
             case events = "events"
-        }
-    }
-
-    public struct Event: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "eventType", required: true, type: .string), 
-            AWSShapeMember(label: "attributes", required: false, type: .map), 
-            AWSShapeMember(label: "timestamp", required: true, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "session", required: false, type: .structure), 
-            AWSShapeMember(label: "metrics", required: false, type: .map)
-        ]
-        /// A name signifying an event that occurred in your app. This is used for grouping and aggregating like events together for reporting purposes.
-        public let eventType: String
-        /// A collection of key-value pairs that give additional context to the event. The key-value pairs are specified by the developer. This collection can be empty or the attribute object can be omitted.
-        public let attributes: [String: String]?
-        /// The time the event occurred in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
-        public let timestamp: String
-        /// The version of the event.
-        public let version: String?
-        /// The session the event occured within. 
-        public let session: Session?
-        /// A collection of key-value pairs that gives additional, measurable context to the event. The key-value pairs are specified by the developer. This collection can be empty or the attribute object can be omitted.
-        public let metrics: [String: Double]?
-
-        public init(eventType: String, attributes: [String: String]? = nil, timestamp: String, version: String? = nil, session: Session? = nil, metrics: [String: Double]? = nil) {
-            self.eventType = eventType
-            self.attributes = attributes
-            self.timestamp = timestamp
-            self.version = version
-            self.session = session
-            self.metrics = metrics
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventType = "eventType"
-            case attributes = "attributes"
-            case timestamp = "timestamp"
-            case version = "version"
-            case session = "session"
-            case metrics = "metrics"
+            case clientContextEncoding = "x-amz-Client-Context-Encoding"
         }
     }
 

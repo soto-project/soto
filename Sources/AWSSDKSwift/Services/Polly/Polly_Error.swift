@@ -4,26 +4,26 @@ import AWSSDKSwiftCore
 
 /// Error enum for Polly
 public enum PollyErrorType: AWSErrorType {
-    case invalidTaskIdException(message: String?)
-    case serviceFailureException(message: String?)
-    case synthesisTaskNotFoundException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case lexiconNotFoundException(message: String?)
-    case textLengthExceededException(message: String?)
-    case invalidS3BucketException(message: String?)
-    case invalidS3KeyException(message: String?)
-    case invalidSampleRateException(message: String?)
-    case invalidSnsTopicArnException(message: String?)
-    case invalidSsmlException(message: String?)
-    case marksNotSupportedForFormatException(message: String?)
-    case ssmlMarksNotSupportedForTextTypeException(message: String?)
-    case languageNotSupportedException(message: String?)
     case invalidLexiconException(message: String?)
     case unsupportedPlsAlphabetException(message: String?)
     case unsupportedPlsLanguageException(message: String?)
     case lexiconSizeExceededException(message: String?)
     case maxLexemeLengthExceededException(message: String?)
     case maxLexiconsNumberExceededException(message: String?)
+    case serviceFailureException(message: String?)
+    case invalidNextTokenException(message: String?)
+    case textLengthExceededException(message: String?)
+    case invalidSampleRateException(message: String?)
+    case invalidSsmlException(message: String?)
+    case lexiconNotFoundException(message: String?)
+    case marksNotSupportedForFormatException(message: String?)
+    case ssmlMarksNotSupportedForTextTypeException(message: String?)
+    case languageNotSupportedException(message: String?)
+    case invalidS3BucketException(message: String?)
+    case invalidS3KeyException(message: String?)
+    case invalidSnsTopicArnException(message: String?)
+    case invalidTaskIdException(message: String?)
+    case synthesisTaskNotFoundException(message: String?)
 }
 
 extension PollyErrorType {
@@ -33,34 +33,6 @@ extension PollyErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "InvalidTaskIdException":
-            self = .invalidTaskIdException(message: message)
-        case "ServiceFailureException":
-            self = .serviceFailureException(message: message)
-        case "SynthesisTaskNotFoundException":
-            self = .synthesisTaskNotFoundException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "LexiconNotFoundException":
-            self = .lexiconNotFoundException(message: message)
-        case "TextLengthExceededException":
-            self = .textLengthExceededException(message: message)
-        case "InvalidS3BucketException":
-            self = .invalidS3BucketException(message: message)
-        case "InvalidS3KeyException":
-            self = .invalidS3KeyException(message: message)
-        case "InvalidSampleRateException":
-            self = .invalidSampleRateException(message: message)
-        case "InvalidSnsTopicArnException":
-            self = .invalidSnsTopicArnException(message: message)
-        case "InvalidSsmlException":
-            self = .invalidSsmlException(message: message)
-        case "MarksNotSupportedForFormatException":
-            self = .marksNotSupportedForFormatException(message: message)
-        case "SsmlMarksNotSupportedForTextTypeException":
-            self = .ssmlMarksNotSupportedForTextTypeException(message: message)
-        case "LanguageNotSupportedException":
-            self = .languageNotSupportedException(message: message)
         case "InvalidLexiconException":
             self = .invalidLexiconException(message: message)
         case "UnsupportedPlsAlphabetException":
@@ -73,6 +45,34 @@ extension PollyErrorType {
             self = .maxLexemeLengthExceededException(message: message)
         case "MaxLexiconsNumberExceededException":
             self = .maxLexiconsNumberExceededException(message: message)
+        case "ServiceFailureException":
+            self = .serviceFailureException(message: message)
+        case "InvalidNextTokenException":
+            self = .invalidNextTokenException(message: message)
+        case "TextLengthExceededException":
+            self = .textLengthExceededException(message: message)
+        case "InvalidSampleRateException":
+            self = .invalidSampleRateException(message: message)
+        case "InvalidSsmlException":
+            self = .invalidSsmlException(message: message)
+        case "LexiconNotFoundException":
+            self = .lexiconNotFoundException(message: message)
+        case "MarksNotSupportedForFormatException":
+            self = .marksNotSupportedForFormatException(message: message)
+        case "SsmlMarksNotSupportedForTextTypeException":
+            self = .ssmlMarksNotSupportedForTextTypeException(message: message)
+        case "LanguageNotSupportedException":
+            self = .languageNotSupportedException(message: message)
+        case "InvalidS3BucketException":
+            self = .invalidS3BucketException(message: message)
+        case "InvalidS3KeyException":
+            self = .invalidS3KeyException(message: message)
+        case "InvalidSnsTopicArnException":
+            self = .invalidSnsTopicArnException(message: message)
+        case "InvalidTaskIdException":
+            self = .invalidTaskIdException(message: message)
+        case "SynthesisTaskNotFoundException":
+            self = .synthesisTaskNotFoundException(message: message)
         default:
             return nil
         }

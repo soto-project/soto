@@ -5,8 +5,8 @@ import AWSSDKSwiftCore
 /// Error enum for DynamoDBStreams
 public enum DynamoDBStreamsErrorType: AWSErrorType {
     case resourceNotFoundException(message: String?)
-    case internalServerError(message: String?)
     case limitExceededException(message: String?)
+    case internalServerError(message: String?)
     case expiredIteratorException(message: String?)
     case trimmedDataAccessException(message: String?)
 }
@@ -20,10 +20,10 @@ extension DynamoDBStreamsErrorType {
         switch errorCode {
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
-        case "InternalServerError":
-            self = .internalServerError(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "InternalServerError":
+            self = .internalServerError(message: message)
         case "ExpiredIteratorException":
             self = .expiredIteratorException(message: message)
         case "TrimmedDataAccessException":
