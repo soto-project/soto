@@ -31,7 +31,7 @@ import PackageDescription
 let package = Package(
     name: "MyAWSApp",
     dependencies: [
-        .package(url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "2.0.0")
+        .package(url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "2.0.1")
     ],
     targets: [
       .target(
@@ -72,7 +72,7 @@ If you are running your code on an AWS EC2 instance, you [can setup an IAM role 
 
 There are no code changes or configurations to specify in the code, it will automatically pull and use them.
 
-## Via ECS Container credentials
+### Via ECS Container credentials
 
 If you are running your code as an AWS ECS container task, you [can setup an IAM role for your container task](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html#create_task_iam_policy_and_role) to automatically grant credentials via the metadata service.
 
@@ -146,7 +146,7 @@ do {
 
 ## Speed Up Compilation
 
-By specifying only those modules necessary for your application, only theoe modules will compile which makes for fast compilation.
+By specifying only those modules necessary for your application, only those modules will compile which makes for fast compilation.
 
 If you want to create a module for your service, you can try using the module-exporter to build a separate repo for any of the modules.
 

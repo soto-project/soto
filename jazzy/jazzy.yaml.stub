@@ -1,11 +1,9 @@
-module: AWSSDKSwift
-author: Yuki Takei
 sourcekitten_sourcefile: awssdkswift.json
-author_url: https://github.com/noppoMan
-github_url: https://github.com/noppoMan/aws-sdk-swift
-copyright: '© Copyright (c) 2017 Yuki Takei(noppoMan)'
+author: Yuki Takei, Joe Smith, Jonathan McAllister
+author_url: https://github.com/swift-aws
+github_url: https://github.com/swift-aws/aws-sdk-swift
+copyright: '© Copyright (c) 2018 Yuki Takei(noppoMan), Joe Smith(Yasumoto), Jonathan McAllister(jonnymacs)'
 theme: fullwidth
-
 readme: README.md
 
 custom_categories:
@@ -13,5 +11,5 @@ custom_categories:
   - name: <%=service%>
     children:
       - <%=service%>
-      - <%=service%>Error
+      - <%=service%>ErrorType
 <% } %>
