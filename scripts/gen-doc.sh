@@ -1,3 +1,4 @@
+node jazzy/create_jazzy.yaml.js
 for d in Sources/AWSSDKSwift/Services/*;
   do moduleName="$(basename "$d")";
   sourcekitten doc --spm-module $moduleName > "$moduleName".json;

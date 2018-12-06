@@ -23,6 +23,11 @@ custom_categories:
       - AlexaForBusiness
       - AlexaForBusinessErrorType
 
+  - name: Amplify
+    children:
+      - Amplify
+      - AmplifyErrorType
+
   - name: APIGateway
     children:
       - APIGateway
@@ -37,6 +42,11 @@ custom_categories:
     children:
       - ApplicationDiscoveryService
       - ApplicationDiscoveryServiceErrorType
+
+  - name: AppMesh
+    children:
+      - AppMesh
+      - AppMeshErrorType
 
   - name: AppStream
     children:
@@ -72,6 +82,11 @@ custom_categories:
     children:
       - Budgets
       - BudgetsErrorType
+
+  - name: Chime
+    children:
+      - Chime
+      - ChimeErrorType
 
   - name: Cloud9
     children:
@@ -178,6 +193,11 @@ custom_categories:
       - Comprehend
       - ComprehendErrorType
 
+  - name: ComprehendMedical
+    children:
+      - ComprehendMedical
+      - ComprehendMedicalErrorType
+
   - name: ConfigService
     children:
       - ConfigService
@@ -207,6 +227,11 @@ custom_categories:
     children:
       - DataPipeline
       - DataPipelineErrorType
+
+  - name: DataSync
+    children:
+      - DataSync
+      - DataSyncErrorType
 
   - name: DAX
     children:
@@ -313,6 +338,11 @@ custom_categories:
       - FMS
       - FMSErrorType
 
+  - name: FSx
+    children:
+      - FSx
+      - FSxErrorType
+
   - name: GameLift
     children:
       - GameLift
@@ -322,6 +352,11 @@ custom_categories:
     children:
       - Glacier
       - GlacierErrorType
+
+  - name: GlobalAccelerator
+    children:
+      - GlobalAccelerator
+      - GlobalAcceleratorErrorType
 
   - name: Glue
     children:
@@ -388,6 +423,11 @@ custom_categories:
       - IoTJobsDataPlane
       - IoTJobsDataPlaneErrorType
 
+  - name: Kafka
+    children:
+      - Kafka
+      - KafkaErrorType
+
   - name: Kinesis
     children:
       - Kinesis
@@ -397,6 +437,11 @@ custom_categories:
     children:
       - KinesisAnalytics
       - KinesisAnalyticsErrorType
+
+  - name: KinesisAnalyticsV2
+    children:
+      - KinesisAnalyticsV2
+      - KinesisAnalyticsV2ErrorType
 
   - name: KinesisVideo
     children:
@@ -433,6 +478,11 @@ custom_categories:
       - LexRuntimeService
       - LexRuntimeServiceErrorType
 
+  - name: LicenseManager
+    children:
+      - LicenseManager
+      - LicenseManagerErrorType
+
   - name: Lightsail
     children:
       - Lightsail
@@ -462,6 +512,11 @@ custom_categories:
     children:
       - MarketplaceMetering
       - MarketplaceMeteringErrorType
+
+  - name: MediaConnect
+    children:
+      - MediaConnect
+      - MediaConnectErrorType
 
   - name: MediaConvert
     children:
@@ -548,6 +603,16 @@ custom_categories:
       - Pinpoint
       - PinpointErrorType
 
+  - name: PinpointEmail
+    children:
+      - PinpointEmail
+      - PinpointEmailErrorType
+
+  - name: PinpointSMSVoice
+    children:
+      - PinpointSMSVoice
+      - PinpointSMSVoiceErrorType
+
   - name: Polly
     children:
       - Polly
@@ -558,10 +623,25 @@ custom_categories:
       - Pricing
       - PricingErrorType
 
+  - name: QuickSight
+    children:
+      - QuickSight
+      - QuickSightErrorType
+
+  - name: RAM
+    children:
+      - RAM
+      - RAMErrorType
+
   - name: RDS
     children:
       - RDS
       - RDSErrorType
+
+  - name: RDSDataService
+    children:
+      - RDSDataService
+      - RDSDataServiceErrorType
 
   - name: Redshift
     children:
@@ -583,6 +663,11 @@ custom_categories:
       - ResourceGroupsTaggingAPI
       - ResourceGroupsTaggingAPIErrorType
 
+  - name: RoboMaker
+    children:
+      - RoboMaker
+      - RoboMakerErrorType
+
   - name: Route53
     children:
       - Route53
@@ -593,10 +678,20 @@ custom_categories:
       - Route53Domains
       - Route53DomainsErrorType
 
+  - name: Route53Resolver
+    children:
+      - Route53Resolver
+      - Route53ResolverErrorType
+
   - name: S3
     children:
       - S3
       - S3ErrorType
+
+  - name: S3Control
+    children:
+      - S3Control
+      - S3ControlErrorType
 
   - name: SageMaker
     children:
@@ -612,6 +707,11 @@ custom_categories:
     children:
       - SecretsManager
       - SecretsManagerErrorType
+
+  - name: SecurityHub
+    children:
+      - SecurityHub
+      - SecurityHubErrorType
 
   - name: ServerlessApplicationRepository
     children:
@@ -642,6 +742,11 @@ custom_categories:
     children:
       - Shield
       - ShieldErrorType
+
+  - name: Signer
+    children:
+      - Signer
+      - SignerErrorType
 
   - name: SimpleDB
     children:
@@ -697,6 +802,11 @@ custom_categories:
     children:
       - TranscribeService
       - TranscribeServiceErrorType
+
+  - name: Transfer
+    children:
+      - Transfer
+      - TransferErrorType
 
   - name: Translate
     children:
