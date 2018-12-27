@@ -5,15 +5,15 @@ import AWSSDKSwiftCore
 /// Error enum for Translate
 public enum TranslateErrorType: AWSErrorType {
     case resourceNotFoundException(message: String?)
+    case invalidParameterValueException(message: String?)
     case tooManyRequestsException(message: String?)
     case internalServerException(message: String?)
-    case invalidParameterValueException(message: String?)
-    case limitExceededException(message: String?)
     case invalidRequestException(message: String?)
     case textSizeLimitExceededException(message: String?)
     case unsupportedLanguagePairException(message: String?)
     case detectedLanguageLowConfidenceException(message: String?)
     case serviceUnavailableException(message: String?)
+    case limitExceededException(message: String?)
 }
 
 extension TranslateErrorType {
@@ -25,14 +25,12 @@ extension TranslateErrorType {
         switch errorCode {
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
+        case "InvalidParameterValueException":
+            self = .invalidParameterValueException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
         case "InternalServerException":
             self = .internalServerException(message: message)
-        case "InvalidParameterValueException":
-            self = .invalidParameterValueException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
         case "InvalidRequestException":
             self = .invalidRequestException(message: message)
         case "TextSizeLimitExceededException":
@@ -43,6 +41,8 @@ extension TranslateErrorType {
             self = .detectedLanguageLowConfidenceException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         default:
             return nil
         }

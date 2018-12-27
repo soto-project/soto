@@ -2,6 +2,7 @@
 
 import Foundation
 import AWSSDKSwiftCore
+import NIO
 
 /**
  Comprehend Medical extracts structured information from unstructured clinical text. Use these actions to gain insight in your documents. 
@@ -25,14 +26,14 @@ public struct ComprehendMedical {
         )
     }
 
-    ///   Inspects the clinical text for personal health information (PHI) entities and entity category, location, and confidence score on that information.
-    public func detectPHI(_ input: DetectPHIRequest) throws -> DetectPHIResponse {
-        return try client.send(operation: "DetectPHI", path: "/", httpMethod: "POST", input: input)
+    ///   Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information .
+    public func detectEntities(_ input: DetectEntitiesRequest) throws -> EventLoopFuture<DetectEntitiesResponse> {
+        return try client.send(operation: "DetectEntities", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information .
-    public func detectEntities(_ input: DetectEntitiesRequest) throws -> DetectEntitiesResponse {
-        return try client.send(operation: "DetectEntities", path: "/", httpMethod: "POST", input: input)
+    ///   Inspects the clinical text for personal health information (PHI) entities and entity category, location, and confidence score on that information.
+    public func detectPHI(_ input: DetectPHIRequest) throws -> EventLoopFuture<DetectPHIResponse> {
+        return try client.send(operation: "DetectPHI", path: "/", httpMethod: "POST", input: input)
     }
 
 

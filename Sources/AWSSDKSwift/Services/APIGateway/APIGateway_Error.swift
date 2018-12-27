@@ -9,8 +9,8 @@ public enum APIGatewayErrorType: AWSErrorType {
     case tooManyRequestsException(message: String?)
     case conflictException(message: String?)
     case badRequestException(message: String?)
-    case limitExceededException(message: String?)
     case serviceUnavailableException(message: String?)
+    case limitExceededException(message: String?)
 }
 
 extension APIGatewayErrorType {
@@ -30,10 +30,10 @@ extension APIGatewayErrorType {
             self = .conflictException(message: message)
         case "BadRequestException":
             self = .badRequestException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         default:
             return nil
         }

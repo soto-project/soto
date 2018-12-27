@@ -10,9 +10,9 @@ public enum AppMeshErrorType: AWSErrorType {
     case notFoundException(message: String?)
     case serviceUnavailableException(message: String?)
     case tooManyRequestsException(message: String?)
-    case resourceInUseException(message: String?)
     case conflictException(message: String?)
     case limitExceededException(message: String?)
+    case resourceInUseException(message: String?)
 }
 
 extension AppMeshErrorType {
@@ -34,12 +34,12 @@ extension AppMeshErrorType {
             self = .serviceUnavailableException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
         case "ConflictException":
             self = .conflictException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "ResourceInUseException":
+            self = .resourceInUseException(message: message)
         default:
             return nil
         }

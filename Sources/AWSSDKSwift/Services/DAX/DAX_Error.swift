@@ -4,32 +4,32 @@ import AWSSDKSwiftCore
 
 /// Error enum for DAX
 public enum DAXErrorType: AWSErrorType {
+    case parameterGroupNotFoundFault(message: String?)
+    case serviceLinkedRoleNotFoundFault(message: String?)
+    case invalidParameterValueException(message: String?)
+    case invalidParameterCombinationException(message: String?)
+    case subnetGroupInUseFault(message: String?)
+    case subnetGroupNotFoundFault(message: String?)
+    case clusterNotFoundFault(message: String?)
+    case invalidARNFault(message: String?)
+    case invalidClusterStateFault(message: String?)
     case subnetGroupAlreadyExistsFault(message: String?)
     case subnetGroupQuotaExceededFault(message: String?)
     case subnetQuotaExceededFault(message: String?)
     case invalidSubnet(message: String?)
-    case serviceLinkedRoleNotFoundFault(message: String?)
-    case parameterGroupNotFoundFault(message: String?)
-    case invalidParameterValueException(message: String?)
-    case invalidParameterCombinationException(message: String?)
-    case parameterGroupQuotaExceededFault(message: String?)
-    case parameterGroupAlreadyExistsFault(message: String?)
-    case invalidParameterGroupStateFault(message: String?)
-    case clusterNotFoundFault(message: String?)
-    case tagQuotaPerResourceExceeded(message: String?)
-    case invalidARNFault(message: String?)
-    case invalidClusterStateFault(message: String?)
-    case subnetGroupInUseFault(message: String?)
-    case subnetGroupNotFoundFault(message: String?)
     case tagNotFoundFault(message: String?)
     case insufficientClusterCapacityFault(message: String?)
     case invalidVPCNetworkStateFault(message: String?)
     case nodeQuotaForClusterExceededFault(message: String?)
     case nodeQuotaForCustomerExceededFault(message: String?)
-    case clusterAlreadyExistsFault(message: String?)
-    case clusterQuotaForCustomerExceededFault(message: String?)
+    case parameterGroupQuotaExceededFault(message: String?)
+    case parameterGroupAlreadyExistsFault(message: String?)
+    case invalidParameterGroupStateFault(message: String?)
     case nodeNotFoundFault(message: String?)
     case subnetInUse(message: String?)
+    case tagQuotaPerResourceExceeded(message: String?)
+    case clusterAlreadyExistsFault(message: String?)
+    case clusterQuotaForCustomerExceededFault(message: String?)
 }
 
 extension DAXErrorType {
@@ -39,6 +39,24 @@ extension DAXErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "ParameterGroupNotFoundFault":
+            self = .parameterGroupNotFoundFault(message: message)
+        case "ServiceLinkedRoleNotFoundFault":
+            self = .serviceLinkedRoleNotFoundFault(message: message)
+        case "InvalidParameterValueException":
+            self = .invalidParameterValueException(message: message)
+        case "InvalidParameterCombinationException":
+            self = .invalidParameterCombinationException(message: message)
+        case "SubnetGroupInUseFault":
+            self = .subnetGroupInUseFault(message: message)
+        case "SubnetGroupNotFoundFault":
+            self = .subnetGroupNotFoundFault(message: message)
+        case "ClusterNotFoundFault":
+            self = .clusterNotFoundFault(message: message)
+        case "InvalidARNFault":
+            self = .invalidARNFault(message: message)
+        case "InvalidClusterStateFault":
+            self = .invalidClusterStateFault(message: message)
         case "SubnetGroupAlreadyExistsFault":
             self = .subnetGroupAlreadyExistsFault(message: message)
         case "SubnetGroupQuotaExceededFault":
@@ -47,32 +65,6 @@ extension DAXErrorType {
             self = .subnetQuotaExceededFault(message: message)
         case "InvalidSubnet":
             self = .invalidSubnet(message: message)
-        case "ServiceLinkedRoleNotFoundFault":
-            self = .serviceLinkedRoleNotFoundFault(message: message)
-        case "ParameterGroupNotFoundFault":
-            self = .parameterGroupNotFoundFault(message: message)
-        case "InvalidParameterValueException":
-            self = .invalidParameterValueException(message: message)
-        case "InvalidParameterCombinationException":
-            self = .invalidParameterCombinationException(message: message)
-        case "ParameterGroupQuotaExceededFault":
-            self = .parameterGroupQuotaExceededFault(message: message)
-        case "ParameterGroupAlreadyExistsFault":
-            self = .parameterGroupAlreadyExistsFault(message: message)
-        case "InvalidParameterGroupStateFault":
-            self = .invalidParameterGroupStateFault(message: message)
-        case "ClusterNotFoundFault":
-            self = .clusterNotFoundFault(message: message)
-        case "TagQuotaPerResourceExceeded":
-            self = .tagQuotaPerResourceExceeded(message: message)
-        case "InvalidARNFault":
-            self = .invalidARNFault(message: message)
-        case "InvalidClusterStateFault":
-            self = .invalidClusterStateFault(message: message)
-        case "SubnetGroupInUseFault":
-            self = .subnetGroupInUseFault(message: message)
-        case "SubnetGroupNotFoundFault":
-            self = .subnetGroupNotFoundFault(message: message)
         case "TagNotFoundFault":
             self = .tagNotFoundFault(message: message)
         case "InsufficientClusterCapacityFault":
@@ -83,14 +75,22 @@ extension DAXErrorType {
             self = .nodeQuotaForClusterExceededFault(message: message)
         case "NodeQuotaForCustomerExceededFault":
             self = .nodeQuotaForCustomerExceededFault(message: message)
-        case "ClusterAlreadyExistsFault":
-            self = .clusterAlreadyExistsFault(message: message)
-        case "ClusterQuotaForCustomerExceededFault":
-            self = .clusterQuotaForCustomerExceededFault(message: message)
+        case "ParameterGroupQuotaExceededFault":
+            self = .parameterGroupQuotaExceededFault(message: message)
+        case "ParameterGroupAlreadyExistsFault":
+            self = .parameterGroupAlreadyExistsFault(message: message)
+        case "InvalidParameterGroupStateFault":
+            self = .invalidParameterGroupStateFault(message: message)
         case "NodeNotFoundFault":
             self = .nodeNotFoundFault(message: message)
         case "SubnetInUse":
             self = .subnetInUse(message: message)
+        case "TagQuotaPerResourceExceeded":
+            self = .tagQuotaPerResourceExceeded(message: message)
+        case "ClusterAlreadyExistsFault":
+            self = .clusterAlreadyExistsFault(message: message)
+        case "ClusterQuotaForCustomerExceededFault":
+            self = .clusterQuotaForCustomerExceededFault(message: message)
         default:
             return nil
         }

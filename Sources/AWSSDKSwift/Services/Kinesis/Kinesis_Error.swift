@@ -8,15 +8,15 @@ public enum KinesisErrorType: AWSErrorType {
     case resourceInUseException(message: String?)
     case invalidArgumentException(message: String?)
     case limitExceededException(message: String?)
+    case expiredNextTokenException(message: String?)
+    case provisionedThroughputExceededException(message: String?)
     case kMSDisabledException(message: String?)
     case kMSInvalidStateException(message: String?)
     case kMSAccessDeniedException(message: String?)
     case kMSNotFoundException(message: String?)
     case kMSOptInRequired(message: String?)
     case kMSThrottlingException(message: String?)
-    case provisionedThroughputExceededException(message: String?)
     case expiredIteratorException(message: String?)
-    case expiredNextTokenException(message: String?)
 }
 
 extension KinesisErrorType {
@@ -34,6 +34,10 @@ extension KinesisErrorType {
             self = .invalidArgumentException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "ExpiredNextTokenException":
+            self = .expiredNextTokenException(message: message)
+        case "ProvisionedThroughputExceededException":
+            self = .provisionedThroughputExceededException(message: message)
         case "KMSDisabledException":
             self = .kMSDisabledException(message: message)
         case "KMSInvalidStateException":
@@ -46,12 +50,8 @@ extension KinesisErrorType {
             self = .kMSOptInRequired(message: message)
         case "KMSThrottlingException":
             self = .kMSThrottlingException(message: message)
-        case "ProvisionedThroughputExceededException":
-            self = .provisionedThroughputExceededException(message: message)
         case "ExpiredIteratorException":
             self = .expiredIteratorException(message: message)
-        case "ExpiredNextTokenException":
-            self = .expiredNextTokenException(message: message)
         default:
             return nil
         }

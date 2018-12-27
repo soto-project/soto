@@ -5,81 +5,333 @@ import AWSSDKSwiftCore
 
 extension KinesisAnalytics {
 
-    public struct LambdaOutputDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string)
-        ]
-        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination function.
-        public let roleARN: String?
-        /// Amazon Resource Name (ARN) of the destination Lambda function.
-        public let resourceARN: String?
-
-        public init(roleARN: String? = nil, resourceARN: String? = nil) {
-            self.roleARN = roleARN
-            self.resourceARN = resourceARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleARN = "RoleARN"
-            case resourceARN = "ResourceARN"
-        }
-    }
-
-    public struct ReferenceDataSourceUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableNameUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "S3ReferenceDataSourceUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "ReferenceId", required: true, type: .string), 
-            AWSShapeMember(label: "ReferenceSchemaUpdate", required: false, type: .structure)
-        ]
-        /// In-application table name that is created by this update.
-        public let tableNameUpdate: String?
-        /// Describes the S3 bucket name, object key name, and IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object on your behalf and populate the in-application reference table.
-        public let s3ReferenceDataSourceUpdate: S3ReferenceDataSourceUpdate?
-        /// ID of the reference data source being updated. You can use the DescribeApplication operation to get this value.
-        public let referenceId: String
-        /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream. 
-        public let referenceSchemaUpdate: SourceSchema?
-
-        public init(tableNameUpdate: String? = nil, s3ReferenceDataSourceUpdate: S3ReferenceDataSourceUpdate? = nil, referenceId: String, referenceSchemaUpdate: SourceSchema? = nil) {
-            self.tableNameUpdate = tableNameUpdate
-            self.s3ReferenceDataSourceUpdate = s3ReferenceDataSourceUpdate
-            self.referenceId = referenceId
-            self.referenceSchemaUpdate = referenceSchemaUpdate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tableNameUpdate = "TableNameUpdate"
-            case s3ReferenceDataSourceUpdate = "S3ReferenceDataSourceUpdate"
-            case referenceId = "ReferenceId"
-            case referenceSchemaUpdate = "ReferenceSchemaUpdate"
-        }
-    }
-
-    public struct CloudWatchLoggingOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LogStreamARN", required: true, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string)
-        ]
-        /// ARN of the CloudWatch log to receive application messages.
-        public let logStreamARN: String
-        /// IAM ARN of the role to use to send application messages. Note: To write application messages to CloudWatch, the IAM role that is used must have the PutLogEvents policy action enabled.
-        public let roleARN: String
-
-        public init(logStreamARN: String, roleARN: String) {
-            self.logStreamARN = logStreamARN
-            self.roleARN = roleARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logStreamARN = "LogStreamARN"
-            case roleARN = "RoleARN"
-        }
-    }
-
     public struct AddApplicationReferenceDataSourceResponse: AWSShape {
 
+    }
+
+    public struct StopApplicationResponse: AWSShape {
+
+    }
+
+    public struct CloudWatchLoggingOptionUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudWatchLoggingOptionId", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "LogStreamARNUpdate", required: false, type: .string)
+        ]
+        /// ID of the CloudWatch logging option to update
+        public let cloudWatchLoggingOptionId: String
+        /// IAM ARN of the role to use to send application messages. Note: To write application messages to CloudWatch, the IAM role used must have the PutLogEvents policy action enabled.
+        public let roleARNUpdate: String?
+        /// ARN of the CloudWatch log to receive application messages.
+        public let logStreamARNUpdate: String?
+
+        public init(cloudWatchLoggingOptionId: String, roleARNUpdate: String? = nil, logStreamARNUpdate: String? = nil) {
+            self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
+            self.roleARNUpdate = roleARNUpdate
+            self.logStreamARNUpdate = logStreamARNUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLoggingOptionId = "CloudWatchLoggingOptionId"
+            case roleARNUpdate = "RoleARNUpdate"
+            case logStreamARNUpdate = "LogStreamARNUpdate"
+        }
+    }
+
+    public struct DestinationSchema: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordFormatType", required: true, type: .enum)
+        ]
+        /// Specifies the format of the records on the output stream.
+        public let recordFormatType: RecordFormatType
+
+        public init(recordFormatType: RecordFormatType) {
+            self.recordFormatType = recordFormatType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordFormatType = "RecordFormatType"
+        }
+    }
+
+    public struct S3ReferenceDataSourceDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BucketARN", required: true, type: .string), 
+            AWSShapeMember(label: "ReferenceRoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "FileKey", required: true, type: .string)
+        ]
+        /// Amazon Resource Name (ARN) of the S3 bucket.
+        public let bucketARN: String
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object on your behalf to populate the in-application reference table.
+        public let referenceRoleARN: String
+        /// Amazon S3 object key name.
+        public let fileKey: String
+
+        public init(bucketARN: String, referenceRoleARN: String, fileKey: String) {
+            self.bucketARN = bucketARN
+            self.referenceRoleARN = referenceRoleARN
+            self.fileKey = fileKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketARN = "BucketARN"
+            case referenceRoleARN = "ReferenceRoleARN"
+            case fileKey = "FileKey"
+        }
+    }
+
+    public struct S3ReferenceDataSourceUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReferenceRoleARNUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "BucketARNUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "FileKeyUpdate", required: false, type: .string)
+        ]
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object and populate the in-application.
+        public let referenceRoleARNUpdate: String?
+        /// Amazon Resource Name (ARN) of the S3 bucket.
+        public let bucketARNUpdate: String?
+        /// Object key name.
+        public let fileKeyUpdate: String?
+
+        public init(referenceRoleARNUpdate: String? = nil, bucketARNUpdate: String? = nil, fileKeyUpdate: String? = nil) {
+            self.referenceRoleARNUpdate = referenceRoleARNUpdate
+            self.bucketARNUpdate = bucketARNUpdate
+            self.fileKeyUpdate = fileKeyUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case referenceRoleARNUpdate = "ReferenceRoleARNUpdate"
+            case bucketARNUpdate = "BucketARNUpdate"
+            case fileKeyUpdate = "FileKeyUpdate"
+        }
+    }
+
+    public enum InputStartingPosition: String, CustomStringConvertible, Codable {
+        case now = "NOW"
+        case trimHorizon = "TRIM_HORIZON"
+        case lastStoppedPoint = "LAST_STOPPED_POINT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct LambdaOutputDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string)
+        ]
+        /// Amazon Resource Name (ARN) of the destination Lambda function.
+        public let resourceARN: String?
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination function.
+        public let roleARN: String?
+
+        public init(resourceARN: String? = nil, roleARN: String? = nil) {
+            self.resourceARN = resourceARN
+            self.roleARN = roleARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
+        }
+    }
+
+    public struct InputLambdaProcessor: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string)
+        ]
+        /// The ARN of the AWS Lambda function that operates on records in the stream.
+        public let resourceARN: String
+        /// The ARN of the IAM role that is used to access the AWS Lambda function.
+        public let roleARN: String
+
+        public init(resourceARN: String, roleARN: String) {
+            self.resourceARN = resourceARN
+            self.roleARN = roleARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
+        }
+    }
+
+    public struct InputProcessingConfigurationDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputLambdaProcessorDescription", required: false, type: .structure)
+        ]
+        /// Provides configuration information about the associated InputLambdaProcessorDescription.
+        public let inputLambdaProcessorDescription: InputLambdaProcessorDescription?
+
+        public init(inputLambdaProcessorDescription: InputLambdaProcessorDescription? = nil) {
+            self.inputLambdaProcessorDescription = inputLambdaProcessorDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputLambdaProcessorDescription = "InputLambdaProcessorDescription"
+        }
+    }
+
+    public struct DeleteApplicationOutputRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "OutputId", required: true, type: .string), 
+            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long)
+        ]
+        /// Amazon Kinesis Analytics application name.
+        public let applicationName: String
+        /// The ID of the configuration to delete. Each output configuration that is added to the application, either when the application is created or later using the AddApplicationOutput operation, has a unique ID. You need to provide the ID to uniquely identify the output configuration that you want to delete from the application configuration. You can use the DescribeApplication operation to get the specific OutputId. 
+        public let outputId: String
+        /// Amazon Kinesis Analytics application version. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. 
+        public let currentApplicationVersionId: Int64
+
+        public init(applicationName: String, outputId: String, currentApplicationVersionId: Int64) {
+            self.applicationName = applicationName
+            self.outputId = outputId
+            self.currentApplicationVersionId = currentApplicationVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case outputId = "OutputId"
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
+        }
+    }
+
+    public struct ReferenceDataSourceDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3ReferenceDataSourceDescription", required: true, type: .structure), 
+            AWSShapeMember(label: "TableName", required: true, type: .string), 
+            AWSShapeMember(label: "ReferenceId", required: true, type: .string), 
+            AWSShapeMember(label: "ReferenceSchema", required: false, type: .structure)
+        ]
+        /// Provides the S3 bucket name, the object key name that contains the reference data. It also provides the Amazon Resource Name (ARN) of the IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object and populate the in-application reference table.
+        public let s3ReferenceDataSourceDescription: S3ReferenceDataSourceDescription
+        /// The in-application table name created by the specific reference data source configuration.
+        public let tableName: String
+        /// ID of the reference data source. This is the ID that Amazon Kinesis Analytics assigns when you add the reference data source to your application using the AddApplicationReferenceDataSource operation.
+        public let referenceId: String
+        /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream.
+        public let referenceSchema: SourceSchema?
+
+        public init(s3ReferenceDataSourceDescription: S3ReferenceDataSourceDescription, tableName: String, referenceId: String, referenceSchema: SourceSchema? = nil) {
+            self.s3ReferenceDataSourceDescription = s3ReferenceDataSourceDescription
+            self.tableName = tableName
+            self.referenceId = referenceId
+            self.referenceSchema = referenceSchema
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3ReferenceDataSourceDescription = "S3ReferenceDataSourceDescription"
+            case tableName = "TableName"
+            case referenceId = "ReferenceId"
+            case referenceSchema = "ReferenceSchema"
+        }
+    }
+
+    public struct KinesisStreamsOutputUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string)
+        ]
+        /// Amazon Resource Name (ARN) of the Amazon Kinesis stream where you want to write the output.
+        public let resourceARNUpdate: String?
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
+        public let roleARNUpdate: String?
+
+        public init(resourceARNUpdate: String? = nil, roleARNUpdate: String? = nil) {
+            self.resourceARNUpdate = resourceARNUpdate
+            self.roleARNUpdate = roleARNUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARNUpdate = "ResourceARNUpdate"
+            case roleARNUpdate = "RoleARNUpdate"
+        }
+    }
+
+    public struct UpdateApplicationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationUpdate", required: true, type: .structure), 
+            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long)
+        ]
+        /// Name of the Amazon Kinesis Analytics application to update.
+        public let applicationName: String
+        /// Describes application updates.
+        public let applicationUpdate: ApplicationUpdate
+        /// The current application version ID. You can use the DescribeApplication operation to get this value.
+        public let currentApplicationVersionId: Int64
+
+        public init(applicationName: String, applicationUpdate: ApplicationUpdate, currentApplicationVersionId: Int64) {
+            self.applicationName = applicationName
+            self.applicationUpdate = applicationUpdate
+            self.currentApplicationVersionId = currentApplicationVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case applicationUpdate = "ApplicationUpdate"
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
+        }
+    }
+
+    public struct KinesisFirehoseInputDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string)
+        ]
+        /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
+        public let resourceARN: String?
+        /// ARN of the IAM role that Amazon Kinesis Analytics assumes to access the stream.
+        public let roleARN: String?
+
+        public init(resourceARN: String? = nil, roleARN: String? = nil) {
+            self.resourceARN = resourceARN
+            self.roleARN = roleARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
+        }
+    }
+
+    public struct InputLambdaProcessorUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the new AWS Lambda function that is used to preprocess the records in the stream.
+        public let resourceARNUpdate: String?
+        /// The ARN of the new IAM role that is used to access the AWS Lambda function.
+        public let roleARNUpdate: String?
+
+        public init(resourceARNUpdate: String? = nil, roleARNUpdate: String? = nil) {
+            self.resourceARNUpdate = resourceARNUpdate
+            self.roleARNUpdate = roleARNUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARNUpdate = "ResourceARNUpdate"
+            case roleARNUpdate = "RoleARNUpdate"
+        }
+    }
+
+    public struct InputProcessingConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputLambdaProcessor", required: true, type: .structure)
+        ]
+        /// The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code.
+        public let inputLambdaProcessor: InputLambdaProcessor
+
+        public init(inputLambdaProcessor: InputLambdaProcessor) {
+            self.inputLambdaProcessor = inputLambdaProcessor
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputLambdaProcessor = "InputLambdaProcessor"
+        }
     }
 
     public struct JSONMappingParameters: AWSShape {
@@ -95,35 +347,6 @@ extension KinesisAnalytics {
 
         private enum CodingKeys: String, CodingKey {
             case recordRowPath = "RecordRowPath"
-        }
-    }
-
-    public struct DeleteApplicationOutputResponse: AWSShape {
-
-    }
-
-    public struct AddApplicationOutputResponse: AWSShape {
-
-    }
-
-    public struct CSVMappingParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordRowDelimiter", required: true, type: .string), 
-            AWSShapeMember(label: "RecordColumnDelimiter", required: true, type: .string)
-        ]
-        /// Row delimiter. For example, in a CSV format, '\n' is the typical row delimiter.
-        public let recordRowDelimiter: String
-        /// Column delimiter. For example, in a CSV format, a comma (",") is the typical column delimiter.
-        public let recordColumnDelimiter: String
-
-        public init(recordRowDelimiter: String, recordColumnDelimiter: String) {
-            self.recordRowDelimiter = recordRowDelimiter
-            self.recordColumnDelimiter = recordColumnDelimiter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recordRowDelimiter = "RecordRowDelimiter"
-            case recordColumnDelimiter = "RecordColumnDelimiter"
         }
     }
 
@@ -143,71 +366,781 @@ extension KinesisAnalytics {
         }
     }
 
-    public struct AddApplicationOutputRequest: AWSShape {
+    public struct KinesisFirehoseInputUpdate: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "Output", required: true, type: .structure)
+            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string)
         ]
-        /// Version of the application to which you want to add the output configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. 
-        public let currentApplicationVersionId: Int64
-        /// Name of the application to which you want to add the output configuration.
-        public let applicationName: String
-        /// An array of objects, each describing one output configuration. In the output configuration, you specify the name of an in-application stream, a destination (that is, an Amazon Kinesis stream, an Amazon Kinesis Firehose delivery stream, or an AWS Lambda function), and record the formation to use when writing to the destination.
-        public let output: Output
+        /// Amazon Resource Name (ARN) of the input Amazon Kinesis Firehose delivery stream to read.
+        public let resourceARNUpdate: String?
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
+        public let roleARNUpdate: String?
 
-        public init(currentApplicationVersionId: Int64, applicationName: String, output: Output) {
-            self.currentApplicationVersionId = currentApplicationVersionId
-            self.applicationName = applicationName
-            self.output = output
+        public init(resourceARNUpdate: String? = nil, roleARNUpdate: String? = nil) {
+            self.resourceARNUpdate = resourceARNUpdate
+            self.roleARNUpdate = roleARNUpdate
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentApplicationVersionId = "CurrentApplicationVersionId"
-            case applicationName = "ApplicationName"
-            case output = "Output"
+            case resourceARNUpdate = "ResourceARNUpdate"
+            case roleARNUpdate = "RoleARNUpdate"
         }
     }
 
-    public struct KinesisStreamsOutputUpdate: AWSShape {
+    public struct UpdateApplicationResponse: AWSShape {
+
+    }
+
+    public struct KinesisFirehoseOutputUpdate: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string)
+            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string)
         ]
+        /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream to write to.
+        public let resourceARNUpdate: String?
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
         public let roleARNUpdate: String?
-        /// Amazon Resource Name (ARN) of the Amazon Kinesis stream where you want to write the output.
-        public let resourceARNUpdate: String?
 
-        public init(roleARNUpdate: String? = nil, resourceARNUpdate: String? = nil) {
-            self.roleARNUpdate = roleARNUpdate
+        public init(resourceARNUpdate: String? = nil, roleARNUpdate: String? = nil) {
             self.resourceARNUpdate = resourceARNUpdate
+            self.roleARNUpdate = roleARNUpdate
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleARNUpdate = "RoleARNUpdate"
             case resourceARNUpdate = "ResourceARNUpdate"
+            case roleARNUpdate = "RoleARNUpdate"
+        }
+    }
+
+    public struct AddApplicationInputProcessingConfigurationResponse: AWSShape {
+
+    }
+
+    public struct StopApplicationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
+        ]
+        /// Name of the running application to stop.
+        public let applicationName: String
+
+        public init(applicationName: String) {
+            self.applicationName = applicationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+        }
+    }
+
+    public struct DeleteApplicationInputProcessingConfigurationResponse: AWSShape {
+
+    }
+
+    public struct ReferenceDataSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReferenceSchema", required: true, type: .structure), 
+            AWSShapeMember(label: "TableName", required: true, type: .string), 
+            AWSShapeMember(label: "S3ReferenceDataSource", required: false, type: .structure)
+        ]
+        /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream.
+        public let referenceSchema: SourceSchema
+        /// Name of the in-application table to create.
+        public let tableName: String
+        /// Identifies the S3 bucket and object that contains the reference data. Also identifies the IAM role Amazon Kinesis Analytics can assume to read this object on your behalf. An Amazon Kinesis Analytics application loads reference data only once. If the data changes, you call the UpdateApplication operation to trigger reloading of data into your application. 
+        public let s3ReferenceDataSource: S3ReferenceDataSource?
+
+        public init(referenceSchema: SourceSchema, tableName: String, s3ReferenceDataSource: S3ReferenceDataSource? = nil) {
+            self.referenceSchema = referenceSchema
+            self.tableName = tableName
+            self.s3ReferenceDataSource = s3ReferenceDataSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case referenceSchema = "ReferenceSchema"
+            case tableName = "TableName"
+            case s3ReferenceDataSource = "S3ReferenceDataSource"
+        }
+    }
+
+    public struct KinesisStreamsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string)
+        ]
+        /// ARN of the input Amazon Kinesis stream to read.
+        public let resourceARN: String
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
+        public let roleARN: String
+
+        public init(resourceARN: String, roleARN: String) {
+            self.resourceARN = resourceARN
+            self.roleARN = roleARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
+        }
+    }
+
+    public struct AddApplicationReferenceDataSourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReferenceDataSource", required: true, type: .structure), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long)
+        ]
+        /// The reference data source can be an object in your Amazon S3 bucket. Amazon Kinesis Analytics reads the object and copies the data into the in-application table that is created. You provide an S3 bucket, object key name, and the resulting in-application table that is created. You must also provide an IAM role with the necessary permissions that Amazon Kinesis Analytics can assume to read the object from your S3 bucket on your behalf.
+        public let referenceDataSource: ReferenceDataSource
+        /// Name of an existing application.
+        public let applicationName: String
+        /// Version of the application for which you are adding the reference data source. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
+        public let currentApplicationVersionId: Int64
+
+        public init(referenceDataSource: ReferenceDataSource, applicationName: String, currentApplicationVersionId: Int64) {
+            self.referenceDataSource = referenceDataSource
+            self.applicationName = applicationName
+            self.currentApplicationVersionId = currentApplicationVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case referenceDataSource = "ReferenceDataSource"
+            case applicationName = "ApplicationName"
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
+        }
+    }
+
+    public struct InputProcessingConfigurationUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputLambdaProcessorUpdate", required: true, type: .structure)
+        ]
+        /// Provides update information for an InputLambdaProcessor.
+        public let inputLambdaProcessorUpdate: InputLambdaProcessorUpdate
+
+        public init(inputLambdaProcessorUpdate: InputLambdaProcessorUpdate) {
+            self.inputLambdaProcessorUpdate = inputLambdaProcessorUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputLambdaProcessorUpdate = "InputLambdaProcessorUpdate"
+        }
+    }
+
+    public struct DeleteApplicationCloudWatchLoggingOptionResponse: AWSShape {
+
+    }
+
+    public struct StartApplicationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputConfigurations", required: true, type: .list), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
+        ]
+        /// Identifies the specific input, by ID, that the application starts consuming. Amazon Kinesis Analytics starts reading the streaming source associated with the input. You can also specify where in the streaming source you want Amazon Kinesis Analytics to start reading.
+        public let inputConfigurations: [InputConfiguration]
+        /// Name of the application.
+        public let applicationName: String
+
+        public init(inputConfigurations: [InputConfiguration], applicationName: String) {
+            self.inputConfigurations = inputConfigurations
+            self.applicationName = applicationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputConfigurations = "InputConfigurations"
+            case applicationName = "ApplicationName"
+        }
+    }
+
+    public struct StartApplicationResponse: AWSShape {
+
+    }
+
+    public struct DeleteApplicationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "CreateTimestamp", required: true, type: .timestamp)
+        ]
+        /// Name of the Amazon Kinesis Analytics application to delete.
+        public let applicationName: String
+        ///  You can use the DescribeApplication operation to get this value. 
+        public let createTimestamp: TimeStamp
+
+        public init(applicationName: String, createTimestamp: TimeStamp) {
+            self.applicationName = applicationName
+            self.createTimestamp = createTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case createTimestamp = "CreateTimestamp"
+        }
+    }
+
+    public struct LambdaOutputUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string)
+        ]
+        /// Amazon Resource Name (ARN) of the destination Lambda function.
+        public let resourceARNUpdate: String?
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination function on your behalf. You need to grant the necessary permissions to this role. 
+        public let roleARNUpdate: String?
+
+        public init(resourceARNUpdate: String? = nil, roleARNUpdate: String? = nil) {
+            self.resourceARNUpdate = resourceARNUpdate
+            self.roleARNUpdate = roleARNUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARNUpdate = "ResourceARNUpdate"
+            case roleARNUpdate = "RoleARNUpdate"
+        }
+    }
+
+    public struct DeleteApplicationReferenceDataSourceResponse: AWSShape {
+
+    }
+
+    public struct ApplicationDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationARN", required: true, type: .string), 
+            AWSShapeMember(label: "LastUpdateTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputDescriptions", required: false, type: .list), 
+            AWSShapeMember(label: "CloudWatchLoggingOptionDescriptions", required: false, type: .list), 
+            AWSShapeMember(label: "CreateTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationCode", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "OutputDescriptions", required: false, type: .list), 
+            AWSShapeMember(label: "ApplicationVersionId", required: true, type: .long), 
+            AWSShapeMember(label: "ApplicationDescription", required: false, type: .string), 
+            AWSShapeMember(label: "ReferenceDataSourceDescriptions", required: false, type: .list)
+        ]
+        /// ARN of the application.
+        public let applicationARN: String
+        /// Time stamp when the application was last updated.
+        public let lastUpdateTimestamp: TimeStamp?
+        /// Describes the application input configuration. For more information, see Configuring Application Input. 
+        public let inputDescriptions: [InputDescription]?
+        /// Describes the CloudWatch log streams that are configured to receive application messages. For more information about using CloudWatch log streams with Amazon Kinesis Analytics applications, see Working with Amazon CloudWatch Logs. 
+        public let cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]?
+        /// Time stamp when the application version was created.
+        public let createTimestamp: TimeStamp?
+        /// Name of the application.
+        public let applicationName: String
+        /// Returns the application code that you provided to perform data analysis on any of the in-application streams in your application.
+        public let applicationCode: String?
+        /// Status of the application.
+        public let applicationStatus: ApplicationStatus
+        /// Describes the application output configuration. For more information, see Configuring Application Output. 
+        public let outputDescriptions: [OutputDescription]?
+        /// Provides the current application version.
+        public let applicationVersionId: Int64
+        /// Description of the application.
+        public let applicationDescription: String?
+        /// Describes reference data sources configured for the application. For more information, see Configuring Application Input. 
+        public let referenceDataSourceDescriptions: [ReferenceDataSourceDescription]?
+
+        public init(applicationARN: String, lastUpdateTimestamp: TimeStamp? = nil, inputDescriptions: [InputDescription]? = nil, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, createTimestamp: TimeStamp? = nil, applicationName: String, applicationCode: String? = nil, applicationStatus: ApplicationStatus, outputDescriptions: [OutputDescription]? = nil, applicationVersionId: Int64, applicationDescription: String? = nil, referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil) {
+            self.applicationARN = applicationARN
+            self.lastUpdateTimestamp = lastUpdateTimestamp
+            self.inputDescriptions = inputDescriptions
+            self.cloudWatchLoggingOptionDescriptions = cloudWatchLoggingOptionDescriptions
+            self.createTimestamp = createTimestamp
+            self.applicationName = applicationName
+            self.applicationCode = applicationCode
+            self.applicationStatus = applicationStatus
+            self.outputDescriptions = outputDescriptions
+            self.applicationVersionId = applicationVersionId
+            self.applicationDescription = applicationDescription
+            self.referenceDataSourceDescriptions = referenceDataSourceDescriptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationARN = "ApplicationARN"
+            case lastUpdateTimestamp = "LastUpdateTimestamp"
+            case inputDescriptions = "InputDescriptions"
+            case cloudWatchLoggingOptionDescriptions = "CloudWatchLoggingOptionDescriptions"
+            case createTimestamp = "CreateTimestamp"
+            case applicationName = "ApplicationName"
+            case applicationCode = "ApplicationCode"
+            case applicationStatus = "ApplicationStatus"
+            case outputDescriptions = "OutputDescriptions"
+            case applicationVersionId = "ApplicationVersionId"
+            case applicationDescription = "ApplicationDescription"
+            case referenceDataSourceDescriptions = "ReferenceDataSourceDescriptions"
         }
     }
 
     public struct KinesisStreamsOutputDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string)
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
-        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream.
-        public let roleARN: String?
         /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
         public let resourceARN: String?
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream.
+        public let roleARN: String?
 
-        public init(roleARN: String? = nil, resourceARN: String? = nil) {
-            self.roleARN = roleARN
+        public init(resourceARN: String? = nil, roleARN: String? = nil) {
             self.resourceARN = resourceARN
+            self.roleARN = roleARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
+        }
+    }
+
+    public struct OutputUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OutputId", required: true, type: .string), 
+            AWSShapeMember(label: "NameUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationSchemaUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "KinesisStreamsOutputUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "KinesisFirehoseOutputUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "LambdaOutputUpdate", required: false, type: .structure)
+        ]
+        /// Identifies the specific output configuration that you want to update.
+        public let outputId: String
+        /// If you want to specify a different in-application stream for this output configuration, use this field to specify the new in-application stream name.
+        public let nameUpdate: String?
+        /// Describes the data format when records are written to the destination. For more information, see Configuring Application Output.
+        public let destinationSchemaUpdate: DestinationSchema?
+        /// Describes an Amazon Kinesis stream as the destination for the output.
+        public let kinesisStreamsOutputUpdate: KinesisStreamsOutputUpdate?
+        /// Describes an Amazon Kinesis Firehose delivery stream as the destination for the output.
+        public let kinesisFirehoseOutputUpdate: KinesisFirehoseOutputUpdate?
+        /// Describes an AWS Lambda function as the destination for the output.
+        public let lambdaOutputUpdate: LambdaOutputUpdate?
+
+        public init(outputId: String, nameUpdate: String? = nil, destinationSchemaUpdate: DestinationSchema? = nil, kinesisStreamsOutputUpdate: KinesisStreamsOutputUpdate? = nil, kinesisFirehoseOutputUpdate: KinesisFirehoseOutputUpdate? = nil, lambdaOutputUpdate: LambdaOutputUpdate? = nil) {
+            self.outputId = outputId
+            self.nameUpdate = nameUpdate
+            self.destinationSchemaUpdate = destinationSchemaUpdate
+            self.kinesisStreamsOutputUpdate = kinesisStreamsOutputUpdate
+            self.kinesisFirehoseOutputUpdate = kinesisFirehoseOutputUpdate
+            self.lambdaOutputUpdate = lambdaOutputUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputId = "OutputId"
+            case nameUpdate = "NameUpdate"
+            case destinationSchemaUpdate = "DestinationSchemaUpdate"
+            case kinesisStreamsOutputUpdate = "KinesisStreamsOutputUpdate"
+            case kinesisFirehoseOutputUpdate = "KinesisFirehoseOutputUpdate"
+            case lambdaOutputUpdate = "LambdaOutputUpdate"
+        }
+    }
+
+    public struct KinesisStreamsInputDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string)
+        ]
+        /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
+        public let resourceARN: String?
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream.
+        public let roleARN: String?
+
+        public init(resourceARN: String? = nil, roleARN: String? = nil) {
+            self.resourceARN = resourceARN
+            self.roleARN = roleARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
+        }
+    }
+
+    public struct InputLambdaProcessorDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string)
+        ]
+        /// The ARN of the AWS Lambda function that is used to preprocess the records in the stream.
+        public let resourceARN: String?
+        /// The ARN of the IAM role that is used to access the AWS Lambda function.
+        public let roleARN: String?
+
+        public init(resourceARN: String? = nil, roleARN: String? = nil) {
+            self.resourceARN = resourceARN
+            self.roleARN = roleARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
+        }
+    }
+
+    public struct SourceSchema: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordFormat", required: true, type: .structure), 
+            AWSShapeMember(label: "RecordEncoding", required: false, type: .string), 
+            AWSShapeMember(label: "RecordColumns", required: true, type: .list)
+        ]
+        /// Specifies the format of the records on the streaming source.
+        public let recordFormat: RecordFormat
+        /// Specifies the encoding of the records in the streaming source. For example, UTF-8.
+        public let recordEncoding: String?
+        /// A list of RecordColumn objects.
+        public let recordColumns: [RecordColumn]
+
+        public init(recordFormat: RecordFormat, recordEncoding: String? = nil, recordColumns: [RecordColumn]) {
+            self.recordFormat = recordFormat
+            self.recordEncoding = recordEncoding
+            self.recordColumns = recordColumns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordFormat = "RecordFormat"
+            case recordEncoding = "RecordEncoding"
+            case recordColumns = "RecordColumns"
+        }
+    }
+
+    public struct DeleteApplicationInputProcessingConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputId", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long)
+        ]
+        /// The ID of the input configuration from which to delete the input processing configuration. You can get a list of the input IDs for an application by using the DescribeApplication operation.
+        public let inputId: String
+        /// The Kinesis Analytics application name.
+        public let applicationName: String
+        /// The version ID of the Kinesis Analytics application.
+        public let currentApplicationVersionId: Int64
+
+        public init(inputId: String, applicationName: String, currentApplicationVersionId: Int64) {
+            self.inputId = inputId
+            self.applicationName = applicationName
+            self.currentApplicationVersionId = currentApplicationVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputId = "InputId"
+            case applicationName = "ApplicationName"
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
+        }
+    }
+
+    public enum RecordFormatType: String, CustomStringConvertible, Codable {
+        case json = "JSON"
+        case csv = "CSV"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct KinesisFirehoseInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string)
+        ]
+        /// ARN of the input delivery stream.
+        public let resourceARN: String
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to make sure that the role has the necessary permissions to access the stream.
+        public let roleARN: String
+
+        public init(resourceARN: String, roleARN: String) {
+            self.resourceARN = resourceARN
+            self.roleARN = roleARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
+        }
+    }
+
+    public struct ApplicationSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "ApplicationARN", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
+        ]
+        /// Status of the application.
+        public let applicationStatus: ApplicationStatus
+        /// ARN of the application.
+        public let applicationARN: String
+        /// Name of the application.
+        public let applicationName: String
+
+        public init(applicationStatus: ApplicationStatus, applicationARN: String, applicationName: String) {
+            self.applicationStatus = applicationStatus
+            self.applicationARN = applicationARN
+            self.applicationName = applicationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationStatus = "ApplicationStatus"
+            case applicationARN = "ApplicationARN"
+            case applicationName = "ApplicationName"
+        }
+    }
+
+    public struct DeleteApplicationOutputResponse: AWSShape {
+
+    }
+
+    public struct ListApplicationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationSummaries", required: true, type: .list), 
+            AWSShapeMember(label: "HasMoreApplications", required: true, type: .boolean)
+        ]
+        /// List of ApplicationSummary objects. 
+        public let applicationSummaries: [ApplicationSummary]
+        /// Returns true if there are more applications to retrieve.
+        public let hasMoreApplications: Bool
+
+        public init(applicationSummaries: [ApplicationSummary], hasMoreApplications: Bool) {
+            self.applicationSummaries = applicationSummaries
+            self.hasMoreApplications = hasMoreApplications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationSummaries = "ApplicationSummaries"
+            case hasMoreApplications = "HasMoreApplications"
+        }
+    }
+
+    public struct InputParallelism: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Count", required: false, type: .integer)
+        ]
+        /// Number of in-application streams to create. For more information, see Limits. 
+        public let count: Int32?
+
+        public init(count: Int32? = nil) {
+            self.count = count
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "Count"
+        }
+    }
+
+    public struct DescribeApplicationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationDetail", required: true, type: .structure)
+        ]
+        /// Provides a description of the application, such as the application Amazon Resource Name (ARN), status, latest version, and input and output configuration details.
+        public let applicationDetail: ApplicationDetail
+
+        public init(applicationDetail: ApplicationDetail) {
+            self.applicationDetail = applicationDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationDetail = "ApplicationDetail"
+        }
+    }
+
+    public struct CloudWatchLoggingOption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "LogStreamARN", required: true, type: .string)
+        ]
+        /// IAM ARN of the role to use to send application messages. Note: To write application messages to CloudWatch, the IAM role that is used must have the PutLogEvents policy action enabled.
+        public let roleARN: String
+        /// ARN of the CloudWatch log to receive application messages.
+        public let logStreamARN: String
+
+        public init(roleARN: String, logStreamARN: String) {
+            self.roleARN = roleARN
+            self.logStreamARN = logStreamARN
         }
 
         private enum CodingKeys: String, CodingKey {
             case roleARN = "RoleARN"
+            case logStreamARN = "LogStreamARN"
+        }
+    }
+
+    public struct AddApplicationCloudWatchLoggingOptionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudWatchLoggingOption", required: true, type: .structure), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long)
+        ]
+        /// Provides the CloudWatch log stream Amazon Resource Name (ARN) and the IAM role ARN. Note: To write application messages to CloudWatch, the IAM role that is used must have the PutLogEvents policy action enabled.
+        public let cloudWatchLoggingOption: CloudWatchLoggingOption
+        /// The Kinesis Analytics application name.
+        public let applicationName: String
+        /// The version ID of the Kinesis Analytics application.
+        public let currentApplicationVersionId: Int64
+
+        public init(cloudWatchLoggingOption: CloudWatchLoggingOption, applicationName: String, currentApplicationVersionId: Int64) {
+            self.cloudWatchLoggingOption = cloudWatchLoggingOption
+            self.applicationName = applicationName
+            self.currentApplicationVersionId = currentApplicationVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLoggingOption = "CloudWatchLoggingOption"
+            case applicationName = "ApplicationName"
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
+        }
+    }
+
+    public struct ApplicationUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudWatchLoggingOptionUpdates", required: false, type: .list), 
+            AWSShapeMember(label: "InputUpdates", required: false, type: .list), 
+            AWSShapeMember(label: "OutputUpdates", required: false, type: .list), 
+            AWSShapeMember(label: "ReferenceDataSourceUpdates", required: false, type: .list), 
+            AWSShapeMember(label: "ApplicationCodeUpdate", required: false, type: .string)
+        ]
+        /// Describes application CloudWatch logging option updates.
+        public let cloudWatchLoggingOptionUpdates: [CloudWatchLoggingOptionUpdate]?
+        /// Describes application input configuration updates.
+        public let inputUpdates: [InputUpdate]?
+        /// Describes application output configuration updates.
+        public let outputUpdates: [OutputUpdate]?
+        /// Describes application reference data source updates.
+        public let referenceDataSourceUpdates: [ReferenceDataSourceUpdate]?
+        /// Describes application code updates.
+        public let applicationCodeUpdate: String?
+
+        public init(cloudWatchLoggingOptionUpdates: [CloudWatchLoggingOptionUpdate]? = nil, inputUpdates: [InputUpdate]? = nil, outputUpdates: [OutputUpdate]? = nil, referenceDataSourceUpdates: [ReferenceDataSourceUpdate]? = nil, applicationCodeUpdate: String? = nil) {
+            self.cloudWatchLoggingOptionUpdates = cloudWatchLoggingOptionUpdates
+            self.inputUpdates = inputUpdates
+            self.outputUpdates = outputUpdates
+            self.referenceDataSourceUpdates = referenceDataSourceUpdates
+            self.applicationCodeUpdate = applicationCodeUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLoggingOptionUpdates = "CloudWatchLoggingOptionUpdates"
+            case inputUpdates = "InputUpdates"
+            case outputUpdates = "OutputUpdates"
+            case referenceDataSourceUpdates = "ReferenceDataSourceUpdates"
+            case applicationCodeUpdate = "ApplicationCodeUpdate"
+        }
+    }
+
+    public struct ReferenceDataSourceUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableNameUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "ReferenceId", required: true, type: .string), 
+            AWSShapeMember(label: "S3ReferenceDataSourceUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "ReferenceSchemaUpdate", required: false, type: .structure)
+        ]
+        /// In-application table name that is created by this update.
+        public let tableNameUpdate: String?
+        /// ID of the reference data source being updated. You can use the DescribeApplication operation to get this value.
+        public let referenceId: String
+        /// Describes the S3 bucket name, object key name, and IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object on your behalf and populate the in-application reference table.
+        public let s3ReferenceDataSourceUpdate: S3ReferenceDataSourceUpdate?
+        /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream. 
+        public let referenceSchemaUpdate: SourceSchema?
+
+        public init(tableNameUpdate: String? = nil, referenceId: String, s3ReferenceDataSourceUpdate: S3ReferenceDataSourceUpdate? = nil, referenceSchemaUpdate: SourceSchema? = nil) {
+            self.tableNameUpdate = tableNameUpdate
+            self.referenceId = referenceId
+            self.s3ReferenceDataSourceUpdate = s3ReferenceDataSourceUpdate
+            self.referenceSchemaUpdate = referenceSchemaUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableNameUpdate = "TableNameUpdate"
+            case referenceId = "ReferenceId"
+            case s3ReferenceDataSourceUpdate = "S3ReferenceDataSourceUpdate"
+            case referenceSchemaUpdate = "ReferenceSchemaUpdate"
+        }
+    }
+
+    public struct KinesisFirehoseOutputDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string)
+        ]
+        /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
+        public let resourceARN: String?
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream.
+        public let roleARN: String?
+
+        public init(resourceARN: String? = nil, roleARN: String? = nil) {
+            self.resourceARN = resourceARN
+            self.roleARN = roleARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
+        }
+    }
+
+    public struct MappingParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JSONMappingParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "CSVMappingParameters", required: false, type: .structure)
+        ]
+        /// Provides additional mapping information when JSON is the record format on the streaming source.
+        public let jSONMappingParameters: JSONMappingParameters?
+        /// Provides additional mapping information when the record format uses delimiters (for example, CSV).
+        public let cSVMappingParameters: CSVMappingParameters?
+
+        public init(jSONMappingParameters: JSONMappingParameters? = nil, cSVMappingParameters: CSVMappingParameters? = nil) {
+            self.jSONMappingParameters = jSONMappingParameters
+            self.cSVMappingParameters = cSVMappingParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jSONMappingParameters = "JSONMappingParameters"
+            case cSVMappingParameters = "CSVMappingParameters"
+        }
+    }
+
+    public struct InputSchemaUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordEncodingUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "RecordColumnUpdates", required: false, type: .list), 
+            AWSShapeMember(label: "RecordFormatUpdate", required: false, type: .structure)
+        ]
+        /// Specifies the encoding of the records in the streaming source. For example, UTF-8.
+        public let recordEncodingUpdate: String?
+        /// A list of RecordColumn objects. Each object describes the mapping of the streaming source element to the corresponding column in the in-application stream. 
+        public let recordColumnUpdates: [RecordColumn]?
+        /// Specifies the format of the records on the streaming source.
+        public let recordFormatUpdate: RecordFormat?
+
+        public init(recordEncodingUpdate: String? = nil, recordColumnUpdates: [RecordColumn]? = nil, recordFormatUpdate: RecordFormat? = nil) {
+            self.recordEncodingUpdate = recordEncodingUpdate
+            self.recordColumnUpdates = recordColumnUpdates
+            self.recordFormatUpdate = recordFormatUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordEncodingUpdate = "RecordEncodingUpdate"
+            case recordColumnUpdates = "RecordColumnUpdates"
+            case recordFormatUpdate = "RecordFormatUpdate"
+        }
+    }
+
+    public struct AddApplicationInputResponse: AWSShape {
+
+    }
+
+    public struct LambdaOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string)
+        ]
+        /// Amazon Resource Name (ARN) of the destination Lambda function to write to.
+        public let resourceARN: String
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination function on your behalf. You need to grant the necessary permissions to this role. 
+        public let roleARN: String
+
+        public init(resourceARN: String, roleARN: String) {
+            self.resourceARN = resourceARN
+            self.roleARN = roleARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
         }
     }
 
@@ -232,154 +1165,96 @@ extension KinesisAnalytics {
         }
     }
 
-    public enum RecordFormatType: String, CustomStringConvertible, Codable {
-        case json = "JSON"
-        case csv = "CSV"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct OutputUpdate: AWSShape {
+    public struct DeleteApplicationReferenceDataSourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NameUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "KinesisFirehoseOutputUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "LambdaOutputUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "OutputId", required: true, type: .string), 
-            AWSShapeMember(label: "DestinationSchemaUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "KinesisStreamsOutputUpdate", required: false, type: .structure)
+            AWSShapeMember(label: "ReferenceId", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long)
         ]
-        /// If you want to specify a different in-application stream for this output configuration, use this field to specify the new in-application stream name.
-        public let nameUpdate: String?
-        /// Describes an Amazon Kinesis Firehose delivery stream as the destination for the output.
-        public let kinesisFirehoseOutputUpdate: KinesisFirehoseOutputUpdate?
-        /// Describes an AWS Lambda function as the destination for the output.
-        public let lambdaOutputUpdate: LambdaOutputUpdate?
-        /// Identifies the specific output configuration that you want to update.
-        public let outputId: String
-        /// Describes the data format when records are written to the destination. For more information, see Configuring Application Output.
-        public let destinationSchemaUpdate: DestinationSchema?
-        /// Describes an Amazon Kinesis stream as the destination for the output.
-        public let kinesisStreamsOutputUpdate: KinesisStreamsOutputUpdate?
-
-        public init(nameUpdate: String? = nil, kinesisFirehoseOutputUpdate: KinesisFirehoseOutputUpdate? = nil, lambdaOutputUpdate: LambdaOutputUpdate? = nil, outputId: String, destinationSchemaUpdate: DestinationSchema? = nil, kinesisStreamsOutputUpdate: KinesisStreamsOutputUpdate? = nil) {
-            self.nameUpdate = nameUpdate
-            self.kinesisFirehoseOutputUpdate = kinesisFirehoseOutputUpdate
-            self.lambdaOutputUpdate = lambdaOutputUpdate
-            self.outputId = outputId
-            self.destinationSchemaUpdate = destinationSchemaUpdate
-            self.kinesisStreamsOutputUpdate = kinesisStreamsOutputUpdate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nameUpdate = "NameUpdate"
-            case kinesisFirehoseOutputUpdate = "KinesisFirehoseOutputUpdate"
-            case lambdaOutputUpdate = "LambdaOutputUpdate"
-            case outputId = "OutputId"
-            case destinationSchemaUpdate = "DestinationSchemaUpdate"
-            case kinesisStreamsOutputUpdate = "KinesisStreamsOutputUpdate"
-        }
-    }
-
-    public struct CreateApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationSummary", required: true, type: .structure)
-        ]
-        /// In response to your CreateApplication request, Amazon Kinesis Analytics returns a response with a summary of the application it created, including the application Amazon Resource Name (ARN), name, and status.
-        public let applicationSummary: ApplicationSummary
-
-        public init(applicationSummary: ApplicationSummary) {
-            self.applicationSummary = applicationSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationSummary = "ApplicationSummary"
-        }
-    }
-
-    public struct ApplicationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationARN", required: true, type: .string), 
-            AWSShapeMember(label: "ApplicationStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
-        ]
-        /// ARN of the application.
-        public let applicationARN: String
-        /// Status of the application.
-        public let applicationStatus: ApplicationStatus
-        /// Name of the application.
+        /// ID of the reference data source. When you add a reference data source to your application using the AddApplicationReferenceDataSource, Amazon Kinesis Analytics assigns an ID. You can use the DescribeApplication operation to get the reference ID. 
+        public let referenceId: String
+        /// Name of an existing application.
         public let applicationName: String
+        /// Version of the application. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
+        public let currentApplicationVersionId: Int64
 
-        public init(applicationARN: String, applicationStatus: ApplicationStatus, applicationName: String) {
-            self.applicationARN = applicationARN
-            self.applicationStatus = applicationStatus
+        public init(referenceId: String, applicationName: String, currentApplicationVersionId: Int64) {
+            self.referenceId = referenceId
             self.applicationName = applicationName
+            self.currentApplicationVersionId = currentApplicationVersionId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationARN = "ApplicationARN"
-            case applicationStatus = "ApplicationStatus"
+            case referenceId = "ReferenceId"
             case applicationName = "ApplicationName"
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
         }
     }
 
-    public struct UpdateApplicationResponse: AWSShape {
-
-    }
-
-    public struct DescribeApplicationResponse: AWSShape {
+    public struct CreateApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationDetail", required: true, type: .structure)
+            AWSShapeMember(label: "ApplicationDescription", required: false, type: .string), 
+            AWSShapeMember(label: "Inputs", required: false, type: .list), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "Outputs", required: false, type: .list), 
+            AWSShapeMember(label: "ApplicationCode", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .list)
         ]
-        /// Provides a description of the application, such as the application Amazon Resource Name (ARN), status, latest version, and input and output configuration details.
-        public let applicationDetail: ApplicationDetail
+        /// Summary description of the application.
+        public let applicationDescription: String?
+        /// Use this parameter to configure the application input. You can configure your application to receive input from a single streaming source. In this configuration, you map this streaming source to an in-application stream that is created. Your application code can then query the in-application stream like a table (you can think of it as a constantly updating table). For the streaming source, you provide its Amazon Resource Name (ARN) and format of data on the stream (for example, JSON, CSV, etc.). You also must provide an IAM role that Amazon Kinesis Analytics can assume to read this stream on your behalf. To create the in-application stream, you need to specify a schema to transform your data into a schematized version used in SQL. In the schema, you provide the necessary mapping of the data elements in the streaming source to record columns in the in-app stream.
+        public let inputs: [Input]?
+        /// Name of your Amazon Kinesis Analytics application (for example, sample-app).
+        public let applicationName: String
+        /// You can configure application output to write data from any of the in-application streams to up to three destinations. These destinations can be Amazon Kinesis streams, Amazon Kinesis Firehose delivery streams, AWS Lambda destinations, or any combination of the three. In the configuration, you specify the in-application stream name, the destination stream or Lambda function Amazon Resource Name (ARN), and the format to use when writing data. You must also provide an IAM role that Amazon Kinesis Analytics can assume to write to the destination stream or Lambda function on your behalf. In the output configuration, you also provide the output stream or Lambda function ARN. For stream destinations, you provide the format of data in the stream (for example, JSON, CSV). You also must provide an IAM role that Amazon Kinesis Analytics can assume to write to the stream or Lambda function on your behalf.
+        public let outputs: [Output]?
+        /// One or more SQL statements that read input data, transform it, and generate output. For example, you can write a SQL statement that reads data from one in-application stream, generates a running average of the number of advertisement clicks by vendor, and insert resulting rows in another in-application stream using pumps. For more information about the typical pattern, see Application Code.  You can provide such series of SQL statements, where output of one statement can be used as the input for the next statement. You store intermediate results by creating in-application streams and pumps. Note that the application code must create the streams with names specified in the Outputs. For example, if your Outputs defines output streams named ExampleOutputStream1 and ExampleOutputStream2, then your application code must create these streams. 
+        public let applicationCode: String?
+        /// Use this parameter to configure a CloudWatch log stream to monitor application configuration errors. For more information, see Working with Amazon CloudWatch Logs.
+        public let cloudWatchLoggingOptions: [CloudWatchLoggingOption]?
 
-        public init(applicationDetail: ApplicationDetail) {
-            self.applicationDetail = applicationDetail
+        public init(applicationDescription: String? = nil, inputs: [Input]? = nil, applicationName: String, outputs: [Output]? = nil, applicationCode: String? = nil, cloudWatchLoggingOptions: [CloudWatchLoggingOption]? = nil) {
+            self.applicationDescription = applicationDescription
+            self.inputs = inputs
+            self.applicationName = applicationName
+            self.outputs = outputs
+            self.applicationCode = applicationCode
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationDetail = "ApplicationDetail"
+            case applicationDescription = "ApplicationDescription"
+            case inputs = "Inputs"
+            case applicationName = "ApplicationName"
+            case outputs = "Outputs"
+            case applicationCode = "ApplicationCode"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
         }
     }
 
-    public struct KinesisFirehoseOutput: AWSShape {
+    public struct S3ReferenceDataSource: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
+            AWSShapeMember(label: "BucketARN", required: true, type: .string), 
+            AWSShapeMember(label: "ReferenceRoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "FileKey", required: true, type: .string)
         ]
-        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination stream on your behalf. You need to grant the necessary permissions to this role.
-        public let roleARN: String
-        /// ARN of the destination Amazon Kinesis Firehose delivery stream to write to.
-        public let resourceARN: String
+        /// Amazon Resource Name (ARN) of the S3 bucket.
+        public let bucketARN: String
+        /// ARN of the IAM role that the service can assume to read data on your behalf. This role must have permission for the s3:GetObject action on the object and trust policy that allows Amazon Kinesis Analytics service principal to assume this role.
+        public let referenceRoleARN: String
+        /// Object key name containing reference data.
+        public let fileKey: String
 
-        public init(roleARN: String, resourceARN: String) {
-            self.roleARN = roleARN
-            self.resourceARN = resourceARN
+        public init(bucketARN: String, referenceRoleARN: String, fileKey: String) {
+            self.bucketARN = bucketARN
+            self.referenceRoleARN = referenceRoleARN
+            self.fileKey = fileKey
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleARN = "RoleARN"
-            case resourceARN = "ResourceARN"
-        }
-    }
-
-    public struct KinesisStreamsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
-        ]
-        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
-        public let roleARN: String
-        /// ARN of the input Amazon Kinesis stream to read.
-        public let resourceARN: String
-
-        public init(roleARN: String, resourceARN: String) {
-            self.roleARN = roleARN
-            self.resourceARN = resourceARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleARN = "RoleARN"
-            case resourceARN = "ResourceARN"
+            case bucketARN = "BucketARN"
+            case referenceRoleARN = "ReferenceRoleARN"
+            case fileKey = "FileKey"
         }
     }
 
@@ -409,22 +1284,6 @@ extension KinesisAnalytics {
         }
     }
 
-    public struct StopApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
-        ]
-        /// Name of the running application to stop.
-        public let applicationName: String
-
-        public init(applicationName: String) {
-            self.applicationName = applicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationName = "ApplicationName"
-        }
-    }
-
     public struct InputParallelismUpdate: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CountUpdate", required: false, type: .integer)
@@ -441,204 +1300,226 @@ extension KinesisAnalytics {
         }
     }
 
-    public struct Input: AWSShape {
+    public struct RecordColumn: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KinesisFirehoseInput", required: false, type: .structure), 
-            AWSShapeMember(label: "NamePrefix", required: true, type: .string), 
-            AWSShapeMember(label: "InputSchema", required: true, type: .structure), 
-            AWSShapeMember(label: "KinesisStreamsInput", required: false, type: .structure), 
-            AWSShapeMember(label: "InputParallelism", required: false, type: .structure), 
-            AWSShapeMember(label: "InputProcessingConfiguration", required: false, type: .structure)
+            AWSShapeMember(label: "Mapping", required: false, type: .string), 
+            AWSShapeMember(label: "SqlType", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// If the streaming source is an Amazon Kinesis Firehose delivery stream, identifies the delivery stream's ARN and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf. Note: Either KinesisStreamsInput or KinesisFirehoseInput is required.
-        public let kinesisFirehoseInput: KinesisFirehoseInput?
-        /// Name prefix to use when creating an in-application stream. Suppose that you specify a prefix "MyInApplicationStream." Amazon Kinesis Analytics then creates one or more (as per the InputParallelism count you specified) in-application streams with names "MyInApplicationStream_001," "MyInApplicationStream_002," and so on. 
-        public let namePrefix: String
-        /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns in the in-application stream that is being created. Also used to describe the format of the reference data source.
-        public let inputSchema: SourceSchema
-        /// If the streaming source is an Amazon Kinesis stream, identifies the stream's Amazon Resource Name (ARN) and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf. Note: Either KinesisStreamsInput or KinesisFirehoseInput is required.
-        public let kinesisStreamsInput: KinesisStreamsInput?
-        /// Describes the number of in-application streams to create.  Data from your source is routed to these in-application input streams.  (see Configuring Application Input.
-        public let inputParallelism: InputParallelism?
-        /// The InputProcessingConfiguration for the input. An input processor transforms records as they are received from the stream, before the application's SQL code executes. Currently, the only input processing configuration available is InputLambdaProcessor.
+        /// Reference to the data element in the streaming input of the reference data source.
+        public let mapping: String?
+        /// Type of column created in the in-application input stream or reference table.
+        public let sqlType: String
+        /// Name of the column created in the in-application input stream or reference table.
+        public let name: String
+
+        public init(mapping: String? = nil, sqlType: String, name: String) {
+            self.mapping = mapping
+            self.sqlType = sqlType
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mapping = "Mapping"
+            case sqlType = "SqlType"
+            case name = "Name"
+        }
+    }
+
+    public enum ApplicationStatus: String, CustomStringConvertible, Codable {
+        case deleting = "DELETING"
+        case starting = "STARTING"
+        case stopping = "STOPPING"
+        case ready = "READY"
+        case running = "RUNNING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CSVMappingParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordColumnDelimiter", required: true, type: .string), 
+            AWSShapeMember(label: "RecordRowDelimiter", required: true, type: .string)
+        ]
+        /// Column delimiter. For example, in a CSV format, a comma (",") is the typical column delimiter.
+        public let recordColumnDelimiter: String
+        /// Row delimiter. For example, in a CSV format, '\n' is the typical row delimiter.
+        public let recordRowDelimiter: String
+
+        public init(recordColumnDelimiter: String, recordRowDelimiter: String) {
+            self.recordColumnDelimiter = recordColumnDelimiter
+            self.recordRowDelimiter = recordRowDelimiter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordColumnDelimiter = "RecordColumnDelimiter"
+            case recordRowDelimiter = "RecordRowDelimiter"
+        }
+    }
+
+    public struct RecordFormat: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MappingParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "RecordFormatType", required: true, type: .enum)
+        ]
+        /// When configuring application input at the time of creating or updating an application, provides additional mapping information specific to the record format (such as JSON, CSV, or record fields delimited by some delimiter) on the streaming source.
+        public let mappingParameters: MappingParameters?
+        /// The type of record format.
+        public let recordFormatType: RecordFormatType
+
+        public init(mappingParameters: MappingParameters? = nil, recordFormatType: RecordFormatType) {
+            self.mappingParameters = mappingParameters
+            self.recordFormatType = recordFormatType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mappingParameters = "MappingParameters"
+            case recordFormatType = "RecordFormatType"
+        }
+    }
+
+    public struct DiscoverInputSchemaRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "S3Configuration", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "InputProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "InputStartingPositionConfiguration", required: false, type: .structure)
+        ]
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf.
+        public let roleARN: String?
+        /// Specify this parameter to discover a schema from data in an Amazon S3 object.
+        public let s3Configuration: S3Configuration?
+        /// Amazon Resource Name (ARN) of the streaming source.
+        public let resourceARN: String?
+        /// The InputProcessingConfiguration to use to preprocess the records before discovering the schema of the records.
         public let inputProcessingConfiguration: InputProcessingConfiguration?
+        /// Point at which you want Amazon Kinesis Analytics to start reading records from the specified streaming source discovery purposes.
+        public let inputStartingPositionConfiguration: InputStartingPositionConfiguration?
 
-        public init(kinesisFirehoseInput: KinesisFirehoseInput? = nil, namePrefix: String, inputSchema: SourceSchema, kinesisStreamsInput: KinesisStreamsInput? = nil, inputParallelism: InputParallelism? = nil, inputProcessingConfiguration: InputProcessingConfiguration? = nil) {
-            self.kinesisFirehoseInput = kinesisFirehoseInput
-            self.namePrefix = namePrefix
-            self.inputSchema = inputSchema
-            self.kinesisStreamsInput = kinesisStreamsInput
-            self.inputParallelism = inputParallelism
-            self.inputProcessingConfiguration = inputProcessingConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case kinesisFirehoseInput = "KinesisFirehoseInput"
-            case namePrefix = "NamePrefix"
-            case inputSchema = "InputSchema"
-            case kinesisStreamsInput = "KinesisStreamsInput"
-            case inputParallelism = "InputParallelism"
-            case inputProcessingConfiguration = "InputProcessingConfiguration"
-        }
-    }
-
-    public struct InputProcessingConfigurationUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputLambdaProcessorUpdate", required: true, type: .structure)
-        ]
-        /// Provides update information for an InputLambdaProcessor.
-        public let inputLambdaProcessorUpdate: InputLambdaProcessorUpdate
-
-        public init(inputLambdaProcessorUpdate: InputLambdaProcessorUpdate) {
-            self.inputLambdaProcessorUpdate = inputLambdaProcessorUpdate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputLambdaProcessorUpdate = "InputLambdaProcessorUpdate"
-        }
-    }
-
-    public struct KinesisStreamsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
-        ]
-        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination stream on your behalf. You need to grant the necessary permissions to this role.
-        public let roleARN: String
-        /// ARN of the destination Amazon Kinesis stream to write to.
-        public let resourceARN: String
-
-        public init(roleARN: String, resourceARN: String) {
+        public init(roleARN: String? = nil, s3Configuration: S3Configuration? = nil, resourceARN: String? = nil, inputProcessingConfiguration: InputProcessingConfiguration? = nil, inputStartingPositionConfiguration: InputStartingPositionConfiguration? = nil) {
             self.roleARN = roleARN
+            self.s3Configuration = s3Configuration
             self.resourceARN = resourceARN
+            self.inputProcessingConfiguration = inputProcessingConfiguration
+            self.inputStartingPositionConfiguration = inputStartingPositionConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case roleARN = "RoleARN"
+            case s3Configuration = "S3Configuration"
             case resourceARN = "ResourceARN"
+            case inputProcessingConfiguration = "InputProcessingConfiguration"
+            case inputStartingPositionConfiguration = "InputStartingPositionConfiguration"
         }
     }
 
-    public struct DeleteApplicationReferenceDataSourceResponse: AWSShape {
-
-    }
-
-    public struct StopApplicationResponse: AWSShape {
-
-    }
-
-    public struct KinesisFirehoseInputUpdate: AWSShape {
+    public struct OutputDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string)
+            AWSShapeMember(label: "OutputId", required: false, type: .string), 
+            AWSShapeMember(label: "KinesisStreamsOutputDescription", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "KinesisFirehoseOutputDescription", required: false, type: .structure), 
+            AWSShapeMember(label: "LambdaOutputDescription", required: false, type: .structure), 
+            AWSShapeMember(label: "DestinationSchema", required: false, type: .structure)
         ]
-        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
-        public let roleARNUpdate: String?
-        /// Amazon Resource Name (ARN) of the input Amazon Kinesis Firehose delivery stream to read.
-        public let resourceARNUpdate: String?
+        /// A unique identifier for the output configuration.
+        public let outputId: String?
+        /// Describes Amazon Kinesis stream configured as the destination where output is written.
+        public let kinesisStreamsOutputDescription: KinesisStreamsOutputDescription?
+        /// Name of the in-application stream configured as output.
+        public let name: String?
+        /// Describes the Amazon Kinesis Firehose delivery stream configured as the destination where output is written.
+        public let kinesisFirehoseOutputDescription: KinesisFirehoseOutputDescription?
+        /// Describes the AWS Lambda function configured as the destination where output is written.
+        public let lambdaOutputDescription: LambdaOutputDescription?
+        /// Data format used for writing data to the destination.
+        public let destinationSchema: DestinationSchema?
 
-        public init(roleARNUpdate: String? = nil, resourceARNUpdate: String? = nil) {
-            self.roleARNUpdate = roleARNUpdate
-            self.resourceARNUpdate = resourceARNUpdate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleARNUpdate = "RoleARNUpdate"
-            case resourceARNUpdate = "ResourceARNUpdate"
-        }
-    }
-
-    public struct InputProcessingConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputLambdaProcessor", required: true, type: .structure)
-        ]
-        /// The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code.
-        public let inputLambdaProcessor: InputLambdaProcessor
-
-        public init(inputLambdaProcessor: InputLambdaProcessor) {
-            self.inputLambdaProcessor = inputLambdaProcessor
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputLambdaProcessor = "InputLambdaProcessor"
-        }
-    }
-
-    public struct DeleteApplicationOutputRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "OutputId", required: true, type: .string)
-        ]
-        /// Amazon Kinesis Analytics application version. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. 
-        public let currentApplicationVersionId: Int64
-        /// Amazon Kinesis Analytics application name.
-        public let applicationName: String
-        /// The ID of the configuration to delete. Each output configuration that is added to the application, either when the application is created or later using the AddApplicationOutput operation, has a unique ID. You need to provide the ID to uniquely identify the output configuration that you want to delete from the application configuration. You can use the DescribeApplication operation to get the specific OutputId. 
-        public let outputId: String
-
-        public init(currentApplicationVersionId: Int64, applicationName: String, outputId: String) {
-            self.currentApplicationVersionId = currentApplicationVersionId
-            self.applicationName = applicationName
+        public init(outputId: String? = nil, kinesisStreamsOutputDescription: KinesisStreamsOutputDescription? = nil, name: String? = nil, kinesisFirehoseOutputDescription: KinesisFirehoseOutputDescription? = nil, lambdaOutputDescription: LambdaOutputDescription? = nil, destinationSchema: DestinationSchema? = nil) {
             self.outputId = outputId
+            self.kinesisStreamsOutputDescription = kinesisStreamsOutputDescription
+            self.name = name
+            self.kinesisFirehoseOutputDescription = kinesisFirehoseOutputDescription
+            self.lambdaOutputDescription = lambdaOutputDescription
+            self.destinationSchema = destinationSchema
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentApplicationVersionId = "CurrentApplicationVersionId"
-            case applicationName = "ApplicationName"
             case outputId = "OutputId"
+            case kinesisStreamsOutputDescription = "KinesisStreamsOutputDescription"
+            case name = "Name"
+            case kinesisFirehoseOutputDescription = "KinesisFirehoseOutputDescription"
+            case lambdaOutputDescription = "LambdaOutputDescription"
+            case destinationSchema = "DestinationSchema"
         }
     }
 
-    public struct ReferenceDataSource: AWSShape {
+    public struct AddApplicationInputProcessingConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3ReferenceDataSource", required: false, type: .structure), 
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "ReferenceSchema", required: true, type: .structure)
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "InputProcessingConfiguration", required: true, type: .structure), 
+            AWSShapeMember(label: "InputId", required: true, type: .string), 
+            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long)
         ]
-        /// Identifies the S3 bucket and object that contains the reference data. Also identifies the IAM role Amazon Kinesis Analytics can assume to read this object on your behalf. An Amazon Kinesis Analytics application loads reference data only once. If the data changes, you call the UpdateApplication operation to trigger reloading of data into your application. 
-        public let s3ReferenceDataSource: S3ReferenceDataSource?
-        /// Name of the in-application table to create.
-        public let tableName: String
-        /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream.
-        public let referenceSchema: SourceSchema
-
-        public init(s3ReferenceDataSource: S3ReferenceDataSource? = nil, tableName: String, referenceSchema: SourceSchema) {
-            self.s3ReferenceDataSource = s3ReferenceDataSource
-            self.tableName = tableName
-            self.referenceSchema = referenceSchema
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3ReferenceDataSource = "S3ReferenceDataSource"
-            case tableName = "TableName"
-            case referenceSchema = "ReferenceSchema"
-        }
-    }
-
-    public struct AddApplicationReferenceDataSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeMember(label: "ReferenceDataSource", required: true, type: .structure), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
-        ]
-        /// Version of the application for which you are adding the reference data source. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
-        public let currentApplicationVersionId: Int64
-        /// The reference data source can be an object in your Amazon S3 bucket. Amazon Kinesis Analytics reads the object and copies the data into the in-application table that is created. You provide an S3 bucket, object key name, and the resulting in-application table that is created. You must also provide an IAM role with the necessary permissions that Amazon Kinesis Analytics can assume to read the object from your S3 bucket on your behalf.
-        public let referenceDataSource: ReferenceDataSource
-        /// Name of an existing application.
+        /// Name of the application to which you want to add the input processing configuration.
         public let applicationName: String
+        /// The InputProcessingConfiguration to add to the application.
+        public let inputProcessingConfiguration: InputProcessingConfiguration
+        /// The ID of the input configuration to add the input processing configuration to. You can get a list of the input IDs for an application using the DescribeApplication operation.
+        public let inputId: String
+        /// Version of the application to which you want to add the input processing configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
+        public let currentApplicationVersionId: Int64
 
-        public init(currentApplicationVersionId: Int64, referenceDataSource: ReferenceDataSource, applicationName: String) {
-            self.currentApplicationVersionId = currentApplicationVersionId
-            self.referenceDataSource = referenceDataSource
+        public init(applicationName: String, inputProcessingConfiguration: InputProcessingConfiguration, inputId: String, currentApplicationVersionId: Int64) {
             self.applicationName = applicationName
+            self.inputProcessingConfiguration = inputProcessingConfiguration
+            self.inputId = inputId
+            self.currentApplicationVersionId = currentApplicationVersionId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentApplicationVersionId = "CurrentApplicationVersionId"
-            case referenceDataSource = "ReferenceDataSource"
             case applicationName = "ApplicationName"
+            case inputProcessingConfiguration = "InputProcessingConfiguration"
+            case inputId = "InputId"
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
+        }
+    }
+
+    public struct CreateApplicationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationSummary", required: true, type: .structure)
+        ]
+        /// In response to your CreateApplication request, Amazon Kinesis Analytics returns a response with a summary of the application it created, including the application Amazon Resource Name (ARN), name, and status.
+        public let applicationSummary: ApplicationSummary
+
+        public init(applicationSummary: ApplicationSummary) {
+            self.applicationSummary = applicationSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationSummary = "ApplicationSummary"
+        }
+    }
+
+    public struct ListApplicationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "ExclusiveStartApplicationName", required: false, type: .string)
+        ]
+        /// Maximum number of applications to list.
+        public let limit: Int32?
+        /// Name of the application to start the list with. When using pagination to retrieve the list, you don't need to specify this parameter in the first request. However, in subsequent requests, you add the last application name from the previous response to get the next page of applications.
+        public let exclusiveStartApplicationName: String?
+
+        public init(limit: Int32? = nil, exclusiveStartApplicationName: String? = nil) {
+            self.limit = limit
+            self.exclusiveStartApplicationName = exclusiveStartApplicationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case exclusiveStartApplicationName = "ExclusiveStartApplicationName"
         }
     }
 
@@ -668,581 +1549,132 @@ extension KinesisAnalytics {
         }
     }
 
-    public struct DeleteApplicationCloudWatchLoggingOptionRequest: AWSShape {
+    public struct KinesisFirehoseOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "CloudWatchLoggingOptionId", required: true, type: .string)
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
-        /// The version ID of the Kinesis Analytics application.
-        public let currentApplicationVersionId: Int64
-        /// The Kinesis Analytics application name.
-        public let applicationName: String
-        /// The CloudWatchLoggingOptionId of the CloudWatch logging option to delete. You can get the CloudWatchLoggingOptionId by using the DescribeApplication operation. 
-        public let cloudWatchLoggingOptionId: String
-
-        public init(currentApplicationVersionId: Int64, applicationName: String, cloudWatchLoggingOptionId: String) {
-            self.currentApplicationVersionId = currentApplicationVersionId
-            self.applicationName = applicationName
-            self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case currentApplicationVersionId = "CurrentApplicationVersionId"
-            case applicationName = "ApplicationName"
-            case cloudWatchLoggingOptionId = "CloudWatchLoggingOptionId"
-        }
-    }
-
-    public struct KinesisFirehoseOutputUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string)
-        ]
-        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
-        public let roleARNUpdate: String?
-        /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream to write to.
-        public let resourceARNUpdate: String?
-
-        public init(roleARNUpdate: String? = nil, resourceARNUpdate: String? = nil) {
-            self.roleARNUpdate = roleARNUpdate
-            self.resourceARNUpdate = resourceARNUpdate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleARNUpdate = "RoleARNUpdate"
-            case resourceARNUpdate = "ResourceARNUpdate"
-        }
-    }
-
-    public struct ApplicationUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationCodeUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "InputUpdates", required: false, type: .list), 
-            AWSShapeMember(label: "ReferenceDataSourceUpdates", required: false, type: .list), 
-            AWSShapeMember(label: "CloudWatchLoggingOptionUpdates", required: false, type: .list), 
-            AWSShapeMember(label: "OutputUpdates", required: false, type: .list)
-        ]
-        /// Describes application code updates.
-        public let applicationCodeUpdate: String?
-        /// Describes application input configuration updates.
-        public let inputUpdates: [InputUpdate]?
-        /// Describes application reference data source updates.
-        public let referenceDataSourceUpdates: [ReferenceDataSourceUpdate]?
-        /// Describes application CloudWatch logging option updates.
-        public let cloudWatchLoggingOptionUpdates: [CloudWatchLoggingOptionUpdate]?
-        /// Describes application output configuration updates.
-        public let outputUpdates: [OutputUpdate]?
-
-        public init(applicationCodeUpdate: String? = nil, inputUpdates: [InputUpdate]? = nil, referenceDataSourceUpdates: [ReferenceDataSourceUpdate]? = nil, cloudWatchLoggingOptionUpdates: [CloudWatchLoggingOptionUpdate]? = nil, outputUpdates: [OutputUpdate]? = nil) {
-            self.applicationCodeUpdate = applicationCodeUpdate
-            self.inputUpdates = inputUpdates
-            self.referenceDataSourceUpdates = referenceDataSourceUpdates
-            self.cloudWatchLoggingOptionUpdates = cloudWatchLoggingOptionUpdates
-            self.outputUpdates = outputUpdates
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationCodeUpdate = "ApplicationCodeUpdate"
-            case inputUpdates = "InputUpdates"
-            case referenceDataSourceUpdates = "ReferenceDataSourceUpdates"
-            case cloudWatchLoggingOptionUpdates = "CloudWatchLoggingOptionUpdates"
-            case outputUpdates = "OutputUpdates"
-        }
-    }
-
-    public struct AddApplicationInputResponse: AWSShape {
-
-    }
-
-    public struct DeleteApplicationCloudWatchLoggingOptionResponse: AWSShape {
-
-    }
-
-    public struct AddApplicationInputProcessingConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputId", required: true, type: .string), 
-            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeMember(label: "InputProcessingConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
-        ]
-        /// The ID of the input configuration to add the input processing configuration to. You can get a list of the input IDs for an application using the DescribeApplication operation.
-        public let inputId: String
-        /// Version of the application to which you want to add the input processing configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
-        public let currentApplicationVersionId: Int64
-        /// The InputProcessingConfiguration to add to the application.
-        public let inputProcessingConfiguration: InputProcessingConfiguration
-        /// Name of the application to which you want to add the input processing configuration.
-        public let applicationName: String
-
-        public init(inputId: String, currentApplicationVersionId: Int64, inputProcessingConfiguration: InputProcessingConfiguration, applicationName: String) {
-            self.inputId = inputId
-            self.currentApplicationVersionId = currentApplicationVersionId
-            self.inputProcessingConfiguration = inputProcessingConfiguration
-            self.applicationName = applicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputId = "InputId"
-            case currentApplicationVersionId = "CurrentApplicationVersionId"
-            case inputProcessingConfiguration = "InputProcessingConfiguration"
-            case applicationName = "ApplicationName"
-        }
-    }
-
-    public struct DeleteApplicationReferenceDataSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "ReferenceId", required: true, type: .string)
-        ]
-        /// Version of the application. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
-        public let currentApplicationVersionId: Int64
-        /// Name of an existing application.
-        public let applicationName: String
-        /// ID of the reference data source. When you add a reference data source to your application using the AddApplicationReferenceDataSource, Amazon Kinesis Analytics assigns an ID. You can use the DescribeApplication operation to get the reference ID. 
-        public let referenceId: String
-
-        public init(currentApplicationVersionId: Int64, applicationName: String, referenceId: String) {
-            self.currentApplicationVersionId = currentApplicationVersionId
-            self.applicationName = applicationName
-            self.referenceId = referenceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case currentApplicationVersionId = "CurrentApplicationVersionId"
-            case applicationName = "ApplicationName"
-            case referenceId = "ReferenceId"
-        }
-    }
-
-    public struct KinesisFirehoseOutputDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string)
-        ]
-        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream.
-        public let roleARN: String?
-        /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
-        public let resourceARN: String?
-
-        public init(roleARN: String? = nil, resourceARN: String? = nil) {
-            self.roleARN = roleARN
-            self.resourceARN = resourceARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleARN = "RoleARN"
-            case resourceARN = "ResourceARN"
-        }
-    }
-
-    public struct ReferenceDataSourceDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3ReferenceDataSourceDescription", required: true, type: .structure), 
-            AWSShapeMember(label: "ReferenceSchema", required: false, type: .structure), 
-            AWSShapeMember(label: "ReferenceId", required: true, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
-        /// Provides the S3 bucket name, the object key name that contains the reference data. It also provides the Amazon Resource Name (ARN) of the IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object and populate the in-application reference table.
-        public let s3ReferenceDataSourceDescription: S3ReferenceDataSourceDescription
-        /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream.
-        public let referenceSchema: SourceSchema?
-        /// ID of the reference data source. This is the ID that Amazon Kinesis Analytics assigns when you add the reference data source to your application using the AddApplicationReferenceDataSource operation.
-        public let referenceId: String
-        /// The in-application table name created by the specific reference data source configuration.
-        public let tableName: String
-
-        public init(s3ReferenceDataSourceDescription: S3ReferenceDataSourceDescription, referenceSchema: SourceSchema? = nil, referenceId: String, tableName: String) {
-            self.s3ReferenceDataSourceDescription = s3ReferenceDataSourceDescription
-            self.referenceSchema = referenceSchema
-            self.referenceId = referenceId
-            self.tableName = tableName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3ReferenceDataSourceDescription = "S3ReferenceDataSourceDescription"
-            case referenceSchema = "ReferenceSchema"
-            case referenceId = "ReferenceId"
-            case tableName = "TableName"
-        }
-    }
-
-    public struct InputLambdaProcessorUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string)
-        ]
-        /// The ARN of the new IAM role that is used to access the AWS Lambda function.
-        public let roleARNUpdate: String?
-        /// The Amazon Resource Name (ARN) of the new AWS Lambda function that is used to preprocess the records in the stream.
-        public let resourceARNUpdate: String?
-
-        public init(roleARNUpdate: String? = nil, resourceARNUpdate: String? = nil) {
-            self.roleARNUpdate = roleARNUpdate
-            self.resourceARNUpdate = resourceARNUpdate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleARNUpdate = "RoleARNUpdate"
-            case resourceARNUpdate = "ResourceARNUpdate"
-        }
-    }
-
-    public struct DestinationSchema: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordFormatType", required: true, type: .enum)
-        ]
-        /// Specifies the format of the records on the output stream.
-        public let recordFormatType: RecordFormatType
-
-        public init(recordFormatType: RecordFormatType) {
-            self.recordFormatType = recordFormatType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recordFormatType = "RecordFormatType"
-        }
-    }
-
-    public struct S3ReferenceDataSourceDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileKey", required: true, type: .string), 
-            AWSShapeMember(label: "BucketARN", required: true, type: .string), 
-            AWSShapeMember(label: "ReferenceRoleARN", required: true, type: .string)
-        ]
-        /// Amazon S3 object key name.
-        public let fileKey: String
-        /// Amazon Resource Name (ARN) of the S3 bucket.
-        public let bucketARN: String
-        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object on your behalf to populate the in-application reference table.
-        public let referenceRoleARN: String
-
-        public init(fileKey: String, bucketARN: String, referenceRoleARN: String) {
-            self.fileKey = fileKey
-            self.bucketARN = bucketARN
-            self.referenceRoleARN = referenceRoleARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fileKey = "FileKey"
-            case bucketARN = "BucketARN"
-            case referenceRoleARN = "ReferenceRoleARN"
-        }
-    }
-
-    public struct InputSchemaUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordEncodingUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "RecordFormatUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "RecordColumnUpdates", required: false, type: .list)
-        ]
-        /// Specifies the encoding of the records in the streaming source. For example, UTF-8.
-        public let recordEncodingUpdate: String?
-        /// Specifies the format of the records on the streaming source.
-        public let recordFormatUpdate: RecordFormat?
-        /// A list of RecordColumn objects. Each object describes the mapping of the streaming source element to the corresponding column in the in-application stream. 
-        public let recordColumnUpdates: [RecordColumn]?
-
-        public init(recordEncodingUpdate: String? = nil, recordFormatUpdate: RecordFormat? = nil, recordColumnUpdates: [RecordColumn]? = nil) {
-            self.recordEncodingUpdate = recordEncodingUpdate
-            self.recordFormatUpdate = recordFormatUpdate
-            self.recordColumnUpdates = recordColumnUpdates
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recordEncodingUpdate = "RecordEncodingUpdate"
-            case recordFormatUpdate = "RecordFormatUpdate"
-            case recordColumnUpdates = "RecordColumnUpdates"
-        }
-    }
-
-    public struct LambdaOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
-        ]
-        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination function on your behalf. You need to grant the necessary permissions to this role. 
-        public let roleARN: String
-        /// Amazon Resource Name (ARN) of the destination Lambda function to write to.
+        /// ARN of the destination Amazon Kinesis Firehose delivery stream to write to.
         public let resourceARN: String
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination stream on your behalf. You need to grant the necessary permissions to this role.
+        public let roleARN: String
 
-        public init(roleARN: String, resourceARN: String) {
-            self.roleARN = roleARN
+        public init(resourceARN: String, roleARN: String) {
             self.resourceARN = resourceARN
+            self.roleARN = roleARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleARN = "RoleARN"
             case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
         }
     }
 
-    public struct Output: AWSShape {
+    public struct KinesisStreamsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KinesisStreamsOutput", required: false, type: .structure), 
-            AWSShapeMember(label: "LambdaOutput", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "DestinationSchema", required: true, type: .structure), 
-            AWSShapeMember(label: "KinesisFirehoseOutput", required: false, type: .structure)
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
-        /// Identifies an Amazon Kinesis stream as the destination.
-        public let kinesisStreamsOutput: KinesisStreamsOutput?
-        /// Identifies an AWS Lambda function as the destination.
-        public let lambdaOutput: LambdaOutput?
-        /// Name of the in-application stream.
-        public let name: String
-        /// Describes the data format when records are written to the destination. For more information, see Configuring Application Output.
-        public let destinationSchema: DestinationSchema
-        /// Identifies an Amazon Kinesis Firehose delivery stream as the destination.
-        public let kinesisFirehoseOutput: KinesisFirehoseOutput?
+        /// ARN of the destination Amazon Kinesis stream to write to.
+        public let resourceARN: String
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination stream on your behalf. You need to grant the necessary permissions to this role.
+        public let roleARN: String
 
-        public init(kinesisStreamsOutput: KinesisStreamsOutput? = nil, lambdaOutput: LambdaOutput? = nil, name: String, destinationSchema: DestinationSchema, kinesisFirehoseOutput: KinesisFirehoseOutput? = nil) {
-            self.kinesisStreamsOutput = kinesisStreamsOutput
-            self.lambdaOutput = lambdaOutput
-            self.name = name
-            self.destinationSchema = destinationSchema
-            self.kinesisFirehoseOutput = kinesisFirehoseOutput
+        public init(resourceARN: String, roleARN: String) {
+            self.resourceARN = resourceARN
+            self.roleARN = roleARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kinesisStreamsOutput = "KinesisStreamsOutput"
-            case lambdaOutput = "LambdaOutput"
-            case name = "Name"
-            case destinationSchema = "DestinationSchema"
-            case kinesisFirehoseOutput = "KinesisFirehoseOutput"
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
         }
     }
 
-    public enum ApplicationStatus: String, CustomStringConvertible, Codable {
-        case deleting = "DELETING"
-        case starting = "STARTING"
-        case stopping = "STOPPING"
-        case ready = "READY"
-        case running = "RUNNING"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RecordColumn: AWSShape {
+    public struct InputDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SqlType", required: true, type: .string), 
-            AWSShapeMember(label: "Mapping", required: false, type: .string)
+            AWSShapeMember(label: "InputParallelism", required: false, type: .structure), 
+            AWSShapeMember(label: "InAppStreamNames", required: false, type: .list), 
+            AWSShapeMember(label: "InputId", required: false, type: .string), 
+            AWSShapeMember(label: "InputSchema", required: false, type: .structure), 
+            AWSShapeMember(label: "InputProcessingConfigurationDescription", required: false, type: .structure), 
+            AWSShapeMember(label: "NamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "InputStartingPositionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "KinesisStreamsInputDescription", required: false, type: .structure), 
+            AWSShapeMember(label: "KinesisFirehoseInputDescription", required: false, type: .structure)
         ]
-        /// Name of the column created in the in-application input stream or reference table.
-        public let name: String
-        /// Type of column created in the in-application input stream or reference table.
-        public let sqlType: String
-        /// Reference to the data element in the streaming input of the reference data source.
-        public let mapping: String?
+        /// Describes the configured parallelism (number of in-application streams mapped to the streaming source).
+        public let inputParallelism: InputParallelism?
+        /// Returns the in-application stream names that are mapped to the stream source.
+        public let inAppStreamNames: [String]?
+        /// Input ID associated with the application input. This is the ID that Amazon Kinesis Analytics assigns to each input configuration you add to your application. 
+        public let inputId: String?
+        /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns in the in-application stream that is being created. 
+        public let inputSchema: SourceSchema?
+        /// The description of the preprocessor that executes on records in this input before the application's code is run.
+        public let inputProcessingConfigurationDescription: InputProcessingConfigurationDescription?
+        /// In-application name prefix.
+        public let namePrefix: String?
+        /// Point at which the application is configured to read from the input stream.
+        public let inputStartingPositionConfiguration: InputStartingPositionConfiguration?
+        /// If an Amazon Kinesis stream is configured as streaming source, provides Amazon Kinesis stream's Amazon Resource Name (ARN) and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
+        public let kinesisStreamsInputDescription: KinesisStreamsInputDescription?
+        /// If an Amazon Kinesis Firehose delivery stream is configured as a streaming source, provides the delivery stream's ARN and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
+        public let kinesisFirehoseInputDescription: KinesisFirehoseInputDescription?
 
-        public init(name: String, sqlType: String, mapping: String? = nil) {
-            self.name = name
-            self.sqlType = sqlType
-            self.mapping = mapping
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case sqlType = "SqlType"
-            case mapping = "Mapping"
-        }
-    }
-
-    public struct DeleteApplicationInputProcessingConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeMember(label: "InputId", required: true, type: .string), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
-        ]
-        /// The version ID of the Kinesis Analytics application.
-        public let currentApplicationVersionId: Int64
-        /// The ID of the input configuration from which to delete the input processing configuration. You can get a list of the input IDs for an application by using the DescribeApplication operation.
-        public let inputId: String
-        /// The Kinesis Analytics application name.
-        public let applicationName: String
-
-        public init(currentApplicationVersionId: Int64, inputId: String, applicationName: String) {
-            self.currentApplicationVersionId = currentApplicationVersionId
+        public init(inputParallelism: InputParallelism? = nil, inAppStreamNames: [String]? = nil, inputId: String? = nil, inputSchema: SourceSchema? = nil, inputProcessingConfigurationDescription: InputProcessingConfigurationDescription? = nil, namePrefix: String? = nil, inputStartingPositionConfiguration: InputStartingPositionConfiguration? = nil, kinesisStreamsInputDescription: KinesisStreamsInputDescription? = nil, kinesisFirehoseInputDescription: KinesisFirehoseInputDescription? = nil) {
+            self.inputParallelism = inputParallelism
+            self.inAppStreamNames = inAppStreamNames
             self.inputId = inputId
-            self.applicationName = applicationName
+            self.inputSchema = inputSchema
+            self.inputProcessingConfigurationDescription = inputProcessingConfigurationDescription
+            self.namePrefix = namePrefix
+            self.inputStartingPositionConfiguration = inputStartingPositionConfiguration
+            self.kinesisStreamsInputDescription = kinesisStreamsInputDescription
+            self.kinesisFirehoseInputDescription = kinesisFirehoseInputDescription
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentApplicationVersionId = "CurrentApplicationVersionId"
+            case inputParallelism = "InputParallelism"
+            case inAppStreamNames = "InAppStreamNames"
             case inputId = "InputId"
-            case applicationName = "ApplicationName"
+            case inputSchema = "InputSchema"
+            case inputProcessingConfigurationDescription = "InputProcessingConfigurationDescription"
+            case namePrefix = "NamePrefix"
+            case inputStartingPositionConfiguration = "InputStartingPositionConfiguration"
+            case kinesisStreamsInputDescription = "KinesisStreamsInputDescription"
+            case kinesisFirehoseInputDescription = "KinesisFirehoseInputDescription"
         }
     }
 
-    public struct ApplicationDetail: AWSShape {
+    public struct DiscoverInputSchemaResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "ApplicationARN", required: true, type: .string), 
-            AWSShapeMember(label: "ReferenceDataSourceDescriptions", required: false, type: .list), 
-            AWSShapeMember(label: "OutputDescriptions", required: false, type: .list), 
-            AWSShapeMember(label: "CreateTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "LastUpdateTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CloudWatchLoggingOptionDescriptions", required: false, type: .list), 
-            AWSShapeMember(label: "ApplicationVersionId", required: true, type: .long), 
-            AWSShapeMember(label: "ApplicationDescription", required: false, type: .string), 
-            AWSShapeMember(label: "InputDescriptions", required: false, type: .list), 
-            AWSShapeMember(label: "ApplicationCode", required: false, type: .string)
+            AWSShapeMember(label: "ParsedInputRecords", required: false, type: .list), 
+            AWSShapeMember(label: "InputSchema", required: false, type: .structure), 
+            AWSShapeMember(label: "RawInputRecords", required: false, type: .list), 
+            AWSShapeMember(label: "ProcessedInputRecords", required: false, type: .list)
         ]
-        /// Status of the application.
-        public let applicationStatus: ApplicationStatus
-        /// ARN of the application.
-        public let applicationARN: String
-        /// Describes reference data sources configured for the application. For more information, see Configuring Application Input. 
-        public let referenceDataSourceDescriptions: [ReferenceDataSourceDescription]?
-        /// Describes the application output configuration. For more information, see Configuring Application Output. 
-        public let outputDescriptions: [OutputDescription]?
-        /// Time stamp when the application version was created.
-        public let createTimestamp: TimeStamp?
-        /// Name of the application.
-        public let applicationName: String
-        /// Time stamp when the application was last updated.
-        public let lastUpdateTimestamp: TimeStamp?
-        /// Describes the CloudWatch log streams that are configured to receive application messages. For more information about using CloudWatch log streams with Amazon Kinesis Analytics applications, see Working with Amazon CloudWatch Logs. 
-        public let cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]?
-        /// Provides the current application version.
-        public let applicationVersionId: Int64
-        /// Description of the application.
-        public let applicationDescription: String?
-        /// Describes the application input configuration. For more information, see Configuring Application Input. 
-        public let inputDescriptions: [InputDescription]?
-        /// Returns the application code that you provided to perform data analysis on any of the in-application streams in your application.
-        public let applicationCode: String?
+        /// An array of elements, where each element corresponds to a row in a stream record (a stream record can have more than one row).
+        public let parsedInputRecords: [[String]]?
+        /// Schema inferred from the streaming source. It identifies the format of the data in the streaming source and how each data element maps to corresponding columns in the in-application stream that you can create.
+        public let inputSchema: SourceSchema?
+        /// Raw stream data that was sampled to infer the schema.
+        public let rawInputRecords: [String]?
+        /// Stream data that was modified by the processor specified in the InputProcessingConfiguration parameter.
+        public let processedInputRecords: [String]?
 
-        public init(applicationStatus: ApplicationStatus, applicationARN: String, referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil, outputDescriptions: [OutputDescription]? = nil, createTimestamp: TimeStamp? = nil, applicationName: String, lastUpdateTimestamp: TimeStamp? = nil, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, applicationVersionId: Int64, applicationDescription: String? = nil, inputDescriptions: [InputDescription]? = nil, applicationCode: String? = nil) {
-            self.applicationStatus = applicationStatus
-            self.applicationARN = applicationARN
-            self.referenceDataSourceDescriptions = referenceDataSourceDescriptions
-            self.outputDescriptions = outputDescriptions
-            self.createTimestamp = createTimestamp
-            self.applicationName = applicationName
-            self.lastUpdateTimestamp = lastUpdateTimestamp
-            self.cloudWatchLoggingOptionDescriptions = cloudWatchLoggingOptionDescriptions
-            self.applicationVersionId = applicationVersionId
-            self.applicationDescription = applicationDescription
-            self.inputDescriptions = inputDescriptions
-            self.applicationCode = applicationCode
+        public init(parsedInputRecords: [[String]]? = nil, inputSchema: SourceSchema? = nil, rawInputRecords: [String]? = nil, processedInputRecords: [String]? = nil) {
+            self.parsedInputRecords = parsedInputRecords
+            self.inputSchema = inputSchema
+            self.rawInputRecords = rawInputRecords
+            self.processedInputRecords = processedInputRecords
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationStatus = "ApplicationStatus"
-            case applicationARN = "ApplicationARN"
-            case referenceDataSourceDescriptions = "ReferenceDataSourceDescriptions"
-            case outputDescriptions = "OutputDescriptions"
-            case createTimestamp = "CreateTimestamp"
-            case applicationName = "ApplicationName"
-            case lastUpdateTimestamp = "LastUpdateTimestamp"
-            case cloudWatchLoggingOptionDescriptions = "CloudWatchLoggingOptionDescriptions"
-            case applicationVersionId = "ApplicationVersionId"
-            case applicationDescription = "ApplicationDescription"
-            case inputDescriptions = "InputDescriptions"
-            case applicationCode = "ApplicationCode"
-        }
-    }
-
-    public struct StartApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "InputConfigurations", required: true, type: .list)
-        ]
-        /// Name of the application.
-        public let applicationName: String
-        /// Identifies the specific input, by ID, that the application starts consuming. Amazon Kinesis Analytics starts reading the streaming source associated with the input. You can also specify where in the streaming source you want Amazon Kinesis Analytics to start reading.
-        public let inputConfigurations: [InputConfiguration]
-
-        public init(applicationName: String, inputConfigurations: [InputConfiguration]) {
-            self.applicationName = applicationName
-            self.inputConfigurations = inputConfigurations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationName = "ApplicationName"
-            case inputConfigurations = "InputConfigurations"
-        }
-    }
-
-    public struct LambdaOutputUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string)
-        ]
-        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination function on your behalf. You need to grant the necessary permissions to this role. 
-        public let roleARNUpdate: String?
-        /// Amazon Resource Name (ARN) of the destination Lambda function.
-        public let resourceARNUpdate: String?
-
-        public init(roleARNUpdate: String? = nil, resourceARNUpdate: String? = nil) {
-            self.roleARNUpdate = roleARNUpdate
-            self.resourceARNUpdate = resourceARNUpdate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleARNUpdate = "RoleARNUpdate"
-            case resourceARNUpdate = "ResourceARNUpdate"
-        }
-    }
-
-    public struct CreateApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Inputs", required: false, type: .list), 
-            AWSShapeMember(label: "ApplicationCode", required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationDescription", required: false, type: .string), 
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .list), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "Outputs", required: false, type: .list)
-        ]
-        /// Use this parameter to configure the application input. You can configure your application to receive input from a single streaming source. In this configuration, you map this streaming source to an in-application stream that is created. Your application code can then query the in-application stream like a table (you can think of it as a constantly updating table). For the streaming source, you provide its Amazon Resource Name (ARN) and format of data on the stream (for example, JSON, CSV, etc.). You also must provide an IAM role that Amazon Kinesis Analytics can assume to read this stream on your behalf. To create the in-application stream, you need to specify a schema to transform your data into a schematized version used in SQL. In the schema, you provide the necessary mapping of the data elements in the streaming source to record columns in the in-app stream.
-        public let inputs: [Input]?
-        /// One or more SQL statements that read input data, transform it, and generate output. For example, you can write a SQL statement that reads data from one in-application stream, generates a running average of the number of advertisement clicks by vendor, and insert resulting rows in another in-application stream using pumps. For more information about the typical pattern, see Application Code.  You can provide such series of SQL statements, where output of one statement can be used as the input for the next statement. You store intermediate results by creating in-application streams and pumps. Note that the application code must create the streams with names specified in the Outputs. For example, if your Outputs defines output streams named ExampleOutputStream1 and ExampleOutputStream2, then your application code must create these streams. 
-        public let applicationCode: String?
-        /// Summary description of the application.
-        public let applicationDescription: String?
-        /// Use this parameter to configure a CloudWatch log stream to monitor application configuration errors. For more information, see Working with Amazon CloudWatch Logs.
-        public let cloudWatchLoggingOptions: [CloudWatchLoggingOption]?
-        /// Name of your Amazon Kinesis Analytics application (for example, sample-app).
-        public let applicationName: String
-        /// You can configure application output to write data from any of the in-application streams to up to three destinations. These destinations can be Amazon Kinesis streams, Amazon Kinesis Firehose delivery streams, AWS Lambda destinations, or any combination of the three. In the configuration, you specify the in-application stream name, the destination stream or Lambda function Amazon Resource Name (ARN), and the format to use when writing data. You must also provide an IAM role that Amazon Kinesis Analytics can assume to write to the destination stream or Lambda function on your behalf. In the output configuration, you also provide the output stream or Lambda function ARN. For stream destinations, you provide the format of data in the stream (for example, JSON, CSV). You also must provide an IAM role that Amazon Kinesis Analytics can assume to write to the stream or Lambda function on your behalf.
-        public let outputs: [Output]?
-
-        public init(inputs: [Input]? = nil, applicationCode: String? = nil, applicationDescription: String? = nil, cloudWatchLoggingOptions: [CloudWatchLoggingOption]? = nil, applicationName: String, outputs: [Output]? = nil) {
-            self.inputs = inputs
-            self.applicationCode = applicationCode
-            self.applicationDescription = applicationDescription
-            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
-            self.applicationName = applicationName
-            self.outputs = outputs
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputs = "Inputs"
-            case applicationCode = "ApplicationCode"
-            case applicationDescription = "ApplicationDescription"
-            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
-            case applicationName = "ApplicationName"
-            case outputs = "Outputs"
-        }
-    }
-
-    public struct InputProcessingConfigurationDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputLambdaProcessorDescription", required: false, type: .structure)
-        ]
-        /// Provides configuration information about the associated InputLambdaProcessorDescription.
-        public let inputLambdaProcessorDescription: InputLambdaProcessorDescription?
-
-        public init(inputLambdaProcessorDescription: InputLambdaProcessorDescription? = nil) {
-            self.inputLambdaProcessorDescription = inputLambdaProcessorDescription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputLambdaProcessorDescription = "InputLambdaProcessorDescription"
+            case parsedInputRecords = "ParsedInputRecords"
+            case inputSchema = "InputSchema"
+            case rawInputRecords = "RawInputRecords"
+            case processedInputRecords = "ProcessedInputRecords"
         }
     }
 
@@ -1250,154 +1682,8 @@ extension KinesisAnalytics {
 
     }
 
-    public struct MappingParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JSONMappingParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "CSVMappingParameters", required: false, type: .structure)
-        ]
-        /// Provides additional mapping information when JSON is the record format on the streaming source.
-        public let jSONMappingParameters: JSONMappingParameters?
-        /// Provides additional mapping information when the record format uses delimiters (for example, CSV).
-        public let cSVMappingParameters: CSVMappingParameters?
-
-        public init(jSONMappingParameters: JSONMappingParameters? = nil, cSVMappingParameters: CSVMappingParameters? = nil) {
-            self.jSONMappingParameters = jSONMappingParameters
-            self.cSVMappingParameters = cSVMappingParameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jSONMappingParameters = "JSONMappingParameters"
-            case cSVMappingParameters = "CSVMappingParameters"
-        }
-    }
-
     public struct DeleteApplicationResponse: AWSShape {
 
-    }
-
-    public struct AddApplicationCloudWatchLoggingOptionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeMember(label: "CloudWatchLoggingOption", required: true, type: .structure), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
-        ]
-        /// The version ID of the Kinesis Analytics application.
-        public let currentApplicationVersionId: Int64
-        /// Provides the CloudWatch log stream Amazon Resource Name (ARN) and the IAM role ARN. Note: To write application messages to CloudWatch, the IAM role that is used must have the PutLogEvents policy action enabled.
-        public let cloudWatchLoggingOption: CloudWatchLoggingOption
-        /// The Kinesis Analytics application name.
-        public let applicationName: String
-
-        public init(currentApplicationVersionId: Int64, cloudWatchLoggingOption: CloudWatchLoggingOption, applicationName: String) {
-            self.currentApplicationVersionId = currentApplicationVersionId
-            self.cloudWatchLoggingOption = cloudWatchLoggingOption
-            self.applicationName = applicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case currentApplicationVersionId = "CurrentApplicationVersionId"
-            case cloudWatchLoggingOption = "CloudWatchLoggingOption"
-            case applicationName = "ApplicationName"
-        }
-    }
-
-    public struct SourceSchema: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordEncoding", required: false, type: .string), 
-            AWSShapeMember(label: "RecordFormat", required: true, type: .structure), 
-            AWSShapeMember(label: "RecordColumns", required: true, type: .list)
-        ]
-        /// Specifies the encoding of the records in the streaming source. For example, UTF-8.
-        public let recordEncoding: String?
-        /// Specifies the format of the records on the streaming source.
-        public let recordFormat: RecordFormat
-        /// A list of RecordColumn objects.
-        public let recordColumns: [RecordColumn]
-
-        public init(recordEncoding: String? = nil, recordFormat: RecordFormat, recordColumns: [RecordColumn]) {
-            self.recordEncoding = recordEncoding
-            self.recordFormat = recordFormat
-            self.recordColumns = recordColumns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recordEncoding = "RecordEncoding"
-            case recordFormat = "RecordFormat"
-            case recordColumns = "RecordColumns"
-        }
-    }
-
-    public struct KinesisFirehoseInputDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string)
-        ]
-        /// ARN of the IAM role that Amazon Kinesis Analytics assumes to access the stream.
-        public let roleARN: String?
-        /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
-        public let resourceARN: String?
-
-        public init(roleARN: String? = nil, resourceARN: String? = nil) {
-            self.roleARN = roleARN
-            self.resourceARN = resourceARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleARN = "RoleARN"
-            case resourceARN = "ResourceARN"
-        }
-    }
-
-    public struct UpdateApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeMember(label: "ApplicationUpdate", required: true, type: .structure), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
-        ]
-        /// The current application version ID. You can use the DescribeApplication operation to get this value.
-        public let currentApplicationVersionId: Int64
-        /// Describes application updates.
-        public let applicationUpdate: ApplicationUpdate
-        /// Name of the Amazon Kinesis Analytics application to update.
-        public let applicationName: String
-
-        public init(currentApplicationVersionId: Int64, applicationUpdate: ApplicationUpdate, applicationName: String) {
-            self.currentApplicationVersionId = currentApplicationVersionId
-            self.applicationUpdate = applicationUpdate
-            self.applicationName = applicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case currentApplicationVersionId = "CurrentApplicationVersionId"
-            case applicationUpdate = "ApplicationUpdate"
-            case applicationName = "ApplicationName"
-        }
-    }
-
-    public struct CloudWatchLoggingOptionDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LogStreamARN", required: true, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
-            AWSShapeMember(label: "CloudWatchLoggingOptionId", required: false, type: .string)
-        ]
-        /// ARN of the CloudWatch log to receive application messages.
-        public let logStreamARN: String
-        /// IAM ARN of the role to use to send application messages. Note: To write application messages to CloudWatch, the IAM role used must have the PutLogEvents policy action enabled.
-        public let roleARN: String
-        /// ID of the CloudWatch logging option description.
-        public let cloudWatchLoggingOptionId: String?
-
-        public init(logStreamARN: String, roleARN: String, cloudWatchLoggingOptionId: String? = nil) {
-            self.logStreamARN = logStreamARN
-            self.roleARN = roleARN
-            self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logStreamARN = "LogStreamARN"
-            case roleARN = "RoleARN"
-            case cloudWatchLoggingOptionId = "CloudWatchLoggingOptionId"
-        }
     }
 
     public struct DescribeApplicationRequest: AWSShape {
@@ -1416,516 +1702,230 @@ extension KinesisAnalytics {
         }
     }
 
-    public struct InputDescription: AWSShape {
+    public struct Input: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputProcessingConfigurationDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "InAppStreamNames", required: false, type: .list), 
+            AWSShapeMember(label: "KinesisFirehoseInput", required: false, type: .structure), 
+            AWSShapeMember(label: "InputProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "NamePrefix", required: true, type: .string), 
+            AWSShapeMember(label: "InputSchema", required: true, type: .structure), 
             AWSShapeMember(label: "InputParallelism", required: false, type: .structure), 
-            AWSShapeMember(label: "InputStartingPositionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "InputId", required: false, type: .string), 
-            AWSShapeMember(label: "InputSchema", required: false, type: .structure), 
-            AWSShapeMember(label: "KinesisFirehoseInputDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "NamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "KinesisStreamsInputDescription", required: false, type: .structure)
+            AWSShapeMember(label: "KinesisStreamsInput", required: false, type: .structure)
         ]
-        /// The description of the preprocessor that executes on records in this input before the application's code is run.
-        public let inputProcessingConfigurationDescription: InputProcessingConfigurationDescription?
-        /// Returns the in-application stream names that are mapped to the stream source.
-        public let inAppStreamNames: [String]?
-        /// Describes the configured parallelism (number of in-application streams mapped to the streaming source).
+        /// If the streaming source is an Amazon Kinesis Firehose delivery stream, identifies the delivery stream's ARN and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf. Note: Either KinesisStreamsInput or KinesisFirehoseInput is required.
+        public let kinesisFirehoseInput: KinesisFirehoseInput?
+        /// The InputProcessingConfiguration for the input. An input processor transforms records as they are received from the stream, before the application's SQL code executes. Currently, the only input processing configuration available is InputLambdaProcessor.
+        public let inputProcessingConfiguration: InputProcessingConfiguration?
+        /// Name prefix to use when creating an in-application stream. Suppose that you specify a prefix "MyInApplicationStream." Amazon Kinesis Analytics then creates one or more (as per the InputParallelism count you specified) in-application streams with names "MyInApplicationStream_001," "MyInApplicationStream_002," and so on. 
+        public let namePrefix: String
+        /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns in the in-application stream that is being created. Also used to describe the format of the reference data source.
+        public let inputSchema: SourceSchema
+        /// Describes the number of in-application streams to create.  Data from your source is routed to these in-application input streams.  (see Configuring Application Input.
         public let inputParallelism: InputParallelism?
-        /// Point at which the application is configured to read from the input stream.
-        public let inputStartingPositionConfiguration: InputStartingPositionConfiguration?
-        /// Input ID associated with the application input. This is the ID that Amazon Kinesis Analytics assigns to each input configuration you add to your application. 
-        public let inputId: String?
-        /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns in the in-application stream that is being created. 
-        public let inputSchema: SourceSchema?
-        /// If an Amazon Kinesis Firehose delivery stream is configured as a streaming source, provides the delivery stream's ARN and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
-        public let kinesisFirehoseInputDescription: KinesisFirehoseInputDescription?
-        /// In-application name prefix.
-        public let namePrefix: String?
-        /// If an Amazon Kinesis stream is configured as streaming source, provides Amazon Kinesis stream's Amazon Resource Name (ARN) and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
-        public let kinesisStreamsInputDescription: KinesisStreamsInputDescription?
+        /// If the streaming source is an Amazon Kinesis stream, identifies the stream's Amazon Resource Name (ARN) and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf. Note: Either KinesisStreamsInput or KinesisFirehoseInput is required.
+        public let kinesisStreamsInput: KinesisStreamsInput?
 
-        public init(inputProcessingConfigurationDescription: InputProcessingConfigurationDescription? = nil, inAppStreamNames: [String]? = nil, inputParallelism: InputParallelism? = nil, inputStartingPositionConfiguration: InputStartingPositionConfiguration? = nil, inputId: String? = nil, inputSchema: SourceSchema? = nil, kinesisFirehoseInputDescription: KinesisFirehoseInputDescription? = nil, namePrefix: String? = nil, kinesisStreamsInputDescription: KinesisStreamsInputDescription? = nil) {
-            self.inputProcessingConfigurationDescription = inputProcessingConfigurationDescription
-            self.inAppStreamNames = inAppStreamNames
-            self.inputParallelism = inputParallelism
-            self.inputStartingPositionConfiguration = inputStartingPositionConfiguration
-            self.inputId = inputId
-            self.inputSchema = inputSchema
-            self.kinesisFirehoseInputDescription = kinesisFirehoseInputDescription
+        public init(kinesisFirehoseInput: KinesisFirehoseInput? = nil, inputProcessingConfiguration: InputProcessingConfiguration? = nil, namePrefix: String, inputSchema: SourceSchema, inputParallelism: InputParallelism? = nil, kinesisStreamsInput: KinesisStreamsInput? = nil) {
+            self.kinesisFirehoseInput = kinesisFirehoseInput
+            self.inputProcessingConfiguration = inputProcessingConfiguration
             self.namePrefix = namePrefix
-            self.kinesisStreamsInputDescription = kinesisStreamsInputDescription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputProcessingConfigurationDescription = "InputProcessingConfigurationDescription"
-            case inAppStreamNames = "InAppStreamNames"
-            case inputParallelism = "InputParallelism"
-            case inputStartingPositionConfiguration = "InputStartingPositionConfiguration"
-            case inputId = "InputId"
-            case inputSchema = "InputSchema"
-            case kinesisFirehoseInputDescription = "KinesisFirehoseInputDescription"
-            case namePrefix = "NamePrefix"
-            case kinesisStreamsInputDescription = "KinesisStreamsInputDescription"
-        }
-    }
-
-    public struct InputParallelism: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", required: false, type: .integer)
-        ]
-        /// Number of in-application streams to create. For more information, see Limits. 
-        public let count: Int32?
-
-        public init(count: Int32? = nil) {
-            self.count = count
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case count = "Count"
-        }
-    }
-
-    public enum InputStartingPosition: String, CustomStringConvertible, Codable {
-        case now = "NOW"
-        case trimHorizon = "TRIM_HORIZON"
-        case lastStoppedPoint = "LAST_STOPPED_POINT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DiscoverInputSchemaResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputSchema", required: false, type: .structure), 
-            AWSShapeMember(label: "RawInputRecords", required: false, type: .list), 
-            AWSShapeMember(label: "ProcessedInputRecords", required: false, type: .list), 
-            AWSShapeMember(label: "ParsedInputRecords", required: false, type: .list)
-        ]
-        /// Schema inferred from the streaming source. It identifies the format of the data in the streaming source and how each data element maps to corresponding columns in the in-application stream that you can create.
-        public let inputSchema: SourceSchema?
-        /// Raw stream data that was sampled to infer the schema.
-        public let rawInputRecords: [String]?
-        /// Stream data that was modified by the processor specified in the InputProcessingConfiguration parameter.
-        public let processedInputRecords: [String]?
-        /// An array of elements, where each element corresponds to a row in a stream record (a stream record can have more than one row).
-        public let parsedInputRecords: [[String]]?
-
-        public init(inputSchema: SourceSchema? = nil, rawInputRecords: [String]? = nil, processedInputRecords: [String]? = nil, parsedInputRecords: [[String]]? = nil) {
             self.inputSchema = inputSchema
-            self.rawInputRecords = rawInputRecords
-            self.processedInputRecords = processedInputRecords
-            self.parsedInputRecords = parsedInputRecords
+            self.inputParallelism = inputParallelism
+            self.kinesisStreamsInput = kinesisStreamsInput
         }
 
         private enum CodingKeys: String, CodingKey {
+            case kinesisFirehoseInput = "KinesisFirehoseInput"
+            case inputProcessingConfiguration = "InputProcessingConfiguration"
+            case namePrefix = "NamePrefix"
             case inputSchema = "InputSchema"
-            case rawInputRecords = "RawInputRecords"
-            case processedInputRecords = "ProcessedInputRecords"
-            case parsedInputRecords = "ParsedInputRecords"
+            case inputParallelism = "InputParallelism"
+            case kinesisStreamsInput = "KinesisStreamsInput"
+        }
+    }
+
+    public struct AddApplicationOutputResponse: AWSShape {
+
+    }
+
+    public struct KinesisStreamsInputUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string)
+        ]
+        /// Amazon Resource Name (ARN) of the input Amazon Kinesis stream to read.
+        public let resourceARNUpdate: String?
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
+        public let roleARNUpdate: String?
+
+        public init(resourceARNUpdate: String? = nil, roleARNUpdate: String? = nil) {
+            self.resourceARNUpdate = resourceARNUpdate
+            self.roleARNUpdate = roleARNUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARNUpdate = "ResourceARNUpdate"
+            case roleARNUpdate = "RoleARNUpdate"
+        }
+    }
+
+    public struct AddApplicationOutputRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Output", required: true, type: .structure), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long)
+        ]
+        /// An array of objects, each describing one output configuration. In the output configuration, you specify the name of an in-application stream, a destination (that is, an Amazon Kinesis stream, an Amazon Kinesis Firehose delivery stream, or an AWS Lambda function), and record the formation to use when writing to the destination.
+        public let output: Output
+        /// Name of the application to which you want to add the output configuration.
+        public let applicationName: String
+        /// Version of the application to which you want to add the output configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. 
+        public let currentApplicationVersionId: Int64
+
+        public init(output: Output, applicationName: String, currentApplicationVersionId: Int64) {
+            self.output = output
+            self.applicationName = applicationName
+            self.currentApplicationVersionId = currentApplicationVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case output = "Output"
+            case applicationName = "ApplicationName"
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
+        }
+    }
+
+    public struct CloudWatchLoggingOptionDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudWatchLoggingOptionId", required: false, type: .string), 
+            AWSShapeMember(label: "LogStreamARN", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string)
+        ]
+        /// ID of the CloudWatch logging option description.
+        public let cloudWatchLoggingOptionId: String?
+        /// ARN of the CloudWatch log to receive application messages.
+        public let logStreamARN: String
+        /// IAM ARN of the role to use to send application messages. Note: To write application messages to CloudWatch, the IAM role used must have the PutLogEvents policy action enabled.
+        public let roleARN: String
+
+        public init(cloudWatchLoggingOptionId: String? = nil, logStreamARN: String, roleARN: String) {
+            self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
+            self.logStreamARN = logStreamARN
+            self.roleARN = roleARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLoggingOptionId = "CloudWatchLoggingOptionId"
+            case logStreamARN = "LogStreamARN"
+            case roleARN = "RoleARN"
+        }
+    }
+
+    public struct Output: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "KinesisFirehoseOutput", required: false, type: .structure), 
+            AWSShapeMember(label: "KinesisStreamsOutput", required: false, type: .structure), 
+            AWSShapeMember(label: "LambdaOutput", required: false, type: .structure), 
+            AWSShapeMember(label: "DestinationSchema", required: true, type: .structure)
+        ]
+        /// Name of the in-application stream.
+        public let name: String
+        /// Identifies an Amazon Kinesis Firehose delivery stream as the destination.
+        public let kinesisFirehoseOutput: KinesisFirehoseOutput?
+        /// Identifies an Amazon Kinesis stream as the destination.
+        public let kinesisStreamsOutput: KinesisStreamsOutput?
+        /// Identifies an AWS Lambda function as the destination.
+        public let lambdaOutput: LambdaOutput?
+        /// Describes the data format when records are written to the destination. For more information, see Configuring Application Output.
+        public let destinationSchema: DestinationSchema
+
+        public init(name: String, kinesisFirehoseOutput: KinesisFirehoseOutput? = nil, kinesisStreamsOutput: KinesisStreamsOutput? = nil, lambdaOutput: LambdaOutput? = nil, destinationSchema: DestinationSchema) {
+            self.name = name
+            self.kinesisFirehoseOutput = kinesisFirehoseOutput
+            self.kinesisStreamsOutput = kinesisStreamsOutput
+            self.lambdaOutput = lambdaOutput
+            self.destinationSchema = destinationSchema
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case kinesisFirehoseOutput = "KinesisFirehoseOutput"
+            case kinesisStreamsOutput = "KinesisStreamsOutput"
+            case lambdaOutput = "LambdaOutput"
+            case destinationSchema = "DestinationSchema"
+        }
+    }
+
+    public struct DeleteApplicationCloudWatchLoggingOptionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudWatchLoggingOptionId", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long)
+        ]
+        /// The CloudWatchLoggingOptionId of the CloudWatch logging option to delete. You can get the CloudWatchLoggingOptionId by using the DescribeApplication operation. 
+        public let cloudWatchLoggingOptionId: String
+        /// The Kinesis Analytics application name.
+        public let applicationName: String
+        /// The version ID of the Kinesis Analytics application.
+        public let currentApplicationVersionId: Int64
+
+        public init(cloudWatchLoggingOptionId: String, applicationName: String, currentApplicationVersionId: Int64) {
+            self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
+            self.applicationName = applicationName
+            self.currentApplicationVersionId = currentApplicationVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLoggingOptionId = "CloudWatchLoggingOptionId"
+            case applicationName = "ApplicationName"
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
         }
     }
 
     public struct InputUpdate: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputId", required: true, type: .string), 
-            AWSShapeMember(label: "NamePrefixUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "KinesisFirehoseInputUpdate", required: false, type: .structure), 
             AWSShapeMember(label: "InputSchemaUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "KinesisStreamsInputUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "InputId", required: true, type: .string), 
+            AWSShapeMember(label: "InputParallelismUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "KinesisFirehoseInputUpdate", required: false, type: .structure), 
             AWSShapeMember(label: "InputProcessingConfigurationUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "InputParallelismUpdate", required: false, type: .structure)
+            AWSShapeMember(label: "KinesisStreamsInputUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "NamePrefixUpdate", required: false, type: .string)
         ]
-        /// Input ID of the application input to be updated.
-        public let inputId: String
-        /// Name prefix for in-application streams that Amazon Kinesis Analytics creates for the specific streaming source.
-        public let namePrefixUpdate: String?
-        /// If an Amazon Kinesis Firehose delivery stream is the streaming source to be updated, provides an updated stream ARN and IAM role ARN.
-        public let kinesisFirehoseInputUpdate: KinesisFirehoseInputUpdate?
         /// Describes the data format on the streaming source, and how record elements on the streaming source map to columns of the in-application stream that is created.
         public let inputSchemaUpdate: InputSchemaUpdate?
-        /// If an Amazon Kinesis stream is the streaming source to be updated, provides an updated stream Amazon Resource Name (ARN) and IAM role ARN.
-        public let kinesisStreamsInputUpdate: KinesisStreamsInputUpdate?
-        /// Describes updates for an input processing configuration.
-        public let inputProcessingConfigurationUpdate: InputProcessingConfigurationUpdate?
+        /// Input ID of the application input to be updated.
+        public let inputId: String
         /// Describes the parallelism updates (the number in-application streams Amazon Kinesis Analytics creates for the specific streaming source).
         public let inputParallelismUpdate: InputParallelismUpdate?
+        /// If an Amazon Kinesis Firehose delivery stream is the streaming source to be updated, provides an updated stream ARN and IAM role ARN.
+        public let kinesisFirehoseInputUpdate: KinesisFirehoseInputUpdate?
+        /// Describes updates for an input processing configuration.
+        public let inputProcessingConfigurationUpdate: InputProcessingConfigurationUpdate?
+        /// If an Amazon Kinesis stream is the streaming source to be updated, provides an updated stream Amazon Resource Name (ARN) and IAM role ARN.
+        public let kinesisStreamsInputUpdate: KinesisStreamsInputUpdate?
+        /// Name prefix for in-application streams that Amazon Kinesis Analytics creates for the specific streaming source.
+        public let namePrefixUpdate: String?
 
-        public init(inputId: String, namePrefixUpdate: String? = nil, kinesisFirehoseInputUpdate: KinesisFirehoseInputUpdate? = nil, inputSchemaUpdate: InputSchemaUpdate? = nil, kinesisStreamsInputUpdate: KinesisStreamsInputUpdate? = nil, inputProcessingConfigurationUpdate: InputProcessingConfigurationUpdate? = nil, inputParallelismUpdate: InputParallelismUpdate? = nil) {
-            self.inputId = inputId
-            self.namePrefixUpdate = namePrefixUpdate
-            self.kinesisFirehoseInputUpdate = kinesisFirehoseInputUpdate
+        public init(inputSchemaUpdate: InputSchemaUpdate? = nil, inputId: String, inputParallelismUpdate: InputParallelismUpdate? = nil, kinesisFirehoseInputUpdate: KinesisFirehoseInputUpdate? = nil, inputProcessingConfigurationUpdate: InputProcessingConfigurationUpdate? = nil, kinesisStreamsInputUpdate: KinesisStreamsInputUpdate? = nil, namePrefixUpdate: String? = nil) {
             self.inputSchemaUpdate = inputSchemaUpdate
-            self.kinesisStreamsInputUpdate = kinesisStreamsInputUpdate
-            self.inputProcessingConfigurationUpdate = inputProcessingConfigurationUpdate
+            self.inputId = inputId
             self.inputParallelismUpdate = inputParallelismUpdate
+            self.kinesisFirehoseInputUpdate = kinesisFirehoseInputUpdate
+            self.inputProcessingConfigurationUpdate = inputProcessingConfigurationUpdate
+            self.kinesisStreamsInputUpdate = kinesisStreamsInputUpdate
+            self.namePrefixUpdate = namePrefixUpdate
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputId = "InputId"
-            case namePrefixUpdate = "NamePrefixUpdate"
-            case kinesisFirehoseInputUpdate = "KinesisFirehoseInputUpdate"
             case inputSchemaUpdate = "InputSchemaUpdate"
-            case kinesisStreamsInputUpdate = "KinesisStreamsInputUpdate"
-            case inputProcessingConfigurationUpdate = "InputProcessingConfigurationUpdate"
+            case inputId = "InputId"
             case inputParallelismUpdate = "InputParallelismUpdate"
+            case kinesisFirehoseInputUpdate = "KinesisFirehoseInputUpdate"
+            case inputProcessingConfigurationUpdate = "InputProcessingConfigurationUpdate"
+            case kinesisStreamsInputUpdate = "KinesisStreamsInputUpdate"
+            case namePrefixUpdate = "NamePrefixUpdate"
         }
-    }
-
-    public struct KinesisFirehoseInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
-        ]
-        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to make sure that the role has the necessary permissions to access the stream.
-        public let roleARN: String
-        /// ARN of the input delivery stream.
-        public let resourceARN: String
-
-        public init(roleARN: String, resourceARN: String) {
-            self.roleARN = roleARN
-            self.resourceARN = resourceARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleARN = "RoleARN"
-            case resourceARN = "ResourceARN"
-        }
-    }
-
-    public struct DiscoverInputSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputStartingPositionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "S3Configuration", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeMember(label: "InputProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string)
-        ]
-        /// Point at which you want Amazon Kinesis Analytics to start reading records from the specified streaming source discovery purposes.
-        public let inputStartingPositionConfiguration: InputStartingPositionConfiguration?
-        /// Specify this parameter to discover a schema from data in an Amazon S3 object.
-        public let s3Configuration: S3Configuration?
-        /// Amazon Resource Name (ARN) of the streaming source.
-        public let resourceARN: String?
-        /// The InputProcessingConfiguration to use to preprocess the records before discovering the schema of the records.
-        public let inputProcessingConfiguration: InputProcessingConfiguration?
-        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf.
-        public let roleARN: String?
-
-        public init(inputStartingPositionConfiguration: InputStartingPositionConfiguration? = nil, s3Configuration: S3Configuration? = nil, resourceARN: String? = nil, inputProcessingConfiguration: InputProcessingConfiguration? = nil, roleARN: String? = nil) {
-            self.inputStartingPositionConfiguration = inputStartingPositionConfiguration
-            self.s3Configuration = s3Configuration
-            self.resourceARN = resourceARN
-            self.inputProcessingConfiguration = inputProcessingConfiguration
-            self.roleARN = roleARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputStartingPositionConfiguration = "InputStartingPositionConfiguration"
-            case s3Configuration = "S3Configuration"
-            case resourceARN = "ResourceARN"
-            case inputProcessingConfiguration = "InputProcessingConfiguration"
-            case roleARN = "RoleARN"
-        }
-    }
-
-    public struct ListApplicationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "ExclusiveStartApplicationName", required: false, type: .string)
-        ]
-        /// Maximum number of applications to list.
-        public let limit: Int32?
-        /// Name of the application to start the list with. When using pagination to retrieve the list, you don't need to specify this parameter in the first request. However, in subsequent requests, you add the last application name from the previous response to get the next page of applications.
-        public let exclusiveStartApplicationName: String?
-
-        public init(limit: Int32? = nil, exclusiveStartApplicationName: String? = nil) {
-            self.limit = limit
-            self.exclusiveStartApplicationName = exclusiveStartApplicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case exclusiveStartApplicationName = "ExclusiveStartApplicationName"
-        }
-    }
-
-    public struct DeleteApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "CreateTimestamp", required: true, type: .timestamp)
-        ]
-        /// Name of the Amazon Kinesis Analytics application to delete.
-        public let applicationName: String
-        ///  You can use the DescribeApplication operation to get this value. 
-        public let createTimestamp: TimeStamp
-
-        public init(applicationName: String, createTimestamp: TimeStamp) {
-            self.applicationName = applicationName
-            self.createTimestamp = createTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationName = "ApplicationName"
-            case createTimestamp = "CreateTimestamp"
-        }
-    }
-
-    public struct S3ReferenceDataSourceUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileKeyUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "BucketARNUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "ReferenceRoleARNUpdate", required: false, type: .string)
-        ]
-        /// Object key name.
-        public let fileKeyUpdate: String?
-        /// Amazon Resource Name (ARN) of the S3 bucket.
-        public let bucketARNUpdate: String?
-        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object and populate the in-application.
-        public let referenceRoleARNUpdate: String?
-
-        public init(fileKeyUpdate: String? = nil, bucketARNUpdate: String? = nil, referenceRoleARNUpdate: String? = nil) {
-            self.fileKeyUpdate = fileKeyUpdate
-            self.bucketARNUpdate = bucketARNUpdate
-            self.referenceRoleARNUpdate = referenceRoleARNUpdate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fileKeyUpdate = "FileKeyUpdate"
-            case bucketARNUpdate = "BucketARNUpdate"
-            case referenceRoleARNUpdate = "ReferenceRoleARNUpdate"
-        }
-    }
-
-    public struct InputLambdaProcessorDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string)
-        ]
-        /// The ARN of the IAM role that is used to access the AWS Lambda function.
-        public let roleARN: String?
-        /// The ARN of the AWS Lambda function that is used to preprocess the records in the stream.
-        public let resourceARN: String?
-
-        public init(roleARN: String? = nil, resourceARN: String? = nil) {
-            self.roleARN = roleARN
-            self.resourceARN = resourceARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleARN = "RoleARN"
-            case resourceARN = "ResourceARN"
-        }
-    }
-
-    public struct OutputDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KinesisFirehoseOutputDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "KinesisStreamsOutputDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "LambdaOutputDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "DestinationSchema", required: false, type: .structure), 
-            AWSShapeMember(label: "OutputId", required: false, type: .string)
-        ]
-        /// Describes the Amazon Kinesis Firehose delivery stream configured as the destination where output is written.
-        public let kinesisFirehoseOutputDescription: KinesisFirehoseOutputDescription?
-        /// Describes Amazon Kinesis stream configured as the destination where output is written.
-        public let kinesisStreamsOutputDescription: KinesisStreamsOutputDescription?
-        /// Describes the AWS Lambda function configured as the destination where output is written.
-        public let lambdaOutputDescription: LambdaOutputDescription?
-        /// Name of the in-application stream configured as output.
-        public let name: String?
-        /// Data format used for writing data to the destination.
-        public let destinationSchema: DestinationSchema?
-        /// A unique identifier for the output configuration.
-        public let outputId: String?
-
-        public init(kinesisFirehoseOutputDescription: KinesisFirehoseOutputDescription? = nil, kinesisStreamsOutputDescription: KinesisStreamsOutputDescription? = nil, lambdaOutputDescription: LambdaOutputDescription? = nil, name: String? = nil, destinationSchema: DestinationSchema? = nil, outputId: String? = nil) {
-            self.kinesisFirehoseOutputDescription = kinesisFirehoseOutputDescription
-            self.kinesisStreamsOutputDescription = kinesisStreamsOutputDescription
-            self.lambdaOutputDescription = lambdaOutputDescription
-            self.name = name
-            self.destinationSchema = destinationSchema
-            self.outputId = outputId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case kinesisFirehoseOutputDescription = "KinesisFirehoseOutputDescription"
-            case kinesisStreamsOutputDescription = "KinesisStreamsOutputDescription"
-            case lambdaOutputDescription = "LambdaOutputDescription"
-            case name = "Name"
-            case destinationSchema = "DestinationSchema"
-            case outputId = "OutputId"
-        }
-    }
-
-    public struct S3ReferenceDataSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileKey", required: true, type: .string), 
-            AWSShapeMember(label: "BucketARN", required: true, type: .string), 
-            AWSShapeMember(label: "ReferenceRoleARN", required: true, type: .string)
-        ]
-        /// Object key name containing reference data.
-        public let fileKey: String
-        /// Amazon Resource Name (ARN) of the S3 bucket.
-        public let bucketARN: String
-        /// ARN of the IAM role that the service can assume to read data on your behalf. This role must have permission for the s3:GetObject action on the object and trust policy that allows Amazon Kinesis Analytics service principal to assume this role.
-        public let referenceRoleARN: String
-
-        public init(fileKey: String, bucketARN: String, referenceRoleARN: String) {
-            self.fileKey = fileKey
-            self.bucketARN = bucketARN
-            self.referenceRoleARN = referenceRoleARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fileKey = "FileKey"
-            case bucketARN = "BucketARN"
-            case referenceRoleARN = "ReferenceRoleARN"
-        }
-    }
-
-    public struct CloudWatchLoggingOptionUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "LogStreamARNUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "CloudWatchLoggingOptionId", required: true, type: .string)
-        ]
-        /// IAM ARN of the role to use to send application messages. Note: To write application messages to CloudWatch, the IAM role used must have the PutLogEvents policy action enabled.
-        public let roleARNUpdate: String?
-        /// ARN of the CloudWatch log to receive application messages.
-        public let logStreamARNUpdate: String?
-        /// ID of the CloudWatch logging option to update
-        public let cloudWatchLoggingOptionId: String
-
-        public init(roleARNUpdate: String? = nil, logStreamARNUpdate: String? = nil, cloudWatchLoggingOptionId: String) {
-            self.roleARNUpdate = roleARNUpdate
-            self.logStreamARNUpdate = logStreamARNUpdate
-            self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleARNUpdate = "RoleARNUpdate"
-            case logStreamARNUpdate = "LogStreamARNUpdate"
-            case cloudWatchLoggingOptionId = "CloudWatchLoggingOptionId"
-        }
-    }
-
-    public struct RecordFormat: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordFormatType", required: true, type: .enum), 
-            AWSShapeMember(label: "MappingParameters", required: false, type: .structure)
-        ]
-        /// The type of record format.
-        public let recordFormatType: RecordFormatType
-        /// When configuring application input at the time of creating or updating an application, provides additional mapping information specific to the record format (such as JSON, CSV, or record fields delimited by some delimiter) on the streaming source.
-        public let mappingParameters: MappingParameters?
-
-        public init(recordFormatType: RecordFormatType, mappingParameters: MappingParameters? = nil) {
-            self.recordFormatType = recordFormatType
-            self.mappingParameters = mappingParameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recordFormatType = "RecordFormatType"
-            case mappingParameters = "MappingParameters"
-        }
-    }
-
-    public struct KinesisStreamsInputUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string)
-        ]
-        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
-        public let roleARNUpdate: String?
-        /// Amazon Resource Name (ARN) of the input Amazon Kinesis stream to read.
-        public let resourceARNUpdate: String?
-
-        public init(roleARNUpdate: String? = nil, resourceARNUpdate: String? = nil) {
-            self.roleARNUpdate = roleARNUpdate
-            self.resourceARNUpdate = resourceARNUpdate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleARNUpdate = "RoleARNUpdate"
-            case resourceARNUpdate = "ResourceARNUpdate"
-        }
-    }
-
-    public struct ListApplicationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationSummaries", required: true, type: .list), 
-            AWSShapeMember(label: "HasMoreApplications", required: true, type: .boolean)
-        ]
-        /// List of ApplicationSummary objects. 
-        public let applicationSummaries: [ApplicationSummary]
-        /// Returns true if there are more applications to retrieve.
-        public let hasMoreApplications: Bool
-
-        public init(applicationSummaries: [ApplicationSummary], hasMoreApplications: Bool) {
-            self.applicationSummaries = applicationSummaries
-            self.hasMoreApplications = hasMoreApplications
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationSummaries = "ApplicationSummaries"
-            case hasMoreApplications = "HasMoreApplications"
-        }
-    }
-
-    public struct DeleteApplicationInputProcessingConfigurationResponse: AWSShape {
-
-    }
-
-    public struct InputLambdaProcessor: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
-        ]
-        /// The ARN of the IAM role that is used to access the AWS Lambda function.
-        public let roleARN: String
-        /// The ARN of the AWS Lambda function that operates on records in the stream.
-        public let resourceARN: String
-
-        public init(roleARN: String, resourceARN: String) {
-            self.roleARN = roleARN
-            self.resourceARN = resourceARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleARN = "RoleARN"
-            case resourceARN = "ResourceARN"
-        }
-    }
-
-    public struct KinesisStreamsInputDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string)
-        ]
-        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream.
-        public let roleARN: String?
-        /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
-        public let resourceARN: String?
-
-        public init(roleARN: String? = nil, resourceARN: String? = nil) {
-            self.roleARN = roleARN
-            self.resourceARN = resourceARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleARN = "RoleARN"
-            case resourceARN = "ResourceARN"
-        }
-    }
-
-    public struct AddApplicationInputProcessingConfigurationResponse: AWSShape {
-
-    }
-
-    public struct StartApplicationResponse: AWSShape {
-
     }
 
 }

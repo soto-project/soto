@@ -5,21 +5,21 @@ import AWSSDKSwiftCore
 /// Error enum for SQS
 public enum SQSErrorType: AWSErrorType {
     case overLimit(message: String?)
+    case invalidAttributeName(message: String?)
+    case queueDoesNotExist(message: String?)
     case tooManyEntriesInBatchRequest(message: String?)
     case emptyBatchRequest(message: String?)
     case batchEntryIdsNotDistinct(message: String?)
     case invalidBatchEntryId(message: String?)
-    case messageNotInflight(message: String?)
-    case receiptHandleIsInvalid(message: String?)
-    case queueDoesNotExist(message: String?)
-    case purgeQueueInProgress(message: String?)
-    case invalidAttributeName(message: String?)
-    case invalidIdFormat(message: String?)
-    case queueDeletedRecently(message: String?)
-    case queueNameExists(message: String?)
     case invalidMessageContents(message: String?)
     case unsupportedOperation(message: String?)
+    case queueDeletedRecently(message: String?)
+    case queueNameExists(message: String?)
     case batchRequestTooLong(message: String?)
+    case invalidIdFormat(message: String?)
+    case receiptHandleIsInvalid(message: String?)
+    case purgeQueueInProgress(message: String?)
+    case messageNotInflight(message: String?)
 }
 
 extension SQSErrorType {
@@ -31,6 +31,10 @@ extension SQSErrorType {
         switch errorCode {
         case "OverLimit":
             self = .overLimit(message: message)
+        case "InvalidAttributeName":
+            self = .invalidAttributeName(message: message)
+        case "QueueDoesNotExist":
+            self = .queueDoesNotExist(message: message)
         case "TooManyEntriesInBatchRequest":
             self = .tooManyEntriesInBatchRequest(message: message)
         case "EmptyBatchRequest":
@@ -39,28 +43,24 @@ extension SQSErrorType {
             self = .batchEntryIdsNotDistinct(message: message)
         case "InvalidBatchEntryId":
             self = .invalidBatchEntryId(message: message)
-        case "MessageNotInflight":
-            self = .messageNotInflight(message: message)
-        case "ReceiptHandleIsInvalid":
-            self = .receiptHandleIsInvalid(message: message)
-        case "QueueDoesNotExist":
-            self = .queueDoesNotExist(message: message)
-        case "PurgeQueueInProgress":
-            self = .purgeQueueInProgress(message: message)
-        case "InvalidAttributeName":
-            self = .invalidAttributeName(message: message)
-        case "InvalidIdFormat":
-            self = .invalidIdFormat(message: message)
-        case "QueueDeletedRecently":
-            self = .queueDeletedRecently(message: message)
-        case "QueueNameExists":
-            self = .queueNameExists(message: message)
         case "InvalidMessageContents":
             self = .invalidMessageContents(message: message)
         case "UnsupportedOperation":
             self = .unsupportedOperation(message: message)
+        case "QueueDeletedRecently":
+            self = .queueDeletedRecently(message: message)
+        case "QueueNameExists":
+            self = .queueNameExists(message: message)
         case "BatchRequestTooLong":
             self = .batchRequestTooLong(message: message)
+        case "InvalidIdFormat":
+            self = .invalidIdFormat(message: message)
+        case "ReceiptHandleIsInvalid":
+            self = .receiptHandleIsInvalid(message: message)
+        case "PurgeQueueInProgress":
+            self = .purgeQueueInProgress(message: message)
+        case "MessageNotInflight":
+            self = .messageNotInflight(message: message)
         default:
             return nil
         }

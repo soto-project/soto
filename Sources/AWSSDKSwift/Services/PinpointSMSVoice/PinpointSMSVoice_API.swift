@@ -2,6 +2,7 @@
 
 import Foundation
 import AWSSDKSwiftCore
+import NIO
 
 /**
 Pinpoint SMS and Voice Messaging public facing APIs
@@ -24,39 +25,39 @@ public struct PinpointSMSVoice {
         )
     }
 
-    ///  Deletes an event destination in a configuration set.
-    public func deleteConfigurationSetEventDestination(_ input: DeleteConfigurationSetEventDestinationRequest) throws -> DeleteConfigurationSetEventDestinationResponse {
-        return try client.send(operation: "DeleteConfigurationSetEventDestination", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: "DELETE", input: input)
-    }
-
-    ///  Deletes an existing configuration set.
-    public func deleteConfigurationSet(_ input: DeleteConfigurationSetRequest) throws -> DeleteConfigurationSetResponse {
-        return try client.send(operation: "DeleteConfigurationSet", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}", httpMethod: "DELETE", input: input)
-    }
-
-    ///  Obtain information about an event destination, including the types of events it reports, the Amazon Resource Name (ARN) of the destination, and the name of the event destination.
-    public func getConfigurationSetEventDestinations(_ input: GetConfigurationSetEventDestinationsRequest) throws -> GetConfigurationSetEventDestinationsResponse {
-        return try client.send(operation: "GetConfigurationSetEventDestinations", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: "GET", input: input)
-    }
-
-    ///  Create a new event destination in a configuration set.
-    public func createConfigurationSetEventDestination(_ input: CreateConfigurationSetEventDestinationRequest) throws -> CreateConfigurationSetEventDestinationResponse {
-        return try client.send(operation: "CreateConfigurationSetEventDestination", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: "POST", input: input)
-    }
-
-    ///  Update an event destination in a configuration set. An event destination is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destination when a call fails.
-    public func updateConfigurationSetEventDestination(_ input: UpdateConfigurationSetEventDestinationRequest) throws -> UpdateConfigurationSetEventDestinationResponse {
-        return try client.send(operation: "UpdateConfigurationSetEventDestination", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: "PUT", input: input)
-    }
-
     ///  Create a new configuration set. After you create the configuration set, you can add one or more event destinations to it.
-    public func createConfigurationSet(_ input: CreateConfigurationSetRequest) throws -> CreateConfigurationSetResponse {
+    public func createConfigurationSet(_ input: CreateConfigurationSetRequest) throws -> EventLoopFuture<CreateConfigurationSetResponse> {
         return try client.send(operation: "CreateConfigurationSet", path: "/v1/sms-voice/configuration-sets", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes an existing configuration set.
+    public func deleteConfigurationSet(_ input: DeleteConfigurationSetRequest) throws -> EventLoopFuture<DeleteConfigurationSetResponse> {
+        return try client.send(operation: "DeleteConfigurationSet", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Update an event destination in a configuration set. An event destination is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destination when a call fails.
+    public func updateConfigurationSetEventDestination(_ input: UpdateConfigurationSetEventDestinationRequest) throws -> EventLoopFuture<UpdateConfigurationSetEventDestinationResponse> {
+        return try client.send(operation: "UpdateConfigurationSetEventDestination", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: "PUT", input: input)
+    }
+
     ///  Create a new voice message and send it to a recipient's phone number.
-    public func sendVoiceMessage(_ input: SendVoiceMessageRequest) throws -> SendVoiceMessageResponse {
+    public func sendVoiceMessage(_ input: SendVoiceMessageRequest) throws -> EventLoopFuture<SendVoiceMessageResponse> {
         return try client.send(operation: "SendVoiceMessage", path: "/v1/sms-voice/voice/message", httpMethod: "POST", input: input)
+    }
+
+    ///  Create a new event destination in a configuration set.
+    public func createConfigurationSetEventDestination(_ input: CreateConfigurationSetEventDestinationRequest) throws -> EventLoopFuture<CreateConfigurationSetEventDestinationResponse> {
+        return try client.send(operation: "CreateConfigurationSetEventDestination", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes an event destination in a configuration set.
+    public func deleteConfigurationSetEventDestination(_ input: DeleteConfigurationSetEventDestinationRequest) throws -> EventLoopFuture<DeleteConfigurationSetEventDestinationResponse> {
+        return try client.send(operation: "DeleteConfigurationSetEventDestination", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Obtain information about an event destination, including the types of events it reports, the Amazon Resource Name (ARN) of the destination, and the name of the event destination.
+    public func getConfigurationSetEventDestinations(_ input: GetConfigurationSetEventDestinationsRequest) throws -> EventLoopFuture<GetConfigurationSetEventDestinationsResponse> {
+        return try client.send(operation: "GetConfigurationSetEventDestinations", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: "GET", input: input)
     }
 
 

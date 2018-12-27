@@ -4,13 +4,13 @@ import AWSSDKSwiftCore
 
 /// Error enum for ServiceCatalog
 public enum ServiceCatalogErrorType: AWSErrorType {
-    case invalidParametersException(message: String?)
-    case operationNotSupportedException(message: String?)
     case resourceNotFoundException(message: String?)
-    case limitExceededException(message: String?)
+    case invalidParametersException(message: String?)
     case duplicateResourceException(message: String?)
-    case tagOptionNotMigratedException(message: String?)
+    case limitExceededException(message: String?)
     case resourceInUseException(message: String?)
+    case tagOptionNotMigratedException(message: String?)
+    case operationNotSupportedException(message: String?)
     case invalidStateException(message: String?)
 }
 
@@ -21,20 +21,20 @@ extension ServiceCatalogErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "InvalidParametersException":
-            self = .invalidParametersException(message: message)
-        case "OperationNotSupportedException":
-            self = .operationNotSupportedException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
+        case "InvalidParametersException":
+            self = .invalidParametersException(message: message)
         case "DuplicateResourceException":
             self = .duplicateResourceException(message: message)
-        case "TagOptionNotMigratedException":
-            self = .tagOptionNotMigratedException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)
+        case "TagOptionNotMigratedException":
+            self = .tagOptionNotMigratedException(message: message)
+        case "OperationNotSupportedException":
+            self = .operationNotSupportedException(message: message)
         case "InvalidStateException":
             self = .invalidStateException(message: message)
         default:

@@ -29,24 +29,6 @@ public enum CodeCommitErrorType: AWSErrorType {
     case multipleRepositoriesInPullRequestException(message: String?)
     case maximumOpenPullRequestsExceededException(message: String?)
     case sourceAndDestinationAreSameException(message: String?)
-    case invalidSortByException(message: String?)
-    case invalidOrderException(message: String?)
-    case invalidContinuationTokenException(message: String?)
-    case pullRequestDoesNotExistException(message: String?)
-    case invalidPullRequestIdException(message: String?)
-    case pullRequestIdRequiredException(message: String?)
-    case pullRequestAlreadyClosedException(message: String?)
-    case commentContentRequiredException(message: String?)
-    case commentContentSizeLimitExceededException(message: String?)
-    case commentDoesNotExistException(message: String?)
-    case commentIdRequiredException(message: String?)
-    case invalidCommentIdException(message: String?)
-    case commentNotCreatedByCallerException(message: String?)
-    case commentDeletedException(message: String?)
-    case branchNameRequiredException(message: String?)
-    case invalidBranchNameException(message: String?)
-    case branchDoesNotExistException(message: String?)
-    case defaultBranchCannotBeDeletedException(message: String?)
     case mergeOptionRequiredException(message: String?)
     case invalidMergeOptionException(message: String?)
     case invalidDestinationCommitSpecifierException(message: String?)
@@ -55,50 +37,17 @@ public enum CodeCommitErrorType: AWSErrorType {
     case commitDoesNotExistException(message: String?)
     case invalidCommitException(message: String?)
     case tipsDivergenceExceededException(message: String?)
-    case repositoryNotAssociatedWithPullRequestException(message: String?)
-    case invalidFileLocationException(message: String?)
-    case invalidRelativeFileVersionEnumException(message: String?)
-    case pathRequiredException(message: String?)
-    case invalidFilePositionException(message: String?)
-    case commitIdRequiredException(message: String?)
-    case invalidCommitIdException(message: String?)
-    case invalidPathException(message: String?)
-    case pathDoesNotExistException(message: String?)
-    case beforeCommitIdAndAfterCommitIdAreSameException(message: String?)
-    case blobIdRequiredException(message: String?)
-    case invalidBlobIdException(message: String?)
-    case blobIdDoesNotExistException(message: String?)
-    case fileTooLargeException(message: String?)
-    case repositoryNamesRequiredException(message: String?)
-    case maximumRepositoryNamesExceededException(message: String?)
-    case invalidPullRequestStatusUpdateException(message: String?)
-    case invalidPullRequestStatusException(message: String?)
-    case pullRequestStatusRequiredException(message: String?)
-    case parentCommitIdRequiredException(message: String?)
-    case invalidParentCommitIdException(message: String?)
-    case parentCommitDoesNotExistException(message: String?)
-    case parentCommitIdOutdatedException(message: String?)
-    case fileContentRequiredException(message: String?)
-    case fileContentSizeLimitExceededException(message: String?)
-    case branchNameIsTagNameException(message: String?)
-    case invalidFileModeException(message: String?)
-    case nameLengthExceededException(message: String?)
-    case invalidEmailException(message: String?)
-    case commitMessageLengthExceededException(message: String?)
-    case invalidDeletionParameterException(message: String?)
-    case sameFileContentException(message: String?)
-    case fileNameConflictsWithDirectoryNameException(message: String?)
-    case directoryNameConflictsWithFileNameException(message: String?)
-    case invalidMaxResultsException(message: String?)
-    case invalidAuthorArnException(message: String?)
-    case authorDoesNotExistException(message: String?)
+    case branchNameRequiredException(message: String?)
+    case invalidBranchNameException(message: String?)
+    case branchDoesNotExistException(message: String?)
+    case pullRequestDoesNotExistException(message: String?)
+    case invalidPullRequestIdException(message: String?)
+    case pullRequestIdRequiredException(message: String?)
     case invalidPullRequestEventTypeException(message: String?)
     case invalidActorArnException(message: String?)
     case actorDoesNotExistException(message: String?)
-    case fileDoesNotExistException(message: String?)
-    case manualMergeRequiredException(message: String?)
-    case tipOfSourceReferenceIsDifferentException(message: String?)
-    case folderDoesNotExistException(message: String?)
+    case invalidMaxResultsException(message: String?)
+    case invalidContinuationTokenException(message: String?)
     case repositoryTriggersListRequiredException(message: String?)
     case maximumRepositoryTriggersExceededException(message: String?)
     case invalidRepositoryTriggerNameException(message: String?)
@@ -112,11 +61,62 @@ public enum CodeCommitErrorType: AWSErrorType {
     case repositoryTriggerDestinationArnRequiredException(message: String?)
     case repositoryTriggerBranchNameListRequiredException(message: String?)
     case repositoryTriggerEventsListRequiredException(message: String?)
+    case parentCommitIdRequiredException(message: String?)
+    case invalidParentCommitIdException(message: String?)
+    case parentCommitDoesNotExistException(message: String?)
+    case parentCommitIdOutdatedException(message: String?)
+    case fileContentRequiredException(message: String?)
+    case fileContentSizeLimitExceededException(message: String?)
+    case pathRequiredException(message: String?)
+    case invalidPathException(message: String?)
+    case branchNameIsTagNameException(message: String?)
+    case invalidFileModeException(message: String?)
+    case nameLengthExceededException(message: String?)
+    case invalidEmailException(message: String?)
+    case commitMessageLengthExceededException(message: String?)
+    case invalidDeletionParameterException(message: String?)
+    case sameFileContentException(message: String?)
+    case fileNameConflictsWithDirectoryNameException(message: String?)
+    case directoryNameConflictsWithFileNameException(message: String?)
+    case commentContentRequiredException(message: String?)
+    case commentContentSizeLimitExceededException(message: String?)
+    case invalidFileLocationException(message: String?)
+    case invalidRelativeFileVersionEnumException(message: String?)
+    case invalidFilePositionException(message: String?)
+    case commitIdRequiredException(message: String?)
+    case invalidCommitIdException(message: String?)
+    case beforeCommitIdAndAfterCommitIdAreSameException(message: String?)
+    case pathDoesNotExistException(message: String?)
+    case invalidSortByException(message: String?)
+    case invalidOrderException(message: String?)
+    case repositoryNamesRequiredException(message: String?)
+    case maximumRepositoryNamesExceededException(message: String?)
+    case commentDoesNotExistException(message: String?)
+    case commentIdRequiredException(message: String?)
+    case invalidCommentIdException(message: String?)
+    case commentDeletedException(message: String?)
     case repositoryNameExistsException(message: String?)
     case invalidRepositoryDescriptionException(message: String?)
     case repositoryLimitExceededException(message: String?)
-    case commitIdDoesNotExistException(message: String?)
+    case defaultBranchCannotBeDeletedException(message: String?)
+    case repositoryNotAssociatedWithPullRequestException(message: String?)
+    case commentNotCreatedByCallerException(message: String?)
+    case manualMergeRequiredException(message: String?)
+    case pullRequestAlreadyClosedException(message: String?)
+    case tipOfSourceReferenceIsDifferentException(message: String?)
     case branchNameExistsException(message: String?)
+    case blobIdRequiredException(message: String?)
+    case invalidBlobIdException(message: String?)
+    case blobIdDoesNotExistException(message: String?)
+    case fileTooLargeException(message: String?)
+    case invalidPullRequestStatusException(message: String?)
+    case invalidAuthorArnException(message: String?)
+    case authorDoesNotExistException(message: String?)
+    case commitIdDoesNotExistException(message: String?)
+    case folderDoesNotExistException(message: String?)
+    case fileDoesNotExistException(message: String?)
+    case invalidPullRequestStatusUpdateException(message: String?)
+    case pullRequestStatusRequiredException(message: String?)
 }
 
 extension CodeCommitErrorType {
@@ -176,42 +176,6 @@ extension CodeCommitErrorType {
             self = .maximumOpenPullRequestsExceededException(message: message)
         case "SourceAndDestinationAreSameException":
             self = .sourceAndDestinationAreSameException(message: message)
-        case "InvalidSortByException":
-            self = .invalidSortByException(message: message)
-        case "InvalidOrderException":
-            self = .invalidOrderException(message: message)
-        case "InvalidContinuationTokenException":
-            self = .invalidContinuationTokenException(message: message)
-        case "PullRequestDoesNotExistException":
-            self = .pullRequestDoesNotExistException(message: message)
-        case "InvalidPullRequestIdException":
-            self = .invalidPullRequestIdException(message: message)
-        case "PullRequestIdRequiredException":
-            self = .pullRequestIdRequiredException(message: message)
-        case "PullRequestAlreadyClosedException":
-            self = .pullRequestAlreadyClosedException(message: message)
-        case "CommentContentRequiredException":
-            self = .commentContentRequiredException(message: message)
-        case "CommentContentSizeLimitExceededException":
-            self = .commentContentSizeLimitExceededException(message: message)
-        case "CommentDoesNotExistException":
-            self = .commentDoesNotExistException(message: message)
-        case "CommentIdRequiredException":
-            self = .commentIdRequiredException(message: message)
-        case "InvalidCommentIdException":
-            self = .invalidCommentIdException(message: message)
-        case "CommentNotCreatedByCallerException":
-            self = .commentNotCreatedByCallerException(message: message)
-        case "CommentDeletedException":
-            self = .commentDeletedException(message: message)
-        case "BranchNameRequiredException":
-            self = .branchNameRequiredException(message: message)
-        case "InvalidBranchNameException":
-            self = .invalidBranchNameException(message: message)
-        case "BranchDoesNotExistException":
-            self = .branchDoesNotExistException(message: message)
-        case "DefaultBranchCannotBeDeletedException":
-            self = .defaultBranchCannotBeDeletedException(message: message)
         case "MergeOptionRequiredException":
             self = .mergeOptionRequiredException(message: message)
         case "InvalidMergeOptionException":
@@ -228,94 +192,28 @@ extension CodeCommitErrorType {
             self = .invalidCommitException(message: message)
         case "TipsDivergenceExceededException":
             self = .tipsDivergenceExceededException(message: message)
-        case "RepositoryNotAssociatedWithPullRequestException":
-            self = .repositoryNotAssociatedWithPullRequestException(message: message)
-        case "InvalidFileLocationException":
-            self = .invalidFileLocationException(message: message)
-        case "InvalidRelativeFileVersionEnumException":
-            self = .invalidRelativeFileVersionEnumException(message: message)
-        case "PathRequiredException":
-            self = .pathRequiredException(message: message)
-        case "InvalidFilePositionException":
-            self = .invalidFilePositionException(message: message)
-        case "CommitIdRequiredException":
-            self = .commitIdRequiredException(message: message)
-        case "InvalidCommitIdException":
-            self = .invalidCommitIdException(message: message)
-        case "InvalidPathException":
-            self = .invalidPathException(message: message)
-        case "PathDoesNotExistException":
-            self = .pathDoesNotExistException(message: message)
-        case "BeforeCommitIdAndAfterCommitIdAreSameException":
-            self = .beforeCommitIdAndAfterCommitIdAreSameException(message: message)
-        case "BlobIdRequiredException":
-            self = .blobIdRequiredException(message: message)
-        case "InvalidBlobIdException":
-            self = .invalidBlobIdException(message: message)
-        case "BlobIdDoesNotExistException":
-            self = .blobIdDoesNotExistException(message: message)
-        case "FileTooLargeException":
-            self = .fileTooLargeException(message: message)
-        case "RepositoryNamesRequiredException":
-            self = .repositoryNamesRequiredException(message: message)
-        case "MaximumRepositoryNamesExceededException":
-            self = .maximumRepositoryNamesExceededException(message: message)
-        case "InvalidPullRequestStatusUpdateException":
-            self = .invalidPullRequestStatusUpdateException(message: message)
-        case "InvalidPullRequestStatusException":
-            self = .invalidPullRequestStatusException(message: message)
-        case "PullRequestStatusRequiredException":
-            self = .pullRequestStatusRequiredException(message: message)
-        case "ParentCommitIdRequiredException":
-            self = .parentCommitIdRequiredException(message: message)
-        case "InvalidParentCommitIdException":
-            self = .invalidParentCommitIdException(message: message)
-        case "ParentCommitDoesNotExistException":
-            self = .parentCommitDoesNotExistException(message: message)
-        case "ParentCommitIdOutdatedException":
-            self = .parentCommitIdOutdatedException(message: message)
-        case "FileContentRequiredException":
-            self = .fileContentRequiredException(message: message)
-        case "FileContentSizeLimitExceededException":
-            self = .fileContentSizeLimitExceededException(message: message)
-        case "BranchNameIsTagNameException":
-            self = .branchNameIsTagNameException(message: message)
-        case "InvalidFileModeException":
-            self = .invalidFileModeException(message: message)
-        case "NameLengthExceededException":
-            self = .nameLengthExceededException(message: message)
-        case "InvalidEmailException":
-            self = .invalidEmailException(message: message)
-        case "CommitMessageLengthExceededException":
-            self = .commitMessageLengthExceededException(message: message)
-        case "InvalidDeletionParameterException":
-            self = .invalidDeletionParameterException(message: message)
-        case "SameFileContentException":
-            self = .sameFileContentException(message: message)
-        case "FileNameConflictsWithDirectoryNameException":
-            self = .fileNameConflictsWithDirectoryNameException(message: message)
-        case "DirectoryNameConflictsWithFileNameException":
-            self = .directoryNameConflictsWithFileNameException(message: message)
-        case "InvalidMaxResultsException":
-            self = .invalidMaxResultsException(message: message)
-        case "InvalidAuthorArnException":
-            self = .invalidAuthorArnException(message: message)
-        case "AuthorDoesNotExistException":
-            self = .authorDoesNotExistException(message: message)
+        case "BranchNameRequiredException":
+            self = .branchNameRequiredException(message: message)
+        case "InvalidBranchNameException":
+            self = .invalidBranchNameException(message: message)
+        case "BranchDoesNotExistException":
+            self = .branchDoesNotExistException(message: message)
+        case "PullRequestDoesNotExistException":
+            self = .pullRequestDoesNotExistException(message: message)
+        case "InvalidPullRequestIdException":
+            self = .invalidPullRequestIdException(message: message)
+        case "PullRequestIdRequiredException":
+            self = .pullRequestIdRequiredException(message: message)
         case "InvalidPullRequestEventTypeException":
             self = .invalidPullRequestEventTypeException(message: message)
         case "InvalidActorArnException":
             self = .invalidActorArnException(message: message)
         case "ActorDoesNotExistException":
             self = .actorDoesNotExistException(message: message)
-        case "FileDoesNotExistException":
-            self = .fileDoesNotExistException(message: message)
-        case "ManualMergeRequiredException":
-            self = .manualMergeRequiredException(message: message)
-        case "TipOfSourceReferenceIsDifferentException":
-            self = .tipOfSourceReferenceIsDifferentException(message: message)
-        case "FolderDoesNotExistException":
-            self = .folderDoesNotExistException(message: message)
+        case "InvalidMaxResultsException":
+            self = .invalidMaxResultsException(message: message)
+        case "InvalidContinuationTokenException":
+            self = .invalidContinuationTokenException(message: message)
         case "RepositoryTriggersListRequiredException":
             self = .repositoryTriggersListRequiredException(message: message)
         case "MaximumRepositoryTriggersExceededException":
@@ -342,16 +240,118 @@ extension CodeCommitErrorType {
             self = .repositoryTriggerBranchNameListRequiredException(message: message)
         case "RepositoryTriggerEventsListRequiredException":
             self = .repositoryTriggerEventsListRequiredException(message: message)
+        case "ParentCommitIdRequiredException":
+            self = .parentCommitIdRequiredException(message: message)
+        case "InvalidParentCommitIdException":
+            self = .invalidParentCommitIdException(message: message)
+        case "ParentCommitDoesNotExistException":
+            self = .parentCommitDoesNotExistException(message: message)
+        case "ParentCommitIdOutdatedException":
+            self = .parentCommitIdOutdatedException(message: message)
+        case "FileContentRequiredException":
+            self = .fileContentRequiredException(message: message)
+        case "FileContentSizeLimitExceededException":
+            self = .fileContentSizeLimitExceededException(message: message)
+        case "PathRequiredException":
+            self = .pathRequiredException(message: message)
+        case "InvalidPathException":
+            self = .invalidPathException(message: message)
+        case "BranchNameIsTagNameException":
+            self = .branchNameIsTagNameException(message: message)
+        case "InvalidFileModeException":
+            self = .invalidFileModeException(message: message)
+        case "NameLengthExceededException":
+            self = .nameLengthExceededException(message: message)
+        case "InvalidEmailException":
+            self = .invalidEmailException(message: message)
+        case "CommitMessageLengthExceededException":
+            self = .commitMessageLengthExceededException(message: message)
+        case "InvalidDeletionParameterException":
+            self = .invalidDeletionParameterException(message: message)
+        case "SameFileContentException":
+            self = .sameFileContentException(message: message)
+        case "FileNameConflictsWithDirectoryNameException":
+            self = .fileNameConflictsWithDirectoryNameException(message: message)
+        case "DirectoryNameConflictsWithFileNameException":
+            self = .directoryNameConflictsWithFileNameException(message: message)
+        case "CommentContentRequiredException":
+            self = .commentContentRequiredException(message: message)
+        case "CommentContentSizeLimitExceededException":
+            self = .commentContentSizeLimitExceededException(message: message)
+        case "InvalidFileLocationException":
+            self = .invalidFileLocationException(message: message)
+        case "InvalidRelativeFileVersionEnumException":
+            self = .invalidRelativeFileVersionEnumException(message: message)
+        case "InvalidFilePositionException":
+            self = .invalidFilePositionException(message: message)
+        case "CommitIdRequiredException":
+            self = .commitIdRequiredException(message: message)
+        case "InvalidCommitIdException":
+            self = .invalidCommitIdException(message: message)
+        case "BeforeCommitIdAndAfterCommitIdAreSameException":
+            self = .beforeCommitIdAndAfterCommitIdAreSameException(message: message)
+        case "PathDoesNotExistException":
+            self = .pathDoesNotExistException(message: message)
+        case "InvalidSortByException":
+            self = .invalidSortByException(message: message)
+        case "InvalidOrderException":
+            self = .invalidOrderException(message: message)
+        case "RepositoryNamesRequiredException":
+            self = .repositoryNamesRequiredException(message: message)
+        case "MaximumRepositoryNamesExceededException":
+            self = .maximumRepositoryNamesExceededException(message: message)
+        case "CommentDoesNotExistException":
+            self = .commentDoesNotExistException(message: message)
+        case "CommentIdRequiredException":
+            self = .commentIdRequiredException(message: message)
+        case "InvalidCommentIdException":
+            self = .invalidCommentIdException(message: message)
+        case "CommentDeletedException":
+            self = .commentDeletedException(message: message)
         case "RepositoryNameExistsException":
             self = .repositoryNameExistsException(message: message)
         case "InvalidRepositoryDescriptionException":
             self = .invalidRepositoryDescriptionException(message: message)
         case "RepositoryLimitExceededException":
             self = .repositoryLimitExceededException(message: message)
-        case "CommitIdDoesNotExistException":
-            self = .commitIdDoesNotExistException(message: message)
+        case "DefaultBranchCannotBeDeletedException":
+            self = .defaultBranchCannotBeDeletedException(message: message)
+        case "RepositoryNotAssociatedWithPullRequestException":
+            self = .repositoryNotAssociatedWithPullRequestException(message: message)
+        case "CommentNotCreatedByCallerException":
+            self = .commentNotCreatedByCallerException(message: message)
+        case "ManualMergeRequiredException":
+            self = .manualMergeRequiredException(message: message)
+        case "PullRequestAlreadyClosedException":
+            self = .pullRequestAlreadyClosedException(message: message)
+        case "TipOfSourceReferenceIsDifferentException":
+            self = .tipOfSourceReferenceIsDifferentException(message: message)
         case "BranchNameExistsException":
             self = .branchNameExistsException(message: message)
+        case "BlobIdRequiredException":
+            self = .blobIdRequiredException(message: message)
+        case "InvalidBlobIdException":
+            self = .invalidBlobIdException(message: message)
+        case "BlobIdDoesNotExistException":
+            self = .blobIdDoesNotExistException(message: message)
+        case "FileTooLargeException":
+            self = .fileTooLargeException(message: message)
+        case "InvalidPullRequestStatusException":
+            self = .invalidPullRequestStatusException(message: message)
+        case "InvalidAuthorArnException":
+            self = .invalidAuthorArnException(message: message)
+        case "AuthorDoesNotExistException":
+            self = .authorDoesNotExistException(message: message)
+        case "CommitIdDoesNotExistException":
+            self = .commitIdDoesNotExistException(message: message)
+        case "FolderDoesNotExistException":
+            self = .folderDoesNotExistException(message: message)
+        case "FileDoesNotExistException":
+            self = .fileDoesNotExistException(message: message)
+        case "InvalidPullRequestStatusUpdateException":
+            self = .invalidPullRequestStatusUpdateException(message: message)
+        case "PullRequestStatusRequiredException":
+            self = .pullRequestStatusRequiredException(message: message)
         default:
             return nil
         }

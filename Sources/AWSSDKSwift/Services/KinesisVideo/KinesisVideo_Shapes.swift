@@ -5,297 +5,36 @@ import AWSSDKSwiftCore
 
 extension KinesisVideo {
 
-    public struct DescribeStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the stream.
-        public let streamARN: String?
-        /// The name of the stream.
-        public let streamName: String?
-
-        public init(streamARN: String? = nil, streamName: String? = nil) {
-            self.streamARN = streamARN
-            self.streamName = streamName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamARN = "StreamARN"
-            case streamName = "StreamName"
-        }
-    }
-
-    public struct UntagStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeyList", required: true, type: .list), 
-            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string)
-        ]
-        /// A list of the keys of the tags that you want to remove.
-        public let tagKeyList: [String]
-        /// The Amazon Resource Name (ARN) of the stream that you want to remove tags from.
-        public let streamARN: String?
-        /// The name of the stream that you want to remove tags from.
-        public let streamName: String?
-
-        public init(tagKeyList: [String], streamARN: String? = nil, streamName: String? = nil) {
-            self.tagKeyList = tagKeyList
-            self.streamARN = streamARN
-            self.streamName = streamName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKeyList = "TagKeyList"
-            case streamARN = "StreamARN"
-            case streamName = "StreamName"
-        }
-    }
-
-    public enum APIName: String, CustomStringConvertible, Codable {
-        case putMedia = "PUT_MEDIA"
-        case getMedia = "GET_MEDIA"
-        case listFragments = "LIST_FRAGMENTS"
-        case getMediaForFragmentList = "GET_MEDIA_FOR_FRAGMENT_LIST"
-        case getHlsStreamingSessionUrl = "GET_HLS_STREAMING_SESSION_URL"
+    public enum Status: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
         public var description: String { return self.rawValue }
-    }
-
-    public struct ListStreamsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamNameCondition", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Optional: Returns only streams that satisfy a specific condition. Currently, you can specify only the prefix of a stream name as a condition. 
-        public let streamNameCondition: StreamNameCondition?
-        /// The maximum number of streams to return in the response. The default is 10,000.
-        public let maxResults: Int32?
-        /// If you specify this parameter, when the result of a ListStreams operation is truncated, the call returns the NextToken in the response. To get another batch of streams, provide this token in your next request.
-        public let nextToken: String?
-
-        public init(streamNameCondition: StreamNameCondition? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.streamNameCondition = streamNameCondition
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamNameCondition = "StreamNameCondition"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeleteStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamARN", required: true, type: .string), 
-            AWSShapeMember(label: "CurrentVersion", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the stream that you want to delete. 
-        public let streamARN: String
-        /// Optional: The version of the stream that you want to delete.  Specify the version as a safeguard to ensure that your are deleting the correct stream. To get the stream version, use the DescribeStream API. If not specified, only the CreationTime is checked before deleting the stream.
-        public let currentVersion: String?
-
-        public init(streamARN: String, currentVersion: String? = nil) {
-            self.streamARN = streamARN
-            self.currentVersion = currentVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamARN = "StreamARN"
-            case currentVersion = "CurrentVersion"
-        }
-    }
-
-    public struct DeleteStreamOutput: AWSShape {
-
-    }
-
-    public struct UpdateDataRetentionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamName", required: false, type: .string), 
-            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
-            AWSShapeMember(label: "CurrentVersion", required: true, type: .string), 
-            AWSShapeMember(label: "Operation", required: true, type: .enum), 
-            AWSShapeMember(label: "DataRetentionChangeInHours", required: true, type: .integer)
-        ]
-        /// The name of the stream whose retention period you want to change.
-        public let streamName: String?
-        /// The Amazon Resource Name (ARN) of the stream whose retention period you want to change.
-        public let streamARN: String?
-        /// The version of the stream whose retention period you want to change. To get the version, call either the DescribeStream or the ListStreams API.
-        public let currentVersion: String
-        /// Indicates whether you want to increase or decrease the retention period.
-        public let operation: UpdateDataRetentionOperation
-        /// The retention period, in hours. The value you specify replaces the current value.
-        public let dataRetentionChangeInHours: Int32
-
-        public init(streamName: String? = nil, streamARN: String? = nil, currentVersion: String, operation: UpdateDataRetentionOperation, dataRetentionChangeInHours: Int32) {
-            self.streamName = streamName
-            self.streamARN = streamARN
-            self.currentVersion = currentVersion
-            self.operation = operation
-            self.dataRetentionChangeInHours = dataRetentionChangeInHours
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamName = "StreamName"
-            case streamARN = "StreamARN"
-            case currentVersion = "CurrentVersion"
-            case operation = "Operation"
-            case dataRetentionChangeInHours = "DataRetentionChangeInHours"
-        }
-    }
-
-    public struct ListTagsForStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamName", required: false, type: .string), 
-            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The name of the stream that you want to list tags for.
-        public let streamName: String?
-        /// The Amazon Resource Name (ARN) of the stream that you want to list tags for.
-        public let streamARN: String?
-        /// If you specify this parameter and the result of a ListTagsForStream call is truncated, the response includes a token that you can use in the next request to fetch the next batch of tags.
-        public let nextToken: String?
-
-        public init(streamName: String? = nil, streamARN: String? = nil, nextToken: String? = nil) {
-            self.streamName = streamName
-            self.streamARN = streamARN
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamName = "StreamName"
-            case streamARN = "StreamARN"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct UntagStreamOutput: AWSShape {
-
-    }
-
-    public struct UpdateDataRetentionOutput: AWSShape {
-
-    }
-
-    public struct CreateStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MediaType", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string), 
-            AWSShapeMember(label: "DataRetentionInHours", required: false, type: .integer), 
-            AWSShapeMember(label: "DeviceName", required: false, type: .string)
-        ]
-        /// The media type of the stream. Consumers of the stream can use this information when processing the stream. For more information about media types, see Media Types. If you choose to specify the MediaType, see Naming Requirements for guidelines. To play video on the console, the media must be H.264 encoded, and you need to specify this video type in this parameter as video/h264.  This parameter is optional; the default value is null (or empty in JSON).
-        public let mediaType: String?
-        /// The ID of the AWS Key Management Service (AWS KMS) key that you want Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis Video-managed key (aws/kinesisvideo) is used.  For more information, see DescribeKey. 
-        public let kmsKeyId: String?
-        /// A name for the stream that you are creating. The stream name is an identifier for the stream, and must be unique for each account and region.
-        public let streamName: String
-        /// The number of hours that you want to retain the data in the stream. Kinesis Video Streams retains the data in a data store that is associated with the stream. The default value is 0, indicating that the stream does not persist data. When the DataRetentionInHours value is 0, consumers can still consume the fragments that remain in the service host buffer, which has a retention time limit of 5 minutes and a retention memory limit of 200 MB. Fragments are removed from the buffer when either limit is reached.
-        public let dataRetentionInHours: Int32?
-        /// The name of the device that is writing to the stream.   In the current implementation, Kinesis Video Streams does not use this name. 
-        public let deviceName: String?
-
-        public init(mediaType: String? = nil, kmsKeyId: String? = nil, streamName: String, dataRetentionInHours: Int32? = nil, deviceName: String? = nil) {
-            self.mediaType = mediaType
-            self.kmsKeyId = kmsKeyId
-            self.streamName = streamName
-            self.dataRetentionInHours = dataRetentionInHours
-            self.deviceName = deviceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mediaType = "MediaType"
-            case kmsKeyId = "KmsKeyId"
-            case streamName = "StreamName"
-            case dataRetentionInHours = "DataRetentionInHours"
-            case deviceName = "DeviceName"
-        }
     }
 
     public struct TagStreamInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: true, type: .map), 
-            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string)
+            AWSShapeMember(label: "StreamName", required: false, type: .string), 
+            AWSShapeMember(label: "StreamARN", required: false, type: .string)
         ]
         /// A list of tags to associate with the specified stream. Each tag is a key-value pair (the value is optional).
         public let tags: [String: String]
-        /// The Amazon Resource Name (ARN) of the resource that you want to add the tag or tags to.
-        public let streamARN: String?
         /// The name of the stream that you want to add the tag or tags to.
         public let streamName: String?
+        /// The Amazon Resource Name (ARN) of the resource that you want to add the tag or tags to.
+        public let streamARN: String?
 
-        public init(tags: [String: String], streamARN: String? = nil, streamName: String? = nil) {
+        public init(tags: [String: String], streamName: String? = nil, streamARN: String? = nil) {
             self.tags = tags
-            self.streamARN = streamARN
             self.streamName = streamName
+            self.streamARN = streamARN
         }
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
-            case streamARN = "StreamARN"
             case streamName = "StreamName"
-        }
-    }
-
-    public struct StreamInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Version", required: false, type: .string), 
-            AWSShapeMember(label: "DataRetentionInHours", required: false, type: .integer), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string), 
-            AWSShapeMember(label: "MediaType", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StreamARN", required: false, type: .string)
-        ]
-        /// The version of the stream.
-        public let version: String?
-        /// How long the stream retains data, in hours.
-        public let dataRetentionInHours: Int32?
-        /// The status of the stream.
-        public let status: Status?
-        /// The name of the device that is associated with the stream.
-        public let deviceName: String?
-        /// The name of the stream.
-        public let streamName: String?
-        /// The MediaType of the stream. 
-        public let mediaType: String?
-        /// The ID of the AWS Key Management Service (AWS KMS) key that Kinesis Video Streams uses to encrypt data on the stream.
-        public let kmsKeyId: String?
-        /// A time stamp that indicates when the stream was created.
-        public let creationTime: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the stream.
-        public let streamARN: String?
-
-        public init(version: String? = nil, dataRetentionInHours: Int32? = nil, status: Status? = nil, deviceName: String? = nil, streamName: String? = nil, mediaType: String? = nil, kmsKeyId: String? = nil, creationTime: TimeStamp? = nil, streamARN: String? = nil) {
-            self.version = version
-            self.dataRetentionInHours = dataRetentionInHours
-            self.status = status
-            self.deviceName = deviceName
-            self.streamName = streamName
-            self.mediaType = mediaType
-            self.kmsKeyId = kmsKeyId
-            self.creationTime = creationTime
-            self.streamARN = streamARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "Version"
-            case dataRetentionInHours = "DataRetentionInHours"
-            case status = "Status"
-            case deviceName = "DeviceName"
-            case streamName = "StreamName"
-            case mediaType = "MediaType"
-            case kmsKeyId = "KmsKeyId"
-            case creationTime = "CreationTime"
             case streamARN = "StreamARN"
         }
     }
@@ -321,37 +60,56 @@ extension KinesisVideo {
         }
     }
 
-    public struct TagStreamOutput: AWSShape {
+    public struct DescribeStreamInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamName", required: false, type: .string), 
+            AWSShapeMember(label: "StreamARN", required: false, type: .string)
+        ]
+        /// The name of the stream.
+        public let streamName: String?
+        /// The Amazon Resource Name (ARN) of the stream.
+        public let streamARN: String?
 
+        public init(streamName: String? = nil, streamARN: String? = nil) {
+            self.streamName = streamName
+            self.streamARN = streamARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamName = "StreamName"
+            case streamARN = "StreamARN"
+        }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case active = "ACTIVE"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
+    public struct UntagStreamInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagKeyList", required: true, type: .list), 
+            AWSShapeMember(label: "StreamName", required: false, type: .string), 
+            AWSShapeMember(label: "StreamARN", required: false, type: .string)
+        ]
+        /// A list of the keys of the tags that you want to remove.
+        public let tagKeyList: [String]
+        /// The name of the stream that you want to remove tags from.
+        public let streamName: String?
+        /// The Amazon Resource Name (ARN) of the stream that you want to remove tags from.
+        public let streamARN: String?
+
+        public init(tagKeyList: [String], streamName: String? = nil, streamARN: String? = nil) {
+            self.tagKeyList = tagKeyList
+            self.streamName = streamName
+            self.streamARN = streamARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagKeyList = "TagKeyList"
+            case streamName = "StreamName"
+            case streamARN = "StreamARN"
+        }
     }
 
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
         case beginsWith = "BEGINS_WITH"
         public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeStreamOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamInfo", required: false, type: .structure)
-        ]
-        /// An object that describes the stream.
-        public let streamInfo: StreamInfo?
-
-        public init(streamInfo: StreamInfo? = nil) {
-            self.streamInfo = streamInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamInfo = "StreamInfo"
-        }
     }
 
     public struct ListStreamsOutput: AWSShape {
@@ -375,19 +133,83 @@ extension KinesisVideo {
         }
     }
 
-    public struct GetDataEndpointOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataEndpoint", required: false, type: .string)
-        ]
-        /// The endpoint value. To read data from the stream or to write data to it, specify this endpoint in your application.
-        public let dataEndpoint: String?
+    public struct UntagStreamOutput: AWSShape {
 
-        public init(dataEndpoint: String? = nil) {
-            self.dataEndpoint = dataEndpoint
+    }
+
+    public struct DescribeStreamOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamInfo", required: false, type: .structure)
+        ]
+        /// An object that describes the stream.
+        public let streamInfo: StreamInfo?
+
+        public init(streamInfo: StreamInfo? = nil) {
+            self.streamInfo = streamInfo
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataEndpoint = "DataEndpoint"
+            case streamInfo = "StreamInfo"
+        }
+    }
+
+    public struct TagStreamOutput: AWSShape {
+
+    }
+
+    public struct StreamInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "MediaType", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
+            AWSShapeMember(label: "StreamName", required: false, type: .string), 
+            AWSShapeMember(label: "DataRetentionInHours", required: false, type: .integer)
+        ]
+        /// The ID of the AWS Key Management Service (AWS KMS) key that Kinesis Video Streams uses to encrypt data on the stream.
+        public let kmsKeyId: String?
+        /// The name of the device that is associated with the stream.
+        public let deviceName: String?
+        /// The status of the stream.
+        public let status: Status?
+        /// The version of the stream.
+        public let version: String?
+        /// The MediaType of the stream. 
+        public let mediaType: String?
+        /// A time stamp that indicates when the stream was created.
+        public let creationTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the stream.
+        public let streamARN: String?
+        /// The name of the stream.
+        public let streamName: String?
+        /// How long the stream retains data, in hours.
+        public let dataRetentionInHours: Int32?
+
+        public init(kmsKeyId: String? = nil, deviceName: String? = nil, status: Status? = nil, version: String? = nil, mediaType: String? = nil, creationTime: TimeStamp? = nil, streamARN: String? = nil, streamName: String? = nil, dataRetentionInHours: Int32? = nil) {
+            self.kmsKeyId = kmsKeyId
+            self.deviceName = deviceName
+            self.status = status
+            self.version = version
+            self.mediaType = mediaType
+            self.creationTime = creationTime
+            self.streamARN = streamARN
+            self.streamName = streamName
+            self.dataRetentionInHours = dataRetentionInHours
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case deviceName = "DeviceName"
+            case status = "Status"
+            case version = "Version"
+            case mediaType = "MediaType"
+            case creationTime = "CreationTime"
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
+            case dataRetentionInHours = "DataRetentionInHours"
         }
     }
 
@@ -407,50 +229,115 @@ extension KinesisVideo {
         }
     }
 
-    public enum UpdateDataRetentionOperation: String, CustomStringConvertible, Codable {
-        case increaseDataRetention = "INCREASE_DATA_RETENTION"
-        case decreaseDataRetention = "DECREASE_DATA_RETENTION"
-        public var description: String { return self.rawValue }
+    public struct StreamNameCondition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
+            AWSShapeMember(label: "ComparisonValue", required: false, type: .string)
+        ]
+        /// A comparison operator. Currently, you can specify only the BEGINS_WITH operator, which finds streams whose names start with a given prefix.
+        public let comparisonOperator: ComparisonOperator?
+        /// A value to compare.
+        public let comparisonValue: String?
+
+        public init(comparisonOperator: ComparisonOperator? = nil, comparisonValue: String? = nil) {
+            self.comparisonOperator = comparisonOperator
+            self.comparisonValue = comparisonValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonOperator = "ComparisonOperator"
+            case comparisonValue = "ComparisonValue"
+        }
     }
 
-    public struct UpdateStreamOutput: AWSShape {
+    public struct GetDataEndpointOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataEndpoint", required: false, type: .string)
+        ]
+        /// The endpoint value. To read data from the stream or to write data to it, specify this endpoint in your application.
+        public let dataEndpoint: String?
 
+        public init(dataEndpoint: String? = nil) {
+            self.dataEndpoint = dataEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataEndpoint = "DataEndpoint"
+        }
+    }
+
+    public struct UpdateDataRetentionOutput: AWSShape {
+
+    }
+
+    public struct DeleteStreamInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "StreamARN", required: true, type: .string)
+        ]
+        /// Optional: The version of the stream that you want to delete.  Specify the version as a safeguard to ensure that your are deleting the correct stream. To get the stream version, use the DescribeStream API. If not specified, only the CreationTime is checked before deleting the stream.
+        public let currentVersion: String?
+        /// The Amazon Resource Name (ARN) of the stream that you want to delete. 
+        public let streamARN: String
+
+        public init(currentVersion: String? = nil, streamARN: String) {
+            self.currentVersion = currentVersion
+            self.streamARN = streamARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentVersion = "CurrentVersion"
+            case streamARN = "StreamARN"
+        }
+    }
+
+    public enum APIName: String, CustomStringConvertible, Codable {
+        case putMedia = "PUT_MEDIA"
+        case getMedia = "GET_MEDIA"
+        case listFragments = "LIST_FRAGMENTS"
+        case getMediaForFragmentList = "GET_MEDIA_FOR_FRAGMENT_LIST"
+        case getHlsStreamingSessionUrl = "GET_HLS_STREAMING_SESSION_URL"
+        public var description: String { return self.rawValue }
     }
 
     public struct UpdateStreamInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MediaType", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string), 
             AWSShapeMember(label: "CurrentVersion", required: true, type: .string), 
+            AWSShapeMember(label: "StreamName", required: false, type: .string), 
             AWSShapeMember(label: "StreamARN", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceName", required: false, type: .string)
+            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
+            AWSShapeMember(label: "MediaType", required: false, type: .string)
         ]
-        /// The stream's media type. Use MediaType to specify the type of content that the stream contains to the consumers of the stream. For more information about media types, see Media Types. If you choose to specify the MediaType, see Naming Requirements. To play video on the console, you must specify the correct video type. For example, if the video in the stream is H.264, specify video/h264 as the MediaType.
-        public let mediaType: String?
-        /// The name of the stream whose metadata you want to update. The stream name is an identifier for the stream, and must be unique for each account and region.
-        public let streamName: String?
         /// The version of the stream whose metadata you want to update.
         public let currentVersion: String
+        /// The name of the stream whose metadata you want to update. The stream name is an identifier for the stream, and must be unique for each account and region.
+        public let streamName: String?
         /// The ARN of the stream whose metadata you want to update.
         public let streamARN: String?
         /// The name of the device that is writing to the stream.    In the current implementation, Kinesis Video Streams does not use this name.  
         public let deviceName: String?
+        /// The stream's media type. Use MediaType to specify the type of content that the stream contains to the consumers of the stream. For more information about media types, see Media Types. If you choose to specify the MediaType, see Naming Requirements. To play video on the console, you must specify the correct video type. For example, if the video in the stream is H.264, specify video/h264 as the MediaType.
+        public let mediaType: String?
 
-        public init(mediaType: String? = nil, streamName: String? = nil, currentVersion: String, streamARN: String? = nil, deviceName: String? = nil) {
-            self.mediaType = mediaType
-            self.streamName = streamName
+        public init(currentVersion: String, streamName: String? = nil, streamARN: String? = nil, deviceName: String? = nil, mediaType: String? = nil) {
             self.currentVersion = currentVersion
+            self.streamName = streamName
             self.streamARN = streamARN
             self.deviceName = deviceName
+            self.mediaType = mediaType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mediaType = "MediaType"
-            case streamName = "StreamName"
             case currentVersion = "CurrentVersion"
+            case streamName = "StreamName"
             case streamARN = "StreamARN"
             case deviceName = "DeviceName"
+            case mediaType = "MediaType"
         }
+    }
+
+    public struct DeleteStreamOutput: AWSShape {
+
     }
 
     public struct GetDataEndpointInput: AWSShape {
@@ -479,25 +366,138 @@ extension KinesisVideo {
         }
     }
 
-    public struct StreamNameCondition: AWSShape {
+    public struct ListTagsForStreamInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
-            AWSShapeMember(label: "ComparisonValue", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
+            AWSShapeMember(label: "StreamName", required: false, type: .string)
         ]
-        /// A comparison operator. Currently, you can specify only the BEGINS_WITH operator, which finds streams whose names start with a given prefix.
-        public let comparisonOperator: ComparisonOperator?
-        /// A value to compare.
-        public let comparisonValue: String?
+        /// If you specify this parameter and the result of a ListTagsForStream call is truncated, the response includes a token that you can use in the next request to fetch the next batch of tags.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the stream that you want to list tags for.
+        public let streamARN: String?
+        /// The name of the stream that you want to list tags for.
+        public let streamName: String?
 
-        public init(comparisonOperator: ComparisonOperator? = nil, comparisonValue: String? = nil) {
-            self.comparisonOperator = comparisonOperator
-            self.comparisonValue = comparisonValue
+        public init(nextToken: String? = nil, streamARN: String? = nil, streamName: String? = nil) {
+            self.nextToken = nextToken
+            self.streamARN = streamARN
+            self.streamName = streamName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparisonOperator = "ComparisonOperator"
-            case comparisonValue = "ComparisonValue"
+            case nextToken = "NextToken"
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
         }
+    }
+
+    public struct UpdateDataRetentionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamName", required: false, type: .string), 
+            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
+            AWSShapeMember(label: "Operation", required: true, type: .enum), 
+            AWSShapeMember(label: "DataRetentionChangeInHours", required: true, type: .integer), 
+            AWSShapeMember(label: "CurrentVersion", required: true, type: .string)
+        ]
+        /// The name of the stream whose retention period you want to change.
+        public let streamName: String?
+        /// The Amazon Resource Name (ARN) of the stream whose retention period you want to change.
+        public let streamARN: String?
+        /// Indicates whether you want to increase or decrease the retention period.
+        public let operation: UpdateDataRetentionOperation
+        /// The retention period, in hours. The value you specify replaces the current value.
+        public let dataRetentionChangeInHours: Int32
+        /// The version of the stream whose retention period you want to change. To get the version, call either the DescribeStream or the ListStreams API.
+        public let currentVersion: String
+
+        public init(streamName: String? = nil, streamARN: String? = nil, operation: UpdateDataRetentionOperation, dataRetentionChangeInHours: Int32, currentVersion: String) {
+            self.streamName = streamName
+            self.streamARN = streamARN
+            self.operation = operation
+            self.dataRetentionChangeInHours = dataRetentionChangeInHours
+            self.currentVersion = currentVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamName = "StreamName"
+            case streamARN = "StreamARN"
+            case operation = "Operation"
+            case dataRetentionChangeInHours = "DataRetentionChangeInHours"
+            case currentVersion = "CurrentVersion"
+        }
+    }
+
+    public struct ListStreamsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamNameCondition", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Optional: Returns only streams that satisfy a specific condition. Currently, you can specify only the prefix of a stream name as a condition. 
+        public let streamNameCondition: StreamNameCondition?
+        /// The maximum number of streams to return in the response. The default is 10,000.
+        public let maxResults: Int32?
+        /// If you specify this parameter, when the result of a ListStreams operation is truncated, the call returns the NextToken in the response. To get another batch of streams, provide this token in your next request.
+        public let nextToken: String?
+
+        public init(streamNameCondition: StreamNameCondition? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.streamNameCondition = streamNameCondition
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamNameCondition = "StreamNameCondition"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct CreateStreamInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamName", required: true, type: .string), 
+            AWSShapeMember(label: "DataRetentionInHours", required: false, type: .integer), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
+            AWSShapeMember(label: "MediaType", required: false, type: .string)
+        ]
+        /// A name for the stream that you are creating. The stream name is an identifier for the stream, and must be unique for each account and region.
+        public let streamName: String
+        /// The number of hours that you want to retain the data in the stream. Kinesis Video Streams retains the data in a data store that is associated with the stream. The default value is 0, indicating that the stream does not persist data. When the DataRetentionInHours value is 0, consumers can still consume the fragments that remain in the service host buffer, which has a retention time limit of 5 minutes and a retention memory limit of 200 MB. Fragments are removed from the buffer when either limit is reached.
+        public let dataRetentionInHours: Int32?
+        /// The ID of the AWS Key Management Service (AWS KMS) key that you want Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis Video-managed key (aws/kinesisvideo) is used.  For more information, see DescribeKey. 
+        public let kmsKeyId: String?
+        /// The name of the device that is writing to the stream.   In the current implementation, Kinesis Video Streams does not use this name. 
+        public let deviceName: String?
+        /// The media type of the stream. Consumers of the stream can use this information when processing the stream. For more information about media types, see Media Types. If you choose to specify the MediaType, see Naming Requirements for guidelines. To play video on the console, the media must be H.264 encoded, and you need to specify this video type in this parameter as video/h264.  This parameter is optional; the default value is null (or empty in JSON).
+        public let mediaType: String?
+
+        public init(streamName: String, dataRetentionInHours: Int32? = nil, kmsKeyId: String? = nil, deviceName: String? = nil, mediaType: String? = nil) {
+            self.streamName = streamName
+            self.dataRetentionInHours = dataRetentionInHours
+            self.kmsKeyId = kmsKeyId
+            self.deviceName = deviceName
+            self.mediaType = mediaType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamName = "StreamName"
+            case dataRetentionInHours = "DataRetentionInHours"
+            case kmsKeyId = "KmsKeyId"
+            case deviceName = "DeviceName"
+            case mediaType = "MediaType"
+        }
+    }
+
+    public enum UpdateDataRetentionOperation: String, CustomStringConvertible, Codable {
+        case increaseDataRetention = "INCREASE_DATA_RETENTION"
+        case decreaseDataRetention = "DECREASE_DATA_RETENTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateStreamOutput: AWSShape {
+
     }
 
 }

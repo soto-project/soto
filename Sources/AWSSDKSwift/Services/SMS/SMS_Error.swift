@@ -10,10 +10,10 @@ public enum SMSErrorType: AWSErrorType {
     case internalError(message: String?)
     case operationNotPermittedException(message: String?)
     case replicationRunLimitExceededException(message: String?)
-    case noConnectorsAvailableException(message: String?)
-    case serverCannotBeReplicatedException(message: String?)
     case replicationJobNotFoundException(message: String?)
+    case serverCannotBeReplicatedException(message: String?)
     case temporarilyUnavailableException(message: String?)
+    case noConnectorsAvailableException(message: String?)
     case replicationJobAlreadyExistsException(message: String?)
 }
 
@@ -36,14 +36,14 @@ extension SMSErrorType {
             self = .operationNotPermittedException(message: message)
         case "ReplicationRunLimitExceededException":
             self = .replicationRunLimitExceededException(message: message)
-        case "NoConnectorsAvailableException":
-            self = .noConnectorsAvailableException(message: message)
-        case "ServerCannotBeReplicatedException":
-            self = .serverCannotBeReplicatedException(message: message)
         case "ReplicationJobNotFoundException":
             self = .replicationJobNotFoundException(message: message)
+        case "ServerCannotBeReplicatedException":
+            self = .serverCannotBeReplicatedException(message: message)
         case "TemporarilyUnavailableException":
             self = .temporarilyUnavailableException(message: message)
+        case "NoConnectorsAvailableException":
+            self = .noConnectorsAvailableException(message: message)
         case "ReplicationJobAlreadyExistsException":
             self = .replicationJobAlreadyExistsException(message: message)
         default:

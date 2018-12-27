@@ -5,703 +5,7 @@ import AWSSDKSwiftCore
 
 extension CloudHSM {
 
-    public struct GetConfigResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigType", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigFile", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigCred", required: false, type: .string)
-        ]
-        /// The type of credentials.
-        public let configType: String?
-        /// The chrystoki.conf configuration file.
-        public let configFile: String?
-        /// The certificate file containing the server.pem files of the HSMs.
-        public let configCred: String?
-
-        public init(configType: String? = nil, configFile: String? = nil, configCred: String? = nil) {
-            self.configType = configType
-            self.configFile = configFile
-            self.configCred = configCred
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configType = "ConfigType"
-            case configFile = "ConfigFile"
-            case configCred = "ConfigCred"
-        }
-    }
-
-    public struct ListHapgsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HapgList", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The list of high-availability partition groups.
-        public let hapgList: [String]
-        /// If not null, more results are available. Pass this value to ListHapgs to retrieve the next set of items.
-        public let nextToken: String?
-
-        public init(hapgList: [String], nextToken: String? = nil) {
-            self.hapgList = hapgList
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hapgList = "HapgList"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum CloudHsmObjectState: String, CustomStringConvertible, Codable {
-        case ready = "READY"
-        case updating = "UPDATING"
-        case degraded = "DEGRADED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteLunaClientResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: true, type: .string)
-        ]
-        /// The status of the action.
-        public let status: String
-
-        public init(status: String) {
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-        }
-    }
-
-    public struct AddTagsToResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagList", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
-        /// One or more tags.
-        public let tagList: [Tag]
-        /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource to tag.
-        public let resourceArn: String
-
-        public init(tagList: [Tag], resourceArn: String) {
-            self.tagList = tagList
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagList = "TagList"
-            case resourceArn = "ResourceArn"
-        }
-    }
-
-    public struct ListLunaClientsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The NextToken value from a previous call to ListLunaClients. Pass null if this is the first call.
-        public let nextToken: String?
-
-        public init(nextToken: String? = nil) {
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListAvailableZonesRequest: AWSShape {
-
-    }
-
-    public struct DescribeHapgRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HapgArn", required: true, type: .string)
-        ]
-        /// The ARN of the high-availability partition group to describe.
-        public let hapgArn: String
-
-        public init(hapgArn: String) {
-            self.hapgArn = hapgArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hapgArn = "HapgArn"
-        }
-    }
-
-    public struct ListHsmsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HsmList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The list of ARNs that identify the HSMs.
-        public let hsmList: [String]?
-        /// If not null, more results are available. Pass this value to ListHsms to retrieve the next set of items.
-        public let nextToken: String?
-
-        public init(hsmList: [String]? = nil, nextToken: String? = nil) {
-            self.hsmList = hsmList
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hsmList = "HsmList"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ModifyLunaClientResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientArn", required: false, type: .string)
-        ]
-        /// The ARN of the client.
-        public let clientArn: String?
-
-        public init(clientArn: String? = nil) {
-            self.clientArn = clientArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clientArn = "ClientArn"
-        }
-    }
-
-    public enum HsmStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case running = "RUNNING"
-        case updating = "UPDATING"
-        case suspended = "SUSPENDED"
-        case terminating = "TERMINATING"
-        case terminated = "TERMINATED"
-        case degraded = "DEGRADED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteHapgRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HapgArn", required: true, type: .string)
-        ]
-        /// The ARN of the high-availability partition group to delete.
-        public let hapgArn: String
-
-        public init(hapgArn: String) {
-            self.hapgArn = hapgArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hapgArn = "HapgArn"
-        }
-    }
-
-    public struct DescribeHapgResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PartitionSerialList", required: false, type: .list), 
-            AWSShapeMember(label: "HapgSerial", required: false, type: .string), 
-            AWSShapeMember(label: "HsmsLastActionFailed", required: false, type: .list), 
-            AWSShapeMember(label: "LastModifiedTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "HsmsPendingDeletion", required: false, type: .list), 
-            AWSShapeMember(label: "HapgArn", required: false, type: .string), 
-            AWSShapeMember(label: "HsmsPendingRegistration", required: false, type: .list), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Label", required: false, type: .string)
-        ]
-        /// The list of partition serial numbers that belong to the high-availability partition group.
-        public let partitionSerialList: [String]?
-        /// The serial number of the high-availability partition group.
-        public let hapgSerial: String?
-        public let hsmsLastActionFailed: [String]?
-        /// The date and time the high-availability partition group was last modified.
-        public let lastModifiedTimestamp: String?
-        public let hsmsPendingDeletion: [String]?
-        /// The ARN of the high-availability partition group.
-        public let hapgArn: String?
-        public let hsmsPendingRegistration: [String]?
-        /// The state of the high-availability partition group.
-        public let state: CloudHsmObjectState?
-        /// The label for the high-availability partition group.
-        public let label: String?
-
-        public init(partitionSerialList: [String]? = nil, hapgSerial: String? = nil, hsmsLastActionFailed: [String]? = nil, lastModifiedTimestamp: String? = nil, hsmsPendingDeletion: [String]? = nil, hapgArn: String? = nil, hsmsPendingRegistration: [String]? = nil, state: CloudHsmObjectState? = nil, label: String? = nil) {
-            self.partitionSerialList = partitionSerialList
-            self.hapgSerial = hapgSerial
-            self.hsmsLastActionFailed = hsmsLastActionFailed
-            self.lastModifiedTimestamp = lastModifiedTimestamp
-            self.hsmsPendingDeletion = hsmsPendingDeletion
-            self.hapgArn = hapgArn
-            self.hsmsPendingRegistration = hsmsPendingRegistration
-            self.state = state
-            self.label = label
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case partitionSerialList = "PartitionSerialList"
-            case hapgSerial = "HapgSerial"
-            case hsmsLastActionFailed = "HsmsLastActionFailed"
-            case lastModifiedTimestamp = "LastModifiedTimestamp"
-            case hsmsPendingDeletion = "HsmsPendingDeletion"
-            case hapgArn = "HapgArn"
-            case hsmsPendingRegistration = "HsmsPendingRegistration"
-            case state = "State"
-            case label = "Label"
-        }
-    }
-
-    public struct CreateHapgResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HapgArn", required: false, type: .string)
-        ]
-        /// The ARN of the high-availability partition group.
-        public let hapgArn: String?
-
-        public init(hapgArn: String? = nil) {
-            self.hapgArn = hapgArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hapgArn = "HapgArn"
-        }
-    }
-
-    public struct ModifyHsmRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EniIp", location: .body(locationName: "EniIp"), required: false, type: .string), 
-            AWSShapeMember(label: "ExternalId", location: .body(locationName: "ExternalId"), required: false, type: .string), 
-            AWSShapeMember(label: "IamRoleArn", location: .body(locationName: "IamRoleArn"), required: false, type: .string), 
-            AWSShapeMember(label: "SyslogIp", location: .body(locationName: "SyslogIp"), required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "SubnetId"), required: false, type: .string), 
-            AWSShapeMember(label: "HsmArn", location: .body(locationName: "HsmArn"), required: true, type: .string)
-        ]
-        /// The new IP address for the elastic network interface (ENI) attached to the HSM. If the HSM is moved to a different subnet, and an IP address is not specified, an IP address will be randomly chosen from the CIDR range of the new subnet.
-        public let eniIp: String?
-        /// The new external ID.
-        public let externalId: String?
-        /// The new IAM role ARN.
-        public let iamRoleArn: String?
-        /// The new IP address for the syslog monitoring server. The AWS CloudHSM service only supports one syslog monitoring server.
-        public let syslogIp: String?
-        /// The new identifier of the subnet that the HSM is in. The new subnet must be in the same Availability Zone as the current subnet.
-        public let subnetId: String?
-        /// The ARN of the HSM to modify.
-        public let hsmArn: String
-
-        public init(eniIp: String? = nil, externalId: String? = nil, iamRoleArn: String? = nil, syslogIp: String? = nil, subnetId: String? = nil, hsmArn: String) {
-            self.eniIp = eniIp
-            self.externalId = externalId
-            self.iamRoleArn = iamRoleArn
-            self.syslogIp = syslogIp
-            self.subnetId = subnetId
-            self.hsmArn = hsmArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eniIp = "EniIp"
-            case externalId = "ExternalId"
-            case iamRoleArn = "IamRoleArn"
-            case syslogIp = "SyslogIp"
-            case subnetId = "SubnetId"
-            case hsmArn = "HsmArn"
-        }
-    }
-
-    public struct CreateLunaClientRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Label", required: false, type: .string), 
-            AWSShapeMember(label: "Certificate", required: true, type: .string)
-        ]
-        /// The label for the client.
-        public let label: String?
-        /// The contents of a Base64-Encoded X.509 v3 certificate to be installed on the HSMs used by this client.
-        public let certificate: String
-
-        public init(label: String? = nil, certificate: String) {
-            self.label = label
-            self.certificate = certificate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case label = "Label"
-            case certificate = "Certificate"
-        }
-    }
-
-    public struct ModifyHsmResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HsmArn", required: false, type: .string)
-        ]
-        /// The ARN of the HSM.
-        public let hsmArn: String?
-
-        public init(hsmArn: String? = nil) {
-            self.hsmArn = hsmArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hsmArn = "HsmArn"
-        }
-    }
-
-    public enum SubscriptionType: String, CustomStringConvertible, Codable {
-        case production = "PRODUCTION"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ModifyHapgResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HapgArn", required: false, type: .string)
-        ]
-        /// The ARN of the high-availability partition group.
-        public let hapgArn: String?
-
-        public init(hapgArn: String? = nil) {
-            self.hapgArn = hapgArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hapgArn = "HapgArn"
-        }
-    }
-
-    public struct DescribeLunaClientResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: false, type: .string), 
-            AWSShapeMember(label: "ClientArn", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateFingerprint", required: false, type: .string), 
-            AWSShapeMember(label: "Label", required: false, type: .string)
-        ]
-        /// The certificate installed on the HSMs used by this client.
-        public let certificate: String?
-        /// The ARN of the client.
-        public let clientArn: String?
-        /// The date and time the client was last modified.
-        public let lastModifiedTimestamp: String?
-        /// The certificate fingerprint.
-        public let certificateFingerprint: String?
-        /// The label of the client.
-        public let label: String?
-
-        public init(certificate: String? = nil, clientArn: String? = nil, lastModifiedTimestamp: String? = nil, certificateFingerprint: String? = nil, label: String? = nil) {
-            self.certificate = certificate
-            self.clientArn = clientArn
-            self.lastModifiedTimestamp = lastModifiedTimestamp
-            self.certificateFingerprint = certificateFingerprint
-            self.label = label
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificate = "Certificate"
-            case clientArn = "ClientArn"
-            case lastModifiedTimestamp = "LastModifiedTimestamp"
-            case certificateFingerprint = "CertificateFingerprint"
-            case label = "Label"
-        }
-    }
-
-    public struct CreateLunaClientResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientArn", required: false, type: .string)
-        ]
-        /// The ARN of the client.
-        public let clientArn: String?
-
-        public init(clientArn: String? = nil) {
-            self.clientArn = clientArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clientArn = "ClientArn"
-        }
-    }
-
-    public struct RemoveTagsFromResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: true, type: .string)
-        ]
-        /// The status of the operation.
-        public let status: String
-
-        public init(status: String) {
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-        }
-    }
-
-    public struct ModifyHapgRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HapgArn", required: true, type: .string), 
-            AWSShapeMember(label: "Label", required: false, type: .string), 
-            AWSShapeMember(label: "PartitionSerialList", required: false, type: .list)
-        ]
-        /// The ARN of the high-availability partition group to modify.
-        public let hapgArn: String
-        /// The new label for the high-availability partition group.
-        public let label: String?
-        /// The list of partition serial numbers to make members of the high-availability partition group.
-        public let partitionSerialList: [String]?
-
-        public init(hapgArn: String, label: String? = nil, partitionSerialList: [String]? = nil) {
-            self.hapgArn = hapgArn
-            self.label = label
-            self.partitionSerialList = partitionSerialList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hapgArn = "HapgArn"
-            case label = "Label"
-            case partitionSerialList = "PartitionSerialList"
-        }
-    }
-
     public struct AddTagsToResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: true, type: .string)
-        ]
-        /// The status of the operation.
-        public let status: String
-
-        public init(status: String) {
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-        }
-    }
-
-    public struct RemoveTagsFromResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeyList", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
-        /// The tag key or keys to remove. Specify only the tag key to remove (not the value). To overwrite the value for an existing tag, use AddTagsToResource.
-        public let tagKeyList: [String]
-        /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
-        public let resourceArn: String
-
-        public init(tagKeyList: [String], resourceArn: String) {
-            self.tagKeyList = tagKeyList
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKeyList = "TagKeyList"
-            case resourceArn = "ResourceArn"
-        }
-    }
-
-    public struct DeleteHsmRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HsmArn", location: .body(locationName: "HsmArn"), required: true, type: .string)
-        ]
-        /// The ARN of the HSM to delete.
-        public let hsmArn: String
-
-        public init(hsmArn: String) {
-            self.hsmArn = hsmArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hsmArn = "HsmArn"
-        }
-    }
-
-    public struct CreateHsmResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HsmArn", required: false, type: .string)
-        ]
-        /// The ARN of the HSM.
-        public let hsmArn: String?
-
-        public init(hsmArn: String? = nil) {
-            self.hsmArn = hsmArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hsmArn = "HsmArn"
-        }
-    }
-
-    public struct DeleteHapgResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: true, type: .string)
-        ]
-        /// The status of the action.
-        public let status: String
-
-        public init(status: String) {
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-        }
-    }
-
-    public enum ClientVersion: String, CustomStringConvertible, Codable {
-        case clientVersion51 = "5.1"
-        case clientVersion53 = "5.3"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeHsmResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubscriptionStartDate", required: false, type: .string), 
-            AWSShapeMember(label: "SerialNumber", required: false, type: .string), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "ServerCertLastUpdated", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionType", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusDetails", required: false, type: .string), 
-            AWSShapeMember(label: "SoftwareVersion", required: false, type: .string), 
-            AWSShapeMember(label: "HsmArn", required: false, type: .string), 
-            AWSShapeMember(label: "Partitions", required: false, type: .list), 
-            AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "ServerCertUri", required: false, type: .string), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "EniId", required: false, type: .string), 
-            AWSShapeMember(label: "HsmType", required: false, type: .string), 
-            AWSShapeMember(label: "SshKeyLastUpdated", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionEndDate", required: false, type: .string), 
-            AWSShapeMember(label: "VendorName", required: false, type: .string), 
-            AWSShapeMember(label: "EniIp", required: false, type: .string)
-        ]
-        /// The subscription start date.
-        public let subscriptionStartDate: String?
-        /// The serial number of the HSM.
-        public let serialNumber: String?
-        /// The Availability Zone that the HSM is in.
-        public let availabilityZone: String?
-        /// The identifier of the subnet that the HSM is in.
-        public let subnetId: String?
-        /// The date and time that the server certificate was last updated.
-        public let serverCertLastUpdated: String?
-        public let subscriptionType: SubscriptionType?
-        /// Contains additional information about the status of the HSM.
-        public let statusDetails: String?
-        /// The HSM software version.
-        public let softwareVersion: String?
-        /// The ARN of the HSM.
-        public let hsmArn: String?
-        /// The list of partitions on the HSM.
-        public let partitions: [String]?
-        /// The public SSH key.
-        public let sshPublicKey: String?
-        /// The URI of the certificate server.
-        public let serverCertUri: String?
-        /// The identifier of the VPC that the HSM is in.
-        public let vpcId: String?
-        /// The ARN of the IAM role assigned to the HSM.
-        public let iamRoleArn: String?
-        /// The status of the HSM.
-        public let status: HsmStatus?
-        /// The identifier of the elastic network interface (ENI) attached to the HSM.
-        public let eniId: String?
-        /// The HSM model type.
-        public let hsmType: String?
-        /// The date and time that the SSH key was last updated.
-        public let sshKeyLastUpdated: String?
-        /// The subscription end date.
-        public let subscriptionEndDate: String?
-        /// The name of the HSM vendor.
-        public let vendorName: String?
-        /// The IP address assigned to the HSM's ENI.
-        public let eniIp: String?
-
-        public init(subscriptionStartDate: String? = nil, serialNumber: String? = nil, availabilityZone: String? = nil, subnetId: String? = nil, serverCertLastUpdated: String? = nil, subscriptionType: SubscriptionType? = nil, statusDetails: String? = nil, softwareVersion: String? = nil, hsmArn: String? = nil, partitions: [String]? = nil, sshPublicKey: String? = nil, serverCertUri: String? = nil, vpcId: String? = nil, iamRoleArn: String? = nil, status: HsmStatus? = nil, eniId: String? = nil, hsmType: String? = nil, sshKeyLastUpdated: String? = nil, subscriptionEndDate: String? = nil, vendorName: String? = nil, eniIp: String? = nil) {
-            self.subscriptionStartDate = subscriptionStartDate
-            self.serialNumber = serialNumber
-            self.availabilityZone = availabilityZone
-            self.subnetId = subnetId
-            self.serverCertLastUpdated = serverCertLastUpdated
-            self.subscriptionType = subscriptionType
-            self.statusDetails = statusDetails
-            self.softwareVersion = softwareVersion
-            self.hsmArn = hsmArn
-            self.partitions = partitions
-            self.sshPublicKey = sshPublicKey
-            self.serverCertUri = serverCertUri
-            self.vpcId = vpcId
-            self.iamRoleArn = iamRoleArn
-            self.status = status
-            self.eniId = eniId
-            self.hsmType = hsmType
-            self.sshKeyLastUpdated = sshKeyLastUpdated
-            self.subscriptionEndDate = subscriptionEndDate
-            self.vendorName = vendorName
-            self.eniIp = eniIp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subscriptionStartDate = "SubscriptionStartDate"
-            case serialNumber = "SerialNumber"
-            case availabilityZone = "AvailabilityZone"
-            case subnetId = "SubnetId"
-            case serverCertLastUpdated = "ServerCertLastUpdated"
-            case subscriptionType = "SubscriptionType"
-            case statusDetails = "StatusDetails"
-            case softwareVersion = "SoftwareVersion"
-            case hsmArn = "HsmArn"
-            case partitions = "Partitions"
-            case sshPublicKey = "SshPublicKey"
-            case serverCertUri = "ServerCertUri"
-            case vpcId = "VpcId"
-            case iamRoleArn = "IamRoleArn"
-            case status = "Status"
-            case eniId = "EniId"
-            case hsmType = "HsmType"
-            case sshKeyLastUpdated = "SshKeyLastUpdated"
-            case subscriptionEndDate = "SubscriptionEndDate"
-            case vendorName = "VendorName"
-            case eniIp = "EniIp"
-        }
-    }
-
-    public struct DeleteLunaClientRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientArn", required: true, type: .string)
-        ]
-        /// The ARN of the client to delete.
-        public let clientArn: String
-
-        public init(clientArn: String) {
-            self.clientArn = clientArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clientArn = "ClientArn"
-        }
-    }
-
-    public struct DescribeLunaClientRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateFingerprint", required: false, type: .string), 
-            AWSShapeMember(label: "ClientArn", required: false, type: .string)
-        ]
-        /// The certificate fingerprint.
-        public let certificateFingerprint: String?
-        /// The ARN of the client.
-        public let clientArn: String?
-
-        public init(certificateFingerprint: String? = nil, clientArn: String? = nil) {
-            self.certificateFingerprint = certificateFingerprint
-            self.clientArn = clientArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateFingerprint = "CertificateFingerprint"
-            case clientArn = "ClientArn"
-        }
-    }
-
-    public struct DeleteHsmResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: true, type: .string)
         ]
@@ -738,45 +42,95 @@ extension CloudHSM {
         }
     }
 
-    public struct ListAvailableZonesResponse: AWSShape {
+    public struct DescribeLunaClientRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AZList", required: false, type: .list)
-        ]
-        /// The list of Availability Zones that have available AWS CloudHSM capacity.
-        public let aZList: [String]?
-
-        public init(aZList: [String]? = nil) {
-            self.aZList = aZList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case aZList = "AZList"
-        }
-    }
-
-    public struct GetConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientArn", required: true, type: .string), 
-            AWSShapeMember(label: "ClientVersion", required: true, type: .enum), 
-            AWSShapeMember(label: "HapgList", required: true, type: .list)
+            AWSShapeMember(label: "ClientArn", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateFingerprint", required: false, type: .string)
         ]
         /// The ARN of the client.
-        public let clientArn: String
-        /// The client version.
-        public let clientVersion: ClientVersion
-        /// A list of ARNs that identify the high-availability partition groups that are associated with the client.
-        public let hapgList: [String]
+        public let clientArn: String?
+        /// The certificate fingerprint.
+        public let certificateFingerprint: String?
 
-        public init(clientArn: String, clientVersion: ClientVersion, hapgList: [String]) {
+        public init(clientArn: String? = nil, certificateFingerprint: String? = nil) {
             self.clientArn = clientArn
-            self.clientVersion = clientVersion
-            self.hapgList = hapgList
+            self.certificateFingerprint = certificateFingerprint
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientArn = "ClientArn"
-            case clientVersion = "ClientVersion"
-            case hapgList = "HapgList"
+            case certificateFingerprint = "CertificateFingerprint"
+        }
+    }
+
+    public struct CreateHsmRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EniIp", location: .body(locationName: "EniIp"), required: false, type: .string), 
+            AWSShapeMember(label: "ClientToken", location: .body(locationName: "ClientToken"), required: false, type: .string), 
+            AWSShapeMember(label: "SubnetId", location: .body(locationName: "SubnetId"), required: true, type: .string), 
+            AWSShapeMember(label: "ExternalId", location: .body(locationName: "ExternalId"), required: false, type: .string), 
+            AWSShapeMember(label: "IamRoleArn", location: .body(locationName: "IamRoleArn"), required: true, type: .string), 
+            AWSShapeMember(label: "SubscriptionType", location: .body(locationName: "SubscriptionType"), required: true, type: .enum), 
+            AWSShapeMember(label: "SyslogIp", location: .body(locationName: "SyslogIp"), required: false, type: .string), 
+            AWSShapeMember(label: "SshKey", location: .body(locationName: "SshKey"), required: true, type: .string)
+        ]
+        /// The IP address to assign to the HSM's ENI. If an IP address is not specified, an IP address will be randomly chosen from the CIDR range of the subnet.
+        public let eniIp: String?
+        /// A user-defined token to ensure idempotence. Subsequent calls to this operation with the same token will be ignored.
+        public let clientToken: String?
+        /// The identifier of the subnet in your VPC in which to place the HSM.
+        public let subnetId: String
+        /// The external ID from IamRoleArn, if present.
+        public let externalId: String?
+        /// The ARN of an IAM role to enable the AWS CloudHSM service to allocate an ENI on your behalf.
+        public let iamRoleArn: String
+        public let subscriptionType: SubscriptionType
+        /// The IP address for the syslog monitoring server. The AWS CloudHSM service only supports one syslog monitoring server.
+        public let syslogIp: String?
+        /// The SSH public key to install on the HSM.
+        public let sshKey: String
+
+        public init(eniIp: String? = nil, clientToken: String? = nil, subnetId: String, externalId: String? = nil, iamRoleArn: String, subscriptionType: SubscriptionType, syslogIp: String? = nil, sshKey: String) {
+            self.eniIp = eniIp
+            self.clientToken = clientToken
+            self.subnetId = subnetId
+            self.externalId = externalId
+            self.iamRoleArn = iamRoleArn
+            self.subscriptionType = subscriptionType
+            self.syslogIp = syslogIp
+            self.sshKey = sshKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eniIp = "EniIp"
+            case clientToken = "ClientToken"
+            case subnetId = "SubnetId"
+            case externalId = "ExternalId"
+            case iamRoleArn = "IamRoleArn"
+            case subscriptionType = "SubscriptionType"
+            case syslogIp = "SyslogIp"
+            case sshKey = "SshKey"
+        }
+    }
+
+    public struct ModifyLunaClientRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientArn", required: true, type: .string), 
+            AWSShapeMember(label: "Certificate", required: true, type: .string)
+        ]
+        /// The ARN of the client.
+        public let clientArn: String
+        /// The new certificate for the client.
+        public let certificate: String
+
+        public init(clientArn: String, certificate: String) {
+            self.clientArn = clientArn
+            self.certificate = certificate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientArn = "ClientArn"
+            case certificate = "Certificate"
         }
     }
 
@@ -796,85 +150,251 @@ extension CloudHSM {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct GetConfigRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientVersion", required: true, type: .enum), 
+            AWSShapeMember(label: "HapgList", required: true, type: .list), 
+            AWSShapeMember(label: "ClientArn", required: true, type: .string)
+        ]
+        /// The client version.
+        public let clientVersion: ClientVersion
+        /// A list of ARNs that identify the high-availability partition groups that are associated with the client.
+        public let hapgList: [String]
+        /// The ARN of the client.
+        public let clientArn: String
+
+        public init(clientVersion: ClientVersion, hapgList: [String], clientArn: String) {
+            self.clientVersion = clientVersion
+            self.hapgList = hapgList
+            self.clientArn = clientArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientVersion = "ClientVersion"
+            case hapgList = "HapgList"
+            case clientArn = "ClientArn"
+        }
+    }
+
+    public struct ModifyHsmRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmArn", location: .body(locationName: "HsmArn"), required: true, type: .string), 
+            AWSShapeMember(label: "ExternalId", location: .body(locationName: "ExternalId"), required: false, type: .string), 
+            AWSShapeMember(label: "EniIp", location: .body(locationName: "EniIp"), required: false, type: .string), 
+            AWSShapeMember(label: "IamRoleArn", location: .body(locationName: "IamRoleArn"), required: false, type: .string), 
+            AWSShapeMember(label: "SyslogIp", location: .body(locationName: "SyslogIp"), required: false, type: .string), 
+            AWSShapeMember(label: "SubnetId", location: .body(locationName: "SubnetId"), required: false, type: .string)
+        ]
+        /// The ARN of the HSM to modify.
+        public let hsmArn: String
+        /// The new external ID.
+        public let externalId: String?
+        /// The new IP address for the elastic network interface (ENI) attached to the HSM. If the HSM is moved to a different subnet, and an IP address is not specified, an IP address will be randomly chosen from the CIDR range of the new subnet.
+        public let eniIp: String?
+        /// The new IAM role ARN.
+        public let iamRoleArn: String?
+        /// The new IP address for the syslog monitoring server. The AWS CloudHSM service only supports one syslog monitoring server.
+        public let syslogIp: String?
+        /// The new identifier of the subnet that the HSM is in. The new subnet must be in the same Availability Zone as the current subnet.
+        public let subnetId: String?
+
+        public init(hsmArn: String, externalId: String? = nil, eniIp: String? = nil, iamRoleArn: String? = nil, syslogIp: String? = nil, subnetId: String? = nil) {
+            self.hsmArn = hsmArn
+            self.externalId = externalId
+            self.eniIp = eniIp
+            self.iamRoleArn = iamRoleArn
+            self.syslogIp = syslogIp
+            self.subnetId = subnetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hsmArn = "HsmArn"
+            case externalId = "ExternalId"
+            case eniIp = "EniIp"
+            case iamRoleArn = "IamRoleArn"
+            case syslogIp = "SyslogIp"
+            case subnetId = "SubnetId"
+        }
+    }
+
+    public enum SubscriptionType: String, CustomStringConvertible, Codable {
+        case production = "PRODUCTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ModifyHapgRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Label", required: false, type: .string), 
+            AWSShapeMember(label: "PartitionSerialList", required: false, type: .list), 
+            AWSShapeMember(label: "HapgArn", required: true, type: .string)
+        ]
+        /// The new label for the high-availability partition group.
+        public let label: String?
+        /// The list of partition serial numbers to make members of the high-availability partition group.
+        public let partitionSerialList: [String]?
+        /// The ARN of the high-availability partition group to modify.
+        public let hapgArn: String
+
+        public init(label: String? = nil, partitionSerialList: [String]? = nil, hapgArn: String) {
+            self.label = label
+            self.partitionSerialList = partitionSerialList
+            self.hapgArn = hapgArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case label = "Label"
+            case partitionSerialList = "PartitionSerialList"
+            case hapgArn = "HapgArn"
+        }
+    }
+
+    public struct DescribeHapgRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HapgArn", required: true, type: .string)
+        ]
+        /// The ARN of the high-availability partition group to describe.
+        public let hapgArn: String
+
+        public init(hapgArn: String) {
+            self.hapgArn = hapgArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hapgArn = "HapgArn"
+        }
+    }
+
+    public enum ClientVersion: String, CustomStringConvertible, Codable {
+        case clientVersion51 = "5.1"
+        case clientVersion53 = "5.3"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ModifyHsmResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmArn", required: false, type: .string)
+        ]
+        /// The ARN of the HSM.
+        public let hsmArn: String?
+
+        public init(hsmArn: String? = nil) {
+            self.hsmArn = hsmArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hsmArn = "HsmArn"
+        }
+    }
+
+    public struct CreateLunaClientRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Label", required: false, type: .string), 
+            AWSShapeMember(label: "Certificate", required: true, type: .string)
+        ]
+        /// The label for the client.
+        public let label: String?
+        /// The contents of a Base64-Encoded X.509 v3 certificate to be installed on the HSMs used by this client.
+        public let certificate: String
+
+        public init(label: String? = nil, certificate: String) {
+            self.label = label
+            self.certificate = certificate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case label = "Label"
+            case certificate = "Certificate"
+        }
+    }
+
+    public struct DeleteHapgRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HapgArn", required: true, type: .string)
+        ]
+        /// The ARN of the high-availability partition group to delete.
+        public let hapgArn: String
+
+        public init(hapgArn: String) {
+            self.hapgArn = hapgArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hapgArn = "HapgArn"
+        }
+    }
+
+    public struct RemoveTagsFromResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagKeyList", required: true, type: .list), 
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
+        /// The tag key or keys to remove. Specify only the tag key to remove (not the value). To overwrite the value for an existing tag, use AddTagsToResource.
+        public let tagKeyList: [String]
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
         public let resourceArn: String
 
-        public init(resourceArn: String) {
+        public init(tagKeyList: [String], resourceArn: String) {
+            self.tagKeyList = tagKeyList
             self.resourceArn = resourceArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case tagKeyList = "TagKeyList"
             case resourceArn = "ResourceArn"
         }
     }
 
-    public struct CreateHsmRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubscriptionType", location: .body(locationName: "SubscriptionType"), required: true, type: .enum), 
-            AWSShapeMember(label: "ExternalId", location: .body(locationName: "ExternalId"), required: false, type: .string), 
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "ClientToken"), required: false, type: .string), 
-            AWSShapeMember(label: "EniIp", location: .body(locationName: "EniIp"), required: false, type: .string), 
-            AWSShapeMember(label: "SshKey", location: .body(locationName: "SshKey"), required: true, type: .string), 
-            AWSShapeMember(label: "SyslogIp", location: .body(locationName: "SyslogIp"), required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "SubnetId"), required: true, type: .string), 
-            AWSShapeMember(label: "IamRoleArn", location: .body(locationName: "IamRoleArn"), required: true, type: .string)
-        ]
-        public let subscriptionType: SubscriptionType
-        /// The external ID from IamRoleArn, if present.
-        public let externalId: String?
-        /// A user-defined token to ensure idempotence. Subsequent calls to this operation with the same token will be ignored.
-        public let clientToken: String?
-        /// The IP address to assign to the HSM's ENI. If an IP address is not specified, an IP address will be randomly chosen from the CIDR range of the subnet.
-        public let eniIp: String?
-        /// The SSH public key to install on the HSM.
-        public let sshKey: String
-        /// The IP address for the syslog monitoring server. The AWS CloudHSM service only supports one syslog monitoring server.
-        public let syslogIp: String?
-        /// The identifier of the subnet in your VPC in which to place the HSM.
-        public let subnetId: String
-        /// The ARN of an IAM role to enable the AWS CloudHSM service to allocate an ENI on your behalf.
-        public let iamRoleArn: String
+    public enum CloudHsmObjectState: String, CustomStringConvertible, Codable {
+        case ready = "READY"
+        case updating = "UPDATING"
+        case degraded = "DEGRADED"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(subscriptionType: SubscriptionType, externalId: String? = nil, clientToken: String? = nil, eniIp: String? = nil, sshKey: String, syslogIp: String? = nil, subnetId: String, iamRoleArn: String) {
-            self.subscriptionType = subscriptionType
-            self.externalId = externalId
-            self.clientToken = clientToken
-            self.eniIp = eniIp
-            self.sshKey = sshKey
-            self.syslogIp = syslogIp
-            self.subnetId = subnetId
-            self.iamRoleArn = iamRoleArn
+    public struct AddTagsToResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagList", required: true, type: .list), 
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// One or more tags.
+        public let tagList: [Tag]
+        /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource to tag.
+        public let resourceArn: String
+
+        public init(tagList: [Tag], resourceArn: String) {
+            self.tagList = tagList
+            self.resourceArn = resourceArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subscriptionType = "SubscriptionType"
-            case externalId = "ExternalId"
-            case clientToken = "ClientToken"
-            case eniIp = "EniIp"
-            case sshKey = "SshKey"
-            case syslogIp = "SyslogIp"
-            case subnetId = "SubnetId"
-            case iamRoleArn = "IamRoleArn"
+            case tagList = "TagList"
+            case resourceArn = "ResourceArn"
         }
     }
 
-    public struct ListHsmsRequest: AWSShape {
+    public struct GetConfigResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "ConfigFile", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigType", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigCred", required: false, type: .string)
         ]
-        /// The NextToken value from a previous call to ListHsms. Pass null if this is the first call.
-        public let nextToken: String?
+        /// The chrystoki.conf configuration file.
+        public let configFile: String?
+        /// The type of credentials.
+        public let configType: String?
+        /// The certificate file containing the server.pem files of the HSMs.
+        public let configCred: String?
 
-        public init(nextToken: String? = nil) {
-            self.nextToken = nextToken
+        public init(configFile: String? = nil, configType: String? = nil, configCred: String? = nil) {
+            self.configFile = configFile
+            self.configType = configType
+            self.configCred = configCred
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
+            case configFile = "ConfigFile"
+            case configType = "ConfigType"
+            case configCred = "ConfigCred"
         }
     }
 
@@ -899,61 +419,240 @@ extension CloudHSM {
         }
     }
 
-    public struct ListHapgsRequest: AWSShape {
+    public struct DeleteHsmRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "HsmArn", location: .body(locationName: "HsmArn"), required: true, type: .string)
         ]
-        /// The NextToken value from a previous call to ListHapgs. Pass null if this is the first call.
-        public let nextToken: String?
+        /// The ARN of the HSM to delete.
+        public let hsmArn: String
 
-        public init(nextToken: String? = nil) {
+        public init(hsmArn: String) {
+            self.hsmArn = hsmArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hsmArn = "HsmArn"
+        }
+    }
+
+    public struct DeleteLunaClientRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientArn", required: true, type: .string)
+        ]
+        /// The ARN of the client to delete.
+        public let clientArn: String
+
+        public init(clientArn: String) {
+            self.clientArn = clientArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientArn = "ClientArn"
+        }
+    }
+
+    public struct CreateHsmResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmArn", required: false, type: .string)
+        ]
+        /// The ARN of the HSM.
+        public let hsmArn: String?
+
+        public init(hsmArn: String? = nil) {
+            self.hsmArn = hsmArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hsmArn = "HsmArn"
+        }
+    }
+
+    public struct DescribeLunaClientResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastModifiedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Certificate", required: false, type: .string), 
+            AWSShapeMember(label: "Label", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateFingerprint", required: false, type: .string), 
+            AWSShapeMember(label: "ClientArn", required: false, type: .string)
+        ]
+        /// The date and time the client was last modified.
+        public let lastModifiedTimestamp: String?
+        /// The certificate installed on the HSMs used by this client.
+        public let certificate: String?
+        /// The label of the client.
+        public let label: String?
+        /// The certificate fingerprint.
+        public let certificateFingerprint: String?
+        /// The ARN of the client.
+        public let clientArn: String?
+
+        public init(lastModifiedTimestamp: String? = nil, certificate: String? = nil, label: String? = nil, certificateFingerprint: String? = nil, clientArn: String? = nil) {
+            self.lastModifiedTimestamp = lastModifiedTimestamp
+            self.certificate = certificate
+            self.label = label
+            self.certificateFingerprint = certificateFingerprint
+            self.clientArn = clientArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedTimestamp = "LastModifiedTimestamp"
+            case certificate = "Certificate"
+            case label = "Label"
+            case certificateFingerprint = "CertificateFingerprint"
+            case clientArn = "ClientArn"
+        }
+    }
+
+    public struct DeleteHapgResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: true, type: .string)
+        ]
+        /// The status of the action.
+        public let status: String
+
+        public init(status: String) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
+    public struct ListAvailableZonesRequest: AWSShape {
+
+    }
+
+    public struct RemoveTagsFromResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: true, type: .string)
+        ]
+        /// The status of the operation.
+        public let status: String
+
+        public init(status: String) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
+    public struct ListHapgsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "HapgList", required: true, type: .list)
+        ]
+        /// If not null, more results are available. Pass this value to ListHapgs to retrieve the next set of items.
+        public let nextToken: String?
+        /// The list of high-availability partition groups.
+        public let hapgList: [String]
+
+        public init(nextToken: String? = nil, hapgList: [String]) {
             self.nextToken = nextToken
+            self.hapgList = hapgList
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
+            case hapgList = "HapgList"
+        }
+    }
+
+    public struct CreateHapgResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HapgArn", required: false, type: .string)
+        ]
+        /// The ARN of the high-availability partition group.
+        public let hapgArn: String?
+
+        public init(hapgArn: String? = nil) {
+            self.hapgArn = hapgArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hapgArn = "HapgArn"
+        }
+    }
+
+    public struct ModifyLunaClientResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientArn", required: false, type: .string)
+        ]
+        /// The ARN of the client.
+        public let clientArn: String?
+
+        public init(clientArn: String? = nil) {
+            self.clientArn = clientArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientArn = "ClientArn"
+        }
+    }
+
+    public struct CreateLunaClientResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientArn", required: false, type: .string)
+        ]
+        /// The ARN of the client.
+        public let clientArn: String?
+
+        public init(clientArn: String? = nil) {
+            self.clientArn = clientArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientArn = "ClientArn"
         }
     }
 
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .string), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
         ]
-        /// The value of the tag.
-        public let value: String
         /// The key of the tag.
         public let key: String
+        /// The value of the tag.
+        public let value: String
 
-        public init(value: String, key: String) {
-            self.value = value
+        public init(key: String, value: String) {
             self.key = key
+            self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value = "Value"
             case key = "Key"
+            case value = "Value"
         }
     }
 
-    public struct ModifyLunaClientRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: true, type: .string), 
-            AWSShapeMember(label: "ClientArn", required: true, type: .string)
-        ]
-        /// The new certificate for the client.
-        public let certificate: String
-        /// The ARN of the client.
-        public let clientArn: String
+    public enum HsmStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case running = "RUNNING"
+        case updating = "UPDATING"
+        case suspended = "SUSPENDED"
+        case terminating = "TERMINATING"
+        case terminated = "TERMINATED"
+        case degraded = "DEGRADED"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(certificate: String, clientArn: String) {
-            self.certificate = certificate
-            self.clientArn = clientArn
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificate = "Certificate"
-            case clientArn = "ClientArn"
+            case resourceArn = "ResourceArn"
         }
     }
 
@@ -970,6 +669,307 @@ extension CloudHSM {
 
         private enum CodingKeys: String, CodingKey {
             case label = "Label"
+        }
+    }
+
+    public struct ListHsmsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The NextToken value from a previous call to ListHsms. Pass null if this is the first call.
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil) {
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeHsmResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerCertUri", required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionStartDate", required: false, type: .string), 
+            AWSShapeMember(label: "EniIp", required: false, type: .string), 
+            AWSShapeMember(label: "Partitions", required: false, type: .list), 
+            AWSShapeMember(label: "SubscriptionType", required: false, type: .enum), 
+            AWSShapeMember(label: "EniId", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionEndDate", required: false, type: .string), 
+            AWSShapeMember(label: "ServerCertLastUpdated", required: false, type: .string), 
+            AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "SerialNumber", required: false, type: .string), 
+            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "VendorName", required: false, type: .string), 
+            AWSShapeMember(label: "StatusDetails", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "SshKeyLastUpdated", required: false, type: .string), 
+            AWSShapeMember(label: "HsmArn", required: false, type: .string), 
+            AWSShapeMember(label: "SoftwareVersion", required: false, type: .string), 
+            AWSShapeMember(label: "HsmType", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// The URI of the certificate server.
+        public let serverCertUri: String?
+        /// The Availability Zone that the HSM is in.
+        public let availabilityZone: String?
+        /// The identifier of the VPC that the HSM is in.
+        public let vpcId: String?
+        /// The subscription start date.
+        public let subscriptionStartDate: String?
+        /// The IP address assigned to the HSM's ENI.
+        public let eniIp: String?
+        /// The list of partitions on the HSM.
+        public let partitions: [String]?
+        public let subscriptionType: SubscriptionType?
+        /// The identifier of the elastic network interface (ENI) attached to the HSM.
+        public let eniId: String?
+        /// The subscription end date.
+        public let subscriptionEndDate: String?
+        /// The date and time that the server certificate was last updated.
+        public let serverCertLastUpdated: String?
+        /// The public SSH key.
+        public let sshPublicKey: String?
+        /// The serial number of the HSM.
+        public let serialNumber: String?
+        /// The ARN of the IAM role assigned to the HSM.
+        public let iamRoleArn: String?
+        /// The name of the HSM vendor.
+        public let vendorName: String?
+        /// Contains additional information about the status of the HSM.
+        public let statusDetails: String?
+        /// The identifier of the subnet that the HSM is in.
+        public let subnetId: String?
+        /// The date and time that the SSH key was last updated.
+        public let sshKeyLastUpdated: String?
+        /// The ARN of the HSM.
+        public let hsmArn: String?
+        /// The HSM software version.
+        public let softwareVersion: String?
+        /// The HSM model type.
+        public let hsmType: String?
+        /// The status of the HSM.
+        public let status: HsmStatus?
+
+        public init(serverCertUri: String? = nil, availabilityZone: String? = nil, vpcId: String? = nil, subscriptionStartDate: String? = nil, eniIp: String? = nil, partitions: [String]? = nil, subscriptionType: SubscriptionType? = nil, eniId: String? = nil, subscriptionEndDate: String? = nil, serverCertLastUpdated: String? = nil, sshPublicKey: String? = nil, serialNumber: String? = nil, iamRoleArn: String? = nil, vendorName: String? = nil, statusDetails: String? = nil, subnetId: String? = nil, sshKeyLastUpdated: String? = nil, hsmArn: String? = nil, softwareVersion: String? = nil, hsmType: String? = nil, status: HsmStatus? = nil) {
+            self.serverCertUri = serverCertUri
+            self.availabilityZone = availabilityZone
+            self.vpcId = vpcId
+            self.subscriptionStartDate = subscriptionStartDate
+            self.eniIp = eniIp
+            self.partitions = partitions
+            self.subscriptionType = subscriptionType
+            self.eniId = eniId
+            self.subscriptionEndDate = subscriptionEndDate
+            self.serverCertLastUpdated = serverCertLastUpdated
+            self.sshPublicKey = sshPublicKey
+            self.serialNumber = serialNumber
+            self.iamRoleArn = iamRoleArn
+            self.vendorName = vendorName
+            self.statusDetails = statusDetails
+            self.subnetId = subnetId
+            self.sshKeyLastUpdated = sshKeyLastUpdated
+            self.hsmArn = hsmArn
+            self.softwareVersion = softwareVersion
+            self.hsmType = hsmType
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverCertUri = "ServerCertUri"
+            case availabilityZone = "AvailabilityZone"
+            case vpcId = "VpcId"
+            case subscriptionStartDate = "SubscriptionStartDate"
+            case eniIp = "EniIp"
+            case partitions = "Partitions"
+            case subscriptionType = "SubscriptionType"
+            case eniId = "EniId"
+            case subscriptionEndDate = "SubscriptionEndDate"
+            case serverCertLastUpdated = "ServerCertLastUpdated"
+            case sshPublicKey = "SshPublicKey"
+            case serialNumber = "SerialNumber"
+            case iamRoleArn = "IamRoleArn"
+            case vendorName = "VendorName"
+            case statusDetails = "StatusDetails"
+            case subnetId = "SubnetId"
+            case sshKeyLastUpdated = "SshKeyLastUpdated"
+            case hsmArn = "HsmArn"
+            case softwareVersion = "SoftwareVersion"
+            case hsmType = "HsmType"
+            case status = "Status"
+        }
+    }
+
+    public struct ListAvailableZonesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AZList", required: false, type: .list)
+        ]
+        /// The list of Availability Zones that have available AWS CloudHSM capacity.
+        public let aZList: [String]?
+
+        public init(aZList: [String]? = nil) {
+            self.aZList = aZList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aZList = "AZList"
+        }
+    }
+
+    public struct ModifyHapgResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HapgArn", required: false, type: .string)
+        ]
+        /// The ARN of the high-availability partition group.
+        public let hapgArn: String?
+
+        public init(hapgArn: String? = nil) {
+            self.hapgArn = hapgArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hapgArn = "HapgArn"
+        }
+    }
+
+    public struct ListHsmsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The list of ARNs that identify the HSMs.
+        public let hsmList: [String]?
+        /// If not null, more results are available. Pass this value to ListHsms to retrieve the next set of items.
+        public let nextToken: String?
+
+        public init(hsmList: [String]? = nil, nextToken: String? = nil) {
+            self.hsmList = hsmList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hsmList = "HsmList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListHapgsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The NextToken value from a previous call to ListHapgs. Pass null if this is the first call.
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil) {
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLunaClientsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The NextToken value from a previous call to ListLunaClients. Pass null if this is the first call.
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil) {
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeHapgResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmsPendingDeletion", required: false, type: .list), 
+            AWSShapeMember(label: "HapgArn", required: false, type: .string), 
+            AWSShapeMember(label: "PartitionSerialList", required: false, type: .list), 
+            AWSShapeMember(label: "HapgSerial", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "HsmsLastActionFailed", required: false, type: .list), 
+            AWSShapeMember(label: "HsmsPendingRegistration", required: false, type: .list), 
+            AWSShapeMember(label: "LastModifiedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Label", required: false, type: .string)
+        ]
+        public let hsmsPendingDeletion: [String]?
+        /// The ARN of the high-availability partition group.
+        public let hapgArn: String?
+        /// The list of partition serial numbers that belong to the high-availability partition group.
+        public let partitionSerialList: [String]?
+        /// The serial number of the high-availability partition group.
+        public let hapgSerial: String?
+        /// The state of the high-availability partition group.
+        public let state: CloudHsmObjectState?
+        public let hsmsLastActionFailed: [String]?
+        public let hsmsPendingRegistration: [String]?
+        /// The date and time the high-availability partition group was last modified.
+        public let lastModifiedTimestamp: String?
+        /// The label for the high-availability partition group.
+        public let label: String?
+
+        public init(hsmsPendingDeletion: [String]? = nil, hapgArn: String? = nil, partitionSerialList: [String]? = nil, hapgSerial: String? = nil, state: CloudHsmObjectState? = nil, hsmsLastActionFailed: [String]? = nil, hsmsPendingRegistration: [String]? = nil, lastModifiedTimestamp: String? = nil, label: String? = nil) {
+            self.hsmsPendingDeletion = hsmsPendingDeletion
+            self.hapgArn = hapgArn
+            self.partitionSerialList = partitionSerialList
+            self.hapgSerial = hapgSerial
+            self.state = state
+            self.hsmsLastActionFailed = hsmsLastActionFailed
+            self.hsmsPendingRegistration = hsmsPendingRegistration
+            self.lastModifiedTimestamp = lastModifiedTimestamp
+            self.label = label
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hsmsPendingDeletion = "HsmsPendingDeletion"
+            case hapgArn = "HapgArn"
+            case partitionSerialList = "PartitionSerialList"
+            case hapgSerial = "HapgSerial"
+            case state = "State"
+            case hsmsLastActionFailed = "HsmsLastActionFailed"
+            case hsmsPendingRegistration = "HsmsPendingRegistration"
+            case lastModifiedTimestamp = "LastModifiedTimestamp"
+            case label = "Label"
+        }
+    }
+
+    public struct DeleteLunaClientResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: true, type: .string)
+        ]
+        /// The status of the action.
+        public let status: String
+
+        public init(status: String) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
+    public struct DeleteHsmResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: true, type: .string)
+        ]
+        /// The status of the operation.
+        public let status: String
+
+        public init(status: String) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
         }
     }
 

@@ -5,20 +5,20 @@ import AWSSDKSwiftCore
 /// Error enum for FSx
 public enum FSxErrorType: AWSErrorType {
     case badRequest(message: String?)
+    case activeDirectoryError(message: String?)
+    case incompatibleParameterError(message: String?)
+    case invalidNetworkSettings(message: String?)
+    case serviceLimitExceeded(message: String?)
+    case backupNotFound(message: String?)
+    case internalServerError(message: String?)
+    case missingFileSystemConfiguration(message: String?)
+    case invalidImportPath(message: String?)
     case fileSystemNotFound(message: String?)
     case backupInProgress(message: String?)
-    case incompatibleParameterError(message: String?)
-    case serviceLimitExceeded(message: String?)
-    case internalServerError(message: String?)
-    case backupNotFound(message: String?)
     case resourceNotFound(message: String?)
     case notServiceResourceError(message: String?)
     case resourceDoesNotSupportTagging(message: String?)
     case backupRestoring(message: String?)
-    case activeDirectoryError(message: String?)
-    case invalidNetworkSettings(message: String?)
-    case missingFileSystemConfiguration(message: String?)
-    case invalidImportPath(message: String?)
 }
 
 extension FSxErrorType {
@@ -30,18 +30,26 @@ extension FSxErrorType {
         switch errorCode {
         case "BadRequest":
             self = .badRequest(message: message)
+        case "ActiveDirectoryError":
+            self = .activeDirectoryError(message: message)
+        case "IncompatibleParameterError":
+            self = .incompatibleParameterError(message: message)
+        case "InvalidNetworkSettings":
+            self = .invalidNetworkSettings(message: message)
+        case "ServiceLimitExceeded":
+            self = .serviceLimitExceeded(message: message)
+        case "BackupNotFound":
+            self = .backupNotFound(message: message)
+        case "InternalServerError":
+            self = .internalServerError(message: message)
+        case "MissingFileSystemConfiguration":
+            self = .missingFileSystemConfiguration(message: message)
+        case "InvalidImportPath":
+            self = .invalidImportPath(message: message)
         case "FileSystemNotFound":
             self = .fileSystemNotFound(message: message)
         case "BackupInProgress":
             self = .backupInProgress(message: message)
-        case "IncompatibleParameterError":
-            self = .incompatibleParameterError(message: message)
-        case "ServiceLimitExceeded":
-            self = .serviceLimitExceeded(message: message)
-        case "InternalServerError":
-            self = .internalServerError(message: message)
-        case "BackupNotFound":
-            self = .backupNotFound(message: message)
         case "ResourceNotFound":
             self = .resourceNotFound(message: message)
         case "NotServiceResourceError":
@@ -50,14 +58,6 @@ extension FSxErrorType {
             self = .resourceDoesNotSupportTagging(message: message)
         case "BackupRestoring":
             self = .backupRestoring(message: message)
-        case "ActiveDirectoryError":
-            self = .activeDirectoryError(message: message)
-        case "InvalidNetworkSettings":
-            self = .invalidNetworkSettings(message: message)
-        case "MissingFileSystemConfiguration":
-            self = .missingFileSystemConfiguration(message: message)
-        case "InvalidImportPath":
-            self = .invalidImportPath(message: message)
         default:
             return nil
         }

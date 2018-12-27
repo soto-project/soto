@@ -7,10 +7,10 @@ public enum MigrationHubErrorType: AWSErrorType {
     case accessDeniedException(message: String?)
     case internalServerError(message: String?)
     case serviceUnavailableException(message: String?)
-    case dryRunOperation(message: String?)
-    case unauthorizedOperation(message: String?)
     case invalidInputException(message: String?)
     case resourceNotFoundException(message: String?)
+    case dryRunOperation(message: String?)
+    case unauthorizedOperation(message: String?)
     case policyErrorException(message: String?)
 }
 
@@ -27,14 +27,14 @@ extension MigrationHubErrorType {
             self = .internalServerError(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
-        case "DryRunOperation":
-            self = .dryRunOperation(message: message)
-        case "UnauthorizedOperation":
-            self = .unauthorizedOperation(message: message)
         case "InvalidInputException":
             self = .invalidInputException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
+        case "DryRunOperation":
+            self = .dryRunOperation(message: message)
+        case "UnauthorizedOperation":
+            self = .unauthorizedOperation(message: message)
         case "PolicyErrorException":
             self = .policyErrorException(message: message)
         default:

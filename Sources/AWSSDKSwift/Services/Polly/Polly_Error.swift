@@ -4,14 +4,14 @@ import AWSSDKSwiftCore
 
 /// Error enum for Polly
 public enum PollyErrorType: AWSErrorType {
+    case invalidNextTokenException(message: String?)
+    case serviceFailureException(message: String?)
     case invalidLexiconException(message: String?)
     case unsupportedPlsAlphabetException(message: String?)
     case unsupportedPlsLanguageException(message: String?)
     case lexiconSizeExceededException(message: String?)
     case maxLexemeLengthExceededException(message: String?)
     case maxLexiconsNumberExceededException(message: String?)
-    case serviceFailureException(message: String?)
-    case invalidNextTokenException(message: String?)
     case textLengthExceededException(message: String?)
     case invalidSampleRateException(message: String?)
     case invalidSsmlException(message: String?)
@@ -33,6 +33,10 @@ extension PollyErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "InvalidNextTokenException":
+            self = .invalidNextTokenException(message: message)
+        case "ServiceFailureException":
+            self = .serviceFailureException(message: message)
         case "InvalidLexiconException":
             self = .invalidLexiconException(message: message)
         case "UnsupportedPlsAlphabetException":
@@ -45,10 +49,6 @@ extension PollyErrorType {
             self = .maxLexemeLengthExceededException(message: message)
         case "MaxLexiconsNumberExceededException":
             self = .maxLexiconsNumberExceededException(message: message)
-        case "ServiceFailureException":
-            self = .serviceFailureException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
         case "TextLengthExceededException":
             self = .textLengthExceededException(message: message)
         case "InvalidSampleRateException":

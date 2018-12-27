@@ -6,14 +6,9 @@ import AWSSDKSwiftCore
 public enum SNSErrorType: AWSErrorType {
     case invalidParameterException(message: String?)
     case internalErrorException(message: String?)
-    case notFoundException(message: String?)
     case authorizationErrorException(message: String?)
-    case throttledException(message: String?)
-    case subscriptionLimitExceededException(message: String?)
-    case topicLimitExceededException(message: String?)
-    case invalidSecurityException(message: String?)
-    case filterPolicyLimitExceededException(message: String?)
     case invalidParameterValueException(message: String?)
+    case notFoundException(message: String?)
     case endpointDisabledException(message: String?)
     case platformApplicationDisabledException(message: String?)
     case kMSDisabledException(message: String?)
@@ -22,6 +17,11 @@ public enum SNSErrorType: AWSErrorType {
     case kMSOptInRequired(message: String?)
     case kMSThrottlingException(message: String?)
     case kMSAccessDeniedException(message: String?)
+    case invalidSecurityException(message: String?)
+    case throttledException(message: String?)
+    case filterPolicyLimitExceededException(message: String?)
+    case subscriptionLimitExceededException(message: String?)
+    case topicLimitExceededException(message: String?)
 }
 
 extension SNSErrorType {
@@ -35,22 +35,12 @@ extension SNSErrorType {
             self = .invalidParameterException(message: message)
         case "InternalErrorException":
             self = .internalErrorException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
         case "AuthorizationErrorException":
             self = .authorizationErrorException(message: message)
-        case "ThrottledException":
-            self = .throttledException(message: message)
-        case "SubscriptionLimitExceededException":
-            self = .subscriptionLimitExceededException(message: message)
-        case "TopicLimitExceededException":
-            self = .topicLimitExceededException(message: message)
-        case "InvalidSecurityException":
-            self = .invalidSecurityException(message: message)
-        case "FilterPolicyLimitExceededException":
-            self = .filterPolicyLimitExceededException(message: message)
         case "InvalidParameterValueException":
             self = .invalidParameterValueException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
         case "EndpointDisabledException":
             self = .endpointDisabledException(message: message)
         case "PlatformApplicationDisabledException":
@@ -67,6 +57,16 @@ extension SNSErrorType {
             self = .kMSThrottlingException(message: message)
         case "KMSAccessDeniedException":
             self = .kMSAccessDeniedException(message: message)
+        case "InvalidSecurityException":
+            self = .invalidSecurityException(message: message)
+        case "ThrottledException":
+            self = .throttledException(message: message)
+        case "FilterPolicyLimitExceededException":
+            self = .filterPolicyLimitExceededException(message: message)
+        case "SubscriptionLimitExceededException":
+            self = .subscriptionLimitExceededException(message: message)
+        case "TopicLimitExceededException":
+            self = .topicLimitExceededException(message: message)
         default:
             return nil
         }

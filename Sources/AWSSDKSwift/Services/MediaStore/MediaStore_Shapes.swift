@@ -37,6 +37,206 @@ extension MediaStore {
         }
     }
 
+    public enum ContainerStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PutCorsPolicyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContainerName", required: true, type: .string), 
+            AWSShapeMember(label: "CorsPolicy", required: true, type: .list)
+        ]
+        /// The name of the container that you want to assign the CORS policy to.
+        public let containerName: String
+        /// The CORS policy to apply to the container. 
+        public let corsPolicy: [CorsRule]
+
+        public init(containerName: String, corsPolicy: [CorsRule]) {
+            self.containerName = containerName
+            self.corsPolicy = corsPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName = "ContainerName"
+            case corsPolicy = "CorsPolicy"
+        }
+    }
+
+    public struct CorsRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowedHeaders", required: false, type: .list), 
+            AWSShapeMember(label: "MaxAgeSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "ExposeHeaders", required: false, type: .list), 
+            AWSShapeMember(label: "AllowedMethods", required: false, type: .list), 
+            AWSShapeMember(label: "AllowedOrigins", required: false, type: .list)
+        ]
+        /// Specifies which headers are allowed in a preflight OPTIONS request through the Access-Control-Request-Headers header. Each header name that is specified in Access-Control-Request-Headers must have a corresponding entry in the rule. Only the headers that were requested are sent back.  This element can contain only one wildcard character (*).
+        public let allowedHeaders: [String]?
+        /// The time in seconds that your browser caches the preflight response for the specified resource. A CORS rule can have only one MaxAgeSeconds element.
+        public let maxAgeSeconds: Int32?
+        /// One or more headers in the response that you want users to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object). This element is optional for each rule.
+        public let exposeHeaders: [String]?
+        /// Identifies an HTTP method that the origin that is specified in the rule is allowed to execute. Each CORS rule must contain at least one AllowedMethod and one AllowedOrigin element.
+        public let allowedMethods: [MethodName]?
+        /// One or more response headers that you want users to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object). Each CORS rule must have at least one AllowedOrigin element. The string value can include only one wildcard character (*), for example, http://*.example.com. Additionally, you can specify only one wildcard character to allow cross-origin access for all origins.
+        public let allowedOrigins: [String]?
+
+        public init(allowedHeaders: [String]? = nil, maxAgeSeconds: Int32? = nil, exposeHeaders: [String]? = nil, allowedMethods: [MethodName]? = nil, allowedOrigins: [String]? = nil) {
+            self.allowedHeaders = allowedHeaders
+            self.maxAgeSeconds = maxAgeSeconds
+            self.exposeHeaders = exposeHeaders
+            self.allowedMethods = allowedMethods
+            self.allowedOrigins = allowedOrigins
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedHeaders = "AllowedHeaders"
+            case maxAgeSeconds = "MaxAgeSeconds"
+            case exposeHeaders = "ExposeHeaders"
+            case allowedMethods = "AllowedMethods"
+            case allowedOrigins = "AllowedOrigins"
+        }
+    }
+
+    public struct CreateContainerOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Container", required: true, type: .structure)
+        ]
+        /// ContainerARN: The Amazon Resource Name (ARN) of the newly created container. The ARN has the following format: arn:aws:&lt;region&gt;:&lt;account that owns this container&gt;:container/&lt;name of container&gt;. For example: arn:aws:mediastore:us-west-2:111122223333:container/movies  ContainerName: The container name as specified in the request. CreationTime: Unix time stamp. Status: The status of container creation or deletion. The status is one of the following: CREATING, ACTIVE, or DELETING. While the service is creating the container, the status is CREATING. When an endpoint is available, the status changes to ACTIVE. The return value does not include the container's endpoint. To make downstream requests, you must obtain this value by using DescribeContainer or ListContainers.
+        public let container: Container
+
+        public init(container: Container) {
+            self.container = container
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case container = "Container"
+        }
+    }
+
+    public struct DescribeContainerInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContainerName", required: false, type: .string)
+        ]
+        /// The name of the container to query.
+        public let containerName: String?
+
+        public init(containerName: String? = nil) {
+            self.containerName = containerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName = "ContainerName"
+        }
+    }
+
+    public struct DescribeContainerOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Container", required: false, type: .structure)
+        ]
+        /// The name of the queried container.
+        public let container: Container?
+
+        public init(container: Container? = nil) {
+            self.container = container
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case container = "Container"
+        }
+    }
+
+    public struct DeleteCorsPolicyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContainerName", required: true, type: .string)
+        ]
+        /// The name of the container to remove the policy from.
+        public let containerName: String
+
+        public init(containerName: String) {
+            self.containerName = containerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName = "ContainerName"
+        }
+    }
+
+    public struct CreateContainerInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContainerName", required: true, type: .string)
+        ]
+        /// The name for the container. The name must be from 1 to 255 characters. Container names must be unique to your AWS account within a specific region. As an example, you could create a container named movies in every region, as long as you don’t have an existing container with that name.
+        public let containerName: String
+
+        public init(containerName: String) {
+            self.containerName = containerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName = "ContainerName"
+        }
+    }
+
+    public struct PutContainerPolicyOutput: AWSShape {
+
+    }
+
+    public struct ListContainersInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// Only if you used MaxResults in the first command, enter the token (which was included in the previous response) to obtain the next set of containers. This token is included in a response only if there actually are more containers to list.
+        public let nextToken: String?
+        /// Enter the maximum number of containers in the response. Use from 1 to 255 characters. 
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct GetCorsPolicyOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CorsPolicy", required: true, type: .list)
+        ]
+        public let corsPolicy: [CorsRule]
+
+        public init(corsPolicy: [CorsRule]) {
+            self.corsPolicy = corsPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case corsPolicy = "CorsPolicy"
+        }
+    }
+
+    public struct GetContainerPolicyOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: true, type: .string)
+        ]
+        /// The contents of the access policy.
+        public let policy: String
+
+        public init(policy: String) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
     public struct DeleteCorsPolicyOutput: AWSShape {
 
     }
@@ -78,132 +278,48 @@ extension MediaStore {
         }
     }
 
-    public struct PutContainerPolicyOutput: AWSShape {
+    public struct PutCorsPolicyOutput: AWSShape {
 
-    }
-
-    public struct GetContainerPolicyOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policy", required: true, type: .string)
-        ]
-        /// The contents of the access policy.
-        public let policy: String
-
-        public init(policy: String) {
-            self.policy = policy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policy = "Policy"
-        }
-    }
-
-    public struct DeleteCorsPolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerName", required: true, type: .string)
-        ]
-        /// The name of the container to remove the policy from.
-        public let containerName: String
-
-        public init(containerName: String) {
-            self.containerName = containerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case containerName = "ContainerName"
-        }
-    }
-
-    public struct DescribeContainerInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerName", required: false, type: .string)
-        ]
-        /// The name of the container to query.
-        public let containerName: String?
-
-        public init(containerName: String? = nil) {
-            self.containerName = containerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case containerName = "ContainerName"
-        }
-    }
-
-    public struct CreateContainerOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Container", required: true, type: .structure)
-        ]
-        /// ContainerARN: The Amazon Resource Name (ARN) of the newly created container. The ARN has the following format: arn:aws:&lt;region&gt;:&lt;account that owns this container&gt;:container/&lt;name of container&gt;. For example: arn:aws:mediastore:us-west-2:111122223333:container/movies  ContainerName: The container name as specified in the request. CreationTime: Unix time stamp. Status: The status of container creation or deletion. The status is one of the following: CREATING, ACTIVE, or DELETING. While the service is creating the container, the status is CREATING. When an endpoint is available, the status changes to ACTIVE. The return value does not include the container's endpoint. To make downstream requests, you must obtain this value by using DescribeContainer or ListContainers.
-        public let container: Container
-
-        public init(container: Container) {
-            self.container = container
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case container = "Container"
-        }
     }
 
     public struct DeleteContainerOutput: AWSShape {
 
     }
 
-    public struct CorsRule: AWSShape {
+    public struct Container: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedOrigins", required: false, type: .list), 
-            AWSShapeMember(label: "AllowedMethods", required: false, type: .list), 
-            AWSShapeMember(label: "AllowedHeaders", required: false, type: .list), 
-            AWSShapeMember(label: "MaxAgeSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "ExposeHeaders", required: false, type: .list)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ARN", required: false, type: .string), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .string)
         ]
-        /// One or more response headers that you want users to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object). Each CORS rule must have at least one AllowedOrigin element. The string value can include only one wildcard character (*), for example, http://*.example.com. Additionally, you can specify only one wildcard character to allow cross-origin access for all origins.
-        public let allowedOrigins: [String]?
-        /// Identifies an HTTP method that the origin that is specified in the rule is allowed to execute. Each CORS rule must contain at least one AllowedMethod and one AllowedOrigin element.
-        public let allowedMethods: [MethodName]?
-        /// Specifies which headers are allowed in a preflight OPTIONS request through the Access-Control-Request-Headers header. Each header name that is specified in Access-Control-Request-Headers must have a corresponding entry in the rule. Only the headers that were requested are sent back.  This element can contain only one wildcard character (*).
-        public let allowedHeaders: [String]?
-        /// The time in seconds that your browser caches the preflight response for the specified resource. A CORS rule can have only one MaxAgeSeconds element.
-        public let maxAgeSeconds: Int32?
-        /// One or more headers in the response that you want users to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object). This element is optional for each rule.
-        public let exposeHeaders: [String]?
+        /// The name of the container.
+        public let name: String?
+        /// Unix timestamp.
+        public let creationTime: TimeStamp?
+        /// The status of container creation or deletion. The status is one of the following: CREATING, ACTIVE, or DELETING. While the service is creating the container, the status is CREATING. When the endpoint is available, the status changes to ACTIVE.
+        public let status: ContainerStatus?
+        /// The Amazon Resource Name (ARN) of the container. The ARN has the following format: arn:aws:&lt;region&gt;:&lt;account that owns this container&gt;:container/&lt;name of container&gt;  For example: arn:aws:mediastore:us-west-2:111122223333:container/movies 
+        public let arn: String?
+        /// The DNS endpoint of the container. Use the endpoint to identify the specific container when sending requests to the data plane. The service assigns this value when the container is created. Once the value has been assigned, it does not change.
+        public let endpoint: String?
 
-        public init(allowedOrigins: [String]? = nil, allowedMethods: [MethodName]? = nil, allowedHeaders: [String]? = nil, maxAgeSeconds: Int32? = nil, exposeHeaders: [String]? = nil) {
-            self.allowedOrigins = allowedOrigins
-            self.allowedMethods = allowedMethods
-            self.allowedHeaders = allowedHeaders
-            self.maxAgeSeconds = maxAgeSeconds
-            self.exposeHeaders = exposeHeaders
+        public init(name: String? = nil, creationTime: TimeStamp? = nil, status: ContainerStatus? = nil, arn: String? = nil, endpoint: String? = nil) {
+            self.name = name
+            self.creationTime = creationTime
+            self.status = status
+            self.arn = arn
+            self.endpoint = endpoint
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedOrigins = "AllowedOrigins"
-            case allowedMethods = "AllowedMethods"
-            case allowedHeaders = "AllowedHeaders"
-            case maxAgeSeconds = "MaxAgeSeconds"
-            case exposeHeaders = "ExposeHeaders"
+            case name = "Name"
+            case creationTime = "CreationTime"
+            case status = "Status"
+            case arn = "ARN"
+            case endpoint = "Endpoint"
         }
-    }
-
-    public struct CreateContainerInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerName", required: true, type: .string)
-        ]
-        /// The name for the container. The name must be from 1 to 255 characters. Container names must be unique to your AWS account within a specific region. As an example, you could create a container named movies in every region, as long as you don’t have an existing container with that name.
-        public let containerName: String
-
-        public init(containerName: String) {
-            self.containerName = containerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case containerName = "ContainerName"
-        }
-    }
-
-    public struct DeleteContainerPolicyOutput: AWSShape {
-
     }
 
     public struct DeleteContainerInput: AWSShape {
@@ -222,42 +338,12 @@ extension MediaStore {
         }
     }
 
-    public enum ContainerStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case creating = "CREATING"
-        case deleting = "DELETING"
+    public enum MethodName: String, CustomStringConvertible, Codable {
+        case put = "PUT"
+        case get = "GET"
+        case delete = "DELETE"
+        case head = "HEAD"
         public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeContainerOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Container", required: false, type: .structure)
-        ]
-        /// The name of the queried container.
-        public let container: Container?
-
-        public init(container: Container? = nil) {
-            self.container = container
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case container = "Container"
-        }
-    }
-
-    public struct GetCorsPolicyOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CorsPolicy", required: true, type: .list)
-        ]
-        public let corsPolicy: [CorsRule]
-
-        public init(corsPolicy: [CorsRule]) {
-            self.corsPolicy = corsPolicy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case corsPolicy = "CorsPolicy"
-        }
     }
 
     public struct PutContainerPolicyInput: AWSShape {
@@ -281,93 +367,7 @@ extension MediaStore {
         }
     }
 
-    public struct PutCorsPolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CorsPolicy", required: true, type: .list), 
-            AWSShapeMember(label: "ContainerName", required: true, type: .string)
-        ]
-        /// The CORS policy to apply to the container. 
-        public let corsPolicy: [CorsRule]
-        /// The name of the container that you want to assign the CORS policy to.
-        public let containerName: String
-
-        public init(corsPolicy: [CorsRule], containerName: String) {
-            self.corsPolicy = corsPolicy
-            self.containerName = containerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case corsPolicy = "CorsPolicy"
-            case containerName = "ContainerName"
-        }
-    }
-
-    public struct ListContainersInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Enter the maximum number of containers in the response. Use from 1 to 255 characters. 
-        public let maxResults: Int32?
-        /// Only if you used MaxResults in the first command, enter the token (which was included in the previous response) to obtain the next set of containers. This token is included in a response only if there actually are more containers to list.
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct Container: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Endpoint", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the container. The ARN has the following format: arn:aws:&lt;region&gt;:&lt;account that owns this container&gt;:container/&lt;name of container&gt;  For example: arn:aws:mediastore:us-west-2:111122223333:container/movies 
-        public let arn: String?
-        /// The status of container creation or deletion. The status is one of the following: CREATING, ACTIVE, or DELETING. While the service is creating the container, the status is CREATING. When the endpoint is available, the status changes to ACTIVE.
-        public let status: ContainerStatus?
-        /// The name of the container.
-        public let name: String?
-        /// Unix timestamp.
-        public let creationTime: TimeStamp?
-        /// The DNS endpoint of the container. Use the endpoint to identify the specific container when sending requests to the data plane. The service assigns this value when the container is created. Once the value has been assigned, it does not change.
-        public let endpoint: String?
-
-        public init(arn: String? = nil, status: ContainerStatus? = nil, name: String? = nil, creationTime: TimeStamp? = nil, endpoint: String? = nil) {
-            self.arn = arn
-            self.status = status
-            self.name = name
-            self.creationTime = creationTime
-            self.endpoint = endpoint
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "ARN"
-            case status = "Status"
-            case name = "Name"
-            case creationTime = "CreationTime"
-            case endpoint = "Endpoint"
-        }
-    }
-
-    public enum MethodName: String, CustomStringConvertible, Codable {
-        case put = "PUT"
-        case get = "GET"
-        case delete = "DELETE"
-        case head = "HEAD"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PutCorsPolicyOutput: AWSShape {
+    public struct DeleteContainerPolicyOutput: AWSShape {
 
     }
 

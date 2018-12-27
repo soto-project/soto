@@ -5,57 +5,210 @@ import AWSSDKSwiftCore
 
 extension XRay {
 
-    public struct PutEncryptionConfigRequest: AWSShape {
+    public struct AvailabilityZoneDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyId", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// An AWS KMS customer master key (CMK) in one of the following formats:    Alias - The name of the key. For example, alias/MyKey.    Key ID - The KMS key ID of the key. For example, ae4aa6d49-a4d8-9df9-a475-4ff6d7898456.    ARN - The full Amazon Resource Name of the key ID or alias. For example, arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. Use this format to specify a key in a different account.   Omit this key if you set Type to NONE.
-        public let keyId: String?
-        /// The type of encryption. Set to KMS to use your own key for encryption. Set to NONE for default encryption.
-        public let `type`: EncryptionType
+        /// The name of a corresponding availability zone.
+        public let name: String?
 
-        public init(keyId: String? = nil, type: EncryptionType) {
-            self.keyId = keyId
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct FaultRootCauseService: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "Inferred", required: false, type: .boolean), 
+            AWSShapeMember(label: "EntityPath", required: false, type: .list), 
+            AWSShapeMember(label: "AccountId", required: false, type: .string)
+        ]
+        /// The type associated to the service.
+        public let `type`: String?
+        /// The service name.
+        public let name: String?
+        /// A collection of associated service names.
+        public let names: [String]?
+        /// A Boolean value indicating if the service is inferred from the trace.
+        public let inferred: Bool?
+        /// The path of root cause entities found on the service. 
+        public let entityPath: [FaultRootCauseEntity]?
+        /// The account ID associated to the service.
+        public let accountId: String?
+
+        public init(type: String? = nil, name: String? = nil, names: [String]? = nil, inferred: Bool? = nil, entityPath: [FaultRootCauseEntity]? = nil, accountId: String? = nil) {
             self.`type` = `type`
+            self.name = name
+            self.names = names
+            self.inferred = inferred
+            self.entityPath = entityPath
+            self.accountId = accountId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyId = "KeyId"
             case `type` = "Type"
+            case name = "Name"
+            case names = "Names"
+            case inferred = "Inferred"
+            case entityPath = "EntityPath"
+            case accountId = "AccountId"
         }
     }
 
-    public struct Group: AWSShape {
+    public struct DeleteSamplingRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: false, type: .string), 
-            AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
-            AWSShapeMember(label: "GroupARN", required: false, type: .string)
+            AWSShapeMember(label: "RuleARN", required: false, type: .string), 
+            AWSShapeMember(label: "RuleName", required: false, type: .string)
         ]
-        /// The unique case-sensitive name of the group.
-        public let groupName: String?
-        /// The filter expression defining the parameters to include traces.
-        public let filterExpression: String?
-        /// The ARN of the group generated based on the GroupName.
-        public let groupARN: String?
+        /// The ARN of the sampling rule. Specify a rule by either name or ARN, but not both.
+        public let ruleARN: String?
+        /// The name of the sampling rule. Specify a rule by either name or ARN, but not both.
+        public let ruleName: String?
 
-        public init(groupName: String? = nil, filterExpression: String? = nil, groupARN: String? = nil) {
-            self.groupName = groupName
-            self.filterExpression = filterExpression
-            self.groupARN = groupARN
+        public init(ruleARN: String? = nil, ruleName: String? = nil) {
+            self.ruleARN = ruleARN
+            self.ruleName = ruleName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-            case filterExpression = "FilterExpression"
-            case groupARN = "GroupARN"
+            case ruleARN = "RuleARN"
+            case ruleName = "RuleName"
         }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case kms = "KMS"
-        public var description: String { return self.rawValue }
+    public struct UpdateSamplingRuleResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SamplingRuleRecord", required: false, type: .structure)
+        ]
+        /// The updated rule definition and metadata.
+        public let samplingRuleRecord: SamplingRuleRecord?
+
+        public init(samplingRuleRecord: SamplingRuleRecord? = nil) {
+            self.samplingRuleRecord = samplingRuleRecord
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case samplingRuleRecord = "SamplingRuleRecord"
+        }
+    }
+
+    public struct SamplingRuleUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HTTPMethod", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "FixedRate", required: false, type: .double), 
+            AWSShapeMember(label: "Priority", required: false, type: .integer), 
+            AWSShapeMember(label: "ReservoirSize", required: false, type: .integer), 
+            AWSShapeMember(label: "Host", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "RuleARN", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceName", required: false, type: .string), 
+            AWSShapeMember(label: "URLPath", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceType", required: false, type: .string), 
+            AWSShapeMember(label: "RuleName", required: false, type: .string)
+        ]
+        /// Matches the HTTP method of a request.
+        public let hTTPMethod: String?
+        /// Matches attributes derived from the request.
+        public let attributes: [String: String]?
+        /// The percentage of matching requests to instrument, after the reservoir is exhausted.
+        public let fixedRate: Double?
+        /// The priority of the sampling rule.
+        public let priority: Int32?
+        /// A fixed number of matching requests to instrument per second, prior to applying the fixed rate. The reservoir is not used directly by services, but applies to all services using the rule collectively.
+        public let reservoirSize: Int32?
+        /// Matches the hostname from a request URL.
+        public let host: String?
+        /// Matches the ARN of the AWS resource on which the service runs.
+        public let resourceARN: String?
+        /// The ARN of the sampling rule. Specify a rule by either name or ARN, but not both.
+        public let ruleARN: String?
+        /// Matches the name that the service uses to identify itself in segments.
+        public let serviceName: String?
+        /// Matches the path from a request URL.
+        public let uRLPath: String?
+        /// Matches the origin that the service uses to identify its type in segments.
+        public let serviceType: String?
+        /// The name of the sampling rule. Specify a rule by either name or ARN, but not both.
+        public let ruleName: String?
+
+        public init(hTTPMethod: String? = nil, attributes: [String: String]? = nil, fixedRate: Double? = nil, priority: Int32? = nil, reservoirSize: Int32? = nil, host: String? = nil, resourceARN: String? = nil, ruleARN: String? = nil, serviceName: String? = nil, uRLPath: String? = nil, serviceType: String? = nil, ruleName: String? = nil) {
+            self.hTTPMethod = hTTPMethod
+            self.attributes = attributes
+            self.fixedRate = fixedRate
+            self.priority = priority
+            self.reservoirSize = reservoirSize
+            self.host = host
+            self.resourceARN = resourceARN
+            self.ruleARN = ruleARN
+            self.serviceName = serviceName
+            self.uRLPath = uRLPath
+            self.serviceType = serviceType
+            self.ruleName = ruleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hTTPMethod = "HTTPMethod"
+            case attributes = "Attributes"
+            case fixedRate = "FixedRate"
+            case priority = "Priority"
+            case reservoirSize = "ReservoirSize"
+            case host = "Host"
+            case resourceARN = "ResourceARN"
+            case ruleARN = "RuleARN"
+            case serviceName = "ServiceName"
+            case uRLPath = "URLPath"
+            case serviceType = "ServiceType"
+            case ruleName = "RuleName"
+        }
+    }
+
+    public struct DeleteGroupResult: AWSShape {
+
+    }
+
+    public struct GetGroupsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Groups", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The collection of all active groups.
+        public let groups: [GroupSummary]?
+        /// Pagination token. Not used.
+        public let nextToken: String?
+
+        public init(groups: [GroupSummary]? = nil, nextToken: String? = nil) {
+            self.groups = groups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groups = "Groups"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct CreateGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Group", required: false, type: .structure)
+        ]
+        /// The group that was created. Contains the name of the group that was created, the ARN of the group that was generated based on the group name, and the filter expression that was assigned to the group.
+        public let group: Group?
+
+        public init(group: Group? = nil) {
+            self.group = group
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case group = "Group"
+        }
     }
 
     public struct InstanceIdDetail: AWSShape {
@@ -74,215 +227,40 @@ extension XRay {
         }
     }
 
-    public struct ErrorRootCause: AWSShape {
+    public struct GetGroupResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Services", required: false, type: .list)
+            AWSShapeMember(label: "Group", required: false, type: .structure)
         ]
-        /// A list of services corresponding to an error. A service identifies a segment and it contains a name, account ID, type, and inferred flag.
-        public let services: [ErrorRootCauseService]?
+        /// The group that was requested. Contains the name of the group, the ARN of the group, and the filter expression that assigned to the group.
+        public let group: Group?
 
-        public init(services: [ErrorRootCauseService]? = nil) {
+        public init(group: Group? = nil) {
+            self.group = group
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case group = "Group"
+        }
+    }
+
+    public struct GetTraceGraphResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Services", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The services that have processed one of the specified requests.
+        public let services: [Service]?
+        /// Pagination token. Not used.
+        public let nextToken: String?
+
+        public init(services: [Service]? = nil, nextToken: String? = nil) {
             self.services = services
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case services = "Services"
-        }
-    }
-
-    public struct TraceUser: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceIds", required: false, type: .list), 
-            AWSShapeMember(label: "UserName", required: false, type: .string)
-        ]
-        /// Services that the user's request hit.
-        public let serviceIds: [ServiceId]?
-        /// The user's name.
-        public let userName: String?
-
-        public init(serviceIds: [ServiceId]? = nil, userName: String? = nil) {
-            self.serviceIds = serviceIds
-            self.userName = userName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceIds = "ServiceIds"
-            case userName = "UserName"
-        }
-    }
-
-    public struct SamplingTargetDocument: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservoirQuota", required: false, type: .integer), 
-            AWSShapeMember(label: "RuleName", required: false, type: .string), 
-            AWSShapeMember(label: "ReservoirQuotaTTL", required: false, type: .timestamp), 
-            AWSShapeMember(label: "FixedRate", required: false, type: .double), 
-            AWSShapeMember(label: "Interval", required: false, type: .integer)
-        ]
-        /// The number of requests per second that X-Ray allocated this service.
-        public let reservoirQuota: Int32?
-        /// The name of the sampling rule.
-        public let ruleName: String?
-        /// When the reservoir quota expires.
-        public let reservoirQuotaTTL: TimeStamp?
-        /// The percentage of matching requests to instrument, after the reservoir is exhausted.
-        public let fixedRate: Double?
-        /// The number of seconds for the service to wait before getting sampling targets again.
-        public let interval: Int32?
-
-        public init(reservoirQuota: Int32? = nil, ruleName: String? = nil, reservoirQuotaTTL: TimeStamp? = nil, fixedRate: Double? = nil, interval: Int32? = nil) {
-            self.reservoirQuota = reservoirQuota
-            self.ruleName = ruleName
-            self.reservoirQuotaTTL = reservoirQuotaTTL
-            self.fixedRate = fixedRate
-            self.interval = interval
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reservoirQuota = "ReservoirQuota"
-            case ruleName = "RuleName"
-            case reservoirQuotaTTL = "ReservoirQuotaTTL"
-            case fixedRate = "FixedRate"
-            case interval = "Interval"
-        }
-    }
-
-    public struct SamplingRuleUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "ServiceType", required: false, type: .string), 
-            AWSShapeMember(label: "URLPath", required: false, type: .string), 
-            AWSShapeMember(label: "Host", required: false, type: .string), 
-            AWSShapeMember(label: "RuleName", required: false, type: .string), 
-            AWSShapeMember(label: "Priority", required: false, type: .integer), 
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeMember(label: "ReservoirSize", required: false, type: .integer), 
-            AWSShapeMember(label: "ServiceName", required: false, type: .string), 
-            AWSShapeMember(label: "FixedRate", required: false, type: .double), 
-            AWSShapeMember(label: "HTTPMethod", required: false, type: .string), 
-            AWSShapeMember(label: "RuleARN", required: false, type: .string)
-        ]
-        /// Matches attributes derived from the request.
-        public let attributes: [String: String]?
-        /// Matches the origin that the service uses to identify its type in segments.
-        public let serviceType: String?
-        /// Matches the path from a request URL.
-        public let uRLPath: String?
-        /// Matches the hostname from a request URL.
-        public let host: String?
-        /// The name of the sampling rule. Specify a rule by either name or ARN, but not both.
-        public let ruleName: String?
-        /// The priority of the sampling rule.
-        public let priority: Int32?
-        /// Matches the ARN of the AWS resource on which the service runs.
-        public let resourceARN: String?
-        /// A fixed number of matching requests to instrument per second, prior to applying the fixed rate. The reservoir is not used directly by services, but applies to all services using the rule collectively.
-        public let reservoirSize: Int32?
-        /// Matches the name that the service uses to identify itself in segments.
-        public let serviceName: String?
-        /// The percentage of matching requests to instrument, after the reservoir is exhausted.
-        public let fixedRate: Double?
-        /// Matches the HTTP method of a request.
-        public let hTTPMethod: String?
-        /// The ARN of the sampling rule. Specify a rule by either name or ARN, but not both.
-        public let ruleARN: String?
-
-        public init(attributes: [String: String]? = nil, serviceType: String? = nil, uRLPath: String? = nil, host: String? = nil, ruleName: String? = nil, priority: Int32? = nil, resourceARN: String? = nil, reservoirSize: Int32? = nil, serviceName: String? = nil, fixedRate: Double? = nil, hTTPMethod: String? = nil, ruleARN: String? = nil) {
-            self.attributes = attributes
-            self.serviceType = serviceType
-            self.uRLPath = uRLPath
-            self.host = host
-            self.ruleName = ruleName
-            self.priority = priority
-            self.resourceARN = resourceARN
-            self.reservoirSize = reservoirSize
-            self.serviceName = serviceName
-            self.fixedRate = fixedRate
-            self.hTTPMethod = hTTPMethod
-            self.ruleARN = ruleARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
-            case serviceType = "ServiceType"
-            case uRLPath = "URLPath"
-            case host = "Host"
-            case ruleName = "RuleName"
-            case priority = "Priority"
-            case resourceARN = "ResourceARN"
-            case reservoirSize = "ReservoirSize"
-            case serviceName = "ServiceName"
-            case fixedRate = "FixedRate"
-            case hTTPMethod = "HTTPMethod"
-            case ruleARN = "RuleARN"
-        }
-    }
-
-    public struct ResponseTimeRootCauseEntity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Coverage", required: false, type: .double), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Remote", required: false, type: .boolean)
-        ]
-        /// The types and messages of the exceptions.
-        public let coverage: Double?
-        /// The name of the entity.
-        public let name: String?
-        /// A flag that denotes a remote subsegment.
-        public let remote: Bool?
-
-        public init(coverage: Double? = nil, name: String? = nil, remote: Bool? = nil) {
-            self.coverage = coverage
-            self.name = name
-            self.remote = remote
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case coverage = "Coverage"
-            case name = "Name"
-            case remote = "Remote"
-        }
-    }
-
-    public struct FaultRootCause: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Services", required: false, type: .list)
-        ]
-        /// A list of corresponding services. A service identifies a segment and it contains a name, account ID, type, and inferred flag.
-        public let services: [FaultRootCauseService]?
-
-        public init(services: [FaultRootCauseService]? = nil) {
-            self.services = services
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case services = "Services"
-        }
-    }
-
-    public struct ErrorRootCauseEntity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Exceptions", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Remote", required: false, type: .boolean)
-        ]
-        /// The types and messages of the exceptions.
-        public let exceptions: [RootCauseException]?
-        /// The name of the entity.
-        public let name: String?
-        /// A flag that denotes a remote subsegment.
-        public let remote: Bool?
-
-        public init(exceptions: [RootCauseException]? = nil, name: String? = nil, remote: Bool? = nil) {
-            self.exceptions = exceptions
-            self.name = name
-            self.remote = remote
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case exceptions = "Exceptions"
-            case name = "Name"
-            case remote = "Remote"
+            case nextToken = "NextToken"
         }
     }
 
@@ -312,39 +290,479 @@ extension XRay {
         }
     }
 
-    public struct GetServiceGraphRequest: AWSShape {
+    public struct ServiceStatistics: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FaultStatistics", required: false, type: .structure), 
+            AWSShapeMember(label: "OkCount", required: false, type: .long), 
+            AWSShapeMember(label: "TotalResponseTime", required: false, type: .double), 
+            AWSShapeMember(label: "TotalCount", required: false, type: .long), 
+            AWSShapeMember(label: "ErrorStatistics", required: false, type: .structure)
+        ]
+        /// Information about requests that failed with a 5xx Server Error status code.
+        public let faultStatistics: FaultStatistics?
+        /// The number of requests that completed with a 2xx Success status code.
+        public let okCount: Int64?
+        /// The aggregate response time of completed requests.
+        public let totalResponseTime: Double?
+        /// The total number of completed requests.
+        public let totalCount: Int64?
+        /// Information about requests that failed with a 4xx Client Error status code.
+        public let errorStatistics: ErrorStatistics?
+
+        public init(faultStatistics: FaultStatistics? = nil, okCount: Int64? = nil, totalResponseTime: Double? = nil, totalCount: Int64? = nil, errorStatistics: ErrorStatistics? = nil) {
+            self.faultStatistics = faultStatistics
+            self.okCount = okCount
+            self.totalResponseTime = totalResponseTime
+            self.totalCount = totalCount
+            self.errorStatistics = errorStatistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faultStatistics = "FaultStatistics"
+            case okCount = "OkCount"
+            case totalResponseTime = "TotalResponseTime"
+            case totalCount = "TotalCount"
+            case errorStatistics = "ErrorStatistics"
+        }
+    }
+
+    public struct ErrorRootCauseEntity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Remote", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Exceptions", required: false, type: .list)
+        ]
+        /// A flag that denotes a remote subsegment.
+        public let remote: Bool?
+        /// The name of the entity.
+        public let name: String?
+        /// The types and messages of the exceptions.
+        public let exceptions: [RootCauseException]?
+
+        public init(remote: Bool? = nil, name: String? = nil, exceptions: [RootCauseException]? = nil) {
+            self.remote = remote
+            self.name = name
+            self.exceptions = exceptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case remote = "Remote"
+            case name = "Name"
+            case exceptions = "Exceptions"
+        }
+    }
+
+    public struct UpdateSamplingRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SamplingRuleUpdate", required: true, type: .structure)
+        ]
+        /// The rule and fields to change.
+        public let samplingRuleUpdate: SamplingRuleUpdate
+
+        public init(samplingRuleUpdate: SamplingRuleUpdate) {
+            self.samplingRuleUpdate = samplingRuleUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case samplingRuleUpdate = "SamplingRuleUpdate"
+        }
+    }
+
+    public struct PutTelemetryRecordsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EC2InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "Hostname", required: false, type: .string), 
+            AWSShapeMember(label: "TelemetryRecords", required: true, type: .list)
+        ]
+        public let eC2InstanceId: String?
+        public let resourceARN: String?
+        public let hostname: String?
+        public let telemetryRecords: [TelemetryRecord]
+
+        public init(eC2InstanceId: String? = nil, resourceARN: String? = nil, hostname: String? = nil, telemetryRecords: [TelemetryRecord]) {
+            self.eC2InstanceId = eC2InstanceId
+            self.resourceARN = resourceARN
+            self.hostname = hostname
+            self.telemetryRecords = telemetryRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eC2InstanceId = "EC2InstanceId"
+            case resourceARN = "ResourceARN"
+            case hostname = "Hostname"
+            case telemetryRecords = "TelemetryRecords"
+        }
+    }
+
+    public struct GetServiceGraphResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContainsOldGroupVersions", required: false, type: .boolean), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "GroupARN", required: false, type: .string)
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Services", required: false, type: .list)
+        ]
+        /// A flag indicating whether the group's filter expression has been consistent, or if the returned service graph may show traces from an older version of the group's filter expression.
+        public let containsOldGroupVersions: Bool?
+        /// Pagination token. Not used.
+        public let nextToken: String?
+        /// The start of the time frame for which the graph was generated.
+        public let startTime: TimeStamp?
+        /// The end of the time frame for which the graph was generated.
+        public let endTime: TimeStamp?
+        /// The services that have processed a traced request during the specified time frame.
+        public let services: [Service]?
+
+        public init(containsOldGroupVersions: Bool? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil, endTime: TimeStamp? = nil, services: [Service]? = nil) {
+            self.containsOldGroupVersions = containsOldGroupVersions
+            self.nextToken = nextToken
+            self.startTime = startTime
+            self.endTime = endTime
+            self.services = services
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containsOldGroupVersions = "ContainsOldGroupVersions"
+            case nextToken = "NextToken"
+            case startTime = "StartTime"
+            case endTime = "EndTime"
+            case services = "Services"
+        }
+    }
+
+    public struct AnnotationValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StringValue", required: false, type: .string), 
+            AWSShapeMember(label: "NumberValue", required: false, type: .double), 
+            AWSShapeMember(label: "BooleanValue", required: false, type: .boolean)
+        ]
+        /// Value for a String annotation.
+        public let stringValue: String?
+        /// Value for a Number annotation.
+        public let numberValue: Double?
+        /// Value for a Boolean annotation.
+        public let booleanValue: Bool?
+
+        public init(stringValue: String? = nil, numberValue: Double? = nil, booleanValue: Bool? = nil) {
+            self.stringValue = stringValue
+            self.numberValue = numberValue
+            self.booleanValue = booleanValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stringValue = "StringValue"
+            case numberValue = "NumberValue"
+            case booleanValue = "BooleanValue"
+        }
+    }
+
+    public struct TraceSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
+            AWSShapeMember(label: "IsPartial", required: false, type: .boolean), 
+            AWSShapeMember(label: "HasFault", required: false, type: .boolean), 
+            AWSShapeMember(label: "ResponseTime", required: false, type: .double), 
+            AWSShapeMember(label: "Http", required: false, type: .structure), 
+            AWSShapeMember(label: "ServiceIds", required: false, type: .list), 
+            AWSShapeMember(label: "ResponseTimeRootCauses", required: false, type: .list), 
+            AWSShapeMember(label: "Annotations", required: false, type: .map), 
+            AWSShapeMember(label: "ResourceARNs", required: false, type: .list), 
+            AWSShapeMember(label: "HasThrottle", required: false, type: .boolean), 
+            AWSShapeMember(label: "Users", required: false, type: .list), 
+            AWSShapeMember(label: "Duration", required: false, type: .double), 
+            AWSShapeMember(label: "Revision", required: false, type: .integer), 
+            AWSShapeMember(label: "EntryPoint", required: false, type: .structure), 
+            AWSShapeMember(label: "HasError", required: false, type: .boolean), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "FaultRootCauses", required: false, type: .list), 
+            AWSShapeMember(label: "ErrorRootCauses", required: false, type: .list)
+        ]
+        /// A list of availability zones for any zone corresponding to the trace segments.
+        public let availabilityZones: [AvailabilityZoneDetail]?
+        /// A list of EC2 instance IDs for any instance corresponding to the trace segments.
+        public let instanceIds: [InstanceIdDetail]?
+        /// One or more of the segment documents is in progress.
+        public let isPartial: Bool?
+        /// One or more of the segment documents has a 500 series error.
+        public let hasFault: Bool?
+        /// The length of time in seconds between the start and end times of the root segment. If the service performs work asynchronously, the response time measures the time before the response is sent to the user, while the duration measures the amount of time before the last traced activity completes.
+        public let responseTime: Double?
+        /// Information about the HTTP request served by the trace.
+        public let http: Http?
+        /// Service IDs from the trace's segment documents.
+        public let serviceIds: [ServiceId]?
+        /// A collection of ResponseTimeRootCause structures corresponding to the trace segments.
+        public let responseTimeRootCauses: [ResponseTimeRootCause]?
+        /// Annotations from the trace's segment documents.
+        public let annotations: [String: [ValueWithServiceIds]]?
+        /// A list of resource ARNs for any resource corresponding to the trace segments.
+        public let resourceARNs: [ResourceARNDetail]?
+        /// One or more of the segment documents has a 429 throttling error.
+        public let hasThrottle: Bool?
+        /// Users from the trace's segment documents.
+        public let users: [TraceUser]?
+        /// The length of time in seconds between the start time of the root segment and the end time of the last segment that completed.
+        public let duration: Double?
+        /// The revision number of a trace.
+        public let revision: Int32?
+        /// The root of a trace.
+        public let entryPoint: ServiceId?
+        /// One or more of the segment documents has a 400 series error.
+        public let hasError: Bool?
+        /// The unique identifier for the request that generated the trace's segments and subsegments.
+        public let id: String?
+        /// A collection of FaultRootCause structures corresponding to the the trace segments.
+        public let faultRootCauses: [FaultRootCause]?
+        /// A collection of ErrorRootCause structures corresponding to the trace segments.
+        public let errorRootCauses: [ErrorRootCause]?
+
+        public init(availabilityZones: [AvailabilityZoneDetail]? = nil, instanceIds: [InstanceIdDetail]? = nil, isPartial: Bool? = nil, hasFault: Bool? = nil, responseTime: Double? = nil, http: Http? = nil, serviceIds: [ServiceId]? = nil, responseTimeRootCauses: [ResponseTimeRootCause]? = nil, annotations: [String: [ValueWithServiceIds]]? = nil, resourceARNs: [ResourceARNDetail]? = nil, hasThrottle: Bool? = nil, users: [TraceUser]? = nil, duration: Double? = nil, revision: Int32? = nil, entryPoint: ServiceId? = nil, hasError: Bool? = nil, id: String? = nil, faultRootCauses: [FaultRootCause]? = nil, errorRootCauses: [ErrorRootCause]? = nil) {
+            self.availabilityZones = availabilityZones
+            self.instanceIds = instanceIds
+            self.isPartial = isPartial
+            self.hasFault = hasFault
+            self.responseTime = responseTime
+            self.http = http
+            self.serviceIds = serviceIds
+            self.responseTimeRootCauses = responseTimeRootCauses
+            self.annotations = annotations
+            self.resourceARNs = resourceARNs
+            self.hasThrottle = hasThrottle
+            self.users = users
+            self.duration = duration
+            self.revision = revision
+            self.entryPoint = entryPoint
+            self.hasError = hasError
+            self.id = id
+            self.faultRootCauses = faultRootCauses
+            self.errorRootCauses = errorRootCauses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case instanceIds = "InstanceIds"
+            case isPartial = "IsPartial"
+            case hasFault = "HasFault"
+            case responseTime = "ResponseTime"
+            case http = "Http"
+            case serviceIds = "ServiceIds"
+            case responseTimeRootCauses = "ResponseTimeRootCauses"
+            case annotations = "Annotations"
+            case resourceARNs = "ResourceARNs"
+            case hasThrottle = "HasThrottle"
+            case users = "Users"
+            case duration = "Duration"
+            case revision = "Revision"
+            case entryPoint = "EntryPoint"
+            case hasError = "HasError"
+            case id = "Id"
+            case faultRootCauses = "FaultRootCauses"
+            case errorRootCauses = "ErrorRootCauses"
+        }
+    }
+
+    public struct GetTraceGraphRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TraceIds", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Trace IDs of requests for which to generate a service graph.
+        public let traceIds: [String]
+        /// Pagination token. Not used.
+        public let nextToken: String?
+
+        public init(traceIds: [String], nextToken: String? = nil) {
+            self.traceIds = traceIds
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case traceIds = "TraceIds"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SamplingStatisticSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleName", required: false, type: .string), 
+            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SampledCount", required: false, type: .integer), 
+            AWSShapeMember(label: "BorrowCount", required: false, type: .integer), 
+            AWSShapeMember(label: "RequestCount", required: false, type: .integer)
+        ]
+        /// The name of the sampling rule.
+        public let ruleName: String?
+        /// The start time of the reporting window.
+        public let timestamp: TimeStamp?
+        /// The number of requests recorded.
+        public let sampledCount: Int32?
+        /// The number of requests recorded with borrowed reservoir quota.
+        public let borrowCount: Int32?
+        /// The number of requests that matched the rule.
+        public let requestCount: Int32?
+
+        public init(ruleName: String? = nil, timestamp: TimeStamp? = nil, sampledCount: Int32? = nil, borrowCount: Int32? = nil, requestCount: Int32? = nil) {
+            self.ruleName = ruleName
+            self.timestamp = timestamp
+            self.sampledCount = sampledCount
+            self.borrowCount = borrowCount
+            self.requestCount = requestCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleName = "RuleName"
+            case timestamp = "Timestamp"
+            case sampledCount = "SampledCount"
+            case borrowCount = "BorrowCount"
+            case requestCount = "RequestCount"
+        }
+    }
+
+    public struct CreateGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string)
+        ]
+        /// The filter expression defining criteria by which to group traces.
+        public let filterExpression: String?
+        /// The case-sensitive name of the new group. Default is a reserved name and names must be unique.
+        public let groupName: String
+
+        public init(filterExpression: String? = nil, groupName: String) {
+            self.filterExpression = filterExpression
+            self.groupName = groupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterExpression = "FilterExpression"
+            case groupName = "GroupName"
+        }
+    }
+
+    public struct ErrorStatistics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ThrottleCount", required: false, type: .long), 
+            AWSShapeMember(label: "TotalCount", required: false, type: .long), 
+            AWSShapeMember(label: "OtherCount", required: false, type: .long)
+        ]
+        /// The number of requests that failed with a 419 throttling status code.
+        public let throttleCount: Int64?
+        /// The total number of requests that failed with a 4xx Client Error status code.
+        public let totalCount: Int64?
+        /// The number of requests that failed with untracked 4xx Client Error status codes.
+        public let otherCount: Int64?
+
+        public init(throttleCount: Int64? = nil, totalCount: Int64? = nil, otherCount: Int64? = nil) {
+            self.throttleCount = throttleCount
+            self.totalCount = totalCount
+            self.otherCount = otherCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case throttleCount = "ThrottleCount"
+            case totalCount = "TotalCount"
+            case otherCount = "OtherCount"
+        }
+    }
+
+    public struct PutTraceSegmentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TraceSegmentDocuments", required: true, type: .list)
+        ]
+        /// A string containing a JSON document defining one or more segments or subsegments.
+        public let traceSegmentDocuments: [String]
+
+        public init(traceSegmentDocuments: [String]) {
+            self.traceSegmentDocuments = traceSegmentDocuments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case traceSegmentDocuments = "TraceSegmentDocuments"
+        }
+    }
+
+    public struct ErrorRootCauseService: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "Inferred", required: false, type: .boolean), 
+            AWSShapeMember(label: "EntityPath", required: false, type: .list), 
+            AWSShapeMember(label: "AccountId", required: false, type: .string)
+        ]
+        /// The type associated to the service.
+        public let `type`: String?
+        /// The service name.
+        public let name: String?
+        /// A collection of associated service names.
+        public let names: [String]?
+        /// A Boolean value indicating if the service is inferred from the trace.
+        public let inferred: Bool?
+        /// The path of root cause entities found on the service. 
+        public let entityPath: [ErrorRootCauseEntity]?
+        /// The account ID associated to the service.
+        public let accountId: String?
+
+        public init(type: String? = nil, name: String? = nil, names: [String]? = nil, inferred: Bool? = nil, entityPath: [ErrorRootCauseEntity]? = nil, accountId: String? = nil) {
+            self.`type` = `type`
+            self.name = name
+            self.names = names
+            self.inferred = inferred
+            self.entityPath = entityPath
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case name = "Name"
+            case names = "Names"
+            case inferred = "Inferred"
+            case entityPath = "EntityPath"
+            case accountId = "AccountId"
+        }
+    }
+
+    public struct GetSamplingStatisticSummariesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Pagination token. Not used.
         public let nextToken: String?
-        /// The name of a group to generate a graph based on.
-        public let groupName: String?
-        /// The start of the time frame for which to generate a graph.
-        public let startTime: TimeStamp
-        /// The end of the timeframe for which to generate a graph.
-        public let endTime: TimeStamp
-        /// The ARN of a group to generate a graph based on.
-        public let groupARN: String?
 
-        public init(nextToken: String? = nil, groupName: String? = nil, startTime: TimeStamp, endTime: TimeStamp, groupARN: String? = nil) {
+        public init(nextToken: String? = nil) {
             self.nextToken = nextToken
-            self.groupName = groupName
-            self.startTime = startTime
-            self.endTime = endTime
-            self.groupARN = groupARN
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
-            case groupName = "GroupName"
-            case startTime = "StartTime"
-            case endTime = "EndTime"
-            case groupARN = "GroupARN"
+        }
+    }
+
+    public struct GetEncryptionConfigRequest: AWSShape {
+
+    }
+
+    public enum EncryptionType: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case kms = "KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PutEncryptionConfigResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionConfig", required: false, type: .structure)
+        ]
+        /// The new encryption configuration.
+        public let encryptionConfig: EncryptionConfig?
+
+        public init(encryptionConfig: EncryptionConfig? = nil) {
+            self.encryptionConfig = encryptionConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConfig = "EncryptionConfig"
         }
     }
 
@@ -364,163 +782,108 @@ extension XRay {
         }
     }
 
-    public struct EdgeStatistics: AWSShape {
+    public struct UnprocessedTraceSegment: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TotalResponseTime", required: false, type: .double), 
-            AWSShapeMember(label: "TotalCount", required: false, type: .long), 
-            AWSShapeMember(label: "FaultStatistics", required: false, type: .structure), 
-            AWSShapeMember(label: "ErrorStatistics", required: false, type: .structure), 
-            AWSShapeMember(label: "OkCount", required: false, type: .long)
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
-        /// The aggregate response time of completed requests.
-        public let totalResponseTime: Double?
-        /// The total number of completed requests.
-        public let totalCount: Int64?
-        /// Information about requests that failed with a 5xx Server Error status code.
-        public let faultStatistics: FaultStatistics?
-        /// Information about requests that failed with a 4xx Client Error status code.
-        public let errorStatistics: ErrorStatistics?
-        /// The number of requests that completed with a 2xx Success status code.
-        public let okCount: Int64?
+        /// The error that caused processing to fail.
+        public let errorCode: String?
+        /// The segment's ID.
+        public let id: String?
+        /// The error message.
+        public let message: String?
 
-        public init(totalResponseTime: Double? = nil, totalCount: Int64? = nil, faultStatistics: FaultStatistics? = nil, errorStatistics: ErrorStatistics? = nil, okCount: Int64? = nil) {
-            self.totalResponseTime = totalResponseTime
-            self.totalCount = totalCount
-            self.faultStatistics = faultStatistics
-            self.errorStatistics = errorStatistics
-            self.okCount = okCount
+        public init(errorCode: String? = nil, id: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.id = id
+            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
-            case totalResponseTime = "TotalResponseTime"
-            case totalCount = "TotalCount"
-            case faultStatistics = "FaultStatistics"
-            case errorStatistics = "ErrorStatistics"
-            case okCount = "OkCount"
+            case errorCode = "ErrorCode"
+            case id = "Id"
+            case message = "Message"
         }
     }
 
-    public struct ResponseTimeRootCauseService: AWSShape {
+    public struct RootCauseException: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .string), 
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "EntityPath", required: false, type: .list), 
-            AWSShapeMember(label: "Names", required: false, type: .list), 
-            AWSShapeMember(label: "Inferred", required: false, type: .boolean)
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// The type associated to the service.
-        public let `type`: String?
-        /// The account ID associated to the service.
-        public let accountId: String?
-        /// The service name.
+        /// The message of the exception.
+        public let message: String?
+        /// The name of the exception.
         public let name: String?
-        /// The path of root cause entities found on the service. 
-        public let entityPath: [ResponseTimeRootCauseEntity]?
-        /// A collection of associated service names.
-        public let names: [String]?
-        /// A Boolean value indicating if the service is inferred from the trace.
-        public let inferred: Bool?
 
-        public init(type: String? = nil, accountId: String? = nil, name: String? = nil, entityPath: [ResponseTimeRootCauseEntity]? = nil, names: [String]? = nil, inferred: Bool? = nil) {
-            self.`type` = `type`
-            self.accountId = accountId
+        public init(message: String? = nil, name: String? = nil) {
+            self.message = message
             self.name = name
-            self.entityPath = entityPath
-            self.names = names
-            self.inferred = inferred
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case accountId = "AccountId"
+            case message = "Message"
             case name = "Name"
-            case entityPath = "EntityPath"
-            case names = "Names"
-            case inferred = "Inferred"
         }
     }
 
-    public struct GetGroupsResult: AWSShape {
+    public struct UpdateGroupResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Groups", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "Group", required: false, type: .structure)
         ]
-        /// The collection of all active groups.
-        public let groups: [GroupSummary]?
-        /// Pagination token. Not used.
-        public let nextToken: String?
+        /// The group that was updated. Contains the name of the group that was updated, the ARN of the group that was updated, and the updated filter expression assigned to the group.
+        public let group: Group?
 
-        public init(groups: [GroupSummary]? = nil, nextToken: String? = nil) {
-            self.groups = groups
-            self.nextToken = nextToken
+        public init(group: Group? = nil) {
+            self.group = group
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groups = "Groups"
-            case nextToken = "NextToken"
+            case group = "Group"
         }
     }
 
-    public struct GetTraceSummariesRequest: AWSShape {
+    public struct GroupSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Sampling", required: false, type: .boolean)
+            AWSShapeMember(label: "GroupARN", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string)
         ]
-        /// Specify the pagination token returned by a previous request to retrieve the next page of results.
-        public let nextToken: String?
-        /// Specify a filter expression to retrieve trace summaries for services or requests that meet certain requirements.
+        /// The filter expression defining the parameters to include traces.
         public let filterExpression: String?
-        /// The start of the time frame for which to retrieve traces.
-        public let startTime: TimeStamp
-        /// The end of the time frame for which to retrieve traces.
-        public let endTime: TimeStamp
-        /// Set to true to get summaries for only a subset of available traces.
-        public let sampling: Bool?
+        /// The ARN of the group generated based on the GroupName.
+        public let groupARN: String?
+        /// The unique case-sensitive name of the group.
+        public let groupName: String?
 
-        public init(nextToken: String? = nil, filterExpression: String? = nil, startTime: TimeStamp, endTime: TimeStamp, sampling: Bool? = nil) {
-            self.nextToken = nextToken
+        public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil) {
             self.filterExpression = filterExpression
-            self.startTime = startTime
-            self.endTime = endTime
-            self.sampling = sampling
+            self.groupARN = groupARN
+            self.groupName = groupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
             case filterExpression = "FilterExpression"
-            case startTime = "StartTime"
-            case endTime = "EndTime"
-            case sampling = "Sampling"
+            case groupARN = "GroupARN"
+            case groupName = "GroupName"
         }
     }
 
-    public struct EncryptionConfig: AWSShape {
+    public struct FaultRootCause: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "KeyId", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
+            AWSShapeMember(label: "Services", required: false, type: .list)
         ]
-        /// The encryption status. While the status is UPDATING, X-Ray may encrypt data with a combination of the new and old settings.
-        public let status: EncryptionStatus?
-        /// The ID of the customer master key (CMK) used for encryption, if applicable.
-        public let keyId: String?
-        /// The type of encryption. Set to KMS for encryption with CMKs. Set to NONE for default encryption.
-        public let `type`: EncryptionType?
+        /// A list of corresponding services. A service identifies a segment and it contains a name, account ID, type, and inferred flag.
+        public let services: [FaultRootCauseService]?
 
-        public init(status: EncryptionStatus? = nil, keyId: String? = nil, type: EncryptionType? = nil) {
-            self.status = status
-            self.keyId = keyId
-            self.`type` = `type`
+        public init(services: [FaultRootCauseService]? = nil) {
+            self.services = services
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case keyId = "KeyId"
-            case `type` = "Type"
+            case services = "Services"
         }
     }
 
@@ -551,251 +914,6 @@ extension XRay {
         }
     }
 
-    public struct UpdateSamplingRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SamplingRuleUpdate", required: true, type: .structure)
-        ]
-        /// The rule and fields to change.
-        public let samplingRuleUpdate: SamplingRuleUpdate
-
-        public init(samplingRuleUpdate: SamplingRuleUpdate) {
-            self.samplingRuleUpdate = samplingRuleUpdate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case samplingRuleUpdate = "SamplingRuleUpdate"
-        }
-    }
-
-    public struct UpdateSamplingRuleResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SamplingRuleRecord", required: false, type: .structure)
-        ]
-        /// The updated rule definition and metadata.
-        public let samplingRuleRecord: SamplingRuleRecord?
-
-        public init(samplingRuleRecord: SamplingRuleRecord? = nil) {
-            self.samplingRuleRecord = samplingRuleRecord
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case samplingRuleRecord = "SamplingRuleRecord"
-        }
-    }
-
-    public struct GetGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", required: false, type: .structure)
-        ]
-        /// The group that was requested. Contains the name of the group, the ARN of the group, and the filter expression that assigned to the group.
-        public let group: Group?
-
-        public init(group: Group? = nil) {
-            self.group = group
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case group = "Group"
-        }
-    }
-
-    public struct SamplingStatisticSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BorrowCount", required: false, type: .integer), 
-            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RuleName", required: false, type: .string), 
-            AWSShapeMember(label: "SampledCount", required: false, type: .integer), 
-            AWSShapeMember(label: "RequestCount", required: false, type: .integer)
-        ]
-        /// The number of requests recorded with borrowed reservoir quota.
-        public let borrowCount: Int32?
-        /// The start time of the reporting window.
-        public let timestamp: TimeStamp?
-        /// The name of the sampling rule.
-        public let ruleName: String?
-        /// The number of requests recorded.
-        public let sampledCount: Int32?
-        /// The number of requests that matched the rule.
-        public let requestCount: Int32?
-
-        public init(borrowCount: Int32? = nil, timestamp: TimeStamp? = nil, ruleName: String? = nil, sampledCount: Int32? = nil, requestCount: Int32? = nil) {
-            self.borrowCount = borrowCount
-            self.timestamp = timestamp
-            self.ruleName = ruleName
-            self.sampledCount = sampledCount
-            self.requestCount = requestCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case borrowCount = "BorrowCount"
-            case timestamp = "Timestamp"
-            case ruleName = "RuleName"
-            case sampledCount = "SampledCount"
-            case requestCount = "RequestCount"
-        }
-    }
-
-    public struct RootCauseException: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
-        /// The name of the exception.
-        public let name: String?
-        /// The message of the exception.
-        public let message: String?
-
-        public init(name: String? = nil, message: String? = nil) {
-            self.name = name
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case message = "Message"
-        }
-    }
-
-    public struct FaultStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OtherCount", required: false, type: .long), 
-            AWSShapeMember(label: "TotalCount", required: false, type: .long)
-        ]
-        /// The number of requests that failed with untracked 5xx Server Error status codes.
-        public let otherCount: Int64?
-        /// The total number of requests that failed with a 5xx Server Error status code.
-        public let totalCount: Int64?
-
-        public init(otherCount: Int64? = nil, totalCount: Int64? = nil) {
-            self.otherCount = otherCount
-            self.totalCount = totalCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case otherCount = "OtherCount"
-            case totalCount = "TotalCount"
-        }
-    }
-
-    public struct GetGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Pagination token. Not used.
-        public let nextToken: String?
-
-        public init(nextToken: String? = nil) {
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetTraceGraphResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Services", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The services that have processed one of the specified requests.
-        public let services: [Service]?
-        /// Pagination token. Not used.
-        public let nextToken: String?
-
-        public init(services: [Service]? = nil, nextToken: String? = nil) {
-            self.services = services
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case services = "Services"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct SamplingStatisticsDocument: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BorrowCount", required: false, type: .integer), 
-            AWSShapeMember(label: "ClientID", required: true, type: .string), 
-            AWSShapeMember(label: "RuleName", required: true, type: .string), 
-            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
-            AWSShapeMember(label: "SampledCount", required: true, type: .integer), 
-            AWSShapeMember(label: "RequestCount", required: true, type: .integer)
-        ]
-        /// The number of requests recorded with borrowed reservoir quota.
-        public let borrowCount: Int32?
-        /// A unique identifier for the service in hexadecimal.
-        public let clientID: String
-        /// The name of the sampling rule.
-        public let ruleName: String
-        /// The current time.
-        public let timestamp: TimeStamp
-        /// The number of requests recorded.
-        public let sampledCount: Int32
-        /// The number of requests that matched the rule.
-        public let requestCount: Int32
-
-        public init(borrowCount: Int32? = nil, clientID: String, ruleName: String, timestamp: TimeStamp, sampledCount: Int32, requestCount: Int32) {
-            self.borrowCount = borrowCount
-            self.clientID = clientID
-            self.ruleName = ruleName
-            self.timestamp = timestamp
-            self.sampledCount = sampledCount
-            self.requestCount = requestCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case borrowCount = "BorrowCount"
-            case clientID = "ClientID"
-            case ruleName = "RuleName"
-            case timestamp = "Timestamp"
-            case sampledCount = "SampledCount"
-            case requestCount = "RequestCount"
-        }
-    }
-
-    public struct FaultRootCauseService: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .string), 
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "EntityPath", required: false, type: .list), 
-            AWSShapeMember(label: "Names", required: false, type: .list), 
-            AWSShapeMember(label: "Inferred", required: false, type: .boolean)
-        ]
-        /// The type associated to the service.
-        public let `type`: String?
-        /// The account ID associated to the service.
-        public let accountId: String?
-        /// The service name.
-        public let name: String?
-        /// The path of root cause entities found on the service. 
-        public let entityPath: [FaultRootCauseEntity]?
-        /// A collection of associated service names.
-        public let names: [String]?
-        /// A Boolean value indicating if the service is inferred from the trace.
-        public let inferred: Bool?
-
-        public init(type: String? = nil, accountId: String? = nil, name: String? = nil, entityPath: [FaultRootCauseEntity]? = nil, names: [String]? = nil, inferred: Bool? = nil) {
-            self.`type` = `type`
-            self.accountId = accountId
-            self.name = name
-            self.entityPath = entityPath
-            self.names = names
-            self.inferred = inferred
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case accountId = "AccountId"
-            case name = "Name"
-            case entityPath = "EntityPath"
-            case names = "Names"
-            case inferred = "Inferred"
-        }
-    }
-
     public struct GetSamplingStatisticSummariesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SamplingStatisticSummaries", required: false, type: .list), 
@@ -817,6 +935,124 @@ extension XRay {
         }
     }
 
+    public struct SamplingRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "ServiceName", required: true, type: .string), 
+            AWSShapeMember(label: "ReservoirSize", required: true, type: .integer), 
+            AWSShapeMember(label: "RuleName", required: false, type: .string), 
+            AWSShapeMember(label: "Priority", required: true, type: .integer), 
+            AWSShapeMember(label: "RuleARN", required: false, type: .string), 
+            AWSShapeMember(label: "FixedRate", required: true, type: .double), 
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "Host", required: true, type: .string), 
+            AWSShapeMember(label: "URLPath", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceType", required: true, type: .string), 
+            AWSShapeMember(label: "HTTPMethod", required: true, type: .string), 
+            AWSShapeMember(label: "Version", required: true, type: .integer)
+        ]
+        /// Matches attributes derived from the request.
+        public let attributes: [String: String]?
+        /// Matches the name that the service uses to identify itself in segments.
+        public let serviceName: String
+        /// A fixed number of matching requests to instrument per second, prior to applying the fixed rate. The reservoir is not used directly by services, but applies to all services using the rule collectively.
+        public let reservoirSize: Int32
+        /// The name of the sampling rule. Specify a rule by either name or ARN, but not both.
+        public let ruleName: String?
+        /// The priority of the sampling rule.
+        public let priority: Int32
+        /// The ARN of the sampling rule. Specify a rule by either name or ARN, but not both.
+        public let ruleARN: String?
+        /// The percentage of matching requests to instrument, after the reservoir is exhausted.
+        public let fixedRate: Double
+        /// Matches the ARN of the AWS resource on which the service runs.
+        public let resourceARN: String
+        /// Matches the hostname from a request URL.
+        public let host: String
+        /// Matches the path from a request URL.
+        public let uRLPath: String
+        /// Matches the origin that the service uses to identify its type in segments.
+        public let serviceType: String
+        /// Matches the HTTP method of a request.
+        public let hTTPMethod: String
+        /// The version of the sampling rule format (1).
+        public let version: Int32
+
+        public init(attributes: [String: String]? = nil, serviceName: String, reservoirSize: Int32, ruleName: String? = nil, priority: Int32, ruleARN: String? = nil, fixedRate: Double, resourceARN: String, host: String, uRLPath: String, serviceType: String, hTTPMethod: String, version: Int32) {
+            self.attributes = attributes
+            self.serviceName = serviceName
+            self.reservoirSize = reservoirSize
+            self.ruleName = ruleName
+            self.priority = priority
+            self.ruleARN = ruleARN
+            self.fixedRate = fixedRate
+            self.resourceARN = resourceARN
+            self.host = host
+            self.uRLPath = uRLPath
+            self.serviceType = serviceType
+            self.hTTPMethod = hTTPMethod
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case serviceName = "ServiceName"
+            case reservoirSize = "ReservoirSize"
+            case ruleName = "RuleName"
+            case priority = "Priority"
+            case ruleARN = "RuleARN"
+            case fixedRate = "FixedRate"
+            case resourceARN = "ResourceARN"
+            case host = "Host"
+            case uRLPath = "URLPath"
+            case serviceType = "ServiceType"
+            case hTTPMethod = "HTTPMethod"
+            case version = "Version"
+        }
+    }
+
+    public struct ValueWithServiceIds: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnnotationValue", required: false, type: .structure), 
+            AWSShapeMember(label: "ServiceIds", required: false, type: .list)
+        ]
+        /// Values of the annotation.
+        public let annotationValue: AnnotationValue?
+        /// Services to which the annotation applies.
+        public let serviceIds: [ServiceId]?
+
+        public init(annotationValue: AnnotationValue? = nil, serviceIds: [ServiceId]? = nil) {
+            self.annotationValue = annotationValue
+            self.serviceIds = serviceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case annotationValue = "AnnotationValue"
+            case serviceIds = "ServiceIds"
+        }
+    }
+
+    public struct HistogramEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .double), 
+            AWSShapeMember(label: "Count", required: false, type: .integer)
+        ]
+        /// The value of the entry.
+        public let value: Double?
+        /// The prevalence of the entry.
+        public let count: Int32?
+
+        public init(value: Double? = nil, count: Int32? = nil) {
+            self.value = value
+            self.count = count
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case count = "Count"
+        }
+    }
+
     public struct CreateSamplingRuleResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SamplingRuleRecord", required: false, type: .structure)
@@ -833,287 +1069,70 @@ extension XRay {
         }
     }
 
-    public struct SamplingRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleName", required: false, type: .string), 
-            AWSShapeMember(label: "HTTPMethod", required: true, type: .string), 
-            AWSShapeMember(label: "Host", required: true, type: .string), 
-            AWSShapeMember(label: "ServiceName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "ReservoirSize", required: true, type: .integer), 
-            AWSShapeMember(label: "Priority", required: true, type: .integer), 
-            AWSShapeMember(label: "RuleARN", required: false, type: .string), 
-            AWSShapeMember(label: "URLPath", required: true, type: .string), 
-            AWSShapeMember(label: "FixedRate", required: true, type: .double), 
-            AWSShapeMember(label: "Version", required: true, type: .integer), 
-            AWSShapeMember(label: "ServiceType", required: true, type: .string)
-        ]
-        /// The name of the sampling rule. Specify a rule by either name or ARN, but not both.
-        public let ruleName: String?
-        /// Matches the HTTP method of a request.
-        public let hTTPMethod: String
-        /// Matches the hostname from a request URL.
-        public let host: String
-        /// Matches the name that the service uses to identify itself in segments.
-        public let serviceName: String
-        /// Matches the ARN of the AWS resource on which the service runs.
-        public let resourceARN: String
-        /// Matches attributes derived from the request.
-        public let attributes: [String: String]?
-        /// A fixed number of matching requests to instrument per second, prior to applying the fixed rate. The reservoir is not used directly by services, but applies to all services using the rule collectively.
-        public let reservoirSize: Int32
-        /// The priority of the sampling rule.
-        public let priority: Int32
-        /// The ARN of the sampling rule. Specify a rule by either name or ARN, but not both.
-        public let ruleARN: String?
-        /// Matches the path from a request URL.
-        public let uRLPath: String
-        /// The percentage of matching requests to instrument, after the reservoir is exhausted.
-        public let fixedRate: Double
-        /// The version of the sampling rule format (1).
-        public let version: Int32
-        /// Matches the origin that the service uses to identify its type in segments.
-        public let serviceType: String
-
-        public init(ruleName: String? = nil, hTTPMethod: String, host: String, serviceName: String, resourceARN: String, attributes: [String: String]? = nil, reservoirSize: Int32, priority: Int32, ruleARN: String? = nil, uRLPath: String, fixedRate: Double, version: Int32, serviceType: String) {
-            self.ruleName = ruleName
-            self.hTTPMethod = hTTPMethod
-            self.host = host
-            self.serviceName = serviceName
-            self.resourceARN = resourceARN
-            self.attributes = attributes
-            self.reservoirSize = reservoirSize
-            self.priority = priority
-            self.ruleARN = ruleARN
-            self.uRLPath = uRLPath
-            self.fixedRate = fixedRate
-            self.version = version
-            self.serviceType = serviceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ruleName = "RuleName"
-            case hTTPMethod = "HTTPMethod"
-            case host = "Host"
-            case serviceName = "ServiceName"
-            case resourceARN = "ResourceARN"
-            case attributes = "Attributes"
-            case reservoirSize = "ReservoirSize"
-            case priority = "Priority"
-            case ruleARN = "RuleARN"
-            case uRLPath = "URLPath"
-            case fixedRate = "FixedRate"
-            case version = "Version"
-            case serviceType = "ServiceType"
-        }
-    }
-
-    public struct Http: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HttpMethod", required: false, type: .string), 
-            AWSShapeMember(label: "ClientIp", required: false, type: .string), 
-            AWSShapeMember(label: "HttpURL", required: false, type: .string), 
-            AWSShapeMember(label: "UserAgent", required: false, type: .string), 
-            AWSShapeMember(label: "HttpStatus", required: false, type: .integer)
-        ]
-        /// The request method.
-        public let httpMethod: String?
-        /// The IP address of the requestor.
-        public let clientIp: String?
-        /// The request URL.
-        public let httpURL: String?
-        /// The request's user agent string.
-        public let userAgent: String?
-        /// The response status.
-        public let httpStatus: Int32?
-
-        public init(httpMethod: String? = nil, clientIp: String? = nil, httpURL: String? = nil, userAgent: String? = nil, httpStatus: Int32? = nil) {
-            self.httpMethod = httpMethod
-            self.clientIp = clientIp
-            self.httpURL = httpURL
-            self.userAgent = userAgent
-            self.httpStatus = httpStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case httpMethod = "HttpMethod"
-            case clientIp = "ClientIp"
-            case httpURL = "HttpURL"
-            case userAgent = "UserAgent"
-            case httpStatus = "HttpStatus"
-        }
-    }
-
-    public struct Segment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Document", required: false, type: .string)
-        ]
-        /// The segment's ID.
-        public let id: String?
-        /// The segment document.
-        public let document: String?
-
-        public init(id: String? = nil, document: String? = nil) {
-            self.id = id
-            self.document = document
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case document = "Document"
-        }
-    }
-
     public struct GetTraceSummariesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ApproximateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "TraceSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "ApproximateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "TracesProcessedCount", required: false, type: .long)
         ]
         /// If the requested time frame contained more than one page of results, you can use this token to retrieve the next page. The first page contains the most most recent results, closest to the end of the time frame.
         public let nextToken: String?
-        /// The start time of this page of results.
-        public let approximateTime: TimeStamp?
         /// Trace IDs and metadata for traces that were found in the specified time frame.
         public let traceSummaries: [TraceSummary]?
+        /// The start time of this page of results.
+        public let approximateTime: TimeStamp?
         /// The total number of traces processed, including traces that did not match the specified filter expression.
         public let tracesProcessedCount: Int64?
 
-        public init(nextToken: String? = nil, approximateTime: TimeStamp? = nil, traceSummaries: [TraceSummary]? = nil, tracesProcessedCount: Int64? = nil) {
+        public init(nextToken: String? = nil, traceSummaries: [TraceSummary]? = nil, approximateTime: TimeStamp? = nil, tracesProcessedCount: Int64? = nil) {
             self.nextToken = nextToken
-            self.approximateTime = approximateTime
             self.traceSummaries = traceSummaries
+            self.approximateTime = approximateTime
             self.tracesProcessedCount = tracesProcessedCount
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
-            case approximateTime = "ApproximateTime"
             case traceSummaries = "TraceSummaries"
+            case approximateTime = "ApproximateTime"
             case tracesProcessedCount = "TracesProcessedCount"
         }
     }
 
-    public struct CreateSamplingRuleRequest: AWSShape {
+    public struct SamplingTargetDocument: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SamplingRule", required: true, type: .structure)
+            AWSShapeMember(label: "RuleName", required: false, type: .string), 
+            AWSShapeMember(label: "ReservoirQuota", required: false, type: .integer), 
+            AWSShapeMember(label: "Interval", required: false, type: .integer), 
+            AWSShapeMember(label: "ReservoirQuotaTTL", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FixedRate", required: false, type: .double)
         ]
-        /// The rule definition.
-        public let samplingRule: SamplingRule
+        /// The name of the sampling rule.
+        public let ruleName: String?
+        /// The number of requests per second that X-Ray allocated this service.
+        public let reservoirQuota: Int32?
+        /// The number of seconds for the service to wait before getting sampling targets again.
+        public let interval: Int32?
+        /// When the reservoir quota expires.
+        public let reservoirQuotaTTL: TimeStamp?
+        /// The percentage of matching requests to instrument, after the reservoir is exhausted.
+        public let fixedRate: Double?
 
-        public init(samplingRule: SamplingRule) {
-            self.samplingRule = samplingRule
+        public init(ruleName: String? = nil, reservoirQuota: Int32? = nil, interval: Int32? = nil, reservoirQuotaTTL: TimeStamp? = nil, fixedRate: Double? = nil) {
+            self.ruleName = ruleName
+            self.reservoirQuota = reservoirQuota
+            self.interval = interval
+            self.reservoirQuotaTTL = reservoirQuotaTTL
+            self.fixedRate = fixedRate
         }
 
         private enum CodingKeys: String, CodingKey {
-            case samplingRule = "SamplingRule"
-        }
-    }
-
-    public struct ErrorRootCauseService: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .string), 
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "EntityPath", required: false, type: .list), 
-            AWSShapeMember(label: "Names", required: false, type: .list), 
-            AWSShapeMember(label: "Inferred", required: false, type: .boolean)
-        ]
-        /// The type associated to the service.
-        public let `type`: String?
-        /// The account ID associated to the service.
-        public let accountId: String?
-        /// The service name.
-        public let name: String?
-        /// The path of root cause entities found on the service. 
-        public let entityPath: [ErrorRootCauseEntity]?
-        /// A collection of associated service names.
-        public let names: [String]?
-        /// A Boolean value indicating if the service is inferred from the trace.
-        public let inferred: Bool?
-
-        public init(type: String? = nil, accountId: String? = nil, name: String? = nil, entityPath: [ErrorRootCauseEntity]? = nil, names: [String]? = nil, inferred: Bool? = nil) {
-            self.`type` = `type`
-            self.accountId = accountId
-            self.name = name
-            self.entityPath = entityPath
-            self.names = names
-            self.inferred = inferred
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case accountId = "AccountId"
-            case name = "Name"
-            case entityPath = "EntityPath"
-            case names = "Names"
-            case inferred = "Inferred"
-        }
-    }
-
-    public struct DeleteSamplingRuleResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SamplingRuleRecord", required: false, type: .structure)
-        ]
-        /// The deleted rule definition and metadata.
-        public let samplingRuleRecord: SamplingRuleRecord?
-
-        public init(samplingRuleRecord: SamplingRuleRecord? = nil) {
-            self.samplingRuleRecord = samplingRuleRecord
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case samplingRuleRecord = "SamplingRuleRecord"
-        }
-    }
-
-    public struct BatchGetTracesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TraceIds", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Specify the trace IDs of requests for which to retrieve segments.
-        public let traceIds: [String]
-        /// Pagination token. Not used.
-        public let nextToken: String?
-
-        public init(traceIds: [String], nextToken: String? = nil) {
-            self.traceIds = traceIds
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case traceIds = "TraceIds"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct UpdateGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: false, type: .string), 
-            AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
-            AWSShapeMember(label: "GroupARN", required: false, type: .string)
-        ]
-        /// The case-sensitive name of the group.
-        public let groupName: String?
-        /// The updated filter expression defining criteria by which to group traces.
-        public let filterExpression: String?
-        /// The ARN that was generated upon creation.
-        public let groupARN: String?
-
-        public init(groupName: String? = nil, filterExpression: String? = nil, groupARN: String? = nil) {
-            self.groupName = groupName
-            self.filterExpression = filterExpression
-            self.groupARN = groupARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-            case filterExpression = "FilterExpression"
-            case groupARN = "GroupARN"
+            case ruleName = "RuleName"
+            case reservoirQuota = "ReservoirQuota"
+            case interval = "Interval"
+            case reservoirQuotaTTL = "ReservoirQuotaTTL"
+            case fixedRate = "FixedRate"
         }
     }
 
@@ -1143,6 +1162,147 @@ extension XRay {
         }
     }
 
+    public struct Edge: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ReferenceId", required: false, type: .integer), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Aliases", required: false, type: .list), 
+            AWSShapeMember(label: "SummaryStatistics", required: false, type: .structure), 
+            AWSShapeMember(label: "ResponseTimeHistogram", required: false, type: .list)
+        ]
+        /// The start time of the first segment on the edge.
+        public let startTime: TimeStamp?
+        /// Identifier of the edge. Unique within a service map.
+        public let referenceId: Int32?
+        /// The end time of the last segment on the edge.
+        public let endTime: TimeStamp?
+        /// Aliases for the edge.
+        public let aliases: [Alias]?
+        /// Response statistics for segments on the edge.
+        public let summaryStatistics: EdgeStatistics?
+        /// A histogram that maps the spread of client response times on an edge.
+        public let responseTimeHistogram: [HistogramEntry]?
+
+        public init(startTime: TimeStamp? = nil, referenceId: Int32? = nil, endTime: TimeStamp? = nil, aliases: [Alias]? = nil, summaryStatistics: EdgeStatistics? = nil, responseTimeHistogram: [HistogramEntry]? = nil) {
+            self.startTime = startTime
+            self.referenceId = referenceId
+            self.endTime = endTime
+            self.aliases = aliases
+            self.summaryStatistics = summaryStatistics
+            self.responseTimeHistogram = responseTimeHistogram
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case referenceId = "ReferenceId"
+            case endTime = "EndTime"
+            case aliases = "Aliases"
+            case summaryStatistics = "SummaryStatistics"
+            case responseTimeHistogram = "ResponseTimeHistogram"
+        }
+    }
+
+    public struct GetServiceGraphRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "GroupARN", required: false, type: .string)
+        ]
+        /// Pagination token. Not used.
+        public let nextToken: String?
+        /// The start of the time frame for which to generate a graph.
+        public let startTime: TimeStamp
+        /// The name of a group to generate a graph based on.
+        public let groupName: String?
+        /// The end of the timeframe for which to generate a graph.
+        public let endTime: TimeStamp
+        /// The ARN of a group to generate a graph based on.
+        public let groupARN: String?
+
+        public init(nextToken: String? = nil, startTime: TimeStamp, groupName: String? = nil, endTime: TimeStamp, groupARN: String? = nil) {
+            self.nextToken = nextToken
+            self.startTime = startTime
+            self.groupName = groupName
+            self.endTime = endTime
+            self.groupARN = groupARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case startTime = "StartTime"
+            case groupName = "GroupName"
+            case endTime = "EndTime"
+            case groupARN = "GroupARN"
+        }
+    }
+
+    public struct ErrorRootCause: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Services", required: false, type: .list)
+        ]
+        /// A list of services corresponding to an error. A service identifies a segment and it contains a name, account ID, type, and inferred flag.
+        public let services: [ErrorRootCauseService]?
+
+        public init(services: [ErrorRootCauseService]? = nil) {
+            self.services = services
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case services = "Services"
+        }
+    }
+
+    public enum EncryptionStatus: String, CustomStringConvertible, Codable {
+        case updating = "UPDATING"
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
+            AWSShapeMember(label: "GroupARN", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string)
+        ]
+        /// The updated filter expression defining criteria by which to group traces.
+        public let filterExpression: String?
+        /// The ARN that was generated upon creation.
+        public let groupARN: String?
+        /// The case-sensitive name of the group.
+        public let groupName: String?
+
+        public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil) {
+            self.filterExpression = filterExpression
+            self.groupARN = groupARN
+            self.groupName = groupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterExpression = "FilterExpression"
+            case groupARN = "GroupARN"
+            case groupName = "GroupName"
+        }
+    }
+
+    public struct ResourceARNDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ARN", required: false, type: .string)
+        ]
+        /// The ARN of a corresponding resource.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+        }
+    }
+
     public struct Trace: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Segments", required: false, type: .list), 
@@ -1166,374 +1326,6 @@ extension XRay {
             case segments = "Segments"
             case id = "Id"
             case duration = "Duration"
-        }
-    }
-
-    public struct DeleteGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: false, type: .string), 
-            AWSShapeMember(label: "GroupARN", required: false, type: .string)
-        ]
-        /// The case-sensitive name of the group.
-        public let groupName: String?
-        /// The ARN of the group that was generated on creation.
-        public let groupARN: String?
-
-        public init(groupName: String? = nil, groupARN: String? = nil) {
-            self.groupName = groupName
-            self.groupARN = groupARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-            case groupARN = "GroupARN"
-        }
-    }
-
-    public struct GetServiceGraphResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Services", required: false, type: .list), 
-            AWSShapeMember(label: "ContainsOldGroupVersions", required: false, type: .boolean), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp)
-        ]
-        /// Pagination token. Not used.
-        public let nextToken: String?
-        /// The services that have processed a traced request during the specified time frame.
-        public let services: [Service]?
-        /// A flag indicating whether the group's filter expression has been consistent, or if the returned service graph may show traces from an older version of the group's filter expression.
-        public let containsOldGroupVersions: Bool?
-        /// The start of the time frame for which the graph was generated.
-        public let startTime: TimeStamp?
-        /// The end of the time frame for which the graph was generated.
-        public let endTime: TimeStamp?
-
-        public init(nextToken: String? = nil, services: [Service]? = nil, containsOldGroupVersions: Bool? = nil, startTime: TimeStamp? = nil, endTime: TimeStamp? = nil) {
-            self.nextToken = nextToken
-            self.services = services
-            self.containsOldGroupVersions = containsOldGroupVersions
-            self.startTime = startTime
-            self.endTime = endTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case services = "Services"
-            case containsOldGroupVersions = "ContainsOldGroupVersions"
-            case startTime = "StartTime"
-            case endTime = "EndTime"
-        }
-    }
-
-    public struct GetTraceGraphRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TraceIds", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Trace IDs of requests for which to generate a service graph.
-        public let traceIds: [String]
-        /// Pagination token. Not used.
-        public let nextToken: String?
-
-        public init(traceIds: [String], nextToken: String? = nil) {
-            self.traceIds = traceIds
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case traceIds = "TraceIds"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetSamplingStatisticSummariesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Pagination token. Not used.
-        public let nextToken: String?
-
-        public init(nextToken: String? = nil) {
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct BackendConnectionErrors: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OtherCount", required: false, type: .integer), 
-            AWSShapeMember(label: "TimeoutCount", required: false, type: .integer), 
-            AWSShapeMember(label: "HTTPCode4XXCount", required: false, type: .integer), 
-            AWSShapeMember(label: "ConnectionRefusedCount", required: false, type: .integer), 
-            AWSShapeMember(label: "HTTPCode5XXCount", required: false, type: .integer), 
-            AWSShapeMember(label: "UnknownHostCount", required: false, type: .integer)
-        ]
-        public let otherCount: Int32?
-        public let timeoutCount: Int32?
-        public let hTTPCode4XXCount: Int32?
-        public let connectionRefusedCount: Int32?
-        public let hTTPCode5XXCount: Int32?
-        public let unknownHostCount: Int32?
-
-        public init(otherCount: Int32? = nil, timeoutCount: Int32? = nil, hTTPCode4XXCount: Int32? = nil, connectionRefusedCount: Int32? = nil, hTTPCode5XXCount: Int32? = nil, unknownHostCount: Int32? = nil) {
-            self.otherCount = otherCount
-            self.timeoutCount = timeoutCount
-            self.hTTPCode4XXCount = hTTPCode4XXCount
-            self.connectionRefusedCount = connectionRefusedCount
-            self.hTTPCode5XXCount = hTTPCode5XXCount
-            self.unknownHostCount = unknownHostCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case otherCount = "OtherCount"
-            case timeoutCount = "TimeoutCount"
-            case hTTPCode4XXCount = "HTTPCode4XXCount"
-            case connectionRefusedCount = "ConnectionRefusedCount"
-            case hTTPCode5XXCount = "HTTPCode5XXCount"
-            case unknownHostCount = "UnknownHostCount"
-        }
-    }
-
-    public struct PutTelemetryRecordsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EC2InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "TelemetryRecords", required: true, type: .list), 
-            AWSShapeMember(label: "Hostname", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string)
-        ]
-        public let eC2InstanceId: String?
-        public let telemetryRecords: [TelemetryRecord]
-        public let hostname: String?
-        public let resourceARN: String?
-
-        public init(eC2InstanceId: String? = nil, telemetryRecords: [TelemetryRecord], hostname: String? = nil, resourceARN: String? = nil) {
-            self.eC2InstanceId = eC2InstanceId
-            self.telemetryRecords = telemetryRecords
-            self.hostname = hostname
-            self.resourceARN = resourceARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eC2InstanceId = "EC2InstanceId"
-            case telemetryRecords = "TelemetryRecords"
-            case hostname = "Hostname"
-            case resourceARN = "ResourceARN"
-        }
-    }
-
-    public struct AvailabilityZoneDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The name of a corresponding availability zone.
-        public let name: String?
-
-        public init(name: String? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct GetEncryptionConfigRequest: AWSShape {
-
-    }
-
-    public struct ValueWithServiceIds: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnnotationValue", required: false, type: .structure), 
-            AWSShapeMember(label: "ServiceIds", required: false, type: .list)
-        ]
-        /// Values of the annotation.
-        public let annotationValue: AnnotationValue?
-        /// Services to which the annotation applies.
-        public let serviceIds: [ServiceId]?
-
-        public init(annotationValue: AnnotationValue? = nil, serviceIds: [ServiceId]? = nil) {
-            self.annotationValue = annotationValue
-            self.serviceIds = serviceIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case annotationValue = "AnnotationValue"
-            case serviceIds = "ServiceIds"
-        }
-    }
-
-    public struct CreateGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", required: false, type: .structure)
-        ]
-        /// The group that was created. Contains the name of the group that was created, the ARN of the group that was generated based on the group name, and the filter expression that was assigned to the group.
-        public let group: Group?
-
-        public init(group: Group? = nil) {
-            self.group = group
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case group = "Group"
-        }
-    }
-
-    public struct UpdateGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", required: false, type: .structure)
-        ]
-        /// The group that was updated. Contains the name of the group that was updated, the ARN of the group that was updated, and the updated filter expression assigned to the group.
-        public let group: Group?
-
-        public init(group: Group? = nil) {
-            self.group = group
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case group = "Group"
-        }
-    }
-
-    public struct UnprocessedTraceSegment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
-        /// The error that caused processing to fail.
-        public let errorCode: String?
-        /// The segment's ID.
-        public let id: String?
-        /// The error message.
-        public let message: String?
-
-        public init(errorCode: String? = nil, id: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.id = id
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case id = "Id"
-            case message = "Message"
-        }
-    }
-
-    public struct ErrorStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ThrottleCount", required: false, type: .long), 
-            AWSShapeMember(label: "OtherCount", required: false, type: .long), 
-            AWSShapeMember(label: "TotalCount", required: false, type: .long)
-        ]
-        /// The number of requests that failed with a 419 throttling status code.
-        public let throttleCount: Int64?
-        /// The number of requests that failed with untracked 4xx Client Error status codes.
-        public let otherCount: Int64?
-        /// The total number of requests that failed with a 4xx Client Error status code.
-        public let totalCount: Int64?
-
-        public init(throttleCount: Int64? = nil, otherCount: Int64? = nil, totalCount: Int64? = nil) {
-            self.throttleCount = throttleCount
-            self.otherCount = otherCount
-            self.totalCount = totalCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case throttleCount = "ThrottleCount"
-            case otherCount = "OtherCount"
-            case totalCount = "TotalCount"
-        }
-    }
-
-    public struct SamplingRuleRecord: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ModifiedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SamplingRule", required: false, type: .structure), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp)
-        ]
-        /// When the rule was last modified.
-        public let modifiedAt: TimeStamp?
-        /// The sampling rule.
-        public let samplingRule: SamplingRule?
-        /// When the rule was created.
-        public let createdAt: TimeStamp?
-
-        public init(modifiedAt: TimeStamp? = nil, samplingRule: SamplingRule? = nil, createdAt: TimeStamp? = nil) {
-            self.modifiedAt = modifiedAt
-            self.samplingRule = samplingRule
-            self.createdAt = createdAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case modifiedAt = "ModifiedAt"
-            case samplingRule = "SamplingRule"
-            case createdAt = "CreatedAt"
-        }
-    }
-
-    public struct TelemetryRecord: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SegmentsSentCount", required: false, type: .integer), 
-            AWSShapeMember(label: "BackendConnectionErrors", required: false, type: .structure), 
-            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
-            AWSShapeMember(label: "SegmentsSpilloverCount", required: false, type: .integer), 
-            AWSShapeMember(label: "SegmentsReceivedCount", required: false, type: .integer), 
-            AWSShapeMember(label: "SegmentsRejectedCount", required: false, type: .integer)
-        ]
-        public let segmentsSentCount: Int32?
-        public let backendConnectionErrors: BackendConnectionErrors?
-        public let timestamp: TimeStamp
-        public let segmentsSpilloverCount: Int32?
-        public let segmentsReceivedCount: Int32?
-        public let segmentsRejectedCount: Int32?
-
-        public init(segmentsSentCount: Int32? = nil, backendConnectionErrors: BackendConnectionErrors? = nil, timestamp: TimeStamp, segmentsSpilloverCount: Int32? = nil, segmentsReceivedCount: Int32? = nil, segmentsRejectedCount: Int32? = nil) {
-            self.segmentsSentCount = segmentsSentCount
-            self.backendConnectionErrors = backendConnectionErrors
-            self.timestamp = timestamp
-            self.segmentsSpilloverCount = segmentsSpilloverCount
-            self.segmentsReceivedCount = segmentsReceivedCount
-            self.segmentsRejectedCount = segmentsRejectedCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case segmentsSentCount = "SegmentsSentCount"
-            case backendConnectionErrors = "BackendConnectionErrors"
-            case timestamp = "Timestamp"
-            case segmentsSpilloverCount = "SegmentsSpilloverCount"
-            case segmentsReceivedCount = "SegmentsReceivedCount"
-            case segmentsRejectedCount = "SegmentsRejectedCount"
-        }
-    }
-
-    public struct FaultRootCauseEntity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Exceptions", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Remote", required: false, type: .boolean)
-        ]
-        /// The types and messages of the exceptions.
-        public let exceptions: [RootCauseException]?
-        /// The name of the entity.
-        public let name: String?
-        /// A flag that denotes a remote subsegment.
-        public let remote: Bool?
-
-        public init(exceptions: [RootCauseException]? = nil, name: String? = nil, remote: Bool? = nil) {
-            self.exceptions = exceptions
-            self.name = name
-            self.remote = remote
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case exceptions = "Exceptions"
-            case name = "Name"
-            case remote = "Remote"
         }
     }
 
@@ -1563,6 +1355,288 @@ extension XRay {
         }
     }
 
+    public struct SamplingRuleRecord: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SamplingRule", required: false, type: .structure), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ModifiedAt", required: false, type: .timestamp)
+        ]
+        /// The sampling rule.
+        public let samplingRule: SamplingRule?
+        /// When the rule was created.
+        public let createdAt: TimeStamp?
+        /// When the rule was last modified.
+        public let modifiedAt: TimeStamp?
+
+        public init(samplingRule: SamplingRule? = nil, createdAt: TimeStamp? = nil, modifiedAt: TimeStamp? = nil) {
+            self.samplingRule = samplingRule
+            self.createdAt = createdAt
+            self.modifiedAt = modifiedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case samplingRule = "SamplingRule"
+            case createdAt = "CreatedAt"
+            case modifiedAt = "ModifiedAt"
+        }
+    }
+
+    public struct GetTraceSummariesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Sampling", required: false, type: .boolean)
+        ]
+        /// Specify the pagination token returned by a previous request to retrieve the next page of results.
+        public let nextToken: String?
+        /// The start of the time frame for which to retrieve traces.
+        public let startTime: TimeStamp
+        /// Specify a filter expression to retrieve trace summaries for services or requests that meet certain requirements.
+        public let filterExpression: String?
+        /// The end of the time frame for which to retrieve traces.
+        public let endTime: TimeStamp
+        /// Set to true to get summaries for only a subset of available traces.
+        public let sampling: Bool?
+
+        public init(nextToken: String? = nil, startTime: TimeStamp, filterExpression: String? = nil, endTime: TimeStamp, sampling: Bool? = nil) {
+            self.nextToken = nextToken
+            self.startTime = startTime
+            self.filterExpression = filterExpression
+            self.endTime = endTime
+            self.sampling = sampling
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case startTime = "StartTime"
+            case filterExpression = "FilterExpression"
+            case endTime = "EndTime"
+            case sampling = "Sampling"
+        }
+    }
+
+    public struct EncryptionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// The type of encryption. Set to KMS for encryption with CMKs. Set to NONE for default encryption.
+        public let `type`: EncryptionType?
+        /// The ID of the customer master key (CMK) used for encryption, if applicable.
+        public let keyId: String?
+        /// The encryption status. While the status is UPDATING, X-Ray may encrypt data with a combination of the new and old settings.
+        public let status: EncryptionStatus?
+
+        public init(type: EncryptionType? = nil, keyId: String? = nil, status: EncryptionStatus? = nil) {
+            self.`type` = `type`
+            self.keyId = keyId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case keyId = "KeyId"
+            case status = "Status"
+        }
+    }
+
+    public struct SamplingStatisticsDocument: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleName", required: true, type: .string), 
+            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "ClientID", required: true, type: .string), 
+            AWSShapeMember(label: "SampledCount", required: true, type: .integer), 
+            AWSShapeMember(label: "BorrowCount", required: false, type: .integer), 
+            AWSShapeMember(label: "RequestCount", required: true, type: .integer)
+        ]
+        /// The name of the sampling rule.
+        public let ruleName: String
+        /// The current time.
+        public let timestamp: TimeStamp
+        /// A unique identifier for the service in hexadecimal.
+        public let clientID: String
+        /// The number of requests recorded.
+        public let sampledCount: Int32
+        /// The number of requests recorded with borrowed reservoir quota.
+        public let borrowCount: Int32?
+        /// The number of requests that matched the rule.
+        public let requestCount: Int32
+
+        public init(ruleName: String, timestamp: TimeStamp, clientID: String, sampledCount: Int32, borrowCount: Int32? = nil, requestCount: Int32) {
+            self.ruleName = ruleName
+            self.timestamp = timestamp
+            self.clientID = clientID
+            self.sampledCount = sampledCount
+            self.borrowCount = borrowCount
+            self.requestCount = requestCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleName = "RuleName"
+            case timestamp = "Timestamp"
+            case clientID = "ClientID"
+            case sampledCount = "SampledCount"
+            case borrowCount = "BorrowCount"
+            case requestCount = "RequestCount"
+        }
+    }
+
+    public struct DeleteSamplingRuleResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SamplingRuleRecord", required: false, type: .structure)
+        ]
+        /// The deleted rule definition and metadata.
+        public let samplingRuleRecord: SamplingRuleRecord?
+
+        public init(samplingRuleRecord: SamplingRuleRecord? = nil) {
+            self.samplingRuleRecord = samplingRuleRecord
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case samplingRuleRecord = "SamplingRuleRecord"
+        }
+    }
+
+    public struct Group: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
+            AWSShapeMember(label: "GroupARN", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string)
+        ]
+        /// The filter expression defining the parameters to include traces.
+        public let filterExpression: String?
+        /// The ARN of the group generated based on the GroupName.
+        public let groupARN: String?
+        /// The unique case-sensitive name of the group.
+        public let groupName: String?
+
+        public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil) {
+            self.filterExpression = filterExpression
+            self.groupARN = groupARN
+            self.groupName = groupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterExpression = "FilterExpression"
+            case groupARN = "GroupARN"
+            case groupName = "GroupName"
+        }
+    }
+
+    public struct TelemetryRecord: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "SegmentsSpilloverCount", required: false, type: .integer), 
+            AWSShapeMember(label: "SegmentsRejectedCount", required: false, type: .integer), 
+            AWSShapeMember(label: "BackendConnectionErrors", required: false, type: .structure), 
+            AWSShapeMember(label: "SegmentsReceivedCount", required: false, type: .integer), 
+            AWSShapeMember(label: "SegmentsSentCount", required: false, type: .integer)
+        ]
+        public let timestamp: TimeStamp
+        public let segmentsSpilloverCount: Int32?
+        public let segmentsRejectedCount: Int32?
+        public let backendConnectionErrors: BackendConnectionErrors?
+        public let segmentsReceivedCount: Int32?
+        public let segmentsSentCount: Int32?
+
+        public init(timestamp: TimeStamp, segmentsSpilloverCount: Int32? = nil, segmentsRejectedCount: Int32? = nil, backendConnectionErrors: BackendConnectionErrors? = nil, segmentsReceivedCount: Int32? = nil, segmentsSentCount: Int32? = nil) {
+            self.timestamp = timestamp
+            self.segmentsSpilloverCount = segmentsSpilloverCount
+            self.segmentsRejectedCount = segmentsRejectedCount
+            self.backendConnectionErrors = backendConnectionErrors
+            self.segmentsReceivedCount = segmentsReceivedCount
+            self.segmentsSentCount = segmentsSentCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timestamp = "Timestamp"
+            case segmentsSpilloverCount = "SegmentsSpilloverCount"
+            case segmentsRejectedCount = "SegmentsRejectedCount"
+            case backendConnectionErrors = "BackendConnectionErrors"
+            case segmentsReceivedCount = "SegmentsReceivedCount"
+            case segmentsSentCount = "SegmentsSentCount"
+        }
+    }
+
+    public struct Service: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReferenceId", required: false, type: .integer), 
+            AWSShapeMember(label: "DurationHistogram", required: false, type: .list), 
+            AWSShapeMember(label: "ResponseTimeHistogram", required: false, type: .list), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .string), 
+            AWSShapeMember(label: "Root", required: false, type: .boolean), 
+            AWSShapeMember(label: "SummaryStatistics", required: false, type: .structure), 
+            AWSShapeMember(label: "Edges", required: false, type: .list), 
+            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AccountId", required: false, type: .string)
+        ]
+        /// Identifier for the service. Unique within the service map.
+        public let referenceId: Int32?
+        /// A histogram that maps the spread of service durations.
+        public let durationHistogram: [HistogramEntry]?
+        /// A histogram that maps the spread of service response times.
+        public let responseTimeHistogram: [HistogramEntry]?
+        /// The start time of the first segment that the service generated.
+        public let startTime: TimeStamp?
+        /// The canonical name of the service.
+        public let name: String?
+        /// The service's state.
+        public let state: String?
+        /// Indicates that the service was the first service to process a request.
+        public let root: Bool?
+        /// Aggregated statistics for the service.
+        public let summaryStatistics: ServiceStatistics?
+        /// Connections to downstream services.
+        public let edges: [Edge]?
+        /// A list of names for the service, including the canonical name.
+        public let names: [String]?
+        /// The type of service.   AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance for a application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.   AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    client - Represents the clients that sent requests to a root service.    remote - A downstream service of indeterminate type.  
+        public let `type`: String?
+        /// The end time of the last segment that the service generated.
+        public let endTime: TimeStamp?
+        /// Identifier of the AWS account in which the service runs.
+        public let accountId: String?
+
+        public init(referenceId: Int32? = nil, durationHistogram: [HistogramEntry]? = nil, responseTimeHistogram: [HistogramEntry]? = nil, startTime: TimeStamp? = nil, name: String? = nil, state: String? = nil, root: Bool? = nil, summaryStatistics: ServiceStatistics? = nil, edges: [Edge]? = nil, names: [String]? = nil, type: String? = nil, endTime: TimeStamp? = nil, accountId: String? = nil) {
+            self.referenceId = referenceId
+            self.durationHistogram = durationHistogram
+            self.responseTimeHistogram = responseTimeHistogram
+            self.startTime = startTime
+            self.name = name
+            self.state = state
+            self.root = root
+            self.summaryStatistics = summaryStatistics
+            self.edges = edges
+            self.names = names
+            self.`type` = `type`
+            self.endTime = endTime
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case referenceId = "ReferenceId"
+            case durationHistogram = "DurationHistogram"
+            case responseTimeHistogram = "ResponseTimeHistogram"
+            case startTime = "StartTime"
+            case name = "Name"
+            case state = "State"
+            case root = "Root"
+            case summaryStatistics = "SummaryStatistics"
+            case edges = "Edges"
+            case names = "Names"
+            case `type` = "Type"
+            case endTime = "EndTime"
+            case accountId = "AccountId"
+        }
+    }
+
     public struct GetSamplingTargetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SamplingStatisticsDocuments", required: true, type: .list)
@@ -1579,160 +1653,212 @@ extension XRay {
         }
     }
 
-    public struct GetEncryptionConfigResult: AWSShape {
+    public struct Alias: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncryptionConfig", required: false, type: .structure)
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// The encryption configuration document.
-        public let encryptionConfig: EncryptionConfig?
+        /// The type of the alias.
+        public let `type`: String?
+        /// A list of names for the alias, including the canonical name.
+        public let names: [String]?
+        /// The canonical name of the alias.
+        public let name: String?
 
-        public init(encryptionConfig: EncryptionConfig? = nil) {
-            self.encryptionConfig = encryptionConfig
+        public init(type: String? = nil, names: [String]? = nil, name: String? = nil) {
+            self.`type` = `type`
+            self.names = names
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionConfig = "EncryptionConfig"
-        }
-    }
-
-    public struct HistogramEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .double), 
-            AWSShapeMember(label: "Count", required: false, type: .integer)
-        ]
-        /// The value of the entry.
-        public let value: Double?
-        /// The prevalence of the entry.
-        public let count: Int32?
-
-        public init(value: Double? = nil, count: Int32? = nil) {
-            self.value = value
-            self.count = count
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case count = "Count"
+            case `type` = "Type"
+            case names = "Names"
+            case name = "Name"
         }
     }
 
     public struct GetGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: false, type: .string), 
-            AWSShapeMember(label: "GroupARN", required: false, type: .string)
+            AWSShapeMember(label: "GroupARN", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string)
         ]
-        /// The case-sensitive name of the group.
-        public let groupName: String?
         /// The ARN of the group that was generated on creation.
         public let groupARN: String?
-
-        public init(groupName: String? = nil, groupARN: String? = nil) {
-            self.groupName = groupName
-            self.groupARN = groupARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-            case groupARN = "GroupARN"
-        }
-    }
-
-    public struct Alias: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Names", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .string)
-        ]
-        /// A list of names for the alias, including the canonical name.
-        public let names: [String]?
-        /// The canonical name of the alias.
-        public let name: String?
-        /// The type of the alias.
-        public let `type`: String?
-
-        public init(names: [String]? = nil, name: String? = nil, type: String? = nil) {
-            self.names = names
-            self.name = name
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case names = "Names"
-            case name = "Name"
-            case `type` = "Type"
-        }
-    }
-
-    public struct ServiceStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TotalResponseTime", required: false, type: .double), 
-            AWSShapeMember(label: "TotalCount", required: false, type: .long), 
-            AWSShapeMember(label: "FaultStatistics", required: false, type: .structure), 
-            AWSShapeMember(label: "ErrorStatistics", required: false, type: .structure), 
-            AWSShapeMember(label: "OkCount", required: false, type: .long)
-        ]
-        /// The aggregate response time of completed requests.
-        public let totalResponseTime: Double?
-        /// The total number of completed requests.
-        public let totalCount: Int64?
-        /// Information about requests that failed with a 5xx Server Error status code.
-        public let faultStatistics: FaultStatistics?
-        /// Information about requests that failed with a 4xx Client Error status code.
-        public let errorStatistics: ErrorStatistics?
-        /// The number of requests that completed with a 2xx Success status code.
-        public let okCount: Int64?
-
-        public init(totalResponseTime: Double? = nil, totalCount: Int64? = nil, faultStatistics: FaultStatistics? = nil, errorStatistics: ErrorStatistics? = nil, okCount: Int64? = nil) {
-            self.totalResponseTime = totalResponseTime
-            self.totalCount = totalCount
-            self.faultStatistics = faultStatistics
-            self.errorStatistics = errorStatistics
-            self.okCount = okCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case totalResponseTime = "TotalResponseTime"
-            case totalCount = "TotalCount"
-            case faultStatistics = "FaultStatistics"
-            case errorStatistics = "ErrorStatistics"
-            case okCount = "OkCount"
-        }
-    }
-
-    public struct GroupSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: false, type: .string), 
-            AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
-            AWSShapeMember(label: "GroupARN", required: false, type: .string)
-        ]
-        /// The unique case-sensitive name of the group.
+        /// The case-sensitive name of the group.
         public let groupName: String?
-        /// The filter expression defining the parameters to include traces.
-        public let filterExpression: String?
-        /// The ARN of the group generated based on the GroupName.
-        public let groupARN: String?
 
-        public init(groupName: String? = nil, filterExpression: String? = nil, groupARN: String? = nil) {
-            self.groupName = groupName
-            self.filterExpression = filterExpression
+        public init(groupARN: String? = nil, groupName: String? = nil) {
             self.groupARN = groupARN
+            self.groupName = groupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-            case filterExpression = "FilterExpression"
             case groupARN = "GroupARN"
+            case groupName = "GroupName"
         }
     }
 
-    public struct DeleteGroupResult: AWSShape {
+    public struct FaultRootCauseEntity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Remote", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Exceptions", required: false, type: .list)
+        ]
+        /// A flag that denotes a remote subsegment.
+        public let remote: Bool?
+        /// The name of the entity.
+        public let name: String?
+        /// The types and messages of the exceptions.
+        public let exceptions: [RootCauseException]?
 
+        public init(remote: Bool? = nil, name: String? = nil, exceptions: [RootCauseException]? = nil) {
+            self.remote = remote
+            self.name = name
+            self.exceptions = exceptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case remote = "Remote"
+            case name = "Name"
+            case exceptions = "Exceptions"
+        }
     }
 
-    public enum EncryptionStatus: String, CustomStringConvertible, Codable {
-        case updating = "UPDATING"
-        case active = "ACTIVE"
-        public var description: String { return self.rawValue }
+    public struct ResponseTimeRootCauseService: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "Inferred", required: false, type: .boolean), 
+            AWSShapeMember(label: "EntityPath", required: false, type: .list), 
+            AWSShapeMember(label: "AccountId", required: false, type: .string)
+        ]
+        /// The type associated to the service.
+        public let `type`: String?
+        /// The service name.
+        public let name: String?
+        /// A collection of associated service names.
+        public let names: [String]?
+        /// A Boolean value indicating if the service is inferred from the trace.
+        public let inferred: Bool?
+        /// The path of root cause entities found on the service. 
+        public let entityPath: [ResponseTimeRootCauseEntity]?
+        /// The account ID associated to the service.
+        public let accountId: String?
+
+        public init(type: String? = nil, name: String? = nil, names: [String]? = nil, inferred: Bool? = nil, entityPath: [ResponseTimeRootCauseEntity]? = nil, accountId: String? = nil) {
+            self.`type` = `type`
+            self.name = name
+            self.names = names
+            self.inferred = inferred
+            self.entityPath = entityPath
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case name = "Name"
+            case names = "Names"
+            case inferred = "Inferred"
+            case entityPath = "EntityPath"
+            case accountId = "AccountId"
+        }
+    }
+
+    public struct TraceUser: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceIds", required: false, type: .list)
+        ]
+        /// The user's name.
+        public let userName: String?
+        /// Services that the user's request hit.
+        public let serviceIds: [ServiceId]?
+
+        public init(userName: String? = nil, serviceIds: [ServiceId]? = nil) {
+            self.userName = userName
+            self.serviceIds = serviceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case serviceIds = "ServiceIds"
+        }
+    }
+
+    public struct PutEncryptionConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string)
+        ]
+        /// The type of encryption. Set to KMS to use your own key for encryption. Set to NONE for default encryption.
+        public let `type`: EncryptionType
+        /// An AWS KMS customer master key (CMK) in one of the following formats:    Alias - The name of the key. For example, alias/MyKey.    Key ID - The KMS key ID of the key. For example, ae4aa6d49-a4d8-9df9-a475-4ff6d7898456.    ARN - The full Amazon Resource Name of the key ID or alias. For example, arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. Use this format to specify a key in a different account.   Omit this key if you set Type to NONE.
+        public let keyId: String?
+
+        public init(type: EncryptionType, keyId: String? = nil) {
+            self.`type` = `type`
+            self.keyId = keyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case keyId = "KeyId"
+        }
+    }
+
+    public struct ResponseTimeRootCause: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Services", required: false, type: .list)
+        ]
+        /// A list of corresponding services. A service identifies a segment and contains a name, account ID, type, and inferred flag.
+        public let services: [ResponseTimeRootCauseService]?
+
+        public init(services: [ResponseTimeRootCauseService]? = nil) {
+            self.services = services
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case services = "Services"
+        }
+    }
+
+    public struct Http: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserAgent", required: false, type: .string), 
+            AWSShapeMember(label: "ClientIp", required: false, type: .string), 
+            AWSShapeMember(label: "HttpURL", required: false, type: .string), 
+            AWSShapeMember(label: "HttpMethod", required: false, type: .string), 
+            AWSShapeMember(label: "HttpStatus", required: false, type: .integer)
+        ]
+        /// The request's user agent string.
+        public let userAgent: String?
+        /// The IP address of the requestor.
+        public let clientIp: String?
+        /// The request URL.
+        public let httpURL: String?
+        /// The request method.
+        public let httpMethod: String?
+        /// The response status.
+        public let httpStatus: Int32?
+
+        public init(userAgent: String? = nil, clientIp: String? = nil, httpURL: String? = nil, httpMethod: String? = nil, httpStatus: Int32? = nil) {
+            self.userAgent = userAgent
+            self.clientIp = clientIp
+            self.httpURL = httpURL
+            self.httpMethod = httpMethod
+            self.httpStatus = httpStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userAgent = "UserAgent"
+            case clientIp = "ClientIp"
+            case httpURL = "HttpURL"
+            case httpMethod = "HttpMethod"
+            case httpStatus = "HttpStatus"
+        }
     }
 
     public struct GetSamplingRulesResult: AWSShape {
@@ -1756,117 +1882,11 @@ extension XRay {
         }
     }
 
-    public struct TraceSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HasFault", required: false, type: .boolean), 
-            AWSShapeMember(label: "Http", required: false, type: .structure), 
-            AWSShapeMember(label: "ServiceIds", required: false, type: .list), 
-            AWSShapeMember(label: "Revision", required: false, type: .integer), 
-            AWSShapeMember(label: "ResourceARNs", required: false, type: .list), 
-            AWSShapeMember(label: "HasThrottle", required: false, type: .boolean), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "ResponseTimeRootCauses", required: false, type: .list), 
-            AWSShapeMember(label: "ResponseTime", required: false, type: .double), 
-            AWSShapeMember(label: "Annotations", required: false, type: .map), 
-            AWSShapeMember(label: "Users", required: false, type: .list), 
-            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
-            AWSShapeMember(label: "IsPartial", required: false, type: .boolean), 
-            AWSShapeMember(label: "FaultRootCauses", required: false, type: .list), 
-            AWSShapeMember(label: "Duration", required: false, type: .double), 
-            AWSShapeMember(label: "EntryPoint", required: false, type: .structure), 
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeMember(label: "HasError", required: false, type: .boolean), 
-            AWSShapeMember(label: "ErrorRootCauses", required: false, type: .list)
-        ]
-        /// One or more of the segment documents has a 500 series error.
-        public let hasFault: Bool?
-        /// Information about the HTTP request served by the trace.
-        public let http: Http?
-        /// Service IDs from the trace's segment documents.
-        public let serviceIds: [ServiceId]?
-        /// The revision number of a trace.
-        public let revision: Int32?
-        /// A list of resource ARNs for any resource corresponding to the trace segments.
-        public let resourceARNs: [ResourceARNDetail]?
-        /// One or more of the segment documents has a 429 throttling error.
-        public let hasThrottle: Bool?
-        /// The unique identifier for the request that generated the trace's segments and subsegments.
-        public let id: String?
-        /// A collection of ResponseTimeRootCause structures corresponding to the trace segments.
-        public let responseTimeRootCauses: [ResponseTimeRootCause]?
-        /// The length of time in seconds between the start and end times of the root segment. If the service performs work asynchronously, the response time measures the time before the response is sent to the user, while the duration measures the amount of time before the last traced activity completes.
-        public let responseTime: Double?
-        /// Annotations from the trace's segment documents.
-        public let annotations: [String: [ValueWithServiceIds]]?
-        /// Users from the trace's segment documents.
-        public let users: [TraceUser]?
-        /// A list of EC2 instance IDs for any instance corresponding to the trace segments.
-        public let instanceIds: [InstanceIdDetail]?
-        /// One or more of the segment documents is in progress.
-        public let isPartial: Bool?
-        /// A collection of FaultRootCause structures corresponding to the the trace segments.
-        public let faultRootCauses: [FaultRootCause]?
-        /// The length of time in seconds between the start time of the root segment and the end time of the last segment that completed.
-        public let duration: Double?
-        /// The root of a trace.
-        public let entryPoint: ServiceId?
-        /// A list of availability zones for any zone corresponding to the trace segments.
-        public let availabilityZones: [AvailabilityZoneDetail]?
-        /// One or more of the segment documents has a 400 series error.
-        public let hasError: Bool?
-        /// A collection of ErrorRootCause structures corresponding to the trace segments.
-        public let errorRootCauses: [ErrorRootCause]?
-
-        public init(hasFault: Bool? = nil, http: Http? = nil, serviceIds: [ServiceId]? = nil, revision: Int32? = nil, resourceARNs: [ResourceARNDetail]? = nil, hasThrottle: Bool? = nil, id: String? = nil, responseTimeRootCauses: [ResponseTimeRootCause]? = nil, responseTime: Double? = nil, annotations: [String: [ValueWithServiceIds]]? = nil, users: [TraceUser]? = nil, instanceIds: [InstanceIdDetail]? = nil, isPartial: Bool? = nil, faultRootCauses: [FaultRootCause]? = nil, duration: Double? = nil, entryPoint: ServiceId? = nil, availabilityZones: [AvailabilityZoneDetail]? = nil, hasError: Bool? = nil, errorRootCauses: [ErrorRootCause]? = nil) {
-            self.hasFault = hasFault
-            self.http = http
-            self.serviceIds = serviceIds
-            self.revision = revision
-            self.resourceARNs = resourceARNs
-            self.hasThrottle = hasThrottle
-            self.id = id
-            self.responseTimeRootCauses = responseTimeRootCauses
-            self.responseTime = responseTime
-            self.annotations = annotations
-            self.users = users
-            self.instanceIds = instanceIds
-            self.isPartial = isPartial
-            self.faultRootCauses = faultRootCauses
-            self.duration = duration
-            self.entryPoint = entryPoint
-            self.availabilityZones = availabilityZones
-            self.hasError = hasError
-            self.errorRootCauses = errorRootCauses
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hasFault = "HasFault"
-            case http = "Http"
-            case serviceIds = "ServiceIds"
-            case revision = "Revision"
-            case resourceARNs = "ResourceARNs"
-            case hasThrottle = "HasThrottle"
-            case id = "Id"
-            case responseTimeRootCauses = "ResponseTimeRootCauses"
-            case responseTime = "ResponseTime"
-            case annotations = "Annotations"
-            case users = "Users"
-            case instanceIds = "InstanceIds"
-            case isPartial = "IsPartial"
-            case faultRootCauses = "FaultRootCauses"
-            case duration = "Duration"
-            case entryPoint = "EntryPoint"
-            case availabilityZones = "AvailabilityZones"
-            case hasError = "HasError"
-            case errorRootCauses = "ErrorRootCauses"
-        }
-    }
-
-    public struct PutEncryptionConfigResult: AWSShape {
+    public struct GetEncryptionConfigResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EncryptionConfig", required: false, type: .structure)
         ]
-        /// The new encryption configuration.
+        /// The encryption configuration document.
         public let encryptionConfig: EncryptionConfig?
 
         public init(encryptionConfig: EncryptionConfig? = nil) {
@@ -1878,136 +1898,40 @@ extension XRay {
         }
     }
 
-    public struct Service: AWSShape {
+    public struct CreateSamplingRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReferenceId", required: false, type: .integer), 
-            AWSShapeMember(label: "Names", required: false, type: .list), 
-            AWSShapeMember(label: "State", required: false, type: .string), 
-            AWSShapeMember(label: "DurationHistogram", required: false, type: .list), 
-            AWSShapeMember(label: "SummaryStatistics", required: false, type: .structure), 
-            AWSShapeMember(label: "Root", required: false, type: .boolean), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Type", required: false, type: .string), 
-            AWSShapeMember(label: "ResponseTimeHistogram", required: false, type: .list), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Edges", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "AccountId", required: false, type: .string)
+            AWSShapeMember(label: "SamplingRule", required: true, type: .structure)
         ]
-        /// Identifier for the service. Unique within the service map.
-        public let referenceId: Int32?
-        /// A list of names for the service, including the canonical name.
-        public let names: [String]?
-        /// The service's state.
-        public let state: String?
-        /// A histogram that maps the spread of service durations.
-        public let durationHistogram: [HistogramEntry]?
-        /// Aggregated statistics for the service.
-        public let summaryStatistics: ServiceStatistics?
-        /// Indicates that the service was the first service to process a request.
-        public let root: Bool?
-        /// The start time of the first segment that the service generated.
-        public let startTime: TimeStamp?
-        /// The type of service.   AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance for a application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.   AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    client - Represents the clients that sent requests to a root service.    remote - A downstream service of indeterminate type.  
-        public let `type`: String?
-        /// A histogram that maps the spread of service response times.
-        public let responseTimeHistogram: [HistogramEntry]?
-        /// The end time of the last segment that the service generated.
-        public let endTime: TimeStamp?
-        /// Connections to downstream services.
-        public let edges: [Edge]?
-        /// The canonical name of the service.
-        public let name: String?
-        /// Identifier of the AWS account in which the service runs.
-        public let accountId: String?
+        /// The rule definition.
+        public let samplingRule: SamplingRule
 
-        public init(referenceId: Int32? = nil, names: [String]? = nil, state: String? = nil, durationHistogram: [HistogramEntry]? = nil, summaryStatistics: ServiceStatistics? = nil, root: Bool? = nil, startTime: TimeStamp? = nil, type: String? = nil, responseTimeHistogram: [HistogramEntry]? = nil, endTime: TimeStamp? = nil, edges: [Edge]? = nil, name: String? = nil, accountId: String? = nil) {
-            self.referenceId = referenceId
-            self.names = names
-            self.state = state
-            self.durationHistogram = durationHistogram
-            self.summaryStatistics = summaryStatistics
-            self.root = root
-            self.startTime = startTime
-            self.`type` = `type`
-            self.responseTimeHistogram = responseTimeHistogram
-            self.endTime = endTime
-            self.edges = edges
-            self.name = name
-            self.accountId = accountId
+        public init(samplingRule: SamplingRule) {
+            self.samplingRule = samplingRule
         }
 
         private enum CodingKeys: String, CodingKey {
-            case referenceId = "ReferenceId"
-            case names = "Names"
-            case state = "State"
-            case durationHistogram = "DurationHistogram"
-            case summaryStatistics = "SummaryStatistics"
-            case root = "Root"
-            case startTime = "StartTime"
-            case `type` = "Type"
-            case responseTimeHistogram = "ResponseTimeHistogram"
-            case endTime = "EndTime"
-            case edges = "Edges"
-            case name = "Name"
-            case accountId = "AccountId"
+            case samplingRule = "SamplingRule"
         }
     }
 
-    public struct ResourceARNDetail: AWSShape {
+    public struct DeleteGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string)
+            AWSShapeMember(label: "GroupARN", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string)
         ]
-        /// The ARN of a corresponding resource.
-        public let arn: String?
+        /// The ARN of the group that was generated on creation.
+        public let groupARN: String?
+        /// The case-sensitive name of the group.
+        public let groupName: String?
 
-        public init(arn: String? = nil) {
-            self.arn = arn
+        public init(groupARN: String? = nil, groupName: String? = nil) {
+            self.groupARN = groupARN
+            self.groupName = groupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "ARN"
-        }
-    }
-
-    public struct Edge: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SummaryStatistics", required: false, type: .structure), 
-            AWSShapeMember(label: "ResponseTimeHistogram", required: false, type: .list), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReferenceId", required: false, type: .integer), 
-            AWSShapeMember(label: "Aliases", required: false, type: .list)
-        ]
-        /// Response statistics for segments on the edge.
-        public let summaryStatistics: EdgeStatistics?
-        /// A histogram that maps the spread of client response times on an edge.
-        public let responseTimeHistogram: [HistogramEntry]?
-        /// The start time of the first segment on the edge.
-        public let startTime: TimeStamp?
-        /// The end time of the last segment on the edge.
-        public let endTime: TimeStamp?
-        /// Identifier of the edge. Unique within a service map.
-        public let referenceId: Int32?
-        /// Aliases for the edge.
-        public let aliases: [Alias]?
-
-        public init(summaryStatistics: EdgeStatistics? = nil, responseTimeHistogram: [HistogramEntry]? = nil, startTime: TimeStamp? = nil, endTime: TimeStamp? = nil, referenceId: Int32? = nil, aliases: [Alias]? = nil) {
-            self.summaryStatistics = summaryStatistics
-            self.responseTimeHistogram = responseTimeHistogram
-            self.startTime = startTime
-            self.endTime = endTime
-            self.referenceId = referenceId
-            self.aliases = aliases
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case summaryStatistics = "SummaryStatistics"
-            case responseTimeHistogram = "ResponseTimeHistogram"
-            case startTime = "StartTime"
-            case endTime = "EndTime"
-            case referenceId = "ReferenceId"
-            case aliases = "Aliases"
+            case groupARN = "GroupARN"
+            case groupName = "GroupName"
         }
     }
 
@@ -2015,61 +1939,153 @@ extension XRay {
 
     }
 
-    public struct ResponseTimeRootCause: AWSShape {
+    public struct FaultStatistics: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Services", required: false, type: .list)
+            AWSShapeMember(label: "TotalCount", required: false, type: .long), 
+            AWSShapeMember(label: "OtherCount", required: false, type: .long)
         ]
-        /// A list of corresponding services. A service identifies a segment and contains a name, account ID, type, and inferred flag.
-        public let services: [ResponseTimeRootCauseService]?
+        /// The total number of requests that failed with a 5xx Server Error status code.
+        public let totalCount: Int64?
+        /// The number of requests that failed with untracked 5xx Server Error status codes.
+        public let otherCount: Int64?
 
-        public init(services: [ResponseTimeRootCauseService]? = nil) {
-            self.services = services
+        public init(totalCount: Int64? = nil, otherCount: Int64? = nil) {
+            self.totalCount = totalCount
+            self.otherCount = otherCount
         }
 
         private enum CodingKeys: String, CodingKey {
-            case services = "Services"
+            case totalCount = "TotalCount"
+            case otherCount = "OtherCount"
         }
     }
 
-    public struct DeleteSamplingRuleRequest: AWSShape {
+    public struct BackendConnectionErrors: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleARN", required: false, type: .string), 
-            AWSShapeMember(label: "RuleName", required: false, type: .string)
+            AWSShapeMember(label: "UnknownHostCount", required: false, type: .integer), 
+            AWSShapeMember(label: "ConnectionRefusedCount", required: false, type: .integer), 
+            AWSShapeMember(label: "OtherCount", required: false, type: .integer), 
+            AWSShapeMember(label: "TimeoutCount", required: false, type: .integer), 
+            AWSShapeMember(label: "HTTPCode5XXCount", required: false, type: .integer), 
+            AWSShapeMember(label: "HTTPCode4XXCount", required: false, type: .integer)
         ]
-        /// The ARN of the sampling rule. Specify a rule by either name or ARN, but not both.
-        public let ruleARN: String?
-        /// The name of the sampling rule. Specify a rule by either name or ARN, but not both.
-        public let ruleName: String?
+        public let unknownHostCount: Int32?
+        public let connectionRefusedCount: Int32?
+        public let otherCount: Int32?
+        public let timeoutCount: Int32?
+        public let hTTPCode5XXCount: Int32?
+        public let hTTPCode4XXCount: Int32?
 
-        public init(ruleARN: String? = nil, ruleName: String? = nil) {
-            self.ruleARN = ruleARN
-            self.ruleName = ruleName
+        public init(unknownHostCount: Int32? = nil, connectionRefusedCount: Int32? = nil, otherCount: Int32? = nil, timeoutCount: Int32? = nil, hTTPCode5XXCount: Int32? = nil, hTTPCode4XXCount: Int32? = nil) {
+            self.unknownHostCount = unknownHostCount
+            self.connectionRefusedCount = connectionRefusedCount
+            self.otherCount = otherCount
+            self.timeoutCount = timeoutCount
+            self.hTTPCode5XXCount = hTTPCode5XXCount
+            self.hTTPCode4XXCount = hTTPCode4XXCount
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ruleARN = "RuleARN"
-            case ruleName = "RuleName"
+            case unknownHostCount = "UnknownHostCount"
+            case connectionRefusedCount = "ConnectionRefusedCount"
+            case otherCount = "OtherCount"
+            case timeoutCount = "TimeoutCount"
+            case hTTPCode5XXCount = "HTTPCode5XXCount"
+            case hTTPCode4XXCount = "HTTPCode4XXCount"
         }
     }
 
-    public struct CreateGroupRequest: AWSShape {
+    public struct Segment: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "FilterExpression", required: false, type: .string)
+            AWSShapeMember(label: "Document", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// The case-sensitive name of the new group. Default is a reserved name and names must be unique.
-        public let groupName: String
-        /// The filter expression defining criteria by which to group traces.
-        public let filterExpression: String?
+        /// The segment document.
+        public let document: String?
+        /// The segment's ID.
+        public let id: String?
 
-        public init(groupName: String, filterExpression: String? = nil) {
-            self.groupName = groupName
-            self.filterExpression = filterExpression
+        public init(document: String? = nil, id: String? = nil) {
+            self.document = document
+            self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-            case filterExpression = "FilterExpression"
+            case document = "Document"
+            case id = "Id"
+        }
+    }
+
+    public struct BatchGetTracesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TraceIds", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Specify the trace IDs of requests for which to retrieve segments.
+        public let traceIds: [String]
+        /// Pagination token. Not used.
+        public let nextToken: String?
+
+        public init(traceIds: [String], nextToken: String? = nil) {
+            self.traceIds = traceIds
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case traceIds = "TraceIds"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetGroupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Pagination token. Not used.
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil) {
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct EdgeStatistics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FaultStatistics", required: false, type: .structure), 
+            AWSShapeMember(label: "OkCount", required: false, type: .long), 
+            AWSShapeMember(label: "TotalResponseTime", required: false, type: .double), 
+            AWSShapeMember(label: "TotalCount", required: false, type: .long), 
+            AWSShapeMember(label: "ErrorStatistics", required: false, type: .structure)
+        ]
+        /// Information about requests that failed with a 5xx Server Error status code.
+        public let faultStatistics: FaultStatistics?
+        /// The number of requests that completed with a 2xx Success status code.
+        public let okCount: Int64?
+        /// The aggregate response time of completed requests.
+        public let totalResponseTime: Double?
+        /// The total number of completed requests.
+        public let totalCount: Int64?
+        /// Information about requests that failed with a 4xx Client Error status code.
+        public let errorStatistics: ErrorStatistics?
+
+        public init(faultStatistics: FaultStatistics? = nil, okCount: Int64? = nil, totalResponseTime: Double? = nil, totalCount: Int64? = nil, errorStatistics: ErrorStatistics? = nil) {
+            self.faultStatistics = faultStatistics
+            self.okCount = okCount
+            self.totalResponseTime = totalResponseTime
+            self.totalCount = totalCount
+            self.errorStatistics = errorStatistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faultStatistics = "FaultStatistics"
+            case okCount = "OkCount"
+            case totalResponseTime = "TotalResponseTime"
+            case totalCount = "TotalCount"
+            case errorStatistics = "ErrorStatistics"
         }
     }
 
@@ -2089,45 +2105,29 @@ extension XRay {
         }
     }
 
-    public struct AnnotationValue: AWSShape {
+    public struct ResponseTimeRootCauseEntity: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BooleanValue", required: false, type: .boolean), 
-            AWSShapeMember(label: "StringValue", required: false, type: .string), 
-            AWSShapeMember(label: "NumberValue", required: false, type: .double)
+            AWSShapeMember(label: "Remote", required: false, type: .boolean), 
+            AWSShapeMember(label: "Coverage", required: false, type: .double), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// Value for a Boolean annotation.
-        public let booleanValue: Bool?
-        /// Value for a String annotation.
-        public let stringValue: String?
-        /// Value for a Number annotation.
-        public let numberValue: Double?
+        /// A flag that denotes a remote subsegment.
+        public let remote: Bool?
+        /// The types and messages of the exceptions.
+        public let coverage: Double?
+        /// The name of the entity.
+        public let name: String?
 
-        public init(booleanValue: Bool? = nil, stringValue: String? = nil, numberValue: Double? = nil) {
-            self.booleanValue = booleanValue
-            self.stringValue = stringValue
-            self.numberValue = numberValue
+        public init(remote: Bool? = nil, coverage: Double? = nil, name: String? = nil) {
+            self.remote = remote
+            self.coverage = coverage
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case booleanValue = "BooleanValue"
-            case stringValue = "StringValue"
-            case numberValue = "NumberValue"
-        }
-    }
-
-    public struct PutTraceSegmentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TraceSegmentDocuments", required: true, type: .list)
-        ]
-        /// A string containing a JSON document defining one or more segments or subsegments.
-        public let traceSegmentDocuments: [String]
-
-        public init(traceSegmentDocuments: [String]) {
-            self.traceSegmentDocuments = traceSegmentDocuments
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case traceSegmentDocuments = "TraceSegmentDocuments"
+            case remote = "Remote"
+            case coverage = "Coverage"
+            case name = "Name"
         }
     }
 

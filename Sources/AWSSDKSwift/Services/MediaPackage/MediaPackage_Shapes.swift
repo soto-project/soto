@@ -5,167 +5,6 @@ import AWSSDKSwiftCore
 
 extension MediaPackage {
 
-    public struct DescribeOriginEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string)
-        ]
-        public let id: String
-
-        public init(id: String) {
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
-    }
-
-    public struct HlsManifest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "PlaylistType", location: .body(locationName: "playlistType"), required: false, type: .enum), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
-            AWSShapeMember(label: "IncludeIframeOnlyStream", location: .body(locationName: "includeIframeOnlyStream"), required: false, type: .boolean), 
-            AWSShapeMember(label: "PlaylistWindowSeconds", location: .body(locationName: "playlistWindowSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "AdMarkers", location: .body(locationName: "adMarkers"), required: false, type: .enum), 
-            AWSShapeMember(label: "ProgramDateTimeIntervalSeconds", location: .body(locationName: "programDateTimeIntervalSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string)
-        ]
-        /// The ID of the manifest. The ID must be unique within the OriginEndpoint and it cannot be changed after it is created.
-        public let id: String
-        /// The HTTP Live Streaming (HLS) playlist type.
-        /// When either "EVENT" or "VOD" is specified, a corresponding EXT-X-PLAYLIST-TYPE
-        /// entry will be included in the media playlist.
-        public let playlistType: PlaylistType?
-        /// The URL of the packaged OriginEndpoint for consumption.
-        public let url: String?
-        /// When enabled, an I-Frame only stream will be included in the output.
-        public let includeIframeOnlyStream: Bool?
-        /// Time window (in seconds) contained in each parent manifest.
-        public let playlistWindowSeconds: Int32?
-        /// This setting controls how ad markers are included in the packaged OriginEndpoint.
-        /// "NONE" will omit all SCTE-35 ad markers from the output.
-        /// "PASSTHROUGH" causes the manifest to contain a copy of the SCTE-35 ad
-        /// markers (comments) taken directly from the input HTTP Live Streaming (HLS) manifest.
-        /// "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35
-        /// messages in the input source.
-        public let adMarkers: AdMarkers?
-        /// The interval (in seconds) between each EXT-X-PROGRAM-DATE-TIME tag
-        /// inserted into manifests. Additionally, when an interval is specified
-        /// ID3Timed Metadata messages will be generated every 5 seconds using the
-        /// ingest time of the content.
-        /// If the interval is not specified, or set to 0, then
-        /// no EXT-X-PROGRAM-DATE-TIME tags will be inserted into manifests and no
-        /// ID3Timed Metadata messages will be generated. Note that irrespective
-        /// of this parameter, if any ID3 Timed Metadata is found in HTTP Live Streaming (HLS) input,
-        /// it will be passed through to HLS output.
-        public let programDateTimeIntervalSeconds: Int32?
-        /// An optional short string appended to the end of the OriginEndpoint URL. If not specified, defaults to the manifestName for the OriginEndpoint.
-        public let manifestName: String?
-
-        public init(id: String, playlistType: PlaylistType? = nil, url: String? = nil, includeIframeOnlyStream: Bool? = nil, playlistWindowSeconds: Int32? = nil, adMarkers: AdMarkers? = nil, programDateTimeIntervalSeconds: Int32? = nil, manifestName: String? = nil) {
-            self.id = id
-            self.playlistType = playlistType
-            self.url = url
-            self.includeIframeOnlyStream = includeIframeOnlyStream
-            self.playlistWindowSeconds = playlistWindowSeconds
-            self.adMarkers = adMarkers
-            self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
-            self.manifestName = manifestName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case playlistType = "playlistType"
-            case url = "url"
-            case includeIframeOnlyStream = "includeIframeOnlyStream"
-            case playlistWindowSeconds = "playlistWindowSeconds"
-            case adMarkers = "adMarkers"
-            case programDateTimeIntervalSeconds = "programDateTimeIntervalSeconds"
-            case manifestName = "manifestName"
-        }
-    }
-
-    public struct RotateIngestEndpointCredentialsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IngestEndpointId", location: .uri(locationName: "ingest_endpoint_id"), required: true, type: .string), 
-            AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string)
-        ]
-        public let ingestEndpointId: String
-        public let id: String
-
-        public init(ingestEndpointId: String, id: String) {
-            self.ingestEndpointId = ingestEndpointId
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ingestEndpointId = "ingest_endpoint_id"
-            case id = "id"
-        }
-    }
-
-    public struct HlsManifestCreateOrUpdateParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "PlaylistType", location: .body(locationName: "playlistType"), required: false, type: .enum), 
-            AWSShapeMember(label: "IncludeIframeOnlyStream", location: .body(locationName: "includeIframeOnlyStream"), required: false, type: .boolean), 
-            AWSShapeMember(label: "PlaylistWindowSeconds", location: .body(locationName: "playlistWindowSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "AdMarkers", location: .body(locationName: "adMarkers"), required: false, type: .enum), 
-            AWSShapeMember(label: "ProgramDateTimeIntervalSeconds", location: .body(locationName: "programDateTimeIntervalSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string)
-        ]
-        /// The ID of the manifest. The ID must be unique within the OriginEndpoint and it cannot be changed after it is created.
-        public let id: String
-        /// The HTTP Live Streaming (HLS) playlist type.
-        /// When either "EVENT" or "VOD" is specified, a corresponding EXT-X-PLAYLIST-TYPE
-        /// entry will be included in the media playlist.
-        public let playlistType: PlaylistType?
-        /// When enabled, an I-Frame only stream will be included in the output.
-        public let includeIframeOnlyStream: Bool?
-        /// Time window (in seconds) contained in each parent manifest.
-        public let playlistWindowSeconds: Int32?
-        /// This setting controls how ad markers are included in the packaged OriginEndpoint.
-        /// "NONE" will omit all SCTE-35 ad markers from the output.
-        /// "PASSTHROUGH" causes the manifest to contain a copy of the SCTE-35 ad
-        /// markers (comments) taken directly from the input HTTP Live Streaming (HLS) manifest.
-        /// "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35
-        /// messages in the input source.
-        public let adMarkers: AdMarkers?
-        /// The interval (in seconds) between each EXT-X-PROGRAM-DATE-TIME tag
-        /// inserted into manifests. Additionally, when an interval is specified
-        /// ID3Timed Metadata messages will be generated every 5 seconds using the
-        /// ingest time of the content.
-        /// If the interval is not specified, or set to 0, then
-        /// no EXT-X-PROGRAM-DATE-TIME tags will be inserted into manifests and no
-        /// ID3Timed Metadata messages will be generated. Note that irrespective
-        /// of this parameter, if any ID3 Timed Metadata is found in HTTP Live Streaming (HLS) input,
-        /// it will be passed through to HLS output.
-        public let programDateTimeIntervalSeconds: Int32?
-        /// An optional short string appended to the end of the OriginEndpoint URL. If not specified, defaults to the manifestName for the OriginEndpoint.
-        public let manifestName: String?
-
-        public init(id: String, playlistType: PlaylistType? = nil, includeIframeOnlyStream: Bool? = nil, playlistWindowSeconds: Int32? = nil, adMarkers: AdMarkers? = nil, programDateTimeIntervalSeconds: Int32? = nil, manifestName: String? = nil) {
-            self.id = id
-            self.playlistType = playlistType
-            self.includeIframeOnlyStream = includeIframeOnlyStream
-            self.playlistWindowSeconds = playlistWindowSeconds
-            self.adMarkers = adMarkers
-            self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
-            self.manifestName = manifestName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case playlistType = "playlistType"
-            case includeIframeOnlyStream = "includeIframeOnlyStream"
-            case playlistWindowSeconds = "playlistWindowSeconds"
-            case adMarkers = "adMarkers"
-            case programDateTimeIntervalSeconds = "programDateTimeIntervalSeconds"
-            case manifestName = "manifestName"
-        }
-    }
-
     public struct RotateChannelCredentialsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string)
@@ -181,520 +20,18 @@ extension MediaPackage {
         }
     }
 
-    public struct OriginEndpointCreateParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list), 
-            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
-            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer)
-        ]
-        public let mssPackage: MssPackage?
-        /// Amount of delay (seconds) to enforce on the playback of live content.
-        /// If not specified, there will be no time delay in effect for the OriginEndpoint.
-        public let timeDelaySeconds: Int32?
-        /// The ID of the OriginEndpoint.  The ID must be unique within the region
-        /// and it cannot be changed after the OriginEndpoint is created.
-        public let id: String
-        public let cmafPackage: CmafPackageCreateOrUpdateParameters?
-        public let dashPackage: DashPackage?
-        public let hlsPackage: HlsPackage?
-        /// The ID of the Channel that the OriginEndpoint will be associated with.
-        /// This cannot be changed after the OriginEndpoint is created.
-        public let channelId: String
-        /// A short text description of the OriginEndpoint.
-        public let description: String?
-        /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
-        public let whitelist: [String]?
-        /// A short string that will be used as the filename of the OriginEndpoint URL (defaults to "index").
-        public let manifestName: String?
-        /// Maximum duration (seconds) of content to retain for startover playback.
-        /// If not specified, startover playback will be disabled for the OriginEndpoint.
-        public let startoverWindowSeconds: Int32?
-
-        public init(mssPackage: MssPackage? = nil, timeDelaySeconds: Int32? = nil, id: String, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, channelId: String, description: String? = nil, whitelist: [String]? = nil, manifestName: String? = nil, startoverWindowSeconds: Int32? = nil) {
-            self.mssPackage = mssPackage
-            self.timeDelaySeconds = timeDelaySeconds
-            self.id = id
-            self.cmafPackage = cmafPackage
-            self.dashPackage = dashPackage
-            self.hlsPackage = hlsPackage
-            self.channelId = channelId
-            self.description = description
-            self.whitelist = whitelist
-            self.manifestName = manifestName
-            self.startoverWindowSeconds = startoverWindowSeconds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mssPackage = "mssPackage"
-            case timeDelaySeconds = "timeDelaySeconds"
-            case id = "id"
-            case cmafPackage = "cmafPackage"
-            case dashPackage = "dashPackage"
-            case hlsPackage = "hlsPackage"
-            case channelId = "channelId"
-            case description = "description"
-            case whitelist = "whitelist"
-            case manifestName = "manifestName"
-            case startoverWindowSeconds = "startoverWindowSeconds"
-        }
-    }
-
-    public struct OriginEndpointList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OriginEndpoints", location: .body(locationName: "originEndpoints"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
-        /// A list of OriginEndpoint records.
-        public let originEndpoints: [OriginEndpoint]?
-        /// A token that can be used to resume pagination from the end of the collection.
-        public let nextToken: String?
-
-        public init(originEndpoints: [OriginEndpoint]? = nil, nextToken: String? = nil) {
-            self.originEndpoints = originEndpoints
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case originEndpoints = "originEndpoints"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct DeleteOriginEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string)
-        ]
-        public let id: String
-
-        public init(id: String) {
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
-    }
-
-    public struct CmafEncryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"), required: true, type: .structure), 
-            AWSShapeMember(label: "KeyRotationIntervalSeconds", location: .body(locationName: "keyRotationIntervalSeconds"), required: false, type: .integer)
-        ]
-        public let spekeKeyProvider: SpekeKeyProvider
-        /// Time (in seconds) between each encryption key rotation.
-        public let keyRotationIntervalSeconds: Int32?
-
-        public init(spekeKeyProvider: SpekeKeyProvider, keyRotationIntervalSeconds: Int32? = nil) {
-            self.spekeKeyProvider = spekeKeyProvider
-            self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case spekeKeyProvider = "spekeKeyProvider"
-            case keyRotationIntervalSeconds = "keyRotationIntervalSeconds"
-        }
-    }
-
-    public struct DescribeOriginEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
-            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string), 
-            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list)
-        ]
-        public let url: String?
-        public let arn: String?
-        public let manifestName: String?
-        public let hlsPackage: HlsPackage?
-        public let timeDelaySeconds: Int32?
-        public let id: String?
-        public let cmafPackage: CmafPackage?
-        public let description: String?
-        public let mssPackage: MssPackage?
-        public let startoverWindowSeconds: Int32?
-        public let dashPackage: DashPackage?
-        public let channelId: String?
-        public let whitelist: [String]?
-
-        public init(url: String? = nil, arn: String? = nil, manifestName: String? = nil, hlsPackage: HlsPackage? = nil, timeDelaySeconds: Int32? = nil, id: String? = nil, cmafPackage: CmafPackage? = nil, description: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, dashPackage: DashPackage? = nil, channelId: String? = nil, whitelist: [String]? = nil) {
-            self.url = url
-            self.arn = arn
-            self.manifestName = manifestName
-            self.hlsPackage = hlsPackage
-            self.timeDelaySeconds = timeDelaySeconds
-            self.id = id
-            self.cmafPackage = cmafPackage
-            self.description = description
-            self.mssPackage = mssPackage
-            self.startoverWindowSeconds = startoverWindowSeconds
-            self.dashPackage = dashPackage
-            self.channelId = channelId
-            self.whitelist = whitelist
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case url = "url"
-            case arn = "arn"
-            case manifestName = "manifestName"
-            case hlsPackage = "hlsPackage"
-            case timeDelaySeconds = "timeDelaySeconds"
-            case id = "id"
-            case cmafPackage = "cmafPackage"
-            case description = "description"
-            case mssPackage = "mssPackage"
-            case startoverWindowSeconds = "startoverWindowSeconds"
-            case dashPackage = "dashPackage"
-            case channelId = "channelId"
-            case whitelist = "whitelist"
-        }
-    }
-
-    public struct HlsEncryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncryptionMethod", location: .body(locationName: "encryptionMethod"), required: false, type: .enum), 
-            AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"), required: true, type: .structure), 
-            AWSShapeMember(label: "RepeatExtXKey", location: .body(locationName: "repeatExtXKey"), required: false, type: .boolean), 
-            AWSShapeMember(label: "KeyRotationIntervalSeconds", location: .body(locationName: "keyRotationIntervalSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "ConstantInitializationVector", location: .body(locationName: "constantInitializationVector"), required: false, type: .string)
-        ]
-        /// The encryption method to use.
-        public let encryptionMethod: EncryptionMethod?
-        public let spekeKeyProvider: SpekeKeyProvider
-        /// When enabled, the EXT-X-KEY tag will be repeated in output manifests.
-        public let repeatExtXKey: Bool?
-        /// Interval (in seconds) between each encryption key rotation.
-        public let keyRotationIntervalSeconds: Int32?
-        /// A constant initialization vector for encryption (optional).
-        /// When not specified the initialization vector will be periodically rotated.
-        public let constantInitializationVector: String?
-
-        public init(encryptionMethod: EncryptionMethod? = nil, spekeKeyProvider: SpekeKeyProvider, repeatExtXKey: Bool? = nil, keyRotationIntervalSeconds: Int32? = nil, constantInitializationVector: String? = nil) {
-            self.encryptionMethod = encryptionMethod
-            self.spekeKeyProvider = spekeKeyProvider
-            self.repeatExtXKey = repeatExtXKey
-            self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
-            self.constantInitializationVector = constantInitializationVector
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case encryptionMethod = "encryptionMethod"
-            case spekeKeyProvider = "spekeKeyProvider"
-            case repeatExtXKey = "repeatExtXKey"
-            case keyRotationIntervalSeconds = "keyRotationIntervalSeconds"
-            case constantInitializationVector = "constantInitializationVector"
-        }
-    }
-
-    public struct StreamSelection: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamOrder", location: .body(locationName: "streamOrder"), required: false, type: .enum), 
-            AWSShapeMember(label: "MaxVideoBitsPerSecond", location: .body(locationName: "maxVideoBitsPerSecond"), required: false, type: .integer), 
-            AWSShapeMember(label: "MinVideoBitsPerSecond", location: .body(locationName: "minVideoBitsPerSecond"), required: false, type: .integer)
-        ]
-        /// A directive that determines the order of streams in the output.
-        public let streamOrder: StreamOrder?
-        /// The maximum video bitrate (bps) to include in output.
-        public let maxVideoBitsPerSecond: Int32?
-        /// The minimum video bitrate (bps) to include in output.
-        public let minVideoBitsPerSecond: Int32?
-
-        public init(streamOrder: StreamOrder? = nil, maxVideoBitsPerSecond: Int32? = nil, minVideoBitsPerSecond: Int32? = nil) {
-            self.streamOrder = streamOrder
-            self.maxVideoBitsPerSecond = maxVideoBitsPerSecond
-            self.minVideoBitsPerSecond = minVideoBitsPerSecond
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamOrder = "streamOrder"
-            case maxVideoBitsPerSecond = "maxVideoBitsPerSecond"
-            case minVideoBitsPerSecond = "minVideoBitsPerSecond"
-        }
-    }
-
-    public enum StreamOrder: String, CustomStringConvertible, Codable {
-        case original = "ORIGINAL"
-        case videoBitrateAscending = "VIDEO_BITRATE_ASCENDING"
-        case videoBitrateDescending = "VIDEO_BITRATE_DESCENDING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RotateIngestEndpointCredentialsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure)
-        ]
-        public let arn: String?
-        public let id: String?
-        public let description: String?
-        public let hlsIngest: HlsIngest?
-
-        public init(arn: String? = nil, id: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil) {
-            self.arn = arn
-            self.id = id
-            self.description = description
-            self.hlsIngest = hlsIngest
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case id = "id"
-            case description = "description"
-            case hlsIngest = "hlsIngest"
-        }
-    }
-
-    public struct CreateOriginEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
-            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string), 
-            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list)
-        ]
-        public let url: String?
-        public let arn: String?
-        public let manifestName: String?
-        public let hlsPackage: HlsPackage?
-        public let timeDelaySeconds: Int32?
-        public let id: String?
-        public let cmafPackage: CmafPackage?
-        public let description: String?
-        public let mssPackage: MssPackage?
-        public let startoverWindowSeconds: Int32?
-        public let dashPackage: DashPackage?
-        public let channelId: String?
-        public let whitelist: [String]?
-
-        public init(url: String? = nil, arn: String? = nil, manifestName: String? = nil, hlsPackage: HlsPackage? = nil, timeDelaySeconds: Int32? = nil, id: String? = nil, cmafPackage: CmafPackage? = nil, description: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, dashPackage: DashPackage? = nil, channelId: String? = nil, whitelist: [String]? = nil) {
-            self.url = url
-            self.arn = arn
-            self.manifestName = manifestName
-            self.hlsPackage = hlsPackage
-            self.timeDelaySeconds = timeDelaySeconds
-            self.id = id
-            self.cmafPackage = cmafPackage
-            self.description = description
-            self.mssPackage = mssPackage
-            self.startoverWindowSeconds = startoverWindowSeconds
-            self.dashPackage = dashPackage
-            self.channelId = channelId
-            self.whitelist = whitelist
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case url = "url"
-            case arn = "arn"
-            case manifestName = "manifestName"
-            case hlsPackage = "hlsPackage"
-            case timeDelaySeconds = "timeDelaySeconds"
-            case id = "id"
-            case cmafPackage = "cmafPackage"
-            case description = "description"
-            case mssPackage = "mssPackage"
-            case startoverWindowSeconds = "startoverWindowSeconds"
-            case dashPackage = "dashPackage"
-            case channelId = "channelId"
-            case whitelist = "whitelist"
-        }
-    }
-
-    public struct UpdateChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
-        ]
-        public let id: String
-        public let description: String?
-
-        public init(id: String, description: String? = nil) {
-            self.id = id
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case description = "description"
-        }
-    }
-
-    public enum Periodtriggerselement: String, CustomStringConvertible, Codable {
-        case ads = "ADS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListChannelsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
-        ]
-        public let maxResults: Int32?
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public enum PlaylistType: String, CustomStringConvertible, Codable {
+    public enum Profile: String, CustomStringConvertible, Codable {
         case none = "NONE"
-        case event = "EVENT"
-        case vod = "VOD"
+        case hbbtv15 = "HBBTV_1_5"
         public var description: String { return self.rawValue }
     }
 
-    public struct UpdateOriginEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
-            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string), 
-            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list)
-        ]
-        public let url: String?
-        public let arn: String?
-        public let manifestName: String?
-        public let hlsPackage: HlsPackage?
-        public let timeDelaySeconds: Int32?
-        public let id: String?
-        public let cmafPackage: CmafPackage?
-        public let description: String?
-        public let mssPackage: MssPackage?
-        public let startoverWindowSeconds: Int32?
-        public let dashPackage: DashPackage?
-        public let channelId: String?
-        public let whitelist: [String]?
-
-        public init(url: String? = nil, arn: String? = nil, manifestName: String? = nil, hlsPackage: HlsPackage? = nil, timeDelaySeconds: Int32? = nil, id: String? = nil, cmafPackage: CmafPackage? = nil, description: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, dashPackage: DashPackage? = nil, channelId: String? = nil, whitelist: [String]? = nil) {
-            self.url = url
-            self.arn = arn
-            self.manifestName = manifestName
-            self.hlsPackage = hlsPackage
-            self.timeDelaySeconds = timeDelaySeconds
-            self.id = id
-            self.cmafPackage = cmafPackage
-            self.description = description
-            self.mssPackage = mssPackage
-            self.startoverWindowSeconds = startoverWindowSeconds
-            self.dashPackage = dashPackage
-            self.channelId = channelId
-            self.whitelist = whitelist
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case url = "url"
-            case arn = "arn"
-            case manifestName = "manifestName"
-            case hlsPackage = "hlsPackage"
-            case timeDelaySeconds = "timeDelaySeconds"
-            case id = "id"
-            case cmafPackage = "cmafPackage"
-            case description = "description"
-            case mssPackage = "mssPackage"
-            case startoverWindowSeconds = "startoverWindowSeconds"
-            case dashPackage = "dashPackage"
-            case channelId = "channelId"
-            case whitelist = "whitelist"
-        }
-    }
-
-    public struct ChannelCreateParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
-        ]
-        /// The ID of the Channel. The ID must be unique within the region and it
-        /// cannot be changed after a Channel is created.
-        public let id: String
-        /// A short text description of the Channel.
-        public let description: String?
-
-        public init(id: String, description: String? = nil) {
-            self.id = id
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case description = "description"
-        }
-    }
-
-    public struct UpdateChannelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure)
-        ]
-        public let arn: String?
-        public let id: String?
-        public let description: String?
-        public let hlsIngest: HlsIngest?
-
-        public init(arn: String? = nil, id: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil) {
-            self.arn = arn
-            self.id = id
-            self.description = description
-            self.hlsIngest = hlsIngest
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case id = "id"
-            case description = "description"
-            case hlsIngest = "hlsIngest"
-        }
-    }
-
-    public struct ChannelList: AWSShape {
+    public struct ListChannelsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Channels", location: .body(locationName: "channels"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
-        /// A list of Channel records.
         public let channels: [Channel]?
-        /// A token that can be used to resume pagination from the end of the collection.
         public let nextToken: String?
 
         public init(channels: [Channel]? = nil, nextToken: String? = nil) {
@@ -708,174 +45,34 @@ extension MediaPackage {
         }
     }
 
-    public struct ListOriginEndpointsRequest: AWSShape {
+    public struct CreateChannelResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .querystring(locationName: "channelId"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
-        ]
-        public let channelId: String?
-        public let maxResults: Int32?
-        public let nextToken: String?
-
-        public init(channelId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.channelId = channelId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case channelId = "channelId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct SpekeKeyProvider: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SystemIds", location: .body(locationName: "systemIds"), required: true, type: .list), 
-            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId"), required: true, type: .string), 
-            AWSShapeMember(label: "CertificateArn", location: .body(locationName: "certificateArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: true, type: .string)
-        ]
-        /// The system IDs to include in key requests.
-        public let systemIds: [String]
-        /// The resource ID to include in key requests.
-        public let resourceId: String
-        /// An Amazon Resource Name (ARN) of a Certificate Manager certificate
-        /// that MediaPackage will use for enforcing secure end-to-end data
-        /// transfer with the key provider service.
-        public let certificateArn: String?
-        /// The URL of the external key provider service.
-        public let url: String
-        /// An Amazon Resource Name (ARN) of an IAM role that AWS Elemental
-        /// MediaPackage will assume when accessing the key provider service.
-        public let roleArn: String
-
-        public init(systemIds: [String], resourceId: String, certificateArn: String? = nil, url: String, roleArn: String) {
-            self.systemIds = systemIds
-            self.resourceId = resourceId
-            self.certificateArn = certificateArn
-            self.url = url
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case systemIds = "systemIds"
-            case resourceId = "resourceId"
-            case certificateArn = "certificateArn"
-            case url = "url"
-            case roleArn = "roleArn"
-        }
-    }
-
-    public struct IngestEndpoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
-            AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string)
+            AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
-        /// The system generated username for ingest authentication.
-        public let username: String?
-        /// The system generated unique identifier for the IngestEndpoint
         public let id: String?
-        /// The ingest URL to which the source stream should be sent.
-        public let url: String?
-        /// The system generated password for ingest authentication.
-        public let password: String?
-
-        public init(username: String? = nil, id: String? = nil, url: String? = nil, password: String? = nil) {
-            self.username = username
-            self.id = id
-            self.url = url
-            self.password = password
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case username = "username"
-            case id = "id"
-            case url = "url"
-            case password = "password"
-        }
-    }
-
-    public struct DashEncryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"), required: true, type: .structure), 
-            AWSShapeMember(label: "KeyRotationIntervalSeconds", location: .body(locationName: "keyRotationIntervalSeconds"), required: false, type: .integer)
-        ]
-        public let spekeKeyProvider: SpekeKeyProvider
-        /// Time (in seconds) between each encryption key rotation.
-        public let keyRotationIntervalSeconds: Int32?
-
-        public init(spekeKeyProvider: SpekeKeyProvider, keyRotationIntervalSeconds: Int32? = nil) {
-            self.spekeKeyProvider = spekeKeyProvider
-            self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case spekeKeyProvider = "spekeKeyProvider"
-            case keyRotationIntervalSeconds = "keyRotationIntervalSeconds"
-        }
-    }
-
-    public struct OriginEndpointUpdateParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list), 
-            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
-            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer)
-        ]
-        public let mssPackage: MssPackage?
-        /// Amount of delay (in seconds) to enforce on the playback of live content.
-        /// If not specified, there will be no time delay in effect for the OriginEndpoint.
-        public let timeDelaySeconds: Int32?
-        public let cmafPackage: CmafPackageCreateOrUpdateParameters?
-        public let dashPackage: DashPackage?
-        public let hlsPackage: HlsPackage?
-        /// A short text description of the OriginEndpoint.
+        public let hlsIngest: HlsIngest?
+        public let arn: String?
         public let description: String?
-        /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
-        public let whitelist: [String]?
-        /// A short string that will be appended to the end of the Endpoint URL.
-        public let manifestName: String?
-        /// Maximum duration (in seconds) of content to retain for startover playback.
-        /// If not specified, startover playback will be disabled for the OriginEndpoint.
-        public let startoverWindowSeconds: Int32?
 
-        public init(mssPackage: MssPackage? = nil, timeDelaySeconds: Int32? = nil, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, description: String? = nil, whitelist: [String]? = nil, manifestName: String? = nil, startoverWindowSeconds: Int32? = nil) {
-            self.mssPackage = mssPackage
-            self.timeDelaySeconds = timeDelaySeconds
-            self.cmafPackage = cmafPackage
-            self.dashPackage = dashPackage
-            self.hlsPackage = hlsPackage
+        public init(id: String? = nil, hlsIngest: HlsIngest? = nil, arn: String? = nil, description: String? = nil) {
+            self.id = id
+            self.hlsIngest = hlsIngest
+            self.arn = arn
             self.description = description
-            self.whitelist = whitelist
-            self.manifestName = manifestName
-            self.startoverWindowSeconds = startoverWindowSeconds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mssPackage = "mssPackage"
-            case timeDelaySeconds = "timeDelaySeconds"
-            case cmafPackage = "cmafPackage"
-            case dashPackage = "dashPackage"
-            case hlsPackage = "hlsPackage"
+            case id = "id"
+            case hlsIngest = "hlsIngest"
+            case arn = "arn"
             case description = "description"
-            case whitelist = "whitelist"
-            case manifestName = "manifestName"
-            case startoverWindowSeconds = "startoverWindowSeconds"
         }
     }
 
-    public struct DescribeChannelRequest: AWSShape {
+    public struct DescribeOriginEndpointRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string)
         ]
@@ -890,106 +87,68 @@ extension MediaPackage {
         }
     }
 
-    public struct MssPackage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamSelection", location: .body(locationName: "streamSelection"), required: false, type: .structure), 
-            AWSShapeMember(label: "ManifestWindowSeconds", location: .body(locationName: "manifestWindowSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
-            AWSShapeMember(label: "SegmentDurationSeconds", location: .body(locationName: "segmentDurationSeconds"), required: false, type: .integer)
-        ]
-        public let streamSelection: StreamSelection?
-        /// The time window (in seconds) contained in each manifest.
-        public let manifestWindowSeconds: Int32?
-        public let encryption: MssEncryption?
-        /// The duration (in seconds) of each segment.
-        public let segmentDurationSeconds: Int32?
-
-        public init(streamSelection: StreamSelection? = nil, manifestWindowSeconds: Int32? = nil, encryption: MssEncryption? = nil, segmentDurationSeconds: Int32? = nil) {
-            self.streamSelection = streamSelection
-            self.manifestWindowSeconds = manifestWindowSeconds
-            self.encryption = encryption
-            self.segmentDurationSeconds = segmentDurationSeconds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamSelection = "streamSelection"
-            case manifestWindowSeconds = "manifestWindowSeconds"
-            case encryption = "encryption"
-            case segmentDurationSeconds = "segmentDurationSeconds"
-        }
+    public enum PlaylistType: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case event = "EVENT"
+        case vod = "VOD"
+        public var description: String { return self.rawValue }
     }
 
-    public struct OriginEndpoint: AWSShape {
+    public struct DashPackage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
-            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string), 
-            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list)
+            AWSShapeMember(label: "ManifestWindowSeconds", location: .body(locationName: "manifestWindowSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "SegmentDurationSeconds", location: .body(locationName: "segmentDurationSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "MinUpdatePeriodSeconds", location: .body(locationName: "minUpdatePeriodSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "PeriodTriggers", location: .body(locationName: "periodTriggers"), required: false, type: .list), 
+            AWSShapeMember(label: "SuggestedPresentationDelaySeconds", location: .body(locationName: "suggestedPresentationDelaySeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "MinBufferTimeSeconds", location: .body(locationName: "minBufferTimeSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
+            AWSShapeMember(label: "Profile", location: .body(locationName: "profile"), required: false, type: .enum), 
+            AWSShapeMember(label: "StreamSelection", location: .body(locationName: "streamSelection"), required: false, type: .structure)
         ]
-        /// The URL of the packaged OriginEndpoint for consumption.
-        public let url: String?
-        /// The Amazon Resource Name (ARN) assigned to the OriginEndpoint.
-        public let arn: String?
-        /// A short string appended to the end of the OriginEndpoint URL.
-        public let manifestName: String?
-        public let hlsPackage: HlsPackage?
-        /// Amount of delay (seconds) to enforce on the playback of live content.
-        /// If not specified, there will be no time delay in effect for the OriginEndpoint.
-        public let timeDelaySeconds: Int32?
-        /// The ID of the OriginEndpoint.
-        public let id: String?
-        public let cmafPackage: CmafPackage?
-        /// A short text description of the OriginEndpoint.
-        public let description: String?
-        public let mssPackage: MssPackage?
-        /// Maximum duration (seconds) of content to retain for startover playback.
-        /// If not specified, startover playback will be disabled for the OriginEndpoint.
-        public let startoverWindowSeconds: Int32?
-        public let dashPackage: DashPackage?
-        /// The ID of the Channel the OriginEndpoint is associated with.
-        public let channelId: String?
-        /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
-        public let whitelist: [String]?
+        /// Time window (in seconds) contained in each manifest.
+        public let manifestWindowSeconds: Int32?
+        /// Duration (in seconds) of each segment. Actual segments will be
+        /// rounded to the nearest multiple of the source segment duration.
+        public let segmentDurationSeconds: Int32?
+        /// Minimum duration (in seconds) between potential changes to the Dynamic Adaptive Streaming over HTTP (DASH) Media Presentation Description (MPD).
+        public let minUpdatePeriodSeconds: Int32?
+        /// A list of triggers that controls when the outgoing Dynamic Adaptive Streaming over HTTP (DASH)
+        /// Media Presentation Description (MPD) will be partitioned into multiple periods. If empty, the content will not
+        /// be partitioned into more than one period. If the list contains "ADS", new periods will be created where
+        /// the Channel source contains SCTE-35 ad markers.
+        public let periodTriggers: [Periodtriggerselement]?
+        /// Duration (in seconds) to delay live content before presentation.
+        public let suggestedPresentationDelaySeconds: Int32?
+        /// Minimum duration (in seconds) that a player will buffer media before starting the presentation.
+        public let minBufferTimeSeconds: Int32?
+        public let encryption: DashEncryption?
+        /// The Dynamic Adaptive Streaming over HTTP (DASH) profile type.  When set to "HBBTV_1_5", HbbTV 1.5 compliant output is enabled.
+        public let profile: Profile?
+        public let streamSelection: StreamSelection?
 
-        public init(url: String? = nil, arn: String? = nil, manifestName: String? = nil, hlsPackage: HlsPackage? = nil, timeDelaySeconds: Int32? = nil, id: String? = nil, cmafPackage: CmafPackage? = nil, description: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, dashPackage: DashPackage? = nil, channelId: String? = nil, whitelist: [String]? = nil) {
-            self.url = url
-            self.arn = arn
-            self.manifestName = manifestName
-            self.hlsPackage = hlsPackage
-            self.timeDelaySeconds = timeDelaySeconds
-            self.id = id
-            self.cmafPackage = cmafPackage
-            self.description = description
-            self.mssPackage = mssPackage
-            self.startoverWindowSeconds = startoverWindowSeconds
-            self.dashPackage = dashPackage
-            self.channelId = channelId
-            self.whitelist = whitelist
+        public init(manifestWindowSeconds: Int32? = nil, segmentDurationSeconds: Int32? = nil, minUpdatePeriodSeconds: Int32? = nil, periodTriggers: [Periodtriggerselement]? = nil, suggestedPresentationDelaySeconds: Int32? = nil, minBufferTimeSeconds: Int32? = nil, encryption: DashEncryption? = nil, profile: Profile? = nil, streamSelection: StreamSelection? = nil) {
+            self.manifestWindowSeconds = manifestWindowSeconds
+            self.segmentDurationSeconds = segmentDurationSeconds
+            self.minUpdatePeriodSeconds = minUpdatePeriodSeconds
+            self.periodTriggers = periodTriggers
+            self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
+            self.minBufferTimeSeconds = minBufferTimeSeconds
+            self.encryption = encryption
+            self.profile = profile
+            self.streamSelection = streamSelection
         }
 
         private enum CodingKeys: String, CodingKey {
-            case url = "url"
-            case arn = "arn"
-            case manifestName = "manifestName"
-            case hlsPackage = "hlsPackage"
-            case timeDelaySeconds = "timeDelaySeconds"
-            case id = "id"
-            case cmafPackage = "cmafPackage"
-            case description = "description"
-            case mssPackage = "mssPackage"
-            case startoverWindowSeconds = "startoverWindowSeconds"
-            case dashPackage = "dashPackage"
-            case channelId = "channelId"
-            case whitelist = "whitelist"
+            case manifestWindowSeconds = "manifestWindowSeconds"
+            case segmentDurationSeconds = "segmentDurationSeconds"
+            case minUpdatePeriodSeconds = "minUpdatePeriodSeconds"
+            case periodTriggers = "periodTriggers"
+            case suggestedPresentationDelaySeconds = "suggestedPresentationDelaySeconds"
+            case minBufferTimeSeconds = "minBufferTimeSeconds"
+            case encryption = "encryption"
+            case profile = "profile"
+            case streamSelection = "streamSelection"
         }
     }
 
@@ -1008,15 +167,232 @@ extension MediaPackage {
         }
     }
 
-    public struct DeleteChannelResponse: AWSShape {
+    public struct OriginEndpointUpdateParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list), 
+            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
+        ]
+        public let dashPackage: DashPackage?
+        public let cmafPackage: CmafPackageCreateOrUpdateParameters?
+        /// Maximum duration (in seconds) of content to retain for startover playback.
+        /// If not specified, startover playback will be disabled for the OriginEndpoint.
+        public let startoverWindowSeconds: Int32?
+        /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
+        public let whitelist: [String]?
+        public let mssPackage: MssPackage?
+        /// Amount of delay (in seconds) to enforce on the playback of live content.
+        /// If not specified, there will be no time delay in effect for the OriginEndpoint.
+        public let timeDelaySeconds: Int32?
+        public let hlsPackage: HlsPackage?
+        /// A short string that will be appended to the end of the Endpoint URL.
+        public let manifestName: String?
+        /// A short text description of the OriginEndpoint.
+        public let description: String?
 
+        public init(dashPackage: DashPackage? = nil, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, startoverWindowSeconds: Int32? = nil, whitelist: [String]? = nil, mssPackage: MssPackage? = nil, timeDelaySeconds: Int32? = nil, hlsPackage: HlsPackage? = nil, manifestName: String? = nil, description: String? = nil) {
+            self.dashPackage = dashPackage
+            self.cmafPackage = cmafPackage
+            self.startoverWindowSeconds = startoverWindowSeconds
+            self.whitelist = whitelist
+            self.mssPackage = mssPackage
+            self.timeDelaySeconds = timeDelaySeconds
+            self.hlsPackage = hlsPackage
+            self.manifestName = manifestName
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashPackage = "dashPackage"
+            case cmafPackage = "cmafPackage"
+            case startoverWindowSeconds = "startoverWindowSeconds"
+            case whitelist = "whitelist"
+            case mssPackage = "mssPackage"
+            case timeDelaySeconds = "timeDelaySeconds"
+            case hlsPackage = "hlsPackage"
+            case manifestName = "manifestName"
+            case description = "description"
+        }
     }
 
-    public enum AdMarkers: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case scte35Enhanced = "SCTE35_ENHANCED"
-        case passthrough = "PASSTHROUGH"
+    public struct ListOriginEndpointsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelId", location: .querystring(locationName: "channelId"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        public let channelId: String?
+        public let nextToken: String?
+        public let maxResults: Int32?
+
+        public init(channelId: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.channelId = channelId
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelId = "channelId"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct RotateIngestEndpointCredentialsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "IngestEndpointId", location: .uri(locationName: "ingest_endpoint_id"), required: true, type: .string)
+        ]
+        public let id: String
+        public let ingestEndpointId: String
+
+        public init(id: String, ingestEndpointId: String) {
+            self.id = id
+            self.ingestEndpointId = ingestEndpointId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case ingestEndpointId = "ingest_endpoint_id"
+        }
+    }
+
+    public struct ChannelCreateParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string)
+        ]
+        /// A short text description of the Channel.
+        public let description: String?
+        /// The ID of the Channel. The ID must be unique within the region and it
+        /// cannot be changed after a Channel is created.
+        public let id: String
+
+        public init(description: String? = nil, id: String) {
+            self.description = description
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case id = "id"
+        }
+    }
+
+    public enum StreamOrder: String, CustomStringConvertible, Codable {
+        case original = "ORIGINAL"
+        case videoBitrateAscending = "VIDEO_BITRATE_ASCENDING"
+        case videoBitrateDescending = "VIDEO_BITRATE_DESCENDING"
         public var description: String { return self.rawValue }
+    }
+
+    public struct SpekeKeyProvider: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId"), required: true, type: .string), 
+            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: true, type: .string), 
+            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: true, type: .string), 
+            AWSShapeMember(label: "SystemIds", location: .body(locationName: "systemIds"), required: true, type: .list), 
+            AWSShapeMember(label: "CertificateArn", location: .body(locationName: "certificateArn"), required: false, type: .string)
+        ]
+        /// The resource ID to include in key requests.
+        public let resourceId: String
+        /// The URL of the external key provider service.
+        public let url: String
+        /// An Amazon Resource Name (ARN) of an IAM role that AWS Elemental
+        /// MediaPackage will assume when accessing the key provider service.
+        public let roleArn: String
+        /// The system IDs to include in key requests.
+        public let systemIds: [String]
+        /// An Amazon Resource Name (ARN) of a Certificate Manager certificate
+        /// that MediaPackage will use for enforcing secure end-to-end data
+        /// transfer with the key provider service.
+        public let certificateArn: String?
+
+        public init(resourceId: String, url: String, roleArn: String, systemIds: [String], certificateArn: String? = nil) {
+            self.resourceId = resourceId
+            self.url = url
+            self.roleArn = roleArn
+            self.systemIds = systemIds
+            self.certificateArn = certificateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "resourceId"
+            case url = "url"
+            case roleArn = "roleArn"
+            case systemIds = "systemIds"
+            case certificateArn = "certificateArn"
+        }
+    }
+
+    public struct MssPackage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamSelection", location: .body(locationName: "streamSelection"), required: false, type: .structure), 
+            AWSShapeMember(label: "ManifestWindowSeconds", location: .body(locationName: "manifestWindowSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "SegmentDurationSeconds", location: .body(locationName: "segmentDurationSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure)
+        ]
+        public let streamSelection: StreamSelection?
+        /// The time window (in seconds) contained in each manifest.
+        public let manifestWindowSeconds: Int32?
+        /// The duration (in seconds) of each segment.
+        public let segmentDurationSeconds: Int32?
+        public let encryption: MssEncryption?
+
+        public init(streamSelection: StreamSelection? = nil, manifestWindowSeconds: Int32? = nil, segmentDurationSeconds: Int32? = nil, encryption: MssEncryption? = nil) {
+            self.streamSelection = streamSelection
+            self.manifestWindowSeconds = manifestWindowSeconds
+            self.segmentDurationSeconds = segmentDurationSeconds
+            self.encryption = encryption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamSelection = "streamSelection"
+            case manifestWindowSeconds = "manifestWindowSeconds"
+            case segmentDurationSeconds = "segmentDurationSeconds"
+            case encryption = "encryption"
+        }
+    }
+
+    public struct CmafPackage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamSelection", location: .body(locationName: "streamSelection"), required: false, type: .structure), 
+            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
+            AWSShapeMember(label: "HlsManifests", location: .body(locationName: "hlsManifests"), required: false, type: .list), 
+            AWSShapeMember(label: "SegmentDurationSeconds", location: .body(locationName: "segmentDurationSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "SegmentPrefix", location: .body(locationName: "segmentPrefix"), required: false, type: .string)
+        ]
+        public let streamSelection: StreamSelection?
+        public let encryption: CmafEncryption?
+        /// A list of HLS manifest configurations
+        public let hlsManifests: [HlsManifest]?
+        /// Duration (in seconds) of each segment. Actual segments will be
+        /// rounded to the nearest multiple of the source segment duration.
+        public let segmentDurationSeconds: Int32?
+        /// An optional custom string that is prepended to the name of each segment. If not specified, it defaults to the ChannelId.
+        public let segmentPrefix: String?
+
+        public init(streamSelection: StreamSelection? = nil, encryption: CmafEncryption? = nil, hlsManifests: [HlsManifest]? = nil, segmentDurationSeconds: Int32? = nil, segmentPrefix: String? = nil) {
+            self.streamSelection = streamSelection
+            self.encryption = encryption
+            self.hlsManifests = hlsManifests
+            self.segmentDurationSeconds = segmentDurationSeconds
+            self.segmentPrefix = segmentPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamSelection = "streamSelection"
+            case encryption = "encryption"
+            case hlsManifests = "hlsManifests"
+            case segmentDurationSeconds = "segmentDurationSeconds"
+            case segmentPrefix = "segmentPrefix"
+        }
     }
 
     public struct ListOriginEndpointsResponse: AWSShape {
@@ -1038,55 +414,232 @@ extension MediaPackage {
         }
     }
 
-    public struct ChannelUpdateParameters: AWSShape {
+    public struct DashEncryption: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyRotationIntervalSeconds", location: .body(locationName: "keyRotationIntervalSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"), required: true, type: .structure)
+        ]
+        /// Time (in seconds) between each encryption key rotation.
+        public let keyRotationIntervalSeconds: Int32?
+        public let spekeKeyProvider: SpekeKeyProvider
+
+        public init(keyRotationIntervalSeconds: Int32? = nil, spekeKeyProvider: SpekeKeyProvider) {
+            self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
+            self.spekeKeyProvider = spekeKeyProvider
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyRotationIntervalSeconds = "keyRotationIntervalSeconds"
+            case spekeKeyProvider = "spekeKeyProvider"
+        }
+    }
+
+    public struct ListChannelsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let maxResults: Int32?
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct RotateIngestEndpointCredentialsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
-        /// A short text description of the Channel.
+        public let id: String?
+        public let hlsIngest: HlsIngest?
+        public let arn: String?
         public let description: String?
 
-        public init(description: String? = nil) {
+        public init(id: String? = nil, hlsIngest: HlsIngest? = nil, arn: String? = nil, description: String? = nil) {
+            self.id = id
+            self.hlsIngest = hlsIngest
+            self.arn = arn
             self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case hlsIngest = "hlsIngest"
+            case arn = "arn"
             case description = "description"
+        }
+    }
+
+    public struct DeleteChannelResponse: AWSShape {
+
+    }
+
+    public struct HlsManifest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlaylistType", location: .body(locationName: "playlistType"), required: false, type: .enum), 
+            AWSShapeMember(label: "IncludeIframeOnlyStream", location: .body(locationName: "includeIframeOnlyStream"), required: false, type: .boolean), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "ProgramDateTimeIntervalSeconds", location: .body(locationName: "programDateTimeIntervalSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
+            AWSShapeMember(label: "PlaylistWindowSeconds", location: .body(locationName: "playlistWindowSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "AdMarkers", location: .body(locationName: "adMarkers"), required: false, type: .enum), 
+            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string)
+        ]
+        /// The HTTP Live Streaming (HLS) playlist type.
+        /// When either "EVENT" or "VOD" is specified, a corresponding EXT-X-PLAYLIST-TYPE
+        /// entry will be included in the media playlist.
+        public let playlistType: PlaylistType?
+        /// When enabled, an I-Frame only stream will be included in the output.
+        public let includeIframeOnlyStream: Bool?
+        /// The ID of the manifest. The ID must be unique within the OriginEndpoint and it cannot be changed after it is created.
+        public let id: String
+        /// The interval (in seconds) between each EXT-X-PROGRAM-DATE-TIME tag
+        /// inserted into manifests. Additionally, when an interval is specified
+        /// ID3Timed Metadata messages will be generated every 5 seconds using the
+        /// ingest time of the content.
+        /// If the interval is not specified, or set to 0, then
+        /// no EXT-X-PROGRAM-DATE-TIME tags will be inserted into manifests and no
+        /// ID3Timed Metadata messages will be generated. Note that irrespective
+        /// of this parameter, if any ID3 Timed Metadata is found in HTTP Live Streaming (HLS) input,
+        /// it will be passed through to HLS output.
+        public let programDateTimeIntervalSeconds: Int32?
+        /// The URL of the packaged OriginEndpoint for consumption.
+        public let url: String?
+        /// Time window (in seconds) contained in each parent manifest.
+        public let playlistWindowSeconds: Int32?
+        /// This setting controls how ad markers are included in the packaged OriginEndpoint.
+        /// "NONE" will omit all SCTE-35 ad markers from the output.
+        /// "PASSTHROUGH" causes the manifest to contain a copy of the SCTE-35 ad
+        /// markers (comments) taken directly from the input HTTP Live Streaming (HLS) manifest.
+        /// "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35
+        /// messages in the input source.
+        public let adMarkers: AdMarkers?
+        /// An optional short string appended to the end of the OriginEndpoint URL. If not specified, defaults to the manifestName for the OriginEndpoint.
+        public let manifestName: String?
+
+        public init(playlistType: PlaylistType? = nil, includeIframeOnlyStream: Bool? = nil, id: String, programDateTimeIntervalSeconds: Int32? = nil, url: String? = nil, playlistWindowSeconds: Int32? = nil, adMarkers: AdMarkers? = nil, manifestName: String? = nil) {
+            self.playlistType = playlistType
+            self.includeIframeOnlyStream = includeIframeOnlyStream
+            self.id = id
+            self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
+            self.url = url
+            self.playlistWindowSeconds = playlistWindowSeconds
+            self.adMarkers = adMarkers
+            self.manifestName = manifestName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case playlistType = "playlistType"
+            case includeIframeOnlyStream = "includeIframeOnlyStream"
+            case id = "id"
+            case programDateTimeIntervalSeconds = "programDateTimeIntervalSeconds"
+            case url = "url"
+            case playlistWindowSeconds = "playlistWindowSeconds"
+            case adMarkers = "adMarkers"
+            case manifestName = "manifestName"
         }
     }
 
     public struct DescribeChannelResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure)
+            AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
-        public let arn: String?
         public let id: String?
-        public let description: String?
         public let hlsIngest: HlsIngest?
+        public let arn: String?
+        public let description: String?
 
-        public init(arn: String? = nil, id: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil) {
-            self.arn = arn
+        public init(id: String? = nil, hlsIngest: HlsIngest? = nil, arn: String? = nil, description: String? = nil) {
             self.id = id
-            self.description = description
             self.hlsIngest = hlsIngest
+            self.arn = arn
+            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
             case id = "id"
-            case description = "description"
             case hlsIngest = "hlsIngest"
+            case arn = "arn"
+            case description = "description"
         }
     }
 
-    public struct ListChannelsResponse: AWSShape {
+    public struct CreateOriginEndpointRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list), 
+            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: true, type: .string), 
+            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
+        ]
+        public let dashPackage: DashPackage?
+        public let cmafPackage: CmafPackageCreateOrUpdateParameters?
+        public let startoverWindowSeconds: Int32?
+        public let whitelist: [String]?
+        public let mssPackage: MssPackage?
+        public let id: String
+        public let timeDelaySeconds: Int32?
+        public let channelId: String
+        public let hlsPackage: HlsPackage?
+        public let manifestName: String?
+        public let description: String?
+
+        public init(dashPackage: DashPackage? = nil, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, startoverWindowSeconds: Int32? = nil, whitelist: [String]? = nil, mssPackage: MssPackage? = nil, id: String, timeDelaySeconds: Int32? = nil, channelId: String, hlsPackage: HlsPackage? = nil, manifestName: String? = nil, description: String? = nil) {
+            self.dashPackage = dashPackage
+            self.cmafPackage = cmafPackage
+            self.startoverWindowSeconds = startoverWindowSeconds
+            self.whitelist = whitelist
+            self.mssPackage = mssPackage
+            self.id = id
+            self.timeDelaySeconds = timeDelaySeconds
+            self.channelId = channelId
+            self.hlsPackage = hlsPackage
+            self.manifestName = manifestName
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashPackage = "dashPackage"
+            case cmafPackage = "cmafPackage"
+            case startoverWindowSeconds = "startoverWindowSeconds"
+            case whitelist = "whitelist"
+            case mssPackage = "mssPackage"
+            case id = "id"
+            case timeDelaySeconds = "timeDelaySeconds"
+            case channelId = "channelId"
+            case hlsPackage = "hlsPackage"
+            case manifestName = "manifestName"
+            case description = "description"
+        }
+    }
+
+    public struct ChannelList: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Channels", location: .body(locationName: "channels"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+        /// A list of Channel records.
         public let channels: [Channel]?
+        /// A token that can be used to resume pagination from the end of the collection.
         public let nextToken: String?
 
         public init(channels: [Channel]? = nil, nextToken: String? = nil) {
@@ -1116,93 +669,122 @@ extension MediaPackage {
         }
     }
 
-    public struct CmafPackage: AWSShape {
+    public struct HlsEncryption: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HlsManifests", location: .body(locationName: "hlsManifests"), required: false, type: .list), 
-            AWSShapeMember(label: "StreamSelection", location: .body(locationName: "streamSelection"), required: false, type: .structure), 
-            AWSShapeMember(label: "SegmentPrefix", location: .body(locationName: "segmentPrefix"), required: false, type: .string), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
-            AWSShapeMember(label: "SegmentDurationSeconds", location: .body(locationName: "segmentDurationSeconds"), required: false, type: .integer)
+            AWSShapeMember(label: "RepeatExtXKey", location: .body(locationName: "repeatExtXKey"), required: false, type: .boolean), 
+            AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"), required: true, type: .structure), 
+            AWSShapeMember(label: "EncryptionMethod", location: .body(locationName: "encryptionMethod"), required: false, type: .enum), 
+            AWSShapeMember(label: "ConstantInitializationVector", location: .body(locationName: "constantInitializationVector"), required: false, type: .string), 
+            AWSShapeMember(label: "KeyRotationIntervalSeconds", location: .body(locationName: "keyRotationIntervalSeconds"), required: false, type: .integer)
         ]
-        /// A list of HLS manifest configurations
-        public let hlsManifests: [HlsManifest]?
-        public let streamSelection: StreamSelection?
-        /// An optional custom string that is prepended to the name of each segment. If not specified, it defaults to the ChannelId.
-        public let segmentPrefix: String?
-        public let encryption: CmafEncryption?
-        /// Duration (in seconds) of each segment. Actual segments will be
-        /// rounded to the nearest multiple of the source segment duration.
-        public let segmentDurationSeconds: Int32?
+        /// When enabled, the EXT-X-KEY tag will be repeated in output manifests.
+        public let repeatExtXKey: Bool?
+        public let spekeKeyProvider: SpekeKeyProvider
+        /// The encryption method to use.
+        public let encryptionMethod: EncryptionMethod?
+        /// A constant initialization vector for encryption (optional).
+        /// When not specified the initialization vector will be periodically rotated.
+        public let constantInitializationVector: String?
+        /// Interval (in seconds) between each encryption key rotation.
+        public let keyRotationIntervalSeconds: Int32?
 
-        public init(hlsManifests: [HlsManifest]? = nil, streamSelection: StreamSelection? = nil, segmentPrefix: String? = nil, encryption: CmafEncryption? = nil, segmentDurationSeconds: Int32? = nil) {
-            self.hlsManifests = hlsManifests
-            self.streamSelection = streamSelection
-            self.segmentPrefix = segmentPrefix
-            self.encryption = encryption
-            self.segmentDurationSeconds = segmentDurationSeconds
+        public init(repeatExtXKey: Bool? = nil, spekeKeyProvider: SpekeKeyProvider, encryptionMethod: EncryptionMethod? = nil, constantInitializationVector: String? = nil, keyRotationIntervalSeconds: Int32? = nil) {
+            self.repeatExtXKey = repeatExtXKey
+            self.spekeKeyProvider = spekeKeyProvider
+            self.encryptionMethod = encryptionMethod
+            self.constantInitializationVector = constantInitializationVector
+            self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hlsManifests = "hlsManifests"
-            case streamSelection = "streamSelection"
-            case segmentPrefix = "segmentPrefix"
-            case encryption = "encryption"
-            case segmentDurationSeconds = "segmentDurationSeconds"
+            case repeatExtXKey = "repeatExtXKey"
+            case spekeKeyProvider = "spekeKeyProvider"
+            case encryptionMethod = "encryptionMethod"
+            case constantInitializationVector = "constantInitializationVector"
+            case keyRotationIntervalSeconds = "keyRotationIntervalSeconds"
         }
     }
 
     public struct CreateChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string)
+        ]
+        public let description: String?
+        public let id: String
+
+        public init(description: String? = nil, id: String) {
+            self.description = description
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case id = "id"
+        }
+    }
+
+    public struct ChannelUpdateParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
-        public let id: String
+        /// A short text description of the Channel.
         public let description: String?
 
-        public init(id: String, description: String? = nil) {
-            self.id = id
+        public init(description: String? = nil) {
             self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "id"
             case description = "description"
+        }
+    }
+
+    public struct OriginEndpointList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OriginEndpoints", location: .body(locationName: "originEndpoints"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        /// A list of OriginEndpoint records.
+        public let originEndpoints: [OriginEndpoint]?
+        /// A token that can be used to resume pagination from the end of the collection.
+        public let nextToken: String?
+
+        public init(originEndpoints: [OriginEndpoint]? = nil, nextToken: String? = nil) {
+            self.originEndpoints = originEndpoints
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originEndpoints = "originEndpoints"
+            case nextToken = "nextToken"
         }
     }
 
     public struct HlsPackage: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SegmentDurationSeconds", location: .body(locationName: "segmentDurationSeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "UseAudioRenditionGroup", location: .body(locationName: "useAudioRenditionGroup"), required: false, type: .boolean), 
             AWSShapeMember(label: "PlaylistType", location: .body(locationName: "playlistType"), required: false, type: .enum), 
-            AWSShapeMember(label: "SegmentDurationSeconds", location: .body(locationName: "segmentDurationSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
             AWSShapeMember(label: "IncludeIframeOnlyStream", location: .body(locationName: "includeIframeOnlyStream"), required: false, type: .boolean), 
-            AWSShapeMember(label: "StreamSelection", location: .body(locationName: "streamSelection"), required: false, type: .structure), 
+            AWSShapeMember(label: "ProgramDateTimeIntervalSeconds", location: .body(locationName: "programDateTimeIntervalSeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "PlaylistWindowSeconds", location: .body(locationName: "playlistWindowSeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "AdMarkers", location: .body(locationName: "adMarkers"), required: false, type: .enum), 
-            AWSShapeMember(label: "ProgramDateTimeIntervalSeconds", location: .body(locationName: "programDateTimeIntervalSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure)
+            AWSShapeMember(label: "StreamSelection", location: .body(locationName: "streamSelection"), required: false, type: .structure)
         ]
+        /// Duration (in seconds) of each fragment. Actual fragments will be
+        /// rounded to the nearest multiple of the source fragment duration.
+        public let segmentDurationSeconds: Int32?
         /// When enabled, audio streams will be placed in rendition groups in the output.
         public let useAudioRenditionGroup: Bool?
         /// The HTTP Live Streaming (HLS) playlist type.
         /// When either "EVENT" or "VOD" is specified, a corresponding EXT-X-PLAYLIST-TYPE
         /// entry will be included in the media playlist.
         public let playlistType: PlaylistType?
-        /// Duration (in seconds) of each fragment. Actual fragments will be
-        /// rounded to the nearest multiple of the source fragment duration.
-        public let segmentDurationSeconds: Int32?
+        public let encryption: HlsEncryption?
         /// When enabled, an I-Frame only stream will be included in the output.
         public let includeIframeOnlyStream: Bool?
-        public let streamSelection: StreamSelection?
-        /// Time window (in seconds) contained in each parent manifest.
-        public let playlistWindowSeconds: Int32?
-        /// This setting controls how ad markers are included in the packaged OriginEndpoint.
-        /// "NONE" will omit all SCTE-35 ad markers from the output.
-        /// "PASSTHROUGH" causes the manifest to contain a copy of the SCTE-35 ad
-        /// markers (comments) taken directly from the input HTTP Live Streaming (HLS) manifest.
-        /// "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35
-        /// messages in the input source.
-        public let adMarkers: AdMarkers?
         /// The interval (in seconds) between each EXT-X-PROGRAM-DATE-TIME tag
         /// inserted into manifests. Additionally, when an interval is specified
         /// ID3Timed Metadata messages will be generated every 5 seconds using the
@@ -1213,93 +795,403 @@ extension MediaPackage {
         /// of this parameter, if any ID3 Timed Metadata is found in HTTP Live Streaming (HLS) input,
         /// it will be passed through to HLS output.
         public let programDateTimeIntervalSeconds: Int32?
-        public let encryption: HlsEncryption?
+        /// Time window (in seconds) contained in each parent manifest.
+        public let playlistWindowSeconds: Int32?
+        /// This setting controls how ad markers are included in the packaged OriginEndpoint.
+        /// "NONE" will omit all SCTE-35 ad markers from the output.
+        /// "PASSTHROUGH" causes the manifest to contain a copy of the SCTE-35 ad
+        /// markers (comments) taken directly from the input HTTP Live Streaming (HLS) manifest.
+        /// "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35
+        /// messages in the input source.
+        public let adMarkers: AdMarkers?
+        public let streamSelection: StreamSelection?
 
-        public init(useAudioRenditionGroup: Bool? = nil, playlistType: PlaylistType? = nil, segmentDurationSeconds: Int32? = nil, includeIframeOnlyStream: Bool? = nil, streamSelection: StreamSelection? = nil, playlistWindowSeconds: Int32? = nil, adMarkers: AdMarkers? = nil, programDateTimeIntervalSeconds: Int32? = nil, encryption: HlsEncryption? = nil) {
+        public init(segmentDurationSeconds: Int32? = nil, useAudioRenditionGroup: Bool? = nil, playlistType: PlaylistType? = nil, encryption: HlsEncryption? = nil, includeIframeOnlyStream: Bool? = nil, programDateTimeIntervalSeconds: Int32? = nil, playlistWindowSeconds: Int32? = nil, adMarkers: AdMarkers? = nil, streamSelection: StreamSelection? = nil) {
+            self.segmentDurationSeconds = segmentDurationSeconds
             self.useAudioRenditionGroup = useAudioRenditionGroup
             self.playlistType = playlistType
-            self.segmentDurationSeconds = segmentDurationSeconds
+            self.encryption = encryption
             self.includeIframeOnlyStream = includeIframeOnlyStream
-            self.streamSelection = streamSelection
+            self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.playlistWindowSeconds = playlistWindowSeconds
             self.adMarkers = adMarkers
-            self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
-            self.encryption = encryption
+            self.streamSelection = streamSelection
         }
 
         private enum CodingKeys: String, CodingKey {
+            case segmentDurationSeconds = "segmentDurationSeconds"
             case useAudioRenditionGroup = "useAudioRenditionGroup"
             case playlistType = "playlistType"
-            case segmentDurationSeconds = "segmentDurationSeconds"
+            case encryption = "encryption"
             case includeIframeOnlyStream = "includeIframeOnlyStream"
-            case streamSelection = "streamSelection"
+            case programDateTimeIntervalSeconds = "programDateTimeIntervalSeconds"
             case playlistWindowSeconds = "playlistWindowSeconds"
             case adMarkers = "adMarkers"
+            case streamSelection = "streamSelection"
+        }
+    }
+
+    public struct HlsManifestCreateOrUpdateParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlaylistType", location: .body(locationName: "playlistType"), required: false, type: .enum), 
+            AWSShapeMember(label: "IncludeIframeOnlyStream", location: .body(locationName: "includeIframeOnlyStream"), required: false, type: .boolean), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "ProgramDateTimeIntervalSeconds", location: .body(locationName: "programDateTimeIntervalSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "PlaylistWindowSeconds", location: .body(locationName: "playlistWindowSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "AdMarkers", location: .body(locationName: "adMarkers"), required: false, type: .enum), 
+            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string)
+        ]
+        /// The HTTP Live Streaming (HLS) playlist type.
+        /// When either "EVENT" or "VOD" is specified, a corresponding EXT-X-PLAYLIST-TYPE
+        /// entry will be included in the media playlist.
+        public let playlistType: PlaylistType?
+        /// When enabled, an I-Frame only stream will be included in the output.
+        public let includeIframeOnlyStream: Bool?
+        /// The ID of the manifest. The ID must be unique within the OriginEndpoint and it cannot be changed after it is created.
+        public let id: String
+        /// The interval (in seconds) between each EXT-X-PROGRAM-DATE-TIME tag
+        /// inserted into manifests. Additionally, when an interval is specified
+        /// ID3Timed Metadata messages will be generated every 5 seconds using the
+        /// ingest time of the content.
+        /// If the interval is not specified, or set to 0, then
+        /// no EXT-X-PROGRAM-DATE-TIME tags will be inserted into manifests and no
+        /// ID3Timed Metadata messages will be generated. Note that irrespective
+        /// of this parameter, if any ID3 Timed Metadata is found in HTTP Live Streaming (HLS) input,
+        /// it will be passed through to HLS output.
+        public let programDateTimeIntervalSeconds: Int32?
+        /// Time window (in seconds) contained in each parent manifest.
+        public let playlistWindowSeconds: Int32?
+        /// This setting controls how ad markers are included in the packaged OriginEndpoint.
+        /// "NONE" will omit all SCTE-35 ad markers from the output.
+        /// "PASSTHROUGH" causes the manifest to contain a copy of the SCTE-35 ad
+        /// markers (comments) taken directly from the input HTTP Live Streaming (HLS) manifest.
+        /// "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35
+        /// messages in the input source.
+        public let adMarkers: AdMarkers?
+        /// An optional short string appended to the end of the OriginEndpoint URL. If not specified, defaults to the manifestName for the OriginEndpoint.
+        public let manifestName: String?
+
+        public init(playlistType: PlaylistType? = nil, includeIframeOnlyStream: Bool? = nil, id: String, programDateTimeIntervalSeconds: Int32? = nil, playlistWindowSeconds: Int32? = nil, adMarkers: AdMarkers? = nil, manifestName: String? = nil) {
+            self.playlistType = playlistType
+            self.includeIframeOnlyStream = includeIframeOnlyStream
+            self.id = id
+            self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
+            self.playlistWindowSeconds = playlistWindowSeconds
+            self.adMarkers = adMarkers
+            self.manifestName = manifestName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case playlistType = "playlistType"
+            case includeIframeOnlyStream = "includeIframeOnlyStream"
+            case id = "id"
             case programDateTimeIntervalSeconds = "programDateTimeIntervalSeconds"
+            case playlistWindowSeconds = "playlistWindowSeconds"
+            case adMarkers = "adMarkers"
+            case manifestName = "manifestName"
+        }
+    }
+
+    public struct UpdateOriginEndpointResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
+            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string)
+        ]
+        public let startoverWindowSeconds: Int32?
+        public let url: String?
+        public let hlsPackage: HlsPackage?
+        public let cmafPackage: CmafPackage?
+        public let manifestName: String?
+        public let arn: String?
+        public let dashPackage: DashPackage?
+        public let description: String?
+        public let mssPackage: MssPackage?
+        public let whitelist: [String]?
+        public let id: String?
+        public let timeDelaySeconds: Int32?
+        public let channelId: String?
+
+        public init(startoverWindowSeconds: Int32? = nil, url: String? = nil, hlsPackage: HlsPackage? = nil, cmafPackage: CmafPackage? = nil, manifestName: String? = nil, arn: String? = nil, dashPackage: DashPackage? = nil, description: String? = nil, mssPackage: MssPackage? = nil, whitelist: [String]? = nil, id: String? = nil, timeDelaySeconds: Int32? = nil, channelId: String? = nil) {
+            self.startoverWindowSeconds = startoverWindowSeconds
+            self.url = url
+            self.hlsPackage = hlsPackage
+            self.cmafPackage = cmafPackage
+            self.manifestName = manifestName
+            self.arn = arn
+            self.dashPackage = dashPackage
+            self.description = description
+            self.mssPackage = mssPackage
+            self.whitelist = whitelist
+            self.id = id
+            self.timeDelaySeconds = timeDelaySeconds
+            self.channelId = channelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case startoverWindowSeconds = "startoverWindowSeconds"
+            case url = "url"
+            case hlsPackage = "hlsPackage"
+            case cmafPackage = "cmafPackage"
+            case manifestName = "manifestName"
+            case arn = "arn"
+            case dashPackage = "dashPackage"
+            case description = "description"
+            case mssPackage = "mssPackage"
+            case whitelist = "whitelist"
+            case id = "id"
+            case timeDelaySeconds = "timeDelaySeconds"
+            case channelId = "channelId"
+        }
+    }
+
+    public struct RotateChannelCredentialsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
+        ]
+        public let id: String?
+        public let hlsIngest: HlsIngest?
+        public let arn: String?
+        public let description: String?
+
+        public init(id: String? = nil, hlsIngest: HlsIngest? = nil, arn: String? = nil, description: String? = nil) {
+            self.id = id
+            self.hlsIngest = hlsIngest
+            self.arn = arn
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case hlsIngest = "hlsIngest"
+            case arn = "arn"
+            case description = "description"
+        }
+    }
+
+    public struct CmafPackageCreateOrUpdateParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamSelection", location: .body(locationName: "streamSelection"), required: false, type: .structure), 
+            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
+            AWSShapeMember(label: "HlsManifests", location: .body(locationName: "hlsManifests"), required: false, type: .list), 
+            AWSShapeMember(label: "SegmentDurationSeconds", location: .body(locationName: "segmentDurationSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "SegmentPrefix", location: .body(locationName: "segmentPrefix"), required: false, type: .string)
+        ]
+        public let streamSelection: StreamSelection?
+        public let encryption: CmafEncryption?
+        /// A list of HLS manifest configurations
+        public let hlsManifests: [HlsManifestCreateOrUpdateParameters]?
+        /// Duration (in seconds) of each segment. Actual segments will be
+        /// rounded to the nearest multiple of the source segment duration.
+        public let segmentDurationSeconds: Int32?
+        /// An optional custom string that is prepended to the name of each segment. If not specified, it defaults to the ChannelId.
+        public let segmentPrefix: String?
+
+        public init(streamSelection: StreamSelection? = nil, encryption: CmafEncryption? = nil, hlsManifests: [HlsManifestCreateOrUpdateParameters]? = nil, segmentDurationSeconds: Int32? = nil, segmentPrefix: String? = nil) {
+            self.streamSelection = streamSelection
+            self.encryption = encryption
+            self.hlsManifests = hlsManifests
+            self.segmentDurationSeconds = segmentDurationSeconds
+            self.segmentPrefix = segmentPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamSelection = "streamSelection"
             case encryption = "encryption"
+            case hlsManifests = "hlsManifests"
+            case segmentDurationSeconds = "segmentDurationSeconds"
+            case segmentPrefix = "segmentPrefix"
+        }
+    }
+
+    public struct CmafEncryption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyRotationIntervalSeconds", location: .body(locationName: "keyRotationIntervalSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"), required: true, type: .structure)
+        ]
+        /// Time (in seconds) between each encryption key rotation.
+        public let keyRotationIntervalSeconds: Int32?
+        public let spekeKeyProvider: SpekeKeyProvider
+
+        public init(keyRotationIntervalSeconds: Int32? = nil, spekeKeyProvider: SpekeKeyProvider) {
+            self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
+            self.spekeKeyProvider = spekeKeyProvider
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyRotationIntervalSeconds = "keyRotationIntervalSeconds"
+            case spekeKeyProvider = "spekeKeyProvider"
+        }
+    }
+
+    public struct UpdateOriginEndpointRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list), 
+            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
+        ]
+        public let dashPackage: DashPackage?
+        public let cmafPackage: CmafPackageCreateOrUpdateParameters?
+        public let startoverWindowSeconds: Int32?
+        public let whitelist: [String]?
+        public let mssPackage: MssPackage?
+        public let id: String
+        public let timeDelaySeconds: Int32?
+        public let hlsPackage: HlsPackage?
+        public let manifestName: String?
+        public let description: String?
+
+        public init(dashPackage: DashPackage? = nil, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, startoverWindowSeconds: Int32? = nil, whitelist: [String]? = nil, mssPackage: MssPackage? = nil, id: String, timeDelaySeconds: Int32? = nil, hlsPackage: HlsPackage? = nil, manifestName: String? = nil, description: String? = nil) {
+            self.dashPackage = dashPackage
+            self.cmafPackage = cmafPackage
+            self.startoverWindowSeconds = startoverWindowSeconds
+            self.whitelist = whitelist
+            self.mssPackage = mssPackage
+            self.id = id
+            self.timeDelaySeconds = timeDelaySeconds
+            self.hlsPackage = hlsPackage
+            self.manifestName = manifestName
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashPackage = "dashPackage"
+            case cmafPackage = "cmafPackage"
+            case startoverWindowSeconds = "startoverWindowSeconds"
+            case whitelist = "whitelist"
+            case mssPackage = "mssPackage"
+            case id = "id"
+            case timeDelaySeconds = "timeDelaySeconds"
+            case hlsPackage = "hlsPackage"
+            case manifestName = "manifestName"
+            case description = "description"
+        }
+    }
+
+    public struct DeleteOriginEndpointResponse: AWSShape {
+
+    }
+
+    public struct DeleteOriginEndpointRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string)
+        ]
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct IngestEndpoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string), 
+            AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string)
+        ]
+        /// The system generated username for ingest authentication.
+        public let username: String?
+        /// The system generated password for ingest authentication.
+        public let password: String?
+        /// The system generated unique identifier for the IngestEndpoint
+        public let id: String?
+        /// The ingest URL to which the source stream should be sent.
+        public let url: String?
+
+        public init(username: String? = nil, password: String? = nil, id: String? = nil, url: String? = nil) {
+            self.username = username
+            self.password = password
+            self.id = id
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case username = "username"
+            case password = "password"
+            case id = "id"
+            case url = "url"
         }
     }
 
     public struct Channel: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure)
+            AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) assigned to the Channel.
-        public let arn: String?
         /// The ID of the Channel.
         public let id: String?
+        public let hlsIngest: HlsIngest?
+        /// The Amazon Resource Name (ARN) assigned to the Channel.
+        public let arn: String?
         /// A short text description of the Channel.
         public let description: String?
-        public let hlsIngest: HlsIngest?
 
-        public init(arn: String? = nil, id: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil) {
-            self.arn = arn
+        public init(id: String? = nil, hlsIngest: HlsIngest? = nil, arn: String? = nil, description: String? = nil) {
             self.id = id
-            self.description = description
             self.hlsIngest = hlsIngest
+            self.arn = arn
+            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
             case id = "id"
-            case description = "description"
             case hlsIngest = "hlsIngest"
+            case arn = "arn"
+            case description = "description"
         }
     }
 
-    public enum Profile: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case hbbtv15 = "HBBTV_1_5"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateChannelResponse: AWSShape {
+    public struct UpdateChannelResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure)
+            AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
-        public let arn: String?
         public let id: String?
-        public let description: String?
         public let hlsIngest: HlsIngest?
+        public let arn: String?
+        public let description: String?
 
-        public init(arn: String? = nil, id: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil) {
-            self.arn = arn
+        public init(id: String? = nil, hlsIngest: HlsIngest? = nil, arn: String? = nil, description: String? = nil) {
             self.id = id
-            self.description = description
             self.hlsIngest = hlsIngest
+            self.arn = arn
+            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
             case id = "id"
-            case description = "description"
             case hlsIngest = "hlsIngest"
+            case arn = "arn"
+            case description = "description"
         }
     }
 
@@ -1309,234 +1201,342 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
-    public struct CmafPackageCreateOrUpdateParameters: AWSShape {
+    public struct CreateOriginEndpointResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HlsManifests", location: .body(locationName: "hlsManifests"), required: false, type: .list), 
-            AWSShapeMember(label: "StreamSelection", location: .body(locationName: "streamSelection"), required: false, type: .structure), 
-            AWSShapeMember(label: "SegmentPrefix", location: .body(locationName: "segmentPrefix"), required: false, type: .string), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
-            AWSShapeMember(label: "SegmentDurationSeconds", location: .body(locationName: "segmentDurationSeconds"), required: false, type: .integer)
-        ]
-        /// A list of HLS manifest configurations
-        public let hlsManifests: [HlsManifestCreateOrUpdateParameters]?
-        public let streamSelection: StreamSelection?
-        /// An optional custom string that is prepended to the name of each segment. If not specified, it defaults to the ChannelId.
-        public let segmentPrefix: String?
-        public let encryption: CmafEncryption?
-        /// Duration (in seconds) of each segment. Actual segments will be
-        /// rounded to the nearest multiple of the source segment duration.
-        public let segmentDurationSeconds: Int32?
-
-        public init(hlsManifests: [HlsManifestCreateOrUpdateParameters]? = nil, streamSelection: StreamSelection? = nil, segmentPrefix: String? = nil, encryption: CmafEncryption? = nil, segmentDurationSeconds: Int32? = nil) {
-            self.hlsManifests = hlsManifests
-            self.streamSelection = streamSelection
-            self.segmentPrefix = segmentPrefix
-            self.encryption = encryption
-            self.segmentDurationSeconds = segmentDurationSeconds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hlsManifests = "hlsManifests"
-            case streamSelection = "streamSelection"
-            case segmentPrefix = "segmentPrefix"
-            case encryption = "encryption"
-            case segmentDurationSeconds = "segmentDurationSeconds"
-        }
-    }
-
-    public struct DeleteOriginEndpointResponse: AWSShape {
-
-    }
-
-    public struct UpdateOriginEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
             AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list), 
-            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
-            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer)
-        ]
-        public let mssPackage: MssPackage?
-        public let timeDelaySeconds: Int32?
-        public let id: String
-        public let cmafPackage: CmafPackageCreateOrUpdateParameters?
-        public let dashPackage: DashPackage?
-        public let hlsPackage: HlsPackage?
-        public let description: String?
-        public let whitelist: [String]?
-        public let manifestName: String?
-        public let startoverWindowSeconds: Int32?
-
-        public init(mssPackage: MssPackage? = nil, timeDelaySeconds: Int32? = nil, id: String, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, description: String? = nil, whitelist: [String]? = nil, manifestName: String? = nil, startoverWindowSeconds: Int32? = nil) {
-            self.mssPackage = mssPackage
-            self.timeDelaySeconds = timeDelaySeconds
-            self.id = id
-            self.cmafPackage = cmafPackage
-            self.dashPackage = dashPackage
-            self.hlsPackage = hlsPackage
-            self.description = description
-            self.whitelist = whitelist
-            self.manifestName = manifestName
-            self.startoverWindowSeconds = startoverWindowSeconds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mssPackage = "mssPackage"
-            case timeDelaySeconds = "timeDelaySeconds"
-            case id = "id"
-            case cmafPackage = "cmafPackage"
-            case dashPackage = "dashPackage"
-            case hlsPackage = "hlsPackage"
-            case description = "description"
-            case whitelist = "whitelist"
-            case manifestName = "manifestName"
-            case startoverWindowSeconds = "startoverWindowSeconds"
-        }
-    }
-
-    public struct DashPackage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Profile", location: .body(locationName: "profile"), required: false, type: .enum), 
-            AWSShapeMember(label: "PeriodTriggers", location: .body(locationName: "periodTriggers"), required: false, type: .list), 
-            AWSShapeMember(label: "ManifestWindowSeconds", location: .body(locationName: "manifestWindowSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "SuggestedPresentationDelaySeconds", location: .body(locationName: "suggestedPresentationDelaySeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "SegmentDurationSeconds", location: .body(locationName: "segmentDurationSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "StreamSelection", location: .body(locationName: "streamSelection"), required: false, type: .structure), 
-            AWSShapeMember(label: "MinBufferTimeSeconds", location: .body(locationName: "minBufferTimeSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "MinUpdatePeriodSeconds", location: .body(locationName: "minUpdatePeriodSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure)
-        ]
-        /// The Dynamic Adaptive Streaming over HTTP (DASH) profile type.  When set to "HBBTV_1_5", HbbTV 1.5 compliant output is enabled.
-        public let profile: Profile?
-        /// A list of triggers that controls when the outgoing Dynamic Adaptive Streaming over HTTP (DASH)
-        /// Media Presentation Description (MPD) will be partitioned into multiple periods. If empty, the content will not
-        /// be partitioned into more than one period. If the list contains "ADS", new periods will be created where
-        /// the Channel source contains SCTE-35 ad markers.
-        public let periodTriggers: [Periodtriggerselement]?
-        /// Time window (in seconds) contained in each manifest.
-        public let manifestWindowSeconds: Int32?
-        /// Duration (in seconds) to delay live content before presentation.
-        public let suggestedPresentationDelaySeconds: Int32?
-        /// Duration (in seconds) of each segment. Actual segments will be
-        /// rounded to the nearest multiple of the source segment duration.
-        public let segmentDurationSeconds: Int32?
-        public let streamSelection: StreamSelection?
-        /// Minimum duration (in seconds) that a player will buffer media before starting the presentation.
-        public let minBufferTimeSeconds: Int32?
-        /// Minimum duration (in seconds) between potential changes to the Dynamic Adaptive Streaming over HTTP (DASH) Media Presentation Description (MPD).
-        public let minUpdatePeriodSeconds: Int32?
-        public let encryption: DashEncryption?
-
-        public init(profile: Profile? = nil, periodTriggers: [Periodtriggerselement]? = nil, manifestWindowSeconds: Int32? = nil, suggestedPresentationDelaySeconds: Int32? = nil, segmentDurationSeconds: Int32? = nil, streamSelection: StreamSelection? = nil, minBufferTimeSeconds: Int32? = nil, minUpdatePeriodSeconds: Int32? = nil, encryption: DashEncryption? = nil) {
-            self.profile = profile
-            self.periodTriggers = periodTriggers
-            self.manifestWindowSeconds = manifestWindowSeconds
-            self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
-            self.segmentDurationSeconds = segmentDurationSeconds
-            self.streamSelection = streamSelection
-            self.minBufferTimeSeconds = minBufferTimeSeconds
-            self.minUpdatePeriodSeconds = minUpdatePeriodSeconds
-            self.encryption = encryption
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case profile = "profile"
-            case periodTriggers = "periodTriggers"
-            case manifestWindowSeconds = "manifestWindowSeconds"
-            case suggestedPresentationDelaySeconds = "suggestedPresentationDelaySeconds"
-            case segmentDurationSeconds = "segmentDurationSeconds"
-            case streamSelection = "streamSelection"
-            case minBufferTimeSeconds = "minBufferTimeSeconds"
-            case minUpdatePeriodSeconds = "minUpdatePeriodSeconds"
-            case encryption = "encryption"
-        }
-    }
-
-    public struct CreateOriginEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
             AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage"), required: false, type: .structure), 
-            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list), 
             AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
-            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer)
-        ]
-        public let mssPackage: MssPackage?
-        public let timeDelaySeconds: Int32?
-        public let id: String
-        public let cmafPackage: CmafPackageCreateOrUpdateParameters?
-        public let dashPackage: DashPackage?
-        public let hlsPackage: HlsPackage?
-        public let channelId: String
-        public let description: String?
-        public let whitelist: [String]?
-        public let manifestName: String?
-        public let startoverWindowSeconds: Int32?
-
-        public init(mssPackage: MssPackage? = nil, timeDelaySeconds: Int32? = nil, id: String, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, channelId: String, description: String? = nil, whitelist: [String]? = nil, manifestName: String? = nil, startoverWindowSeconds: Int32? = nil) {
-            self.mssPackage = mssPackage
-            self.timeDelaySeconds = timeDelaySeconds
-            self.id = id
-            self.cmafPackage = cmafPackage
-            self.dashPackage = dashPackage
-            self.hlsPackage = hlsPackage
-            self.channelId = channelId
-            self.description = description
-            self.whitelist = whitelist
-            self.manifestName = manifestName
-            self.startoverWindowSeconds = startoverWindowSeconds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mssPackage = "mssPackage"
-            case timeDelaySeconds = "timeDelaySeconds"
-            case id = "id"
-            case cmafPackage = "cmafPackage"
-            case dashPackage = "dashPackage"
-            case hlsPackage = "hlsPackage"
-            case channelId = "channelId"
-            case description = "description"
-            case whitelist = "whitelist"
-            case manifestName = "manifestName"
-            case startoverWindowSeconds = "startoverWindowSeconds"
-        }
-    }
-
-    public struct RotateChannelCredentialsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure)
+            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string)
         ]
+        public let startoverWindowSeconds: Int32?
+        public let url: String?
+        public let hlsPackage: HlsPackage?
+        public let cmafPackage: CmafPackage?
+        public let manifestName: String?
         public let arn: String?
-        public let id: String?
+        public let dashPackage: DashPackage?
         public let description: String?
-        public let hlsIngest: HlsIngest?
+        public let mssPackage: MssPackage?
+        public let whitelist: [String]?
+        public let id: String?
+        public let timeDelaySeconds: Int32?
+        public let channelId: String?
 
-        public init(arn: String? = nil, id: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil) {
+        public init(startoverWindowSeconds: Int32? = nil, url: String? = nil, hlsPackage: HlsPackage? = nil, cmafPackage: CmafPackage? = nil, manifestName: String? = nil, arn: String? = nil, dashPackage: DashPackage? = nil, description: String? = nil, mssPackage: MssPackage? = nil, whitelist: [String]? = nil, id: String? = nil, timeDelaySeconds: Int32? = nil, channelId: String? = nil) {
+            self.startoverWindowSeconds = startoverWindowSeconds
+            self.url = url
+            self.hlsPackage = hlsPackage
+            self.cmafPackage = cmafPackage
+            self.manifestName = manifestName
             self.arn = arn
-            self.id = id
+            self.dashPackage = dashPackage
             self.description = description
-            self.hlsIngest = hlsIngest
+            self.mssPackage = mssPackage
+            self.whitelist = whitelist
+            self.id = id
+            self.timeDelaySeconds = timeDelaySeconds
+            self.channelId = channelId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case startoverWindowSeconds = "startoverWindowSeconds"
+            case url = "url"
+            case hlsPackage = "hlsPackage"
+            case cmafPackage = "cmafPackage"
+            case manifestName = "manifestName"
             case arn = "arn"
-            case id = "id"
+            case dashPackage = "dashPackage"
             case description = "description"
-            case hlsIngest = "hlsIngest"
+            case mssPackage = "mssPackage"
+            case whitelist = "whitelist"
+            case id = "id"
+            case timeDelaySeconds = "timeDelaySeconds"
+            case channelId = "channelId"
         }
+    }
+
+    public struct UpdateChannelRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string)
+        ]
+        public let description: String?
+        public let id: String
+
+        public init(description: String? = nil, id: String) {
+            self.description = description
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case id = "id"
+        }
+    }
+
+    public struct OriginEndpoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
+            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string)
+        ]
+        /// Maximum duration (seconds) of content to retain for startover playback.
+        /// If not specified, startover playback will be disabled for the OriginEndpoint.
+        public let startoverWindowSeconds: Int32?
+        /// The URL of the packaged OriginEndpoint for consumption.
+        public let url: String?
+        public let hlsPackage: HlsPackage?
+        public let cmafPackage: CmafPackage?
+        /// A short string appended to the end of the OriginEndpoint URL.
+        public let manifestName: String?
+        /// The Amazon Resource Name (ARN) assigned to the OriginEndpoint.
+        public let arn: String?
+        public let dashPackage: DashPackage?
+        /// A short text description of the OriginEndpoint.
+        public let description: String?
+        public let mssPackage: MssPackage?
+        /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
+        public let whitelist: [String]?
+        /// The ID of the OriginEndpoint.
+        public let id: String?
+        /// Amount of delay (seconds) to enforce on the playback of live content.
+        /// If not specified, there will be no time delay in effect for the OriginEndpoint.
+        public let timeDelaySeconds: Int32?
+        /// The ID of the Channel the OriginEndpoint is associated with.
+        public let channelId: String?
+
+        public init(startoverWindowSeconds: Int32? = nil, url: String? = nil, hlsPackage: HlsPackage? = nil, cmafPackage: CmafPackage? = nil, manifestName: String? = nil, arn: String? = nil, dashPackage: DashPackage? = nil, description: String? = nil, mssPackage: MssPackage? = nil, whitelist: [String]? = nil, id: String? = nil, timeDelaySeconds: Int32? = nil, channelId: String? = nil) {
+            self.startoverWindowSeconds = startoverWindowSeconds
+            self.url = url
+            self.hlsPackage = hlsPackage
+            self.cmafPackage = cmafPackage
+            self.manifestName = manifestName
+            self.arn = arn
+            self.dashPackage = dashPackage
+            self.description = description
+            self.mssPackage = mssPackage
+            self.whitelist = whitelist
+            self.id = id
+            self.timeDelaySeconds = timeDelaySeconds
+            self.channelId = channelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case startoverWindowSeconds = "startoverWindowSeconds"
+            case url = "url"
+            case hlsPackage = "hlsPackage"
+            case cmafPackage = "cmafPackage"
+            case manifestName = "manifestName"
+            case arn = "arn"
+            case dashPackage = "dashPackage"
+            case description = "description"
+            case mssPackage = "mssPackage"
+            case whitelist = "whitelist"
+            case id = "id"
+            case timeDelaySeconds = "timeDelaySeconds"
+            case channelId = "channelId"
+        }
+    }
+
+    public struct OriginEndpointCreateParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list), 
+            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: true, type: .string), 
+            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
+        ]
+        public let dashPackage: DashPackage?
+        public let cmafPackage: CmafPackageCreateOrUpdateParameters?
+        /// Maximum duration (seconds) of content to retain for startover playback.
+        /// If not specified, startover playback will be disabled for the OriginEndpoint.
+        public let startoverWindowSeconds: Int32?
+        /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
+        public let whitelist: [String]?
+        public let mssPackage: MssPackage?
+        /// The ID of the OriginEndpoint.  The ID must be unique within the region
+        /// and it cannot be changed after the OriginEndpoint is created.
+        public let id: String
+        /// Amount of delay (seconds) to enforce on the playback of live content.
+        /// If not specified, there will be no time delay in effect for the OriginEndpoint.
+        public let timeDelaySeconds: Int32?
+        /// The ID of the Channel that the OriginEndpoint will be associated with.
+        /// This cannot be changed after the OriginEndpoint is created.
+        public let channelId: String
+        public let hlsPackage: HlsPackage?
+        /// A short string that will be used as the filename of the OriginEndpoint URL (defaults to "index").
+        public let manifestName: String?
+        /// A short text description of the OriginEndpoint.
+        public let description: String?
+
+        public init(dashPackage: DashPackage? = nil, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, startoverWindowSeconds: Int32? = nil, whitelist: [String]? = nil, mssPackage: MssPackage? = nil, id: String, timeDelaySeconds: Int32? = nil, channelId: String, hlsPackage: HlsPackage? = nil, manifestName: String? = nil, description: String? = nil) {
+            self.dashPackage = dashPackage
+            self.cmafPackage = cmafPackage
+            self.startoverWindowSeconds = startoverWindowSeconds
+            self.whitelist = whitelist
+            self.mssPackage = mssPackage
+            self.id = id
+            self.timeDelaySeconds = timeDelaySeconds
+            self.channelId = channelId
+            self.hlsPackage = hlsPackage
+            self.manifestName = manifestName
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashPackage = "dashPackage"
+            case cmafPackage = "cmafPackage"
+            case startoverWindowSeconds = "startoverWindowSeconds"
+            case whitelist = "whitelist"
+            case mssPackage = "mssPackage"
+            case id = "id"
+            case timeDelaySeconds = "timeDelaySeconds"
+            case channelId = "channelId"
+            case hlsPackage = "hlsPackage"
+            case manifestName = "manifestName"
+            case description = "description"
+        }
+    }
+
+    public struct DescribeOriginEndpointResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
+            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string)
+        ]
+        public let startoverWindowSeconds: Int32?
+        public let url: String?
+        public let hlsPackage: HlsPackage?
+        public let cmafPackage: CmafPackage?
+        public let manifestName: String?
+        public let arn: String?
+        public let dashPackage: DashPackage?
+        public let description: String?
+        public let mssPackage: MssPackage?
+        public let whitelist: [String]?
+        public let id: String?
+        public let timeDelaySeconds: Int32?
+        public let channelId: String?
+
+        public init(startoverWindowSeconds: Int32? = nil, url: String? = nil, hlsPackage: HlsPackage? = nil, cmafPackage: CmafPackage? = nil, manifestName: String? = nil, arn: String? = nil, dashPackage: DashPackage? = nil, description: String? = nil, mssPackage: MssPackage? = nil, whitelist: [String]? = nil, id: String? = nil, timeDelaySeconds: Int32? = nil, channelId: String? = nil) {
+            self.startoverWindowSeconds = startoverWindowSeconds
+            self.url = url
+            self.hlsPackage = hlsPackage
+            self.cmafPackage = cmafPackage
+            self.manifestName = manifestName
+            self.arn = arn
+            self.dashPackage = dashPackage
+            self.description = description
+            self.mssPackage = mssPackage
+            self.whitelist = whitelist
+            self.id = id
+            self.timeDelaySeconds = timeDelaySeconds
+            self.channelId = channelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case startoverWindowSeconds = "startoverWindowSeconds"
+            case url = "url"
+            case hlsPackage = "hlsPackage"
+            case cmafPackage = "cmafPackage"
+            case manifestName = "manifestName"
+            case arn = "arn"
+            case dashPackage = "dashPackage"
+            case description = "description"
+            case mssPackage = "mssPackage"
+            case whitelist = "whitelist"
+            case id = "id"
+            case timeDelaySeconds = "timeDelaySeconds"
+            case channelId = "channelId"
+        }
+    }
+
+    public struct DescribeChannelRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string)
+        ]
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct StreamSelection: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamOrder", location: .body(locationName: "streamOrder"), required: false, type: .enum), 
+            AWSShapeMember(label: "MaxVideoBitsPerSecond", location: .body(locationName: "maxVideoBitsPerSecond"), required: false, type: .integer), 
+            AWSShapeMember(label: "MinVideoBitsPerSecond", location: .body(locationName: "minVideoBitsPerSecond"), required: false, type: .integer)
+        ]
+        /// A directive that determines the order of streams in the output.
+        public let streamOrder: StreamOrder?
+        /// The maximum video bitrate (bps) to include in output.
+        public let maxVideoBitsPerSecond: Int32?
+        /// The minimum video bitrate (bps) to include in output.
+        public let minVideoBitsPerSecond: Int32?
+
+        public init(streamOrder: StreamOrder? = nil, maxVideoBitsPerSecond: Int32? = nil, minVideoBitsPerSecond: Int32? = nil) {
+            self.streamOrder = streamOrder
+            self.maxVideoBitsPerSecond = maxVideoBitsPerSecond
+            self.minVideoBitsPerSecond = minVideoBitsPerSecond
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamOrder = "streamOrder"
+            case maxVideoBitsPerSecond = "maxVideoBitsPerSecond"
+            case minVideoBitsPerSecond = "minVideoBitsPerSecond"
+        }
+    }
+
+    public enum AdMarkers: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case scte35Enhanced = "SCTE35_ENHANCED"
+        case passthrough = "PASSTHROUGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Periodtriggerselement: String, CustomStringConvertible, Codable {
+        case ads = "ADS"
+        public var description: String { return self.rawValue }
     }
 
     public struct MssEncryption: AWSShape {

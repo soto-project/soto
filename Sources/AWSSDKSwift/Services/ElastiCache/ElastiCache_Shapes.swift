@@ -5,65 +5,127 @@ import AWSSDKSwiftCore
 
 extension ElastiCache {
 
-    public struct CacheEngineVersionMessage: AWSShape {
+    public struct ModifyReplicationGroupShardConfigurationMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "CacheEngineVersions", required: false, type: .structure)
+            AWSShapeMember(label: "ReshardingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "NodeGroupsToRemove", required: false, type: .structure), 
+            AWSShapeMember(label: "NodeGroupCount", required: true, type: .integer), 
+            AWSShapeMember(label: "NodeGroupsToRetain", required: false, type: .structure), 
+            AWSShapeMember(label: "ApplyImmediately", required: true, type: .boolean), 
+            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string)
         ]
-        /// Provides an identifier to allow retrieval of paginated results.
-        public let marker: String?
-        /// A list of cache engine version details. Each element in the list contains detailed information about one cache engine version.
-        public let cacheEngineVersions: CacheEngineVersionList?
+        /// Specifies the preferred availability zones for each node group in the cluster. If the value of NodeGroupCount is greater than the current number of node groups (shards), you can use this parameter to specify the preferred availability zones of the cluster's shards. If you omit this parameter ElastiCache selects availability zones for you. You can specify this parameter only if the value of NodeGroupCount is greater than the current number of node groups (shards).
+        public let reshardingConfiguration: ReshardingConfigurationList?
+        /// If the value of NodeGroupCount is less than the current number of node groups (shards), the NodeGroupsToRemove or NodeGroupsToRetain is a required list of node group ids to remove from or retain in the cluster. ElastiCache for Redis will attempt to remove all node groups listed by NodeGroupsToRemove from the cluster.
+        public let nodeGroupsToRemove: NodeGroupsToRemoveList?
+        /// The number of node groups (shards) that results from the modification of the shard configuration.
+        public let nodeGroupCount: Int32
+        /// If the value of NodeGroupCount is less than the current number of node groups (shards), the NodeGroupsToRemove or NodeGroupsToRetain is a required list of node group ids to remove from or retain in the cluster. ElastiCache for Redis will attempt to remove all node groups except those listed by NodeGroupsToRetain from the cluster.
+        public let nodeGroupsToRetain: NodeGroupsToRetainList?
+        /// Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true. Value: true
+        public let applyImmediately: Bool
+        /// The name of the Redis (cluster mode enabled) cluster (replication group) on which the shards are to be configured.
+        public let replicationGroupId: String
 
-        public init(marker: String? = nil, cacheEngineVersions: CacheEngineVersionList? = nil) {
-            self.marker = marker
-            self.cacheEngineVersions = cacheEngineVersions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case cacheEngineVersions = "CacheEngineVersions"
-        }
-    }
-
-    public struct CreateSnapshotMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "SnapshotName", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string)
-        ]
-        /// The identifier of an existing cluster. The snapshot is created from this cluster.
-        public let cacheClusterId: String?
-        /// A name for the snapshot being created.
-        public let snapshotName: String
-        /// The identifier of an existing replication group. The snapshot is created from this replication group.
-        public let replicationGroupId: String?
-
-        public init(cacheClusterId: String? = nil, snapshotName: String, replicationGroupId: String? = nil) {
-            self.cacheClusterId = cacheClusterId
-            self.snapshotName = snapshotName
+        public init(reshardingConfiguration: ReshardingConfigurationList? = nil, nodeGroupsToRemove: NodeGroupsToRemoveList? = nil, nodeGroupCount: Int32, nodeGroupsToRetain: NodeGroupsToRetainList? = nil, applyImmediately: Bool, replicationGroupId: String) {
+            self.reshardingConfiguration = reshardingConfiguration
+            self.nodeGroupsToRemove = nodeGroupsToRemove
+            self.nodeGroupCount = nodeGroupCount
+            self.nodeGroupsToRetain = nodeGroupsToRetain
+            self.applyImmediately = applyImmediately
             self.replicationGroupId = replicationGroupId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheClusterId = "CacheClusterId"
-            case snapshotName = "SnapshotName"
+            case reshardingConfiguration = "ReshardingConfiguration"
+            case nodeGroupsToRemove = "NodeGroupsToRemove"
+            case nodeGroupCount = "NodeGroupCount"
+            case nodeGroupsToRetain = "NodeGroupsToRetain"
+            case applyImmediately = "ApplyImmediately"
             case replicationGroupId = "ReplicationGroupId"
         }
     }
 
-    public struct CreateCacheClusterResult: AWSShape {
+    public struct RevokeCacheSecurityGroupIngressResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheCluster", required: false, type: .structure)
+            AWSShapeMember(label: "CacheSecurityGroup", required: false, type: .structure)
         ]
-        public let cacheCluster: CacheCluster?
+        public let cacheSecurityGroup: CacheSecurityGroup?
 
-        public init(cacheCluster: CacheCluster? = nil) {
-            self.cacheCluster = cacheCluster
+        public init(cacheSecurityGroup: CacheSecurityGroup? = nil) {
+            self.cacheSecurityGroup = cacheSecurityGroup
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheCluster = "CacheCluster"
+            case cacheSecurityGroup = "CacheSecurityGroup"
+        }
+    }
+
+    public struct DescribeCacheSecurityGroupsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSecurityGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The name of the cache security group to return details for.
+        public let cacheSecurityGroupName: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
+        public let maxRecords: Int32?
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+
+        public init(cacheSecurityGroupName: String? = nil, maxRecords: Int32? = nil, marker: String? = nil) {
+            self.cacheSecurityGroupName = cacheSecurityGroupName
+            self.maxRecords = maxRecords
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheSecurityGroupName = "CacheSecurityGroupName"
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+        }
+    }
+
+    public struct TagListMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagList", required: false, type: .structure)
+        ]
+        /// A list of cost allocation tags as key-value pairs.
+        public let tagList: TagList?
+
+        public init(tagList: TagList? = nil) {
+            self.tagList = tagList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagList = "TagList"
+        }
+    }
+
+    public struct DescribeCacheSubnetGroupsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The name of the cache subnet group to return details for.
+        public let cacheSubnetGroupName: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
+        public let maxRecords: Int32?
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+
+        public init(cacheSubnetGroupName: String? = nil, maxRecords: Int32? = nil, marker: String? = nil) {
+            self.cacheSubnetGroupName = cacheSubnetGroupName
+            self.maxRecords = maxRecords
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheSubnetGroupName = "CacheSubnetGroupName"
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
         }
     }
 
@@ -88,353 +150,18 @@ extension ElastiCache {
         }
     }
 
-    public struct DescribeSnapshotsMessage: AWSShape {
+    public struct CacheNodeList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotSource", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "SnapshotName", required: false, type: .string), 
-            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "ShowNodeGroupConfig", required: false, type: .boolean)
+            AWSShapeMember(label: "CacheNode", required: false, type: .list)
         ]
-        /// If set to system, the output shows snapshots that were automatically created by ElastiCache. If set to user the output shows snapshots that were manually created. If omitted, the output shows both automatically and manually created snapshots.
-        public let snapshotSource: String?
-        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        public let marker: String?
-        /// A user-supplied replication group identifier. If this parameter is specified, only snapshots associated with that specific replication group are described.
-        public let replicationGroupId: String?
-        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 50 Constraints: minimum 20; maximum 50.
-        public let maxRecords: Int32?
-        /// A user-supplied name of the snapshot. If this parameter is specified, only this snapshot are described.
-        public let snapshotName: String?
-        /// A user-supplied cluster identifier. If this parameter is specified, only snapshots associated with that specific cluster are described.
-        public let cacheClusterId: String?
-        /// A Boolean value which if true, the node group (shard) configuration is included in the snapshot description.
-        public let showNodeGroupConfig: Bool?
+        public let cacheNode: [CacheNode]?
 
-        public init(snapshotSource: String? = nil, marker: String? = nil, replicationGroupId: String? = nil, maxRecords: Int32? = nil, snapshotName: String? = nil, cacheClusterId: String? = nil, showNodeGroupConfig: Bool? = nil) {
-            self.snapshotSource = snapshotSource
-            self.marker = marker
-            self.replicationGroupId = replicationGroupId
-            self.maxRecords = maxRecords
-            self.snapshotName = snapshotName
-            self.cacheClusterId = cacheClusterId
-            self.showNodeGroupConfig = showNodeGroupConfig
+        public init(cacheNode: [CacheNode]? = nil) {
+            self.cacheNode = cacheNode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case snapshotSource = "SnapshotSource"
-            case marker = "Marker"
-            case replicationGroupId = "ReplicationGroupId"
-            case maxRecords = "MaxRecords"
-            case snapshotName = "SnapshotName"
-            case cacheClusterId = "CacheClusterId"
-            case showNodeGroupConfig = "ShowNodeGroupConfig"
-        }
-    }
-
-    public struct TestFailoverMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeGroupId", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string)
-        ]
-        /// The name of the node group (called shard in the console) in this replication group on which automatic failover is to be tested. You may test automatic failover on up to 5 node groups in any rolling 24-hour period.
-        public let nodeGroupId: String
-        /// The name of the replication group (console: cluster) whose automatic failover is being tested by this operation.
-        public let replicationGroupId: String
-
-        public init(nodeGroupId: String, replicationGroupId: String) {
-            self.nodeGroupId = nodeGroupId
-            self.replicationGroupId = replicationGroupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nodeGroupId = "NodeGroupId"
-            case replicationGroupId = "ReplicationGroupId"
-        }
-    }
-
-    public struct CacheSubnetGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "CacheSubnetGroups", required: false, type: .structure)
-        ]
-        /// Provides an identifier to allow retrieval of paginated results.
-        public let marker: String?
-        /// A list of cache subnet groups. Each element in the list contains detailed information about one group.
-        public let cacheSubnetGroups: CacheSubnetGroups?
-
-        public init(marker: String? = nil, cacheSubnetGroups: CacheSubnetGroups? = nil) {
-            self.marker = marker
-            self.cacheSubnetGroups = cacheSubnetGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case cacheSubnetGroups = "CacheSubnetGroups"
-        }
-    }
-
-    public struct RebootCacheClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheClusterId", required: true, type: .string), 
-            AWSShapeMember(label: "CacheNodeIdsToReboot", required: true, type: .structure)
-        ]
-        /// The cluster identifier. This parameter is stored as a lowercase string.
-        public let cacheClusterId: String
-        /// A list of cache node IDs to reboot. A node ID is a numeric identifier (0001, 0002, etc.). To reboot an entire cluster, specify all of the cache node IDs.
-        public let cacheNodeIdsToReboot: CacheNodeIdsList
-
-        public init(cacheClusterId: String, cacheNodeIdsToReboot: CacheNodeIdsList) {
-            self.cacheClusterId = cacheClusterId
-            self.cacheNodeIdsToReboot = cacheNodeIdsToReboot
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheClusterId = "CacheClusterId"
-            case cacheNodeIdsToReboot = "CacheNodeIdsToReboot"
-        }
-    }
-
-    public struct SnapshotArnsList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotArn", required: false, type: .list)
-        ]
-        public let snapshotArn: [String]?
-
-        public init(snapshotArn: [String]? = nil) {
-            self.snapshotArn = snapshotArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snapshotArn = "SnapshotArn"
-        }
-    }
-
-    public struct DescribeEngineDefaultParametersMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "CacheParameterGroupFamily", required: true, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
-        ]
-        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        public let marker: String?
-        /// The name of the cache parameter group family. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 | redis4.0 
-        public let cacheParameterGroupFamily: String
-        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
-
-        public init(marker: String? = nil, cacheParameterGroupFamily: String, maxRecords: Int32? = nil) {
-            self.marker = marker
-            self.cacheParameterGroupFamily = cacheParameterGroupFamily
-            self.maxRecords = maxRecords
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case cacheParameterGroupFamily = "CacheParameterGroupFamily"
-            case maxRecords = "MaxRecords"
-        }
-    }
-
-    public struct ModifyReplicationGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "SnapshottingClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "NodeGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .structure), 
-            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
-            AWSShapeMember(label: "AutomaticFailoverEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
-            AWSShapeMember(label: "NotificationTopicStatus", required: false, type: .string), 
-            AWSShapeMember(label: "CacheSecurityGroupNames", required: false, type: .structure), 
-            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationGroupDescription", required: false, type: .string), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "PrimaryClusterId", required: false, type: .string)
-        ]
-        /// A valid cache node type that you want to scale this replication group to.
-        public let cacheNodeType: String?
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications are sent.  The Amazon SNS topic owner must be same as the replication group owner.  
-        public let notificationTopicArn: String?
-        /// The upgraded version of the cache engine to be run on the clusters in the replication group.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing replication group and create it anew with the earlier engine version. 
-        public let engineVersion: String?
-        /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30 
-        public let preferredMaintenanceWindow: String?
-        /// The cluster ID that is used as the daily snapshot source for the replication group. This parameter cannot be set for Redis (cluster mode enabled) replication groups.
-        public let snapshottingClusterId: String?
-        /// Deprecated. This parameter is not used.
-        public let nodeGroupId: String?
-        /// Specifies the VPC Security Groups associated with the clusters in the replication group. This parameter can be used only with replication group containing clusters running in an Amazon Virtual Private Cloud (Amazon VPC).
-        public let securityGroupIds: SecurityGroupIdsList?
-        /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the replication group. If false, changes to the nodes in the replication group are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. Valid values: true | false  Default: false 
-        public let applyImmediately: Bool?
-        /// Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure. Valid values: true | false  Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 and T2 cache node types.   Redis (cluster mode enabled): T1 node types.  
-        public let automaticFailoverEnabled: Bool?
-        /// The number of days for which ElastiCache retains automatic node group (shard) snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  Important If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
-        public let snapshotRetentionLimit: Int32?
-        /// The name of the cache parameter group to apply to all of the clusters in this replication group. This change is asynchronously applied as soon as possible for parameters when the ApplyImmediately parameter is specified as true for this request.
-        public let cacheParameterGroupName: String?
-        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of the node group (shard) specified by SnapshottingClusterId. Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
-        public let snapshotWindow: String?
-        /// The status of the Amazon SNS notification topic for the replication group. Notifications are sent only if the status is active. Valid values: active | inactive 
-        public let notificationTopicStatus: String?
-        /// A list of cache security group names to authorize for the clusters in this replication group. This change is asynchronously applied as soon as possible. This parameter can be used only with replication group containing clusters running outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be Default.
-        public let cacheSecurityGroupNames: CacheSecurityGroupNameList?
-        /// The identifier of the replication group to modify.
-        public let replicationGroupId: String
-        /// A description for the replication group. Maximum length is 255 characters.
-        public let replicationGroupDescription: String?
-        /// This parameter is currently disabled.
-        public let autoMinorVersionUpgrade: Bool?
-        /// For replication groups with a single primary, if this parameter is specified, ElastiCache promotes the specified cluster in the specified replication group to the primary role. The nodes of all other clusters in the replication group are read replicas.
-        public let primaryClusterId: String?
-
-        public init(cacheNodeType: String? = nil, notificationTopicArn: String? = nil, engineVersion: String? = nil, preferredMaintenanceWindow: String? = nil, snapshottingClusterId: String? = nil, nodeGroupId: String? = nil, securityGroupIds: SecurityGroupIdsList? = nil, applyImmediately: Bool? = nil, automaticFailoverEnabled: Bool? = nil, snapshotRetentionLimit: Int32? = nil, cacheParameterGroupName: String? = nil, snapshotWindow: String? = nil, notificationTopicStatus: String? = nil, cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, replicationGroupId: String, replicationGroupDescription: String? = nil, autoMinorVersionUpgrade: Bool? = nil, primaryClusterId: String? = nil) {
-            self.cacheNodeType = cacheNodeType
-            self.notificationTopicArn = notificationTopicArn
-            self.engineVersion = engineVersion
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.snapshottingClusterId = snapshottingClusterId
-            self.nodeGroupId = nodeGroupId
-            self.securityGroupIds = securityGroupIds
-            self.applyImmediately = applyImmediately
-            self.automaticFailoverEnabled = automaticFailoverEnabled
-            self.snapshotRetentionLimit = snapshotRetentionLimit
-            self.cacheParameterGroupName = cacheParameterGroupName
-            self.snapshotWindow = snapshotWindow
-            self.notificationTopicStatus = notificationTopicStatus
-            self.cacheSecurityGroupNames = cacheSecurityGroupNames
-            self.replicationGroupId = replicationGroupId
-            self.replicationGroupDescription = replicationGroupDescription
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.primaryClusterId = primaryClusterId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheNodeType = "CacheNodeType"
-            case notificationTopicArn = "NotificationTopicArn"
-            case engineVersion = "EngineVersion"
-            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case snapshottingClusterId = "SnapshottingClusterId"
-            case nodeGroupId = "NodeGroupId"
-            case securityGroupIds = "SecurityGroupIds"
-            case applyImmediately = "ApplyImmediately"
-            case automaticFailoverEnabled = "AutomaticFailoverEnabled"
-            case snapshotRetentionLimit = "SnapshotRetentionLimit"
-            case cacheParameterGroupName = "CacheParameterGroupName"
-            case snapshotWindow = "SnapshotWindow"
-            case notificationTopicStatus = "NotificationTopicStatus"
-            case cacheSecurityGroupNames = "CacheSecurityGroupNames"
-            case replicationGroupId = "ReplicationGroupId"
-            case replicationGroupDescription = "ReplicationGroupDescription"
-            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
-            case primaryClusterId = "PrimaryClusterId"
-        }
-    }
-
-    public struct ParameterNameValueList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterNameValue", required: false, type: .list)
-        ]
-        public let parameterNameValue: [ParameterNameValue]?
-
-        public init(parameterNameValue: [ParameterNameValue]? = nil) {
-            self.parameterNameValue = parameterNameValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case parameterNameValue = "ParameterNameValue"
-        }
-    }
-
-    public struct CacheNodeTypeSpecificValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "CacheNodeType", required: false, type: .string)
-        ]
-        /// The value for the cache node type.
-        public let value: String?
-        /// The cache node type for which this value applies.
-        public let cacheNodeType: String?
-
-        public init(value: String? = nil, cacheNodeType: String? = nil) {
-            self.value = value
-            self.cacheNodeType = cacheNodeType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case cacheNodeType = "CacheNodeType"
-        }
-    }
-
-    public struct CreateCacheSecurityGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSecurityGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: true, type: .string)
-        ]
-        /// A name for the cache security group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters. Cannot be the word "Default". Example: mysecuritygroup 
-        public let cacheSecurityGroupName: String
-        /// A description for the cache security group.
-        public let description: String
-
-        public init(cacheSecurityGroupName: String, description: String) {
-            self.cacheSecurityGroupName = cacheSecurityGroupName
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheSecurityGroupName = "CacheSecurityGroupName"
-            case description = "Description"
-        }
-    }
-
-    public struct DeleteCacheSecurityGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSecurityGroupName", required: true, type: .string)
-        ]
-        /// The name of the cache security group to delete.  You cannot delete the default security group. 
-        public let cacheSecurityGroupName: String
-
-        public init(cacheSecurityGroupName: String) {
-            self.cacheSecurityGroupName = cacheSecurityGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheSecurityGroupName = "CacheSecurityGroupName"
-        }
-    }
-
-    public struct PurchaseReservedCacheNodesOfferingMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservedCacheNodeId", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedCacheNodesOfferingId", required: true, type: .string), 
-            AWSShapeMember(label: "CacheNodeCount", required: false, type: .integer)
-        ]
-        /// A customer-specified identifier to track this reservation.  The Reserved Cache Node ID is an unique customer-specified identifier to track this reservation. If this parameter is not specified, ElastiCache automatically generates an identifier for the reservation.  Example: myreservationID
-        public let reservedCacheNodeId: String?
-        /// The ID of the reserved cache node offering to purchase. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706 
-        public let reservedCacheNodesOfferingId: String
-        /// The number of cache node instances to reserve. Default: 1 
-        public let cacheNodeCount: Int32?
-
-        public init(reservedCacheNodeId: String? = nil, reservedCacheNodesOfferingId: String, cacheNodeCount: Int32? = nil) {
-            self.reservedCacheNodeId = reservedCacheNodeId
-            self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
-            self.cacheNodeCount = cacheNodeCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reservedCacheNodeId = "ReservedCacheNodeId"
-            case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
-            case cacheNodeCount = "CacheNodeCount"
+            case cacheNode = "CacheNode"
         }
     }
 
@@ -453,158 +180,29 @@ extension ElastiCache {
         }
     }
 
-    public struct NodeGroupConfiguration: AWSShape {
+    public struct DescribeReplicationGroupsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PrimaryAvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicaAvailabilityZones", required: false, type: .structure), 
-            AWSShapeMember(label: "ReplicaCount", required: false, type: .integer), 
-            AWSShapeMember(label: "NodeGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "Slots", required: false, type: .string)
+            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
-        /// The Availability Zone where the primary node of this node group (shard) is launched.
-        public let primaryAvailabilityZone: String?
-        /// A list of Availability Zones to be used for the read replicas. The number of Availability Zones in this list must match the value of ReplicaCount or ReplicasPerNodeGroup if not specified.
-        public let replicaAvailabilityZones: AvailabilityZonesList?
-        /// The number of read replica nodes in this node group (shard).
-        public let replicaCount: Int32?
-        /// The 4-digit id for the node group these configuration values apply to.
-        public let nodeGroupId: String?
-        /// A string that specifies the keyspace for a particular node group. Keyspaces range from 0 to 16,383. The string is in the format startkey-endkey. Example: "0-3999" 
-        public let slots: String?
-
-        public init(primaryAvailabilityZone: String? = nil, replicaAvailabilityZones: AvailabilityZonesList? = nil, replicaCount: Int32? = nil, nodeGroupId: String? = nil, slots: String? = nil) {
-            self.primaryAvailabilityZone = primaryAvailabilityZone
-            self.replicaAvailabilityZones = replicaAvailabilityZones
-            self.replicaCount = replicaCount
-            self.nodeGroupId = nodeGroupId
-            self.slots = slots
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case primaryAvailabilityZone = "PrimaryAvailabilityZone"
-            case replicaAvailabilityZones = "ReplicaAvailabilityZones"
-            case replicaCount = "ReplicaCount"
-            case nodeGroupId = "NodeGroupId"
-            case slots = "Slots"
-        }
-    }
-
-    public struct CacheEngineVersionList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheEngineVersion", required: false, type: .list)
-        ]
-        public let cacheEngineVersion: [CacheEngineVersion]?
-
-        public init(cacheEngineVersion: [CacheEngineVersion]? = nil) {
-            self.cacheEngineVersion = cacheEngineVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheEngineVersion = "CacheEngineVersion"
-        }
-    }
-
-    public struct CacheParameterGroupsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "CacheParameterGroups", required: false, type: .structure)
-        ]
-        /// Provides an identifier to allow retrieval of paginated results.
+        /// The identifier for the replication group to be described. This parameter is not case sensitive. If you do not specify this parameter, information about all replication groups is returned.
+        public let replicationGroupId: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
+        public let maxRecords: Int32?
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        /// A list of cache parameter groups. Each element in the list contains detailed information about one cache parameter group.
-        public let cacheParameterGroups: CacheParameterGroupList?
 
-        public init(marker: String? = nil, cacheParameterGroups: CacheParameterGroupList? = nil) {
+        public init(replicationGroupId: String? = nil, maxRecords: Int32? = nil, marker: String? = nil) {
+            self.replicationGroupId = replicationGroupId
+            self.maxRecords = maxRecords
             self.marker = marker
-            self.cacheParameterGroups = cacheParameterGroups
         }
 
         private enum CodingKeys: String, CodingKey {
+            case replicationGroupId = "ReplicationGroupId"
+            case maxRecords = "MaxRecords"
             case marker = "Marker"
-            case cacheParameterGroups = "CacheParameterGroups"
-        }
-    }
-
-    public struct CreateCacheParameterGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheParameterGroup", required: false, type: .structure)
-        ]
-        public let cacheParameterGroup: CacheParameterGroup?
-
-        public init(cacheParameterGroup: CacheParameterGroup? = nil) {
-            self.cacheParameterGroup = cacheParameterGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheParameterGroup = "CacheParameterGroup"
-        }
-    }
-
-    public struct ModifyCacheParameterGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterNameValues", required: true, type: .structure), 
-            AWSShapeMember(label: "CacheParameterGroupName", required: true, type: .string)
-        ]
-        /// An array of parameter names and values for the parameter update. You must supply at least one parameter name and value; subsequent arguments are optional. A maximum of 20 parameters may be modified per request.
-        public let parameterNameValues: ParameterNameValueList
-        /// The name of the cache parameter group to modify.
-        public let cacheParameterGroupName: String
-
-        public init(parameterNameValues: ParameterNameValueList, cacheParameterGroupName: String) {
-            self.parameterNameValues = parameterNameValues
-            self.cacheParameterGroupName = cacheParameterGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case parameterNameValues = "ParameterNameValues"
-            case cacheParameterGroupName = "CacheParameterGroupName"
-        }
-    }
-
-    public struct ReplicationGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationGroups", required: false, type: .structure)
-        ]
-        /// Provides an identifier to allow retrieval of paginated results.
-        public let marker: String?
-        /// A list of replication groups. Each item in the list contains detailed information about one replication group.
-        public let replicationGroups: ReplicationGroupList?
-
-        public init(marker: String? = nil, replicationGroups: ReplicationGroupList? = nil) {
-            self.marker = marker
-            self.replicationGroups = replicationGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case replicationGroups = "ReplicationGroups"
-        }
-    }
-
-    public struct CacheParameterGroupStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheNodeIdsToReboot", required: false, type: .structure), 
-            AWSShapeMember(label: "ParameterApplyStatus", required: false, type: .string), 
-            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string)
-        ]
-        /// A list of the cache node IDs which need to be rebooted for parameter changes to be applied. A node ID is a numeric identifier (0001, 0002, etc.).
-        public let cacheNodeIdsToReboot: CacheNodeIdsList?
-        /// The status of parameter updates.
-        public let parameterApplyStatus: String?
-        /// The name of the cache parameter group.
-        public let cacheParameterGroupName: String?
-
-        public init(cacheNodeIdsToReboot: CacheNodeIdsList? = nil, parameterApplyStatus: String? = nil, cacheParameterGroupName: String? = nil) {
-            self.cacheNodeIdsToReboot = cacheNodeIdsToReboot
-            self.parameterApplyStatus = parameterApplyStatus
-            self.cacheParameterGroupName = cacheParameterGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheNodeIdsToReboot = "CacheNodeIdsToReboot"
-            case parameterApplyStatus = "ParameterApplyStatus"
-            case cacheParameterGroupName = "CacheParameterGroupName"
         }
     }
 
@@ -623,371 +221,199 @@ extension ElastiCache {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct DecreaseReplicaCountMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string)
+            AWSShapeMember(label: "NewReplicaCount", required: false, type: .integer), 
+            AWSShapeMember(label: "ReplicasToRemove", required: false, type: .list), 
+            AWSShapeMember(label: "ApplyImmediately", required: true, type: .boolean), 
+            AWSShapeMember(label: "ReplicaConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string)
         ]
-        /// The tag's value. May be null.
-        public let value: String?
-        /// The key for the tag. May not be null.
-        public let key: String?
+        /// The number of read replica nodes you want at the completion of this operation. For Redis (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups. The minimum number of replicas in a shard or replication group is:   Redis (cluster mode disabled)   If Multi-AZ with Automatic Failover is enabled: 1   If Multi-AZ with Automatic Failover is not enabled: 0     Redis (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)  
+        public let newReplicaCount: Int32?
+        /// A list of the node ids to remove from the replication group or node group (shard).
+        public let replicasToRemove: [String]?
+        /// If True, the number of replica nodes is decreased immediately. If False, the number of replica nodes is decreased during the next maintenance window.
+        public let applyImmediately: Bool
+        /// A list of ConfigureShard objects that can be used to configure each shard in a Redis (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
+        public let replicaConfiguration: ReplicaConfigurationList?
+        /// The id of the replication group from which you want to remove replica nodes.
+        public let replicationGroupId: String
 
-        public init(value: String? = nil, key: String? = nil) {
-            self.value = value
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
-        }
-    }
-
-    public struct CacheSecurityGroupMembership: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSecurityGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
-        /// The name of the cache security group.
-        public let cacheSecurityGroupName: String?
-        /// The membership status in the cache security group. The status changes when a cache security group is modified, or when the cache security groups assigned to a cluster are modified.
-        public let status: String?
-
-        public init(cacheSecurityGroupName: String? = nil, status: String? = nil) {
-            self.cacheSecurityGroupName = cacheSecurityGroupName
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheSecurityGroupName = "CacheSecurityGroupName"
-            case status = "Status"
-        }
-    }
-
-    public struct ConfigureShard: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeGroupId", required: true, type: .string), 
-            AWSShapeMember(label: "NewReplicaCount", required: true, type: .integer), 
-            AWSShapeMember(label: "PreferredAvailabilityZones", required: false, type: .structure)
-        ]
-        /// The 4-digit id for the node group you are configuring. For Redis (cluster mode disabled) replication groups, the node group id is always 0001. To find a Redis (cluster mode enabled)'s node group's (shard's) id, see Finding a Shard's Id.
-        public let nodeGroupId: String
-        /// The number of replicas you want in this node group at the end of this operation. The maximum value for NewReplicaCount is 5. The minimum value depends upon the type of Redis replication group you are working with. The minimum number of replicas in a shard or replication group is:   Redis (cluster mode disabled)   If Multi-AZ with Automatic Failover is enabled: 1   If Multi-AZ with Automatic Failover is not enable: 0     Redis (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)  
-        public let newReplicaCount: Int32
-        /// A list of PreferredAvailabilityZone strings that specify which availability zones the replication group's nodes are to be in. The nummber of PreferredAvailabilityZone values must equal the value of NewReplicaCount plus 1 to account for the primary node. If this member of ReplicaConfiguration is omitted, ElastiCache for Redis selects the availability zone for each of the replicas.
-        public let preferredAvailabilityZones: PreferredAvailabilityZoneList?
-
-        public init(nodeGroupId: String, newReplicaCount: Int32, preferredAvailabilityZones: PreferredAvailabilityZoneList? = nil) {
-            self.nodeGroupId = nodeGroupId
+        public init(newReplicaCount: Int32? = nil, replicasToRemove: [String]? = nil, applyImmediately: Bool, replicaConfiguration: ReplicaConfigurationList? = nil, replicationGroupId: String) {
             self.newReplicaCount = newReplicaCount
-            self.preferredAvailabilityZones = preferredAvailabilityZones
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nodeGroupId = "NodeGroupId"
-            case newReplicaCount = "NewReplicaCount"
-            case preferredAvailabilityZones = "PreferredAvailabilityZones"
-        }
-    }
-
-    public struct CreateCacheSubnetGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSubnetGroupDescription", required: true, type: .string), 
-            AWSShapeMember(label: "CacheSubnetGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .structure)
-        ]
-        /// A description for the cache subnet group.
-        public let cacheSubnetGroupDescription: String
-        /// A name for the cache subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup 
-        public let cacheSubnetGroupName: String
-        /// A list of VPC subnet IDs for the cache subnet group.
-        public let subnetIds: SubnetIdentifierList
-
-        public init(cacheSubnetGroupDescription: String, cacheSubnetGroupName: String, subnetIds: SubnetIdentifierList) {
-            self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
-            self.cacheSubnetGroupName = cacheSubnetGroupName
-            self.subnetIds = subnetIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheSubnetGroupDescription = "CacheSubnetGroupDescription"
-            case cacheSubnetGroupName = "CacheSubnetGroupName"
-            case subnetIds = "SubnetIds"
-        }
-    }
-
-    public struct CacheNodeTypeSpecificParameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeType", required: false, type: .enum), 
-            AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
-            AWSShapeMember(label: "MinimumEngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Source", required: false, type: .string), 
-            AWSShapeMember(label: "CacheNodeTypeSpecificValues", required: false, type: .structure), 
-            AWSShapeMember(label: "ParameterName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "IsModifiable", required: false, type: .boolean), 
-            AWSShapeMember(label: "DataType", required: false, type: .string)
-        ]
-        /// Indicates whether a change to the parameter is applied immediately or requires a reboot for the change to be applied. You can force a reboot or wait until the next maintenance window's reboot. For more information, see Rebooting a Cluster.
-        public let changeType: ChangeType?
-        /// The valid range of values for the parameter.
-        public let allowedValues: String?
-        /// The earliest cache engine version to which the parameter can apply.
-        public let minimumEngineVersion: String?
-        /// The source of the parameter value.
-        public let source: String?
-        /// A list of cache node types and their corresponding values for this parameter.
-        public let cacheNodeTypeSpecificValues: CacheNodeTypeSpecificValueList?
-        /// The name of the parameter.
-        public let parameterName: String?
-        /// A description of the parameter.
-        public let description: String?
-        /// Indicates whether (true) or not (false) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed.
-        public let isModifiable: Bool?
-        /// The valid data type for the parameter.
-        public let dataType: String?
-
-        public init(changeType: ChangeType? = nil, allowedValues: String? = nil, minimumEngineVersion: String? = nil, source: String? = nil, cacheNodeTypeSpecificValues: CacheNodeTypeSpecificValueList? = nil, parameterName: String? = nil, description: String? = nil, isModifiable: Bool? = nil, dataType: String? = nil) {
-            self.changeType = changeType
-            self.allowedValues = allowedValues
-            self.minimumEngineVersion = minimumEngineVersion
-            self.source = source
-            self.cacheNodeTypeSpecificValues = cacheNodeTypeSpecificValues
-            self.parameterName = parameterName
-            self.description = description
-            self.isModifiable = isModifiable
-            self.dataType = dataType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case changeType = "ChangeType"
-            case allowedValues = "AllowedValues"
-            case minimumEngineVersion = "MinimumEngineVersion"
-            case source = "Source"
-            case cacheNodeTypeSpecificValues = "CacheNodeTypeSpecificValues"
-            case parameterName = "ParameterName"
-            case description = "Description"
-            case isModifiable = "IsModifiable"
-            case dataType = "DataType"
-        }
-    }
-
-    public struct SecurityGroupIdsList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroupId", required: false, type: .list)
-        ]
-        public let securityGroupId: [String]?
-
-        public init(securityGroupId: [String]? = nil) {
-            self.securityGroupId = securityGroupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityGroupId = "SecurityGroupId"
-        }
-    }
-
-    public struct CacheSecurityGroupMembershipList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSecurityGroup", required: false, type: .list)
-        ]
-        public let cacheSecurityGroup: [CacheSecurityGroupMembership]?
-
-        public init(cacheSecurityGroup: [CacheSecurityGroupMembership]? = nil) {
-            self.cacheSecurityGroup = cacheSecurityGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheSecurityGroup = "CacheSecurityGroup"
-        }
-    }
-
-    public struct ReplicationGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeMember(label: "ClusterEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SnapshottingClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "NodeGroups", required: false, type: .structure), 
-            AWSShapeMember(label: "AutomaticFailover", required: false, type: .enum), 
-            AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
-            AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationEndpoint", required: false, type: .structure), 
-            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "AuthTokenEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "TransitEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "MemberClusters", required: false, type: .structure), 
-            AWSShapeMember(label: "AtRestEncryptionEnabled", required: false, type: .boolean)
-        ]
-        /// The name of the compute and memory capacity node type for each node in the replication group.
-        public let cacheNodeType: String?
-        /// A flag indicating whether or not this replication group is cluster enabled; i.e., whether its data can be partitioned across multiple shards (API/CLI: node groups). Valid values: true | false 
-        public let clusterEnabled: Bool?
-        /// The cluster ID that is used as the daily snapshot source for the replication group.
-        public let snapshottingClusterId: String?
-        /// A list of node groups in this replication group. For Redis (cluster mode disabled) replication groups, this is a single-element list. For Redis (cluster mode enabled) replication groups, the list contains an entry for each node group (shard).
-        public let nodeGroups: NodeGroupList?
-        /// Indicates the status of Multi-AZ with automatic failover for this Redis replication group. Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 and T2 cache node types.   Redis (cluster mode enabled): T1 node types.  
-        public let automaticFailover: AutomaticFailoverStatus?
-        /// A group of settings to be applied to the replication group, either immediately or during the next maintenance window.
-        public let pendingModifiedValues: ReplicationGroupPendingModifiedValues?
-        /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. 
-        public let snapshotRetentionLimit: Int32?
-        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.  This parameter is only valid if the Engine parameter is redis. 
-        public let snapshotWindow: String?
-        /// The user supplied description of the replication group.
-        public let description: String?
-        /// The configuration endpoint for this replication group. Use the configuration endpoint to connect to this replication group.
-        public let configurationEndpoint: Endpoint?
-        /// The identifier for the replication group.
-        public let replicationGroupId: String?
-        /// A flag that enables using an AuthToken (password) when issuing Redis commands. Default: false 
-        public let authTokenEnabled: Bool?
-        /// The current state of this replication group - creating, available, modifying, deleting, create-failed, snapshotting.
-        public let status: String?
-        /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6 or 4.x. Default: false 
-        public let transitEncryptionEnabled: Bool?
-        /// The names of all the cache clusters that are part of this replication group.
-        public let memberClusters: ClusterIdList?
-        /// A flag that enables encryption at-rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the cluster is created. To enable encryption at-rest on a cluster you must set AtRestEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6 or 4.x. Default: false 
-        public let atRestEncryptionEnabled: Bool?
-
-        public init(cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, snapshottingClusterId: String? = nil, nodeGroups: NodeGroupList? = nil, automaticFailover: AutomaticFailoverStatus? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, snapshotRetentionLimit: Int32? = nil, snapshotWindow: String? = nil, description: String? = nil, configurationEndpoint: Endpoint? = nil, replicationGroupId: String? = nil, authTokenEnabled: Bool? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil, memberClusters: ClusterIdList? = nil, atRestEncryptionEnabled: Bool? = nil) {
-            self.cacheNodeType = cacheNodeType
-            self.clusterEnabled = clusterEnabled
-            self.snapshottingClusterId = snapshottingClusterId
-            self.nodeGroups = nodeGroups
-            self.automaticFailover = automaticFailover
-            self.pendingModifiedValues = pendingModifiedValues
-            self.snapshotRetentionLimit = snapshotRetentionLimit
-            self.snapshotWindow = snapshotWindow
-            self.description = description
-            self.configurationEndpoint = configurationEndpoint
+            self.replicasToRemove = replicasToRemove
+            self.applyImmediately = applyImmediately
+            self.replicaConfiguration = replicaConfiguration
             self.replicationGroupId = replicationGroupId
-            self.authTokenEnabled = authTokenEnabled
-            self.status = status
-            self.transitEncryptionEnabled = transitEncryptionEnabled
-            self.memberClusters = memberClusters
-            self.atRestEncryptionEnabled = atRestEncryptionEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheNodeType = "CacheNodeType"
-            case clusterEnabled = "ClusterEnabled"
-            case snapshottingClusterId = "SnapshottingClusterId"
-            case nodeGroups = "NodeGroups"
-            case automaticFailover = "AutomaticFailover"
-            case pendingModifiedValues = "PendingModifiedValues"
-            case snapshotRetentionLimit = "SnapshotRetentionLimit"
-            case snapshotWindow = "SnapshotWindow"
-            case description = "Description"
-            case configurationEndpoint = "ConfigurationEndpoint"
+            case newReplicaCount = "NewReplicaCount"
+            case replicasToRemove = "ReplicasToRemove"
+            case applyImmediately = "ApplyImmediately"
+            case replicaConfiguration = "ReplicaConfiguration"
             case replicationGroupId = "ReplicationGroupId"
-            case authTokenEnabled = "AuthTokenEnabled"
-            case status = "Status"
-            case transitEncryptionEnabled = "TransitEncryptionEnabled"
-            case memberClusters = "MemberClusters"
-            case atRestEncryptionEnabled = "AtRestEncryptionEnabled"
         }
     }
 
     public struct RevokeCacheSecurityGroupIngressMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: true, type: .string), 
             AWSShapeMember(label: "CacheSecurityGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: true, type: .string), 
             AWSShapeMember(label: "EC2SecurityGroupName", required: true, type: .string)
         ]
-        /// The AWS account number of the Amazon EC2 security group owner. Note that this is not the same thing as an AWS access key ID - you must provide a valid AWS account number for this parameter.
-        public let eC2SecurityGroupOwnerId: String
         /// The name of the cache security group to revoke ingress from.
         public let cacheSecurityGroupName: String
+        /// The AWS account number of the Amazon EC2 security group owner. Note that this is not the same thing as an AWS access key ID - you must provide a valid AWS account number for this parameter.
+        public let eC2SecurityGroupOwnerId: String
         /// The name of the Amazon EC2 security group to revoke access from.
         public let eC2SecurityGroupName: String
 
-        public init(eC2SecurityGroupOwnerId: String, cacheSecurityGroupName: String, eC2SecurityGroupName: String) {
-            self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
+        public init(cacheSecurityGroupName: String, eC2SecurityGroupOwnerId: String, eC2SecurityGroupName: String) {
             self.cacheSecurityGroupName = cacheSecurityGroupName
+            self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
             self.eC2SecurityGroupName = eC2SecurityGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
             case cacheSecurityGroupName = "CacheSecurityGroupName"
+            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
             case eC2SecurityGroupName = "EC2SecurityGroupName"
         }
     }
 
-    public struct AuthorizeCacheSecurityGroupIngressMessage: AWSShape {
+    public struct CacheSubnetGroups: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: true, type: .string), 
-            AWSShapeMember(label: "CacheSecurityGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "EC2SecurityGroupName", required: true, type: .string)
+            AWSShapeMember(label: "CacheSubnetGroup", required: false, type: .list)
         ]
-        /// The AWS account number of the Amazon EC2 security group owner. Note that this is not the same thing as an AWS access key ID - you must provide a valid AWS account number for this parameter.
-        public let eC2SecurityGroupOwnerId: String
-        /// The cache security group that allows network ingress.
-        public let cacheSecurityGroupName: String
-        /// The Amazon EC2 security group to be authorized for ingress to the cache security group.
-        public let eC2SecurityGroupName: String
+        public let cacheSubnetGroup: [CacheSubnetGroup]?
 
-        public init(eC2SecurityGroupOwnerId: String, cacheSecurityGroupName: String, eC2SecurityGroupName: String) {
-            self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
-            self.cacheSecurityGroupName = cacheSecurityGroupName
-            self.eC2SecurityGroupName = eC2SecurityGroupName
+        public init(cacheSubnetGroup: [CacheSubnetGroup]? = nil) {
+            self.cacheSubnetGroup = cacheSubnetGroup
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
-            case cacheSecurityGroupName = "CacheSecurityGroupName"
-            case eC2SecurityGroupName = "EC2SecurityGroupName"
+            case cacheSubnetGroup = "CacheSubnetGroup"
         }
     }
 
-    public struct TestFailoverResult: AWSShape {
+    public struct ReshardingConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationGroup", required: false, type: .structure)
+            AWSShapeMember(label: "NodeGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredAvailabilityZones", required: false, type: .structure)
         ]
-        public let replicationGroup: ReplicationGroup?
+        /// The 4-digit id for the node group these configuration values apply to.
+        public let nodeGroupId: String?
+        /// A list of preferred availability zones for the nodes in this cluster.
+        public let preferredAvailabilityZones: AvailabilityZonesList?
 
-        public init(replicationGroup: ReplicationGroup? = nil) {
-            self.replicationGroup = replicationGroup
+        public init(nodeGroupId: String? = nil, preferredAvailabilityZones: AvailabilityZonesList? = nil) {
+            self.nodeGroupId = nodeGroupId
+            self.preferredAvailabilityZones = preferredAvailabilityZones
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicationGroup = "ReplicationGroup"
+            case nodeGroupId = "NodeGroupId"
+            case preferredAvailabilityZones = "PreferredAvailabilityZones"
         }
     }
 
-    public struct NodeGroupConfigurationList: AWSShape {
+    public struct ListAllowedNodeTypeModificationsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeGroupConfiguration", required: false, type: .list)
+            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheClusterId", required: false, type: .string)
         ]
-        public let nodeGroupConfiguration: [NodeGroupConfiguration]?
+        /// The name of the replication group want to scale up to a larger node type. ElastiCache uses the replication group id to identify the current node type being used by this replication group, and from that to create a list of node types you can scale up to.  You must provide a value for either the CacheClusterId or the ReplicationGroupId. 
+        public let replicationGroupId: String?
+        /// The name of the cluster you want to scale up to a larger node instanced type. ElastiCache uses the cluster id to identify the current node type of this cluster and from that to create a list of node types you can scale up to.  You must provide a value for either the CacheClusterId or the ReplicationGroupId. 
+        public let cacheClusterId: String?
 
-        public init(nodeGroupConfiguration: [NodeGroupConfiguration]? = nil) {
-            self.nodeGroupConfiguration = nodeGroupConfiguration
+        public init(replicationGroupId: String? = nil, cacheClusterId: String? = nil) {
+            self.replicationGroupId = replicationGroupId
+            self.cacheClusterId = cacheClusterId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nodeGroupConfiguration = "NodeGroupConfiguration"
+            case replicationGroupId = "ReplicationGroupId"
+            case cacheClusterId = "CacheClusterId"
         }
     }
 
-    public struct NodeGroupsToRemoveList: AWSShape {
+    public struct CreateCacheParameterGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeGroupToRemove", required: false, type: .list)
+            AWSShapeMember(label: "Description", required: true, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroupFamily", required: true, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroupName", required: true, type: .string)
         ]
-        public let nodeGroupToRemove: [String]?
+        /// A user-specified description for the cache parameter group.
+        public let description: String
+        /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 | redis4.0 
+        public let cacheParameterGroupFamily: String
+        /// A user-specified name for the cache parameter group.
+        public let cacheParameterGroupName: String
 
-        public init(nodeGroupToRemove: [String]? = nil) {
-            self.nodeGroupToRemove = nodeGroupToRemove
+        public init(description: String, cacheParameterGroupFamily: String, cacheParameterGroupName: String) {
+            self.description = description
+            self.cacheParameterGroupFamily = cacheParameterGroupFamily
+            self.cacheParameterGroupName = cacheParameterGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nodeGroupToRemove = "NodeGroupToRemove"
+            case description = "Description"
+            case cacheParameterGroupFamily = "CacheParameterGroupFamily"
+            case cacheParameterGroupName = "CacheParameterGroupName"
+        }
+    }
+
+    public struct ClusterIdList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: false, type: .list)
+        ]
+        public let clusterId: [String]?
+
+        public init(clusterId: [String]? = nil) {
+            self.clusterId = clusterId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+        }
+    }
+
+    public struct CacheEngineVersion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "CacheEngineDescription", required: false, type: .string), 
+            AWSShapeMember(label: "CacheEngineVersionDescription", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroupFamily", required: false, type: .string)
+        ]
+        /// The name of the cache engine.
+        public let engine: String?
+        /// The description of the cache engine.
+        public let cacheEngineDescription: String?
+        /// The description of the cache engine version.
+        public let cacheEngineVersionDescription: String?
+        /// The version number of the cache engine.
+        public let engineVersion: String?
+        /// The name of the cache parameter group family associated with this cache engine. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 | redis4.0 
+        public let cacheParameterGroupFamily: String?
+
+        public init(engine: String? = nil, cacheEngineDescription: String? = nil, cacheEngineVersionDescription: String? = nil, engineVersion: String? = nil, cacheParameterGroupFamily: String? = nil) {
+            self.engine = engine
+            self.cacheEngineDescription = cacheEngineDescription
+            self.cacheEngineVersionDescription = cacheEngineVersionDescription
+            self.engineVersion = engineVersion
+            self.cacheParameterGroupFamily = cacheParameterGroupFamily
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engine = "Engine"
+            case cacheEngineDescription = "CacheEngineDescription"
+            case cacheEngineVersionDescription = "CacheEngineVersionDescription"
+            case engineVersion = "EngineVersion"
+            case cacheParameterGroupFamily = "CacheParameterGroupFamily"
         }
     }
 
@@ -1017,147 +443,215 @@ extension ElastiCache {
         }
     }
 
-    public struct CacheNodeIdsList: AWSShape {
+    public struct SubnetIdentifierList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheNodeId", required: false, type: .list)
+            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .list)
         ]
-        public let cacheNodeId: [String]?
+        public let subnetIdentifier: [String]?
 
-        public init(cacheNodeId: [String]? = nil) {
-            self.cacheNodeId = cacheNodeId
+        public init(subnetIdentifier: [String]? = nil) {
+            self.subnetIdentifier = subnetIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheNodeId = "CacheNodeId"
+            case subnetIdentifier = "SubnetIdentifier"
         }
     }
 
-    public struct AvailabilityZone: AWSShape {
+    public struct CreateCacheSubnetGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "CacheSubnetGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "SubnetIds", required: true, type: .structure), 
+            AWSShapeMember(label: "CacheSubnetGroupDescription", required: true, type: .string)
         ]
-        /// The name of the Availability Zone.
-        public let name: String?
+        /// A name for the cache subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup 
+        public let cacheSubnetGroupName: String
+        /// A list of VPC subnet IDs for the cache subnet group.
+        public let subnetIds: SubnetIdentifierList
+        /// A description for the cache subnet group.
+        public let cacheSubnetGroupDescription: String
 
-        public init(name: String? = nil) {
-            self.name = name
+        public init(cacheSubnetGroupName: String, subnetIds: SubnetIdentifierList, cacheSubnetGroupDescription: String) {
+            self.cacheSubnetGroupName = cacheSubnetGroupName
+            self.subnetIds = subnetIds
+            self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "Name"
+            case cacheSubnetGroupName = "CacheSubnetGroupName"
+            case subnetIds = "SubnetIds"
+            case cacheSubnetGroupDescription = "CacheSubnetGroupDescription"
         }
     }
 
-    public struct ReservedCacheNodesOfferingMessage: AWSShape {
+    public struct TestFailoverMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedCacheNodesOfferings", required: false, type: .structure)
+            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string), 
+            AWSShapeMember(label: "NodeGroupId", required: true, type: .string)
         ]
-        /// Provides an identifier to allow retrieval of paginated results.
-        public let marker: String?
-        /// A list of reserved cache node offerings. Each element in the list contains detailed information about one offering.
-        public let reservedCacheNodesOfferings: ReservedCacheNodesOfferingList?
+        /// The name of the replication group (console: cluster) whose automatic failover is being tested by this operation.
+        public let replicationGroupId: String
+        /// The name of the node group (called shard in the console) in this replication group on which automatic failover is to be tested. You may test automatic failover on up to 5 node groups in any rolling 24-hour period.
+        public let nodeGroupId: String
 
-        public init(marker: String? = nil, reservedCacheNodesOfferings: ReservedCacheNodesOfferingList? = nil) {
-            self.marker = marker
-            self.reservedCacheNodesOfferings = reservedCacheNodesOfferings
+        public init(replicationGroupId: String, nodeGroupId: String) {
+            self.replicationGroupId = replicationGroupId
+            self.nodeGroupId = nodeGroupId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case reservedCacheNodesOfferings = "ReservedCacheNodesOfferings"
+            case replicationGroupId = "ReplicationGroupId"
+            case nodeGroupId = "NodeGroupId"
         }
     }
 
-    public struct SlotMigration: AWSShape {
+    public struct CacheCluster: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProgressPercentage", required: false, type: .double)
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "CacheNodes", required: false, type: .structure), 
+            AWSShapeMember(label: "PreferredAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "CacheClusterCreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigurationEndpoint", required: false, type: .structure), 
+            AWSShapeMember(label: "CacheSecurityGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "CacheParameterGroup", required: false, type: .structure), 
+            AWSShapeMember(label: "ClientDownloadLandingPage", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "CacheSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
+            AWSShapeMember(label: "TransitEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "AtRestEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "AuthTokenEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "CacheClusterStatus", required: false, type: .string), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
+            AWSShapeMember(label: "NotificationConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "NumCacheNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string)
         ]
-        /// The percentage of the slot migration that is complete.
-        public let progressPercentage: Double?
-
-        public init(progressPercentage: Double? = nil) {
-            self.progressPercentage = progressPercentage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case progressPercentage = "ProgressPercentage"
-        }
-    }
-
-    public struct ReservedCacheNode: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UsagePrice", required: false, type: .double), 
-            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedCacheNodesOfferingId", required: false, type: .string), 
-            AWSShapeMember(label: "CacheNodeCount", required: false, type: .integer), 
-            AWSShapeMember(label: "RecurringCharges", required: false, type: .structure), 
-            AWSShapeMember(label: "State", required: false, type: .string), 
-            AWSShapeMember(label: "FixedPrice", required: false, type: .double), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReservationARN", required: false, type: .string), 
-            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
-            AWSShapeMember(label: "Duration", required: false, type: .integer), 
-            AWSShapeMember(label: "ReservedCacheNodeId", required: false, type: .string), 
-            AWSShapeMember(label: "OfferingType", required: false, type: .string)
-        ]
-        /// The hourly price charged for this reserved cache node.
-        public let usagePrice: Double?
-        /// The cache node type for the reserved cache nodes. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge   R4 node types; cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge       Notes:    All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).   Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.    Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.   Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.   For a complete listing of node types and specifications, see:    Amazon ElastiCache Product Features and Details     Cache Node Type-Specific Parameters for Memcached     Cache Node Type-Specific Parameters for Redis   
+        /// A list of VPC Security Groups associated with the cluster.
+        public let securityGroups: [SecurityGroupMembership]?
+        /// A list of cache nodes that are members of the cluster.
+        public let cacheNodes: CacheNodeList?
+        /// The name of the Availability Zone in which the cluster is located or "Multiple" if the cache nodes are located in different Availability Zones.
+        public let preferredAvailabilityZone: String?
+        /// The date and time when the cluster was created.
+        public let cacheClusterCreateTime: TimeStamp?
+        /// The version of the cache engine that is used in this cluster.
+        public let engineVersion: String?
+        /// Represents a Memcached cluster endpoint which, if Automatic Discovery is enabled on the cluster, can be used by an application to connect to any node in the cluster. The configuration endpoint will always have .cfg in it. Example: mem-3.9dvc4r.cfg.usw2.cache.amazonaws.com:11211 
+        public let configurationEndpoint: Endpoint?
+        /// A list of cache security group elements, composed of name and status sub-elements.
+        public let cacheSecurityGroups: CacheSecurityGroupMembershipList?
+        /// Status of the cache parameter group.
+        public let cacheParameterGroup: CacheParameterGroupStatus?
+        /// The URL of the web page where you can download the latest ElastiCache client library.
+        public let clientDownloadLandingPage: String?
+        /// The replication group to which this cluster belongs. If this field is empty, the cluster is not associated with any replication group.
+        public let replicationGroupId: String?
+        /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. 
+        public let snapshotRetentionLimit: Int32?
+        /// The name of the cache subnet group associated with the cluster.
+        public let cacheSubnetGroupName: String?
+        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your cluster. Example: 05:00-09:00 
+        public let snapshotWindow: String?
+        /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6 or 4.x. Default: false 
+        public let transitEncryptionEnabled: Bool?
+        /// A flag that enables encryption at-rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the cluster is created. To enable at-rest encryption on a cluster you must set AtRestEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6 or 4.x. Default: false 
+        public let atRestEncryptionEnabled: Bool?
+        /// A flag that enables using an AuthToken (password) when issuing Redis commands. Default: false 
+        public let authTokenEnabled: Bool?
+        /// The current state of this cluster, one of the following values: available, creating, deleted, deleting, incompatible-network, modifying, rebooting cluster nodes, restore-failed, or snapshotting.
+        public let cacheClusterStatus: String?
+        /// The name of the cache engine (memcached or redis) to be used for this cluster.
+        public let engine: String?
+        public let pendingModifiedValues: PendingModifiedValues?
+        /// Describes a notification topic and its status. Notification topics are used for publishing ElastiCache events to subscribers using Amazon Simple Notification Service (SNS). 
+        public let notificationConfiguration: NotificationConfiguration?
+        /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30 
+        public let preferredMaintenanceWindow: String?
+        /// The user-supplied identifier of the cluster. This identifier is a unique key that identifies a cluster.
+        public let cacheClusterId: String?
+        /// This parameter is currently disabled.
+        public let autoMinorVersionUpgrade: Bool?
+        /// The number of cache nodes in the cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
+        public let numCacheNodes: Int32?
+        /// The name of the compute and memory capacity node type for the cluster. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge   R4 node types; cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge       Notes:    All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).   Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.    Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.   Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.   For a complete listing of node types and specifications, see:    Amazon ElastiCache Product Features and Details     Cache Node Type-Specific Parameters for Memcached     Cache Node Type-Specific Parameters for Redis   
         public let cacheNodeType: String?
-        /// The offering identifier.
-        public let reservedCacheNodesOfferingId: String?
-        /// The number of cache nodes that have been reserved.
-        public let cacheNodeCount: Int32?
-        /// The recurring price charged to run this reserved cache node.
-        public let recurringCharges: RecurringChargeList?
-        /// The state of the reserved cache node.
-        public let state: String?
-        /// The fixed price charged for this reserved cache node.
-        public let fixedPrice: Double?
-        /// The time the reservation started.
-        public let startTime: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the reserved cache node. Example: arn:aws:elasticache:us-east-1:123456789012:reserved-instance:ri-2017-03-27-08-33-25-582 
-        public let reservationARN: String?
-        /// The description of the reserved cache node.
-        public let productDescription: String?
-        /// The duration of the reservation in seconds.
-        public let duration: Int32?
-        /// The unique identifier for the reservation.
-        public let reservedCacheNodeId: String?
-        /// The offering type of this reserved cache node.
-        public let offeringType: String?
 
-        public init(usagePrice: Double? = nil, cacheNodeType: String? = nil, reservedCacheNodesOfferingId: String? = nil, cacheNodeCount: Int32? = nil, recurringCharges: RecurringChargeList? = nil, state: String? = nil, fixedPrice: Double? = nil, startTime: TimeStamp? = nil, reservationARN: String? = nil, productDescription: String? = nil, duration: Int32? = nil, reservedCacheNodeId: String? = nil, offeringType: String? = nil) {
-            self.usagePrice = usagePrice
+        public init(securityGroups: [SecurityGroupMembership]? = nil, cacheNodes: CacheNodeList? = nil, preferredAvailabilityZone: String? = nil, cacheClusterCreateTime: TimeStamp? = nil, engineVersion: String? = nil, configurationEndpoint: Endpoint? = nil, cacheSecurityGroups: CacheSecurityGroupMembershipList? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, clientDownloadLandingPage: String? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int32? = nil, cacheSubnetGroupName: String? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, cacheClusterStatus: String? = nil, engine: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, notificationConfiguration: NotificationConfiguration? = nil, preferredMaintenanceWindow: String? = nil, cacheClusterId: String? = nil, autoMinorVersionUpgrade: Bool? = nil, numCacheNodes: Int32? = nil, cacheNodeType: String? = nil) {
+            self.securityGroups = securityGroups
+            self.cacheNodes = cacheNodes
+            self.preferredAvailabilityZone = preferredAvailabilityZone
+            self.cacheClusterCreateTime = cacheClusterCreateTime
+            self.engineVersion = engineVersion
+            self.configurationEndpoint = configurationEndpoint
+            self.cacheSecurityGroups = cacheSecurityGroups
+            self.cacheParameterGroup = cacheParameterGroup
+            self.clientDownloadLandingPage = clientDownloadLandingPage
+            self.replicationGroupId = replicationGroupId
+            self.snapshotRetentionLimit = snapshotRetentionLimit
+            self.cacheSubnetGroupName = cacheSubnetGroupName
+            self.snapshotWindow = snapshotWindow
+            self.transitEncryptionEnabled = transitEncryptionEnabled
+            self.atRestEncryptionEnabled = atRestEncryptionEnabled
+            self.authTokenEnabled = authTokenEnabled
+            self.cacheClusterStatus = cacheClusterStatus
+            self.engine = engine
+            self.pendingModifiedValues = pendingModifiedValues
+            self.notificationConfiguration = notificationConfiguration
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.cacheClusterId = cacheClusterId
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.numCacheNodes = numCacheNodes
             self.cacheNodeType = cacheNodeType
-            self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
-            self.cacheNodeCount = cacheNodeCount
-            self.recurringCharges = recurringCharges
-            self.state = state
-            self.fixedPrice = fixedPrice
-            self.startTime = startTime
-            self.reservationARN = reservationARN
-            self.productDescription = productDescription
-            self.duration = duration
-            self.reservedCacheNodeId = reservedCacheNodeId
-            self.offeringType = offeringType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case usagePrice = "UsagePrice"
+            case securityGroups = "SecurityGroups"
+            case cacheNodes = "CacheNodes"
+            case preferredAvailabilityZone = "PreferredAvailabilityZone"
+            case cacheClusterCreateTime = "CacheClusterCreateTime"
+            case engineVersion = "EngineVersion"
+            case configurationEndpoint = "ConfigurationEndpoint"
+            case cacheSecurityGroups = "CacheSecurityGroups"
+            case cacheParameterGroup = "CacheParameterGroup"
+            case clientDownloadLandingPage = "ClientDownloadLandingPage"
+            case replicationGroupId = "ReplicationGroupId"
+            case snapshotRetentionLimit = "SnapshotRetentionLimit"
+            case cacheSubnetGroupName = "CacheSubnetGroupName"
+            case snapshotWindow = "SnapshotWindow"
+            case transitEncryptionEnabled = "TransitEncryptionEnabled"
+            case atRestEncryptionEnabled = "AtRestEncryptionEnabled"
+            case authTokenEnabled = "AuthTokenEnabled"
+            case cacheClusterStatus = "CacheClusterStatus"
+            case engine = "Engine"
+            case pendingModifiedValues = "PendingModifiedValues"
+            case notificationConfiguration = "NotificationConfiguration"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case cacheClusterId = "CacheClusterId"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case numCacheNodes = "NumCacheNodes"
             case cacheNodeType = "CacheNodeType"
-            case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
-            case cacheNodeCount = "CacheNodeCount"
-            case recurringCharges = "RecurringCharges"
-            case state = "State"
-            case fixedPrice = "FixedPrice"
-            case startTime = "StartTime"
-            case reservationARN = "ReservationARN"
-            case productDescription = "ProductDescription"
-            case duration = "Duration"
-            case reservedCacheNodeId = "ReservedCacheNodeId"
-            case offeringType = "OfferingType"
+        }
+    }
+
+    public struct CreateCacheSubnetGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSubnetGroup", required: false, type: .structure)
+        ]
+        public let cacheSubnetGroup: CacheSubnetGroup?
+
+        public init(cacheSubnetGroup: CacheSubnetGroup? = nil) {
+            self.cacheSubnetGroup = cacheSubnetGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheSubnetGroup = "CacheSubnetGroup"
         }
     }
 
@@ -1176,126 +670,70 @@ extension ElastiCache {
         }
     }
 
-    public struct NodeGroupMemberList: AWSShape {
+    public struct CacheNode: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeGroupMember", required: false, type: .list)
+            AWSShapeMember(label: "SourceCacheNodeId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeId", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterGroupStatus", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeCreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CacheNodeStatus", required: false, type: .string), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomerAvailabilityZone", required: false, type: .string)
         ]
-        public let nodeGroupMember: [NodeGroupMember]?
+        /// The ID of the primary node to which this read replica node is synchronized. If this field is empty, this node is not associated with a primary cluster.
+        public let sourceCacheNodeId: String?
+        /// The cache node identifier. A node ID is a numeric identifier (0001, 0002, etc.). The combination of cluster ID and node ID uniquely identifies every cache node used in a customer's AWS account.
+        public let cacheNodeId: String?
+        /// The status of the parameter group applied to this cache node.
+        public let parameterGroupStatus: String?
+        /// The date and time when the cache node was created.
+        public let cacheNodeCreateTime: TimeStamp?
+        /// The current state of this cache node.
+        public let cacheNodeStatus: String?
+        /// The hostname for connecting to this cache node.
+        public let endpoint: Endpoint?
+        /// The Availability Zone where this node was created and now resides.
+        public let customerAvailabilityZone: String?
 
-        public init(nodeGroupMember: [NodeGroupMember]? = nil) {
-            self.nodeGroupMember = nodeGroupMember
+        public init(sourceCacheNodeId: String? = nil, cacheNodeId: String? = nil, parameterGroupStatus: String? = nil, cacheNodeCreateTime: TimeStamp? = nil, cacheNodeStatus: String? = nil, endpoint: Endpoint? = nil, customerAvailabilityZone: String? = nil) {
+            self.sourceCacheNodeId = sourceCacheNodeId
+            self.cacheNodeId = cacheNodeId
+            self.parameterGroupStatus = parameterGroupStatus
+            self.cacheNodeCreateTime = cacheNodeCreateTime
+            self.cacheNodeStatus = cacheNodeStatus
+            self.endpoint = endpoint
+            self.customerAvailabilityZone = customerAvailabilityZone
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nodeGroupMember = "NodeGroupMember"
+            case sourceCacheNodeId = "SourceCacheNodeId"
+            case cacheNodeId = "CacheNodeId"
+            case parameterGroupStatus = "ParameterGroupStatus"
+            case cacheNodeCreateTime = "CacheNodeCreateTime"
+            case cacheNodeStatus = "CacheNodeStatus"
+            case endpoint = "Endpoint"
+            case customerAvailabilityZone = "CustomerAvailabilityZone"
         }
     }
 
-    public struct DecreaseReplicaCountResult: AWSShape {
+    public struct RecurringCharge: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationGroup", required: false, type: .structure)
+            AWSShapeMember(label: "RecurringChargeAmount", required: false, type: .double), 
+            AWSShapeMember(label: "RecurringChargeFrequency", required: false, type: .string)
         ]
-        public let replicationGroup: ReplicationGroup?
+        /// The monetary amount of the recurring charge.
+        public let recurringChargeAmount: Double?
+        /// The frequency of the recurring charge.
+        public let recurringChargeFrequency: String?
 
-        public init(replicationGroup: ReplicationGroup? = nil) {
-            self.replicationGroup = replicationGroup
+        public init(recurringChargeAmount: Double? = nil, recurringChargeFrequency: String? = nil) {
+            self.recurringChargeAmount = recurringChargeAmount
+            self.recurringChargeFrequency = recurringChargeFrequency
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicationGroup = "ReplicationGroup"
-        }
-    }
-
-    public struct DescribeCacheClustersMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ShowCacheClustersNotInReplicationGroups", required: false, type: .boolean), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "ShowCacheNodeInfo", required: false, type: .boolean), 
-            AWSShapeMember(label: "CacheClusterId", required: false, type: .string)
-        ]
-        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        public let marker: String?
-        /// An optional flag that can be included in the DescribeCacheCluster request to show only nodes (API/CLI: clusters) that are not members of a replication group. In practice, this mean Memcached and single node Redis clusters.
-        public let showCacheClustersNotInReplicationGroups: Bool?
-        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
-        /// An optional flag that can be included in the DescribeCacheCluster request to retrieve information about the individual cache nodes.
-        public let showCacheNodeInfo: Bool?
-        /// The user-supplied cluster identifier. If this parameter is specified, only information about that specific cluster is returned. This parameter isn't case sensitive.
-        public let cacheClusterId: String?
-
-        public init(marker: String? = nil, showCacheClustersNotInReplicationGroups: Bool? = nil, maxRecords: Int32? = nil, showCacheNodeInfo: Bool? = nil, cacheClusterId: String? = nil) {
-            self.marker = marker
-            self.showCacheClustersNotInReplicationGroups = showCacheClustersNotInReplicationGroups
-            self.maxRecords = maxRecords
-            self.showCacheNodeInfo = showCacheNodeInfo
-            self.cacheClusterId = cacheClusterId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case showCacheClustersNotInReplicationGroups = "ShowCacheClustersNotInReplicationGroups"
-            case maxRecords = "MaxRecords"
-            case showCacheNodeInfo = "ShowCacheNodeInfo"
-            case cacheClusterId = "CacheClusterId"
-        }
-    }
-
-    public struct CacheParameterGroupList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheParameterGroup", required: false, type: .list)
-        ]
-        public let cacheParameterGroup: [CacheParameterGroup]?
-
-        public init(cacheParameterGroup: [CacheParameterGroup]? = nil) {
-            self.cacheParameterGroup = cacheParameterGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheParameterGroup = "CacheParameterGroup"
-        }
-    }
-
-    public struct RebootCacheClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheCluster", required: false, type: .structure)
-        ]
-        public let cacheCluster: CacheCluster?
-
-        public init(cacheCluster: CacheCluster? = nil) {
-            self.cacheCluster = cacheCluster
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheCluster = "CacheCluster"
-        }
-    }
-
-    public enum PendingAutomaticFailoverStatus: String, CustomStringConvertible, Codable {
-        case enabled = "enabled"
-        case disabled = "disabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct SecurityGroupMembership: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupId", required: false, type: .string)
-        ]
-        /// The status of the cache security group membership. The status changes whenever a cache security group is modified, or when the cache security groups assigned to a cluster are modified.
-        public let status: String?
-        /// The identifier of the cache security group.
-        public let securityGroupId: String?
-
-        public init(status: String? = nil, securityGroupId: String? = nil) {
-            self.status = status
-            self.securityGroupId = securityGroupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case securityGroupId = "SecurityGroupId"
+            case recurringChargeAmount = "RecurringChargeAmount"
+            case recurringChargeFrequency = "RecurringChargeFrequency"
         }
     }
 
@@ -1311,318 +749,6 @@ extension ElastiCache {
 
         private enum CodingKeys: String, CodingKey {
             case replicationGroup = "ReplicationGroup"
-        }
-    }
-
-    public struct ModifyReplicationGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationGroup", required: false, type: .structure)
-        ]
-        public let replicationGroup: ReplicationGroup?
-
-        public init(replicationGroup: ReplicationGroup? = nil) {
-            self.replicationGroup = replicationGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationGroup = "ReplicationGroup"
-        }
-    }
-
-    public struct DeleteSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Snapshot", required: false, type: .structure)
-        ]
-        public let snapshot: Snapshot?
-
-        public init(snapshot: Snapshot? = nil) {
-            self.snapshot = snapshot
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snapshot = "Snapshot"
-        }
-    }
-
-    public struct DescribeReservedCacheNodesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Duration", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedCacheNodeId", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedCacheNodesOfferingId", required: false, type: .string), 
-            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
-            AWSShapeMember(label: "CacheNodeType", required: false, type: .string)
-        ]
-        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        public let marker: String?
-        /// The duration filter value, specified in years or seconds. Use this parameter to show only reservations for this duration. Valid Values: 1 | 3 | 31536000 | 94608000 
-        public let duration: String?
-        /// The reserved cache node identifier filter value. Use this parameter to show only the reservation that matches the specified reservation ID.
-        public let reservedCacheNodeId: String?
-        /// The offering identifier filter value. Use this parameter to show only purchased reservations matching the specified offering identifier.
-        public let reservedCacheNodesOfferingId: String?
-        /// The product description filter value. Use this parameter to show only those reservations matching the specified product description.
-        public let productDescription: String?
-        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
-        /// The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid values: "Light Utilization"|"Medium Utilization"|"Heavy Utilization" 
-        public let offeringType: String?
-        /// The cache node type filter value. Use this parameter to show only those reservations matching the specified cache node type. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge   R4 node types; cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge       Notes:    All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).   Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.    Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.   Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.   For a complete listing of node types and specifications, see:    Amazon ElastiCache Product Features and Details     Cache Node Type-Specific Parameters for Memcached     Cache Node Type-Specific Parameters for Redis   
-        public let cacheNodeType: String?
-
-        public init(marker: String? = nil, duration: String? = nil, reservedCacheNodeId: String? = nil, reservedCacheNodesOfferingId: String? = nil, productDescription: String? = nil, maxRecords: Int32? = nil, offeringType: String? = nil, cacheNodeType: String? = nil) {
-            self.marker = marker
-            self.duration = duration
-            self.reservedCacheNodeId = reservedCacheNodeId
-            self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
-            self.productDescription = productDescription
-            self.maxRecords = maxRecords
-            self.offeringType = offeringType
-            self.cacheNodeType = cacheNodeType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case duration = "Duration"
-            case reservedCacheNodeId = "ReservedCacheNodeId"
-            case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
-            case productDescription = "ProductDescription"
-            case maxRecords = "MaxRecords"
-            case offeringType = "OfferingType"
-            case cacheNodeType = "CacheNodeType"
-        }
-    }
-
-    public struct NodeGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "NodeGroupMembers", required: false, type: .structure), 
-            AWSShapeMember(label: "PrimaryEndpoint", required: false, type: .structure), 
-            AWSShapeMember(label: "Slots", required: false, type: .string)
-        ]
-        /// The identifier for the node group (shard). A Redis (cluster mode disabled) replication group contains only 1 node group; therefore, the node group ID is 0001. A Redis (cluster mode enabled) replication group contains 1 to 15 node groups numbered 0001 to 0015. 
-        public let nodeGroupId: String?
-        /// The current state of this replication group - creating, available, etc.
-        public let status: String?
-        /// A list containing information about individual nodes within the node group (shard).
-        public let nodeGroupMembers: NodeGroupMemberList?
-        /// The endpoint of the primary node in this node group (shard).
-        public let primaryEndpoint: Endpoint?
-        /// The keyspace for this node group (shard).
-        public let slots: String?
-
-        public init(nodeGroupId: String? = nil, status: String? = nil, nodeGroupMembers: NodeGroupMemberList? = nil, primaryEndpoint: Endpoint? = nil, slots: String? = nil) {
-            self.nodeGroupId = nodeGroupId
-            self.status = status
-            self.nodeGroupMembers = nodeGroupMembers
-            self.primaryEndpoint = primaryEndpoint
-            self.slots = slots
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nodeGroupId = "NodeGroupId"
-            case status = "Status"
-            case nodeGroupMembers = "NodeGroupMembers"
-            case primaryEndpoint = "PrimaryEndpoint"
-            case slots = "Slots"
-        }
-    }
-
-    public struct DeleteCacheClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheCluster", required: false, type: .structure)
-        ]
-        public let cacheCluster: CacheCluster?
-
-        public init(cacheCluster: CacheCluster? = nil) {
-            self.cacheCluster = cacheCluster
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheCluster = "CacheCluster"
-        }
-    }
-
-    public struct ReplicaConfigurationList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigureShard", required: false, type: .list)
-        ]
-        public let configureShard: [ConfigureShard]?
-
-        public init(configureShard: [ConfigureShard]? = nil) {
-            self.configureShard = configureShard
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configureShard = "ConfigureShard"
-        }
-    }
-
-    public struct DeleteReplicationGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FinalSnapshotIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "RetainPrimaryCluster", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string)
-        ]
-        /// The name of a final node group (shard) snapshot. ElastiCache creates the snapshot from the primary node in the cluster, rather than one of the replicas; this is to ensure that it captures the freshest data. After the final snapshot is taken, the replication group is immediately deleted.
-        public let finalSnapshotIdentifier: String?
-        /// If set to true, all of the read replicas are deleted, but the primary node is retained.
-        public let retainPrimaryCluster: Bool?
-        /// The identifier for the cluster to be deleted. This parameter is not case sensitive.
-        public let replicationGroupId: String
-
-        public init(finalSnapshotIdentifier: String? = nil, retainPrimaryCluster: Bool? = nil, replicationGroupId: String) {
-            self.finalSnapshotIdentifier = finalSnapshotIdentifier
-            self.retainPrimaryCluster = retainPrimaryCluster
-            self.replicationGroupId = replicationGroupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case finalSnapshotIdentifier = "FinalSnapshotIdentifier"
-            case retainPrimaryCluster = "RetainPrimaryCluster"
-            case replicationGroupId = "ReplicationGroupId"
-        }
-    }
-
-    public struct ClusterIdList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterId", required: false, type: .list)
-        ]
-        public let clusterId: [String]?
-
-        public init(clusterId: [String]? = nil) {
-            self.clusterId = clusterId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusterId = "ClusterId"
-        }
-    }
-
-    public struct DescribeEventsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Duration", required: false, type: .integer), 
-            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp)
-        ]
-        /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
-        public let startTime: TimeStamp?
-        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        public let marker: String?
-        /// The number of minutes worth of events to retrieve.
-        public let duration: Int32?
-        /// The event source to retrieve events for. If no value is specified, all events are returned.
-        public let sourceType: SourceType?
-        /// The identifier of the event source for which events are returned. If not specified, all sources are included in the response.
-        public let sourceIdentifier: String?
-        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
-        /// The end of the time interval for which to retrieve events, specified in ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
-        public let endTime: TimeStamp?
-
-        public init(startTime: TimeStamp? = nil, marker: String? = nil, duration: Int32? = nil, sourceType: SourceType? = nil, sourceIdentifier: String? = nil, maxRecords: Int32? = nil, endTime: TimeStamp? = nil) {
-            self.startTime = startTime
-            self.marker = marker
-            self.duration = duration
-            self.sourceType = sourceType
-            self.sourceIdentifier = sourceIdentifier
-            self.maxRecords = maxRecords
-            self.endTime = endTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case startTime = "StartTime"
-            case marker = "Marker"
-            case duration = "Duration"
-            case sourceType = "SourceType"
-            case sourceIdentifier = "SourceIdentifier"
-            case maxRecords = "MaxRecords"
-            case endTime = "EndTime"
-        }
-    }
-
-    public struct ReshardingStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SlotMigration", required: false, type: .structure)
-        ]
-        /// Represents the progress of an online resharding operation.
-        public let slotMigration: SlotMigration?
-
-        public init(slotMigration: SlotMigration? = nil) {
-            self.slotMigration = slotMigration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case slotMigration = "SlotMigration"
-        }
-    }
-
-    public struct CacheParameterGroupDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
-            AWSShapeMember(label: "CacheNodeTypeSpecificParameters", required: false, type: .structure)
-        ]
-        /// Provides an identifier to allow retrieval of paginated results.
-        public let marker: String?
-        /// A list of Parameter instances.
-        public let parameters: ParametersList?
-        /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
-        public let cacheNodeTypeSpecificParameters: CacheNodeTypeSpecificParametersList?
-
-        public init(marker: String? = nil, parameters: ParametersList? = nil, cacheNodeTypeSpecificParameters: CacheNodeTypeSpecificParametersList? = nil) {
-            self.marker = marker
-            self.parameters = parameters
-            self.cacheNodeTypeSpecificParameters = cacheNodeTypeSpecificParameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case parameters = "Parameters"
-            case cacheNodeTypeSpecificParameters = "CacheNodeTypeSpecificParameters"
-        }
-    }
-
-    public struct TagList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tag", required: false, type: .list)
-        ]
-        public let tag: [Tag]?
-
-        public init(tag: [Tag]? = nil) {
-            self.tag = tag
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tag = "Tag"
-        }
-    }
-
-    public enum AZMode: String, CustomStringConvertible, Codable {
-        case singleAz = "single-az"
-        case crossAz = "cross-az"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Snapshot", required: false, type: .structure)
-        ]
-        public let snapshot: Snapshot?
-
-        public init(snapshot: Snapshot? = nil) {
-            self.snapshot = snapshot
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snapshot = "Snapshot"
         }
     }
 
@@ -1647,598 +773,642 @@ extension ElastiCache {
         }
     }
 
-    public struct ParametersList: AWSShape {
+    public struct DeleteCacheSubnetGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Parameter", required: false, type: .list)
+            AWSShapeMember(label: "CacheSubnetGroupName", required: true, type: .string)
         ]
-        public let parameter: [Parameter]?
+        /// The name of the cache subnet group to delete. Constraints: Must contain no more than 255 alphanumeric characters or hyphens.
+        public let cacheSubnetGroupName: String
 
-        public init(parameter: [Parameter]? = nil) {
-            self.parameter = parameter
+        public init(cacheSubnetGroupName: String) {
+            self.cacheSubnetGroupName = cacheSubnetGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameter = "Parameter"
+            case cacheSubnetGroupName = "CacheSubnetGroupName"
         }
+    }
+
+    public struct DescribeSnapshotsListMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Snapshots", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// A list of snapshots. Each item in the list contains detailed information about one snapshot.
+        public let snapshots: SnapshotList?
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+
+        public init(snapshots: SnapshotList? = nil, marker: String? = nil) {
+            self.snapshots = snapshots
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshots = "Snapshots"
+            case marker = "Marker"
+        }
+    }
+
+    public struct NodeGroupConfigurationList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeGroupConfiguration", required: false, type: .list)
+        ]
+        public let nodeGroupConfiguration: [NodeGroupConfiguration]?
+
+        public init(nodeGroupConfiguration: [NodeGroupConfiguration]? = nil) {
+            self.nodeGroupConfiguration = nodeGroupConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeGroupConfiguration = "NodeGroupConfiguration"
+        }
+    }
+
+    public struct CacheNodeTypeSpecificValueList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheNodeTypeSpecificValue", required: false, type: .list)
+        ]
+        public let cacheNodeTypeSpecificValue: [CacheNodeTypeSpecificValue]?
+
+        public init(cacheNodeTypeSpecificValue: [CacheNodeTypeSpecificValue]? = nil) {
+            self.cacheNodeTypeSpecificValue = cacheNodeTypeSpecificValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheNodeTypeSpecificValue = "CacheNodeTypeSpecificValue"
+        }
+    }
+
+    public struct DeleteCacheClusterResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheCluster", required: false, type: .structure)
+        ]
+        public let cacheCluster: CacheCluster?
+
+        public init(cacheCluster: CacheCluster? = nil) {
+            self.cacheCluster = cacheCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheCluster = "CacheCluster"
+        }
+    }
+
+    public struct ReshardingStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SlotMigration", required: false, type: .structure)
+        ]
+        /// Represents the progress of an online resharding operation.
+        public let slotMigration: SlotMigration?
+
+        public init(slotMigration: SlotMigration? = nil) {
+            self.slotMigration = slotMigration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case slotMigration = "SlotMigration"
+        }
+    }
+
+    public struct DescribeReservedCacheNodesMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedCacheNodeId", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedCacheNodesOfferingId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
+            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
+            AWSShapeMember(label: "Duration", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        ]
+        /// The reserved cache node identifier filter value. Use this parameter to show only the reservation that matches the specified reservation ID.
+        public let reservedCacheNodeId: String?
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// The offering identifier filter value. Use this parameter to show only purchased reservations matching the specified offering identifier.
+        public let reservedCacheNodesOfferingId: String?
+        /// The cache node type filter value. Use this parameter to show only those reservations matching the specified cache node type. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge   R4 node types; cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge       Notes:    All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).   Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.    Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.   Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.   For a complete listing of node types and specifications, see:    Amazon ElastiCache Product Features and Details     Cache Node Type-Specific Parameters for Memcached     Cache Node Type-Specific Parameters for Redis   
+        public let cacheNodeType: String?
+        /// The product description filter value. Use this parameter to show only those reservations matching the specified product description.
+        public let productDescription: String?
+        /// The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid values: "Light Utilization"|"Medium Utilization"|"Heavy Utilization" 
+        public let offeringType: String?
+        /// The duration filter value, specified in years or seconds. Use this parameter to show only reservations for this duration. Valid Values: 1 | 3 | 31536000 | 94608000 
+        public let duration: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
+        public let maxRecords: Int32?
+
+        public init(reservedCacheNodeId: String? = nil, marker: String? = nil, reservedCacheNodesOfferingId: String? = nil, cacheNodeType: String? = nil, productDescription: String? = nil, offeringType: String? = nil, duration: String? = nil, maxRecords: Int32? = nil) {
+            self.reservedCacheNodeId = reservedCacheNodeId
+            self.marker = marker
+            self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
+            self.cacheNodeType = cacheNodeType
+            self.productDescription = productDescription
+            self.offeringType = offeringType
+            self.duration = duration
+            self.maxRecords = maxRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedCacheNodeId = "ReservedCacheNodeId"
+            case marker = "Marker"
+            case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
+            case cacheNodeType = "CacheNodeType"
+            case productDescription = "ProductDescription"
+            case offeringType = "OfferingType"
+            case duration = "Duration"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct ModifyReplicationGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupDescription", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshottingClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "AutomaticFailoverEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "NotificationTopicStatus", required: false, type: .string), 
+            AWSShapeMember(label: "NodeGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "PrimaryClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "CacheSecurityGroupNames", required: false, type: .structure), 
+            AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string)
+        ]
+        /// The upgraded version of the cache engine to be run on the clusters in the replication group.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing replication group and create it anew with the earlier engine version. 
+        public let engineVersion: String?
+        /// A valid cache node type that you want to scale this replication group to.
+        public let cacheNodeType: String?
+        /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the replication group. If false, changes to the nodes in the replication group are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. Valid values: true | false  Default: false 
+        public let applyImmediately: Bool?
+        /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30 
+        public let preferredMaintenanceWindow: String?
+        /// A description for the replication group. Maximum length is 255 characters.
+        public let replicationGroupDescription: String?
+        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of the node group (shard) specified by SnapshottingClusterId. Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
+        public let snapshotWindow: String?
+        /// The name of the cache parameter group to apply to all of the clusters in this replication group. This change is asynchronously applied as soon as possible for parameters when the ApplyImmediately parameter is specified as true for this request.
+        public let cacheParameterGroupName: String?
+        /// The cluster ID that is used as the daily snapshot source for the replication group. This parameter cannot be set for Redis (cluster mode enabled) replication groups.
+        public let snapshottingClusterId: String?
+        /// Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure. Valid values: true | false  Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 and T2 cache node types.   Redis (cluster mode enabled): T1 node types.  
+        public let automaticFailoverEnabled: Bool?
+        /// Specifies the VPC Security Groups associated with the clusters in the replication group. This parameter can be used only with replication group containing clusters running in an Amazon Virtual Private Cloud (Amazon VPC).
+        public let securityGroupIds: SecurityGroupIdsList?
+        /// The status of the Amazon SNS notification topic for the replication group. Notifications are sent only if the status is active. Valid values: active | inactive 
+        public let notificationTopicStatus: String?
+        /// Deprecated. This parameter is not used.
+        public let nodeGroupId: String?
+        /// For replication groups with a single primary, if this parameter is specified, ElastiCache promotes the specified cluster in the specified replication group to the primary role. The nodes of all other clusters in the replication group are read replicas.
+        public let primaryClusterId: String?
+        /// The number of days for which ElastiCache retains automatic node group (shard) snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  Important If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
+        public let snapshotRetentionLimit: Int32?
+        /// This parameter is currently disabled.
+        public let autoMinorVersionUpgrade: Bool?
+        /// A list of cache security group names to authorize for the clusters in this replication group. This change is asynchronously applied as soon as possible. This parameter can be used only with replication group containing clusters running outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be Default.
+        public let cacheSecurityGroupNames: CacheSecurityGroupNameList?
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications are sent.  The Amazon SNS topic owner must be same as the replication group owner.  
+        public let notificationTopicArn: String?
+        /// The identifier of the replication group to modify.
+        public let replicationGroupId: String
+
+        public init(engineVersion: String? = nil, cacheNodeType: String? = nil, applyImmediately: Bool? = nil, preferredMaintenanceWindow: String? = nil, replicationGroupDescription: String? = nil, snapshotWindow: String? = nil, cacheParameterGroupName: String? = nil, snapshottingClusterId: String? = nil, automaticFailoverEnabled: Bool? = nil, securityGroupIds: SecurityGroupIdsList? = nil, notificationTopicStatus: String? = nil, nodeGroupId: String? = nil, primaryClusterId: String? = nil, snapshotRetentionLimit: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, notificationTopicArn: String? = nil, replicationGroupId: String) {
+            self.engineVersion = engineVersion
+            self.cacheNodeType = cacheNodeType
+            self.applyImmediately = applyImmediately
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.replicationGroupDescription = replicationGroupDescription
+            self.snapshotWindow = snapshotWindow
+            self.cacheParameterGroupName = cacheParameterGroupName
+            self.snapshottingClusterId = snapshottingClusterId
+            self.automaticFailoverEnabled = automaticFailoverEnabled
+            self.securityGroupIds = securityGroupIds
+            self.notificationTopicStatus = notificationTopicStatus
+            self.nodeGroupId = nodeGroupId
+            self.primaryClusterId = primaryClusterId
+            self.snapshotRetentionLimit = snapshotRetentionLimit
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.cacheSecurityGroupNames = cacheSecurityGroupNames
+            self.notificationTopicArn = notificationTopicArn
+            self.replicationGroupId = replicationGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engineVersion = "EngineVersion"
+            case cacheNodeType = "CacheNodeType"
+            case applyImmediately = "ApplyImmediately"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case replicationGroupDescription = "ReplicationGroupDescription"
+            case snapshotWindow = "SnapshotWindow"
+            case cacheParameterGroupName = "CacheParameterGroupName"
+            case snapshottingClusterId = "SnapshottingClusterId"
+            case automaticFailoverEnabled = "AutomaticFailoverEnabled"
+            case securityGroupIds = "SecurityGroupIds"
+            case notificationTopicStatus = "NotificationTopicStatus"
+            case nodeGroupId = "NodeGroupId"
+            case primaryClusterId = "PrimaryClusterId"
+            case snapshotRetentionLimit = "SnapshotRetentionLimit"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case cacheSecurityGroupNames = "CacheSecurityGroupNames"
+            case notificationTopicArn = "NotificationTopicArn"
+            case replicationGroupId = "ReplicationGroupId"
+        }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case cacheCluster = "cache-cluster"
+        case cacheParameterGroup = "cache-parameter-group"
+        case cacheSecurityGroup = "cache-security-group"
+        case cacheSubnetGroup = "cache-subnet-group"
+        case replicationGroup = "replication-group"
+        public var description: String { return self.rawValue }
     }
 
     public struct ReservedCacheNodesOffering: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservedCacheNodesOfferingId", required: false, type: .string), 
             AWSShapeMember(label: "FixedPrice", required: false, type: .double), 
-            AWSShapeMember(label: "Duration", required: false, type: .integer), 
-            AWSShapeMember(label: "UsagePrice", required: false, type: .double), 
+            AWSShapeMember(label: "ReservedCacheNodesOfferingId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
             AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
             AWSShapeMember(label: "OfferingType", required: false, type: .string), 
-            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeMember(label: "RecurringCharges", required: false, type: .structure)
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "RecurringCharges", required: false, type: .structure), 
+            AWSShapeMember(label: "UsagePrice", required: false, type: .double)
         ]
-        /// A unique identifier for the reserved cache node offering.
-        public let reservedCacheNodesOfferingId: String?
         /// The fixed price charged for this offering.
         public let fixedPrice: Double?
-        /// The duration of the offering. in seconds.
-        public let duration: Int32?
-        /// The hourly price charged for this offering.
-        public let usagePrice: Double?
+        /// A unique identifier for the reserved cache node offering.
+        public let reservedCacheNodesOfferingId: String?
+        /// The cache node type for the reserved cache node. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge   R4 node types; cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge       Notes:    All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).   Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.    Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.   Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.   For a complete listing of node types and specifications, see:    Amazon ElastiCache Product Features and Details     Cache Node Type-Specific Parameters for Memcached     Cache Node Type-Specific Parameters for Redis   
+        public let cacheNodeType: String?
         /// The cache engine used by the offering.
         public let productDescription: String?
         /// The offering type.
         public let offeringType: String?
-        /// The cache node type for the reserved cache node. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge   R4 node types; cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge       Notes:    All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).   Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.    Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.   Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.   For a complete listing of node types and specifications, see:    Amazon ElastiCache Product Features and Details     Cache Node Type-Specific Parameters for Memcached     Cache Node Type-Specific Parameters for Redis   
-        public let cacheNodeType: String?
+        /// The duration of the offering. in seconds.
+        public let duration: Int32?
         /// The recurring price charged to run this reserved cache node.
         public let recurringCharges: RecurringChargeList?
+        /// The hourly price charged for this offering.
+        public let usagePrice: Double?
 
-        public init(reservedCacheNodesOfferingId: String? = nil, fixedPrice: Double? = nil, duration: Int32? = nil, usagePrice: Double? = nil, productDescription: String? = nil, offeringType: String? = nil, cacheNodeType: String? = nil, recurringCharges: RecurringChargeList? = nil) {
-            self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
+        public init(fixedPrice: Double? = nil, reservedCacheNodesOfferingId: String? = nil, cacheNodeType: String? = nil, productDescription: String? = nil, offeringType: String? = nil, duration: Int32? = nil, recurringCharges: RecurringChargeList? = nil, usagePrice: Double? = nil) {
             self.fixedPrice = fixedPrice
-            self.duration = duration
-            self.usagePrice = usagePrice
+            self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
+            self.cacheNodeType = cacheNodeType
             self.productDescription = productDescription
             self.offeringType = offeringType
-            self.cacheNodeType = cacheNodeType
+            self.duration = duration
             self.recurringCharges = recurringCharges
+            self.usagePrice = usagePrice
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
             case fixedPrice = "FixedPrice"
-            case duration = "Duration"
-            case usagePrice = "UsagePrice"
+            case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
+            case cacheNodeType = "CacheNodeType"
             case productDescription = "ProductDescription"
             case offeringType = "OfferingType"
-            case cacheNodeType = "CacheNodeType"
+            case duration = "Duration"
             case recurringCharges = "RecurringCharges"
+            case usagePrice = "UsagePrice"
         }
     }
 
-    public struct CacheNodeTypeSpecificParametersList: AWSShape {
+    public struct AuthorizeCacheSecurityGroupIngressResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheNodeTypeSpecificParameter", required: false, type: .list)
+            AWSShapeMember(label: "CacheSecurityGroup", required: false, type: .structure)
         ]
-        public let cacheNodeTypeSpecificParameter: [CacheNodeTypeSpecificParameter]?
+        public let cacheSecurityGroup: CacheSecurityGroup?
 
-        public init(cacheNodeTypeSpecificParameter: [CacheNodeTypeSpecificParameter]? = nil) {
-            self.cacheNodeTypeSpecificParameter = cacheNodeTypeSpecificParameter
+        public init(cacheSecurityGroup: CacheSecurityGroup? = nil) {
+            self.cacheSecurityGroup = cacheSecurityGroup
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheNodeTypeSpecificParameter = "CacheNodeTypeSpecificParameter"
+            case cacheSecurityGroup = "CacheSecurityGroup"
         }
     }
 
-    public struct CacheClusterMessage: AWSShape {
+    public struct AvailabilityZonesList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "CacheClusters", required: false, type: .structure)
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .list)
         ]
-        /// Provides an identifier to allow retrieval of paginated results.
-        public let marker: String?
-        /// A list of clusters. Each item in the list contains detailed information about one cluster.
-        public let cacheClusters: CacheClusterList?
+        public let availabilityZone: [String]?
 
-        public init(marker: String? = nil, cacheClusters: CacheClusterList? = nil) {
-            self.marker = marker
-            self.cacheClusters = cacheClusters
+        public init(availabilityZone: [String]? = nil) {
+            self.availabilityZone = availabilityZone
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case cacheClusters = "CacheClusters"
+            case availabilityZone = "AvailabilityZone"
         }
     }
 
-    public struct Subnet: AWSShape {
+    public struct CacheNodeIdsList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .structure), 
-            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string)
+            AWSShapeMember(label: "CacheNodeId", required: false, type: .list)
         ]
-        /// The Availability Zone associated with the subnet.
-        public let subnetAvailabilityZone: AvailabilityZone?
-        /// The unique identifier for the subnet.
-        public let subnetIdentifier: String?
+        public let cacheNodeId: [String]?
 
-        public init(subnetAvailabilityZone: AvailabilityZone? = nil, subnetIdentifier: String? = nil) {
-            self.subnetAvailabilityZone = subnetAvailabilityZone
-            self.subnetIdentifier = subnetIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnetAvailabilityZone = "SubnetAvailabilityZone"
-            case subnetIdentifier = "SubnetIdentifier"
-        }
-    }
-
-    public struct CacheNode: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheNodeCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CacheNodeStatus", required: false, type: .string), 
-            AWSShapeMember(label: "ParameterGroupStatus", required: false, type: .string), 
-            AWSShapeMember(label: "SourceCacheNodeId", required: false, type: .string), 
-            AWSShapeMember(label: "CustomerAvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "CacheNodeId", required: false, type: .string), 
-            AWSShapeMember(label: "Endpoint", required: false, type: .structure)
-        ]
-        /// The date and time when the cache node was created.
-        public let cacheNodeCreateTime: TimeStamp?
-        /// The current state of this cache node.
-        public let cacheNodeStatus: String?
-        /// The status of the parameter group applied to this cache node.
-        public let parameterGroupStatus: String?
-        /// The ID of the primary node to which this read replica node is synchronized. If this field is empty, this node is not associated with a primary cluster.
-        public let sourceCacheNodeId: String?
-        /// The Availability Zone where this node was created and now resides.
-        public let customerAvailabilityZone: String?
-        /// The cache node identifier. A node ID is a numeric identifier (0001, 0002, etc.). The combination of cluster ID and node ID uniquely identifies every cache node used in a customer's AWS account.
-        public let cacheNodeId: String?
-        /// The hostname for connecting to this cache node.
-        public let endpoint: Endpoint?
-
-        public init(cacheNodeCreateTime: TimeStamp? = nil, cacheNodeStatus: String? = nil, parameterGroupStatus: String? = nil, sourceCacheNodeId: String? = nil, customerAvailabilityZone: String? = nil, cacheNodeId: String? = nil, endpoint: Endpoint? = nil) {
-            self.cacheNodeCreateTime = cacheNodeCreateTime
-            self.cacheNodeStatus = cacheNodeStatus
-            self.parameterGroupStatus = parameterGroupStatus
-            self.sourceCacheNodeId = sourceCacheNodeId
-            self.customerAvailabilityZone = customerAvailabilityZone
+        public init(cacheNodeId: [String]? = nil) {
             self.cacheNodeId = cacheNodeId
-            self.endpoint = endpoint
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheNodeCreateTime = "CacheNodeCreateTime"
-            case cacheNodeStatus = "CacheNodeStatus"
-            case parameterGroupStatus = "ParameterGroupStatus"
-            case sourceCacheNodeId = "SourceCacheNodeId"
-            case customerAvailabilityZone = "CustomerAvailabilityZone"
             case cacheNodeId = "CacheNodeId"
-            case endpoint = "Endpoint"
         }
     }
 
-    public struct ParameterNameValue: AWSShape {
+    public struct CreateCacheSecurityGroupResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterName", required: false, type: .string), 
-            AWSShapeMember(label: "ParameterValue", required: false, type: .string)
+            AWSShapeMember(label: "CacheSecurityGroup", required: false, type: .structure)
         ]
-        /// The name of the parameter.
-        public let parameterName: String?
-        /// The value of the parameter.
-        public let parameterValue: String?
+        public let cacheSecurityGroup: CacheSecurityGroup?
 
-        public init(parameterName: String? = nil, parameterValue: String? = nil) {
-            self.parameterName = parameterName
-            self.parameterValue = parameterValue
+        public init(cacheSecurityGroup: CacheSecurityGroup? = nil) {
+            self.cacheSecurityGroup = cacheSecurityGroup
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameterName = "ParameterName"
-            case parameterValue = "ParameterValue"
+            case cacheSecurityGroup = "CacheSecurityGroup"
         }
     }
 
-    public struct CopySnapshotMessage: AWSShape {
+    public struct SecurityGroupIdsList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetSnapshotName", required: true, type: .string), 
-            AWSShapeMember(label: "SourceSnapshotName", required: true, type: .string), 
-            AWSShapeMember(label: "TargetBucket", required: false, type: .string)
+            AWSShapeMember(label: "SecurityGroupId", required: false, type: .list)
         ]
-        /// A name for the snapshot copy. ElastiCache does not permit overwriting a snapshot, therefore this name must be unique within its context - ElastiCache or an Amazon S3 bucket if exporting.
-        public let targetSnapshotName: String
-        /// The name of an existing snapshot from which to make a copy.
-        public let sourceSnapshotName: String
-        /// The Amazon S3 bucket to which the snapshot is exported. This parameter is used only when exporting a snapshot for external access. When using this parameter to export a snapshot, be sure Amazon ElastiCache has the needed permissions to this S3 bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the Amazon ElastiCache User Guide. For more information, see Exporting a Snapshot in the Amazon ElastiCache User Guide.
-        public let targetBucket: String?
+        public let securityGroupId: [String]?
 
-        public init(targetSnapshotName: String, sourceSnapshotName: String, targetBucket: String? = nil) {
-            self.targetSnapshotName = targetSnapshotName
-            self.sourceSnapshotName = sourceSnapshotName
-            self.targetBucket = targetBucket
+        public init(securityGroupId: [String]? = nil) {
+            self.securityGroupId = securityGroupId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetSnapshotName = "TargetSnapshotName"
-            case sourceSnapshotName = "SourceSnapshotName"
-            case targetBucket = "TargetBucket"
+            case securityGroupId = "SecurityGroupId"
         }
     }
 
-    public struct ModifyCacheSubnetGroupResult: AWSShape {
+    public struct ReshardingConfigurationList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSubnetGroup", required: false, type: .structure)
+            AWSShapeMember(label: "ReshardingConfiguration", required: false, type: .list)
         ]
-        public let cacheSubnetGroup: CacheSubnetGroup?
+        public let reshardingConfiguration: [ReshardingConfiguration]?
 
-        public init(cacheSubnetGroup: CacheSubnetGroup? = nil) {
-            self.cacheSubnetGroup = cacheSubnetGroup
+        public init(reshardingConfiguration: [ReshardingConfiguration]? = nil) {
+            self.reshardingConfiguration = reshardingConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheSubnetGroup = "CacheSubnetGroup"
-        }
-    }
-
-    public struct CopySnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Snapshot", required: false, type: .structure)
-        ]
-        public let snapshot: Snapshot?
-
-        public init(snapshot: Snapshot? = nil) {
-            self.snapshot = snapshot
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snapshot = "Snapshot"
-        }
-    }
-
-    public struct CacheNodeList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheNode", required: false, type: .list)
-        ]
-        public let cacheNode: [CacheNode]?
-
-        public init(cacheNode: [CacheNode]? = nil) {
-            self.cacheNode = cacheNode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheNode = "CacheNode"
-        }
-    }
-
-    public struct CacheParameterGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheParameterGroupFamily", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string)
-        ]
-        /// The name of the cache parameter group family that this cache parameter group is compatible with. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 | redis4.0 
-        public let cacheParameterGroupFamily: String?
-        /// The description for this cache parameter group.
-        public let description: String?
-        /// The name of the cache parameter group.
-        public let cacheParameterGroupName: String?
-
-        public init(cacheParameterGroupFamily: String? = nil, description: String? = nil, cacheParameterGroupName: String? = nil) {
-            self.cacheParameterGroupFamily = cacheParameterGroupFamily
-            self.description = description
-            self.cacheParameterGroupName = cacheParameterGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheParameterGroupFamily = "CacheParameterGroupFamily"
-            case description = "Description"
-            case cacheParameterGroupName = "CacheParameterGroupName"
-        }
-    }
-
-    public struct NodeGroupList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeGroup", required: false, type: .list)
-        ]
-        public let nodeGroup: [NodeGroup]?
-
-        public init(nodeGroup: [NodeGroup]? = nil) {
-            self.nodeGroup = nodeGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nodeGroup = "NodeGroup"
-        }
-    }
-
-    public struct ReplicationGroupPendingModifiedValues: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PrimaryClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "AutomaticFailoverStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "Resharding", required: false, type: .structure)
-        ]
-        /// The primary cluster ID that is applied immediately (if --apply-immediately was specified), or during the next maintenance window.
-        public let primaryClusterId: String?
-        /// Indicates the status of Multi-AZ with automatic failover for this Redis replication group. Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 and T2 cache node types.   Redis (cluster mode enabled): T1 node types.  
-        public let automaticFailoverStatus: PendingAutomaticFailoverStatus?
-        /// The status of an online resharding operation.
-        public let resharding: ReshardingStatus?
-
-        public init(primaryClusterId: String? = nil, automaticFailoverStatus: PendingAutomaticFailoverStatus? = nil, resharding: ReshardingStatus? = nil) {
-            self.primaryClusterId = primaryClusterId
-            self.automaticFailoverStatus = automaticFailoverStatus
-            self.resharding = resharding
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case primaryClusterId = "PrimaryClusterId"
-            case automaticFailoverStatus = "AutomaticFailoverStatus"
-            case resharding = "Resharding"
-        }
-    }
-
-    public struct ReservedCacheNodesOfferingList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservedCacheNodesOffering", required: false, type: .list)
-        ]
-        public let reservedCacheNodesOffering: [ReservedCacheNodesOffering]?
-
-        public init(reservedCacheNodesOffering: [ReservedCacheNodesOffering]? = nil) {
-            self.reservedCacheNodesOffering = reservedCacheNodesOffering
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reservedCacheNodesOffering = "ReservedCacheNodesOffering"
-        }
-    }
-
-    public struct EngineDefaults: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "CacheNodeTypeSpecificParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
-            AWSShapeMember(label: "CacheParameterGroupFamily", required: false, type: .string)
-        ]
-        /// Provides an identifier to allow retrieval of paginated results.
-        public let marker: String?
-        /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
-        public let cacheNodeTypeSpecificParameters: CacheNodeTypeSpecificParametersList?
-        /// Contains a list of engine default parameters.
-        public let parameters: ParametersList?
-        /// Specifies the name of the cache parameter group family to which the engine default parameters apply. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 | redis4.0 
-        public let cacheParameterGroupFamily: String?
-
-        public init(marker: String? = nil, cacheNodeTypeSpecificParameters: CacheNodeTypeSpecificParametersList? = nil, parameters: ParametersList? = nil, cacheParameterGroupFamily: String? = nil) {
-            self.marker = marker
-            self.cacheNodeTypeSpecificParameters = cacheNodeTypeSpecificParameters
-            self.parameters = parameters
-            self.cacheParameterGroupFamily = cacheParameterGroupFamily
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case cacheNodeTypeSpecificParameters = "CacheNodeTypeSpecificParameters"
-            case parameters = "Parameters"
-            case cacheParameterGroupFamily = "CacheParameterGroupFamily"
-        }
-    }
-
-    public struct ModifyCacheSubnetGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSubnetGroupDescription", required: false, type: .string), 
-            AWSShapeMember(label: "CacheSubnetGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .structure)
-        ]
-        /// A description of the cache subnet group.
-        public let cacheSubnetGroupDescription: String?
-        /// The name for the cache subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup 
-        public let cacheSubnetGroupName: String
-        /// The EC2 subnet IDs for the cache subnet group.
-        public let subnetIds: SubnetIdentifierList?
-
-        public init(cacheSubnetGroupDescription: String? = nil, cacheSubnetGroupName: String, subnetIds: SubnetIdentifierList? = nil) {
-            self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
-            self.cacheSubnetGroupName = cacheSubnetGroupName
-            self.subnetIds = subnetIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheSubnetGroupDescription = "CacheSubnetGroupDescription"
-            case cacheSubnetGroupName = "CacheSubnetGroupName"
-            case subnetIds = "SubnetIds"
-        }
-    }
-
-    public enum AutomaticFailoverStatus: String, CustomStringConvertible, Codable {
-        case enabled = "enabled"
-        case disabled = "disabled"
-        case enabling = "enabling"
-        case disabling = "disabling"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct EC2SecurityGroupList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EC2SecurityGroup", required: false, type: .list)
-        ]
-        public let eC2SecurityGroup: [EC2SecurityGroup]?
-
-        public init(eC2SecurityGroup: [EC2SecurityGroup]? = nil) {
-            self.eC2SecurityGroup = eC2SecurityGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eC2SecurityGroup = "EC2SecurityGroup"
+            case reshardingConfiguration = "ReshardingConfiguration"
         }
     }
 
     public struct CreateCacheClusterMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "AZMode", required: false, type: .enum), 
-            AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
             AWSShapeMember(label: "CacheSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
             AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .structure), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .structure), 
-            AWSShapeMember(label: "CacheClusterId", required: true, type: .string), 
-            AWSShapeMember(label: "PreferredAvailabilityZones", required: false, type: .structure), 
             AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
             AWSShapeMember(label: "NumCacheNodes", required: false, type: .integer), 
             AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "CacheSecurityGroupNames", required: false, type: .structure), 
+            AWSShapeMember(label: "AZMode", required: false, type: .enum), 
             AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "SnapshotName", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredAvailabilityZones", required: false, type: .structure), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "AuthToken", required: false, type: .string), 
+            AWSShapeMember(label: "CacheClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "CacheSecurityGroupNames", required: false, type: .structure), 
             AWSShapeMember(label: "SnapshotArns", required: false, type: .structure), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "AuthToken", required: false, type: .string)
+            AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotName", required: false, type: .string)
         ]
-        /// The name of the cache engine to be used for this cluster. Valid values for this parameter are: memcached | redis 
-        public let engine: String?
-        /// Specifies whether the nodes in this Memcached cluster are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region. This parameter is only supported for Memcached clusters. If the AZMode and PreferredAvailabilityZones are not specified, ElastiCache assumes single-az mode.
-        public let aZMode: AZMode?
-        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner. 
-        public let notificationTopicArn: String?
-        /// The version number of the cache engine to be used for this cluster. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version. 
-        public let engineVersion: String?
         /// The name of the subnet group to be used for the cluster. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC).  If you're going to launch your cluster in an Amazon VPC, you need to create a subnet group before you start creating a cluster. For more information, see Subnets and Subnet Groups. 
         public let cacheSubnetGroupName: String?
-        /// The EC2 Availability Zone in which the cluster is created. All nodes belonging to this Memcached cluster are placed in the preferred Availability Zone. If you want to create your nodes across multiple Availability Zones, use PreferredAvailabilityZones. Default: System chosen Availability Zone.
-        public let preferredAvailabilityZone: String?
+        /// The version number of the cache engine to be used for this cluster. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version. 
+        public let engineVersion: String?
         /// The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge   R4 node types; cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge       Notes:    All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).   Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.    Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.   Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.   For a complete listing of node types and specifications, see:    Amazon ElastiCache Product Features and Details     Cache Node Type-Specific Parameters for Memcached     Cache Node Type-Specific Parameters for Redis   
         public let cacheNodeType: String?
-        /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30 
-        public let preferredMaintenanceWindow: String?
-        /// A list of cost allocation tags to be added to this resource.
-        public let tags: TagList?
-        /// One or more VPC security groups associated with the cluster. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC).
-        public let securityGroupIds: SecurityGroupIdsList?
-        /// The node group (shard) identifier. This parameter is stored as a lowercase string.  Constraints:    A name must contain from 1 to 20 alphanumeric characters or hyphens.   The first character must be a letter.   A name cannot end with a hyphen or contain two consecutive hyphens.  
-        public let cacheClusterId: String
-        /// A list of the Availability Zones in which cache nodes are created. The order of the zones in the list is not important. This option is only supported on Memcached.  If you are creating your cluster in an Amazon VPC (recommended) you can only locate nodes in Availability Zones that are associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheNodes.  If you want all the nodes in the same Availability Zone, use PreferredAvailabilityZone instead, or repeat the Availability Zone multiple times in the list. Default: System chosen Availability Zones.
-        public let preferredAvailabilityZones: PreferredAvailabilityZoneList?
         /// The number of days for which ElastiCache retains automatic snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot taken today is retained for 5 days before being deleted.  This parameter is only valid if the Engine parameter is redis.  Default: 0 (i.e., automatic backups are disabled for this cache cluster).
         public let snapshotRetentionLimit: Int32?
+        /// This parameter is currently disabled.
+        public let autoMinorVersionUpgrade: Bool?
+        /// A list of cost allocation tags to be added to this resource.
+        public let tags: TagList?
+        /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30 
+        public let preferredMaintenanceWindow: String?
+        /// The ID of the replication group to which this cluster should belong. If this parameter is specified, the cluster is added to the specified replication group as a read replica; otherwise, the cluster is a standalone primary that is not part of any replication group. If the specified replication group is Multi-AZ enabled and the Availability Zone is not specified, the cluster is created in Availability Zones that provide the best spread of read replicas across Availability Zones.  This parameter is only valid if the Engine parameter is redis. 
+        public let replicationGroupId: String?
         /// The initial number of cache nodes that the cluster has. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20. If you need more than 20 nodes for your Memcached cluster, please fill out the ElastiCache Limit Increase Request form at http://aws.amazon.com/contact-us/elasticache-node-limit-request/.
         public let numCacheNodes: Int32?
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.  This parameter is only valid if the Engine parameter is redis. 
         public let snapshotWindow: String?
-        /// The port number on which each of the cache nodes accepts connections.
-        public let port: Int32?
-        /// The ID of the replication group to which this cluster should belong. If this parameter is specified, the cluster is added to the specified replication group as a read replica; otherwise, the cluster is a standalone primary that is not part of any replication group. If the specified replication group is Multi-AZ enabled and the Availability Zone is not specified, the cluster is created in Availability Zones that provide the best spread of read replicas across Availability Zones.  This parameter is only valid if the Engine parameter is redis. 
-        public let replicationGroupId: String?
-        /// A list of security group names to associate with this cluster. Use this parameter only when you are creating a cluster outside of an Amazon Virtual Private Cloud (Amazon VPC).
-        public let cacheSecurityGroupNames: CacheSecurityGroupNameList?
+        /// Specifies whether the nodes in this Memcached cluster are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region. This parameter is only supported for Memcached clusters. If the AZMode and PreferredAvailabilityZones are not specified, ElastiCache assumes single-az mode.
+        public let aZMode: AZMode?
         /// The name of the parameter group to associate with this cluster. If this argument is omitted, the default parameter group for the specified engine is used. You cannot use any parameter group which has cluster-enabled='yes' when creating a cluster.
         public let cacheParameterGroupName: String?
-        /// The name of a Redis snapshot from which to restore data into the new node group (shard). The snapshot status changes to restoring while the new node group (shard) is being created.  This parameter is only valid if the Engine parameter is redis. 
-        public let snapshotName: String?
-        /// A single-element string list containing an Amazon Resource Name (ARN) that uniquely identifies a Redis RDB snapshot file stored in Amazon S3. The snapshot file is used to populate the node group (shard). The Amazon S3 object name in the ARN cannot contain any commas.  This parameter is only valid if the Engine parameter is redis.  Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb 
-        public let snapshotArns: SnapshotArnsList?
-        /// This parameter is currently disabled.
-        public let autoMinorVersionUpgrade: Bool?
+        /// A list of the Availability Zones in which cache nodes are created. The order of the zones in the list is not important. This option is only supported on Memcached.  If you are creating your cluster in an Amazon VPC (recommended) you can only locate nodes in Availability Zones that are associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheNodes.  If you want all the nodes in the same Availability Zone, use PreferredAvailabilityZone instead, or repeat the Availability Zone multiple times in the list. Default: System chosen Availability Zones.
+        public let preferredAvailabilityZones: PreferredAvailabilityZoneList?
+        /// One or more VPC security groups associated with the cluster. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC).
+        public let securityGroupIds: SecurityGroupIdsList?
+        /// The name of the cache engine to be used for this cluster. Valid values for this parameter are: memcached | redis 
+        public let engine: String?
+        /// The EC2 Availability Zone in which the cluster is created. All nodes belonging to this Memcached cluster are placed in the preferred Availability Zone. If you want to create your nodes across multiple Availability Zones, use PreferredAvailabilityZones. Default: System chosen Availability Zone.
+        public let preferredAvailabilityZone: String?
         ///  Reserved parameter. The password used to access a password protected server. Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   Cannot contain any of the following characters: '/', '"', or '@'.    For more information, see AUTH password at http://redis.io/commands/AUTH.
         public let authToken: String?
+        /// The node group (shard) identifier. This parameter is stored as a lowercase string.  Constraints:    A name must contain from 1 to 20 alphanumeric characters or hyphens.   The first character must be a letter.   A name cannot end with a hyphen or contain two consecutive hyphens.  
+        public let cacheClusterId: String
+        /// The port number on which each of the cache nodes accepts connections.
+        public let port: Int32?
+        /// A list of security group names to associate with this cluster. Use this parameter only when you are creating a cluster outside of an Amazon Virtual Private Cloud (Amazon VPC).
+        public let cacheSecurityGroupNames: CacheSecurityGroupNameList?
+        /// A single-element string list containing an Amazon Resource Name (ARN) that uniquely identifies a Redis RDB snapshot file stored in Amazon S3. The snapshot file is used to populate the node group (shard). The Amazon S3 object name in the ARN cannot contain any commas.  This parameter is only valid if the Engine parameter is redis.  Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb 
+        public let snapshotArns: SnapshotArnsList?
+        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner. 
+        public let notificationTopicArn: String?
+        /// The name of a Redis snapshot from which to restore data into the new node group (shard). The snapshot status changes to restoring while the new node group (shard) is being created.  This parameter is only valid if the Engine parameter is redis. 
+        public let snapshotName: String?
 
-        public init(engine: String? = nil, aZMode: AZMode? = nil, notificationTopicArn: String? = nil, engineVersion: String? = nil, cacheSubnetGroupName: String? = nil, preferredAvailabilityZone: String? = nil, cacheNodeType: String? = nil, preferredMaintenanceWindow: String? = nil, tags: TagList? = nil, securityGroupIds: SecurityGroupIdsList? = nil, cacheClusterId: String, preferredAvailabilityZones: PreferredAvailabilityZoneList? = nil, snapshotRetentionLimit: Int32? = nil, numCacheNodes: Int32? = nil, snapshotWindow: String? = nil, port: Int32? = nil, replicationGroupId: String? = nil, cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, cacheParameterGroupName: String? = nil, snapshotName: String? = nil, snapshotArns: SnapshotArnsList? = nil, autoMinorVersionUpgrade: Bool? = nil, authToken: String? = nil) {
-            self.engine = engine
-            self.aZMode = aZMode
-            self.notificationTopicArn = notificationTopicArn
-            self.engineVersion = engineVersion
+        public init(cacheSubnetGroupName: String? = nil, engineVersion: String? = nil, cacheNodeType: String? = nil, snapshotRetentionLimit: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, tags: TagList? = nil, preferredMaintenanceWindow: String? = nil, replicationGroupId: String? = nil, numCacheNodes: Int32? = nil, snapshotWindow: String? = nil, aZMode: AZMode? = nil, cacheParameterGroupName: String? = nil, preferredAvailabilityZones: PreferredAvailabilityZoneList? = nil, securityGroupIds: SecurityGroupIdsList? = nil, engine: String? = nil, preferredAvailabilityZone: String? = nil, authToken: String? = nil, cacheClusterId: String, port: Int32? = nil, cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, snapshotArns: SnapshotArnsList? = nil, notificationTopicArn: String? = nil, snapshotName: String? = nil) {
             self.cacheSubnetGroupName = cacheSubnetGroupName
-            self.preferredAvailabilityZone = preferredAvailabilityZone
+            self.engineVersion = engineVersion
             self.cacheNodeType = cacheNodeType
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.tags = tags
-            self.securityGroupIds = securityGroupIds
-            self.cacheClusterId = cacheClusterId
-            self.preferredAvailabilityZones = preferredAvailabilityZones
             self.snapshotRetentionLimit = snapshotRetentionLimit
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.tags = tags
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.replicationGroupId = replicationGroupId
             self.numCacheNodes = numCacheNodes
             self.snapshotWindow = snapshotWindow
-            self.port = port
-            self.replicationGroupId = replicationGroupId
-            self.cacheSecurityGroupNames = cacheSecurityGroupNames
+            self.aZMode = aZMode
             self.cacheParameterGroupName = cacheParameterGroupName
-            self.snapshotName = snapshotName
-            self.snapshotArns = snapshotArns
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.preferredAvailabilityZones = preferredAvailabilityZones
+            self.securityGroupIds = securityGroupIds
+            self.engine = engine
+            self.preferredAvailabilityZone = preferredAvailabilityZone
             self.authToken = authToken
+            self.cacheClusterId = cacheClusterId
+            self.port = port
+            self.cacheSecurityGroupNames = cacheSecurityGroupNames
+            self.snapshotArns = snapshotArns
+            self.notificationTopicArn = notificationTopicArn
+            self.snapshotName = snapshotName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case engine = "Engine"
-            case aZMode = "AZMode"
-            case notificationTopicArn = "NotificationTopicArn"
-            case engineVersion = "EngineVersion"
             case cacheSubnetGroupName = "CacheSubnetGroupName"
-            case preferredAvailabilityZone = "PreferredAvailabilityZone"
+            case engineVersion = "EngineVersion"
             case cacheNodeType = "CacheNodeType"
-            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case tags = "Tags"
-            case securityGroupIds = "SecurityGroupIds"
-            case cacheClusterId = "CacheClusterId"
-            case preferredAvailabilityZones = "PreferredAvailabilityZones"
             case snapshotRetentionLimit = "SnapshotRetentionLimit"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case tags = "Tags"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case replicationGroupId = "ReplicationGroupId"
             case numCacheNodes = "NumCacheNodes"
             case snapshotWindow = "SnapshotWindow"
-            case port = "Port"
-            case replicationGroupId = "ReplicationGroupId"
-            case cacheSecurityGroupNames = "CacheSecurityGroupNames"
+            case aZMode = "AZMode"
             case cacheParameterGroupName = "CacheParameterGroupName"
-            case snapshotName = "SnapshotName"
-            case snapshotArns = "SnapshotArns"
-            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case preferredAvailabilityZones = "PreferredAvailabilityZones"
+            case securityGroupIds = "SecurityGroupIds"
+            case engine = "Engine"
+            case preferredAvailabilityZone = "PreferredAvailabilityZone"
             case authToken = "AuthToken"
+            case cacheClusterId = "CacheClusterId"
+            case port = "Port"
+            case cacheSecurityGroupNames = "CacheSecurityGroupNames"
+            case snapshotArns = "SnapshotArns"
+            case notificationTopicArn = "NotificationTopicArn"
+            case snapshotName = "SnapshotName"
         }
     }
 
-    public struct CreateReplicationGroupResult: AWSShape {
+    public struct SecurityGroupMembership: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationGroup", required: false, type: .structure)
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupId", required: false, type: .string)
         ]
-        public let replicationGroup: ReplicationGroup?
+        /// The status of the cache security group membership. The status changes whenever a cache security group is modified, or when the cache security groups assigned to a cluster are modified.
+        public let status: String?
+        /// The identifier of the cache security group.
+        public let securityGroupId: String?
 
-        public init(replicationGroup: ReplicationGroup? = nil) {
-            self.replicationGroup = replicationGroup
+        public init(status: String? = nil, securityGroupId: String? = nil) {
+            self.status = status
+            self.securityGroupId = securityGroupId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicationGroup = "ReplicationGroup"
+            case status = "Status"
+            case securityGroupId = "SecurityGroupId"
         }
     }
 
-    public struct CacheSecurityGroup: AWSShape {
+    public struct ConfigureShard: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
-            AWSShapeMember(label: "CacheSecurityGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "EC2SecurityGroups", required: false, type: .structure)
+            AWSShapeMember(label: "NodeGroupId", required: true, type: .string), 
+            AWSShapeMember(label: "PreferredAvailabilityZones", required: false, type: .structure), 
+            AWSShapeMember(label: "NewReplicaCount", required: true, type: .integer)
         ]
-        /// The AWS account ID of the cache security group owner.
-        public let ownerId: String?
-        /// The name of the cache security group.
-        public let cacheSecurityGroupName: String?
-        /// The description of the cache security group.
-        public let description: String?
-        /// A list of Amazon EC2 security groups that are associated with this cache security group.
-        public let eC2SecurityGroups: EC2SecurityGroupList?
+        /// The 4-digit id for the node group you are configuring. For Redis (cluster mode disabled) replication groups, the node group id is always 0001. To find a Redis (cluster mode enabled)'s node group's (shard's) id, see Finding a Shard's Id.
+        public let nodeGroupId: String
+        /// A list of PreferredAvailabilityZone strings that specify which availability zones the replication group's nodes are to be in. The nummber of PreferredAvailabilityZone values must equal the value of NewReplicaCount plus 1 to account for the primary node. If this member of ReplicaConfiguration is omitted, ElastiCache for Redis selects the availability zone for each of the replicas.
+        public let preferredAvailabilityZones: PreferredAvailabilityZoneList?
+        /// The number of replicas you want in this node group at the end of this operation. The maximum value for NewReplicaCount is 5. The minimum value depends upon the type of Redis replication group you are working with. The minimum number of replicas in a shard or replication group is:   Redis (cluster mode disabled)   If Multi-AZ with Automatic Failover is enabled: 1   If Multi-AZ with Automatic Failover is not enable: 0     Redis (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)  
+        public let newReplicaCount: Int32
 
-        public init(ownerId: String? = nil, cacheSecurityGroupName: String? = nil, description: String? = nil, eC2SecurityGroups: EC2SecurityGroupList? = nil) {
-            self.ownerId = ownerId
-            self.cacheSecurityGroupName = cacheSecurityGroupName
-            self.description = description
-            self.eC2SecurityGroups = eC2SecurityGroups
+        public init(nodeGroupId: String, preferredAvailabilityZones: PreferredAvailabilityZoneList? = nil, newReplicaCount: Int32) {
+            self.nodeGroupId = nodeGroupId
+            self.preferredAvailabilityZones = preferredAvailabilityZones
+            self.newReplicaCount = newReplicaCount
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ownerId = "OwnerId"
-            case cacheSecurityGroupName = "CacheSecurityGroupName"
-            case description = "Description"
-            case eC2SecurityGroups = "EC2SecurityGroups"
+            case nodeGroupId = "NodeGroupId"
+            case preferredAvailabilityZones = "PreferredAvailabilityZones"
+            case newReplicaCount = "NewReplicaCount"
+        }
+    }
+
+    public struct TagList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tag", required: false, type: .list)
+        ]
+        public let tag: [Tag]?
+
+        public init(tag: [Tag]? = nil) {
+            self.tag = tag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tag = "Tag"
+        }
+    }
+
+    public struct CacheEngineVersionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheEngineVersions", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// A list of cache engine version details. Each element in the list contains detailed information about one cache engine version.
+        public let cacheEngineVersions: CacheEngineVersionList?
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let marker: String?
+
+        public init(cacheEngineVersions: CacheEngineVersionList? = nil, marker: String? = nil) {
+            self.cacheEngineVersions = cacheEngineVersions
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheEngineVersions = "CacheEngineVersions"
+            case marker = "Marker"
+        }
+    }
+
+    public struct NodeGroupsToRemoveList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeGroupToRemove", required: false, type: .list)
+        ]
+        public let nodeGroupToRemove: [String]?
+
+        public init(nodeGroupToRemove: [String]? = nil) {
+            self.nodeGroupToRemove = nodeGroupToRemove
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeGroupToRemove = "NodeGroupToRemove"
+        }
+    }
+
+    public struct RecurringChargeList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecurringCharge", required: false, type: .list)
+        ]
+        public let recurringCharge: [RecurringCharge]?
+
+        public init(recurringCharge: [RecurringCharge]? = nil) {
+            self.recurringCharge = recurringCharge
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recurringCharge = "RecurringCharge"
         }
     }
 
@@ -2257,6 +1427,320 @@ extension ElastiCache {
         }
     }
 
+    public struct CacheSecurityGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSecurityGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EC2SecurityGroups", required: false, type: .structure)
+        ]
+        /// The name of the cache security group.
+        public let cacheSecurityGroupName: String?
+        /// The AWS account ID of the cache security group owner.
+        public let ownerId: String?
+        /// The description of the cache security group.
+        public let description: String?
+        /// A list of Amazon EC2 security groups that are associated with this cache security group.
+        public let eC2SecurityGroups: EC2SecurityGroupList?
+
+        public init(cacheSecurityGroupName: String? = nil, ownerId: String? = nil, description: String? = nil, eC2SecurityGroups: EC2SecurityGroupList? = nil) {
+            self.cacheSecurityGroupName = cacheSecurityGroupName
+            self.ownerId = ownerId
+            self.description = description
+            self.eC2SecurityGroups = eC2SecurityGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheSecurityGroupName = "CacheSecurityGroupName"
+            case ownerId = "OwnerId"
+            case description = "Description"
+            case eC2SecurityGroups = "EC2SecurityGroups"
+        }
+    }
+
+    public struct DescribeEngineDefaultParametersMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "CacheParameterGroupFamily", required: true, type: .string)
+        ]
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
+        public let maxRecords: Int32?
+        /// The name of the cache parameter group family. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 | redis4.0 
+        public let cacheParameterGroupFamily: String
+
+        public init(marker: String? = nil, maxRecords: Int32? = nil, cacheParameterGroupFamily: String) {
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.cacheParameterGroupFamily = cacheParameterGroupFamily
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case cacheParameterGroupFamily = "CacheParameterGroupFamily"
+        }
+    }
+
+    public struct CacheParameterGroupNameMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string)
+        ]
+        /// The name of the cache parameter group.
+        public let cacheParameterGroupName: String?
+
+        public init(cacheParameterGroupName: String? = nil) {
+            self.cacheParameterGroupName = cacheParameterGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheParameterGroupName = "CacheParameterGroupName"
+        }
+    }
+
+    public struct ReservedCacheNodesOfferingList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedCacheNodesOffering", required: false, type: .list)
+        ]
+        public let reservedCacheNodesOffering: [ReservedCacheNodesOffering]?
+
+        public init(reservedCacheNodesOffering: [ReservedCacheNodesOffering]? = nil) {
+            self.reservedCacheNodesOffering = reservedCacheNodesOffering
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedCacheNodesOffering = "ReservedCacheNodesOffering"
+        }
+    }
+
+    public struct PurchaseReservedCacheNodesOfferingMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedCacheNodesOfferingId", required: true, type: .string), 
+            AWSShapeMember(label: "ReservedCacheNodeId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeCount", required: false, type: .integer)
+        ]
+        /// The ID of the reserved cache node offering to purchase. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706 
+        public let reservedCacheNodesOfferingId: String
+        /// A customer-specified identifier to track this reservation.  The Reserved Cache Node ID is an unique customer-specified identifier to track this reservation. If this parameter is not specified, ElastiCache automatically generates an identifier for the reservation.  Example: myreservationID
+        public let reservedCacheNodeId: String?
+        /// The number of cache node instances to reserve. Default: 1 
+        public let cacheNodeCount: Int32?
+
+        public init(reservedCacheNodesOfferingId: String, reservedCacheNodeId: String? = nil, cacheNodeCount: Int32? = nil) {
+            self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
+            self.reservedCacheNodeId = reservedCacheNodeId
+            self.cacheNodeCount = cacheNodeCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
+            case reservedCacheNodeId = "ReservedCacheNodeId"
+            case cacheNodeCount = "CacheNodeCount"
+        }
+    }
+
+    public struct CacheParameterGroupsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheParameterGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// A list of cache parameter groups. Each element in the list contains detailed information about one cache parameter group.
+        public let cacheParameterGroups: CacheParameterGroupList?
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let marker: String?
+
+        public init(cacheParameterGroups: CacheParameterGroupList? = nil, marker: String? = nil) {
+            self.cacheParameterGroups = cacheParameterGroups
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheParameterGroups = "CacheParameterGroups"
+            case marker = "Marker"
+        }
+    }
+
+    public struct RebootCacheClusterResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheCluster", required: false, type: .structure)
+        ]
+        public let cacheCluster: CacheCluster?
+
+        public init(cacheCluster: CacheCluster? = nil) {
+            self.cacheCluster = cacheCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheCluster = "CacheCluster"
+        }
+    }
+
+    public struct CacheParameterGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroupFamily", required: false, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string)
+        ]
+        /// The description for this cache parameter group.
+        public let description: String?
+        /// The name of the cache parameter group family that this cache parameter group is compatible with. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 | redis4.0 
+        public let cacheParameterGroupFamily: String?
+        /// The name of the cache parameter group.
+        public let cacheParameterGroupName: String?
+
+        public init(description: String? = nil, cacheParameterGroupFamily: String? = nil, cacheParameterGroupName: String? = nil) {
+            self.description = description
+            self.cacheParameterGroupFamily = cacheParameterGroupFamily
+            self.cacheParameterGroupName = cacheParameterGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case cacheParameterGroupFamily = "CacheParameterGroupFamily"
+            case cacheParameterGroupName = "CacheParameterGroupName"
+        }
+    }
+
+    public struct CacheParameterGroupStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheNodeIdsToReboot", required: false, type: .structure), 
+            AWSShapeMember(label: "ParameterApplyStatus", required: false, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string)
+        ]
+        /// A list of the cache node IDs which need to be rebooted for parameter changes to be applied. A node ID is a numeric identifier (0001, 0002, etc.).
+        public let cacheNodeIdsToReboot: CacheNodeIdsList?
+        /// The status of parameter updates.
+        public let parameterApplyStatus: String?
+        /// The name of the cache parameter group.
+        public let cacheParameterGroupName: String?
+
+        public init(cacheNodeIdsToReboot: CacheNodeIdsList? = nil, parameterApplyStatus: String? = nil, cacheParameterGroupName: String? = nil) {
+            self.cacheNodeIdsToReboot = cacheNodeIdsToReboot
+            self.parameterApplyStatus = parameterApplyStatus
+            self.cacheParameterGroupName = cacheParameterGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheNodeIdsToReboot = "CacheNodeIdsToReboot"
+            case parameterApplyStatus = "ParameterApplyStatus"
+            case cacheParameterGroupName = "CacheParameterGroupName"
+        }
+    }
+
+    public struct AddTagsToResourceMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .structure), 
+            AWSShapeMember(label: "ResourceName", required: true, type: .string)
+        ]
+        /// A list of cost allocation tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value.
+        public let tags: TagList
+        /// The Amazon Resource Name (ARN) of the resource to which the tags are to be added, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. ElastiCache resources are cluster and snapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        public let resourceName: String
+
+        public init(tags: TagList, resourceName: String) {
+            self.tags = tags
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case resourceName = "ResourceName"
+        }
+    }
+
+    public struct CacheParameterGroupList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheParameterGroup", required: false, type: .list)
+        ]
+        public let cacheParameterGroup: [CacheParameterGroup]?
+
+        public init(cacheParameterGroup: [CacheParameterGroup]? = nil) {
+            self.cacheParameterGroup = cacheParameterGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheParameterGroup = "CacheParameterGroup"
+        }
+    }
+
+    public struct ReplicaConfigurationList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigureShard", required: false, type: .list)
+        ]
+        public let configureShard: [ConfigureShard]?
+
+        public init(configureShard: [ConfigureShard]? = nil) {
+            self.configureShard = configureShard
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configureShard = "ConfigureShard"
+        }
+    }
+
+    public struct NodeSnapshotList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeSnapshot", required: false, type: .list)
+        ]
+        public let nodeSnapshot: [NodeSnapshot]?
+
+        public init(nodeSnapshot: [NodeSnapshot]? = nil) {
+            self.nodeSnapshot = nodeSnapshot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeSnapshot = "NodeSnapshot"
+        }
+    }
+
+    public struct DescribeSnapshotsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ShowNodeGroupConfig", required: false, type: .boolean), 
+            AWSShapeMember(label: "SnapshotName", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotSource", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        ]
+        /// A user-supplied cluster identifier. If this parameter is specified, only snapshots associated with that specific cluster are described.
+        public let cacheClusterId: String?
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// A Boolean value which if true, the node group (shard) configuration is included in the snapshot description.
+        public let showNodeGroupConfig: Bool?
+        /// A user-supplied name of the snapshot. If this parameter is specified, only this snapshot are described.
+        public let snapshotName: String?
+        /// If set to system, the output shows snapshots that were automatically created by ElastiCache. If set to user the output shows snapshots that were manually created. If omitted, the output shows both automatically and manually created snapshots.
+        public let snapshotSource: String?
+        /// A user-supplied replication group identifier. If this parameter is specified, only snapshots associated with that specific replication group are described.
+        public let replicationGroupId: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 50 Constraints: minimum 20; maximum 50.
+        public let maxRecords: Int32?
+
+        public init(cacheClusterId: String? = nil, marker: String? = nil, showNodeGroupConfig: Bool? = nil, snapshotName: String? = nil, snapshotSource: String? = nil, replicationGroupId: String? = nil, maxRecords: Int32? = nil) {
+            self.cacheClusterId = cacheClusterId
+            self.marker = marker
+            self.showNodeGroupConfig = showNodeGroupConfig
+            self.snapshotName = snapshotName
+            self.snapshotSource = snapshotSource
+            self.replicationGroupId = replicationGroupId
+            self.maxRecords = maxRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheClusterId = "CacheClusterId"
+            case marker = "Marker"
+            case showNodeGroupConfig = "ShowNodeGroupConfig"
+            case snapshotName = "SnapshotName"
+            case snapshotSource = "SnapshotSource"
+            case replicationGroupId = "ReplicationGroupId"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
     public struct ListTagsForResourceMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceName", required: true, type: .string)
@@ -2270,6 +1754,846 @@ extension ElastiCache {
 
         private enum CodingKeys: String, CodingKey {
             case resourceName = "ResourceName"
+        }
+    }
+
+    public struct SubnetList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subnet", required: false, type: .list)
+        ]
+        public let subnet: [Subnet]?
+
+        public init(subnet: [Subnet]? = nil) {
+            self.subnet = subnet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnet = "Subnet"
+        }
+    }
+
+    public struct TestFailoverResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationGroup", required: false, type: .structure)
+        ]
+        public let replicationGroup: ReplicationGroup?
+
+        public init(replicationGroup: ReplicationGroup? = nil) {
+            self.replicationGroup = replicationGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationGroup = "ReplicationGroup"
+        }
+    }
+
+    public enum PendingAutomaticFailoverStatus: String, CustomStringConvertible, Codable {
+        case enabled = "enabled"
+        case disabled = "disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CacheSecurityGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "CacheSecurityGroups", required: false, type: .structure)
+        ]
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let marker: String?
+        /// A list of cache security groups. Each element in the list contains detailed information about one group.
+        public let cacheSecurityGroups: CacheSecurityGroups?
+
+        public init(marker: String? = nil, cacheSecurityGroups: CacheSecurityGroups? = nil) {
+            self.marker = marker
+            self.cacheSecurityGroups = cacheSecurityGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case cacheSecurityGroups = "CacheSecurityGroups"
+        }
+    }
+
+    public struct NodeGroupList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeGroup", required: false, type: .list)
+        ]
+        public let nodeGroup: [NodeGroup]?
+
+        public init(nodeGroup: [NodeGroup]? = nil) {
+            self.nodeGroup = nodeGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeGroup = "NodeGroup"
+        }
+    }
+
+    public struct CacheClusterMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheClusters", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// A list of clusters. Each item in the list contains detailed information about one cluster.
+        public let cacheClusters: CacheClusterList?
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let marker: String?
+
+        public init(cacheClusters: CacheClusterList? = nil, marker: String? = nil) {
+            self.cacheClusters = cacheClusters
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheClusters = "CacheClusters"
+            case marker = "Marker"
+        }
+    }
+
+    public struct SnapshotList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Snapshot", required: false, type: .list)
+        ]
+        public let snapshot: [Snapshot]?
+
+        public init(snapshot: [Snapshot]? = nil) {
+            self.snapshot = snapshot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshot = "Snapshot"
+        }
+    }
+
+    public struct IncreaseReplicaCountMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NewReplicaCount", required: false, type: .integer), 
+            AWSShapeMember(label: "ApplyImmediately", required: true, type: .boolean), 
+            AWSShapeMember(label: "ReplicaConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string)
+        ]
+        /// The number of read replica nodes you want at the completion of this operation. For Redis (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups.
+        public let newReplicaCount: Int32?
+        /// If True, the number of replica nodes is increased immediately. If False, the number of replica nodes is increased during the next maintenance window.
+        public let applyImmediately: Bool
+        /// A list of ConfigureShard objects that can be used to configure each shard in a Redis (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
+        public let replicaConfiguration: ReplicaConfigurationList?
+        /// The id of the replication group to which you want to add replica nodes.
+        public let replicationGroupId: String
+
+        public init(newReplicaCount: Int32? = nil, applyImmediately: Bool, replicaConfiguration: ReplicaConfigurationList? = nil, replicationGroupId: String) {
+            self.newReplicaCount = newReplicaCount
+            self.applyImmediately = applyImmediately
+            self.replicaConfiguration = replicaConfiguration
+            self.replicationGroupId = replicationGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case newReplicaCount = "NewReplicaCount"
+            case applyImmediately = "ApplyImmediately"
+            case replicaConfiguration = "ReplicaConfiguration"
+            case replicationGroupId = "ReplicationGroupId"
+        }
+    }
+
+    public enum AZMode: String, CustomStringConvertible, Codable {
+        case singleAz = "single-az"
+        case crossAz = "cross-az"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CacheEngineVersionList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheEngineVersion", required: false, type: .list)
+        ]
+        public let cacheEngineVersion: [CacheEngineVersion]?
+
+        public init(cacheEngineVersion: [CacheEngineVersion]? = nil) {
+            self.cacheEngineVersion = cacheEngineVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheEngineVersion = "CacheEngineVersion"
+        }
+    }
+
+    public struct DeleteReplicationGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationGroup", required: false, type: .structure)
+        ]
+        public let replicationGroup: ReplicationGroup?
+
+        public init(replicationGroup: ReplicationGroup? = nil) {
+            self.replicationGroup = replicationGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationGroup = "ReplicationGroup"
+        }
+    }
+
+    public struct PendingModifiedValues: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeIdsToRemove", required: false, type: .structure), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "NumCacheNodes", required: false, type: .integer)
+        ]
+        /// The cache node type that this cluster or replication group is scaled to.
+        public let cacheNodeType: String?
+        /// A list of cache node IDs that are being removed (or will be removed) from the cluster. A node ID is a 4-digit numeric identifier (0001, 0002, etc.).
+        public let cacheNodeIdsToRemove: CacheNodeIdsList?
+        /// The new cache engine version that the cluster runs.
+        public let engineVersion: String?
+        /// The new number of cache nodes for the cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
+        public let numCacheNodes: Int32?
+
+        public init(cacheNodeType: String? = nil, cacheNodeIdsToRemove: CacheNodeIdsList? = nil, engineVersion: String? = nil, numCacheNodes: Int32? = nil) {
+            self.cacheNodeType = cacheNodeType
+            self.cacheNodeIdsToRemove = cacheNodeIdsToRemove
+            self.engineVersion = engineVersion
+            self.numCacheNodes = numCacheNodes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheNodeType = "CacheNodeType"
+            case cacheNodeIdsToRemove = "CacheNodeIdsToRemove"
+            case engineVersion = "EngineVersion"
+            case numCacheNodes = "NumCacheNodes"
+        }
+    }
+
+    public struct ModifyCacheClusterResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheCluster", required: false, type: .structure)
+        ]
+        public let cacheCluster: CacheCluster?
+
+        public init(cacheCluster: CacheCluster? = nil) {
+            self.cacheCluster = cacheCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheCluster = "CacheCluster"
+        }
+    }
+
+    public enum ChangeType: String, CustomStringConvertible, Codable {
+        case immediate = "immediate"
+        case requiresReboot = "requires-reboot"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteReplicationGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string), 
+            AWSShapeMember(label: "RetainPrimaryCluster", required: false, type: .boolean), 
+            AWSShapeMember(label: "FinalSnapshotIdentifier", required: false, type: .string)
+        ]
+        /// The identifier for the cluster to be deleted. This parameter is not case sensitive.
+        public let replicationGroupId: String
+        /// If set to true, all of the read replicas are deleted, but the primary node is retained.
+        public let retainPrimaryCluster: Bool?
+        /// The name of a final node group (shard) snapshot. ElastiCache creates the snapshot from the primary node in the cluster, rather than one of the replicas; this is to ensure that it captures the freshest data. After the final snapshot is taken, the replication group is immediately deleted.
+        public let finalSnapshotIdentifier: String?
+
+        public init(replicationGroupId: String, retainPrimaryCluster: Bool? = nil, finalSnapshotIdentifier: String? = nil) {
+            self.replicationGroupId = replicationGroupId
+            self.retainPrimaryCluster = retainPrimaryCluster
+            self.finalSnapshotIdentifier = finalSnapshotIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationGroupId = "ReplicationGroupId"
+            case retainPrimaryCluster = "RetainPrimaryCluster"
+            case finalSnapshotIdentifier = "FinalSnapshotIdentifier"
+        }
+    }
+
+    public struct DeleteSnapshotMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotName", required: true, type: .string)
+        ]
+        /// The name of the snapshot to be deleted.
+        public let snapshotName: String
+
+        public init(snapshotName: String) {
+            self.snapshotName = snapshotName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotName = "SnapshotName"
+        }
+    }
+
+    public struct ResetCacheParameterGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterNameValues", required: false, type: .structure), 
+            AWSShapeMember(label: "ResetAllParameters", required: false, type: .boolean), 
+            AWSShapeMember(label: "CacheParameterGroupName", required: true, type: .string)
+        ]
+        /// An array of parameter names to reset to their default values. If ResetAllParameters is true, do not use ParameterNameValues. If ResetAllParameters is false, you must specify the name of at least one parameter to reset.
+        public let parameterNameValues: ParameterNameValueList?
+        /// If true, all parameters in the cache parameter group are reset to their default values. If false, only the parameters listed by ParameterNameValues are reset to their default values. Valid values: true | false 
+        public let resetAllParameters: Bool?
+        /// The name of the cache parameter group to reset.
+        public let cacheParameterGroupName: String
+
+        public init(parameterNameValues: ParameterNameValueList? = nil, resetAllParameters: Bool? = nil, cacheParameterGroupName: String) {
+            self.parameterNameValues = parameterNameValues
+            self.resetAllParameters = resetAllParameters
+            self.cacheParameterGroupName = cacheParameterGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterNameValues = "ParameterNameValues"
+            case resetAllParameters = "ResetAllParameters"
+            case cacheParameterGroupName = "CacheParameterGroupName"
+        }
+    }
+
+    public struct CreateSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Snapshot", required: false, type: .structure)
+        ]
+        public let snapshot: Snapshot?
+
+        public init(snapshot: Snapshot? = nil) {
+            self.snapshot = snapshot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshot = "Snapshot"
+        }
+    }
+
+    public struct CacheNodeTypeSpecificValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The cache node type for which this value applies.
+        public let cacheNodeType: String?
+        /// The value for the cache node type.
+        public let value: String?
+
+        public init(cacheNodeType: String? = nil, value: String? = nil) {
+            self.cacheNodeType = cacheNodeType
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheNodeType = "CacheNodeType"
+            case value = "Value"
+        }
+    }
+
+    public struct DeleteCacheClusterMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "FinalSnapshotIdentifier", required: false, type: .string)
+        ]
+        /// The cluster identifier for the cluster to be deleted. This parameter is not case sensitive.
+        public let cacheClusterId: String
+        /// The user-supplied name of a final cluster snapshot. This is the unique name that identifies the snapshot. ElastiCache creates the snapshot, and then deletes the cluster immediately afterward.
+        public let finalSnapshotIdentifier: String?
+
+        public init(cacheClusterId: String, finalSnapshotIdentifier: String? = nil) {
+            self.cacheClusterId = cacheClusterId
+            self.finalSnapshotIdentifier = finalSnapshotIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheClusterId = "CacheClusterId"
+            case finalSnapshotIdentifier = "FinalSnapshotIdentifier"
+        }
+    }
+
+    public struct CopySnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Snapshot", required: false, type: .structure)
+        ]
+        public let snapshot: Snapshot?
+
+        public init(snapshot: Snapshot? = nil) {
+            self.snapshot = snapshot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshot = "Snapshot"
+        }
+    }
+
+    public struct CreateReplicationGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationGroup", required: false, type: .structure)
+        ]
+        public let replicationGroup: ReplicationGroup?
+
+        public init(replicationGroup: ReplicationGroup? = nil) {
+            self.replicationGroup = replicationGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationGroup = "ReplicationGroup"
+        }
+    }
+
+    public struct CacheNodeTypeSpecificParameter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataType", required: false, type: .string), 
+            AWSShapeMember(label: "MinimumEngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
+            AWSShapeMember(label: "ChangeType", required: false, type: .enum), 
+            AWSShapeMember(label: "ParameterName", required: false, type: .string), 
+            AWSShapeMember(label: "IsModifiable", required: false, type: .boolean), 
+            AWSShapeMember(label: "Source", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeTypeSpecificValues", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// The valid data type for the parameter.
+        public let dataType: String?
+        /// The earliest cache engine version to which the parameter can apply.
+        public let minimumEngineVersion: String?
+        /// The valid range of values for the parameter.
+        public let allowedValues: String?
+        /// Indicates whether a change to the parameter is applied immediately or requires a reboot for the change to be applied. You can force a reboot or wait until the next maintenance window's reboot. For more information, see Rebooting a Cluster.
+        public let changeType: ChangeType?
+        /// The name of the parameter.
+        public let parameterName: String?
+        /// Indicates whether (true) or not (false) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed.
+        public let isModifiable: Bool?
+        /// The source of the parameter value.
+        public let source: String?
+        /// A list of cache node types and their corresponding values for this parameter.
+        public let cacheNodeTypeSpecificValues: CacheNodeTypeSpecificValueList?
+        /// A description of the parameter.
+        public let description: String?
+
+        public init(dataType: String? = nil, minimumEngineVersion: String? = nil, allowedValues: String? = nil, changeType: ChangeType? = nil, parameterName: String? = nil, isModifiable: Bool? = nil, source: String? = nil, cacheNodeTypeSpecificValues: CacheNodeTypeSpecificValueList? = nil, description: String? = nil) {
+            self.dataType = dataType
+            self.minimumEngineVersion = minimumEngineVersion
+            self.allowedValues = allowedValues
+            self.changeType = changeType
+            self.parameterName = parameterName
+            self.isModifiable = isModifiable
+            self.source = source
+            self.cacheNodeTypeSpecificValues = cacheNodeTypeSpecificValues
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataType = "DataType"
+            case minimumEngineVersion = "MinimumEngineVersion"
+            case allowedValues = "AllowedValues"
+            case changeType = "ChangeType"
+            case parameterName = "ParameterName"
+            case isModifiable = "IsModifiable"
+            case source = "Source"
+            case cacheNodeTypeSpecificValues = "CacheNodeTypeSpecificValues"
+            case description = "Description"
+        }
+    }
+
+    public struct DecreaseReplicaCountResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationGroup", required: false, type: .structure)
+        ]
+        public let replicationGroup: ReplicationGroup?
+
+        public init(replicationGroup: ReplicationGroup? = nil) {
+            self.replicationGroup = replicationGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationGroup = "ReplicationGroup"
+        }
+    }
+
+    public struct ParameterNameValueList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterNameValue", required: false, type: .list)
+        ]
+        public let parameterNameValue: [ParameterNameValue]?
+
+        public init(parameterNameValue: [ParameterNameValue]? = nil) {
+            self.parameterNameValue = parameterNameValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterNameValue = "ParameterNameValue"
+        }
+    }
+
+    public struct CreateReplicationGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NumCacheClusters", required: false, type: .integer), 
+            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "NumNodeGroups", required: false, type: .integer), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "SnapshotArns", required: false, type: .structure), 
+            AWSShapeMember(label: "NodeGroupConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupDescription", required: true, type: .string), 
+            AWSShapeMember(label: "PrimaryClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotName", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "CacheSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredCacheClusterAZs", required: false, type: .structure), 
+            AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
+            AWSShapeMember(label: "AtRestEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "TransitEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "AuthToken", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicasPerNodeGroup", required: false, type: .integer), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "CacheSecurityGroupNames", required: false, type: .structure), 
+            AWSShapeMember(label: "AutomaticFailoverEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string)
+        ]
+        /// The number of clusters this replication group initially has. This parameter is not used if there is more than one node group (shard). You should use ReplicasPerNodeGroup instead. If AutomaticFailoverEnabled is true, the value of this parameter must be at least 2. If AutomaticFailoverEnabled is false you can omit this parameter (it will default to 1), or you can explicitly set it to a value between 2 and 6. The maximum permitted value for NumCacheClusters is 6 (1 primary plus 5 replicas).
+        public let numCacheClusters: Int32?
+        /// The name of the parameter group to associate with this replication group. If this argument is omitted, the default cache parameter group for the specified engine is used. If you are running Redis version 3.2.4 or later, only one node group (shard), and want to use a default parameter group, we recommend that you specify the parameter group by name.    To create a Redis (cluster mode disabled) replication group, use CacheParameterGroupName=default.redis3.2.   To create a Redis (cluster mode enabled) replication group, use CacheParameterGroupName=default.redis3.2.cluster.on.  
+        public let cacheParameterGroupName: String?
+        /// An optional parameter that specifies the number of node groups (shards) for this Redis (cluster mode enabled) replication group. For Redis (cluster mode disabled) either omit this parameter or set it to 1. Default: 1
+        public let numNodeGroups: Int32?
+        /// The version number of the cache engine to be used for the clusters in this replication group. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version) in the ElastiCache User Guide, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version. 
+        public let engineVersion: String?
+        /// The port number on which each member of the replication group accepts connections.
+        public let port: Int32?
+        /// A list of Amazon Resource Names (ARN) that uniquely identify the Redis RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new replication group. The Amazon S3 object name in the ARN cannot contain any commas. The new replication group will have the number of node groups (console: shards) specified by the parameter NumNodeGroups or the number of node groups configured by NodeGroupConfiguration regardless of the number of ARNs specified here. Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb 
+        public let snapshotArns: SnapshotArnsList?
+        /// A list of node group (shard) configuration options. Each node group (shard) configuration has the following members: PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount, and Slots. If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter. However, when seeding a Redis (cluster mode enabled) cluster from a S3 rdb file, you must configure each node group (shard) using this parameter because you must specify the slots for each node group.
+        public let nodeGroupConfiguration: NodeGroupConfigurationList?
+        /// The replication group identifier. This parameter is stored as a lowercase string. Constraints:   A name must contain from 1 to 20 alphanumeric characters or hyphens.   The first character must be a letter.   A name cannot end with a hyphen or contain two consecutive hyphens.  
+        public let replicationGroupId: String
+        /// A user-created description for the replication group.
+        public let replicationGroupDescription: String
+        /// The identifier of the cluster that serves as the primary for this replication group. This cluster must already exist and have a status of available. This parameter is not required if NumCacheClusters, NumNodeGroups, or ReplicasPerNodeGroup is specified.
+        public let primaryClusterId: String?
+        /// The name of a snapshot from which to restore data into the new replication group. The snapshot status changes to restoring while the new replication group is being created.
+        public let snapshotName: String?
+        /// The number of days for which ElastiCache retains automatic snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted. Default: 0 (i.e., automatic backups are disabled for this cluster).
+        public let snapshotRetentionLimit: Int32?
+        /// The name of the cache subnet group to be used for the replication group.  If you're going to launch your cluster in an Amazon VPC, you need to create a subnet group before you start creating a cluster. For more information, see Subnets and Subnet Groups. 
+        public let cacheSubnetGroupName: String?
+        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner. 
+        public let notificationTopicArn: String?
+        /// A list of EC2 Availability Zones in which the replication group's clusters are created. The order of the Availability Zones in the list is the order in which clusters are allocated. The primary cluster is created in the first AZ in the list. This parameter is not used if there is more than one node group (shard). You should use NodeGroupConfiguration instead.  If you are creating your replication group in an Amazon VPC (recommended), you can only locate clusters in Availability Zones associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheClusters.  Default: system chosen Availability Zones.
+        public let preferredCacheClusterAZs: AvailabilityZonesList?
+        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
+        public let snapshotWindow: String?
+        /// A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group.   Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6 or 4.x. Default: false 
+        public let atRestEncryptionEnabled: Bool?
+        /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster. This parameter is valid only if the Engine parameter is redis, the EngineVersion parameter is 3.2.6 or 4.x, and the cluster is being created in an Amazon VPC. If you enable in-transit encryption, you must also specify a value for CacheSubnetGroup.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6 or 4.x. Default: false   For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup. 
+        public let transitEncryptionEnabled: Bool?
+        ///  Reserved parameter. The password used to access a password protected server.  AuthToken can be specified only on replication groups where TransitEncryptionEnabled is true.  For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.  Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   Cannot contain any of the following characters: '/', '"', or '@'.    For more information, see AUTH password at http://redis.io/commands/AUTH.
+        public let authToken: String?
+        /// An optional parameter that specifies the number of replica nodes in each node group (shard). Valid values are 0 to 5.
+        public let replicasPerNodeGroup: Int32?
+        /// The name of the cache engine to be used for the clusters in this replication group.
+        public let engine: String?
+        /// A list of cost allocation tags to be added to this resource. A tag is a key-value pair.
+        public let tags: TagList?
+        /// A list of cache security group names to associate with this replication group.
+        public let cacheSecurityGroupNames: CacheSecurityGroupNameList?
+        /// Specifies whether a read-only replica is automatically promoted to read/write primary if the existing primary fails. If true, Multi-AZ is enabled for this replication group. If false, Multi-AZ is disabled for this replication group.  AutomaticFailoverEnabled must be enabled for Redis (cluster mode enabled) replication groups. Default: false Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 and T2 cache node types.   Redis (cluster mode enabled): T1 node types.  
+        public let automaticFailoverEnabled: Bool?
+        /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30 
+        public let preferredMaintenanceWindow: String?
+        /// This parameter is currently disabled.
+        public let autoMinorVersionUpgrade: Bool?
+        /// One or more Amazon VPC security groups associated with this replication group. Use this parameter only when you are creating a replication group in an Amazon Virtual Private Cloud (Amazon VPC).
+        public let securityGroupIds: SecurityGroupIdsList?
+        /// The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge   R4 node types; cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge       Notes:    All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).   Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.    Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.   Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.   For a complete listing of node types and specifications, see:    Amazon ElastiCache Product Features and Details     Cache Node Type-Specific Parameters for Memcached     Cache Node Type-Specific Parameters for Redis   
+        public let cacheNodeType: String?
+
+        public init(numCacheClusters: Int32? = nil, cacheParameterGroupName: String? = nil, numNodeGroups: Int32? = nil, engineVersion: String? = nil, port: Int32? = nil, snapshotArns: SnapshotArnsList? = nil, nodeGroupConfiguration: NodeGroupConfigurationList? = nil, replicationGroupId: String, replicationGroupDescription: String, primaryClusterId: String? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int32? = nil, cacheSubnetGroupName: String? = nil, notificationTopicArn: String? = nil, preferredCacheClusterAZs: AvailabilityZonesList? = nil, snapshotWindow: String? = nil, atRestEncryptionEnabled: Bool? = nil, transitEncryptionEnabled: Bool? = nil, authToken: String? = nil, replicasPerNodeGroup: Int32? = nil, engine: String? = nil, tags: TagList? = nil, cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, automaticFailoverEnabled: Bool? = nil, preferredMaintenanceWindow: String? = nil, autoMinorVersionUpgrade: Bool? = nil, securityGroupIds: SecurityGroupIdsList? = nil, cacheNodeType: String? = nil) {
+            self.numCacheClusters = numCacheClusters
+            self.cacheParameterGroupName = cacheParameterGroupName
+            self.numNodeGroups = numNodeGroups
+            self.engineVersion = engineVersion
+            self.port = port
+            self.snapshotArns = snapshotArns
+            self.nodeGroupConfiguration = nodeGroupConfiguration
+            self.replicationGroupId = replicationGroupId
+            self.replicationGroupDescription = replicationGroupDescription
+            self.primaryClusterId = primaryClusterId
+            self.snapshotName = snapshotName
+            self.snapshotRetentionLimit = snapshotRetentionLimit
+            self.cacheSubnetGroupName = cacheSubnetGroupName
+            self.notificationTopicArn = notificationTopicArn
+            self.preferredCacheClusterAZs = preferredCacheClusterAZs
+            self.snapshotWindow = snapshotWindow
+            self.atRestEncryptionEnabled = atRestEncryptionEnabled
+            self.transitEncryptionEnabled = transitEncryptionEnabled
+            self.authToken = authToken
+            self.replicasPerNodeGroup = replicasPerNodeGroup
+            self.engine = engine
+            self.tags = tags
+            self.cacheSecurityGroupNames = cacheSecurityGroupNames
+            self.automaticFailoverEnabled = automaticFailoverEnabled
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.securityGroupIds = securityGroupIds
+            self.cacheNodeType = cacheNodeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numCacheClusters = "NumCacheClusters"
+            case cacheParameterGroupName = "CacheParameterGroupName"
+            case numNodeGroups = "NumNodeGroups"
+            case engineVersion = "EngineVersion"
+            case port = "Port"
+            case snapshotArns = "SnapshotArns"
+            case nodeGroupConfiguration = "NodeGroupConfiguration"
+            case replicationGroupId = "ReplicationGroupId"
+            case replicationGroupDescription = "ReplicationGroupDescription"
+            case primaryClusterId = "PrimaryClusterId"
+            case snapshotName = "SnapshotName"
+            case snapshotRetentionLimit = "SnapshotRetentionLimit"
+            case cacheSubnetGroupName = "CacheSubnetGroupName"
+            case notificationTopicArn = "NotificationTopicArn"
+            case preferredCacheClusterAZs = "PreferredCacheClusterAZs"
+            case snapshotWindow = "SnapshotWindow"
+            case atRestEncryptionEnabled = "AtRestEncryptionEnabled"
+            case transitEncryptionEnabled = "TransitEncryptionEnabled"
+            case authToken = "AuthToken"
+            case replicasPerNodeGroup = "ReplicasPerNodeGroup"
+            case engine = "Engine"
+            case tags = "Tags"
+            case cacheSecurityGroupNames = "CacheSecurityGroupNames"
+            case automaticFailoverEnabled = "AutomaticFailoverEnabled"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case securityGroupIds = "SecurityGroupIds"
+            case cacheNodeType = "CacheNodeType"
+        }
+    }
+
+    public struct ModifyCacheSubnetGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSubnetGroup", required: false, type: .structure)
+        ]
+        public let cacheSubnetGroup: CacheSubnetGroup?
+
+        public init(cacheSubnetGroup: CacheSubnetGroup? = nil) {
+            self.cacheSubnetGroup = cacheSubnetGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheSubnetGroup = "CacheSubnetGroup"
+        }
+    }
+
+    public struct ModifyReplicationGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationGroup", required: false, type: .structure)
+        ]
+        public let replicationGroup: ReplicationGroup?
+
+        public init(replicationGroup: ReplicationGroup? = nil) {
+            self.replicationGroup = replicationGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationGroup = "ReplicationGroup"
+        }
+    }
+
+    public struct RemoveTagsFromResourceMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceName", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the resource from which you want the tags removed, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        public let resourceName: String
+        /// A list of TagKeys identifying the tags you want removed from the named resource.
+        public let tagKeys: [String]
+
+        public init(resourceName: String, tagKeys: [String]) {
+            self.resourceName = resourceName
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceName = "ResourceName"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct EngineDefaults: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheNodeTypeSpecificParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
+            AWSShapeMember(label: "CacheParameterGroupFamily", required: false, type: .string)
+        ]
+        /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
+        public let cacheNodeTypeSpecificParameters: CacheNodeTypeSpecificParametersList?
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let marker: String?
+        /// Contains a list of engine default parameters.
+        public let parameters: ParametersList?
+        /// Specifies the name of the cache parameter group family to which the engine default parameters apply. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 | redis4.0 
+        public let cacheParameterGroupFamily: String?
+
+        public init(cacheNodeTypeSpecificParameters: CacheNodeTypeSpecificParametersList? = nil, marker: String? = nil, parameters: ParametersList? = nil, cacheParameterGroupFamily: String? = nil) {
+            self.cacheNodeTypeSpecificParameters = cacheNodeTypeSpecificParameters
+            self.marker = marker
+            self.parameters = parameters
+            self.cacheParameterGroupFamily = cacheParameterGroupFamily
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheNodeTypeSpecificParameters = "CacheNodeTypeSpecificParameters"
+            case marker = "Marker"
+            case parameters = "Parameters"
+            case cacheParameterGroupFamily = "CacheParameterGroupFamily"
+        }
+    }
+
+    public struct CreateSnapshotMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotName", required: true, type: .string), 
+            AWSShapeMember(label: "CacheClusterId", required: false, type: .string)
+        ]
+        /// The identifier of an existing replication group. The snapshot is created from this replication group.
+        public let replicationGroupId: String?
+        /// A name for the snapshot being created.
+        public let snapshotName: String
+        /// The identifier of an existing cluster. The snapshot is created from this cluster.
+        public let cacheClusterId: String?
+
+        public init(replicationGroupId: String? = nil, snapshotName: String, cacheClusterId: String? = nil) {
+            self.replicationGroupId = replicationGroupId
+            self.snapshotName = snapshotName
+            self.cacheClusterId = cacheClusterId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationGroupId = "ReplicationGroupId"
+            case snapshotName = "SnapshotName"
+            case cacheClusterId = "CacheClusterId"
+        }
+    }
+
+    public struct CreateCacheSecurityGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSecurityGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: true, type: .string)
+        ]
+        /// A name for the cache security group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters. Cannot be the word "Default". Example: mysecuritygroup 
+        public let cacheSecurityGroupName: String
+        /// A description for the cache security group.
+        public let description: String
+
+        public init(cacheSecurityGroupName: String, description: String) {
+            self.cacheSecurityGroupName = cacheSecurityGroupName
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheSecurityGroupName = "CacheSecurityGroupName"
+            case description = "Description"
+        }
+    }
+
+    public struct ReservedCacheNode: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedCacheNodesOfferingId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
+            AWSShapeMember(label: "ReservationARN", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeCount", required: false, type: .integer), 
+            AWSShapeMember(label: "UsagePrice", required: false, type: .double), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FixedPrice", required: false, type: .double), 
+            AWSShapeMember(label: "State", required: false, type: .string), 
+            AWSShapeMember(label: "RecurringCharges", required: false, type: .structure), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "ReservedCacheNodeId", required: false, type: .string), 
+            AWSShapeMember(label: "ProductDescription", required: false, type: .string)
+        ]
+        /// The offering identifier.
+        public let reservedCacheNodesOfferingId: String?
+        /// The cache node type for the reserved cache nodes. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge   R4 node types; cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge       Notes:    All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).   Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.    Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.   Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.   For a complete listing of node types and specifications, see:    Amazon ElastiCache Product Features and Details     Cache Node Type-Specific Parameters for Memcached     Cache Node Type-Specific Parameters for Redis   
+        public let cacheNodeType: String?
+        /// The offering type of this reserved cache node.
+        public let offeringType: String?
+        /// The Amazon Resource Name (ARN) of the reserved cache node. Example: arn:aws:elasticache:us-east-1:123456789012:reserved-instance:ri-2017-03-27-08-33-25-582 
+        public let reservationARN: String?
+        /// The number of cache nodes that have been reserved.
+        public let cacheNodeCount: Int32?
+        /// The hourly price charged for this reserved cache node.
+        public let usagePrice: Double?
+        /// The time the reservation started.
+        public let startTime: TimeStamp?
+        /// The fixed price charged for this reserved cache node.
+        public let fixedPrice: Double?
+        /// The state of the reserved cache node.
+        public let state: String?
+        /// The recurring price charged to run this reserved cache node.
+        public let recurringCharges: RecurringChargeList?
+        /// The duration of the reservation in seconds.
+        public let duration: Int32?
+        /// The unique identifier for the reservation.
+        public let reservedCacheNodeId: String?
+        /// The description of the reserved cache node.
+        public let productDescription: String?
+
+        public init(reservedCacheNodesOfferingId: String? = nil, cacheNodeType: String? = nil, offeringType: String? = nil, reservationARN: String? = nil, cacheNodeCount: Int32? = nil, usagePrice: Double? = nil, startTime: TimeStamp? = nil, fixedPrice: Double? = nil, state: String? = nil, recurringCharges: RecurringChargeList? = nil, duration: Int32? = nil, reservedCacheNodeId: String? = nil, productDescription: String? = nil) {
+            self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
+            self.cacheNodeType = cacheNodeType
+            self.offeringType = offeringType
+            self.reservationARN = reservationARN
+            self.cacheNodeCount = cacheNodeCount
+            self.usagePrice = usagePrice
+            self.startTime = startTime
+            self.fixedPrice = fixedPrice
+            self.state = state
+            self.recurringCharges = recurringCharges
+            self.duration = duration
+            self.reservedCacheNodeId = reservedCacheNodeId
+            self.productDescription = productDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
+            case cacheNodeType = "CacheNodeType"
+            case offeringType = "OfferingType"
+            case reservationARN = "ReservationARN"
+            case cacheNodeCount = "CacheNodeCount"
+            case usagePrice = "UsagePrice"
+            case startTime = "StartTime"
+            case fixedPrice = "FixedPrice"
+            case state = "State"
+            case recurringCharges = "RecurringCharges"
+            case duration = "Duration"
+            case reservedCacheNodeId = "ReservedCacheNodeId"
+            case productDescription = "ProductDescription"
+        }
+    }
+
+    public struct DeleteCacheParameterGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheParameterGroupName", required: true, type: .string)
+        ]
+        /// The name of the cache parameter group to delete.  The specified cache security group must not be associated with any clusters. 
+        public let cacheParameterGroupName: String
+
+        public init(cacheParameterGroupName: String) {
+            self.cacheParameterGroupName = cacheParameterGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheParameterGroupName = "CacheParameterGroupName"
         }
     }
 
@@ -2299,277 +2623,13 @@ extension ElastiCache {
         }
     }
 
-    public struct DeleteCacheParameterGroupMessage: AWSShape {
+    public struct CacheSecurityGroupMembershipList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheParameterGroupName", required: true, type: .string)
+            AWSShapeMember(label: "CacheSecurityGroup", required: false, type: .list)
         ]
-        /// The name of the cache parameter group to delete.  The specified cache security group must not be associated with any clusters. 
-        public let cacheParameterGroupName: String
+        public let cacheSecurityGroup: [CacheSecurityGroupMembership]?
 
-        public init(cacheParameterGroupName: String) {
-            self.cacheParameterGroupName = cacheParameterGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheParameterGroupName = "CacheParameterGroupName"
-        }
-    }
-
-    public struct ModifyCacheClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AZMode", required: false, type: .enum), 
-            AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .structure), 
-            AWSShapeMember(label: "CacheNodeIdsToRemove", required: false, type: .structure), 
-            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
-            AWSShapeMember(label: "CacheClusterId", required: true, type: .string), 
-            AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "NumCacheNodes", required: false, type: .integer), 
-            AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
-            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "CacheSecurityGroupNames", required: false, type: .structure), 
-            AWSShapeMember(label: "NotificationTopicStatus", required: false, type: .string), 
-            AWSShapeMember(label: "NewAvailabilityZones", required: false, type: .structure), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean)
-        ]
-        /// Specifies whether the new nodes in this Memcached cluster are all created in a single Availability Zone or created across multiple Availability Zones. Valid values: single-az | cross-az. This option is only supported for Memcached clusters.  You cannot specify single-az if the Memcached cluster already has cache nodes in different Availability Zones. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone. Only newly created nodes are located in different Availability Zones. For instructions on how to move existing Memcached nodes to different Availability Zones, see the Availability Zone Considerations section of Cache Node Considerations for Memcached. 
-        public let aZMode: AZMode?
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications are sent.  The Amazon SNS topic owner must be same as the cluster owner. 
-        public let notificationTopicArn: String?
-        /// The upgraded version of the cache engine to be run on the cache nodes.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version. 
-        public let engineVersion: String?
-        /// A valid cache node type that you want to scale this cluster up to.
-        public let cacheNodeType: String?
-        /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30 
-        public let preferredMaintenanceWindow: String?
-        /// Specifies the VPC Security Groups associated with the cluster. This parameter can be used only with clusters that are created in an Amazon Virtual Private Cloud (Amazon VPC).
-        public let securityGroupIds: SecurityGroupIdsList?
-        /// A list of cache node IDs to be removed. A node ID is a numeric identifier (0001, 0002, etc.). This parameter is only valid when NumCacheNodes is less than the existing number of cache nodes. The number of cache node IDs supplied in this parameter must match the difference between the existing number of cache nodes in the cluster or pending cache nodes, whichever is greater, and the value of NumCacheNodes in the request. For example: If you have 3 active cache nodes, 7 pending cache nodes, and the number of cache nodes in this ModifyCacheCluster call is 5, you must list 2 (7 - 5) cache node IDs to remove.
-        public let cacheNodeIdsToRemove: CacheNodeIdsList?
-        /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If false, changes to the cluster are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first.  If you perform a ModifyCacheCluster before a pending modification is applied, the pending modification is replaced by the newer modification.  Valid values: true | false  Default: false 
-        public let applyImmediately: Bool?
-        /// The cluster identifier. This value is stored as a lowercase string.
-        public let cacheClusterId: String
-        /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. 
-        public let snapshotRetentionLimit: Int32?
-        /// The number of cache nodes that the cluster should have. If the value for NumCacheNodes is greater than the sum of the number of current cache nodes and the number of cache nodes pending creation (which may be zero), more nodes are added. If the value is less than the number of existing cache nodes, nodes are removed. If the value is equal to the number of current cache nodes, any pending add or remove requests are canceled. If you are removing cache nodes, you must use the CacheNodeIdsToRemove parameter to provide the IDs of the specific cache nodes to remove. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.  Adding or removing Memcached cache nodes can be applied immediately or as a pending operation (see ApplyImmediately). A pending operation to modify the number of cache nodes in a cluster during its maintenance window, whether by adding or removing nodes in accordance with the scale out architecture, is not queued. The customer's latest request to add or remove nodes to the cluster overrides any previous pending operations to modify the number of cache nodes in the cluster. For example, a request to remove 2 nodes would override a previous pending operation to remove 3 nodes. Similarly, a request to add 2 nodes would override a previous pending operation to remove 3 nodes and vice versa. As Memcached cache nodes may now be provisioned in different Availability Zones with flexible cache node placement, a request to add nodes does not automatically override a previous pending operation to add nodes. The customer can modify the previous pending operation to add more nodes or explicitly cancel the pending request and retry the new request. To cancel pending operations to modify the number of cache nodes in a cluster, use the ModifyCacheCluster request and set NumCacheNodes equal to the number of cache nodes currently in the cluster. 
-        public let numCacheNodes: Int32?
-        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your cluster. 
-        public let snapshotWindow: String?
-        /// The name of the cache parameter group to apply to this cluster. This change is asynchronously applied as soon as possible for parameters when the ApplyImmediately parameter is specified as true for this request.
-        public let cacheParameterGroupName: String?
-        /// A list of cache security group names to authorize on this cluster. This change is asynchronously applied as soon as possible. You can use this parameter only with clusters that are created outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be "Default".
-        public let cacheSecurityGroupNames: CacheSecurityGroupNameList?
-        /// The status of the Amazon SNS notification topic. Notifications are sent only if the status is active. Valid values: active | inactive 
-        public let notificationTopicStatus: String?
-        /// The list of Availability Zones where the new Memcached cache nodes are created. This parameter is only valid when NumCacheNodes in the request is greater than the sum of the number of active cache nodes and the number of cache nodes pending creation (which may be zero). The number of Availability Zones supplied in this list must match the cache nodes being added in this request. This option is only supported on Memcached clusters. Scenarios:    Scenario 1: You have 3 active nodes and wish to add 2 nodes. Specify NumCacheNodes=5 (3 + 2) and optionally specify two Availability Zones for the two new nodes.    Scenario 2: You have 3 active nodes and 2 nodes pending creation (from the scenario 1 call) and want to add 1 more node. Specify NumCacheNodes=6 ((3 + 2) + 1) and optionally specify an Availability Zone for the new node.    Scenario 3: You want to cancel all pending operations. Specify NumCacheNodes=3 to cancel all pending operations.   The Availability Zone placement of nodes pending creation cannot be modified. If you wish to cancel any nodes pending creation, add 0 nodes by setting NumCacheNodes to the number of current nodes. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone. Only newly created nodes can be located in different Availability Zones. For guidance on how to move existing Memcached nodes to different Availability Zones, see the Availability Zone Considerations section of Cache Node Considerations for Memcached.  Impact of new add/remove requests upon pending requests    Scenario-1   Pending Action: Delete   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending delete.     Scenario-2   Pending Action: Delete   New Request: Create   Result: The new create, pending or immediate, replaces the pending delete.     Scenario-3   Pending Action: Create   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending create.     Scenario-4   Pending Action: Create   New Request: Create   Result: The new create is added to the pending create.   Important: If the new create request is Apply Immediately - Yes, all creates are performed immediately. If the new create request is Apply Immediately - No, all creates are pending.     
-        public let newAvailabilityZones: PreferredAvailabilityZoneList?
-        /// This parameter is currently disabled.
-        public let autoMinorVersionUpgrade: Bool?
-
-        public init(aZMode: AZMode? = nil, notificationTopicArn: String? = nil, engineVersion: String? = nil, cacheNodeType: String? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: SecurityGroupIdsList? = nil, cacheNodeIdsToRemove: CacheNodeIdsList? = nil, applyImmediately: Bool? = nil, cacheClusterId: String, snapshotRetentionLimit: Int32? = nil, numCacheNodes: Int32? = nil, snapshotWindow: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, notificationTopicStatus: String? = nil, newAvailabilityZones: PreferredAvailabilityZoneList? = nil, autoMinorVersionUpgrade: Bool? = nil) {
-            self.aZMode = aZMode
-            self.notificationTopicArn = notificationTopicArn
-            self.engineVersion = engineVersion
-            self.cacheNodeType = cacheNodeType
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.securityGroupIds = securityGroupIds
-            self.cacheNodeIdsToRemove = cacheNodeIdsToRemove
-            self.applyImmediately = applyImmediately
-            self.cacheClusterId = cacheClusterId
-            self.snapshotRetentionLimit = snapshotRetentionLimit
-            self.numCacheNodes = numCacheNodes
-            self.snapshotWindow = snapshotWindow
-            self.cacheParameterGroupName = cacheParameterGroupName
-            self.cacheSecurityGroupNames = cacheSecurityGroupNames
-            self.notificationTopicStatus = notificationTopicStatus
-            self.newAvailabilityZones = newAvailabilityZones
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case aZMode = "AZMode"
-            case notificationTopicArn = "NotificationTopicArn"
-            case engineVersion = "EngineVersion"
-            case cacheNodeType = "CacheNodeType"
-            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case securityGroupIds = "SecurityGroupIds"
-            case cacheNodeIdsToRemove = "CacheNodeIdsToRemove"
-            case applyImmediately = "ApplyImmediately"
-            case cacheClusterId = "CacheClusterId"
-            case snapshotRetentionLimit = "SnapshotRetentionLimit"
-            case numCacheNodes = "NumCacheNodes"
-            case snapshotWindow = "SnapshotWindow"
-            case cacheParameterGroupName = "CacheParameterGroupName"
-            case cacheSecurityGroupNames = "CacheSecurityGroupNames"
-            case notificationTopicStatus = "NotificationTopicStatus"
-            case newAvailabilityZones = "NewAvailabilityZones"
-            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
-        }
-    }
-
-    public struct NodeGroupMember: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentRole", required: false, type: .string), 
-            AWSShapeMember(label: "CacheNodeId", required: false, type: .string), 
-            AWSShapeMember(label: "ReadEndpoint", required: false, type: .structure), 
-            AWSShapeMember(label: "PreferredAvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "CacheClusterId", required: false, type: .string)
-        ]
-        /// The role that is currently assigned to the node - primary or replica. This member is only applicable for Redis (cluster mode disabled) replication groups.
-        public let currentRole: String?
-        /// The ID of the node within its cluster. A node ID is a numeric identifier (0001, 0002, etc.).
-        public let cacheNodeId: String?
-        /// The information required for client programs to connect to a node for read operations. The read endpoint is only applicable on Redis (cluster mode disabled) clusters.
-        public let readEndpoint: Endpoint?
-        /// The name of the Availability Zone in which the node is located.
-        public let preferredAvailabilityZone: String?
-        /// The ID of the cluster to which the node belongs.
-        public let cacheClusterId: String?
-
-        public init(currentRole: String? = nil, cacheNodeId: String? = nil, readEndpoint: Endpoint? = nil, preferredAvailabilityZone: String? = nil, cacheClusterId: String? = nil) {
-            self.currentRole = currentRole
-            self.cacheNodeId = cacheNodeId
-            self.readEndpoint = readEndpoint
-            self.preferredAvailabilityZone = preferredAvailabilityZone
-            self.cacheClusterId = cacheClusterId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case currentRole = "CurrentRole"
-            case cacheNodeId = "CacheNodeId"
-            case readEndpoint = "ReadEndpoint"
-            case preferredAvailabilityZone = "PreferredAvailabilityZone"
-            case cacheClusterId = "CacheClusterId"
-        }
-    }
-
-    public struct PreferredAvailabilityZoneList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PreferredAvailabilityZone", required: false, type: .list)
-        ]
-        public let preferredAvailabilityZone: [String]?
-
-        public init(preferredAvailabilityZone: [String]? = nil) {
-            self.preferredAvailabilityZone = preferredAvailabilityZone
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case preferredAvailabilityZone = "PreferredAvailabilityZone"
-        }
-    }
-
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case cacheCluster = "cache-cluster"
-        case cacheParameterGroup = "cache-parameter-group"
-        case cacheSecurityGroup = "cache-security-group"
-        case cacheSubnetGroup = "cache-subnet-group"
-        case replicationGroup = "replication-group"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeCacheParametersMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "CacheParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Source", required: false, type: .string)
-        ]
-        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        public let marker: String?
-        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
-        /// The name of a specific cache parameter group to return details for.
-        public let cacheParameterGroupName: String
-        /// The parameter types to return. Valid values: user | system | engine-default 
-        public let source: String?
-
-        public init(marker: String? = nil, maxRecords: Int32? = nil, cacheParameterGroupName: String, source: String? = nil) {
-            self.marker = marker
-            self.maxRecords = maxRecords
-            self.cacheParameterGroupName = cacheParameterGroupName
-            self.source = source
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxRecords = "MaxRecords"
-            case cacheParameterGroupName = "CacheParameterGroupName"
-            case source = "Source"
-        }
-    }
-
-    public struct DescribeReservedCacheNodesOfferingsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Duration", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedCacheNodesOfferingId", required: false, type: .string), 
-            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
-            AWSShapeMember(label: "CacheNodeType", required: false, type: .string)
-        ]
-        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        public let marker: String?
-        /// Duration filter value, specified in years or seconds. Use this parameter to show only reservations for a given duration. Valid Values: 1 | 3 | 31536000 | 94608000 
-        public let duration: String?
-        /// The offering identifier filter value. Use this parameter to show only the available offering that matches the specified reservation identifier. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706 
-        public let reservedCacheNodesOfferingId: String?
-        /// The product description filter value. Use this parameter to show only the available offerings matching the specified product description.
-        public let productDescription: String?
-        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
-        /// The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid Values: "Light Utilization"|"Medium Utilization"|"Heavy Utilization" 
-        public let offeringType: String?
-        /// The cache node type filter value. Use this parameter to show only the available offerings matching the specified cache node type. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge   R4 node types; cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge       Notes:    All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).   Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.    Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.   Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.   For a complete listing of node types and specifications, see:    Amazon ElastiCache Product Features and Details     Cache Node Type-Specific Parameters for Memcached     Cache Node Type-Specific Parameters for Redis   
-        public let cacheNodeType: String?
-
-        public init(marker: String? = nil, duration: String? = nil, reservedCacheNodesOfferingId: String? = nil, productDescription: String? = nil, maxRecords: Int32? = nil, offeringType: String? = nil, cacheNodeType: String? = nil) {
-            self.marker = marker
-            self.duration = duration
-            self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
-            self.productDescription = productDescription
-            self.maxRecords = maxRecords
-            self.offeringType = offeringType
-            self.cacheNodeType = cacheNodeType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case duration = "Duration"
-            case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
-            case productDescription = "ProductDescription"
-            case maxRecords = "MaxRecords"
-            case offeringType = "OfferingType"
-            case cacheNodeType = "CacheNodeType"
-        }
-    }
-
-    public struct ReservedCacheNodeList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservedCacheNode", required: false, type: .list)
-        ]
-        public let reservedCacheNode: [ReservedCacheNode]?
-
-        public init(reservedCacheNode: [ReservedCacheNode]? = nil) {
-            self.reservedCacheNode = reservedCacheNode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reservedCacheNode = "ReservedCacheNode"
-        }
-    }
-
-    public struct AuthorizeCacheSecurityGroupIngressResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSecurityGroup", required: false, type: .structure)
-        ]
-        public let cacheSecurityGroup: CacheSecurityGroup?
-
-        public init(cacheSecurityGroup: CacheSecurityGroup? = nil) {
+        public init(cacheSecurityGroup: [CacheSecurityGroupMembership]? = nil) {
             self.cacheSecurityGroup = cacheSecurityGroup
         }
 
@@ -2578,39 +2638,44 @@ extension ElastiCache {
         }
     }
 
-    public struct DeleteCacheClusterMessage: AWSShape {
+    public struct CacheSecurityGroupNameList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FinalSnapshotIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "CacheClusterId", required: true, type: .string)
+            AWSShapeMember(label: "CacheSecurityGroupName", required: false, type: .list)
         ]
-        /// The user-supplied name of a final cluster snapshot. This is the unique name that identifies the snapshot. ElastiCache creates the snapshot, and then deletes the cluster immediately afterward.
-        public let finalSnapshotIdentifier: String?
-        /// The cluster identifier for the cluster to be deleted. This parameter is not case sensitive.
-        public let cacheClusterId: String
+        public let cacheSecurityGroupName: [String]?
 
-        public init(finalSnapshotIdentifier: String? = nil, cacheClusterId: String) {
-            self.finalSnapshotIdentifier = finalSnapshotIdentifier
-            self.cacheClusterId = cacheClusterId
+        public init(cacheSecurityGroupName: [String]? = nil) {
+            self.cacheSecurityGroupName = cacheSecurityGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case finalSnapshotIdentifier = "FinalSnapshotIdentifier"
-            case cacheClusterId = "CacheClusterId"
+            case cacheSecurityGroupName = "CacheSecurityGroupName"
         }
     }
 
-    public struct ReshardingConfigurationList: AWSShape {
+    public struct ReplicationGroupPendingModifiedValues: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReshardingConfiguration", required: false, type: .list)
+            AWSShapeMember(label: "AutomaticFailoverStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Resharding", required: false, type: .structure), 
+            AWSShapeMember(label: "PrimaryClusterId", required: false, type: .string)
         ]
-        public let reshardingConfiguration: [ReshardingConfiguration]?
+        /// Indicates the status of Multi-AZ with automatic failover for this Redis replication group. Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 and T2 cache node types.   Redis (cluster mode enabled): T1 node types.  
+        public let automaticFailoverStatus: PendingAutomaticFailoverStatus?
+        /// The status of an online resharding operation.
+        public let resharding: ReshardingStatus?
+        /// The primary cluster ID that is applied immediately (if --apply-immediately was specified), or during the next maintenance window.
+        public let primaryClusterId: String?
 
-        public init(reshardingConfiguration: [ReshardingConfiguration]? = nil) {
-            self.reshardingConfiguration = reshardingConfiguration
+        public init(automaticFailoverStatus: PendingAutomaticFailoverStatus? = nil, resharding: ReshardingStatus? = nil, primaryClusterId: String? = nil) {
+            self.automaticFailoverStatus = automaticFailoverStatus
+            self.resharding = resharding
+            self.primaryClusterId = primaryClusterId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reshardingConfiguration = "ReshardingConfiguration"
+            case automaticFailoverStatus = "AutomaticFailoverStatus"
+            case resharding = "Resharding"
+            case primaryClusterId = "PrimaryClusterId"
         }
     }
 
@@ -2629,55 +2694,81 @@ extension ElastiCache {
         }
     }
 
-    public struct CreateCacheSecurityGroupResult: AWSShape {
+    public struct ReservedCacheNodesOfferingMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSecurityGroup", required: false, type: .structure)
+            AWSShapeMember(label: "ReservedCacheNodesOfferings", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
-        public let cacheSecurityGroup: CacheSecurityGroup?
+        /// A list of reserved cache node offerings. Each element in the list contains detailed information about one offering.
+        public let reservedCacheNodesOfferings: ReservedCacheNodesOfferingList?
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let marker: String?
 
-        public init(cacheSecurityGroup: CacheSecurityGroup? = nil) {
-            self.cacheSecurityGroup = cacheSecurityGroup
+        public init(reservedCacheNodesOfferings: ReservedCacheNodesOfferingList? = nil, marker: String? = nil) {
+            self.reservedCacheNodesOfferings = reservedCacheNodesOfferings
+            self.marker = marker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheSecurityGroup = "CacheSecurityGroup"
+            case reservedCacheNodesOfferings = "ReservedCacheNodesOfferings"
+            case marker = "Marker"
         }
     }
 
-    public enum ChangeType: String, CustomStringConvertible, Codable {
-        case immediate = "immediate"
-        case requiresReboot = "requires-reboot"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CacheSubnetGroup: AWSShape {
+    public struct NodeGroupMember: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Subnets", required: false, type: .structure), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "CacheSubnetGroupDescription", required: false, type: .string)
+            AWSShapeMember(label: "CurrentRole", required: false, type: .string), 
+            AWSShapeMember(label: "ReadEndpoint", required: false, type: .structure), 
+            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeId", required: false, type: .string)
         ]
-        /// The name of the cache subnet group.
-        public let cacheSubnetGroupName: String?
-        /// A list of subnets associated with the cache subnet group.
-        public let subnets: SubnetList?
-        /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet group.
-        public let vpcId: String?
-        /// The description of the cache subnet group.
-        public let cacheSubnetGroupDescription: String?
+        /// The role that is currently assigned to the node - primary or replica. This member is only applicable for Redis (cluster mode disabled) replication groups.
+        public let currentRole: String?
+        /// The information required for client programs to connect to a node for read operations. The read endpoint is only applicable on Redis (cluster mode disabled) clusters.
+        public let readEndpoint: Endpoint?
+        /// The ID of the cluster to which the node belongs.
+        public let cacheClusterId: String?
+        /// The name of the Availability Zone in which the node is located.
+        public let preferredAvailabilityZone: String?
+        /// The ID of the node within its cluster. A node ID is a numeric identifier (0001, 0002, etc.).
+        public let cacheNodeId: String?
 
-        public init(cacheSubnetGroupName: String? = nil, subnets: SubnetList? = nil, vpcId: String? = nil, cacheSubnetGroupDescription: String? = nil) {
-            self.cacheSubnetGroupName = cacheSubnetGroupName
-            self.subnets = subnets
-            self.vpcId = vpcId
-            self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
+        public init(currentRole: String? = nil, readEndpoint: Endpoint? = nil, cacheClusterId: String? = nil, preferredAvailabilityZone: String? = nil, cacheNodeId: String? = nil) {
+            self.currentRole = currentRole
+            self.readEndpoint = readEndpoint
+            self.cacheClusterId = cacheClusterId
+            self.preferredAvailabilityZone = preferredAvailabilityZone
+            self.cacheNodeId = cacheNodeId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheSubnetGroupName = "CacheSubnetGroupName"
-            case subnets = "Subnets"
-            case vpcId = "VpcId"
-            case cacheSubnetGroupDescription = "CacheSubnetGroupDescription"
+            case currentRole = "CurrentRole"
+            case readEndpoint = "ReadEndpoint"
+            case cacheClusterId = "CacheClusterId"
+            case preferredAvailabilityZone = "PreferredAvailabilityZone"
+            case cacheNodeId = "CacheNodeId"
+        }
+    }
+
+    public struct ModifyCacheParameterGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterNameValues", required: true, type: .structure), 
+            AWSShapeMember(label: "CacheParameterGroupName", required: true, type: .string)
+        ]
+        /// An array of parameter names and values for the parameter update. You must supply at least one parameter name and value; subsequent arguments are optional. A maximum of 20 parameters may be modified per request.
+        public let parameterNameValues: ParameterNameValueList
+        /// The name of the cache parameter group to modify.
+        public let cacheParameterGroupName: String
+
+        public init(parameterNameValues: ParameterNameValueList, cacheParameterGroupName: String) {
+            self.parameterNameValues = parameterNameValues
+            self.cacheParameterGroupName = cacheParameterGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterNameValues = "ParameterNameValues"
+            case cacheParameterGroupName = "CacheParameterGroupName"
         }
     }
 
@@ -2697,1269 +2788,709 @@ extension ElastiCache {
         }
     }
 
-    public struct SnapshotList: AWSShape {
+    public struct SnapshotArnsList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Snapshot", required: false, type: .list)
+            AWSShapeMember(label: "SnapshotArn", required: false, type: .list)
         ]
-        public let snapshot: [Snapshot]?
+        public let snapshotArn: [String]?
 
-        public init(snapshot: [Snapshot]? = nil) {
-            self.snapshot = snapshot
+        public init(snapshotArn: [String]? = nil) {
+            self.snapshotArn = snapshotArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case snapshot = "Snapshot"
+            case snapshotArn = "SnapshotArn"
         }
     }
 
-    public struct ModifyCacheClusterResult: AWSShape {
+    public struct DescribeCacheParametersMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheCluster", required: false, type: .structure)
-        ]
-        public let cacheCluster: CacheCluster?
-
-        public init(cacheCluster: CacheCluster? = nil) {
-            self.cacheCluster = cacheCluster
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheCluster = "CacheCluster"
-        }
-    }
-
-    public struct ResetCacheParameterGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResetAllParameters", required: false, type: .boolean), 
-            AWSShapeMember(label: "ParameterNameValues", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Source", required: false, type: .string), 
             AWSShapeMember(label: "CacheParameterGroupName", required: true, type: .string)
         ]
-        /// If true, all parameters in the cache parameter group are reset to their default values. If false, only the parameters listed by ParameterNameValues are reset to their default values. Valid values: true | false 
-        public let resetAllParameters: Bool?
-        /// An array of parameter names to reset to their default values. If ResetAllParameters is true, do not use ParameterNameValues. If ResetAllParameters is false, you must specify the name of at least one parameter to reset.
-        public let parameterNameValues: ParameterNameValueList?
-        /// The name of the cache parameter group to reset.
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
+        public let maxRecords: Int32?
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// The parameter types to return. Valid values: user | system | engine-default 
+        public let source: String?
+        /// The name of a specific cache parameter group to return details for.
         public let cacheParameterGroupName: String
 
-        public init(resetAllParameters: Bool? = nil, parameterNameValues: ParameterNameValueList? = nil, cacheParameterGroupName: String) {
-            self.resetAllParameters = resetAllParameters
-            self.parameterNameValues = parameterNameValues
+        public init(maxRecords: Int32? = nil, marker: String? = nil, source: String? = nil, cacheParameterGroupName: String) {
+            self.maxRecords = maxRecords
+            self.marker = marker
+            self.source = source
             self.cacheParameterGroupName = cacheParameterGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resetAllParameters = "ResetAllParameters"
-            case parameterNameValues = "ParameterNameValues"
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+            case source = "Source"
             case cacheParameterGroupName = "CacheParameterGroupName"
         }
     }
 
-    public struct ModifyReplicationGroupShardConfigurationResult: AWSShape {
+    public struct CacheSecurityGroupMembership: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationGroup", required: false, type: .structure)
+            AWSShapeMember(label: "CacheSecurityGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
         ]
-        public let replicationGroup: ReplicationGroup?
+        /// The name of the cache security group.
+        public let cacheSecurityGroupName: String?
+        /// The membership status in the cache security group. The status changes when a cache security group is modified, or when the cache security groups assigned to a cluster are modified.
+        public let status: String?
 
-        public init(replicationGroup: ReplicationGroup? = nil) {
-            self.replicationGroup = replicationGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationGroup = "ReplicationGroup"
-        }
-    }
-
-    public struct SubnetIdentifierList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .list)
-        ]
-        public let subnetIdentifier: [String]?
-
-        public init(subnetIdentifier: [String]? = nil) {
-            self.subnetIdentifier = subnetIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnetIdentifier = "SubnetIdentifier"
-        }
-    }
-
-    public struct NodeSnapshot: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "CacheNodeCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CacheSize", required: false, type: .string), 
-            AWSShapeMember(label: "SnapshotCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NodeGroupConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CacheNodeId", required: false, type: .string), 
-            AWSShapeMember(label: "CacheClusterId", required: false, type: .string)
-        ]
-        /// A unique identifier for the source node group (shard).
-        public let nodeGroupId: String?
-        /// The date and time when the cache node was created in the source cluster.
-        public let cacheNodeCreateTime: TimeStamp?
-        /// The size of the cache on the source cache node.
-        public let cacheSize: String?
-        /// The date and time when the source node's metadata and cache data set was obtained for the snapshot.
-        public let snapshotCreateTime: TimeStamp?
-        /// The configuration for the source node group (shard).
-        public let nodeGroupConfiguration: NodeGroupConfiguration?
-        /// The cache node identifier for the node in the source cluster.
-        public let cacheNodeId: String?
-        /// A unique identifier for the source cluster.
-        public let cacheClusterId: String?
-
-        public init(nodeGroupId: String? = nil, cacheNodeCreateTime: TimeStamp? = nil, cacheSize: String? = nil, snapshotCreateTime: TimeStamp? = nil, nodeGroupConfiguration: NodeGroupConfiguration? = nil, cacheNodeId: String? = nil, cacheClusterId: String? = nil) {
-            self.nodeGroupId = nodeGroupId
-            self.cacheNodeCreateTime = cacheNodeCreateTime
-            self.cacheSize = cacheSize
-            self.snapshotCreateTime = snapshotCreateTime
-            self.nodeGroupConfiguration = nodeGroupConfiguration
-            self.cacheNodeId = cacheNodeId
-            self.cacheClusterId = cacheClusterId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nodeGroupId = "NodeGroupId"
-            case cacheNodeCreateTime = "CacheNodeCreateTime"
-            case cacheSize = "CacheSize"
-            case snapshotCreateTime = "SnapshotCreateTime"
-            case nodeGroupConfiguration = "NodeGroupConfiguration"
-            case cacheNodeId = "CacheNodeId"
-            case cacheClusterId = "CacheClusterId"
-        }
-    }
-
-    public struct CacheCluster: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeMember(label: "CacheSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "TransitEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "ClientDownloadLandingPage", required: false, type: .string), 
-            AWSShapeMember(label: "CacheClusterCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "AtRestEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "PreferredAvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "NumCacheNodes", required: false, type: .integer), 
-            AWSShapeMember(label: "CacheParameterGroup", required: false, type: .structure), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "CacheClusterStatus", required: false, type: .string), 
-            AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationEndpoint", required: false, type: .structure), 
-            AWSShapeMember(label: "CacheSecurityGroups", required: false, type: .structure), 
-            AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
-            AWSShapeMember(label: "CacheNodes", required: false, type: .structure), 
-            AWSShapeMember(label: "NotificationConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "AuthTokenEnabled", required: false, type: .boolean)
-        ]
-        /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30 
-        public let preferredMaintenanceWindow: String?
-        /// The replication group to which this cluster belongs. If this field is empty, the cluster is not associated with any replication group.
-        public let replicationGroupId: String?
-        /// A list of VPC Security Groups associated with the cluster.
-        public let securityGroups: [SecurityGroupMembership]?
-        /// The name of the compute and memory capacity node type for the cluster. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge   R4 node types; cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge       Notes:    All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).   Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.    Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.   Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.   For a complete listing of node types and specifications, see:    Amazon ElastiCache Product Features and Details     Cache Node Type-Specific Parameters for Memcached     Cache Node Type-Specific Parameters for Redis   
-        public let cacheNodeType: String?
-        /// The name of the cache subnet group associated with the cluster.
-        public let cacheSubnetGroupName: String?
-        /// The name of the cache engine (memcached or redis) to be used for this cluster.
-        public let engine: String?
-        /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6 or 4.x. Default: false 
-        public let transitEncryptionEnabled: Bool?
-        /// The URL of the web page where you can download the latest ElastiCache client library.
-        public let clientDownloadLandingPage: String?
-        /// The date and time when the cluster was created.
-        public let cacheClusterCreateTime: TimeStamp?
-        /// This parameter is currently disabled.
-        public let autoMinorVersionUpgrade: Bool?
-        /// A flag that enables encryption at-rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the cluster is created. To enable at-rest encryption on a cluster you must set AtRestEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6 or 4.x. Default: false 
-        public let atRestEncryptionEnabled: Bool?
-        /// The name of the Availability Zone in which the cluster is located or "Multiple" if the cache nodes are located in different Availability Zones.
-        public let preferredAvailabilityZone: String?
-        /// The user-supplied identifier of the cluster. This identifier is a unique key that identifies a cluster.
-        public let cacheClusterId: String?
-        /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. 
-        public let snapshotRetentionLimit: Int32?
-        /// The number of cache nodes in the cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
-        public let numCacheNodes: Int32?
-        /// Status of the cache parameter group.
-        public let cacheParameterGroup: CacheParameterGroupStatus?
-        /// The version of the cache engine that is used in this cluster.
-        public let engineVersion: String?
-        /// The current state of this cluster, one of the following values: available, creating, deleted, deleting, incompatible-network, modifying, rebooting cluster nodes, restore-failed, or snapshotting.
-        public let cacheClusterStatus: String?
-        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your cluster. Example: 05:00-09:00 
-        public let snapshotWindow: String?
-        /// Represents a Memcached cluster endpoint which, if Automatic Discovery is enabled on the cluster, can be used by an application to connect to any node in the cluster. The configuration endpoint will always have .cfg in it. Example: mem-3.9dvc4r.cfg.usw2.cache.amazonaws.com:11211 
-        public let configurationEndpoint: Endpoint?
-        /// A list of cache security group elements, composed of name and status sub-elements.
-        public let cacheSecurityGroups: CacheSecurityGroupMembershipList?
-        public let pendingModifiedValues: PendingModifiedValues?
-        /// A list of cache nodes that are members of the cluster.
-        public let cacheNodes: CacheNodeList?
-        /// Describes a notification topic and its status. Notification topics are used for publishing ElastiCache events to subscribers using Amazon Simple Notification Service (SNS). 
-        public let notificationConfiguration: NotificationConfiguration?
-        /// A flag that enables using an AuthToken (password) when issuing Redis commands. Default: false 
-        public let authTokenEnabled: Bool?
-
-        public init(preferredMaintenanceWindow: String? = nil, replicationGroupId: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, cacheNodeType: String? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, transitEncryptionEnabled: Bool? = nil, clientDownloadLandingPage: String? = nil, cacheClusterCreateTime: TimeStamp? = nil, autoMinorVersionUpgrade: Bool? = nil, atRestEncryptionEnabled: Bool? = nil, preferredAvailabilityZone: String? = nil, cacheClusterId: String? = nil, snapshotRetentionLimit: Int32? = nil, numCacheNodes: Int32? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, engineVersion: String? = nil, cacheClusterStatus: String? = nil, snapshotWindow: String? = nil, configurationEndpoint: Endpoint? = nil, cacheSecurityGroups: CacheSecurityGroupMembershipList? = nil, pendingModifiedValues: PendingModifiedValues? = nil, cacheNodes: CacheNodeList? = nil, notificationConfiguration: NotificationConfiguration? = nil, authTokenEnabled: Bool? = nil) {
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.replicationGroupId = replicationGroupId
-            self.securityGroups = securityGroups
-            self.cacheNodeType = cacheNodeType
-            self.cacheSubnetGroupName = cacheSubnetGroupName
-            self.engine = engine
-            self.transitEncryptionEnabled = transitEncryptionEnabled
-            self.clientDownloadLandingPage = clientDownloadLandingPage
-            self.cacheClusterCreateTime = cacheClusterCreateTime
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.atRestEncryptionEnabled = atRestEncryptionEnabled
-            self.preferredAvailabilityZone = preferredAvailabilityZone
-            self.cacheClusterId = cacheClusterId
-            self.snapshotRetentionLimit = snapshotRetentionLimit
-            self.numCacheNodes = numCacheNodes
-            self.cacheParameterGroup = cacheParameterGroup
-            self.engineVersion = engineVersion
-            self.cacheClusterStatus = cacheClusterStatus
-            self.snapshotWindow = snapshotWindow
-            self.configurationEndpoint = configurationEndpoint
-            self.cacheSecurityGroups = cacheSecurityGroups
-            self.pendingModifiedValues = pendingModifiedValues
-            self.cacheNodes = cacheNodes
-            self.notificationConfiguration = notificationConfiguration
-            self.authTokenEnabled = authTokenEnabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case replicationGroupId = "ReplicationGroupId"
-            case securityGroups = "SecurityGroups"
-            case cacheNodeType = "CacheNodeType"
-            case cacheSubnetGroupName = "CacheSubnetGroupName"
-            case engine = "Engine"
-            case transitEncryptionEnabled = "TransitEncryptionEnabled"
-            case clientDownloadLandingPage = "ClientDownloadLandingPage"
-            case cacheClusterCreateTime = "CacheClusterCreateTime"
-            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
-            case atRestEncryptionEnabled = "AtRestEncryptionEnabled"
-            case preferredAvailabilityZone = "PreferredAvailabilityZone"
-            case cacheClusterId = "CacheClusterId"
-            case snapshotRetentionLimit = "SnapshotRetentionLimit"
-            case numCacheNodes = "NumCacheNodes"
-            case cacheParameterGroup = "CacheParameterGroup"
-            case engineVersion = "EngineVersion"
-            case cacheClusterStatus = "CacheClusterStatus"
-            case snapshotWindow = "SnapshotWindow"
-            case configurationEndpoint = "ConfigurationEndpoint"
-            case cacheSecurityGroups = "CacheSecurityGroups"
-            case pendingModifiedValues = "PendingModifiedValues"
-            case cacheNodes = "CacheNodes"
-            case notificationConfiguration = "NotificationConfiguration"
-            case authTokenEnabled = "AuthTokenEnabled"
-        }
-    }
-
-    public struct CacheSecurityGroupNameList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSecurityGroupName", required: false, type: .list)
-        ]
-        public let cacheSecurityGroupName: [String]?
-
-        public init(cacheSecurityGroupName: [String]? = nil) {
+        public init(cacheSecurityGroupName: String? = nil, status: String? = nil) {
             self.cacheSecurityGroupName = cacheSecurityGroupName
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case cacheSecurityGroupName = "CacheSecurityGroupName"
+            case status = "Status"
         }
     }
 
-    public struct CacheSubnetGroups: AWSShape {
+    public struct NodeGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSubnetGroup", required: false, type: .list)
+            AWSShapeMember(label: "Slots", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "NodeGroupMembers", required: false, type: .structure), 
+            AWSShapeMember(label: "PrimaryEndpoint", required: false, type: .structure), 
+            AWSShapeMember(label: "NodeGroupId", required: false, type: .string)
         ]
-        public let cacheSubnetGroup: [CacheSubnetGroup]?
+        /// The keyspace for this node group (shard).
+        public let slots: String?
+        /// The current state of this replication group - creating, available, etc.
+        public let status: String?
+        /// A list containing information about individual nodes within the node group (shard).
+        public let nodeGroupMembers: NodeGroupMemberList?
+        /// The endpoint of the primary node in this node group (shard).
+        public let primaryEndpoint: Endpoint?
+        /// The identifier for the node group (shard). A Redis (cluster mode disabled) replication group contains only 1 node group; therefore, the node group ID is 0001. A Redis (cluster mode enabled) replication group contains 1 to 15 node groups numbered 0001 to 0015. 
+        public let nodeGroupId: String?
 
-        public init(cacheSubnetGroup: [CacheSubnetGroup]? = nil) {
-            self.cacheSubnetGroup = cacheSubnetGroup
+        public init(slots: String? = nil, status: String? = nil, nodeGroupMembers: NodeGroupMemberList? = nil, primaryEndpoint: Endpoint? = nil, nodeGroupId: String? = nil) {
+            self.slots = slots
+            self.status = status
+            self.nodeGroupMembers = nodeGroupMembers
+            self.primaryEndpoint = primaryEndpoint
+            self.nodeGroupId = nodeGroupId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheSubnetGroup = "CacheSubnetGroup"
+            case slots = "Slots"
+            case status = "Status"
+            case nodeGroupMembers = "NodeGroupMembers"
+            case primaryEndpoint = "PrimaryEndpoint"
+            case nodeGroupId = "NodeGroupId"
         }
     }
 
-    public struct CacheEngineVersion: AWSShape {
+    public struct ReplicationGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheParameterGroupFamily", required: false, type: .string), 
-            AWSShapeMember(label: "CacheEngineDescription", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "CacheEngineVersionDescription", required: false, type: .string)
+            AWSShapeMember(label: "ReplicationGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
-        /// The name of the cache parameter group family associated with this cache engine. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 | redis4.0 
-        public let cacheParameterGroupFamily: String?
-        /// The description of the cache engine.
-        public let cacheEngineDescription: String?
-        /// The version number of the cache engine.
-        public let engineVersion: String?
-        /// The name of the cache engine.
-        public let engine: String?
-        /// The description of the cache engine version.
-        public let cacheEngineVersionDescription: String?
+        /// A list of replication groups. Each item in the list contains detailed information about one replication group.
+        public let replicationGroups: ReplicationGroupList?
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let marker: String?
 
-        public init(cacheParameterGroupFamily: String? = nil, cacheEngineDescription: String? = nil, engineVersion: String? = nil, engine: String? = nil, cacheEngineVersionDescription: String? = nil) {
-            self.cacheParameterGroupFamily = cacheParameterGroupFamily
-            self.cacheEngineDescription = cacheEngineDescription
-            self.engineVersion = engineVersion
-            self.engine = engine
-            self.cacheEngineVersionDescription = cacheEngineVersionDescription
+        public init(replicationGroups: ReplicationGroupList? = nil, marker: String? = nil) {
+            self.replicationGroups = replicationGroups
+            self.marker = marker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheParameterGroupFamily = "CacheParameterGroupFamily"
-            case cacheEngineDescription = "CacheEngineDescription"
-            case engineVersion = "EngineVersion"
-            case engine = "Engine"
-            case cacheEngineVersionDescription = "CacheEngineVersionDescription"
+            case replicationGroups = "ReplicationGroups"
+            case marker = "Marker"
         }
     }
 
-    public struct AvailabilityZonesList: AWSShape {
+    public struct CopySnapshotMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .list)
+            AWSShapeMember(label: "TargetBucket", required: false, type: .string), 
+            AWSShapeMember(label: "TargetSnapshotName", required: true, type: .string), 
+            AWSShapeMember(label: "SourceSnapshotName", required: true, type: .string)
         ]
-        public let availabilityZone: [String]?
+        /// The Amazon S3 bucket to which the snapshot is exported. This parameter is used only when exporting a snapshot for external access. When using this parameter to export a snapshot, be sure Amazon ElastiCache has the needed permissions to this S3 bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the Amazon ElastiCache User Guide. For more information, see Exporting a Snapshot in the Amazon ElastiCache User Guide.
+        public let targetBucket: String?
+        /// A name for the snapshot copy. ElastiCache does not permit overwriting a snapshot, therefore this name must be unique within its context - ElastiCache or an Amazon S3 bucket if exporting.
+        public let targetSnapshotName: String
+        /// The name of an existing snapshot from which to make a copy.
+        public let sourceSnapshotName: String
 
-        public init(availabilityZone: [String]? = nil) {
-            self.availabilityZone = availabilityZone
+        public init(targetBucket: String? = nil, targetSnapshotName: String, sourceSnapshotName: String) {
+            self.targetBucket = targetBucket
+            self.targetSnapshotName = targetSnapshotName
+            self.sourceSnapshotName = sourceSnapshotName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone = "AvailabilityZone"
+            case targetBucket = "TargetBucket"
+            case targetSnapshotName = "TargetSnapshotName"
+            case sourceSnapshotName = "SourceSnapshotName"
         }
     }
 
-    public struct IncreaseReplicaCountMessage: AWSShape {
+    public struct RebootCacheClusterMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicaConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string), 
-            AWSShapeMember(label: "ApplyImmediately", required: true, type: .boolean), 
-            AWSShapeMember(label: "NewReplicaCount", required: false, type: .integer)
+            AWSShapeMember(label: "CacheClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "CacheNodeIdsToReboot", required: true, type: .structure)
         ]
-        /// A list of ConfigureShard objects that can be used to configure each shard in a Redis (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
-        public let replicaConfiguration: ReplicaConfigurationList?
-        /// The id of the replication group to which you want to add replica nodes.
-        public let replicationGroupId: String
-        /// If True, the number of replica nodes is increased immediately. If False, the number of replica nodes is increased during the next maintenance window.
-        public let applyImmediately: Bool
-        /// The number of read replica nodes you want at the completion of this operation. For Redis (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups.
-        public let newReplicaCount: Int32?
+        /// The cluster identifier. This parameter is stored as a lowercase string.
+        public let cacheClusterId: String
+        /// A list of cache node IDs to reboot. A node ID is a numeric identifier (0001, 0002, etc.). To reboot an entire cluster, specify all of the cache node IDs.
+        public let cacheNodeIdsToReboot: CacheNodeIdsList
 
-        public init(replicaConfiguration: ReplicaConfigurationList? = nil, replicationGroupId: String, applyImmediately: Bool, newReplicaCount: Int32? = nil) {
-            self.replicaConfiguration = replicaConfiguration
-            self.replicationGroupId = replicationGroupId
-            self.applyImmediately = applyImmediately
-            self.newReplicaCount = newReplicaCount
+        public init(cacheClusterId: String, cacheNodeIdsToReboot: CacheNodeIdsList) {
+            self.cacheClusterId = cacheClusterId
+            self.cacheNodeIdsToReboot = cacheNodeIdsToReboot
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicaConfiguration = "ReplicaConfiguration"
-            case replicationGroupId = "ReplicationGroupId"
-            case applyImmediately = "ApplyImmediately"
-            case newReplicaCount = "NewReplicaCount"
+            case cacheClusterId = "CacheClusterId"
+            case cacheNodeIdsToReboot = "CacheNodeIdsToReboot"
         }
     }
 
-    public struct CacheSecurityGroups: AWSShape {
+    public struct CacheNodeTypeSpecificParametersList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSecurityGroup", required: false, type: .list)
+            AWSShapeMember(label: "CacheNodeTypeSpecificParameter", required: false, type: .list)
         ]
-        public let cacheSecurityGroup: [CacheSecurityGroup]?
+        public let cacheNodeTypeSpecificParameter: [CacheNodeTypeSpecificParameter]?
 
-        public init(cacheSecurityGroup: [CacheSecurityGroup]? = nil) {
-            self.cacheSecurityGroup = cacheSecurityGroup
+        public init(cacheNodeTypeSpecificParameter: [CacheNodeTypeSpecificParameter]? = nil) {
+            self.cacheNodeTypeSpecificParameter = cacheNodeTypeSpecificParameter
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheSecurityGroup = "CacheSecurityGroup"
+            case cacheNodeTypeSpecificParameter = "CacheNodeTypeSpecificParameter"
+        }
+    }
+
+    public struct CacheSubnetGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "CacheSubnetGroups", required: false, type: .structure)
+        ]
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let marker: String?
+        /// A list of cache subnet groups. Each element in the list contains detailed information about one group.
+        public let cacheSubnetGroups: CacheSubnetGroups?
+
+        public init(marker: String? = nil, cacheSubnetGroups: CacheSubnetGroups? = nil) {
+            self.marker = marker
+            self.cacheSubnetGroups = cacheSubnetGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case cacheSubnetGroups = "CacheSubnetGroups"
         }
     }
 
     public struct EventsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Events", required: false, type: .structure)
+            AWSShapeMember(label: "Events", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
-        /// Provides an identifier to allow retrieval of paginated results.
-        public let marker: String?
         /// A list of events. Each element in the list contains detailed information about one event.
         public let events: EventList?
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let marker: String?
 
-        public init(marker: String? = nil, events: EventList? = nil) {
-            self.marker = marker
+        public init(events: EventList? = nil, marker: String? = nil) {
             self.events = events
+            self.marker = marker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
             case events = "Events"
+            case marker = "Marker"
         }
     }
 
-    public struct DeleteCacheSubnetGroupMessage: AWSShape {
+    public struct NodeGroupConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSubnetGroupName", required: true, type: .string)
+            AWSShapeMember(label: "Slots", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicaAvailabilityZones", required: false, type: .structure), 
+            AWSShapeMember(label: "PrimaryAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicaCount", required: false, type: .integer), 
+            AWSShapeMember(label: "NodeGroupId", required: false, type: .string)
         ]
-        /// The name of the cache subnet group to delete. Constraints: Must contain no more than 255 alphanumeric characters or hyphens.
-        public let cacheSubnetGroupName: String
+        /// A string that specifies the keyspace for a particular node group. Keyspaces range from 0 to 16,383. The string is in the format startkey-endkey. Example: "0-3999" 
+        public let slots: String?
+        /// A list of Availability Zones to be used for the read replicas. The number of Availability Zones in this list must match the value of ReplicaCount or ReplicasPerNodeGroup if not specified.
+        public let replicaAvailabilityZones: AvailabilityZonesList?
+        /// The Availability Zone where the primary node of this node group (shard) is launched.
+        public let primaryAvailabilityZone: String?
+        /// The number of read replica nodes in this node group (shard).
+        public let replicaCount: Int32?
+        /// The 4-digit id for the node group these configuration values apply to.
+        public let nodeGroupId: String?
 
-        public init(cacheSubnetGroupName: String) {
-            self.cacheSubnetGroupName = cacheSubnetGroupName
+        public init(slots: String? = nil, replicaAvailabilityZones: AvailabilityZonesList? = nil, primaryAvailabilityZone: String? = nil, replicaCount: Int32? = nil, nodeGroupId: String? = nil) {
+            self.slots = slots
+            self.replicaAvailabilityZones = replicaAvailabilityZones
+            self.primaryAvailabilityZone = primaryAvailabilityZone
+            self.replicaCount = replicaCount
+            self.nodeGroupId = nodeGroupId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheSubnetGroupName = "CacheSubnetGroupName"
+            case slots = "Slots"
+            case replicaAvailabilityZones = "ReplicaAvailabilityZones"
+            case primaryAvailabilityZone = "PrimaryAvailabilityZone"
+            case replicaCount = "ReplicaCount"
+            case nodeGroupId = "NodeGroupId"
         }
     }
 
-    public struct CreateCacheSubnetGroupResult: AWSShape {
+    public struct PreferredAvailabilityZoneList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSubnetGroup", required: false, type: .structure)
+            AWSShapeMember(label: "PreferredAvailabilityZone", required: false, type: .list)
         ]
-        public let cacheSubnetGroup: CacheSubnetGroup?
+        public let preferredAvailabilityZone: [String]?
 
-        public init(cacheSubnetGroup: CacheSubnetGroup? = nil) {
-            self.cacheSubnetGroup = cacheSubnetGroup
+        public init(preferredAvailabilityZone: [String]? = nil) {
+            self.preferredAvailabilityZone = preferredAvailabilityZone
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheSubnetGroup = "CacheSubnetGroup"
+            case preferredAvailabilityZone = "PreferredAvailabilityZone"
         }
     }
 
-    public struct DescribeCacheSubnetGroupsMessage: AWSShape {
+    public struct ParametersList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameter", required: false, type: .list)
+        ]
+        public let parameter: [Parameter]?
+
+        public init(parameter: [Parameter]? = nil) {
+            self.parameter = parameter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameter = "Parameter"
+        }
+    }
+
+    public struct NodeSnapshot: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheNodeId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheSize", required: false, type: .string), 
+            AWSShapeMember(label: "NodeGroupConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "CacheNodeCreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SnapshotCreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NodeGroupId", required: false, type: .string)
+        ]
+        /// The cache node identifier for the node in the source cluster.
+        public let cacheNodeId: String?
+        /// A unique identifier for the source cluster.
+        public let cacheClusterId: String?
+        /// The size of the cache on the source cache node.
+        public let cacheSize: String?
+        /// The configuration for the source node group (shard).
+        public let nodeGroupConfiguration: NodeGroupConfiguration?
+        /// The date and time when the cache node was created in the source cluster.
+        public let cacheNodeCreateTime: TimeStamp?
+        /// The date and time when the source node's metadata and cache data set was obtained for the snapshot.
+        public let snapshotCreateTime: TimeStamp?
+        /// A unique identifier for the source node group (shard).
+        public let nodeGroupId: String?
+
+        public init(cacheNodeId: String? = nil, cacheClusterId: String? = nil, cacheSize: String? = nil, nodeGroupConfiguration: NodeGroupConfiguration? = nil, cacheNodeCreateTime: TimeStamp? = nil, snapshotCreateTime: TimeStamp? = nil, nodeGroupId: String? = nil) {
+            self.cacheNodeId = cacheNodeId
+            self.cacheClusterId = cacheClusterId
+            self.cacheSize = cacheSize
+            self.nodeGroupConfiguration = nodeGroupConfiguration
+            self.cacheNodeCreateTime = cacheNodeCreateTime
+            self.snapshotCreateTime = snapshotCreateTime
+            self.nodeGroupId = nodeGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheNodeId = "CacheNodeId"
+            case cacheClusterId = "CacheClusterId"
+            case cacheSize = "CacheSize"
+            case nodeGroupConfiguration = "NodeGroupConfiguration"
+            case cacheNodeCreateTime = "CacheNodeCreateTime"
+            case snapshotCreateTime = "SnapshotCreateTime"
+            case nodeGroupId = "NodeGroupId"
+        }
+    }
+
+    public struct ReservedCacheNodeList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedCacheNode", required: false, type: .list)
+        ]
+        public let reservedCacheNode: [ReservedCacheNode]?
+
+        public init(reservedCacheNode: [ReservedCacheNode]? = nil) {
+            self.reservedCacheNode = reservedCacheNode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedCacheNode = "ReservedCacheNode"
+        }
+    }
+
+    public struct DescribeReservedCacheNodesOfferingsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "CacheSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedCacheNodesOfferingId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
+            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
+            AWSShapeMember(label: "Duration", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        /// The name of the cache subnet group to return details for.
-        public let cacheSubnetGroupName: String?
+        /// The offering identifier filter value. Use this parameter to show only the available offering that matches the specified reservation identifier. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706 
+        public let reservedCacheNodesOfferingId: String?
+        /// The cache node type filter value. Use this parameter to show only the available offerings matching the specified cache node type. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge   R4 node types; cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge       Notes:    All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).   Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.    Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.   Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.   For a complete listing of node types and specifications, see:    Amazon ElastiCache Product Features and Details     Cache Node Type-Specific Parameters for Memcached     Cache Node Type-Specific Parameters for Redis   
+        public let cacheNodeType: String?
+        /// The product description filter value. Use this parameter to show only the available offerings matching the specified product description.
+        public let productDescription: String?
+        /// The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid Values: "Light Utilization"|"Medium Utilization"|"Heavy Utilization" 
+        public let offeringType: String?
+        /// Duration filter value, specified in years or seconds. Use this parameter to show only reservations for a given duration. Valid Values: 1 | 3 | 31536000 | 94608000 
+        public let duration: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int32?
 
-        public init(marker: String? = nil, cacheSubnetGroupName: String? = nil, maxRecords: Int32? = nil) {
+        public init(marker: String? = nil, reservedCacheNodesOfferingId: String? = nil, cacheNodeType: String? = nil, productDescription: String? = nil, offeringType: String? = nil, duration: String? = nil, maxRecords: Int32? = nil) {
             self.marker = marker
-            self.cacheSubnetGroupName = cacheSubnetGroupName
+            self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
+            self.cacheNodeType = cacheNodeType
+            self.productDescription = productDescription
+            self.offeringType = offeringType
+            self.duration = duration
             self.maxRecords = maxRecords
         }
 
         private enum CodingKeys: String, CodingKey {
             case marker = "Marker"
-            case cacheSubnetGroupName = "CacheSubnetGroupName"
+            case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
+            case cacheNodeType = "CacheNodeType"
+            case productDescription = "ProductDescription"
+            case offeringType = "OfferingType"
+            case duration = "Duration"
             case maxRecords = "MaxRecords"
         }
     }
 
-    public struct ReshardingConfiguration: AWSShape {
+    public struct DescribeEventsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredAvailabilityZones", required: false, type: .structure)
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
-        /// The 4-digit id for the node group these configuration values apply to.
-        public let nodeGroupId: String?
-        /// A list of preferred availability zones for the nodes in this cluster.
-        public let preferredAvailabilityZones: AvailabilityZonesList?
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// The event source to retrieve events for. If no value is specified, all events are returned.
+        public let sourceType: SourceType?
+        /// The end of the time interval for which to retrieve events, specified in ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
+        public let endTime: TimeStamp?
+        /// The identifier of the event source for which events are returned. If not specified, all sources are included in the response.
+        public let sourceIdentifier: String?
+        /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
+        public let startTime: TimeStamp?
+        /// The number of minutes worth of events to retrieve.
+        public let duration: Int32?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
+        public let maxRecords: Int32?
 
-        public init(nodeGroupId: String? = nil, preferredAvailabilityZones: AvailabilityZonesList? = nil) {
-            self.nodeGroupId = nodeGroupId
-            self.preferredAvailabilityZones = preferredAvailabilityZones
+        public init(marker: String? = nil, sourceType: SourceType? = nil, endTime: TimeStamp? = nil, sourceIdentifier: String? = nil, startTime: TimeStamp? = nil, duration: Int32? = nil, maxRecords: Int32? = nil) {
+            self.marker = marker
+            self.sourceType = sourceType
+            self.endTime = endTime
+            self.sourceIdentifier = sourceIdentifier
+            self.startTime = startTime
+            self.duration = duration
+            self.maxRecords = maxRecords
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nodeGroupId = "NodeGroupId"
-            case preferredAvailabilityZones = "PreferredAvailabilityZones"
+            case marker = "Marker"
+            case sourceType = "SourceType"
+            case endTime = "EndTime"
+            case sourceIdentifier = "SourceIdentifier"
+            case startTime = "StartTime"
+            case duration = "Duration"
+            case maxRecords = "MaxRecords"
         }
     }
 
-    public struct Snapshot: AWSShape {
+    public enum AutomaticFailoverStatus: String, CustomStringConvertible, Codable {
+        case enabled = "enabled"
+        case disabled = "disabled"
+        case enabling = "enabling"
+        case disabling = "disabling"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ModifyCacheClusterMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "NumNodeGroups", required: false, type: .integer), 
-            AWSShapeMember(label: "CacheSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredAvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "SnapshotStatus", required: false, type: .string), 
-            AWSShapeMember(label: "TopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "NodeSnapshots", required: false, type: .structure), 
-            AWSShapeMember(label: "AutomaticFailover", required: false, type: .enum), 
-            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "CacheClusterCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
             AWSShapeMember(label: "NumCacheNodes", required: false, type: .integer), 
-            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
             AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "SnapshotSource", required: false, type: .string), 
-            AWSShapeMember(label: "SnapshotName", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationGroupDescription", required: false, type: .string), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean)
+            AWSShapeMember(label: "AZMode", required: false, type: .enum), 
+            AWSShapeMember(label: "CacheNodeIdsToRemove", required: false, type: .structure), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "NotificationTopicStatus", required: false, type: .string), 
+            AWSShapeMember(label: "CacheClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "NewAvailabilityZones", required: false, type: .structure), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "CacheSecurityGroupNames", required: false, type: .structure), 
+            AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string)
         ]
-        /// The name of the cache engine (memcached or redis) used by the source cluster.
-        public let engine: String?
-        /// The name of the compute and memory capacity node type for the source cluster. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge   R4 node types; cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge       Notes:    All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).   Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.    Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.   Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.   For a complete listing of node types and specifications, see:    Amazon ElastiCache Product Features and Details     Cache Node Type-Specific Parameters for Memcached     Cache Node Type-Specific Parameters for Redis   
+        /// The upgraded version of the cache engine to be run on the cache nodes.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version. 
+        public let engineVersion: String?
+        /// The number of cache nodes that the cluster should have. If the value for NumCacheNodes is greater than the sum of the number of current cache nodes and the number of cache nodes pending creation (which may be zero), more nodes are added. If the value is less than the number of existing cache nodes, nodes are removed. If the value is equal to the number of current cache nodes, any pending add or remove requests are canceled. If you are removing cache nodes, you must use the CacheNodeIdsToRemove parameter to provide the IDs of the specific cache nodes to remove. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.  Adding or removing Memcached cache nodes can be applied immediately or as a pending operation (see ApplyImmediately). A pending operation to modify the number of cache nodes in a cluster during its maintenance window, whether by adding or removing nodes in accordance with the scale out architecture, is not queued. The customer's latest request to add or remove nodes to the cluster overrides any previous pending operations to modify the number of cache nodes in the cluster. For example, a request to remove 2 nodes would override a previous pending operation to remove 3 nodes. Similarly, a request to add 2 nodes would override a previous pending operation to remove 3 nodes and vice versa. As Memcached cache nodes may now be provisioned in different Availability Zones with flexible cache node placement, a request to add nodes does not automatically override a previous pending operation to add nodes. The customer can modify the previous pending operation to add more nodes or explicitly cancel the pending request and retry the new request. To cancel pending operations to modify the number of cache nodes in a cluster, use the ModifyCacheCluster request and set NumCacheNodes equal to the number of cache nodes currently in the cluster. 
+        public let numCacheNodes: Int32?
+        /// A valid cache node type that you want to scale this cluster up to.
         public let cacheNodeType: String?
+        /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If false, changes to the cluster are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first.  If you perform a ModifyCacheCluster before a pending modification is applied, the pending modification is replaced by the newer modification.  Valid values: true | false  Default: false 
+        public let applyImmediately: Bool?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30 
         public let preferredMaintenanceWindow: String?
-        /// The version of the cache engine version that is used by the source cluster.
-        public let engineVersion: String?
-        /// The number of node groups (shards) in this snapshot. When restoring from a snapshot, the number of node groups (shards) in the snapshot and in the restored replication group must be the same.
-        public let numNodeGroups: Int32?
-        /// The name of the cache subnet group associated with the source cluster.
-        public let cacheSubnetGroupName: String?
-        /// The name of the Availability Zone in which the source cluster is located.
-        public let preferredAvailabilityZone: String?
-        /// The status of the snapshot. Valid values: creating | available | restoring | copying | deleting.
-        public let snapshotStatus: String?
-        /// The Amazon Resource Name (ARN) for the topic used by the source cluster for publishing notifications.
-        public let topicArn: String?
-        /// A list of the cache nodes in the source cluster.
-        public let nodeSnapshots: NodeSnapshotList?
-        /// Indicates the status of Multi-AZ with automatic failover for the source Redis replication group. Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 and T2 cache node types.   Redis (cluster mode enabled): T1 node types.  
-        public let automaticFailover: AutomaticFailoverStatus?
-        /// The user-supplied identifier of the source cluster.
-        public let cacheClusterId: String?
-        /// The date and time when the source cluster was created.
-        public let cacheClusterCreateTime: TimeStamp?
-        /// For an automatic snapshot, the number of days for which ElastiCache retains the snapshot before deleting it. For manual snapshots, this field reflects the SnapshotRetentionLimit for the source cluster when the snapshot was created. This field is otherwise ignored: Manual snapshots do not expire, and can only be deleted using the DeleteSnapshot operation.   Important If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
-        public let snapshotRetentionLimit: Int32?
-        /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet group for the source cluster.
-        public let vpcId: String?
-        /// The daily time range during which ElastiCache takes daily snapshots of the source cluster.
+        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your cluster. 
         public let snapshotWindow: String?
-        /// The number of cache nodes in the source cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
-        public let numCacheNodes: Int32?
-        /// The unique identifier of the source replication group.
-        public let replicationGroupId: String?
-        /// The port number used by each cache nodes in the source cluster.
-        public let port: Int32?
-        /// The cache parameter group that is associated with the source cluster.
+        /// The name of the cache parameter group to apply to this cluster. This change is asynchronously applied as soon as possible for parameters when the ApplyImmediately parameter is specified as true for this request.
         public let cacheParameterGroupName: String?
-        /// Indicates whether the snapshot is from an automatic backup (automated) or was created manually (manual).
-        public let snapshotSource: String?
-        /// The name of a snapshot. For an automatic snapshot, the name is system-generated. For a manual snapshot, this is the user-provided name.
-        public let snapshotName: String?
-        /// A description of the source replication group.
-        public let replicationGroupDescription: String?
-        /// This parameter is currently disabled.
-        public let autoMinorVersionUpgrade: Bool?
-
-        public init(engine: String? = nil, cacheNodeType: String? = nil, preferredMaintenanceWindow: String? = nil, engineVersion: String? = nil, numNodeGroups: Int32? = nil, cacheSubnetGroupName: String? = nil, preferredAvailabilityZone: String? = nil, snapshotStatus: String? = nil, topicArn: String? = nil, nodeSnapshots: NodeSnapshotList? = nil, automaticFailover: AutomaticFailoverStatus? = nil, cacheClusterId: String? = nil, cacheClusterCreateTime: TimeStamp? = nil, snapshotRetentionLimit: Int32? = nil, vpcId: String? = nil, snapshotWindow: String? = nil, numCacheNodes: Int32? = nil, replicationGroupId: String? = nil, port: Int32? = nil, cacheParameterGroupName: String? = nil, snapshotSource: String? = nil, snapshotName: String? = nil, replicationGroupDescription: String? = nil, autoMinorVersionUpgrade: Bool? = nil) {
-            self.engine = engine
-            self.cacheNodeType = cacheNodeType
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.engineVersion = engineVersion
-            self.numNodeGroups = numNodeGroups
-            self.cacheSubnetGroupName = cacheSubnetGroupName
-            self.preferredAvailabilityZone = preferredAvailabilityZone
-            self.snapshotStatus = snapshotStatus
-            self.topicArn = topicArn
-            self.nodeSnapshots = nodeSnapshots
-            self.automaticFailover = automaticFailover
-            self.cacheClusterId = cacheClusterId
-            self.cacheClusterCreateTime = cacheClusterCreateTime
-            self.snapshotRetentionLimit = snapshotRetentionLimit
-            self.vpcId = vpcId
-            self.snapshotWindow = snapshotWindow
-            self.numCacheNodes = numCacheNodes
-            self.replicationGroupId = replicationGroupId
-            self.port = port
-            self.cacheParameterGroupName = cacheParameterGroupName
-            self.snapshotSource = snapshotSource
-            self.snapshotName = snapshotName
-            self.replicationGroupDescription = replicationGroupDescription
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case engine = "Engine"
-            case cacheNodeType = "CacheNodeType"
-            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case engineVersion = "EngineVersion"
-            case numNodeGroups = "NumNodeGroups"
-            case cacheSubnetGroupName = "CacheSubnetGroupName"
-            case preferredAvailabilityZone = "PreferredAvailabilityZone"
-            case snapshotStatus = "SnapshotStatus"
-            case topicArn = "TopicArn"
-            case nodeSnapshots = "NodeSnapshots"
-            case automaticFailover = "AutomaticFailover"
-            case cacheClusterId = "CacheClusterId"
-            case cacheClusterCreateTime = "CacheClusterCreateTime"
-            case snapshotRetentionLimit = "SnapshotRetentionLimit"
-            case vpcId = "VpcId"
-            case snapshotWindow = "SnapshotWindow"
-            case numCacheNodes = "NumCacheNodes"
-            case replicationGroupId = "ReplicationGroupId"
-            case port = "Port"
-            case cacheParameterGroupName = "CacheParameterGroupName"
-            case snapshotSource = "SnapshotSource"
-            case snapshotName = "SnapshotName"
-            case replicationGroupDescription = "ReplicationGroupDescription"
-            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
-        }
-    }
-
-    public struct PendingModifiedValues: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NumCacheNodes", required: false, type: .integer), 
-            AWSShapeMember(label: "CacheNodeIdsToRemove", required: false, type: .structure), 
-            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string)
-        ]
-        /// The new number of cache nodes for the cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
-        public let numCacheNodes: Int32?
-        /// A list of cache node IDs that are being removed (or will be removed) from the cluster. A node ID is a 4-digit numeric identifier (0001, 0002, etc.).
+        /// Specifies whether the new nodes in this Memcached cluster are all created in a single Availability Zone or created across multiple Availability Zones. Valid values: single-az | cross-az. This option is only supported for Memcached clusters.  You cannot specify single-az if the Memcached cluster already has cache nodes in different Availability Zones. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone. Only newly created nodes are located in different Availability Zones. For instructions on how to move existing Memcached nodes to different Availability Zones, see the Availability Zone Considerations section of Cache Node Considerations for Memcached. 
+        public let aZMode: AZMode?
+        /// A list of cache node IDs to be removed. A node ID is a numeric identifier (0001, 0002, etc.). This parameter is only valid when NumCacheNodes is less than the existing number of cache nodes. The number of cache node IDs supplied in this parameter must match the difference between the existing number of cache nodes in the cluster or pending cache nodes, whichever is greater, and the value of NumCacheNodes in the request. For example: If you have 3 active cache nodes, 7 pending cache nodes, and the number of cache nodes in this ModifyCacheCluster call is 5, you must list 2 (7 - 5) cache node IDs to remove.
         public let cacheNodeIdsToRemove: CacheNodeIdsList?
-        /// The cache node type that this cluster or replication group is scaled to.
-        public let cacheNodeType: String?
-        /// The new cache engine version that the cluster runs.
-        public let engineVersion: String?
-
-        public init(numCacheNodes: Int32? = nil, cacheNodeIdsToRemove: CacheNodeIdsList? = nil, cacheNodeType: String? = nil, engineVersion: String? = nil) {
-            self.numCacheNodes = numCacheNodes
-            self.cacheNodeIdsToRemove = cacheNodeIdsToRemove
-            self.cacheNodeType = cacheNodeType
-            self.engineVersion = engineVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case numCacheNodes = "NumCacheNodes"
-            case cacheNodeIdsToRemove = "CacheNodeIdsToRemove"
-            case cacheNodeType = "CacheNodeType"
-            case engineVersion = "EngineVersion"
-        }
-    }
-
-    public struct DeleteReplicationGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationGroup", required: false, type: .structure)
-        ]
-        public let replicationGroup: ReplicationGroup?
-
-        public init(replicationGroup: ReplicationGroup? = nil) {
-            self.replicationGroup = replicationGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationGroup = "ReplicationGroup"
-        }
-    }
-
-    public struct CacheSecurityGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "CacheSecurityGroups", required: false, type: .structure)
-        ]
-        /// Provides an identifier to allow retrieval of paginated results.
-        public let marker: String?
-        /// A list of cache security groups. Each element in the list contains detailed information about one group.
-        public let cacheSecurityGroups: CacheSecurityGroups?
-
-        public init(marker: String? = nil, cacheSecurityGroups: CacheSecurityGroups? = nil) {
-            self.marker = marker
-            self.cacheSecurityGroups = cacheSecurityGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case cacheSecurityGroups = "CacheSecurityGroups"
-        }
-    }
-
-    public struct ModifyReplicationGroupShardConfigurationMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string), 
-            AWSShapeMember(label: "NodeGroupCount", required: true, type: .integer), 
-            AWSShapeMember(label: "ReshardingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ApplyImmediately", required: true, type: .boolean), 
-            AWSShapeMember(label: "NodeGroupsToRetain", required: false, type: .structure), 
-            AWSShapeMember(label: "NodeGroupsToRemove", required: false, type: .structure)
-        ]
-        /// The name of the Redis (cluster mode enabled) cluster (replication group) on which the shards are to be configured.
-        public let replicationGroupId: String
-        /// The number of node groups (shards) that results from the modification of the shard configuration.
-        public let nodeGroupCount: Int32
-        /// Specifies the preferred availability zones for each node group in the cluster. If the value of NodeGroupCount is greater than the current number of node groups (shards), you can use this parameter to specify the preferred availability zones of the cluster's shards. If you omit this parameter ElastiCache selects availability zones for you. You can specify this parameter only if the value of NodeGroupCount is greater than the current number of node groups (shards).
-        public let reshardingConfiguration: ReshardingConfigurationList?
-        /// Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true. Value: true
-        public let applyImmediately: Bool
-        /// If the value of NodeGroupCount is less than the current number of node groups (shards), the NodeGroupsToRemove or NodeGroupsToRetain is a required list of node group ids to remove from or retain in the cluster. ElastiCache for Redis will attempt to remove all node groups except those listed by NodeGroupsToRetain from the cluster.
-        public let nodeGroupsToRetain: NodeGroupsToRetainList?
-        /// If the value of NodeGroupCount is less than the current number of node groups (shards), the NodeGroupsToRemove or NodeGroupsToRetain is a required list of node group ids to remove from or retain in the cluster. ElastiCache for Redis will attempt to remove all node groups listed by NodeGroupsToRemove from the cluster.
-        public let nodeGroupsToRemove: NodeGroupsToRemoveList?
-
-        public init(replicationGroupId: String, nodeGroupCount: Int32, reshardingConfiguration: ReshardingConfigurationList? = nil, applyImmediately: Bool, nodeGroupsToRetain: NodeGroupsToRetainList? = nil, nodeGroupsToRemove: NodeGroupsToRemoveList? = nil) {
-            self.replicationGroupId = replicationGroupId
-            self.nodeGroupCount = nodeGroupCount
-            self.reshardingConfiguration = reshardingConfiguration
-            self.applyImmediately = applyImmediately
-            self.nodeGroupsToRetain = nodeGroupsToRetain
-            self.nodeGroupsToRemove = nodeGroupsToRemove
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationGroupId = "ReplicationGroupId"
-            case nodeGroupCount = "NodeGroupCount"
-            case reshardingConfiguration = "ReshardingConfiguration"
-            case applyImmediately = "ApplyImmediately"
-            case nodeGroupsToRetain = "NodeGroupsToRetain"
-            case nodeGroupsToRemove = "NodeGroupsToRemove"
-        }
-    }
-
-    public struct CreateReplicationGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "ReplicationGroupDescription", required: true, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "AutomaticFailoverEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string), 
-            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeMember(label: "CacheSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .structure), 
-            AWSShapeMember(label: "CacheSecurityGroupNames", required: false, type: .structure), 
-            AWSShapeMember(label: "TransitEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "AtRestEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "NumCacheClusters", required: false, type: .integer), 
-            AWSShapeMember(label: "PrimaryClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "SnapshotName", required: false, type: .string), 
-            AWSShapeMember(label: "NumNodeGroups", required: false, type: .integer), 
-            AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicasPerNodeGroup", required: false, type: .integer), 
-            AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "NodeGroupConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "SnapshotArns", required: false, type: .structure), 
-            AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
-            AWSShapeMember(label: "AuthToken", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredCacheClusterAZs", required: false, type: .structure), 
-            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .structure)
-        ]
-        /// The port number on which each member of the replication group accepts connections.
-        public let port: Int32?
-        /// A user-created description for the replication group.
-        public let replicationGroupDescription: String
-        /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30 
-        public let preferredMaintenanceWindow: String?
-        /// Specifies whether a read-only replica is automatically promoted to read/write primary if the existing primary fails. If true, Multi-AZ is enabled for this replication group. If false, Multi-AZ is disabled for this replication group.  AutomaticFailoverEnabled must be enabled for Redis (cluster mode enabled) replication groups. Default: false Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 and T2 cache node types.   Redis (cluster mode enabled): T1 node types.  
-        public let automaticFailoverEnabled: Bool?
-        /// The replication group identifier. This parameter is stored as a lowercase string. Constraints:   A name must contain from 1 to 20 alphanumeric characters or hyphens.   The first character must be a letter.   A name cannot end with a hyphen or contain two consecutive hyphens.  
-        public let replicationGroupId: String
-        /// The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge   R4 node types; cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge       Notes:    All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).   Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.    Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.   Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.   For a complete listing of node types and specifications, see:    Amazon ElastiCache Product Features and Details     Cache Node Type-Specific Parameters for Memcached     Cache Node Type-Specific Parameters for Redis   
-        public let cacheNodeType: String?
-        /// The name of the cache subnet group to be used for the replication group.  If you're going to launch your cluster in an Amazon VPC, you need to create a subnet group before you start creating a cluster. For more information, see Subnets and Subnet Groups. 
-        public let cacheSubnetGroupName: String?
-        /// The name of the cache engine to be used for the clusters in this replication group.
-        public let engine: String?
-        /// One or more Amazon VPC security groups associated with this replication group. Use this parameter only when you are creating a replication group in an Amazon Virtual Private Cloud (Amazon VPC).
+        /// Specifies the VPC Security Groups associated with the cluster. This parameter can be used only with clusters that are created in an Amazon Virtual Private Cloud (Amazon VPC).
         public let securityGroupIds: SecurityGroupIdsList?
-        /// A list of cache security group names to associate with this replication group.
-        public let cacheSecurityGroupNames: CacheSecurityGroupNameList?
-        /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster. This parameter is valid only if the Engine parameter is redis, the EngineVersion parameter is 3.2.6 or 4.x, and the cluster is being created in an Amazon VPC. If you enable in-transit encryption, you must also specify a value for CacheSubnetGroup.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6 or 4.x. Default: false   For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup. 
-        public let transitEncryptionEnabled: Bool?
+        /// The status of the Amazon SNS notification topic. Notifications are sent only if the status is active. Valid values: active | inactive 
+        public let notificationTopicStatus: String?
+        /// The cluster identifier. This value is stored as a lowercase string.
+        public let cacheClusterId: String
+        /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. 
+        public let snapshotRetentionLimit: Int32?
+        /// The list of Availability Zones where the new Memcached cache nodes are created. This parameter is only valid when NumCacheNodes in the request is greater than the sum of the number of active cache nodes and the number of cache nodes pending creation (which may be zero). The number of Availability Zones supplied in this list must match the cache nodes being added in this request. This option is only supported on Memcached clusters. Scenarios:    Scenario 1: You have 3 active nodes and wish to add 2 nodes. Specify NumCacheNodes=5 (3 + 2) and optionally specify two Availability Zones for the two new nodes.    Scenario 2: You have 3 active nodes and 2 nodes pending creation (from the scenario 1 call) and want to add 1 more node. Specify NumCacheNodes=6 ((3 + 2) + 1) and optionally specify an Availability Zone for the new node.    Scenario 3: You want to cancel all pending operations. Specify NumCacheNodes=3 to cancel all pending operations.   The Availability Zone placement of nodes pending creation cannot be modified. If you wish to cancel any nodes pending creation, add 0 nodes by setting NumCacheNodes to the number of current nodes. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone. Only newly created nodes can be located in different Availability Zones. For guidance on how to move existing Memcached nodes to different Availability Zones, see the Availability Zone Considerations section of Cache Node Considerations for Memcached.  Impact of new add/remove requests upon pending requests    Scenario-1   Pending Action: Delete   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending delete.     Scenario-2   Pending Action: Delete   New Request: Create   Result: The new create, pending or immediate, replaces the pending delete.     Scenario-3   Pending Action: Create   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending create.     Scenario-4   Pending Action: Create   New Request: Create   Result: The new create is added to the pending create.   Important: If the new create request is Apply Immediately - Yes, all creates are performed immediately. If the new create request is Apply Immediately - No, all creates are pending.     
+        public let newAvailabilityZones: PreferredAvailabilityZoneList?
         /// This parameter is currently disabled.
         public let autoMinorVersionUpgrade: Bool?
-        /// A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group.   Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6 or 4.x. Default: false 
-        public let atRestEncryptionEnabled: Bool?
-        /// The number of clusters this replication group initially has. This parameter is not used if there is more than one node group (shard). You should use ReplicasPerNodeGroup instead. If AutomaticFailoverEnabled is true, the value of this parameter must be at least 2. If AutomaticFailoverEnabled is false you can omit this parameter (it will default to 1), or you can explicitly set it to a value between 2 and 6. The maximum permitted value for NumCacheClusters is 6 (1 primary plus 5 replicas).
-        public let numCacheClusters: Int32?
-        /// The identifier of the cluster that serves as the primary for this replication group. This cluster must already exist and have a status of available. This parameter is not required if NumCacheClusters, NumNodeGroups, or ReplicasPerNodeGroup is specified.
-        public let primaryClusterId: String?
-        /// The name of a snapshot from which to restore data into the new replication group. The snapshot status changes to restoring while the new replication group is being created.
-        public let snapshotName: String?
-        /// An optional parameter that specifies the number of node groups (shards) for this Redis (cluster mode enabled) replication group. For Redis (cluster mode disabled) either omit this parameter or set it to 1. Default: 1
-        public let numNodeGroups: Int32?
-        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner. 
+        /// A list of cache security group names to authorize on this cluster. This change is asynchronously applied as soon as possible. You can use this parameter only with clusters that are created outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be "Default".
+        public let cacheSecurityGroupNames: CacheSecurityGroupNameList?
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications are sent.  The Amazon SNS topic owner must be same as the cluster owner. 
         public let notificationTopicArn: String?
-        /// An optional parameter that specifies the number of replica nodes in each node group (shard). Valid values are 0 to 5.
-        public let replicasPerNodeGroup: Int32?
-        /// The number of days for which ElastiCache retains automatic snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted. Default: 0 (i.e., automatic backups are disabled for this cluster).
-        public let snapshotRetentionLimit: Int32?
-        /// A list of node group (shard) configuration options. Each node group (shard) configuration has the following members: PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount, and Slots. If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter. However, when seeding a Redis (cluster mode enabled) cluster from a S3 rdb file, you must configure each node group (shard) using this parameter because you must specify the slots for each node group.
-        public let nodeGroupConfiguration: NodeGroupConfigurationList?
-        /// The version number of the cache engine to be used for the clusters in this replication group. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version) in the ElastiCache User Guide, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version. 
-        public let engineVersion: String?
-        /// A list of Amazon Resource Names (ARN) that uniquely identify the Redis RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new replication group. The Amazon S3 object name in the ARN cannot contain any commas. The new replication group will have the number of node groups (console: shards) specified by the parameter NumNodeGroups or the number of node groups configured by NodeGroupConfiguration regardless of the number of ARNs specified here. Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb 
-        public let snapshotArns: SnapshotArnsList?
-        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
-        public let snapshotWindow: String?
-        ///  Reserved parameter. The password used to access a password protected server.  AuthToken can be specified only on replication groups where TransitEncryptionEnabled is true.  For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.  Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   Cannot contain any of the following characters: '/', '"', or '@'.    For more information, see AUTH password at http://redis.io/commands/AUTH.
-        public let authToken: String?
-        /// A list of EC2 Availability Zones in which the replication group's clusters are created. The order of the Availability Zones in the list is the order in which clusters are allocated. The primary cluster is created in the first AZ in the list. This parameter is not used if there is more than one node group (shard). You should use NodeGroupConfiguration instead.  If you are creating your replication group in an Amazon VPC (recommended), you can only locate clusters in Availability Zones associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheClusters.  Default: system chosen Availability Zones.
-        public let preferredCacheClusterAZs: AvailabilityZonesList?
-        /// The name of the parameter group to associate with this replication group. If this argument is omitted, the default cache parameter group for the specified engine is used. If you are running Redis version 3.2.4 or later, only one node group (shard), and want to use a default parameter group, we recommend that you specify the parameter group by name.    To create a Redis (cluster mode disabled) replication group, use CacheParameterGroupName=default.redis3.2.   To create a Redis (cluster mode enabled) replication group, use CacheParameterGroupName=default.redis3.2.cluster.on.  
-        public let cacheParameterGroupName: String?
-        /// A list of cost allocation tags to be added to this resource. A tag is a key-value pair.
-        public let tags: TagList?
 
-        public init(port: Int32? = nil, replicationGroupDescription: String, preferredMaintenanceWindow: String? = nil, automaticFailoverEnabled: Bool? = nil, replicationGroupId: String, cacheNodeType: String? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, securityGroupIds: SecurityGroupIdsList? = nil, cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, transitEncryptionEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, atRestEncryptionEnabled: Bool? = nil, numCacheClusters: Int32? = nil, primaryClusterId: String? = nil, snapshotName: String? = nil, numNodeGroups: Int32? = nil, notificationTopicArn: String? = nil, replicasPerNodeGroup: Int32? = nil, snapshotRetentionLimit: Int32? = nil, nodeGroupConfiguration: NodeGroupConfigurationList? = nil, engineVersion: String? = nil, snapshotArns: SnapshotArnsList? = nil, snapshotWindow: String? = nil, authToken: String? = nil, preferredCacheClusterAZs: AvailabilityZonesList? = nil, cacheParameterGroupName: String? = nil, tags: TagList? = nil) {
-            self.port = port
-            self.replicationGroupDescription = replicationGroupDescription
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.automaticFailoverEnabled = automaticFailoverEnabled
-            self.replicationGroupId = replicationGroupId
+        public init(engineVersion: String? = nil, numCacheNodes: Int32? = nil, cacheNodeType: String? = nil, applyImmediately: Bool? = nil, preferredMaintenanceWindow: String? = nil, snapshotWindow: String? = nil, cacheParameterGroupName: String? = nil, aZMode: AZMode? = nil, cacheNodeIdsToRemove: CacheNodeIdsList? = nil, securityGroupIds: SecurityGroupIdsList? = nil, notificationTopicStatus: String? = nil, cacheClusterId: String, snapshotRetentionLimit: Int32? = nil, newAvailabilityZones: PreferredAvailabilityZoneList? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, notificationTopicArn: String? = nil) {
+            self.engineVersion = engineVersion
+            self.numCacheNodes = numCacheNodes
             self.cacheNodeType = cacheNodeType
-            self.cacheSubnetGroupName = cacheSubnetGroupName
-            self.engine = engine
-            self.securityGroupIds = securityGroupIds
-            self.cacheSecurityGroupNames = cacheSecurityGroupNames
-            self.transitEncryptionEnabled = transitEncryptionEnabled
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.atRestEncryptionEnabled = atRestEncryptionEnabled
-            self.numCacheClusters = numCacheClusters
-            self.primaryClusterId = primaryClusterId
-            self.snapshotName = snapshotName
-            self.numNodeGroups = numNodeGroups
-            self.notificationTopicArn = notificationTopicArn
-            self.replicasPerNodeGroup = replicasPerNodeGroup
-            self.snapshotRetentionLimit = snapshotRetentionLimit
-            self.nodeGroupConfiguration = nodeGroupConfiguration
-            self.engineVersion = engineVersion
-            self.snapshotArns = snapshotArns
-            self.snapshotWindow = snapshotWindow
-            self.authToken = authToken
-            self.preferredCacheClusterAZs = preferredCacheClusterAZs
-            self.cacheParameterGroupName = cacheParameterGroupName
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case port = "Port"
-            case replicationGroupDescription = "ReplicationGroupDescription"
-            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case automaticFailoverEnabled = "AutomaticFailoverEnabled"
-            case replicationGroupId = "ReplicationGroupId"
-            case cacheNodeType = "CacheNodeType"
-            case cacheSubnetGroupName = "CacheSubnetGroupName"
-            case engine = "Engine"
-            case securityGroupIds = "SecurityGroupIds"
-            case cacheSecurityGroupNames = "CacheSecurityGroupNames"
-            case transitEncryptionEnabled = "TransitEncryptionEnabled"
-            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
-            case atRestEncryptionEnabled = "AtRestEncryptionEnabled"
-            case numCacheClusters = "NumCacheClusters"
-            case primaryClusterId = "PrimaryClusterId"
-            case snapshotName = "SnapshotName"
-            case numNodeGroups = "NumNodeGroups"
-            case notificationTopicArn = "NotificationTopicArn"
-            case replicasPerNodeGroup = "ReplicasPerNodeGroup"
-            case snapshotRetentionLimit = "SnapshotRetentionLimit"
-            case nodeGroupConfiguration = "NodeGroupConfiguration"
-            case engineVersion = "EngineVersion"
-            case snapshotArns = "SnapshotArns"
-            case snapshotWindow = "SnapshotWindow"
-            case authToken = "AuthToken"
-            case preferredCacheClusterAZs = "PreferredCacheClusterAZs"
-            case cacheParameterGroupName = "CacheParameterGroupName"
-            case tags = "Tags"
-        }
-    }
-
-    public struct DescribeReplicationGroupsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string)
-        ]
-        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        public let marker: String?
-        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
-        /// The identifier for the replication group to be described. This parameter is not case sensitive. If you do not specify this parameter, information about all replication groups is returned.
-        public let replicationGroupId: String?
-
-        public init(marker: String? = nil, maxRecords: Int32? = nil, replicationGroupId: String? = nil) {
-            self.marker = marker
-            self.maxRecords = maxRecords
-            self.replicationGroupId = replicationGroupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxRecords = "MaxRecords"
-            case replicationGroupId = "ReplicationGroupId"
-        }
-    }
-
-    public struct RemoveTagsFromResourceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceName", required: true, type: .string)
-        ]
-        /// A list of TagKeys identifying the tags you want removed from the named resource.
-        public let tagKeys: [String]
-        /// The Amazon Resource Name (ARN) of the resource from which you want the tags removed, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
-        public let resourceName: String
-
-        public init(tagKeys: [String], resourceName: String) {
-            self.tagKeys = tagKeys
-            self.resourceName = resourceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKeys = "TagKeys"
-            case resourceName = "ResourceName"
-        }
-    }
-
-    public struct DescribeCacheEngineVersionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "CacheParameterGroupFamily", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string)
-        ]
-        /// If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
-        public let defaultOnly: Bool?
-        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        public let marker: String?
-        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
-        /// The cache engine version to return. Example: 1.4.14 
-        public let engineVersion: String?
-        /// The name of a specific cache parameter group family to return details for. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 | redis4.0  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let cacheParameterGroupFamily: String?
-        /// The cache engine to return. Valid values: memcached | redis 
-        public let engine: String?
-
-        public init(defaultOnly: Bool? = nil, marker: String? = nil, maxRecords: Int32? = nil, engineVersion: String? = nil, cacheParameterGroupFamily: String? = nil, engine: String? = nil) {
-            self.defaultOnly = defaultOnly
-            self.marker = marker
-            self.maxRecords = maxRecords
-            self.engineVersion = engineVersion
-            self.cacheParameterGroupFamily = cacheParameterGroupFamily
-            self.engine = engine
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case defaultOnly = "DefaultOnly"
-            case marker = "Marker"
-            case maxRecords = "MaxRecords"
-            case engineVersion = "EngineVersion"
-            case cacheParameterGroupFamily = "CacheParameterGroupFamily"
-            case engine = "Engine"
-        }
-    }
-
-    public struct NodeSnapshotList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeSnapshot", required: false, type: .list)
-        ]
-        public let nodeSnapshot: [NodeSnapshot]?
-
-        public init(nodeSnapshot: [NodeSnapshot]? = nil) {
-            self.nodeSnapshot = nodeSnapshot
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nodeSnapshot = "NodeSnapshot"
-        }
-    }
-
-    public struct DecreaseReplicaCountMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicaConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string), 
-            AWSShapeMember(label: "ApplyImmediately", required: true, type: .boolean), 
-            AWSShapeMember(label: "NewReplicaCount", required: false, type: .integer), 
-            AWSShapeMember(label: "ReplicasToRemove", required: false, type: .list)
-        ]
-        /// A list of ConfigureShard objects that can be used to configure each shard in a Redis (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
-        public let replicaConfiguration: ReplicaConfigurationList?
-        /// The id of the replication group from which you want to remove replica nodes.
-        public let replicationGroupId: String
-        /// If True, the number of replica nodes is decreased immediately. If False, the number of replica nodes is decreased during the next maintenance window.
-        public let applyImmediately: Bool
-        /// The number of read replica nodes you want at the completion of this operation. For Redis (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups. The minimum number of replicas in a shard or replication group is:   Redis (cluster mode disabled)   If Multi-AZ with Automatic Failover is enabled: 1   If Multi-AZ with Automatic Failover is not enabled: 0     Redis (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)  
-        public let newReplicaCount: Int32?
-        /// A list of the node ids to remove from the replication group or node group (shard).
-        public let replicasToRemove: [String]?
-
-        public init(replicaConfiguration: ReplicaConfigurationList? = nil, replicationGroupId: String, applyImmediately: Bool, newReplicaCount: Int32? = nil, replicasToRemove: [String]? = nil) {
-            self.replicaConfiguration = replicaConfiguration
-            self.replicationGroupId = replicationGroupId
             self.applyImmediately = applyImmediately
-            self.newReplicaCount = newReplicaCount
-            self.replicasToRemove = replicasToRemove
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.snapshotWindow = snapshotWindow
+            self.cacheParameterGroupName = cacheParameterGroupName
+            self.aZMode = aZMode
+            self.cacheNodeIdsToRemove = cacheNodeIdsToRemove
+            self.securityGroupIds = securityGroupIds
+            self.notificationTopicStatus = notificationTopicStatus
+            self.cacheClusterId = cacheClusterId
+            self.snapshotRetentionLimit = snapshotRetentionLimit
+            self.newAvailabilityZones = newAvailabilityZones
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.cacheSecurityGroupNames = cacheSecurityGroupNames
+            self.notificationTopicArn = notificationTopicArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicaConfiguration = "ReplicaConfiguration"
-            case replicationGroupId = "ReplicationGroupId"
+            case engineVersion = "EngineVersion"
+            case numCacheNodes = "NumCacheNodes"
+            case cacheNodeType = "CacheNodeType"
             case applyImmediately = "ApplyImmediately"
-            case newReplicaCount = "NewReplicaCount"
-            case replicasToRemove = "ReplicasToRemove"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case snapshotWindow = "SnapshotWindow"
+            case cacheParameterGroupName = "CacheParameterGroupName"
+            case aZMode = "AZMode"
+            case cacheNodeIdsToRemove = "CacheNodeIdsToRemove"
+            case securityGroupIds = "SecurityGroupIds"
+            case notificationTopicStatus = "NotificationTopicStatus"
+            case cacheClusterId = "CacheClusterId"
+            case snapshotRetentionLimit = "SnapshotRetentionLimit"
+            case newAvailabilityZones = "NewAvailabilityZones"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case cacheSecurityGroupNames = "CacheSecurityGroupNames"
+            case notificationTopicArn = "NotificationTopicArn"
+        }
+    }
+
+    public struct AuthorizeCacheSecurityGroupIngressMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSecurityGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: true, type: .string), 
+            AWSShapeMember(label: "EC2SecurityGroupName", required: true, type: .string)
+        ]
+        /// The cache security group that allows network ingress.
+        public let cacheSecurityGroupName: String
+        /// The AWS account number of the Amazon EC2 security group owner. Note that this is not the same thing as an AWS access key ID - you must provide a valid AWS account number for this parameter.
+        public let eC2SecurityGroupOwnerId: String
+        /// The Amazon EC2 security group to be authorized for ingress to the cache security group.
+        public let eC2SecurityGroupName: String
+
+        public init(cacheSecurityGroupName: String, eC2SecurityGroupOwnerId: String, eC2SecurityGroupName: String) {
+            self.cacheSecurityGroupName = cacheSecurityGroupName
+            self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
+            self.eC2SecurityGroupName = eC2SecurityGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheSecurityGroupName = "CacheSecurityGroupName"
+            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
+            case eC2SecurityGroupName = "EC2SecurityGroupName"
+        }
+    }
+
+    public struct Subnet: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .structure)
+        ]
+        /// The unique identifier for the subnet.
+        public let subnetIdentifier: String?
+        /// The Availability Zone associated with the subnet.
+        public let subnetAvailabilityZone: AvailabilityZone?
+
+        public init(subnetIdentifier: String? = nil, subnetAvailabilityZone: AvailabilityZone? = nil) {
+            self.subnetIdentifier = subnetIdentifier
+            self.subnetAvailabilityZone = subnetAvailabilityZone
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetIdentifier = "SubnetIdentifier"
+            case subnetAvailabilityZone = "SubnetAvailabilityZone"
+        }
+    }
+
+    public struct NodeGroupMemberList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeGroupMember", required: false, type: .list)
+        ]
+        public let nodeGroupMember: [NodeGroupMember]?
+
+        public init(nodeGroupMember: [NodeGroupMember]? = nil) {
+            self.nodeGroupMember = nodeGroupMember
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeGroupMember = "NodeGroupMember"
         }
     }
 
     public struct ReservedCacheNodeMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedCacheNodes", required: false, type: .structure)
+            AWSShapeMember(label: "ReservedCacheNodes", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
-        /// Provides an identifier to allow retrieval of paginated results.
-        public let marker: String?
         /// A list of reserved cache nodes. Each element in the list contains detailed information about one node.
         public let reservedCacheNodes: ReservedCacheNodeList?
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let marker: String?
 
-        public init(marker: String? = nil, reservedCacheNodes: ReservedCacheNodeList? = nil) {
-            self.marker = marker
+        public init(reservedCacheNodes: ReservedCacheNodeList? = nil, marker: String? = nil) {
             self.reservedCacheNodes = reservedCacheNodes
+            self.marker = marker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
             case reservedCacheNodes = "ReservedCacheNodes"
-        }
-    }
-
-    public struct DescribeCacheSecurityGroupsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "CacheSecurityGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
-        ]
-        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        public let marker: String?
-        /// The name of the cache security group to return details for.
-        public let cacheSecurityGroupName: String?
-        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
-
-        public init(marker: String? = nil, cacheSecurityGroupName: String? = nil, maxRecords: Int32? = nil) {
-            self.marker = marker
-            self.cacheSecurityGroupName = cacheSecurityGroupName
-            self.maxRecords = maxRecords
-        }
-
-        private enum CodingKeys: String, CodingKey {
             case marker = "Marker"
-            case cacheSecurityGroupName = "CacheSecurityGroupName"
-            case maxRecords = "MaxRecords"
         }
     }
 
-    public struct Event: AWSShape {
+    public struct Parameter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "Date", required: false, type: .timestamp)
+            AWSShapeMember(label: "DataType", required: false, type: .string), 
+            AWSShapeMember(label: "MinimumEngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
+            AWSShapeMember(label: "ChangeType", required: false, type: .enum), 
+            AWSShapeMember(label: "ParameterName", required: false, type: .string), 
+            AWSShapeMember(label: "IsModifiable", required: false, type: .boolean), 
+            AWSShapeMember(label: "Source", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterValue", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        /// The text of the event.
-        public let message: String?
-        /// The identifier for the source of the event. For example, if the event occurred at the cluster level, the identifier would be the name of the cluster.
-        public let sourceIdentifier: String?
-        /// Specifies the origin of this event - a cluster, a parameter group, a security group, etc.
-        public let sourceType: SourceType?
-        /// The date and time when the event occurred.
-        public let date: TimeStamp?
+        /// The valid data type for the parameter.
+        public let dataType: String?
+        /// The earliest cache engine version to which the parameter can apply.
+        public let minimumEngineVersion: String?
+        /// The valid range of values for the parameter.
+        public let allowedValues: String?
+        /// Indicates whether a change to the parameter is applied immediately or requires a reboot for the change to be applied. You can force a reboot or wait until the next maintenance window's reboot. For more information, see Rebooting a Cluster.
+        public let changeType: ChangeType?
+        /// The name of the parameter.
+        public let parameterName: String?
+        /// Indicates whether (true) or not (false) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed.
+        public let isModifiable: Bool?
+        /// The source of the parameter.
+        public let source: String?
+        /// The value of the parameter.
+        public let parameterValue: String?
+        /// A description of the parameter.
+        public let description: String?
 
-        public init(message: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, date: TimeStamp? = nil) {
-            self.message = message
-            self.sourceIdentifier = sourceIdentifier
-            self.sourceType = sourceType
-            self.date = date
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-            case sourceIdentifier = "SourceIdentifier"
-            case sourceType = "SourceType"
-            case date = "Date"
-        }
-    }
-
-    public struct RecurringCharge: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecurringChargeFrequency", required: false, type: .string), 
-            AWSShapeMember(label: "RecurringChargeAmount", required: false, type: .double)
-        ]
-        /// The frequency of the recurring charge.
-        public let recurringChargeFrequency: String?
-        /// The monetary amount of the recurring charge.
-        public let recurringChargeAmount: Double?
-
-        public init(recurringChargeFrequency: String? = nil, recurringChargeAmount: Double? = nil) {
-            self.recurringChargeFrequency = recurringChargeFrequency
-            self.recurringChargeAmount = recurringChargeAmount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recurringChargeFrequency = "RecurringChargeFrequency"
-            case recurringChargeAmount = "RecurringChargeAmount"
-        }
-    }
-
-    public struct CreateCacheParameterGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheParameterGroupFamily", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "CacheParameterGroupName", required: true, type: .string)
-        ]
-        /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 | redis4.0 
-        public let cacheParameterGroupFamily: String
-        /// A user-specified description for the cache parameter group.
-        public let description: String
-        /// A user-specified name for the cache parameter group.
-        public let cacheParameterGroupName: String
-
-        public init(cacheParameterGroupFamily: String, description: String, cacheParameterGroupName: String) {
-            self.cacheParameterGroupFamily = cacheParameterGroupFamily
+        public init(dataType: String? = nil, minimumEngineVersion: String? = nil, allowedValues: String? = nil, changeType: ChangeType? = nil, parameterName: String? = nil, isModifiable: Bool? = nil, source: String? = nil, parameterValue: String? = nil, description: String? = nil) {
+            self.dataType = dataType
+            self.minimumEngineVersion = minimumEngineVersion
+            self.allowedValues = allowedValues
+            self.changeType = changeType
+            self.parameterName = parameterName
+            self.isModifiable = isModifiable
+            self.source = source
+            self.parameterValue = parameterValue
             self.description = description
-            self.cacheParameterGroupName = cacheParameterGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheParameterGroupFamily = "CacheParameterGroupFamily"
+            case dataType = "DataType"
+            case minimumEngineVersion = "MinimumEngineVersion"
+            case allowedValues = "AllowedValues"
+            case changeType = "ChangeType"
+            case parameterName = "ParameterName"
+            case isModifiable = "IsModifiable"
+            case source = "Source"
+            case parameterValue = "ParameterValue"
             case description = "Description"
-            case cacheParameterGroupName = "CacheParameterGroupName"
         }
     }
 
-    public struct SubnetList: AWSShape {
+    public struct DeleteCacheSecurityGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subnet", required: false, type: .list)
+            AWSShapeMember(label: "CacheSecurityGroupName", required: true, type: .string)
         ]
-        public let subnet: [Subnet]?
+        /// The name of the cache security group to delete.  You cannot delete the default security group. 
+        public let cacheSecurityGroupName: String
 
-        public init(subnet: [Subnet]? = nil) {
-            self.subnet = subnet
+        public init(cacheSecurityGroupName: String) {
+            self.cacheSecurityGroupName = cacheSecurityGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subnet = "Subnet"
-        }
-    }
-
-    public struct DescribeSnapshotsListMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Snapshots", required: false, type: .structure)
-        ]
-        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        public let marker: String?
-        /// A list of snapshots. Each item in the list contains detailed information about one snapshot.
-        public let snapshots: SnapshotList?
-
-        public init(marker: String? = nil, snapshots: SnapshotList? = nil) {
-            self.marker = marker
-            self.snapshots = snapshots
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case snapshots = "Snapshots"
-        }
-    }
-
-    public struct RecurringChargeList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecurringCharge", required: false, type: .list)
-        ]
-        public let recurringCharge: [RecurringCharge]?
-
-        public init(recurringCharge: [RecurringCharge]? = nil) {
-            self.recurringCharge = recurringCharge
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recurringCharge = "RecurringCharge"
-        }
-    }
-
-    public struct CacheParameterGroupNameMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string)
-        ]
-        /// The name of the cache parameter group.
-        public let cacheParameterGroupName: String?
-
-        public init(cacheParameterGroupName: String? = nil) {
-            self.cacheParameterGroupName = cacheParameterGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheParameterGroupName = "CacheParameterGroupName"
-        }
-    }
-
-    public struct RevokeCacheSecurityGroupIngressResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSecurityGroup", required: false, type: .structure)
-        ]
-        public let cacheSecurityGroup: CacheSecurityGroup?
-
-        public init(cacheSecurityGroup: CacheSecurityGroup? = nil) {
-            self.cacheSecurityGroup = cacheSecurityGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheSecurityGroup = "CacheSecurityGroup"
-        }
-    }
-
-    public struct AddTagsToResourceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .structure), 
-            AWSShapeMember(label: "ResourceName", required: true, type: .string)
-        ]
-        /// A list of cost allocation tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value.
-        public let tags: TagList
-        /// The Amazon Resource Name (ARN) of the resource to which the tags are to be added, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. ElastiCache resources are cluster and snapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
-        public let resourceName: String
-
-        public init(tags: TagList, resourceName: String) {
-            self.tags = tags
-            self.resourceName = resourceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case resourceName = "ResourceName"
-        }
-    }
-
-    public struct DeleteSnapshotMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotName", required: true, type: .string)
-        ]
-        /// The name of the snapshot to be deleted.
-        public let snapshotName: String
-
-        public init(snapshotName: String) {
-            self.snapshotName = snapshotName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snapshotName = "SnapshotName"
+            case cacheSecurityGroupName = "CacheSecurityGroupName"
         }
     }
 
@@ -3978,111 +3509,580 @@ extension ElastiCache {
         }
     }
 
-    public struct Parameter: AWSShape {
+    public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeType", required: false, type: .enum), 
-            AWSShapeMember(label: "MinimumEngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
-            AWSShapeMember(label: "Source", required: false, type: .string), 
-            AWSShapeMember(label: "ParameterName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "IsModifiable", required: false, type: .boolean), 
-            AWSShapeMember(label: "ParameterValue", required: false, type: .string), 
-            AWSShapeMember(label: "DataType", required: false, type: .string)
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
         ]
-        /// Indicates whether a change to the parameter is applied immediately or requires a reboot for the change to be applied. You can force a reboot or wait until the next maintenance window's reboot. For more information, see Rebooting a Cluster.
-        public let changeType: ChangeType?
-        /// The earliest cache engine version to which the parameter can apply.
-        public let minimumEngineVersion: String?
-        /// The valid range of values for the parameter.
-        public let allowedValues: String?
-        /// The source of the parameter.
-        public let source: String?
-        /// The name of the parameter.
-        public let parameterName: String?
-        /// A description of the parameter.
+        /// The key for the tag. May not be null.
+        public let key: String?
+        /// The tag's value. May be null.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct ReplicationGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "AutomaticFailover", required: false, type: .enum), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
+            AWSShapeMember(label: "NodeGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
+            AWSShapeMember(label: "MemberClusters", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigurationEndpoint", required: false, type: .structure), 
+            AWSShapeMember(label: "SnapshottingClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "AtRestEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "TransitEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "AuthTokenEnabled", required: false, type: .boolean)
+        ]
+        /// The current state of this replication group - creating, available, modifying, deleting, create-failed, snapshotting.
+        public let status: String?
+        /// Indicates the status of Multi-AZ with automatic failover for this Redis replication group. Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 and T2 cache node types.   Redis (cluster mode enabled): T1 node types.  
+        public let automaticFailover: AutomaticFailoverStatus?
+        /// The name of the compute and memory capacity node type for each node in the replication group.
+        public let cacheNodeType: String?
+        /// A group of settings to be applied to the replication group, either immediately or during the next maintenance window.
+        public let pendingModifiedValues: ReplicationGroupPendingModifiedValues?
+        /// A list of node groups in this replication group. For Redis (cluster mode disabled) replication groups, this is a single-element list. For Redis (cluster mode enabled) replication groups, the list contains an entry for each node group (shard).
+        public let nodeGroups: NodeGroupList?
+        /// A flag indicating whether or not this replication group is cluster enabled; i.e., whether its data can be partitioned across multiple shards (API/CLI: node groups). Valid values: true | false 
+        public let clusterEnabled: Bool?
+        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.  This parameter is only valid if the Engine parameter is redis. 
+        public let snapshotWindow: String?
+        /// The names of all the cache clusters that are part of this replication group.
+        public let memberClusters: ClusterIdList?
+        /// The user supplied description of the replication group.
         public let description: String?
-        /// Indicates whether (true) or not (false) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed.
-        public let isModifiable: Bool?
+        /// The configuration endpoint for this replication group. Use the configuration endpoint to connect to this replication group.
+        public let configurationEndpoint: Endpoint?
+        /// The cluster ID that is used as the daily snapshot source for the replication group.
+        public let snapshottingClusterId: String?
+        /// A flag that enables encryption at-rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the cluster is created. To enable encryption at-rest on a cluster you must set AtRestEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6 or 4.x. Default: false 
+        public let atRestEncryptionEnabled: Bool?
+        /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6 or 4.x. Default: false 
+        public let transitEncryptionEnabled: Bool?
+        /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. 
+        public let snapshotRetentionLimit: Int32?
+        /// The identifier for the replication group.
+        public let replicationGroupId: String?
+        /// A flag that enables using an AuthToken (password) when issuing Redis commands. Default: false 
+        public let authTokenEnabled: Bool?
+
+        public init(status: String? = nil, automaticFailover: AutomaticFailoverStatus? = nil, cacheNodeType: String? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, nodeGroups: NodeGroupList? = nil, clusterEnabled: Bool? = nil, snapshotWindow: String? = nil, memberClusters: ClusterIdList? = nil, description: String? = nil, configurationEndpoint: Endpoint? = nil, snapshottingClusterId: String? = nil, atRestEncryptionEnabled: Bool? = nil, transitEncryptionEnabled: Bool? = nil, snapshotRetentionLimit: Int32? = nil, replicationGroupId: String? = nil, authTokenEnabled: Bool? = nil) {
+            self.status = status
+            self.automaticFailover = automaticFailover
+            self.cacheNodeType = cacheNodeType
+            self.pendingModifiedValues = pendingModifiedValues
+            self.nodeGroups = nodeGroups
+            self.clusterEnabled = clusterEnabled
+            self.snapshotWindow = snapshotWindow
+            self.memberClusters = memberClusters
+            self.description = description
+            self.configurationEndpoint = configurationEndpoint
+            self.snapshottingClusterId = snapshottingClusterId
+            self.atRestEncryptionEnabled = atRestEncryptionEnabled
+            self.transitEncryptionEnabled = transitEncryptionEnabled
+            self.snapshotRetentionLimit = snapshotRetentionLimit
+            self.replicationGroupId = replicationGroupId
+            self.authTokenEnabled = authTokenEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case automaticFailover = "AutomaticFailover"
+            case cacheNodeType = "CacheNodeType"
+            case pendingModifiedValues = "PendingModifiedValues"
+            case nodeGroups = "NodeGroups"
+            case clusterEnabled = "ClusterEnabled"
+            case snapshotWindow = "SnapshotWindow"
+            case memberClusters = "MemberClusters"
+            case description = "Description"
+            case configurationEndpoint = "ConfigurationEndpoint"
+            case snapshottingClusterId = "SnapshottingClusterId"
+            case atRestEncryptionEnabled = "AtRestEncryptionEnabled"
+            case transitEncryptionEnabled = "TransitEncryptionEnabled"
+            case snapshotRetentionLimit = "SnapshotRetentionLimit"
+            case replicationGroupId = "ReplicationGroupId"
+            case authTokenEnabled = "AuthTokenEnabled"
+        }
+    }
+
+    public struct AvailabilityZone: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The name of the Availability Zone.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct CreateCacheClusterResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheCluster", required: false, type: .structure)
+        ]
+        public let cacheCluster: CacheCluster?
+
+        public init(cacheCluster: CacheCluster? = nil) {
+            self.cacheCluster = cacheCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheCluster = "CacheCluster"
+        }
+    }
+
+    public struct ParameterNameValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterValue", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterName", required: false, type: .string)
+        ]
         /// The value of the parameter.
         public let parameterValue: String?
-        /// The valid data type for the parameter.
-        public let dataType: String?
+        /// The name of the parameter.
+        public let parameterName: String?
 
-        public init(changeType: ChangeType? = nil, minimumEngineVersion: String? = nil, allowedValues: String? = nil, source: String? = nil, parameterName: String? = nil, description: String? = nil, isModifiable: Bool? = nil, parameterValue: String? = nil, dataType: String? = nil) {
-            self.changeType = changeType
-            self.minimumEngineVersion = minimumEngineVersion
-            self.allowedValues = allowedValues
-            self.source = source
-            self.parameterName = parameterName
-            self.description = description
-            self.isModifiable = isModifiable
+        public init(parameterValue: String? = nil, parameterName: String? = nil) {
             self.parameterValue = parameterValue
-            self.dataType = dataType
+            self.parameterName = parameterName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case changeType = "ChangeType"
-            case minimumEngineVersion = "MinimumEngineVersion"
-            case allowedValues = "AllowedValues"
-            case source = "Source"
-            case parameterName = "ParameterName"
-            case description = "Description"
-            case isModifiable = "IsModifiable"
             case parameterValue = "ParameterValue"
-            case dataType = "DataType"
+            case parameterName = "ParameterName"
         }
     }
 
-    public struct TagListMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagList", required: false, type: .structure)
-        ]
-        /// A list of cost allocation tags as key-value pairs.
-        public let tagList: TagList?
-
-        public init(tagList: TagList? = nil) {
-            self.tagList = tagList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagList = "TagList"
-        }
-    }
-
-    public struct ListAllowedNodeTypeModificationsMessage: AWSShape {
+    public struct DescribeCacheClustersMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string)
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ShowCacheNodeInfo", required: false, type: .boolean), 
+            AWSShapeMember(label: "ShowCacheClustersNotInReplicationGroups", required: false, type: .boolean)
         ]
-        /// The name of the cluster you want to scale up to a larger node instanced type. ElastiCache uses the cluster id to identify the current node type of this cluster and from that to create a list of node types you can scale up to.  You must provide a value for either the CacheClusterId or the ReplicationGroupId. 
+        /// The user-supplied cluster identifier. If this parameter is specified, only information about that specific cluster is returned. This parameter isn't case sensitive.
         public let cacheClusterId: String?
-        /// The name of the replication group want to scale up to a larger node type. ElastiCache uses the replication group id to identify the current node type being used by this replication group, and from that to create a list of node types you can scale up to.  You must provide a value for either the CacheClusterId or the ReplicationGroupId. 
-        public let replicationGroupId: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
+        public let maxRecords: Int32?
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// An optional flag that can be included in the DescribeCacheCluster request to retrieve information about the individual cache nodes.
+        public let showCacheNodeInfo: Bool?
+        /// An optional flag that can be included in the DescribeCacheCluster request to show only nodes (API/CLI: clusters) that are not members of a replication group. In practice, this mean Memcached and single node Redis clusters.
+        public let showCacheClustersNotInReplicationGroups: Bool?
 
-        public init(cacheClusterId: String? = nil, replicationGroupId: String? = nil) {
+        public init(cacheClusterId: String? = nil, maxRecords: Int32? = nil, marker: String? = nil, showCacheNodeInfo: Bool? = nil, showCacheClustersNotInReplicationGroups: Bool? = nil) {
             self.cacheClusterId = cacheClusterId
-            self.replicationGroupId = replicationGroupId
+            self.maxRecords = maxRecords
+            self.marker = marker
+            self.showCacheNodeInfo = showCacheNodeInfo
+            self.showCacheClustersNotInReplicationGroups = showCacheClustersNotInReplicationGroups
         }
 
         private enum CodingKeys: String, CodingKey {
             case cacheClusterId = "CacheClusterId"
-            case replicationGroupId = "ReplicationGroupId"
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+            case showCacheNodeInfo = "ShowCacheNodeInfo"
+            case showCacheClustersNotInReplicationGroups = "ShowCacheClustersNotInReplicationGroups"
         }
     }
 
-    public struct CacheNodeTypeSpecificValueList: AWSShape {
+    public struct Snapshot: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheNodeTypeSpecificValue", required: false, type: .list)
+            AWSShapeMember(label: "CacheSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "CacheClusterCreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "AutomaticFailover", required: false, type: .enum), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "NumNodeGroups", required: false, type: .integer), 
+            AWSShapeMember(label: "ReplicationGroupDescription", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "NumCacheNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotSource", required: false, type: .string), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotStatus", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "NodeSnapshots", required: false, type: .structure), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "TopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "SnapshotName", required: false, type: .string)
         ]
-        public let cacheNodeTypeSpecificValue: [CacheNodeTypeSpecificValue]?
+        /// The name of the cache subnet group associated with the source cluster.
+        public let cacheSubnetGroupName: String?
+        /// The date and time when the source cluster was created.
+        public let cacheClusterCreateTime: TimeStamp?
+        /// The name of the compute and memory capacity node type for the source cluster. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge   R4 node types; cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge       Notes:    All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).   Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.    Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.   Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.   For a complete listing of node types and specifications, see:    Amazon ElastiCache Product Features and Details     Cache Node Type-Specific Parameters for Memcached     Cache Node Type-Specific Parameters for Redis   
+        public let cacheNodeType: String?
+        /// Indicates the status of Multi-AZ with automatic failover for the source Redis replication group. Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 and T2 cache node types.   Redis (cluster mode enabled): T1 node types.  
+        public let automaticFailover: AutomaticFailoverStatus?
+        /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet group for the source cluster.
+        public let vpcId: String?
+        /// The version of the cache engine version that is used by the source cluster.
+        public let engineVersion: String?
+        /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30 
+        public let preferredMaintenanceWindow: String?
+        /// The number of node groups (shards) in this snapshot. When restoring from a snapshot, the number of node groups (shards) in the snapshot and in the restored replication group must be the same.
+        public let numNodeGroups: Int32?
+        /// A description of the source replication group.
+        public let replicationGroupDescription: String?
+        /// The unique identifier of the source replication group.
+        public let replicationGroupId: String?
+        /// The number of cache nodes in the source cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
+        public let numCacheNodes: Int32?
+        /// The daily time range during which ElastiCache takes daily snapshots of the source cluster.
+        public let snapshotWindow: String?
+        /// The cache parameter group that is associated with the source cluster.
+        public let cacheParameterGroupName: String?
+        /// Indicates whether the snapshot is from an automatic backup (automated) or was created manually (manual).
+        public let snapshotSource: String?
+        /// The name of the cache engine (memcached or redis) used by the source cluster.
+        public let engine: String?
+        /// The status of the snapshot. Valid values: creating | available | restoring | copying | deleting.
+        public let snapshotStatus: String?
+        /// The name of the Availability Zone in which the source cluster is located.
+        public let preferredAvailabilityZone: String?
+        /// The user-supplied identifier of the source cluster.
+        public let cacheClusterId: String?
+        /// A list of the cache nodes in the source cluster.
+        public let nodeSnapshots: NodeSnapshotList?
+        /// The port number used by each cache nodes in the source cluster.
+        public let port: Int32?
+        /// For an automatic snapshot, the number of days for which ElastiCache retains the snapshot before deleting it. For manual snapshots, this field reflects the SnapshotRetentionLimit for the source cluster when the snapshot was created. This field is otherwise ignored: Manual snapshots do not expire, and can only be deleted using the DeleteSnapshot operation.   Important If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
+        public let snapshotRetentionLimit: Int32?
+        /// The Amazon Resource Name (ARN) for the topic used by the source cluster for publishing notifications.
+        public let topicArn: String?
+        /// This parameter is currently disabled.
+        public let autoMinorVersionUpgrade: Bool?
+        /// The name of a snapshot. For an automatic snapshot, the name is system-generated. For a manual snapshot, this is the user-provided name.
+        public let snapshotName: String?
 
-        public init(cacheNodeTypeSpecificValue: [CacheNodeTypeSpecificValue]? = nil) {
-            self.cacheNodeTypeSpecificValue = cacheNodeTypeSpecificValue
+        public init(cacheSubnetGroupName: String? = nil, cacheClusterCreateTime: TimeStamp? = nil, cacheNodeType: String? = nil, automaticFailover: AutomaticFailoverStatus? = nil, vpcId: String? = nil, engineVersion: String? = nil, preferredMaintenanceWindow: String? = nil, numNodeGroups: Int32? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, numCacheNodes: Int32? = nil, snapshotWindow: String? = nil, cacheParameterGroupName: String? = nil, snapshotSource: String? = nil, engine: String? = nil, snapshotStatus: String? = nil, preferredAvailabilityZone: String? = nil, cacheClusterId: String? = nil, nodeSnapshots: NodeSnapshotList? = nil, port: Int32? = nil, snapshotRetentionLimit: Int32? = nil, topicArn: String? = nil, autoMinorVersionUpgrade: Bool? = nil, snapshotName: String? = nil) {
+            self.cacheSubnetGroupName = cacheSubnetGroupName
+            self.cacheClusterCreateTime = cacheClusterCreateTime
+            self.cacheNodeType = cacheNodeType
+            self.automaticFailover = automaticFailover
+            self.vpcId = vpcId
+            self.engineVersion = engineVersion
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.numNodeGroups = numNodeGroups
+            self.replicationGroupDescription = replicationGroupDescription
+            self.replicationGroupId = replicationGroupId
+            self.numCacheNodes = numCacheNodes
+            self.snapshotWindow = snapshotWindow
+            self.cacheParameterGroupName = cacheParameterGroupName
+            self.snapshotSource = snapshotSource
+            self.engine = engine
+            self.snapshotStatus = snapshotStatus
+            self.preferredAvailabilityZone = preferredAvailabilityZone
+            self.cacheClusterId = cacheClusterId
+            self.nodeSnapshots = nodeSnapshots
+            self.port = port
+            self.snapshotRetentionLimit = snapshotRetentionLimit
+            self.topicArn = topicArn
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.snapshotName = snapshotName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheNodeTypeSpecificValue = "CacheNodeTypeSpecificValue"
+            case cacheSubnetGroupName = "CacheSubnetGroupName"
+            case cacheClusterCreateTime = "CacheClusterCreateTime"
+            case cacheNodeType = "CacheNodeType"
+            case automaticFailover = "AutomaticFailover"
+            case vpcId = "VpcId"
+            case engineVersion = "EngineVersion"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case numNodeGroups = "NumNodeGroups"
+            case replicationGroupDescription = "ReplicationGroupDescription"
+            case replicationGroupId = "ReplicationGroupId"
+            case numCacheNodes = "NumCacheNodes"
+            case snapshotWindow = "SnapshotWindow"
+            case cacheParameterGroupName = "CacheParameterGroupName"
+            case snapshotSource = "SnapshotSource"
+            case engine = "Engine"
+            case snapshotStatus = "SnapshotStatus"
+            case preferredAvailabilityZone = "PreferredAvailabilityZone"
+            case cacheClusterId = "CacheClusterId"
+            case nodeSnapshots = "NodeSnapshots"
+            case port = "Port"
+            case snapshotRetentionLimit = "SnapshotRetentionLimit"
+            case topicArn = "TopicArn"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case snapshotName = "SnapshotName"
+        }
+    }
+
+    public struct DeleteSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Snapshot", required: false, type: .structure)
+        ]
+        public let snapshot: Snapshot?
+
+        public init(snapshot: Snapshot? = nil) {
+            self.snapshot = snapshot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshot = "Snapshot"
+        }
+    }
+
+    public struct CacheParameterGroupDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheNodeTypeSpecificParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
+        public let cacheNodeTypeSpecificParameters: CacheNodeTypeSpecificParametersList?
+        /// A list of Parameter instances.
+        public let parameters: ParametersList?
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let marker: String?
+
+        public init(cacheNodeTypeSpecificParameters: CacheNodeTypeSpecificParametersList? = nil, parameters: ParametersList? = nil, marker: String? = nil) {
+            self.cacheNodeTypeSpecificParameters = cacheNodeTypeSpecificParameters
+            self.parameters = parameters
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheNodeTypeSpecificParameters = "CacheNodeTypeSpecificParameters"
+            case parameters = "Parameters"
+            case marker = "Marker"
+        }
+    }
+
+    public struct EC2SecurityGroupList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EC2SecurityGroup", required: false, type: .list)
+        ]
+        public let eC2SecurityGroup: [EC2SecurityGroup]?
+
+        public init(eC2SecurityGroup: [EC2SecurityGroup]? = nil) {
+            self.eC2SecurityGroup = eC2SecurityGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eC2SecurityGroup = "EC2SecurityGroup"
+        }
+    }
+
+    public struct CreateCacheParameterGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheParameterGroup", required: false, type: .structure)
+        ]
+        public let cacheParameterGroup: CacheParameterGroup?
+
+        public init(cacheParameterGroup: CacheParameterGroup? = nil) {
+            self.cacheParameterGroup = cacheParameterGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheParameterGroup = "CacheParameterGroup"
+        }
+    }
+
+    public struct CacheSubnetGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheSubnetGroupDescription", required: false, type: .string), 
+            AWSShapeMember(label: "Subnets", required: false, type: .structure)
+        ]
+        /// The name of the cache subnet group.
+        public let cacheSubnetGroupName: String?
+        /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet group.
+        public let vpcId: String?
+        /// The description of the cache subnet group.
+        public let cacheSubnetGroupDescription: String?
+        /// A list of subnets associated with the cache subnet group.
+        public let subnets: SubnetList?
+
+        public init(cacheSubnetGroupName: String? = nil, vpcId: String? = nil, cacheSubnetGroupDescription: String? = nil, subnets: SubnetList? = nil) {
+            self.cacheSubnetGroupName = cacheSubnetGroupName
+            self.vpcId = vpcId
+            self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
+            self.subnets = subnets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheSubnetGroupName = "CacheSubnetGroupName"
+            case vpcId = "VpcId"
+            case cacheSubnetGroupDescription = "CacheSubnetGroupDescription"
+            case subnets = "Subnets"
+        }
+    }
+
+    public struct ModifyCacheSubnetGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSubnetGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "SubnetIds", required: false, type: .structure), 
+            AWSShapeMember(label: "CacheSubnetGroupDescription", required: false, type: .string)
+        ]
+        /// The name for the cache subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup 
+        public let cacheSubnetGroupName: String
+        /// The EC2 subnet IDs for the cache subnet group.
+        public let subnetIds: SubnetIdentifierList?
+        /// A description of the cache subnet group.
+        public let cacheSubnetGroupDescription: String?
+
+        public init(cacheSubnetGroupName: String, subnetIds: SubnetIdentifierList? = nil, cacheSubnetGroupDescription: String? = nil) {
+            self.cacheSubnetGroupName = cacheSubnetGroupName
+            self.subnetIds = subnetIds
+            self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheSubnetGroupName = "CacheSubnetGroupName"
+            case subnetIds = "SubnetIds"
+            case cacheSubnetGroupDescription = "CacheSubnetGroupDescription"
+        }
+    }
+
+    public struct CacheSecurityGroups: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSecurityGroup", required: false, type: .list)
+        ]
+        public let cacheSecurityGroup: [CacheSecurityGroup]?
+
+        public init(cacheSecurityGroup: [CacheSecurityGroup]? = nil) {
+            self.cacheSecurityGroup = cacheSecurityGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheSecurityGroup = "CacheSecurityGroup"
+        }
+    }
+
+    public struct DescribeCacheEngineVersionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroupFamily", required: false, type: .string)
+        ]
+        /// The cache engine to return. Valid values: memcached | redis 
+        public let engine: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
+        public let maxRecords: Int32?
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
+        public let defaultOnly: Bool?
+        /// The cache engine version to return. Example: 1.4.14 
+        public let engineVersion: String?
+        /// The name of a specific cache parameter group family to return details for. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 | redis4.0  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
+        public let cacheParameterGroupFamily: String?
+
+        public init(engine: String? = nil, maxRecords: Int32? = nil, marker: String? = nil, defaultOnly: Bool? = nil, engineVersion: String? = nil, cacheParameterGroupFamily: String? = nil) {
+            self.engine = engine
+            self.maxRecords = maxRecords
+            self.marker = marker
+            self.defaultOnly = defaultOnly
+            self.engineVersion = engineVersion
+            self.cacheParameterGroupFamily = cacheParameterGroupFamily
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engine = "Engine"
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+            case defaultOnly = "DefaultOnly"
+            case engineVersion = "EngineVersion"
+            case cacheParameterGroupFamily = "CacheParameterGroupFamily"
+        }
+    }
+
+    public struct ModifyReplicationGroupShardConfigurationResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationGroup", required: false, type: .structure)
+        ]
+        public let replicationGroup: ReplicationGroup?
+
+        public init(replicationGroup: ReplicationGroup? = nil) {
+            self.replicationGroup = replicationGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationGroup = "ReplicationGroup"
+        }
+    }
+
+    public struct Event: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Date", required: false, type: .timestamp)
+        ]
+        /// Specifies the origin of this event - a cluster, a parameter group, a security group, etc.
+        public let sourceType: SourceType?
+        /// The text of the event.
+        public let message: String?
+        /// The identifier for the source of the event. For example, if the event occurred at the cluster level, the identifier would be the name of the cluster.
+        public let sourceIdentifier: String?
+        /// The date and time when the event occurred.
+        public let date: TimeStamp?
+
+        public init(sourceType: SourceType? = nil, message: String? = nil, sourceIdentifier: String? = nil, date: TimeStamp? = nil) {
+            self.sourceType = sourceType
+            self.message = message
+            self.sourceIdentifier = sourceIdentifier
+            self.date = date
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceType = "SourceType"
+            case message = "Message"
+            case sourceIdentifier = "SourceIdentifier"
+            case date = "Date"
+        }
+    }
+
+    public struct SlotMigration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProgressPercentage", required: false, type: .double)
+        ]
+        /// The percentage of the slot migration that is complete.
+        public let progressPercentage: Double?
+
+        public init(progressPercentage: Double? = nil) {
+            self.progressPercentage = progressPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case progressPercentage = "ProgressPercentage"
         }
     }
 

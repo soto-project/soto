@@ -5,646 +5,261 @@ import AWSSDKSwiftCore
 
 extension ServerlessApplicationRepository {
 
+    public struct PutApplicationPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Statements", location: .body(locationName: "statements"), required: true, type: .list), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string)
+        ]
+        public let statements: [ApplicationPolicyStatement]
+        public let applicationId: String
+
+        public init(statements: [ApplicationPolicyStatement], applicationId: String) {
+            self.statements = statements
+            self.applicationId = applicationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statements = "statements"
+            case applicationId = "applicationId"
+        }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable {
+        case preparing = "PREPARING"
+        case active = "ACTIVE"
+        case expired = "EXPIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct VersionSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: true, type: .string), 
+            AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: true, type: .string), 
+            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: true, type: .string)
+        ]
+        /// The semantic version of the application:
+        ///  https://semver.org/
+        ///  
+        public let semanticVersion: String
+        /// A link to a public repository for the source code of your application.
+        public let sourceCodeUrl: String?
+        /// The application Amazon Resource Name (ARN).
+        public let applicationId: String
+        /// The date and time this resource was created.
+        public let creationTime: String
+
+        public init(semanticVersion: String, sourceCodeUrl: String? = nil, applicationId: String, creationTime: String) {
+            self.semanticVersion = semanticVersion
+            self.sourceCodeUrl = sourceCodeUrl
+            self.applicationId = applicationId
+            self.creationTime = creationTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case semanticVersion = "semanticVersion"
+            case sourceCodeUrl = "sourceCodeUrl"
+            case applicationId = "applicationId"
+            case creationTime = "creationTime"
+        }
+    }
+
     public struct ChangeSetDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: true, type: .string), 
             AWSShapeMember(label: "StackId", location: .body(locationName: "stackId"), required: true, type: .string), 
+            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: true, type: .string), 
             AWSShapeMember(label: "ChangeSetId", location: .body(locationName: "changeSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: true, type: .string)
+            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: true, type: .string)
         ]
-        /// The application Amazon Resource Name (ARN).
-        public let applicationId: String
         /// The unique ID of the stack.
         public let stackId: String
+        /// The semantic version of the application:
+        ///  https://semver.org/
+        ///  
+        public let semanticVersion: String
         /// The Amazon Resource Name (ARN) of the change set.Length constraints: Minimum length of 1.Pattern: ARN:[-a-zA-Z0-9:/]*
         public let changeSetId: String
-        /// The semantic version of the application:
-        ///  https://semver.org/
-        ///  
-        public let semanticVersion: String
+        /// The application Amazon Resource Name (ARN).
+        public let applicationId: String
 
-        public init(applicationId: String, stackId: String, changeSetId: String, semanticVersion: String) {
-            self.applicationId = applicationId
+        public init(stackId: String, semanticVersion: String, changeSetId: String, applicationId: String) {
             self.stackId = stackId
+            self.semanticVersion = semanticVersion
             self.changeSetId = changeSetId
-            self.semanticVersion = semanticVersion
+            self.applicationId = applicationId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
             case stackId = "stackId"
+            case semanticVersion = "semanticVersion"
             case changeSetId = "changeSetId"
-            case semanticVersion = "semanticVersion"
+            case applicationId = "applicationId"
         }
     }
 
-    public struct TemplateDetails: AWSShape {
+    public struct ApplicationDependencySummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: true, type: .string), 
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: true, type: .enum), 
-            AWSShapeMember(label: "ExpirationTime", location: .body(locationName: "expirationTime"), required: true, type: .string), 
-            AWSShapeMember(label: "TemplateId", location: .body(locationName: "templateId"), required: true, type: .string), 
             AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: true, type: .string)
+            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: true, type: .string)
         ]
-        /// A link to the template that can be used to deploy the application using
-        ///  AWS CloudFormation.
-        public let templateUrl: String
-        /// The application Amazon Resource Name (ARN).
-        public let applicationId: String
-        /// Status of the template creation workflow.Possible values: PREPARING | ACTIVE | EXPIRED
-        public let status: Status
-        /// The date and time this template expires. Templates
-        ///  expire 1 hour after creation.
-        public let expirationTime: String
-        /// The UUID returned by CreateCloudFormationTemplate.Pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
-        public let templateId: String
-        /// The semantic version of the application:
-        ///  https://semver.org/
-        ///  
+        /// The semantic version of the nested application.
         public let semanticVersion: String
-        /// The date and time this resource was created.
-        public let creationTime: String
+        /// The Amazon Resource Name (ARN) of the nested application.
+        public let applicationId: String
 
-        public init(templateUrl: String, applicationId: String, status: Status, expirationTime: String, templateId: String, semanticVersion: String, creationTime: String) {
-            self.templateUrl = templateUrl
-            self.applicationId = applicationId
-            self.status = status
-            self.expirationTime = expirationTime
-            self.templateId = templateId
+        public init(semanticVersion: String, applicationId: String) {
             self.semanticVersion = semanticVersion
-            self.creationTime = creationTime
+            self.applicationId = applicationId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case templateUrl = "templateUrl"
-            case applicationId = "applicationId"
-            case status = "status"
-            case expirationTime = "expirationTime"
-            case templateId = "templateId"
             case semanticVersion = "semanticVersion"
-            case creationTime = "creationTime"
+            case applicationId = "applicationId"
         }
     }
 
-    public struct Version: AWSShape {
+    public struct GetApplicationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: true, type: .string), 
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "ResourcesSupported", location: .body(locationName: "resourcesSupported"), required: true, type: .boolean), 
-            AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "RequiredCapabilities", location: .body(locationName: "requiredCapabilities"), required: true, type: .list), 
-            AWSShapeMember(label: "ParameterDefinitions", location: .body(locationName: "parameterDefinitions"), required: true, type: .list), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: true, type: .string)
-        ]
-        /// A link to the packaged AWS SAM template of your application.
-        public let templateUrl: String
-        /// The application Amazon Resource Name (ARN).
-        public let applicationId: String
-        /// Whether all of the AWS resources contained in this application are supported in the region
-        ///  in which it is being retrieved.
-        public let resourcesSupported: Bool
-        /// A link to a public repository for the source code of your application.
-        public let sourceCodeUrl: String?
-        /// A list of values that you must specify before you can deploy certain applications.
-        ///  Some applications might include resources that can affect permissions in your AWS
-        ///  account, for example, by creating new AWS Identity and Access Management (IAM) users.
-        ///  For those applications, you must explicitly acknowledge their capabilities by
-        ///  specifying this parameter.The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM,
-        ///  and CAPABILITY_RESOURCE_POLICY.The following resources require you to specify CAPABILITY_IAM or
-        ///  CAPABILITY_NAMED_IAM:
-        ///  AWS::IAM::Group,
-        ///  AWS::IAM::InstanceProfile,
-        ///  AWS::IAM::Policy, and
-        ///  AWS::IAM::Role.
-        ///  If the application contains IAM resources, you can specify either CAPABILITY_IAM
-        ///  or CAPABILITY_NAMED_IAM. If the application contains IAM resources
-        ///  with custom names, you must specify CAPABILITY_NAMED_IAM.The following resources require you to specify CAPABILITY_RESOURCE_POLICY:
-        ///  AWS::Lambda::Permission,
-        ///  AWS::IAM:Policy,
-        ///  AWS::ApplicationAutoScaling::ScalingPolicy,
-        ///  AWS::S3::BucketPolicy,
-        ///  AWS::SQS::QueuePolicy, and
-        ///  AWS::SNS::TopicPolicy.If your application template contains any of the above resources, we recommend that you review
-        ///  all permissions associated with the application before deploying. If you don't specify
-        ///  this parameter for an application that requires capabilities, the call will fail.Valid values: CAPABILITY_IAM | CAPABILITY_NAMED_IAM | CAPABILITY_RESOURCE_POLICY
-        ///  
-        public let requiredCapabilities: [Capability]
-        /// An array of parameter types supported by the application.
-        public let parameterDefinitions: [ParameterDefinition]
-        /// The semantic version of the application:
-        ///  https://semver.org/
-        ///  
-        public let semanticVersion: String
-        /// The date and time this resource was created.
-        public let creationTime: String
-
-        public init(templateUrl: String, applicationId: String, resourcesSupported: Bool, sourceCodeUrl: String? = nil, requiredCapabilities: [Capability], parameterDefinitions: [ParameterDefinition], semanticVersion: String, creationTime: String) {
-            self.templateUrl = templateUrl
-            self.applicationId = applicationId
-            self.resourcesSupported = resourcesSupported
-            self.sourceCodeUrl = sourceCodeUrl
-            self.requiredCapabilities = requiredCapabilities
-            self.parameterDefinitions = parameterDefinitions
-            self.semanticVersion = semanticVersion
-            self.creationTime = creationTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case templateUrl = "templateUrl"
-            case applicationId = "applicationId"
-            case resourcesSupported = "resourcesSupported"
-            case sourceCodeUrl = "sourceCodeUrl"
-            case requiredCapabilities = "requiredCapabilities"
-            case parameterDefinitions = "parameterDefinitions"
-            case semanticVersion = "semanticVersion"
-            case creationTime = "creationTime"
-        }
-    }
-
-    public struct CreateApplicationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "LicenseBody", location: .body(locationName: "licenseBody"), required: false, type: .string), 
-            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: true, type: .string), 
-            AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
-            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
-            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "TemplateBody", location: .body(locationName: "templateBody"), required: false, type: .string), 
-            AWSShapeMember(label: "LicenseUrl", location: .body(locationName: "licenseUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: true, type: .string), 
-            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "ReadmeBody", location: .body(locationName: "readmeBody"), required: false, type: .string)
+            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
+            AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .structure), 
+            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
+            AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
+            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
+            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: false, type: .string), 
+            AWSShapeMember(label: "LicenseUrl", location: .body(locationName: "licenseUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
-        /// The semantic version of the application:
-        ///  https://semver.org/
-        ///  
-        public let semanticVersion: String?
-        /// A local text file that contains the license of the app that matches the spdxLicenseID value of your application.
-        ///  The file has the format file://&lt;path>/&lt;filename>.Maximum size 5 MBYou can specify only one of licenseBody and licenseUrl; otherwise, an error results.
-        public let licenseBody: String?
-        /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
-        public let author: String
-        /// A valid identifier from https://spdx.org/licenses/.
-        public let spdxLicenseId: String?
-        /// Labels to improve discovery of apps in search results.Minimum length=1. Maximum length=127. Maximum number of labels: 10Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
-        public let labels: [String]?
-        /// A URL with more information about the application, for example
-        ///  the location of your GitHub repository for the application.
-        public let homePageUrl: String?
-        /// The local raw packaged AWS SAM template file of your application.
-        ///  The file has the format file://&lt;path>/&lt;filename>.You can specify only one of templateBody and templateUrl; otherwise an error results.
-        public let templateBody: String?
-        /// A link to the S3 object that contains the license of the app that matches the spdxLicenseID value of your application.Maximum size 5 MBYou can specify only one of licenseBody and licenseUrl; otherwise, an error results.
-        public let licenseUrl: String?
-        /// A link to a public repository for the source code of your application.
-        public let sourceCodeUrl: String?
-        /// A link to the S3 object in Markdown language that contains a more detailed description of the application and how it works.Maximum size 5 MBYou can specify only one of readmeBody and readmeUrl; otherwise, an error results.
+        public let name: String?
         public let readmeUrl: String?
-        /// The description of the application.Minimum length=1. Maximum length=256
-        public let description: String
-        /// A link to the S3 object containing the packaged AWS SAM template of your application.You can specify only one of templateBody and templateUrl; otherwise an error results.
-        public let templateUrl: String?
-        /// The name of the application that you want to publish.Minimum length=1. Maximum length=140Pattern: "[a-zA-Z0-9\\-]+";
-        public let name: String
-        /// A local text readme file in Markdown language that contains a more detailed description of the application and how it works.
-        ///  The file has the format file://&lt;path>/&lt;filename>.Maximum size 5 MBYou can specify only one of readmeBody and readmeUrl; otherwise, an error results.
-        public let readmeBody: String?
+        public let applicationId: String?
+        public let version: Version?
+        public let labels: [String]?
+        public let spdxLicenseId: String?
+        public let homePageUrl: String?
+        public let creationTime: String?
+        public let author: String?
+        public let licenseUrl: String?
+        public let description: String?
 
-        public init(semanticVersion: String? = nil, licenseBody: String? = nil, author: String, spdxLicenseId: String? = nil, labels: [String]? = nil, homePageUrl: String? = nil, templateBody: String? = nil, licenseUrl: String? = nil, sourceCodeUrl: String? = nil, readmeUrl: String? = nil, description: String, templateUrl: String? = nil, name: String, readmeBody: String? = nil) {
-            self.semanticVersion = semanticVersion
-            self.licenseBody = licenseBody
-            self.author = author
-            self.spdxLicenseId = spdxLicenseId
-            self.labels = labels
-            self.homePageUrl = homePageUrl
-            self.templateBody = templateBody
-            self.licenseUrl = licenseUrl
-            self.sourceCodeUrl = sourceCodeUrl
-            self.readmeUrl = readmeUrl
-            self.description = description
-            self.templateUrl = templateUrl
+        public init(name: String? = nil, readmeUrl: String? = nil, applicationId: String? = nil, version: Version? = nil, labels: [String]? = nil, spdxLicenseId: String? = nil, homePageUrl: String? = nil, creationTime: String? = nil, author: String? = nil, licenseUrl: String? = nil, description: String? = nil) {
             self.name = name
-            self.readmeBody = readmeBody
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case semanticVersion = "semanticVersion"
-            case licenseBody = "licenseBody"
-            case author = "author"
-            case spdxLicenseId = "spdxLicenseId"
-            case labels = "labels"
-            case homePageUrl = "homePageUrl"
-            case templateBody = "templateBody"
-            case licenseUrl = "licenseUrl"
-            case sourceCodeUrl = "sourceCodeUrl"
-            case readmeUrl = "readmeUrl"
-            case description = "description"
-            case templateUrl = "templateUrl"
-            case name = "name"
-            case readmeBody = "readmeBody"
-        }
-    }
-
-    public struct GetApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "SemanticVersion", location: .querystring(locationName: "semanticVersion"), required: false, type: .string)
-        ]
-        public let applicationId: String
-        public let semanticVersion: String?
-
-        public init(applicationId: String, semanticVersion: String? = nil) {
+            self.readmeUrl = readmeUrl
             self.applicationId = applicationId
-            self.semanticVersion = semanticVersion
+            self.version = version
+            self.labels = labels
+            self.spdxLicenseId = spdxLicenseId
+            self.homePageUrl = homePageUrl
+            self.creationTime = creationTime
+            self.author = author
+            self.licenseUrl = licenseUrl
+            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case readmeUrl = "readmeUrl"
             case applicationId = "applicationId"
-            case semanticVersion = "semanticVersion"
+            case version = "version"
+            case labels = "labels"
+            case spdxLicenseId = "spdxLicenseId"
+            case homePageUrl = "homePageUrl"
+            case creationTime = "creationTime"
+            case author = "author"
+            case licenseUrl = "licenseUrl"
+            case description = "description"
         }
     }
 
     public struct ApplicationSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
-            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: true, type: .string), 
-            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: true, type: .string), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: true, type: .string), 
+            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
+            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
             AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
-            AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string)
+            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: true, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: true, type: .string)
         ]
-        /// Labels to improve discovery of apps in search results.Minimum length=1. Maximum length=127. Maximum number of labels: 10Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
-        public let labels: [String]?
+        /// The name of the application.Minimum length=1. Maximum length=140Pattern: "[a-zA-Z0-9\\-]+";
+        public let name: String
+        /// The application Amazon Resource Name (ARN).
+        public let applicationId: String
         /// A URL with more information about the application, for example
         ///  the location of your GitHub repository for the application.
         public let homePageUrl: String?
-        /// The application Amazon Resource Name (ARN).
-        public let applicationId: String
-        /// The description of the application.Minimum length=1. Maximum length=256
-        public let description: String
-        /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
-        public let author: String
-        /// The name of the application.Minimum length=1. Maximum length=140Pattern: "[a-zA-Z0-9\\-]+";
-        public let name: String
-        /// The date and time this resource was created.
-        public let creationTime: String?
         /// A valid identifier from https://spdx.org/licenses/.
         public let spdxLicenseId: String?
-
-        public init(labels: [String]? = nil, homePageUrl: String? = nil, applicationId: String, description: String, author: String, name: String, creationTime: String? = nil, spdxLicenseId: String? = nil) {
-            self.labels = labels
-            self.homePageUrl = homePageUrl
-            self.applicationId = applicationId
-            self.description = description
-            self.author = author
-            self.name = name
-            self.creationTime = creationTime
-            self.spdxLicenseId = spdxLicenseId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case labels = "labels"
-            case homePageUrl = "homePageUrl"
-            case applicationId = "applicationId"
-            case description = "description"
-            case author = "author"
-            case name = "name"
-            case creationTime = "creationTime"
-            case spdxLicenseId = "spdxLicenseId"
-        }
-    }
-
-    public struct DeleteApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string)
-        ]
-        public let applicationId: String
-
-        public init(applicationId: String) {
-            self.applicationId = applicationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-        }
-    }
-
-    public struct ParameterValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string)
-        ]
-        /// The input value associated with the parameter.
-        public let value: String
-        /// The key associated with the parameter. If you don't specify a key and value for a particular parameter, AWS CloudFormation
-        ///  uses the default value that is specified in your template.
-        public let name: String
-
-        public init(value: String, name: String) {
-            self.value = value
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "value"
-            case name = "name"
-        }
-    }
-
-    public struct ListApplicationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Applications", location: .body(locationName: "applications"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
-        public let applications: [ApplicationSummary]?
-        public let nextToken: String?
-
-        public init(applications: [ApplicationSummary]? = nil, nextToken: String? = nil) {
-            self.applications = applications
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applications = "applications"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct RollbackConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MonitoringTimeInMinutes", location: .body(locationName: "monitoringTimeInMinutes"), required: false, type: .integer), 
-            AWSShapeMember(label: "RollbackTriggers", location: .body(locationName: "rollbackTriggers"), required: false, type: .list)
-        ]
-        /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackConfiguration Data Type.
-        public let monitoringTimeInMinutes: Int32?
-        /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackConfiguration Data Type.
-        public let rollbackTriggers: [RollbackTrigger]?
-
-        public init(monitoringTimeInMinutes: Int32? = nil, rollbackTriggers: [RollbackTrigger]? = nil) {
-            self.monitoringTimeInMinutes = monitoringTimeInMinutes
-            self.rollbackTriggers = rollbackTriggers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case monitoringTimeInMinutes = "monitoringTimeInMinutes"
-            case rollbackTriggers = "rollbackTriggers"
-        }
-    }
-
-    public struct ListApplicationVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxItems"), required: false, type: .integer)
-        ]
-        public let applicationId: String
-        public let nextToken: String?
-        public let maxItems: Int32?
-
-        public init(applicationId: String, nextToken: String? = nil, maxItems: Int32? = nil) {
-            self.applicationId = applicationId
-            self.nextToken = nextToken
-            self.maxItems = maxItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-            case nextToken = "nextToken"
-            case maxItems = "maxItems"
-        }
-    }
-
-    public struct Application: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
-            AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .structure), 
-            AWSShapeMember(label: "LicenseUrl", location: .body(locationName: "licenseUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: true, type: .string), 
-            AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
-            AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string)
-        ]
         /// Labels to improve discovery of apps in search results.Minimum length=1. Maximum length=127. Maximum number of labels: 10Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
         public let labels: [String]?
-        /// Version information about the application.
-        public let version: Version?
-        /// A link to a license file of the app that matches the spdxLicenseID value of your application.Maximum size 5 MB
-        public let licenseUrl: String?
-        /// A URL with more information about the application, for example
-        ///  the location of your GitHub repository for the application.
-        public let homePageUrl: String?
-        /// The application Amazon Resource Name (ARN).
-        public let applicationId: String
-        /// The description of the application.Minimum length=1. Maximum length=256
-        public let description: String
-        /// A link to the readme file in Markdown language that contains a more detailed description of the application and how it works.Maximum size 5 MB
-        public let readmeUrl: String?
-        /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
-        public let author: String
-        /// The name of the application.Minimum length=1. Maximum length=140Pattern: "[a-zA-Z0-9\\-]+";
-        public let name: String
         /// The date and time this resource was created.
         public let creationTime: String?
-        /// A valid identifier from https://spdx.org/licenses/.
-        public let spdxLicenseId: String?
+        /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
+        public let author: String
+        /// The description of the application.Minimum length=1. Maximum length=256
+        public let description: String
 
-        public init(labels: [String]? = nil, version: Version? = nil, licenseUrl: String? = nil, homePageUrl: String? = nil, applicationId: String, description: String, readmeUrl: String? = nil, author: String, name: String, creationTime: String? = nil, spdxLicenseId: String? = nil) {
-            self.labels = labels
-            self.version = version
-            self.licenseUrl = licenseUrl
-            self.homePageUrl = homePageUrl
-            self.applicationId = applicationId
-            self.description = description
-            self.readmeUrl = readmeUrl
-            self.author = author
+        public init(name: String, applicationId: String, homePageUrl: String? = nil, spdxLicenseId: String? = nil, labels: [String]? = nil, creationTime: String? = nil, author: String, description: String) {
             self.name = name
-            self.creationTime = creationTime
-            self.spdxLicenseId = spdxLicenseId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case labels = "labels"
-            case version = "version"
-            case licenseUrl = "licenseUrl"
-            case homePageUrl = "homePageUrl"
-            case applicationId = "applicationId"
-            case description = "description"
-            case readmeUrl = "readmeUrl"
-            case author = "author"
-            case name = "name"
-            case creationTime = "creationTime"
-            case spdxLicenseId = "spdxLicenseId"
-        }
-    }
-
-    public struct ApplicationDependencyPage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dependencies", location: .body(locationName: "dependencies"), required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
-        /// An array of application summaries nested in the application.
-        public let dependencies: [ApplicationDependencySummary]
-        /// The token to request the next page of results.
-        public let nextToken: String?
-
-        public init(dependencies: [ApplicationDependencySummary], nextToken: String? = nil) {
-            self.dependencies = dependencies
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dependencies = "dependencies"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct UpdateApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReadmeBody", location: .body(locationName: "readmeBody"), required: false, type: .string), 
-            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: false, type: .string), 
-            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list)
-        ]
-        public let readmeBody: String?
-        public let homePageUrl: String?
-        public let applicationId: String
-        public let description: String?
-        public let readmeUrl: String?
-        public let author: String?
-        public let labels: [String]?
-
-        public init(readmeBody: String? = nil, homePageUrl: String? = nil, applicationId: String, description: String? = nil, readmeUrl: String? = nil, author: String? = nil, labels: [String]? = nil) {
-            self.readmeBody = readmeBody
+            self.applicationId = applicationId
             self.homePageUrl = homePageUrl
-            self.applicationId = applicationId
-            self.description = description
-            self.readmeUrl = readmeUrl
-            self.author = author
+            self.spdxLicenseId = spdxLicenseId
             self.labels = labels
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case readmeBody = "readmeBody"
-            case homePageUrl = "homePageUrl"
-            case applicationId = "applicationId"
-            case description = "description"
-            case readmeUrl = "readmeUrl"
-            case author = "author"
-            case labels = "labels"
-        }
-    }
-
-    public struct ListApplicationDependenciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dependencies", location: .body(locationName: "dependencies"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
-        public let dependencies: [ApplicationDependencySummary]?
-        public let nextToken: String?
-
-        public init(dependencies: [ApplicationDependencySummary]? = nil, nextToken: String? = nil) {
-            self.dependencies = dependencies
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dependencies = "dependencies"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct GetCloudFormationTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
-            AWSShapeMember(label: "ExpirationTime", location: .body(locationName: "expirationTime"), required: false, type: .string), 
-            AWSShapeMember(label: "TemplateId", location: .body(locationName: "templateId"), required: false, type: .string), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string)
-        ]
-        public let templateUrl: String?
-        public let applicationId: String?
-        public let status: Status?
-        public let expirationTime: String?
-        public let templateId: String?
-        public let semanticVersion: String?
-        public let creationTime: String?
-
-        public init(templateUrl: String? = nil, applicationId: String? = nil, status: Status? = nil, expirationTime: String? = nil, templateId: String? = nil, semanticVersion: String? = nil, creationTime: String? = nil) {
-            self.templateUrl = templateUrl
-            self.applicationId = applicationId
-            self.status = status
-            self.expirationTime = expirationTime
-            self.templateId = templateId
-            self.semanticVersion = semanticVersion
             self.creationTime = creationTime
+            self.author = author
+            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case templateUrl = "templateUrl"
+            case name = "name"
             case applicationId = "applicationId"
-            case status = "status"
-            case expirationTime = "expirationTime"
-            case templateId = "templateId"
-            case semanticVersion = "semanticVersion"
+            case homePageUrl = "homePageUrl"
+            case spdxLicenseId = "spdxLicenseId"
+            case labels = "labels"
             case creationTime = "creationTime"
+            case author = "author"
+            case description = "description"
         }
     }
 
     public struct ParameterDefinition: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MinValue", location: .body(locationName: "minValue"), required: false, type: .integer), 
-            AWSShapeMember(label: "MaxValue", location: .body(locationName: "maxValue"), required: false, type: .integer), 
             AWSShapeMember(label: "AllowedValues", location: .body(locationName: "allowedValues"), required: false, type: .list), 
-            AWSShapeMember(label: "AllowedPattern", location: .body(locationName: "allowedPattern"), required: false, type: .string), 
-            AWSShapeMember(label: "ConstraintDescription", location: .body(locationName: "constraintDescription"), required: false, type: .string), 
-            AWSShapeMember(label: "MinLength", location: .body(locationName: "minLength"), required: false, type: .integer), 
             AWSShapeMember(label: "NoEcho", location: .body(locationName: "noEcho"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .string), 
-            AWSShapeMember(label: "ReferencedByResources", location: .body(locationName: "referencedByResources"), required: true, type: .list), 
-            AWSShapeMember(label: "DefaultValue", location: .body(locationName: "defaultValue"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxLength", location: .body(locationName: "maxLength"), required: false, type: .integer), 
+            AWSShapeMember(label: "MinLength", location: .body(locationName: "minLength"), required: false, type: .integer), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "AllowedPattern", location: .body(locationName: "allowedPattern"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "MinValue", location: .body(locationName: "minValue"), required: false, type: .integer), 
+            AWSShapeMember(label: "ReferencedByResources", location: .body(locationName: "referencedByResources"), required: true, type: .list), 
+            AWSShapeMember(label: "MaxLength", location: .body(locationName: "maxLength"), required: false, type: .integer), 
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .string), 
+            AWSShapeMember(label: "DefaultValue", location: .body(locationName: "defaultValue"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxValue", location: .body(locationName: "maxValue"), required: false, type: .integer), 
+            AWSShapeMember(label: "ConstraintDescription", location: .body(locationName: "constraintDescription"), required: false, type: .string)
         ]
-        /// A numeric value that determines the smallest numeric value that you want to allow for Number types.
-        public let minValue: Int32?
-        /// A numeric value that determines the largest numeric value that you want to allow for Number types.
-        public let maxValue: Int32?
         /// An array containing the list of values allowed for the parameter.
         public let allowedValues: [String]?
-        /// A regular expression that represents the patterns to allow for String types.
-        public let allowedPattern: String?
-        /// A string that explains a constraint when the constraint is violated. For example, without a constraint description,
-        ///  a parameter that has an allowed pattern of [A-Za-z0-9]+ displays the following error message when the user
-        ///  specifies an invalid value:
-        ///  Malformed input-Parameter MyParameter must match pattern [A-Za-z0-9]+
-        ///  By adding a constraint description, such as "must contain only uppercase and lowercase letters and numbers," you can display
-        ///  the following customized error message:
-        ///  Malformed input-Parameter MyParameter must contain only uppercase and lowercase letters and numbers.
-        ///  
-        public let constraintDescription: String?
-        /// An integer value that determines the smallest number of characters that you want to allow for String types.
-        public let minLength: Int32?
         /// Whether to mask the parameter value whenever anyone makes a call that describes the stack. If you set the
         ///  value to true, the parameter value is masked with asterisks (*****).
         public let noEcho: Bool?
+        /// An integer value that determines the smallest number of characters that you want to allow for String types.
+        public let minLength: Int32?
+        /// A string of up to 4,000 characters that describes the parameter.
+        public let description: String?
+        /// A regular expression that represents the patterns to allow for String types.
+        public let allowedPattern: String?
+        /// The name of the parameter.
+        public let name: String
+        /// A numeric value that determines the smallest numeric value that you want to allow for Number types.
+        public let minValue: Int32?
+        /// A list of AWS SAM resources that use this parameter.
+        public let referencedByResources: [String]
+        /// An integer value that determines the largest number of characters that you want to allow for String types.
+        public let maxLength: Int32?
         /// The type of the parameter.Valid values: String | Number | List&lt;Number> | CommaDelimitedList
         ///  
         ///  String: A literal string.For example, users can specify "MyUserName".
@@ -655,90 +270,154 @@ extension ServerlessApplicationRepository {
         ///  CommaDelimitedList: An array of literal strings that are separated by commas. The total number of strings should be one more than the total number of commas.
         ///  Also, each member string is space-trimmed.For example, users might specify "test,dev,prod", and then Ref results in ["test","dev","prod"].
         public let `type`: String?
-        /// A list of AWS SAM resources that use this parameter.
-        public let referencedByResources: [String]
         /// A value of the appropriate type for the template to use if no value is specified when a stack is created.
         ///  If you define constraints for the parameter, you must specify a value that adheres to those constraints.
         public let defaultValue: String?
-        /// An integer value that determines the largest number of characters that you want to allow for String types.
-        public let maxLength: Int32?
-        /// A string of up to 4,000 characters that describes the parameter.
-        public let description: String?
-        /// The name of the parameter.
-        public let name: String
+        /// A numeric value that determines the largest numeric value that you want to allow for Number types.
+        public let maxValue: Int32?
+        /// A string that explains a constraint when the constraint is violated. For example, without a constraint description,
+        ///  a parameter that has an allowed pattern of [A-Za-z0-9]+ displays the following error message when the user
+        ///  specifies an invalid value:
+        ///  Malformed input-Parameter MyParameter must match pattern [A-Za-z0-9]+
+        ///  By adding a constraint description, such as "must contain only uppercase and lowercase letters and numbers," you can display
+        ///  the following customized error message:
+        ///  Malformed input-Parameter MyParameter must contain only uppercase and lowercase letters and numbers.
+        ///  
+        public let constraintDescription: String?
 
-        public init(minValue: Int32? = nil, maxValue: Int32? = nil, allowedValues: [String]? = nil, allowedPattern: String? = nil, constraintDescription: String? = nil, minLength: Int32? = nil, noEcho: Bool? = nil, type: String? = nil, referencedByResources: [String], defaultValue: String? = nil, maxLength: Int32? = nil, description: String? = nil, name: String) {
-            self.minValue = minValue
-            self.maxValue = maxValue
+        public init(allowedValues: [String]? = nil, noEcho: Bool? = nil, minLength: Int32? = nil, description: String? = nil, allowedPattern: String? = nil, name: String, minValue: Int32? = nil, referencedByResources: [String], maxLength: Int32? = nil, type: String? = nil, defaultValue: String? = nil, maxValue: Int32? = nil, constraintDescription: String? = nil) {
             self.allowedValues = allowedValues
-            self.allowedPattern = allowedPattern
-            self.constraintDescription = constraintDescription
-            self.minLength = minLength
             self.noEcho = noEcho
-            self.`type` = `type`
-            self.referencedByResources = referencedByResources
-            self.defaultValue = defaultValue
-            self.maxLength = maxLength
+            self.minLength = minLength
             self.description = description
+            self.allowedPattern = allowedPattern
             self.name = name
+            self.minValue = minValue
+            self.referencedByResources = referencedByResources
+            self.maxLength = maxLength
+            self.`type` = `type`
+            self.defaultValue = defaultValue
+            self.maxValue = maxValue
+            self.constraintDescription = constraintDescription
         }
 
         private enum CodingKeys: String, CodingKey {
-            case minValue = "minValue"
-            case maxValue = "maxValue"
             case allowedValues = "allowedValues"
-            case allowedPattern = "allowedPattern"
-            case constraintDescription = "constraintDescription"
-            case minLength = "minLength"
             case noEcho = "noEcho"
-            case `type` = "type"
-            case referencedByResources = "referencedByResources"
-            case defaultValue = "defaultValue"
-            case maxLength = "maxLength"
+            case minLength = "minLength"
             case description = "description"
+            case allowedPattern = "allowedPattern"
             case name = "name"
+            case minValue = "minValue"
+            case referencedByResources = "referencedByResources"
+            case maxLength = "maxLength"
+            case `type` = "type"
+            case defaultValue = "defaultValue"
+            case maxValue = "maxValue"
+            case constraintDescription = "constraintDescription"
         }
     }
 
-    public struct ApplicationVersionPage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Versions", location: .body(locationName: "versions"), required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
-        /// An array of version summaries for the application.
-        public let versions: [VersionSummary]
-        /// The token to request the next page of results.
-        public let nextToken: String?
-
-        public init(versions: [VersionSummary], nextToken: String? = nil) {
-            self.versions = versions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versions = "versions"
-            case nextToken = "nextToken"
-        }
+    public enum Capability: String, CustomStringConvertible, Codable {
+        case capabilityIam = "CAPABILITY_IAM"
+        case capabilityNamedIam = "CAPABILITY_NAMED_IAM"
+        case capabilityAutoExpand = "CAPABILITY_AUTO_EXPAND"
+        case capabilityResourcePolicy = "CAPABILITY_RESOURCE_POLICY"
+        public var description: String { return self.rawValue }
     }
 
-    public struct ApplicationDependencySummary: AWSShape {
+    public struct TemplateDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: true, type: .string), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: true, type: .enum), 
+            AWSShapeMember(label: "ExpirationTime", location: .body(locationName: "expirationTime"), required: true, type: .string), 
+            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: true, type: .string), 
+            AWSShapeMember(label: "TemplateId", location: .body(locationName: "templateId"), required: true, type: .string), 
+            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: true, type: .string), 
             AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: true, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the nested application.
+        /// The application Amazon Resource Name (ARN).
         public let applicationId: String
-        /// The semantic version of the nested application.
+        /// Status of the template creation workflow.Possible values: PREPARING | ACTIVE | EXPIRED
+        public let status: Status
+        /// The date and time this template expires. Templates
+        ///  expire 1 hour after creation.
+        public let expirationTime: String
+        /// The date and time this resource was created.
+        public let creationTime: String
+        /// The UUID returned by CreateCloudFormationTemplate.Pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
+        public let templateId: String
+        /// A link to the template that can be used to deploy the application using
+        ///  AWS CloudFormation.
+        public let templateUrl: String
+        /// The semantic version of the application:
+        ///  https://semver.org/
+        ///  
         public let semanticVersion: String
 
-        public init(applicationId: String, semanticVersion: String) {
+        public init(applicationId: String, status: Status, expirationTime: String, creationTime: String, templateId: String, templateUrl: String, semanticVersion: String) {
             self.applicationId = applicationId
+            self.status = status
+            self.expirationTime = expirationTime
+            self.creationTime = creationTime
+            self.templateId = templateId
+            self.templateUrl = templateUrl
             self.semanticVersion = semanticVersion
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationId = "applicationId"
+            case status = "status"
+            case expirationTime = "expirationTime"
+            case creationTime = "creationTime"
+            case templateId = "templateId"
+            case templateUrl = "templateUrl"
             case semanticVersion = "semanticVersion"
+        }
+    }
+
+    public struct CreateCloudFormationTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string)
+        ]
+        public let semanticVersion: String?
+        public let applicationId: String
+
+        public init(semanticVersion: String? = nil, applicationId: String) {
+            self.semanticVersion = semanticVersion
+            self.applicationId = applicationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case semanticVersion = "semanticVersion"
+            case applicationId = "applicationId"
+        }
+    }
+
+    public struct CreateApplicationVersionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "TemplateBody", location: .body(locationName: "templateBody"), required: false, type: .string)
+        ]
+        /// A link to the packaged AWS SAM template of your application.
+        public let templateUrl: String?
+        /// A link to a public repository for the source code of your application.
+        public let sourceCodeUrl: String?
+        /// The raw packaged AWS SAM template of your application.
+        public let templateBody: String?
+
+        public init(templateUrl: String? = nil, sourceCodeUrl: String? = nil, templateBody: String? = nil) {
+            self.templateUrl = templateUrl
+            self.sourceCodeUrl = sourceCodeUrl
+            self.templateBody = templateBody
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateUrl = "templateUrl"
+            case sourceCodeUrl = "sourceCodeUrl"
+            case templateBody = "templateBody"
         }
     }
 
@@ -769,56 +448,476 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct GetCloudFormationTemplateRequest: AWSShape {
+    public struct GetApplicationPolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "templateId"), required: true, type: .string)
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string)
         ]
         public let applicationId: String
-        public let templateId: String
 
-        public init(applicationId: String, templateId: String) {
+        public init(applicationId: String) {
             self.applicationId = applicationId
-            self.templateId = templateId
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationId = "applicationId"
-            case templateId = "templateId"
         }
     }
 
-    public struct CreateCloudFormationTemplateRequest: AWSShape {
+    public struct RollbackConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RollbackTriggers", location: .body(locationName: "rollbackTriggers"), required: false, type: .list), 
+            AWSShapeMember(label: "MonitoringTimeInMinutes", location: .body(locationName: "monitoringTimeInMinutes"), required: false, type: .integer)
+        ]
+        /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackConfiguration Data Type.
+        public let rollbackTriggers: [RollbackTrigger]?
+        /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackConfiguration Data Type.
+        public let monitoringTimeInMinutes: Int32?
+
+        public init(rollbackTriggers: [RollbackTrigger]? = nil, monitoringTimeInMinutes: Int32? = nil) {
+            self.rollbackTriggers = rollbackTriggers
+            self.monitoringTimeInMinutes = monitoringTimeInMinutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rollbackTriggers = "rollbackTriggers"
+            case monitoringTimeInMinutes = "monitoringTimeInMinutes"
+        }
+    }
+
+    public struct ListApplicationVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Versions", location: .body(locationName: "versions"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let versions: [VersionSummary]?
+        public let nextToken: String?
+
+        public init(versions: [VersionSummary]? = nil, nextToken: String? = nil) {
+            self.versions = versions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case versions = "versions"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ApplicationVersionPage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Versions", location: .body(locationName: "versions"), required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        /// An array of version summaries for the application.
+        public let versions: [VersionSummary]
+        /// The token to request the next page of results.
+        public let nextToken: String?
+
+        public init(versions: [VersionSummary], nextToken: String? = nil) {
+            self.versions = versions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case versions = "versions"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct UpdateApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string)
+            AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
+            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: false, type: .string), 
+            AWSShapeMember(label: "ReadmeBody", location: .body(locationName: "readmeBody"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
         public let applicationId: String
-        public let semanticVersion: String?
+        public let readmeUrl: String?
+        public let homePageUrl: String?
+        public let labels: [String]?
+        public let author: String?
+        public let readmeBody: String?
+        public let description: String?
 
-        public init(applicationId: String, semanticVersion: String? = nil) {
+        public init(applicationId: String, readmeUrl: String? = nil, homePageUrl: String? = nil, labels: [String]? = nil, author: String? = nil, readmeBody: String? = nil, description: String? = nil) {
             self.applicationId = applicationId
-            self.semanticVersion = semanticVersion
+            self.readmeUrl = readmeUrl
+            self.homePageUrl = homePageUrl
+            self.labels = labels
+            self.author = author
+            self.readmeBody = readmeBody
+            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationId = "applicationId"
-            case semanticVersion = "semanticVersion"
+            case readmeUrl = "readmeUrl"
+            case homePageUrl = "homePageUrl"
+            case labels = "labels"
+            case author = "author"
+            case readmeBody = "readmeBody"
+            case description = "description"
         }
     }
 
-    public struct PutApplicationPolicyResponse: AWSShape {
+    public struct ApplicationPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Statements", location: .body(locationName: "statements"), required: false, type: .list)
+            AWSShapeMember(label: "Statements", location: .body(locationName: "statements"), required: true, type: .list)
         ]
-        public let statements: [ApplicationPolicyStatement]?
+        /// An array of policy statements applied to the application.
+        public let statements: [ApplicationPolicyStatement]
 
-        public init(statements: [ApplicationPolicyStatement]? = nil) {
+        public init(statements: [ApplicationPolicyStatement]) {
             self.statements = statements
         }
 
         private enum CodingKeys: String, CodingKey {
             case statements = "statements"
+        }
+    }
+
+    public struct ParameterValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", location: .body(locationName: "value"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string)
+        ]
+        /// The input value associated with the parameter.
+        public let value: String
+        /// The key associated with the parameter. If you don't specify a key and value for a particular parameter, AWS CloudFormation
+        ///  uses the default value that is specified in your template.
+        public let name: String
+
+        public init(value: String, name: String) {
+            self.value = value
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "value"
+            case name = "name"
+        }
+    }
+
+    public struct ListApplicationDependenciesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxItems"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "SemanticVersion", location: .querystring(locationName: "semanticVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string)
+        ]
+        public let maxItems: Int32?
+        public let nextToken: String?
+        public let semanticVersion: String?
+        public let applicationId: String
+
+        public init(maxItems: Int32? = nil, nextToken: String? = nil, semanticVersion: String? = nil, applicationId: String) {
+            self.maxItems = maxItems
+            self.nextToken = nextToken
+            self.semanticVersion = semanticVersion
+            self.applicationId = applicationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "maxItems"
+            case nextToken = "nextToken"
+            case semanticVersion = "semanticVersion"
+            case applicationId = "applicationId"
+        }
+    }
+
+    public struct CreateCloudFormationChangeSetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", location: .body(locationName: "stackId"), required: false, type: .string), 
+            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "ChangeSetId", location: .body(locationName: "changeSetId"), required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string)
+        ]
+        public let stackId: String?
+        public let semanticVersion: String?
+        public let changeSetId: String?
+        public let applicationId: String?
+
+        public init(stackId: String? = nil, semanticVersion: String? = nil, changeSetId: String? = nil, applicationId: String? = nil) {
+            self.stackId = stackId
+            self.semanticVersion = semanticVersion
+            self.changeSetId = changeSetId
+            self.applicationId = applicationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "stackId"
+            case semanticVersion = "semanticVersion"
+            case changeSetId = "changeSetId"
+            case applicationId = "applicationId"
+        }
+    }
+
+    public struct UpdateApplicationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
+            AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .structure), 
+            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
+            AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
+            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
+            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: false, type: .string), 
+            AWSShapeMember(label: "LicenseUrl", location: .body(locationName: "licenseUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
+        ]
+        public let name: String?
+        public let readmeUrl: String?
+        public let applicationId: String?
+        public let version: Version?
+        public let labels: [String]?
+        public let spdxLicenseId: String?
+        public let homePageUrl: String?
+        public let creationTime: String?
+        public let author: String?
+        public let licenseUrl: String?
+        public let description: String?
+
+        public init(name: String? = nil, readmeUrl: String? = nil, applicationId: String? = nil, version: Version? = nil, labels: [String]? = nil, spdxLicenseId: String? = nil, homePageUrl: String? = nil, creationTime: String? = nil, author: String? = nil, licenseUrl: String? = nil, description: String? = nil) {
+            self.name = name
+            self.readmeUrl = readmeUrl
+            self.applicationId = applicationId
+            self.version = version
+            self.labels = labels
+            self.spdxLicenseId = spdxLicenseId
+            self.homePageUrl = homePageUrl
+            self.creationTime = creationTime
+            self.author = author
+            self.licenseUrl = licenseUrl
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case readmeUrl = "readmeUrl"
+            case applicationId = "applicationId"
+            case version = "version"
+            case labels = "labels"
+            case spdxLicenseId = "spdxLicenseId"
+            case homePageUrl = "homePageUrl"
+            case creationTime = "creationTime"
+            case author = "author"
+            case licenseUrl = "licenseUrl"
+            case description = "description"
+        }
+    }
+
+    public struct GetApplicationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SemanticVersion", location: .querystring(locationName: "semanticVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string)
+        ]
+        public let semanticVersion: String?
+        public let applicationId: String
+
+        public init(semanticVersion: String? = nil, applicationId: String) {
+            self.semanticVersion = semanticVersion
+            self.applicationId = applicationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case semanticVersion = "semanticVersion"
+            case applicationId = "applicationId"
+        }
+    }
+
+    public struct ListApplicationDependenciesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Dependencies", location: .body(locationName: "dependencies"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let dependencies: [ApplicationDependencySummary]?
+        public let nextToken: String?
+
+        public init(dependencies: [ApplicationDependencySummary]? = nil, nextToken: String? = nil) {
+            self.dependencies = dependencies
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dependencies = "dependencies"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct CreateApplicationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: true, type: .string), 
+            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
+            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
+            AWSShapeMember(label: "LicenseBody", location: .body(locationName: "licenseBody"), required: false, type: .string), 
+            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: true, type: .string), 
+            AWSShapeMember(label: "LicenseUrl", location: .body(locationName: "licenseUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "TemplateBody", location: .body(locationName: "templateBody"), required: false, type: .string), 
+            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "ReadmeBody", location: .body(locationName: "readmeBody"), required: false, type: .string)
+        ]
+        public let author: String
+        public let labels: [String]?
+        public let homePageUrl: String?
+        public let spdxLicenseId: String?
+        public let licenseBody: String?
+        public let templateUrl: String?
+        public let readmeUrl: String?
+        public let description: String
+        public let licenseUrl: String?
+        public let name: String
+        public let templateBody: String?
+        public let semanticVersion: String?
+        public let sourceCodeUrl: String?
+        public let readmeBody: String?
+
+        public init(author: String, labels: [String]? = nil, homePageUrl: String? = nil, spdxLicenseId: String? = nil, licenseBody: String? = nil, templateUrl: String? = nil, readmeUrl: String? = nil, description: String, licenseUrl: String? = nil, name: String, templateBody: String? = nil, semanticVersion: String? = nil, sourceCodeUrl: String? = nil, readmeBody: String? = nil) {
+            self.author = author
+            self.labels = labels
+            self.homePageUrl = homePageUrl
+            self.spdxLicenseId = spdxLicenseId
+            self.licenseBody = licenseBody
+            self.templateUrl = templateUrl
+            self.readmeUrl = readmeUrl
+            self.description = description
+            self.licenseUrl = licenseUrl
+            self.name = name
+            self.templateBody = templateBody
+            self.semanticVersion = semanticVersion
+            self.sourceCodeUrl = sourceCodeUrl
+            self.readmeBody = readmeBody
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case author = "author"
+            case labels = "labels"
+            case homePageUrl = "homePageUrl"
+            case spdxLicenseId = "spdxLicenseId"
+            case licenseBody = "licenseBody"
+            case templateUrl = "templateUrl"
+            case readmeUrl = "readmeUrl"
+            case description = "description"
+            case licenseUrl = "licenseUrl"
+            case name = "name"
+            case templateBody = "templateBody"
+            case semanticVersion = "semanticVersion"
+            case sourceCodeUrl = "sourceCodeUrl"
+            case readmeBody = "readmeBody"
+        }
+    }
+
+    public struct CreateApplicationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: true, type: .string), 
+            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
+            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
+            AWSShapeMember(label: "LicenseBody", location: .body(locationName: "licenseBody"), required: false, type: .string), 
+            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: true, type: .string), 
+            AWSShapeMember(label: "LicenseUrl", location: .body(locationName: "licenseUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "TemplateBody", location: .body(locationName: "templateBody"), required: false, type: .string), 
+            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "ReadmeBody", location: .body(locationName: "readmeBody"), required: false, type: .string)
+        ]
+        /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
+        public let author: String
+        /// Labels to improve discovery of apps in search results.Minimum length=1. Maximum length=127. Maximum number of labels: 10Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
+        public let labels: [String]?
+        /// A URL with more information about the application, for example
+        ///  the location of your GitHub repository for the application.
+        public let homePageUrl: String?
+        /// A valid identifier from https://spdx.org/licenses/.
+        public let spdxLicenseId: String?
+        /// A local text file that contains the license of the app that matches the spdxLicenseID value of your application.
+        ///  The file has the format file://&lt;path>/&lt;filename>.Maximum size 5 MBYou can specify only one of licenseBody and licenseUrl; otherwise, an error results.
+        public let licenseBody: String?
+        /// A link to the S3 object containing the packaged AWS SAM template of your application.You can specify only one of templateBody and templateUrl; otherwise an error results.
+        public let templateUrl: String?
+        /// A link to the S3 object in Markdown language that contains a more detailed description of the application and how it works.Maximum size 5 MBYou can specify only one of readmeBody and readmeUrl; otherwise, an error results.
+        public let readmeUrl: String?
+        /// The description of the application.Minimum length=1. Maximum length=256
+        public let description: String
+        /// A link to the S3 object that contains the license of the app that matches the spdxLicenseID value of your application.Maximum size 5 MBYou can specify only one of licenseBody and licenseUrl; otherwise, an error results.
+        public let licenseUrl: String?
+        /// The name of the application that you want to publish.Minimum length=1. Maximum length=140Pattern: "[a-zA-Z0-9\\-]+";
+        public let name: String
+        /// The local raw packaged AWS SAM template file of your application.
+        ///  The file has the format file://&lt;path>/&lt;filename>.You can specify only one of templateBody and templateUrl; otherwise an error results.
+        public let templateBody: String?
+        /// The semantic version of the application:
+        ///  https://semver.org/
+        ///  
+        public let semanticVersion: String?
+        /// A link to a public repository for the source code of your application.
+        public let sourceCodeUrl: String?
+        /// A local text readme file in Markdown language that contains a more detailed description of the application and how it works.
+        ///  The file has the format file://&lt;path>/&lt;filename>.Maximum size 5 MBYou can specify only one of readmeBody and readmeUrl; otherwise, an error results.
+        public let readmeBody: String?
+
+        public init(author: String, labels: [String]? = nil, homePageUrl: String? = nil, spdxLicenseId: String? = nil, licenseBody: String? = nil, templateUrl: String? = nil, readmeUrl: String? = nil, description: String, licenseUrl: String? = nil, name: String, templateBody: String? = nil, semanticVersion: String? = nil, sourceCodeUrl: String? = nil, readmeBody: String? = nil) {
+            self.author = author
+            self.labels = labels
+            self.homePageUrl = homePageUrl
+            self.spdxLicenseId = spdxLicenseId
+            self.licenseBody = licenseBody
+            self.templateUrl = templateUrl
+            self.readmeUrl = readmeUrl
+            self.description = description
+            self.licenseUrl = licenseUrl
+            self.name = name
+            self.templateBody = templateBody
+            self.semanticVersion = semanticVersion
+            self.sourceCodeUrl = sourceCodeUrl
+            self.readmeBody = readmeBody
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case author = "author"
+            case labels = "labels"
+            case homePageUrl = "homePageUrl"
+            case spdxLicenseId = "spdxLicenseId"
+            case licenseBody = "licenseBody"
+            case templateUrl = "templateUrl"
+            case readmeUrl = "readmeUrl"
+            case description = "description"
+            case licenseUrl = "licenseUrl"
+            case name = "name"
+            case templateBody = "templateBody"
+            case semanticVersion = "semanticVersion"
+            case sourceCodeUrl = "sourceCodeUrl"
+            case readmeBody = "readmeBody"
+        }
+    }
+
+    public struct ListApplicationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxItems"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let maxItems: Int32?
+        public let nextToken: String?
+
+        public init(maxItems: Int32? = nil, nextToken: String? = nil) {
+            self.maxItems = maxItems
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "maxItems"
+            case nextToken = "nextToken"
         }
     }
 
@@ -843,720 +942,88 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct CreateApplicationRequest: AWSShape {
+    public struct Application: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "LicenseBody", location: .body(locationName: "licenseBody"), required: false, type: .string), 
-            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: true, type: .string), 
-            AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
-            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
-            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "TemplateBody", location: .body(locationName: "templateBody"), required: false, type: .string), 
-            AWSShapeMember(label: "LicenseUrl", location: .body(locationName: "licenseUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: true, type: .string), 
-            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "ReadmeBody", location: .body(locationName: "readmeBody"), required: false, type: .string)
-        ]
-        public let semanticVersion: String?
-        public let licenseBody: String?
-        public let author: String
-        public let spdxLicenseId: String?
-        public let labels: [String]?
-        public let homePageUrl: String?
-        public let templateBody: String?
-        public let licenseUrl: String?
-        public let sourceCodeUrl: String?
-        public let readmeUrl: String?
-        public let description: String
-        public let templateUrl: String?
-        public let name: String
-        public let readmeBody: String?
-
-        public init(semanticVersion: String? = nil, licenseBody: String? = nil, author: String, spdxLicenseId: String? = nil, labels: [String]? = nil, homePageUrl: String? = nil, templateBody: String? = nil, licenseUrl: String? = nil, sourceCodeUrl: String? = nil, readmeUrl: String? = nil, description: String, templateUrl: String? = nil, name: String, readmeBody: String? = nil) {
-            self.semanticVersion = semanticVersion
-            self.licenseBody = licenseBody
-            self.author = author
-            self.spdxLicenseId = spdxLicenseId
-            self.labels = labels
-            self.homePageUrl = homePageUrl
-            self.templateBody = templateBody
-            self.licenseUrl = licenseUrl
-            self.sourceCodeUrl = sourceCodeUrl
-            self.readmeUrl = readmeUrl
-            self.description = description
-            self.templateUrl = templateUrl
-            self.name = name
-            self.readmeBody = readmeBody
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case semanticVersion = "semanticVersion"
-            case licenseBody = "licenseBody"
-            case author = "author"
-            case spdxLicenseId = "spdxLicenseId"
-            case labels = "labels"
-            case homePageUrl = "homePageUrl"
-            case templateBody = "templateBody"
-            case licenseUrl = "licenseUrl"
-            case sourceCodeUrl = "sourceCodeUrl"
-            case readmeUrl = "readmeUrl"
-            case description = "description"
-            case templateUrl = "templateUrl"
-            case name = "name"
-            case readmeBody = "readmeBody"
-        }
-    }
-
-    public struct CreateApplicationVersionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "TemplateBody", location: .body(locationName: "templateBody"), required: false, type: .string), 
-            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string)
-        ]
-        /// A link to a public repository for the source code of your application.
-        public let sourceCodeUrl: String?
-        /// The raw packaged AWS SAM template of your application.
-        public let templateBody: String?
-        /// A link to the packaged AWS SAM template of your application.
-        public let templateUrl: String?
-
-        public init(sourceCodeUrl: String? = nil, templateBody: String? = nil, templateUrl: String? = nil) {
-            self.sourceCodeUrl = sourceCodeUrl
-            self.templateBody = templateBody
-            self.templateUrl = templateUrl
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceCodeUrl = "sourceCodeUrl"
-            case templateBody = "templateBody"
-            case templateUrl = "templateUrl"
-        }
-    }
-
-    public enum Status: String, CustomStringConvertible, Codable {
-        case preparing = "PREPARING"
-        case active = "ACTIVE"
-        case expired = "EXPIRED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetApplicationPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Statements", location: .body(locationName: "statements"), required: false, type: .list)
-        ]
-        public let statements: [ApplicationPolicyStatement]?
-
-        public init(statements: [ApplicationPolicyStatement]? = nil) {
-            self.statements = statements
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case statements = "statements"
-        }
-    }
-
-    public struct CreateApplicationVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
-            AWSShapeMember(label: "ResourcesSupported", location: .body(locationName: "resourcesSupported"), required: false, type: .boolean), 
-            AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "RequiredCapabilities", location: .body(locationName: "requiredCapabilities"), required: false, type: .list), 
-            AWSShapeMember(label: "ParameterDefinitions", location: .body(locationName: "parameterDefinitions"), required: false, type: .list), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string)
-        ]
-        public let templateUrl: String?
-        public let applicationId: String?
-        public let resourcesSupported: Bool?
-        public let sourceCodeUrl: String?
-        public let requiredCapabilities: [Capability]?
-        public let parameterDefinitions: [ParameterDefinition]?
-        public let semanticVersion: String?
-        public let creationTime: String?
-
-        public init(templateUrl: String? = nil, applicationId: String? = nil, resourcesSupported: Bool? = nil, sourceCodeUrl: String? = nil, requiredCapabilities: [Capability]? = nil, parameterDefinitions: [ParameterDefinition]? = nil, semanticVersion: String? = nil, creationTime: String? = nil) {
-            self.templateUrl = templateUrl
-            self.applicationId = applicationId
-            self.resourcesSupported = resourcesSupported
-            self.sourceCodeUrl = sourceCodeUrl
-            self.requiredCapabilities = requiredCapabilities
-            self.parameterDefinitions = parameterDefinitions
-            self.semanticVersion = semanticVersion
-            self.creationTime = creationTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case templateUrl = "templateUrl"
-            case applicationId = "applicationId"
-            case resourcesSupported = "resourcesSupported"
-            case sourceCodeUrl = "sourceCodeUrl"
-            case requiredCapabilities = "requiredCapabilities"
-            case parameterDefinitions = "parameterDefinitions"
-            case semanticVersion = "semanticVersion"
-            case creationTime = "creationTime"
-        }
-    }
-
-    public struct RollbackTrigger: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: true, type: .string), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: true, type: .string)
-        ]
-        /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackTrigger Data Type.
-        public let arn: String
-        /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackTrigger Data Type.
-        public let `type`: String
-
-        public init(arn: String, type: String) {
-            self.arn = arn
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case `type` = "type"
-        }
-    }
-
-    public struct PutApplicationPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "Statements", location: .body(locationName: "statements"), required: true, type: .list)
-        ]
-        public let applicationId: String
-        public let statements: [ApplicationPolicyStatement]
-
-        public init(applicationId: String, statements: [ApplicationPolicyStatement]) {
-            self.applicationId = applicationId
-            self.statements = statements
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-            case statements = "statements"
-        }
-    }
-
-    public struct GetApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
+            AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: true, type: .string), 
             AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .structure), 
-            AWSShapeMember(label: "LicenseUrl", location: .body(locationName: "licenseUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
+            AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
             AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
-            AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string)
+            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: true, type: .string), 
+            AWSShapeMember(label: "LicenseUrl", location: .body(locationName: "licenseUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: true, type: .string)
         ]
-        public let labels: [String]?
-        public let version: Version?
-        public let licenseUrl: String?
-        public let homePageUrl: String?
-        public let applicationId: String?
-        public let description: String?
-        public let readmeUrl: String?
-        public let author: String?
-        public let name: String?
-        public let creationTime: String?
-        public let spdxLicenseId: String?
-
-        public init(labels: [String]? = nil, version: Version? = nil, licenseUrl: String? = nil, homePageUrl: String? = nil, applicationId: String? = nil, description: String? = nil, readmeUrl: String? = nil, author: String? = nil, name: String? = nil, creationTime: String? = nil, spdxLicenseId: String? = nil) {
-            self.labels = labels
-            self.version = version
-            self.licenseUrl = licenseUrl
-            self.homePageUrl = homePageUrl
-            self.applicationId = applicationId
-            self.description = description
-            self.readmeUrl = readmeUrl
-            self.author = author
-            self.name = name
-            self.creationTime = creationTime
-            self.spdxLicenseId = spdxLicenseId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case labels = "labels"
-            case version = "version"
-            case licenseUrl = "licenseUrl"
-            case homePageUrl = "homePageUrl"
-            case applicationId = "applicationId"
-            case description = "description"
-            case readmeUrl = "readmeUrl"
-            case author = "author"
-            case name = "name"
-            case creationTime = "creationTime"
-            case spdxLicenseId = "spdxLicenseId"
-        }
-    }
-
-    public struct GetApplicationPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string)
-        ]
-        public let applicationId: String
-
-        public init(applicationId: String) {
-            self.applicationId = applicationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-        }
-    }
-
-    public struct ListApplicationDependenciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxItems"), required: false, type: .integer), 
-            AWSShapeMember(label: "SemanticVersion", location: .querystring(locationName: "semanticVersion"), required: false, type: .string)
-        ]
-        public let applicationId: String
-        public let nextToken: String?
-        public let maxItems: Int32?
-        public let semanticVersion: String?
-
-        public init(applicationId: String, nextToken: String? = nil, maxItems: Int32? = nil, semanticVersion: String? = nil) {
-            self.applicationId = applicationId
-            self.nextToken = nextToken
-            self.maxItems = maxItems
-            self.semanticVersion = semanticVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-            case nextToken = "nextToken"
-            case maxItems = "maxItems"
-            case semanticVersion = "semanticVersion"
-        }
-    }
-
-    public struct ListApplicationVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Versions", location: .body(locationName: "versions"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
-        public let versions: [VersionSummary]?
-        public let nextToken: String?
-
-        public init(versions: [VersionSummary]? = nil, nextToken: String? = nil) {
-            self.versions = versions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versions = "versions"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public enum Capability: String, CustomStringConvertible, Codable {
-        case capabilityIam = "CAPABILITY_IAM"
-        case capabilityNamedIam = "CAPABILITY_NAMED_IAM"
-        case capabilityAutoExpand = "CAPABILITY_AUTO_EXPAND"
-        case capabilityResourcePolicy = "CAPABILITY_RESOURCE_POLICY"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateCloudFormationChangeSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capabilities", location: .body(locationName: "capabilities"), required: false, type: .list), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .list), 
-            AWSShapeMember(label: "TemplateId", location: .body(locationName: "templateId"), required: false, type: .string), 
-            AWSShapeMember(label: "ParameterOverrides", location: .body(locationName: "parameterOverrides"), required: false, type: .list), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "ResourceTypes", location: .body(locationName: "resourceTypes"), required: false, type: .list), 
-            AWSShapeMember(label: "ChangeSetName", location: .body(locationName: "changeSetName"), required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
-            AWSShapeMember(label: "NotificationArns", location: .body(locationName: "notificationArns"), required: false, type: .list), 
-            AWSShapeMember(label: "RollbackConfiguration", location: .body(locationName: "rollbackConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "StackName", location: .body(locationName: "stackName"), required: true, type: .string), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string)
-        ]
-        public let capabilities: [String]?
-        public let tags: [Tag]?
-        public let templateId: String?
-        public let parameterOverrides: [ParameterValue]?
-        public let description: String?
-        public let resourceTypes: [String]?
-        public let changeSetName: String?
-        public let applicationId: String
-        public let clientToken: String?
-        public let notificationArns: [String]?
-        public let rollbackConfiguration: RollbackConfiguration?
-        public let stackName: String
-        public let semanticVersion: String?
-
-        public init(capabilities: [String]? = nil, tags: [Tag]? = nil, templateId: String? = nil, parameterOverrides: [ParameterValue]? = nil, description: String? = nil, resourceTypes: [String]? = nil, changeSetName: String? = nil, applicationId: String, clientToken: String? = nil, notificationArns: [String]? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String, semanticVersion: String? = nil) {
-            self.capabilities = capabilities
-            self.tags = tags
-            self.templateId = templateId
-            self.parameterOverrides = parameterOverrides
-            self.description = description
-            self.resourceTypes = resourceTypes
-            self.changeSetName = changeSetName
-            self.applicationId = applicationId
-            self.clientToken = clientToken
-            self.notificationArns = notificationArns
-            self.rollbackConfiguration = rollbackConfiguration
-            self.stackName = stackName
-            self.semanticVersion = semanticVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case capabilities = "capabilities"
-            case tags = "tags"
-            case templateId = "templateId"
-            case parameterOverrides = "parameterOverrides"
-            case description = "description"
-            case resourceTypes = "resourceTypes"
-            case changeSetName = "changeSetName"
-            case applicationId = "applicationId"
-            case clientToken = "clientToken"
-            case notificationArns = "notificationArns"
-            case rollbackConfiguration = "rollbackConfiguration"
-            case stackName = "stackName"
-            case semanticVersion = "semanticVersion"
-        }
-    }
-
-    public struct UpdateApplicationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: false, type: .string), 
-            AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "ReadmeBody", location: .body(locationName: "readmeBody"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list)
-        ]
-        /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
-        public let author: String?
+        /// The name of the application.Minimum length=1. Maximum length=140Pattern: "[a-zA-Z0-9\\-]+";
+        public let name: String
         /// A link to the readme file in Markdown language that contains a more detailed description of the application and how it works.Maximum size 5 MB
         public let readmeUrl: String?
+        /// The application Amazon Resource Name (ARN).
+        public let applicationId: String
+        /// Version information about the application.
+        public let version: Version?
+        /// Labels to improve discovery of apps in search results.Minimum length=1. Maximum length=127. Maximum number of labels: 10Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
+        public let labels: [String]?
+        /// A valid identifier from https://spdx.org/licenses/.
+        public let spdxLicenseId: String?
         /// A URL with more information about the application, for example
         ///  the location of your GitHub repository for the application.
         public let homePageUrl: String?
-        /// A text readme file in Markdown language that contains a more detailed description of the application and how it works.Maximum size 5 MB
-        public let readmeBody: String?
-        /// The description of the application.Minimum length=1. Maximum length=256
-        public let description: String?
-        /// Labels to improve discovery of apps in search results.Minimum length=1. Maximum length=127. Maximum number of labels: 10Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
-        public let labels: [String]?
-
-        public init(author: String? = nil, readmeUrl: String? = nil, homePageUrl: String? = nil, readmeBody: String? = nil, description: String? = nil, labels: [String]? = nil) {
-            self.author = author
-            self.readmeUrl = readmeUrl
-            self.homePageUrl = homePageUrl
-            self.readmeBody = readmeBody
-            self.description = description
-            self.labels = labels
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case author = "author"
-            case readmeUrl = "readmeUrl"
-            case homePageUrl = "homePageUrl"
-            case readmeBody = "readmeBody"
-            case description = "description"
-            case labels = "labels"
-        }
-    }
-
-    public struct ListApplicationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxItems"), required: false, type: .integer)
-        ]
-        public let nextToken: String?
-        public let maxItems: Int32?
-
-        public init(nextToken: String? = nil, maxItems: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxItems = maxItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxItems = "maxItems"
-        }
-    }
-
-    public struct CreateCloudFormationChangeSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
-            AWSShapeMember(label: "StackId", location: .body(locationName: "stackId"), required: false, type: .string), 
-            AWSShapeMember(label: "ChangeSetId", location: .body(locationName: "changeSetId"), required: false, type: .string), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string)
-        ]
-        public let applicationId: String?
-        public let stackId: String?
-        public let changeSetId: String?
-        public let semanticVersion: String?
-
-        public init(applicationId: String? = nil, stackId: String? = nil, changeSetId: String? = nil, semanticVersion: String? = nil) {
-            self.applicationId = applicationId
-            self.stackId = stackId
-            self.changeSetId = changeSetId
-            self.semanticVersion = semanticVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-            case stackId = "stackId"
-            case changeSetId = "changeSetId"
-            case semanticVersion = "semanticVersion"
-        }
-    }
-
-    public struct UpdateApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
-            AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .structure), 
-            AWSShapeMember(label: "LicenseUrl", location: .body(locationName: "licenseUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
-            AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string)
-        ]
-        public let labels: [String]?
-        public let version: Version?
-        public let licenseUrl: String?
-        public let homePageUrl: String?
-        public let applicationId: String?
-        public let description: String?
-        public let readmeUrl: String?
-        public let author: String?
-        public let name: String?
-        public let creationTime: String?
-        public let spdxLicenseId: String?
-
-        public init(labels: [String]? = nil, version: Version? = nil, licenseUrl: String? = nil, homePageUrl: String? = nil, applicationId: String? = nil, description: String? = nil, readmeUrl: String? = nil, author: String? = nil, name: String? = nil, creationTime: String? = nil, spdxLicenseId: String? = nil) {
-            self.labels = labels
-            self.version = version
-            self.licenseUrl = licenseUrl
-            self.homePageUrl = homePageUrl
-            self.applicationId = applicationId
-            self.description = description
-            self.readmeUrl = readmeUrl
-            self.author = author
-            self.name = name
-            self.creationTime = creationTime
-            self.spdxLicenseId = spdxLicenseId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case labels = "labels"
-            case version = "version"
-            case licenseUrl = "licenseUrl"
-            case homePageUrl = "homePageUrl"
-            case applicationId = "applicationId"
-            case description = "description"
-            case readmeUrl = "readmeUrl"
-            case author = "author"
-            case name = "name"
-            case creationTime = "creationTime"
-            case spdxLicenseId = "spdxLicenseId"
-        }
-    }
-
-    public struct ApplicationPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Statements", location: .body(locationName: "statements"), required: true, type: .list)
-        ]
-        /// An array of policy statements applied to the application.
-        public let statements: [ApplicationPolicyStatement]
-
-        public init(statements: [ApplicationPolicyStatement]) {
-            self.statements = statements
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case statements = "statements"
-        }
-    }
-
-    public struct CreateCloudFormationTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
-            AWSShapeMember(label: "ExpirationTime", location: .body(locationName: "expirationTime"), required: false, type: .string), 
-            AWSShapeMember(label: "TemplateId", location: .body(locationName: "templateId"), required: false, type: .string), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string)
-        ]
-        public let templateUrl: String?
-        public let applicationId: String?
-        public let status: Status?
-        public let expirationTime: String?
-        public let templateId: String?
-        public let semanticVersion: String?
-        public let creationTime: String?
-
-        public init(templateUrl: String? = nil, applicationId: String? = nil, status: Status? = nil, expirationTime: String? = nil, templateId: String? = nil, semanticVersion: String? = nil, creationTime: String? = nil) {
-            self.templateUrl = templateUrl
-            self.applicationId = applicationId
-            self.status = status
-            self.expirationTime = expirationTime
-            self.templateId = templateId
-            self.semanticVersion = semanticVersion
-            self.creationTime = creationTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case templateUrl = "templateUrl"
-            case applicationId = "applicationId"
-            case status = "status"
-            case expirationTime = "expirationTime"
-            case templateId = "templateId"
-            case semanticVersion = "semanticVersion"
-            case creationTime = "creationTime"
-        }
-    }
-
-    public struct CreateApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
-            AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .structure), 
-            AWSShapeMember(label: "LicenseUrl", location: .body(locationName: "licenseUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
-            AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string)
-        ]
-        public let labels: [String]?
-        public let version: Version?
-        public let licenseUrl: String?
-        public let homePageUrl: String?
-        public let applicationId: String?
-        public let description: String?
-        public let readmeUrl: String?
-        public let author: String?
-        public let name: String?
-        public let creationTime: String?
-        public let spdxLicenseId: String?
-
-        public init(labels: [String]? = nil, version: Version? = nil, licenseUrl: String? = nil, homePageUrl: String? = nil, applicationId: String? = nil, description: String? = nil, readmeUrl: String? = nil, author: String? = nil, name: String? = nil, creationTime: String? = nil, spdxLicenseId: String? = nil) {
-            self.labels = labels
-            self.version = version
-            self.licenseUrl = licenseUrl
-            self.homePageUrl = homePageUrl
-            self.applicationId = applicationId
-            self.description = description
-            self.readmeUrl = readmeUrl
-            self.author = author
-            self.name = name
-            self.creationTime = creationTime
-            self.spdxLicenseId = spdxLicenseId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case labels = "labels"
-            case version = "version"
-            case licenseUrl = "licenseUrl"
-            case homePageUrl = "homePageUrl"
-            case applicationId = "applicationId"
-            case description = "description"
-            case readmeUrl = "readmeUrl"
-            case author = "author"
-            case name = "name"
-            case creationTime = "creationTime"
-            case spdxLicenseId = "spdxLicenseId"
-        }
-    }
-
-    public struct VersionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: true, type: .string), 
-            AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: true, type: .string)
-        ]
-        /// The application Amazon Resource Name (ARN).
-        public let applicationId: String
         /// The date and time this resource was created.
-        public let creationTime: String
-        /// A link to a public repository for the source code of your application.
-        public let sourceCodeUrl: String?
-        /// The semantic version of the application:
-        ///  https://semver.org/
-        ///  
-        public let semanticVersion: String
+        public let creationTime: String?
+        /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
+        public let author: String
+        /// A link to a license file of the app that matches the spdxLicenseID value of your application.Maximum size 5 MB
+        public let licenseUrl: String?
+        /// The description of the application.Minimum length=1. Maximum length=256
+        public let description: String
 
-        public init(applicationId: String, creationTime: String, sourceCodeUrl: String? = nil, semanticVersion: String) {
+        public init(name: String, readmeUrl: String? = nil, applicationId: String, version: Version? = nil, labels: [String]? = nil, spdxLicenseId: String? = nil, homePageUrl: String? = nil, creationTime: String? = nil, author: String, licenseUrl: String? = nil, description: String) {
+            self.name = name
+            self.readmeUrl = readmeUrl
             self.applicationId = applicationId
+            self.version = version
+            self.labels = labels
+            self.spdxLicenseId = spdxLicenseId
+            self.homePageUrl = homePageUrl
             self.creationTime = creationTime
-            self.sourceCodeUrl = sourceCodeUrl
-            self.semanticVersion = semanticVersion
+            self.author = author
+            self.licenseUrl = licenseUrl
+            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case readmeUrl = "readmeUrl"
             case applicationId = "applicationId"
+            case version = "version"
+            case labels = "labels"
+            case spdxLicenseId = "spdxLicenseId"
+            case homePageUrl = "homePageUrl"
             case creationTime = "creationTime"
-            case sourceCodeUrl = "sourceCodeUrl"
-            case semanticVersion = "semanticVersion"
-        }
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"), required: true, type: .string), 
-            AWSShapeMember(label: "Key", location: .body(locationName: "key"), required: true, type: .string)
-        ]
-        /// This property corresponds to the content of the same name for the AWS CloudFormation 
-        ///  Tag
-        ///  
-        ///  Data Type.
-        public let value: String
-        /// This property corresponds to the content of the same name for the AWS CloudFormation Tag Data Type.
-        public let key: String
-
-        public init(value: String, key: String) {
-            self.value = value
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "value"
-            case key = "key"
+            case author = "author"
+            case licenseUrl = "licenseUrl"
+            case description = "description"
         }
     }
 
     public struct CreateCloudFormationChangeSetInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterOverrides", location: .body(locationName: "parameterOverrides"), required: false, type: .list), 
-            AWSShapeMember(label: "ResourceTypes", location: .body(locationName: "resourceTypes"), required: false, type: .list), 
             AWSShapeMember(label: "Capabilities", location: .body(locationName: "capabilities"), required: false, type: .list), 
             AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "TemplateId", location: .body(locationName: "templateId"), required: false, type: .string), 
-            AWSShapeMember(label: "ChangeSetName", location: .body(locationName: "changeSetName"), required: false, type: .string), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "StackName", location: .body(locationName: "stackName"), required: true, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .list), 
+            AWSShapeMember(label: "ParameterOverrides", location: .body(locationName: "parameterOverrides"), required: false, type: .list), 
+            AWSShapeMember(label: "StackName", location: .body(locationName: "stackName"), required: true, type: .string), 
+            AWSShapeMember(label: "ChangeSetName", location: .body(locationName: "changeSetName"), required: false, type: .string), 
             AWSShapeMember(label: "NotificationArns", location: .body(locationName: "notificationArns"), required: false, type: .list), 
+            AWSShapeMember(label: "ResourceTypes", location: .body(locationName: "resourceTypes"), required: false, type: .list), 
+            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "TemplateId", location: .body(locationName: "templateId"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "RollbackConfiguration", location: .body(locationName: "rollbackConfiguration"), required: false, type: .structure)
         ]
-        /// A list of parameter values for the parameters of the application.
-        public let parameterOverrides: [ParameterValue]?
-        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
-        public let resourceTypes: [String]?
         /// A list of values that you must specify before you can deploy certain applications.
         ///  Some applications might include resources that can affect permissions in your AWS
         ///  account, for example, by creating new AWS Identity and Access Management (IAM) users.
@@ -1584,83 +1051,616 @@ extension ServerlessApplicationRepository {
         /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
         public let clientToken: String?
         /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
-        public let description: String?
-        /// The UUID returned by CreateCloudFormationTemplate.Pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
-        public let templateId: String?
+        public let tags: [Tag]?
+        /// A list of parameter values for the parameters of the application.
+        public let parameterOverrides: [ParameterValue]?
+        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
+        public let stackName: String
         /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
         public let changeSetName: String?
+        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
+        public let notificationArns: [String]?
+        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
+        public let resourceTypes: [String]?
         /// The semantic version of the application:
         ///  https://semver.org/
         ///  
         public let semanticVersion: String?
+        /// The UUID returned by CreateCloudFormationTemplate.Pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
+        public let templateId: String?
         /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
-        public let stackName: String
-        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
-        public let tags: [Tag]?
-        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
-        public let notificationArns: [String]?
+        public let description: String?
         /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
         public let rollbackConfiguration: RollbackConfiguration?
 
-        public init(parameterOverrides: [ParameterValue]? = nil, resourceTypes: [String]? = nil, capabilities: [String]? = nil, clientToken: String? = nil, description: String? = nil, templateId: String? = nil, changeSetName: String? = nil, semanticVersion: String? = nil, stackName: String, tags: [Tag]? = nil, notificationArns: [String]? = nil, rollbackConfiguration: RollbackConfiguration? = nil) {
-            self.parameterOverrides = parameterOverrides
-            self.resourceTypes = resourceTypes
+        public init(capabilities: [String]? = nil, clientToken: String? = nil, tags: [Tag]? = nil, parameterOverrides: [ParameterValue]? = nil, stackName: String, changeSetName: String? = nil, notificationArns: [String]? = nil, resourceTypes: [String]? = nil, semanticVersion: String? = nil, templateId: String? = nil, description: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil) {
             self.capabilities = capabilities
             self.clientToken = clientToken
-            self.description = description
-            self.templateId = templateId
-            self.changeSetName = changeSetName
-            self.semanticVersion = semanticVersion
-            self.stackName = stackName
             self.tags = tags
+            self.parameterOverrides = parameterOverrides
+            self.stackName = stackName
+            self.changeSetName = changeSetName
             self.notificationArns = notificationArns
+            self.resourceTypes = resourceTypes
+            self.semanticVersion = semanticVersion
+            self.templateId = templateId
+            self.description = description
             self.rollbackConfiguration = rollbackConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameterOverrides = "parameterOverrides"
-            case resourceTypes = "resourceTypes"
             case capabilities = "capabilities"
             case clientToken = "clientToken"
-            case description = "description"
-            case templateId = "templateId"
-            case changeSetName = "changeSetName"
-            case semanticVersion = "semanticVersion"
-            case stackName = "stackName"
             case tags = "tags"
+            case parameterOverrides = "parameterOverrides"
+            case stackName = "stackName"
+            case changeSetName = "changeSetName"
             case notificationArns = "notificationArns"
+            case resourceTypes = "resourceTypes"
+            case semanticVersion = "semanticVersion"
+            case templateId = "templateId"
+            case description = "description"
             case rollbackConfiguration = "rollbackConfiguration"
+        }
+    }
+
+    public struct GetApplicationPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Statements", location: .body(locationName: "statements"), required: false, type: .list)
+        ]
+        public let statements: [ApplicationPolicyStatement]?
+
+        public init(statements: [ApplicationPolicyStatement]? = nil) {
+            self.statements = statements
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statements = "statements"
+        }
+    }
+
+    public struct ApplicationDependencyPage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Dependencies", location: .body(locationName: "dependencies"), required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        /// An array of application summaries nested in the application.
+        public let dependencies: [ApplicationDependencySummary]
+        /// The token to request the next page of results.
+        public let nextToken: String?
+
+        public init(dependencies: [ApplicationDependencySummary], nextToken: String? = nil) {
+            self.dependencies = dependencies
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dependencies = "dependencies"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetCloudFormationTemplateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
+            AWSShapeMember(label: "ExpirationTime", location: .body(locationName: "expirationTime"), required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
+            AWSShapeMember(label: "TemplateId", location: .body(locationName: "templateId"), required: false, type: .string), 
+            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string)
+        ]
+        public let applicationId: String?
+        public let status: Status?
+        public let expirationTime: String?
+        public let creationTime: String?
+        public let templateId: String?
+        public let templateUrl: String?
+        public let semanticVersion: String?
+
+        public init(applicationId: String? = nil, status: Status? = nil, expirationTime: String? = nil, creationTime: String? = nil, templateId: String? = nil, templateUrl: String? = nil, semanticVersion: String? = nil) {
+            self.applicationId = applicationId
+            self.status = status
+            self.expirationTime = expirationTime
+            self.creationTime = creationTime
+            self.templateId = templateId
+            self.templateUrl = templateUrl
+            self.semanticVersion = semanticVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "applicationId"
+            case status = "status"
+            case expirationTime = "expirationTime"
+            case creationTime = "creationTime"
+            case templateId = "templateId"
+            case templateUrl = "templateUrl"
+            case semanticVersion = "semanticVersion"
+        }
+    }
+
+    public struct CreateApplicationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
+            AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .structure), 
+            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
+            AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
+            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
+            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: false, type: .string), 
+            AWSShapeMember(label: "LicenseUrl", location: .body(locationName: "licenseUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
+        ]
+        public let name: String?
+        public let readmeUrl: String?
+        public let applicationId: String?
+        public let version: Version?
+        public let labels: [String]?
+        public let spdxLicenseId: String?
+        public let homePageUrl: String?
+        public let creationTime: String?
+        public let author: String?
+        public let licenseUrl: String?
+        public let description: String?
+
+        public init(name: String? = nil, readmeUrl: String? = nil, applicationId: String? = nil, version: Version? = nil, labels: [String]? = nil, spdxLicenseId: String? = nil, homePageUrl: String? = nil, creationTime: String? = nil, author: String? = nil, licenseUrl: String? = nil, description: String? = nil) {
+            self.name = name
+            self.readmeUrl = readmeUrl
+            self.applicationId = applicationId
+            self.version = version
+            self.labels = labels
+            self.spdxLicenseId = spdxLicenseId
+            self.homePageUrl = homePageUrl
+            self.creationTime = creationTime
+            self.author = author
+            self.licenseUrl = licenseUrl
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case readmeUrl = "readmeUrl"
+            case applicationId = "applicationId"
+            case version = "version"
+            case labels = "labels"
+            case spdxLicenseId = "spdxLicenseId"
+            case homePageUrl = "homePageUrl"
+            case creationTime = "creationTime"
+            case author = "author"
+            case licenseUrl = "licenseUrl"
+            case description = "description"
+        }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", location: .body(locationName: "key"), required: true, type: .string), 
+            AWSShapeMember(label: "Value", location: .body(locationName: "value"), required: true, type: .string)
+        ]
+        /// This property corresponds to the content of the same name for the AWS CloudFormation Tag Data Type.
+        public let key: String
+        /// This property corresponds to the content of the same name for the AWS CloudFormation 
+        ///  Tag
+        ///  
+        ///  Data Type.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct UpdateApplicationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReadmeBody", location: .body(locationName: "readmeBody"), required: false, type: .string), 
+            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
+            AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: false, type: .string)
+        ]
+        /// A text readme file in Markdown language that contains a more detailed description of the application and how it works.Maximum size 5 MB
+        public let readmeBody: String?
+        /// A URL with more information about the application, for example
+        ///  the location of your GitHub repository for the application.
+        public let homePageUrl: String?
+        /// The description of the application.Minimum length=1. Maximum length=256
+        public let description: String?
+        /// Labels to improve discovery of apps in search results.Minimum length=1. Maximum length=127. Maximum number of labels: 10Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
+        public let labels: [String]?
+        /// A link to the readme file in Markdown language that contains a more detailed description of the application and how it works.Maximum size 5 MB
+        public let readmeUrl: String?
+        /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
+        public let author: String?
+
+        public init(readmeBody: String? = nil, homePageUrl: String? = nil, description: String? = nil, labels: [String]? = nil, readmeUrl: String? = nil, author: String? = nil) {
+            self.readmeBody = readmeBody
+            self.homePageUrl = homePageUrl
+            self.description = description
+            self.labels = labels
+            self.readmeUrl = readmeUrl
+            self.author = author
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case readmeBody = "readmeBody"
+            case homePageUrl = "homePageUrl"
+            case description = "description"
+            case labels = "labels"
+            case readmeUrl = "readmeUrl"
+            case author = "author"
+        }
+    }
+
+    public struct CreateCloudFormationTemplateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
+            AWSShapeMember(label: "ExpirationTime", location: .body(locationName: "expirationTime"), required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
+            AWSShapeMember(label: "TemplateId", location: .body(locationName: "templateId"), required: false, type: .string), 
+            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string)
+        ]
+        public let applicationId: String?
+        public let status: Status?
+        public let expirationTime: String?
+        public let creationTime: String?
+        public let templateId: String?
+        public let templateUrl: String?
+        public let semanticVersion: String?
+
+        public init(applicationId: String? = nil, status: Status? = nil, expirationTime: String? = nil, creationTime: String? = nil, templateId: String? = nil, templateUrl: String? = nil, semanticVersion: String? = nil) {
+            self.applicationId = applicationId
+            self.status = status
+            self.expirationTime = expirationTime
+            self.creationTime = creationTime
+            self.templateId = templateId
+            self.templateUrl = templateUrl
+            self.semanticVersion = semanticVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "applicationId"
+            case status = "status"
+            case expirationTime = "expirationTime"
+            case creationTime = "creationTime"
+            case templateId = "templateId"
+            case templateUrl = "templateUrl"
+            case semanticVersion = "semanticVersion"
+        }
+    }
+
+    public struct GetCloudFormationTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "templateId"), required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string)
+        ]
+        public let templateId: String
+        public let applicationId: String
+
+        public init(templateId: String, applicationId: String) {
+            self.templateId = templateId
+            self.applicationId = applicationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateId = "templateId"
+            case applicationId = "applicationId"
+        }
+    }
+
+    public struct PutApplicationPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Statements", location: .body(locationName: "statements"), required: false, type: .list)
+        ]
+        public let statements: [ApplicationPolicyStatement]?
+
+        public init(statements: [ApplicationPolicyStatement]? = nil) {
+            self.statements = statements
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statements = "statements"
+        }
+    }
+
+    public struct ListApplicationVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxItems"), required: false, type: .integer), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let maxItems: Int32?
+        public let applicationId: String
+        public let nextToken: String?
+
+        public init(maxItems: Int32? = nil, applicationId: String, nextToken: String? = nil) {
+            self.maxItems = maxItems
+            self.applicationId = applicationId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "maxItems"
+            case applicationId = "applicationId"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct RollbackTrigger: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: true, type: .string), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: true, type: .string)
+        ]
+        /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackTrigger Data Type.
+        public let `type`: String
+        /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackTrigger Data Type.
+        public let arn: String
+
+        public init(type: String, arn: String) {
+            self.`type` = `type`
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case arn = "arn"
+        }
+    }
+
+    public struct CreateCloudFormationChangeSetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceTypes", location: .body(locationName: "resourceTypes"), required: false, type: .list), 
+            AWSShapeMember(label: "ParameterOverrides", location: .body(locationName: "parameterOverrides"), required: false, type: .list), 
+            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeMember(label: "TemplateId", location: .body(locationName: "templateId"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "Capabilities", location: .body(locationName: "capabilities"), required: false, type: .list), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
+            AWSShapeMember(label: "StackName", location: .body(locationName: "stackName"), required: true, type: .string), 
+            AWSShapeMember(label: "RollbackConfiguration", location: .body(locationName: "rollbackConfiguration"), required: false, type: .structure), 
+            AWSShapeMember(label: "ChangeSetName", location: .body(locationName: "changeSetName"), required: false, type: .string), 
+            AWSShapeMember(label: "NotificationArns", location: .body(locationName: "notificationArns"), required: false, type: .list), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .list)
+        ]
+        public let resourceTypes: [String]?
+        public let parameterOverrides: [ParameterValue]?
+        public let clientToken: String?
+        public let templateId: String?
+        public let description: String?
+        public let semanticVersion: String?
+        public let capabilities: [String]?
+        public let applicationId: String
+        public let stackName: String
+        public let rollbackConfiguration: RollbackConfiguration?
+        public let changeSetName: String?
+        public let notificationArns: [String]?
+        public let tags: [Tag]?
+
+        public init(resourceTypes: [String]? = nil, parameterOverrides: [ParameterValue]? = nil, clientToken: String? = nil, templateId: String? = nil, description: String? = nil, semanticVersion: String? = nil, capabilities: [String]? = nil, applicationId: String, stackName: String, rollbackConfiguration: RollbackConfiguration? = nil, changeSetName: String? = nil, notificationArns: [String]? = nil, tags: [Tag]? = nil) {
+            self.resourceTypes = resourceTypes
+            self.parameterOverrides = parameterOverrides
+            self.clientToken = clientToken
+            self.templateId = templateId
+            self.description = description
+            self.semanticVersion = semanticVersion
+            self.capabilities = capabilities
+            self.applicationId = applicationId
+            self.stackName = stackName
+            self.rollbackConfiguration = rollbackConfiguration
+            self.changeSetName = changeSetName
+            self.notificationArns = notificationArns
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceTypes = "resourceTypes"
+            case parameterOverrides = "parameterOverrides"
+            case clientToken = "clientToken"
+            case templateId = "templateId"
+            case description = "description"
+            case semanticVersion = "semanticVersion"
+            case capabilities = "capabilities"
+            case applicationId = "applicationId"
+            case stackName = "stackName"
+            case rollbackConfiguration = "rollbackConfiguration"
+            case changeSetName = "changeSetName"
+            case notificationArns = "notificationArns"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateApplicationVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
+            AWSShapeMember(label: "RequiredCapabilities", location: .body(locationName: "requiredCapabilities"), required: false, type: .list), 
+            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "ResourcesSupported", location: .body(locationName: "resourcesSupported"), required: false, type: .boolean), 
+            AWSShapeMember(label: "ParameterDefinitions", location: .body(locationName: "parameterDefinitions"), required: false, type: .list)
+        ]
+        public let applicationId: String?
+        public let creationTime: String?
+        public let requiredCapabilities: [Capability]?
+        public let semanticVersion: String?
+        public let templateUrl: String?
+        public let sourceCodeUrl: String?
+        public let resourcesSupported: Bool?
+        public let parameterDefinitions: [ParameterDefinition]?
+
+        public init(applicationId: String? = nil, creationTime: String? = nil, requiredCapabilities: [Capability]? = nil, semanticVersion: String? = nil, templateUrl: String? = nil, sourceCodeUrl: String? = nil, resourcesSupported: Bool? = nil, parameterDefinitions: [ParameterDefinition]? = nil) {
+            self.applicationId = applicationId
+            self.creationTime = creationTime
+            self.requiredCapabilities = requiredCapabilities
+            self.semanticVersion = semanticVersion
+            self.templateUrl = templateUrl
+            self.sourceCodeUrl = sourceCodeUrl
+            self.resourcesSupported = resourcesSupported
+            self.parameterDefinitions = parameterDefinitions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "applicationId"
+            case creationTime = "creationTime"
+            case requiredCapabilities = "requiredCapabilities"
+            case semanticVersion = "semanticVersion"
+            case templateUrl = "templateUrl"
+            case sourceCodeUrl = "sourceCodeUrl"
+            case resourcesSupported = "resourcesSupported"
+            case parameterDefinitions = "parameterDefinitions"
+        }
+    }
+
+    public struct Version: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: true, type: .string), 
+            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: true, type: .string), 
+            AWSShapeMember(label: "RequiredCapabilities", location: .body(locationName: "requiredCapabilities"), required: true, type: .list), 
+            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: true, type: .string), 
+            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: true, type: .string), 
+            AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "ResourcesSupported", location: .body(locationName: "resourcesSupported"), required: true, type: .boolean), 
+            AWSShapeMember(label: "ParameterDefinitions", location: .body(locationName: "parameterDefinitions"), required: true, type: .list)
+        ]
+        /// The application Amazon Resource Name (ARN).
+        public let applicationId: String
+        /// The date and time this resource was created.
+        public let creationTime: String
+        /// A list of values that you must specify before you can deploy certain applications.
+        ///  Some applications might include resources that can affect permissions in your AWS
+        ///  account, for example, by creating new AWS Identity and Access Management (IAM) users.
+        ///  For those applications, you must explicitly acknowledge their capabilities by
+        ///  specifying this parameter.The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM,
+        ///  and CAPABILITY_RESOURCE_POLICY.The following resources require you to specify CAPABILITY_IAM or
+        ///  CAPABILITY_NAMED_IAM:
+        ///  AWS::IAM::Group,
+        ///  AWS::IAM::InstanceProfile,
+        ///  AWS::IAM::Policy, and
+        ///  AWS::IAM::Role.
+        ///  If the application contains IAM resources, you can specify either CAPABILITY_IAM
+        ///  or CAPABILITY_NAMED_IAM. If the application contains IAM resources
+        ///  with custom names, you must specify CAPABILITY_NAMED_IAM.The following resources require you to specify CAPABILITY_RESOURCE_POLICY:
+        ///  AWS::Lambda::Permission,
+        ///  AWS::IAM:Policy,
+        ///  AWS::ApplicationAutoScaling::ScalingPolicy,
+        ///  AWS::S3::BucketPolicy,
+        ///  AWS::SQS::QueuePolicy, and
+        ///  AWS::SNS::TopicPolicy.If your application template contains any of the above resources, we recommend that you review
+        ///  all permissions associated with the application before deploying. If you don't specify
+        ///  this parameter for an application that requires capabilities, the call will fail.Valid values: CAPABILITY_IAM | CAPABILITY_NAMED_IAM | CAPABILITY_RESOURCE_POLICY
+        ///  
+        public let requiredCapabilities: [Capability]
+        /// The semantic version of the application:
+        ///  https://semver.org/
+        ///  
+        public let semanticVersion: String
+        /// A link to the packaged AWS SAM template of your application.
+        public let templateUrl: String
+        /// A link to a public repository for the source code of your application.
+        public let sourceCodeUrl: String?
+        /// Whether all of the AWS resources contained in this application are supported in the region
+        ///  in which it is being retrieved.
+        public let resourcesSupported: Bool
+        /// An array of parameter types supported by the application.
+        public let parameterDefinitions: [ParameterDefinition]
+
+        public init(applicationId: String, creationTime: String, requiredCapabilities: [Capability], semanticVersion: String, templateUrl: String, sourceCodeUrl: String? = nil, resourcesSupported: Bool, parameterDefinitions: [ParameterDefinition]) {
+            self.applicationId = applicationId
+            self.creationTime = creationTime
+            self.requiredCapabilities = requiredCapabilities
+            self.semanticVersion = semanticVersion
+            self.templateUrl = templateUrl
+            self.sourceCodeUrl = sourceCodeUrl
+            self.resourcesSupported = resourcesSupported
+            self.parameterDefinitions = parameterDefinitions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "applicationId"
+            case creationTime = "creationTime"
+            case requiredCapabilities = "requiredCapabilities"
+            case semanticVersion = "semanticVersion"
+            case templateUrl = "templateUrl"
+            case sourceCodeUrl = "sourceCodeUrl"
+            case resourcesSupported = "resourcesSupported"
+            case parameterDefinitions = "parameterDefinitions"
         }
     }
 
     public struct CreateApplicationVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
             AWSShapeMember(label: "SemanticVersion", location: .uri(locationName: "semanticVersion"), required: true, type: .string), 
-            AWSShapeMember(label: "TemplateBody", location: .body(locationName: "templateBody"), required: false, type: .string)
+            AWSShapeMember(label: "TemplateBody", location: .body(locationName: "templateBody"), required: false, type: .string), 
+            AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
+            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string)
         ]
-        public let applicationId: String
-        public let templateUrl: String?
-        public let sourceCodeUrl: String?
         public let semanticVersion: String
         public let templateBody: String?
+        public let sourceCodeUrl: String?
+        public let applicationId: String
+        public let templateUrl: String?
 
-        public init(applicationId: String, templateUrl: String? = nil, sourceCodeUrl: String? = nil, semanticVersion: String, templateBody: String? = nil) {
-            self.applicationId = applicationId
-            self.templateUrl = templateUrl
-            self.sourceCodeUrl = sourceCodeUrl
+        public init(semanticVersion: String, templateBody: String? = nil, sourceCodeUrl: String? = nil, applicationId: String, templateUrl: String? = nil) {
             self.semanticVersion = semanticVersion
             self.templateBody = templateBody
+            self.sourceCodeUrl = sourceCodeUrl
+            self.applicationId = applicationId
+            self.templateUrl = templateUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case semanticVersion = "semanticVersion"
+            case templateBody = "templateBody"
+            case sourceCodeUrl = "sourceCodeUrl"
+            case applicationId = "applicationId"
+            case templateUrl = "templateUrl"
+        }
+    }
+
+    public struct DeleteApplicationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string)
+        ]
+        public let applicationId: String
+
+        public init(applicationId: String) {
+            self.applicationId = applicationId
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationId = "applicationId"
-            case templateUrl = "templateUrl"
-            case sourceCodeUrl = "sourceCodeUrl"
-            case semanticVersion = "semanticVersion"
-            case templateBody = "templateBody"
+        }
+    }
+
+    public struct ListApplicationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Applications", location: .body(locationName: "applications"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let applications: [ApplicationSummary]?
+        public let nextToken: String?
+
+        public init(applications: [ApplicationSummary]? = nil, nextToken: String? = nil) {
+            self.applications = applications
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applications = "applications"
+            case nextToken = "nextToken"
         }
     }
 

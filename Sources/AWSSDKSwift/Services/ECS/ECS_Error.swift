@@ -6,24 +6,24 @@ import AWSSDKSwiftCore
 public enum ECSErrorType: AWSErrorType {
     case serverException(message: String?)
     case clientException(message: String?)
-    case clusterNotFoundException(message: String?)
-    case resourceNotFoundException(message: String?)
     case invalidParameterException(message: String?)
-    case clusterContainsContainerInstancesException(message: String?)
-    case clusterContainsServicesException(message: String?)
-    case clusterContainsTasksException(message: String?)
+    case clusterNotFoundException(message: String?)
+    case serviceNotFoundException(message: String?)
+    case targetNotFoundException(message: String?)
+    case attributeLimitExceededException(message: String?)
     case unsupportedFeatureException(message: String?)
     case platformUnknownException(message: String?)
     case platformTaskDefinitionIncompatibilityException(message: String?)
     case accessDeniedException(message: String?)
     case blockedException(message: String?)
-    case serviceNotFoundException(message: String?)
+    case resourceNotFoundException(message: String?)
     case serviceNotActiveException(message: String?)
+    case clusterContainsContainerInstancesException(message: String?)
+    case clusterContainsServicesException(message: String?)
+    case clusterContainsTasksException(message: String?)
     case updateInProgressException(message: String?)
     case noUpdateAvailableException(message: String?)
     case missingVersionException(message: String?)
-    case targetNotFoundException(message: String?)
-    case attributeLimitExceededException(message: String?)
 }
 
 extension ECSErrorType {
@@ -37,18 +37,16 @@ extension ECSErrorType {
             self = .serverException(message: message)
         case "ClientException":
             self = .clientException(message: message)
-        case "ClusterNotFoundException":
-            self = .clusterNotFoundException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
-        case "ClusterContainsContainerInstancesException":
-            self = .clusterContainsContainerInstancesException(message: message)
-        case "ClusterContainsServicesException":
-            self = .clusterContainsServicesException(message: message)
-        case "ClusterContainsTasksException":
-            self = .clusterContainsTasksException(message: message)
+        case "ClusterNotFoundException":
+            self = .clusterNotFoundException(message: message)
+        case "ServiceNotFoundException":
+            self = .serviceNotFoundException(message: message)
+        case "TargetNotFoundException":
+            self = .targetNotFoundException(message: message)
+        case "AttributeLimitExceededException":
+            self = .attributeLimitExceededException(message: message)
         case "UnsupportedFeatureException":
             self = .unsupportedFeatureException(message: message)
         case "PlatformUnknownException":
@@ -59,20 +57,22 @@ extension ECSErrorType {
             self = .accessDeniedException(message: message)
         case "BlockedException":
             self = .blockedException(message: message)
-        case "ServiceNotFoundException":
-            self = .serviceNotFoundException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "ServiceNotActiveException":
             self = .serviceNotActiveException(message: message)
+        case "ClusterContainsContainerInstancesException":
+            self = .clusterContainsContainerInstancesException(message: message)
+        case "ClusterContainsServicesException":
+            self = .clusterContainsServicesException(message: message)
+        case "ClusterContainsTasksException":
+            self = .clusterContainsTasksException(message: message)
         case "UpdateInProgressException":
             self = .updateInProgressException(message: message)
         case "NoUpdateAvailableException":
             self = .noUpdateAvailableException(message: message)
         case "MissingVersionException":
             self = .missingVersionException(message: message)
-        case "TargetNotFoundException":
-            self = .targetNotFoundException(message: message)
-        case "AttributeLimitExceededException":
-            self = .attributeLimitExceededException(message: message)
         default:
             return nil
         }

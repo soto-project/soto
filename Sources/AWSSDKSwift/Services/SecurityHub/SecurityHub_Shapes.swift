@@ -5,19 +5,230 @@ import AWSSDKSwiftCore
 
 extension SecurityHub {
 
-    public enum ThreatIntelIndicatorType: String, CustomStringConvertible, Codable {
-        case domain = "DOMAIN"
-        case emailAddress = "EMAIL_ADDRESS"
-        case hashMd5 = "HASH_MD5"
-        case hashSha1 = "HASH_SHA1"
-        case hashSha256 = "HASH_SHA256"
-        case hashSha512 = "HASH_SHA512"
-        case ipv4Address = "IPV4_ADDRESS"
-        case ipv6Address = "IPV6_ADDRESS"
-        case mutex = "MUTEX"
-        case process = "PROCESS"
-        case url = "URL"
+    public enum StandardsStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case ready = "READY"
+        case failed = "FAILED"
+        case deleting = "DELETING"
         public var description: String { return self.rawValue }
+    }
+
+    public struct GetFindingsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Findings", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Findings details returned by the operation.
+        public let findings: [AwsSecurityFinding]
+        /// The token that is required for pagination.
+        public let nextToken: String?
+
+        public init(findings: [AwsSecurityFinding], nextToken: String? = nil) {
+            self.findings = findings
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findings = "Findings"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct EnableSecurityHubRequest: AWSShape {
+
+    }
+
+    public struct InviteMembersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountIds", required: false, type: .list)
+        ]
+        /// A list of IDs of the AWS accounts that you want to invite to Security Hub as members. 
+        public let accountIds: [String]?
+
+        public init(accountIds: [String]? = nil) {
+            self.accountIds = accountIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "AccountIds"
+        }
+    }
+
+    public struct BatchDisableStandardsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StandardsSubscriptionArns", required: true, type: .list)
+        ]
+        /// The ARNS of the standards subscriptions that you want to disable.
+        public let standardsSubscriptionArns: [String]
+
+        public init(standardsSubscriptionArns: [String]) {
+            self.standardsSubscriptionArns = standardsSubscriptionArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case standardsSubscriptionArns = "StandardsSubscriptionArns"
+        }
+    }
+
+    public struct AwsSecurityFinding: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastObservedAt", required: false, type: .string), 
+            AWSShapeMember(label: "FirstObservedAt", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "Compliance", required: false, type: .structure), 
+            AWSShapeMember(label: "ThreatIntelIndicators", required: false, type: .list), 
+            AWSShapeMember(label: "CreatedAt", required: true, type: .string), 
+            AWSShapeMember(label: "Remediation", required: false, type: .structure), 
+            AWSShapeMember(label: "Resources", required: true, type: .list), 
+            AWSShapeMember(label: "RelatedFindings", required: false, type: .list), 
+            AWSShapeMember(label: "VerificationState", required: false, type: .enum), 
+            AWSShapeMember(label: "Malware", required: false, type: .list), 
+            AWSShapeMember(label: "Network", required: false, type: .structure), 
+            AWSShapeMember(label: "Confidence", required: false, type: .integer), 
+            AWSShapeMember(label: "ProductFields", required: false, type: .map), 
+            AWSShapeMember(label: "Note", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceUrl", required: false, type: .string), 
+            AWSShapeMember(label: "Title", required: false, type: .string), 
+            AWSShapeMember(label: "UpdatedAt", required: true, type: .string), 
+            AWSShapeMember(label: "ProductArn", required: true, type: .string), 
+            AWSShapeMember(label: "Criticality", required: false, type: .integer), 
+            AWSShapeMember(label: "WorkflowState", required: false, type: .enum), 
+            AWSShapeMember(label: "RecordState", required: false, type: .enum), 
+            AWSShapeMember(label: "Severity", required: true, type: .structure), 
+            AWSShapeMember(label: "Types", required: true, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "AwsAccountId", required: true, type: .string), 
+            AWSShapeMember(label: "UserDefinedFields", required: false, type: .map), 
+            AWSShapeMember(label: "SchemaVersion", required: true, type: .string), 
+            AWSShapeMember(label: "Process", required: false, type: .structure), 
+            AWSShapeMember(label: "GeneratorId", required: true, type: .string)
+        ]
+        /// An ISO8601-formatted timestamp that indicates when the potential security issue captured by a finding was most recently observed by the security findings provider.
+        public let lastObservedAt: String?
+        /// An ISO8601-formatted timestamp that indicates when the potential security issue captured by a finding was first observed by the security findings provider.
+        public let firstObservedAt: String?
+        /// The security findings provider-specific identifier for a finding.
+        public let id: String
+        /// This data type is exclusive to findings that are generated as the result of a check run against a specific rule in a supported standard (for example, AWS CIS Foundations). Contains compliance-related finding details.
+        public let compliance: Compliance?
+        /// Threat intel details related to a finding.
+        public let threatIntelIndicators: [ThreatIntelIndicator]?
+        /// An ISO8601-formatted timestamp that indicates when the potential security issue captured by a finding was created by the security findings provider.
+        public let createdAt: String
+        /// An data type that describes the remediation options for a finding.
+        public let remediation: Remediation?
+        /// A set of resource data types that describe the resources to which the finding refers.
+        public let resources: [Resource]
+        /// A list of related findings.
+        public let relatedFindings: [RelatedFinding]?
+        /// Indicates the veracity of a finding. 
+        public let verificationState: VerificationState?
+        /// A list of malware related to a finding.
+        public let malware: [Malware]?
+        /// The details of network-related information about a finding.
+        public let network: Network?
+        /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale. 0 equates zero percent confidence and 100 equates to 100 percent confidence.
+        public let confidence: Int32?
+        /// A data type where security findings providers can include additional solution-specific details that are not part of the defined AwsSecurityFinding format.
+        public let productFields: [String: String]?
+        /// A user-defined note added to a finding.
+        public let note: Note?
+        /// A URL that links to a page about the current finding in the security findings provider's solution.
+        public let sourceUrl: String?
+        /// A finding's title.
+        public let title: String?
+        /// An ISO8601-formatted timestamp that indicates when the finding record was last updated by the security findings provider. 
+        public let updatedAt: String
+        /// The ARN generated by Security Hub that uniquely identifies a third-party company (security findings provider) once this provider's product (solution that generates findings) is registered with Security Hub. 
+        public let productArn: String
+        /// The level of importance assigned to the resources associated with the finding. A score of 0 means the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
+        public let criticality: Int32?
+        /// The workflow state of a finding. 
+        public let workflowState: WorkflowState?
+        /// The record state of a finding.
+        public let recordState: RecordState?
+        /// A finding's severity.
+        public let severity: Severity
+        /// One or more finding types in the format of 'namespace/category/classifier' that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications
+        public let types: [String]
+        /// A finding's description.
+        public let description: String?
+        /// The AWS account ID in which a finding is generated.
+        public let awsAccountId: String
+        /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding. 
+        public let userDefinedFields: [String: String]?
+        /// The schema version for which a finding is formatted.
+        public let schemaVersion: String
+        /// The details of process-related information about a finding.
+        public let process: ProcessDetails?
+        /// This is the identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security findings provider's solutions, this generator can be called a rule, a check, a detector, a plug-in, etc. 
+        public let generatorId: String
+
+        public init(lastObservedAt: String? = nil, firstObservedAt: String? = nil, id: String, compliance: Compliance? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, createdAt: String, remediation: Remediation? = nil, resources: [Resource], relatedFindings: [RelatedFinding]? = nil, verificationState: VerificationState? = nil, malware: [Malware]? = nil, network: Network? = nil, confidence: Int32? = nil, productFields: [String: String]? = nil, note: Note? = nil, sourceUrl: String? = nil, title: String? = nil, updatedAt: String, productArn: String, criticality: Int32? = nil, workflowState: WorkflowState? = nil, recordState: RecordState? = nil, severity: Severity, types: [String], description: String? = nil, awsAccountId: String, userDefinedFields: [String: String]? = nil, schemaVersion: String, process: ProcessDetails? = nil, generatorId: String) {
+            self.lastObservedAt = lastObservedAt
+            self.firstObservedAt = firstObservedAt
+            self.id = id
+            self.compliance = compliance
+            self.threatIntelIndicators = threatIntelIndicators
+            self.createdAt = createdAt
+            self.remediation = remediation
+            self.resources = resources
+            self.relatedFindings = relatedFindings
+            self.verificationState = verificationState
+            self.malware = malware
+            self.network = network
+            self.confidence = confidence
+            self.productFields = productFields
+            self.note = note
+            self.sourceUrl = sourceUrl
+            self.title = title
+            self.updatedAt = updatedAt
+            self.productArn = productArn
+            self.criticality = criticality
+            self.workflowState = workflowState
+            self.recordState = recordState
+            self.severity = severity
+            self.types = types
+            self.description = description
+            self.awsAccountId = awsAccountId
+            self.userDefinedFields = userDefinedFields
+            self.schemaVersion = schemaVersion
+            self.process = process
+            self.generatorId = generatorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastObservedAt = "LastObservedAt"
+            case firstObservedAt = "FirstObservedAt"
+            case id = "Id"
+            case compliance = "Compliance"
+            case threatIntelIndicators = "ThreatIntelIndicators"
+            case createdAt = "CreatedAt"
+            case remediation = "Remediation"
+            case resources = "Resources"
+            case relatedFindings = "RelatedFindings"
+            case verificationState = "VerificationState"
+            case malware = "Malware"
+            case network = "Network"
+            case confidence = "Confidence"
+            case productFields = "ProductFields"
+            case note = "Note"
+            case sourceUrl = "SourceUrl"
+            case title = "Title"
+            case updatedAt = "UpdatedAt"
+            case productArn = "ProductArn"
+            case criticality = "Criticality"
+            case workflowState = "WorkflowState"
+            case recordState = "RecordState"
+            case severity = "Severity"
+            case types = "Types"
+            case description = "Description"
+            case awsAccountId = "AwsAccountId"
+            case userDefinedFields = "UserDefinedFields"
+            case schemaVersion = "SchemaVersion"
+            case process = "Process"
+            case generatorId = "GeneratorId"
+        }
     }
 
     public enum StringFilterComparison: String, CustomStringConvertible, Codable {
@@ -27,278 +238,122 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
-    public struct Remediation: AWSShape {
+    public struct Malware: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Recommendation", required: false, type: .structure)
-        ]
-        /// Provides a recommendation on how to remediate the issue identified within a finding.
-        public let recommendation: Recommendation?
-
-        public init(recommendation: Recommendation? = nil) {
-            self.recommendation = recommendation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recommendation = "Recommendation"
-        }
-    }
-
-    public enum MapFilterComparison: String, CustomStringConvertible, Codable {
-        case contains = "CONTAINS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DisableSecurityHubRequest: AWSShape {
-
-    }
-
-    public struct RelatedFinding: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProductArn", required: true, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string)
-        ]
-        /// The ARN of the solution that generated a related finding.
-        public let productArn: String
-        /// The solution-generated identifier for a related finding.
-        public let id: String
-
-        public init(productArn: String, id: String) {
-            self.productArn = productArn
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case productArn = "ProductArn"
-            case id = "Id"
-        }
-    }
-
-    public enum NetworkDirection: String, CustomStringConvertible, Codable {
-        case `in` = "IN"
-        case out = "OUT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SortOrder: String, CustomStringConvertible, Codable {
-        case asc = "asc"
-        case desc = "desc"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeclineInvitationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
-        ]
-        /// A list of account ID and email address pairs of the AWS accounts that could not be processed. 
-        public let unprocessedAccounts: [Result]?
-
-        public init(unprocessedAccounts: [Result]? = nil) {
-            self.unprocessedAccounts = unprocessedAccounts
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts = "UnprocessedAccounts"
-        }
-    }
-
-    public struct AccountDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Email", required: false, type: .string)
-        ]
-        /// The ID of an AWS account.
-        public let accountId: String?
-        /// The email of an AWS account.
-        public let email: String?
-
-        public init(accountId: String? = nil, email: String? = nil) {
-            self.accountId = accountId
-            self.email = email
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "AccountId"
-            case email = "Email"
-        }
-    }
-
-    public struct DisableImportFindingsForProductResponse: AWSShape {
-
-    }
-
-    public struct MapFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Comparison", required: false, type: .enum), 
-            AWSShapeMember(label: "Key", required: false, type: .string)
-        ]
-        /// The value for the key in the map filter.
-        public let value: String?
-        /// Represents the condition to be applied to a key value when querying for findings with a map filter.
-        public let comparison: MapFilterComparison?
-        /// The key of the map filter.
-        public let key: String?
-
-        public init(value: String? = nil, comparison: MapFilterComparison? = nil, key: String? = nil) {
-            self.value = value
-            self.comparison = comparison
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case comparison = "Comparison"
-            case key = "Key"
-        }
-    }
-
-    public struct Member: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Email", required: false, type: .string), 
-            AWSShapeMember(label: "MemberStatus", required: false, type: .string), 
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InvitedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MasterId", required: false, type: .string), 
-            AWSShapeMember(label: "AccountId", required: false, type: .string)
-        ]
-        /// The email of a Security Hub member account.
-        public let email: String?
-        /// The status of the relationship between the member account and its master account. 
-        public let memberStatus: String?
-        /// Time stamp at which this member account was updated.
-        public let updatedAt: TimeStamp?
-        /// Time stamp at which the member account was invited to Security Hub.
-        public let invitedAt: TimeStamp?
-        /// The AWS account ID of the master Security Hub account to this member account.
-        public let masterId: String?
-        /// The AWS account ID of a Security Hub member account.
-        public let accountId: String?
-
-        public init(email: String? = nil, memberStatus: String? = nil, updatedAt: TimeStamp? = nil, invitedAt: TimeStamp? = nil, masterId: String? = nil, accountId: String? = nil) {
-            self.email = email
-            self.memberStatus = memberStatus
-            self.updatedAt = updatedAt
-            self.invitedAt = invitedAt
-            self.masterId = masterId
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case email = "Email"
-            case memberStatus = "MemberStatus"
-            case updatedAt = "UpdatedAt"
-            case invitedAt = "InvitedAt"
-            case masterId = "MasterId"
-            case accountId = "AccountId"
-        }
-    }
-
-    public enum ComplianceStatus: String, CustomStringConvertible, Codable {
-        case passed = "PASSED"
-        case warning = "WARNING"
-        case failed = "FAILED"
-        case notAvailable = "NOT_AVAILABLE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum VerificationState: String, CustomStringConvertible, Codable {
-        case unknown = "UNKNOWN"
-        case truePositive = "TRUE_POSITIVE"
-        case falsePositive = "FALSE_POSITIVE"
-        case benignPositive = "BENIGN_POSITIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct InsightResults: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupByAttribute", required: true, type: .string), 
-            AWSShapeMember(label: "ResultValues", required: true, type: .list), 
-            AWSShapeMember(label: "InsightArn", required: true, type: .string)
-        ]
-        /// The attribute by which the findings are grouped for the insight's whose results are returned by the GetInsightResults operation.
-        public let groupByAttribute: String
-        /// The list of insight result values returned by the GetInsightResults operation.
-        public let resultValues: [InsightResultValue]
-        /// The ARN of the insight whose results are returned by the GetInsightResults operation.
-        public let insightArn: String
-
-        public init(groupByAttribute: String, resultValues: [InsightResultValue], insightArn: String) {
-            self.groupByAttribute = groupByAttribute
-            self.resultValues = resultValues
-            self.insightArn = insightArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupByAttribute = "GroupByAttribute"
-            case resultValues = "ResultValues"
-            case insightArn = "InsightArn"
-        }
-    }
-
-    public struct ProcessDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Pid", required: false, type: .integer), 
-            AWSShapeMember(label: "ParentPid", required: false, type: .integer), 
-            AWSShapeMember(label: "TerminatedAt", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Path", required: false, type: .string), 
-            AWSShapeMember(label: "LaunchedAt", required: false, type: .string)
+            AWSShapeMember(label: "State", required: false, type: .enum)
         ]
-        /// The process ID.
-        public let pid: Int32?
-        /// The parent process ID.
-        public let parentPid: Int32?
-        /// The date/time that the process was terminated.
-        public let terminatedAt: String?
-        /// The name of the process.
-        public let name: String?
-        /// The path to the process executable.
+        /// The type of the malware that was observed.
+        public let `type`: MalwareType?
+        /// The name of the malware that was observed.
+        public let name: String
+        /// The filesystem path of the malware that was observed.
         public let path: String?
-        /// The date/time that the process was launched.
-        public let launchedAt: String?
+        /// The state of the malware that was observed.
+        public let state: MalwareState?
 
-        public init(pid: Int32? = nil, parentPid: Int32? = nil, terminatedAt: String? = nil, name: String? = nil, path: String? = nil, launchedAt: String? = nil) {
-            self.pid = pid
-            self.parentPid = parentPid
-            self.terminatedAt = terminatedAt
+        public init(type: MalwareType? = nil, name: String, path: String? = nil, state: MalwareState? = nil) {
+            self.`type` = `type`
             self.name = name
             self.path = path
-            self.launchedAt = launchedAt
+            self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pid = "Pid"
-            case parentPid = "ParentPid"
-            case terminatedAt = "TerminatedAt"
+            case `type` = "Type"
             case name = "Name"
             case path = "Path"
-            case launchedAt = "LaunchedAt"
+            case state = "State"
         }
     }
 
-    public struct Note: AWSShape {
+    public struct DateFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UpdatedBy", required: true, type: .string), 
-            AWSShapeMember(label: "UpdatedAt", required: true, type: .string), 
-            AWSShapeMember(label: "Text", required: true, type: .string)
+            AWSShapeMember(label: "End", required: false, type: .string), 
+            AWSShapeMember(label: "DateRange", required: false, type: .structure), 
+            AWSShapeMember(label: "Start", required: false, type: .string)
         ]
-        /// The principal that created a note.
-        public let updatedBy: String
-        /// The timestamp of when the note was updated.
-        public let updatedAt: String
-        /// The text of a note.
-        public let text: String
+        /// An end date for the date filter.
+        public let end: String?
+        /// A date range for the date filter.
+        public let dateRange: DateRange?
+        /// A start date for the date filter.
+        public let start: String?
 
-        public init(updatedBy: String, updatedAt: String, text: String) {
-            self.updatedBy = updatedBy
-            self.updatedAt = updatedAt
-            self.text = text
+        public init(end: String? = nil, dateRange: DateRange? = nil, start: String? = nil) {
+            self.end = end
+            self.dateRange = dateRange
+            self.start = start
         }
 
         private enum CodingKeys: String, CodingKey {
-            case updatedBy = "UpdatedBy"
-            case updatedAt = "UpdatedAt"
-            case text = "Text"
+            case end = "End"
+            case dateRange = "DateRange"
+            case start = "Start"
+        }
+    }
+
+    public enum AwsIamAccessKeyStatus: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case inactive = "Inactive"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ResourceDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsEc2Instance", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsS3Bucket", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsIamAccessKey", required: false, type: .structure), 
+            AWSShapeMember(label: "Other", required: false, type: .map), 
+            AWSShapeMember(label: "Container", required: false, type: .structure)
+        ]
+        /// The details of an AWS EC2 instance.
+        public let awsEc2Instance: AwsEc2InstanceDetails?
+        /// The details of an AWS S3 Bucket.
+        public let awsS3Bucket: AwsS3BucketDetails?
+        /// AWS IAM access key details related to a finding.
+        public let awsIamAccessKey: AwsIamAccessKeyDetails?
+        /// The details of a resource that does not have a specific sub-field for the resource type defined.
+        public let other: [String: String]?
+        /// Container details related to a finding.
+        public let container: ContainerDetails?
+
+        public init(awsEc2Instance: AwsEc2InstanceDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, other: [String: String]? = nil, container: ContainerDetails? = nil) {
+            self.awsEc2Instance = awsEc2Instance
+            self.awsS3Bucket = awsS3Bucket
+            self.awsIamAccessKey = awsIamAccessKey
+            self.other = other
+            self.container = container
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsEc2Instance = "AwsEc2Instance"
+            case awsS3Bucket = "AwsS3Bucket"
+            case awsIamAccessKey = "AwsIamAccessKey"
+            case other = "Other"
+            case container = "Container"
+        }
+    }
+
+    public struct StandardsSubscriptionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StandardsInput", required: false, type: .map), 
+            AWSShapeMember(label: "StandardsArn", required: true, type: .string)
+        ]
+        public let standardsInput: [String: String]?
+        /// The ARN of the standard that you want to enable.
+        public let standardsArn: String
+
+        public init(standardsInput: [String: String]? = nil, standardsArn: String) {
+            self.standardsInput = standardsInput
+            self.standardsArn = standardsArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case standardsInput = "StandardsInput"
+            case standardsArn = "StandardsArn"
         }
     }
 
@@ -318,7 +373,1427 @@ extension SecurityHub {
         }
     }
 
-    public struct GetMasterAccountRequest: AWSShape {
+    public struct ContainerDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ImageName", required: false, type: .string), 
+            AWSShapeMember(label: "LaunchedAt", required: false, type: .string), 
+            AWSShapeMember(label: "ImageId", required: false, type: .string)
+        ]
+        /// The name of the container related to a finding.
+        public let name: String?
+        /// The name of the image related to a finding.
+        public let imageName: String?
+        /// The date/time that the container was started.
+        public let launchedAt: String?
+        /// The identifier of the image related to a finding.
+        public let imageId: String?
+
+        public init(name: String? = nil, imageName: String? = nil, launchedAt: String? = nil, imageId: String? = nil) {
+            self.name = name
+            self.imageName = imageName
+            self.launchedAt = launchedAt
+            self.imageId = imageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case imageName = "ImageName"
+            case launchedAt = "LaunchedAt"
+            case imageId = "ImageId"
+        }
+    }
+
+    public struct CreateInsightResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InsightArn", required: true, type: .string)
+        ]
+        /// The ARN Of the created insight.
+        public let insightArn: String
+
+        public init(insightArn: String) {
+            self.insightArn = insightArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insightArn = "InsightArn"
+        }
+    }
+
+    public struct DisableImportFindingsForProductRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductSubscriptionArn", location: .uri(locationName: "ProductSubscriptionArn"), required: true, type: .string)
+        ]
+        /// The ARN of a resource that represents your subscription to a supported product.
+        public let productSubscriptionArn: String
+
+        public init(productSubscriptionArn: String) {
+            self.productSubscriptionArn = productSubscriptionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productSubscriptionArn = "ProductSubscriptionArn"
+        }
+    }
+
+    public struct ImportFindingsError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: true, type: .string)
+        ]
+        /// The code of the error made during the BatchImportFindings operation. 
+        public let errorCode: String
+        /// The id of the error made during the BatchImportFindings operation.
+        public let id: String
+        /// The message of the error made during the BatchImportFindings operation. 
+        public let errorMessage: String
+
+        public init(errorCode: String, id: String, errorMessage: String) {
+            self.errorCode = errorCode
+            self.id = id
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case id = "Id"
+            case errorMessage = "ErrorMessage"
+        }
+    }
+
+    public struct DeleteInsightResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InsightArn", required: true, type: .string)
+        ]
+        /// The ARN of the insight that was deleted.
+        public let insightArn: String
+
+        public init(insightArn: String) {
+            self.insightArn = insightArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insightArn = "InsightArn"
+        }
+    }
+
+    public struct Insight: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Filters", required: true, type: .structure), 
+            AWSShapeMember(label: "InsightArn", required: true, type: .string), 
+            AWSShapeMember(label: "GroupByAttribute", required: true, type: .string)
+        ]
+        /// The name of a Security Hub insight.
+        public let name: String
+        /// A collection of attributes that are applied to all active Security Hub-aggregated findings and that result in a subset of findings that are included in this insight. 
+        public let filters: AwsSecurityFindingFilters
+        /// The ARN of a Security Hub insight.
+        public let insightArn: String
+        /// The attribute by which the insight's findings are grouped. This attribute is used as a findings aggregator for the purposes of viewing and managing multiple related findings under a single operand.
+        public let groupByAttribute: String
+
+        public init(name: String, filters: AwsSecurityFindingFilters, insightArn: String, groupByAttribute: String) {
+            self.name = name
+            self.filters = filters
+            self.insightArn = insightArn
+            self.groupByAttribute = groupByAttribute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case filters = "Filters"
+            case insightArn = "InsightArn"
+            case groupByAttribute = "GroupByAttribute"
+        }
+    }
+
+    public struct GetInsightsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "InsightArns", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// Paginates results. Set the value of this parameter to NULL on your first call to the GetInsights operation. For subsequent calls to the operation, fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
+        public let nextToken: String?
+        /// The ARNS of the insights that you want to describe.
+        public let insightArns: [String]?
+        /// Indicates the maximum number of items that you want in the response.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, insightArns: [String]? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.insightArns = insightArns
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case insightArns = "InsightArns"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public enum ThreatIntelIndicatorCategory: String, CustomStringConvertible, Codable {
+        case backdoor = "BACKDOOR"
+        case cardStealer = "CARD_STEALER"
+        case commandAndControl = "COMMAND_AND_CONTROL"
+        case dropSite = "DROP_SITE"
+        case exploitSite = "EXPLOIT_SITE"
+        case keylogger = "KEYLOGGER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ProcessDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Pid", required: false, type: .integer), 
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "ParentPid", required: false, type: .integer), 
+            AWSShapeMember(label: "LaunchedAt", required: false, type: .string), 
+            AWSShapeMember(label: "TerminatedAt", required: false, type: .string)
+        ]
+        /// The name of the process.
+        public let name: String?
+        /// The process ID.
+        public let pid: Int32?
+        /// The path to the process executable.
+        public let path: String?
+        /// The parent process ID.
+        public let parentPid: Int32?
+        /// The date/time that the process was launched.
+        public let launchedAt: String?
+        /// The date/time that the process was terminated.
+        public let terminatedAt: String?
+
+        public init(name: String? = nil, pid: Int32? = nil, path: String? = nil, parentPid: Int32? = nil, launchedAt: String? = nil, terminatedAt: String? = nil) {
+            self.name = name
+            self.pid = pid
+            self.path = path
+            self.parentPid = parentPid
+            self.launchedAt = launchedAt
+            self.terminatedAt = terminatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case pid = "Pid"
+            case path = "Path"
+            case parentPid = "ParentPid"
+            case launchedAt = "LaunchedAt"
+            case terminatedAt = "TerminatedAt"
+        }
+    }
+
+    public struct GetInsightsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Insights", required: true, type: .list)
+        ]
+        /// The token that is required for pagination.
+        public let nextToken: String?
+        /// The insights returned by the operation.
+        public let insights: [Insight]
+
+        public init(nextToken: String? = nil, insights: [Insight]) {
+            self.nextToken = nextToken
+            self.insights = insights
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case insights = "Insights"
+        }
+    }
+
+    public struct DeleteInsightRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InsightArn", location: .uri(locationName: "InsightArn"), required: true, type: .string)
+        ]
+        /// The ARN of the insight that you want to delete.
+        public let insightArn: String
+
+        public init(insightArn: String) {
+            self.insightArn = insightArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insightArn = "InsightArn"
+        }
+    }
+
+    public struct DisassociateFromMasterAccountResponse: AWSShape {
+
+    }
+
+    public struct ThreatIntelIndicator: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "SourceUrl", required: false, type: .string), 
+            AWSShapeMember(label: "LastObservedAt", required: false, type: .string), 
+            AWSShapeMember(label: "Source", required: false, type: .string), 
+            AWSShapeMember(label: "Category", required: false, type: .enum), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The type of a threat intel indicator.
+        public let `type`: ThreatIntelIndicatorType?
+        /// The URL for more details from the source of the threat intel.
+        public let sourceUrl: String?
+        /// The date/time of the last observation of a threat intel indicator.
+        public let lastObservedAt: String?
+        /// The source of the threat intel.
+        public let source: String?
+        /// The category of a threat intel indicator.
+        public let category: ThreatIntelIndicatorCategory?
+        /// The value of a threat intel indicator.
+        public let value: String?
+
+        public init(type: ThreatIntelIndicatorType? = nil, sourceUrl: String? = nil, lastObservedAt: String? = nil, source: String? = nil, category: ThreatIntelIndicatorCategory? = nil, value: String? = nil) {
+            self.`type` = `type`
+            self.sourceUrl = sourceUrl
+            self.lastObservedAt = lastObservedAt
+            self.source = source
+            self.category = category
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case sourceUrl = "SourceUrl"
+            case lastObservedAt = "LastObservedAt"
+            case source = "Source"
+            case category = "Category"
+            case value = "Value"
+        }
+    }
+
+    public struct BatchImportFindingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Findings", required: true, type: .list)
+        ]
+        /// A list of findings that you want to import. Must be submitted in the AWSSecurityFinding format.
+        public let findings: [AwsSecurityFinding]
+
+        public init(findings: [AwsSecurityFinding]) {
+            self.findings = findings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findings = "Findings"
+        }
+    }
+
+    public struct ListEnabledProductsForImportRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer)
+        ]
+        /// Paginates results. Set the value of this parameter to NULL on your first call to the ListEnabledProductsForImport operation. For subsequent calls to the operation, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        public let nextToken: String?
+        /// Indicates the maximum number of items that you want in the response.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct AwsIamAccessKeyDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string)
+        ]
+        /// The user associated with the IAM access key related to a finding.
+        public let userName: String?
+        /// The status of the IAM access key related to a finding.
+        public let status: AwsIamAccessKeyStatus?
+        /// The creation date/time of the IAM access key related to a finding.
+        public let createdAt: String?
+
+        public init(userName: String? = nil, status: AwsIamAccessKeyStatus? = nil, createdAt: String? = nil) {
+            self.userName = userName
+            self.status = status
+            self.createdAt = createdAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case status = "Status"
+            case createdAt = "CreatedAt"
+        }
+    }
+
+    public struct BatchEnableStandardsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StandardsSubscriptions", required: false, type: .list)
+        ]
+        /// The details of the standards subscriptions that were enabled.
+        public let standardsSubscriptions: [StandardsSubscription]?
+
+        public init(standardsSubscriptions: [StandardsSubscription]? = nil) {
+            self.standardsSubscriptions = standardsSubscriptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case standardsSubscriptions = "StandardsSubscriptions"
+        }
+    }
+
+    public struct EnableSecurityHubResponse: AWSShape {
+
+    }
+
+    public struct IpFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cidr", required: false, type: .string)
+        ]
+        /// Finding's CIDR value.
+        public let cidr: String?
+
+        public init(cidr: String? = nil) {
+            self.cidr = cidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "Cidr"
+        }
+    }
+
+    public struct DisassociateMembersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountIds", required: false, type: .list)
+        ]
+        /// The account IDs of the member accounts that you want to disassociate from the master account.
+        public let accountIds: [String]?
+
+        public init(accountIds: [String]? = nil) {
+            self.accountIds = accountIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "AccountIds"
+        }
+    }
+
+    public enum MalwareType: String, CustomStringConvertible, Codable {
+        case adware = "ADWARE"
+        case blendedThreat = "BLENDED_THREAT"
+        case botnetAgent = "BOTNET_AGENT"
+        case coinMiner = "COIN_MINER"
+        case exploitKit = "EXPLOIT_KIT"
+        case keylogger = "KEYLOGGER"
+        case macro = "MACRO"
+        case potentiallyUnwanted = "POTENTIALLY_UNWANTED"
+        case spyware = "SPYWARE"
+        case ransomware = "RANSOMWARE"
+        case remoteAccess = "REMOTE_ACCESS"
+        case rootkit = "ROOTKIT"
+        case trojan = "TROJAN"
+        case virus = "VIRUS"
+        case worm = "WORM"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Severity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Product", required: false, type: .double), 
+            AWSShapeMember(label: "Normalized", required: true, type: .integer)
+        ]
+        /// The native severity as defined by the security findings provider's solution that generated the finding.
+        public let product: Double?
+        /// The normalized severity of a finding.
+        public let normalized: Int32
+
+        public init(product: Double? = nil, normalized: Int32) {
+            self.product = product
+            self.normalized = normalized
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case product = "Product"
+            case normalized = "Normalized"
+        }
+    }
+
+    public struct NoteUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UpdatedBy", required: true, type: .string), 
+            AWSShapeMember(label: "Text", required: true, type: .string)
+        ]
+        /// The principal that updated the note.
+        public let updatedBy: String
+        /// The updated note text.
+        public let text: String
+
+        public init(updatedBy: String, text: String) {
+            self.updatedBy = updatedBy
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case updatedBy = "UpdatedBy"
+            case text = "Text"
+        }
+    }
+
+    public struct AwsSecurityFindingFilters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SeverityNormalized", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceRegion", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceContainerName", required: false, type: .list), 
+            AWSShapeMember(label: "NoteUpdatedBy", required: false, type: .list), 
+            AWSShapeMember(label: "Confidence", required: false, type: .list), 
+            AWSShapeMember(label: "NetworkDestinationPort", required: false, type: .list), 
+            AWSShapeMember(label: "MalwareState", required: false, type: .list), 
+            AWSShapeMember(label: "ProcessLaunchedAt", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceAwsIamAccessKeyStatus", required: false, type: .list), 
+            AWSShapeMember(label: "MalwarePath", required: false, type: .list), 
+            AWSShapeMember(label: "Keyword", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceAwsEc2InstanceLaunchedAt", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceAwsEc2InstanceType", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceAwsS3BucketOwnerId", required: false, type: .list), 
+            AWSShapeMember(label: "ThreatIntelIndicatorSource", required: false, type: .list), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .list), 
+            AWSShapeMember(label: "MalwareType", required: false, type: .list), 
+            AWSShapeMember(label: "NetworkDestinationIpV4", required: false, type: .list), 
+            AWSShapeMember(label: "ProcessPid", required: false, type: .list), 
+            AWSShapeMember(label: "AwsAccountId", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .list), 
+            AWSShapeMember(label: "NetworkDirection", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceAwsEc2InstanceImageId", required: false, type: .list), 
+            AWSShapeMember(label: "NetworkSourceIpV4", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceAwsEc2InstanceKeyName", required: false, type: .list), 
+            AWSShapeMember(label: "ResourcePartition", required: false, type: .list), 
+            AWSShapeMember(label: "NoteText", required: false, type: .list), 
+            AWSShapeMember(label: "ProductArn", required: false, type: .list), 
+            AWSShapeMember(label: "RecordState", required: false, type: .list), 
+            AWSShapeMember(label: "ThreatIntelIndicatorCategory", required: false, type: .list), 
+            AWSShapeMember(label: "SeverityProduct", required: false, type: .list), 
+            AWSShapeMember(label: "FirstObservedAt", required: false, type: .list), 
+            AWSShapeMember(label: "GeneratorId", required: false, type: .list), 
+            AWSShapeMember(label: "NetworkSourceIpV6", required: false, type: .list), 
+            AWSShapeMember(label: "ProductName", required: false, type: .list), 
+            AWSShapeMember(label: "NetworkDestinationDomain", required: false, type: .list), 
+            AWSShapeMember(label: "SeverityLabel", required: false, type: .list), 
+            AWSShapeMember(label: "WorkflowState", required: false, type: .list), 
+            AWSShapeMember(label: "NetworkProtocol", required: false, type: .list), 
+            AWSShapeMember(label: "Criticality", required: false, type: .list), 
+            AWSShapeMember(label: "ProcessTerminatedAt", required: false, type: .list), 
+            AWSShapeMember(label: "RecommendationText", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceAwsIamAccessKeyCreatedAt", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceContainerImageName", required: false, type: .list), 
+            AWSShapeMember(label: "NetworkSourceMac", required: false, type: .list), 
+            AWSShapeMember(label: "ProductFields", required: false, type: .list), 
+            AWSShapeMember(label: "NoteUpdatedAt", required: false, type: .list), 
+            AWSShapeMember(label: "ProcessName", required: false, type: .list), 
+            AWSShapeMember(label: "ThreatIntelIndicatorSourceUrl", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceTags", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceAwsEc2InstanceIpV4Addresses", required: false, type: .list), 
+            AWSShapeMember(label: "RelatedFindingsId", required: false, type: .list), 
+            AWSShapeMember(label: "SourceUrl", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceAwsS3BucketOwnerName", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceContainerImageId", required: false, type: .list), 
+            AWSShapeMember(label: "Type", required: false, type: .list), 
+            AWSShapeMember(label: "VerificationState", required: false, type: .list), 
+            AWSShapeMember(label: "ProcessPath", required: false, type: .list), 
+            AWSShapeMember(label: "Id", required: false, type: .list), 
+            AWSShapeMember(label: "CompanyName", required: false, type: .list), 
+            AWSShapeMember(label: "ThreatIntelIndicatorType", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceAwsEc2InstanceSubnetId", required: false, type: .list), 
+            AWSShapeMember(label: "UserDefinedFields", required: false, type: .list), 
+            AWSShapeMember(label: "Title", required: false, type: .list), 
+            AWSShapeMember(label: "NetworkDestinationIpV6", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceContainerLaunchedAt", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceAwsEc2InstanceIpV6Addresses", required: false, type: .list), 
+            AWSShapeMember(label: "MalwareName", required: false, type: .list), 
+            AWSShapeMember(label: "NetworkSourcePort", required: false, type: .list), 
+            AWSShapeMember(label: "ThreatIntelIndicatorValue", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceDetailsOther", required: false, type: .list), 
+            AWSShapeMember(label: "NetworkSourceDomain", required: false, type: .list), 
+            AWSShapeMember(label: "LastObservedAt", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceAwsIamAccessKeyUserName", required: false, type: .list), 
+            AWSShapeMember(label: "RelatedFindingsProductArn", required: false, type: .list), 
+            AWSShapeMember(label: "ProcessParentPid", required: false, type: .list), 
+            AWSShapeMember(label: "ComplianceStatus", required: false, type: .list), 
+            AWSShapeMember(label: "ThreatIntelIndicatorLastObservedAt", required: false, type: .list), 
+            AWSShapeMember(label: "UpdatedAt", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceAwsEc2InstanceIamInstanceProfileArn", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceAwsEc2InstanceVpcId", required: false, type: .list)
+        ]
+        /// The normalized severity of a finding.
+        public let severityNormalized: [NumberFilter]?
+        /// The canonical AWS external region name where this resource is located.
+        public let resourceRegion: [StringFilter]?
+        /// The name of the container related to a finding.
+        public let resourceContainerName: [StringFilter]?
+        /// The principal that created a note.
+        public let noteUpdatedBy: [StringFilter]?
+        /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale. 0 equates zero percent confidence and 100 equates to 100 percent confidence.
+        public let confidence: [NumberFilter]?
+        /// The destination port of network-related information about a finding.
+        public let networkDestinationPort: [NumberFilter]?
+        /// The state of the malware that was observed.
+        public let malwareState: [StringFilter]?
+        /// The date/time that the process was launched.
+        public let processLaunchedAt: [DateFilter]?
+        /// The status of the IAM access key related to a finding.
+        public let resourceAwsIamAccessKeyStatus: [StringFilter]?
+        /// The filesystem path of the malware that was observed.
+        public let malwarePath: [StringFilter]?
+        /// A keyword for a finding.
+        public let keyword: [KeywordFilter]?
+        /// The date/time the instance was launched.
+        public let resourceAwsEc2InstanceLaunchedAt: [DateFilter]?
+        /// The instance type of the instance.
+        public let resourceAwsEc2InstanceType: [StringFilter]?
+        /// The canonical user ID of the owner of the S3 bucket.
+        public let resourceAwsS3BucketOwnerId: [StringFilter]?
+        /// The source of the threat intel.
+        public let threatIntelIndicatorSource: [StringFilter]?
+        /// An ISO8601-formatted timestamp that indicates when the potential security issue captured by a finding was created by the security findings provider.
+        public let createdAt: [DateFilter]?
+        /// The type of the malware that was observed.
+        public let malwareType: [StringFilter]?
+        /// The destination IPv4 address of network-related information about a finding.
+        public let networkDestinationIpV4: [IpFilter]?
+        /// The process ID.
+        public let processPid: [NumberFilter]?
+        /// The AWS account ID in which a finding is generated.
+        public let awsAccountId: [StringFilter]?
+        /// Specifies the type of the resource for which details are provided.
+        public let resourceType: [StringFilter]?
+        /// Indicates the direction of network traffic associated with a finding.
+        public let networkDirection: [StringFilter]?
+        /// The Amazon Machine Image (AMI) ID of the instance.
+        public let resourceAwsEc2InstanceImageId: [StringFilter]?
+        /// The source IPv4 address of network-related information about a finding.
+        public let networkSourceIpV4: [IpFilter]?
+        /// The key name associated with the instance.
+        public let resourceAwsEc2InstanceKeyName: [StringFilter]?
+        /// The canonical AWS partition name to which the region is assigned.
+        public let resourcePartition: [StringFilter]?
+        /// The text of a note.
+        public let noteText: [StringFilter]?
+        /// The ARN generated by Security Hub that uniquely identifies a third-party company (security findings provider) once this provider's product (solution that generates findings) is registered with Security Hub.
+        public let productArn: [StringFilter]?
+        /// The updated record state for the finding.
+        public let recordState: [StringFilter]?
+        /// The category of a threat intel indicator.
+        public let threatIntelIndicatorCategory: [StringFilter]?
+        /// The native severity as defined by the security findings provider's solution that generated the finding.
+        public let severityProduct: [NumberFilter]?
+        /// An ISO8601-formatted timestamp that indicates when the potential security issue captured by a finding was first observed by the security findings provider.
+        public let firstObservedAt: [DateFilter]?
+        /// This is the identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security findings provider's solutions, this generator can be called a rule, a check, a detector, a plug-in, etc.
+        public let generatorId: [StringFilter]?
+        /// The source IPv6 address of network-related information about a finding.
+        public let networkSourceIpV6: [IpFilter]?
+        /// The name of the solution (product) that generates findings.
+        public let productName: [StringFilter]?
+        /// The destination domain of network-related information about a finding.
+        public let networkDestinationDomain: [StringFilter]?
+        /// The label of a finding's severity.
+        public let severityLabel: [StringFilter]?
+        /// The workflow state of a finding.
+        public let workflowState: [StringFilter]?
+        /// The protocol of network-related information about a finding.
+        public let networkProtocol: [StringFilter]?
+        /// The level of importance assigned to the resources associated with the finding. A score of 0 means the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
+        public let criticality: [NumberFilter]?
+        /// The date/time that the process was terminated.
+        public let processTerminatedAt: [DateFilter]?
+        /// The recommendation of what to do about the issue described in a finding.
+        public let recommendationText: [StringFilter]?
+        /// The creation date/time of the IAM access key related to a finding.
+        public let resourceAwsIamAccessKeyCreatedAt: [DateFilter]?
+        /// The name of the image related to a finding.
+        public let resourceContainerImageName: [StringFilter]?
+        /// The source media access control (MAC) address of network-related information about a finding.
+        public let networkSourceMac: [StringFilter]?
+        /// A data type where security findings providers can include additional solution-specific details that are not part of the defined AwsSecurityFinding format.
+        public let productFields: [MapFilter]?
+        /// The timestamp of when the note was updated.
+        public let noteUpdatedAt: [DateFilter]?
+        /// The name of the process.
+        public let processName: [StringFilter]?
+        /// The URL for more details from the source of the threat intel.
+        public let threatIntelIndicatorSourceUrl: [StringFilter]?
+        /// A list of AWS tags associated with a resource at the time the finding was processed.
+        public let resourceTags: [MapFilter]?
+        /// The IPv4 addresses associated with the instance.
+        public let resourceAwsEc2InstanceIpV4Addresses: [IpFilter]?
+        /// The solution-generated identifier for a related finding.
+        public let relatedFindingsId: [StringFilter]?
+        /// A URL that links to a page about the current finding in the security findings provider's solution.
+        public let sourceUrl: [StringFilter]?
+        /// The display name of the owner of the S3 bucket.
+        public let resourceAwsS3BucketOwnerName: [StringFilter]?
+        /// The identifier of the image related to a finding.
+        public let resourceContainerImageId: [StringFilter]?
+        /// A finding type in the format of 'namespace/category/classifier' that classifies a finding.
+        public let `type`: [StringFilter]?
+        /// Indicates the veracity of a finding. 
+        public let verificationState: [StringFilter]?
+        /// The path to the process executable.
+        public let processPath: [StringFilter]?
+        /// The security findings provider-specific identifier for a finding.
+        public let id: [StringFilter]?
+        /// The name of the findings provider (company) that owns the solution (product) that generates findings.
+        public let companyName: [StringFilter]?
+        /// The type of a threat intel indicator.
+        public let threatIntelIndicatorType: [StringFilter]?
+        /// A finding's description.
+        public let description: [StringFilter]?
+        /// The identifier of the subnet in which the instance was launched.
+        public let resourceAwsEc2InstanceSubnetId: [StringFilter]?
+        /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding. 
+        public let userDefinedFields: [MapFilter]?
+        /// A finding's title.
+        public let title: [StringFilter]?
+        /// The destination IPv6 address of network-related information about a finding.
+        public let networkDestinationIpV6: [IpFilter]?
+        /// The canonical identifier for the given resource type.
+        public let resourceId: [StringFilter]?
+        /// The date/time that the container was started.
+        public let resourceContainerLaunchedAt: [DateFilter]?
+        /// The IPv6 addresses associated with the instance.
+        public let resourceAwsEc2InstanceIpV6Addresses: [IpFilter]?
+        /// The name of the malware that was observed.
+        public let malwareName: [StringFilter]?
+        /// The source port of network-related information about a finding.
+        public let networkSourcePort: [NumberFilter]?
+        /// The value of a threat intel indicator.
+        public let threatIntelIndicatorValue: [StringFilter]?
+        /// The details of a resource that does not have a specific sub-field for the resource type defined.
+        public let resourceDetailsOther: [MapFilter]?
+        /// The source domain of network-related information about a finding.
+        public let networkSourceDomain: [StringFilter]?
+        /// An ISO8601-formatted timestamp that indicates when the potential security issue captured by a finding was most recently observed by the security findings provider.
+        public let lastObservedAt: [DateFilter]?
+        /// The user associated with the IAM access key related to a finding.
+        public let resourceAwsIamAccessKeyUserName: [StringFilter]?
+        /// The ARN of the solution that generated a related finding.
+        public let relatedFindingsProductArn: [StringFilter]?
+        /// The parent process ID.
+        public let processParentPid: [NumberFilter]?
+        /// Exclusive to findings that are generated as the result of a check run against a specific rule in a supported standard (for example, AWS CIS Foundations). Contains compliance-related finding details.
+        public let complianceStatus: [StringFilter]?
+        /// The date/time of the last observation of a threat intel indicator.
+        public let threatIntelIndicatorLastObservedAt: [DateFilter]?
+        /// An ISO8601-formatted timestamp that indicates when the finding record was last updated by the security findings provider. 
+        public let updatedAt: [DateFilter]?
+        /// The IAM profile ARN of the instance.
+        public let resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]?
+        /// The identifier of the VPC in which the instance was launched.
+        public let resourceAwsEc2InstanceVpcId: [StringFilter]?
+
+        public init(severityNormalized: [NumberFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceContainerName: [StringFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, malwareState: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, keyword: [KeywordFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, createdAt: [DateFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, processPid: [NumberFilter]? = nil, awsAccountId: [StringFilter]? = nil, resourceType: [StringFilter]? = nil, networkDirection: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, noteText: [StringFilter]? = nil, productArn: [StringFilter]? = nil, recordState: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, severityProduct: [NumberFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, productName: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, severityLabel: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, criticality: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, recommendationText: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, networkSourceMac: [StringFilter]? = nil, productFields: [MapFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, sourceUrl: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, type: [StringFilter]? = nil, verificationState: [StringFilter]? = nil, processPath: [StringFilter]? = nil, id: [StringFilter]? = nil, companyName: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, description: [StringFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, userDefinedFields: [MapFilter]? = nil, title: [StringFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, resourceId: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, malwareName: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyUserName: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, complianceStatus: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, updatedAt: [DateFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil) {
+            self.severityNormalized = severityNormalized
+            self.resourceRegion = resourceRegion
+            self.resourceContainerName = resourceContainerName
+            self.noteUpdatedBy = noteUpdatedBy
+            self.confidence = confidence
+            self.networkDestinationPort = networkDestinationPort
+            self.malwareState = malwareState
+            self.processLaunchedAt = processLaunchedAt
+            self.resourceAwsIamAccessKeyStatus = resourceAwsIamAccessKeyStatus
+            self.malwarePath = malwarePath
+            self.keyword = keyword
+            self.resourceAwsEc2InstanceLaunchedAt = resourceAwsEc2InstanceLaunchedAt
+            self.resourceAwsEc2InstanceType = resourceAwsEc2InstanceType
+            self.resourceAwsS3BucketOwnerId = resourceAwsS3BucketOwnerId
+            self.threatIntelIndicatorSource = threatIntelIndicatorSource
+            self.createdAt = createdAt
+            self.malwareType = malwareType
+            self.networkDestinationIpV4 = networkDestinationIpV4
+            self.processPid = processPid
+            self.awsAccountId = awsAccountId
+            self.resourceType = resourceType
+            self.networkDirection = networkDirection
+            self.resourceAwsEc2InstanceImageId = resourceAwsEc2InstanceImageId
+            self.networkSourceIpV4 = networkSourceIpV4
+            self.resourceAwsEc2InstanceKeyName = resourceAwsEc2InstanceKeyName
+            self.resourcePartition = resourcePartition
+            self.noteText = noteText
+            self.productArn = productArn
+            self.recordState = recordState
+            self.threatIntelIndicatorCategory = threatIntelIndicatorCategory
+            self.severityProduct = severityProduct
+            self.firstObservedAt = firstObservedAt
+            self.generatorId = generatorId
+            self.networkSourceIpV6 = networkSourceIpV6
+            self.productName = productName
+            self.networkDestinationDomain = networkDestinationDomain
+            self.severityLabel = severityLabel
+            self.workflowState = workflowState
+            self.networkProtocol = networkProtocol
+            self.criticality = criticality
+            self.processTerminatedAt = processTerminatedAt
+            self.recommendationText = recommendationText
+            self.resourceAwsIamAccessKeyCreatedAt = resourceAwsIamAccessKeyCreatedAt
+            self.resourceContainerImageName = resourceContainerImageName
+            self.networkSourceMac = networkSourceMac
+            self.productFields = productFields
+            self.noteUpdatedAt = noteUpdatedAt
+            self.processName = processName
+            self.threatIntelIndicatorSourceUrl = threatIntelIndicatorSourceUrl
+            self.resourceTags = resourceTags
+            self.resourceAwsEc2InstanceIpV4Addresses = resourceAwsEc2InstanceIpV4Addresses
+            self.relatedFindingsId = relatedFindingsId
+            self.sourceUrl = sourceUrl
+            self.resourceAwsS3BucketOwnerName = resourceAwsS3BucketOwnerName
+            self.resourceContainerImageId = resourceContainerImageId
+            self.`type` = `type`
+            self.verificationState = verificationState
+            self.processPath = processPath
+            self.id = id
+            self.companyName = companyName
+            self.threatIntelIndicatorType = threatIntelIndicatorType
+            self.description = description
+            self.resourceAwsEc2InstanceSubnetId = resourceAwsEc2InstanceSubnetId
+            self.userDefinedFields = userDefinedFields
+            self.title = title
+            self.networkDestinationIpV6 = networkDestinationIpV6
+            self.resourceId = resourceId
+            self.resourceContainerLaunchedAt = resourceContainerLaunchedAt
+            self.resourceAwsEc2InstanceIpV6Addresses = resourceAwsEc2InstanceIpV6Addresses
+            self.malwareName = malwareName
+            self.networkSourcePort = networkSourcePort
+            self.threatIntelIndicatorValue = threatIntelIndicatorValue
+            self.resourceDetailsOther = resourceDetailsOther
+            self.networkSourceDomain = networkSourceDomain
+            self.lastObservedAt = lastObservedAt
+            self.resourceAwsIamAccessKeyUserName = resourceAwsIamAccessKeyUserName
+            self.relatedFindingsProductArn = relatedFindingsProductArn
+            self.processParentPid = processParentPid
+            self.complianceStatus = complianceStatus
+            self.threatIntelIndicatorLastObservedAt = threatIntelIndicatorLastObservedAt
+            self.updatedAt = updatedAt
+            self.resourceAwsEc2InstanceIamInstanceProfileArn = resourceAwsEc2InstanceIamInstanceProfileArn
+            self.resourceAwsEc2InstanceVpcId = resourceAwsEc2InstanceVpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case severityNormalized = "SeverityNormalized"
+            case resourceRegion = "ResourceRegion"
+            case resourceContainerName = "ResourceContainerName"
+            case noteUpdatedBy = "NoteUpdatedBy"
+            case confidence = "Confidence"
+            case networkDestinationPort = "NetworkDestinationPort"
+            case malwareState = "MalwareState"
+            case processLaunchedAt = "ProcessLaunchedAt"
+            case resourceAwsIamAccessKeyStatus = "ResourceAwsIamAccessKeyStatus"
+            case malwarePath = "MalwarePath"
+            case keyword = "Keyword"
+            case resourceAwsEc2InstanceLaunchedAt = "ResourceAwsEc2InstanceLaunchedAt"
+            case resourceAwsEc2InstanceType = "ResourceAwsEc2InstanceType"
+            case resourceAwsS3BucketOwnerId = "ResourceAwsS3BucketOwnerId"
+            case threatIntelIndicatorSource = "ThreatIntelIndicatorSource"
+            case createdAt = "CreatedAt"
+            case malwareType = "MalwareType"
+            case networkDestinationIpV4 = "NetworkDestinationIpV4"
+            case processPid = "ProcessPid"
+            case awsAccountId = "AwsAccountId"
+            case resourceType = "ResourceType"
+            case networkDirection = "NetworkDirection"
+            case resourceAwsEc2InstanceImageId = "ResourceAwsEc2InstanceImageId"
+            case networkSourceIpV4 = "NetworkSourceIpV4"
+            case resourceAwsEc2InstanceKeyName = "ResourceAwsEc2InstanceKeyName"
+            case resourcePartition = "ResourcePartition"
+            case noteText = "NoteText"
+            case productArn = "ProductArn"
+            case recordState = "RecordState"
+            case threatIntelIndicatorCategory = "ThreatIntelIndicatorCategory"
+            case severityProduct = "SeverityProduct"
+            case firstObservedAt = "FirstObservedAt"
+            case generatorId = "GeneratorId"
+            case networkSourceIpV6 = "NetworkSourceIpV6"
+            case productName = "ProductName"
+            case networkDestinationDomain = "NetworkDestinationDomain"
+            case severityLabel = "SeverityLabel"
+            case workflowState = "WorkflowState"
+            case networkProtocol = "NetworkProtocol"
+            case criticality = "Criticality"
+            case processTerminatedAt = "ProcessTerminatedAt"
+            case recommendationText = "RecommendationText"
+            case resourceAwsIamAccessKeyCreatedAt = "ResourceAwsIamAccessKeyCreatedAt"
+            case resourceContainerImageName = "ResourceContainerImageName"
+            case networkSourceMac = "NetworkSourceMac"
+            case productFields = "ProductFields"
+            case noteUpdatedAt = "NoteUpdatedAt"
+            case processName = "ProcessName"
+            case threatIntelIndicatorSourceUrl = "ThreatIntelIndicatorSourceUrl"
+            case resourceTags = "ResourceTags"
+            case resourceAwsEc2InstanceIpV4Addresses = "ResourceAwsEc2InstanceIpV4Addresses"
+            case relatedFindingsId = "RelatedFindingsId"
+            case sourceUrl = "SourceUrl"
+            case resourceAwsS3BucketOwnerName = "ResourceAwsS3BucketOwnerName"
+            case resourceContainerImageId = "ResourceContainerImageId"
+            case `type` = "Type"
+            case verificationState = "VerificationState"
+            case processPath = "ProcessPath"
+            case id = "Id"
+            case companyName = "CompanyName"
+            case threatIntelIndicatorType = "ThreatIntelIndicatorType"
+            case description = "Description"
+            case resourceAwsEc2InstanceSubnetId = "ResourceAwsEc2InstanceSubnetId"
+            case userDefinedFields = "UserDefinedFields"
+            case title = "Title"
+            case networkDestinationIpV6 = "NetworkDestinationIpV6"
+            case resourceId = "ResourceId"
+            case resourceContainerLaunchedAt = "ResourceContainerLaunchedAt"
+            case resourceAwsEc2InstanceIpV6Addresses = "ResourceAwsEc2InstanceIpV6Addresses"
+            case malwareName = "MalwareName"
+            case networkSourcePort = "NetworkSourcePort"
+            case threatIntelIndicatorValue = "ThreatIntelIndicatorValue"
+            case resourceDetailsOther = "ResourceDetailsOther"
+            case networkSourceDomain = "NetworkSourceDomain"
+            case lastObservedAt = "LastObservedAt"
+            case resourceAwsIamAccessKeyUserName = "ResourceAwsIamAccessKeyUserName"
+            case relatedFindingsProductArn = "RelatedFindingsProductArn"
+            case processParentPid = "ProcessParentPid"
+            case complianceStatus = "ComplianceStatus"
+            case threatIntelIndicatorLastObservedAt = "ThreatIntelIndicatorLastObservedAt"
+            case updatedAt = "UpdatedAt"
+            case resourceAwsEc2InstanceIamInstanceProfileArn = "ResourceAwsEc2InstanceIamInstanceProfileArn"
+            case resourceAwsEc2InstanceVpcId = "ResourceAwsEc2InstanceVpcId"
+        }
+    }
+
+    public struct DeclineInvitationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountIds", required: false, type: .list)
+        ]
+        /// A list of account IDs specifying accounts whose invitations to Security Hub you want to decline. 
+        public let accountIds: [String]?
+
+        public init(accountIds: [String]? = nil) {
+            self.accountIds = accountIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "AccountIds"
+        }
+    }
+
+    public struct InsightResults: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResultValues", required: true, type: .list), 
+            AWSShapeMember(label: "GroupByAttribute", required: true, type: .string), 
+            AWSShapeMember(label: "InsightArn", required: true, type: .string)
+        ]
+        /// The list of insight result values returned by the GetInsightResults operation.
+        public let resultValues: [InsightResultValue]
+        /// The attribute by which the findings are grouped for the insight's whose results are returned by the GetInsightResults operation.
+        public let groupByAttribute: String
+        /// The ARN of the insight whose results are returned by the GetInsightResults operation.
+        public let insightArn: String
+
+        public init(resultValues: [InsightResultValue], groupByAttribute: String, insightArn: String) {
+            self.resultValues = resultValues
+            self.groupByAttribute = groupByAttribute
+            self.insightArn = insightArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resultValues = "ResultValues"
+            case groupByAttribute = "GroupByAttribute"
+            case insightArn = "InsightArn"
+        }
+    }
+
+    public struct CreateInsightRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "GroupByAttribute", required: true, type: .string), 
+            AWSShapeMember(label: "Filters", required: true, type: .structure)
+        ]
+        /// The user-defined name that identifies the insight that you want to create.
+        public let name: String
+        /// The attribute by which the insight's findings are grouped. This attribute is used as a findings aggregator for the purposes of viewing and managing multiple related findings under a single operand. 
+        public let groupByAttribute: String
+        /// A collection of attributes that are applied to all active Security Hub-aggregated findings and that result in a subset of findings that are included in this insight.
+        public let filters: AwsSecurityFindingFilters
+
+        public init(name: String, groupByAttribute: String, filters: AwsSecurityFindingFilters) {
+            self.name = name
+            self.groupByAttribute = groupByAttribute
+            self.filters = filters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case groupByAttribute = "GroupByAttribute"
+            case filters = "Filters"
+        }
+    }
+
+    public struct GetFindingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
+        ]
+        /// Indicates the maximum number of items that you want in the response.
+        public let maxResults: Int32?
+        /// A collection of attributes that is use for querying findings.
+        public let filters: AwsSecurityFindingFilters?
+        /// Paginates results. Set the value of this parameter to NULL on your first call to the GetFindings operation. For subsequent calls to the operation, fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
+        public let nextToken: String?
+        /// A collection of attributes used for sorting findings.
+        public let sortCriteria: [SortCriterion]?
+
+        public init(maxResults: Int32? = nil, filters: AwsSecurityFindingFilters? = nil, nextToken: String? = nil, sortCriteria: [SortCriterion]? = nil) {
+            self.maxResults = maxResults
+            self.filters = filters
+            self.nextToken = nextToken
+            self.sortCriteria = sortCriteria
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case filters = "Filters"
+            case nextToken = "NextToken"
+            case sortCriteria = "SortCriteria"
+        }
+    }
+
+    public struct DisassociateFromMasterAccountRequest: AWSShape {
+
+    }
+
+    public struct BatchDisableStandardsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StandardsSubscriptions", required: false, type: .list)
+        ]
+        /// The details of the standards subscriptions that were disabled.
+        public let standardsSubscriptions: [StandardsSubscription]?
+
+        public init(standardsSubscriptions: [StandardsSubscription]? = nil) {
+            self.standardsSubscriptions = standardsSubscriptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case standardsSubscriptions = "StandardsSubscriptions"
+        }
+    }
+
+    public struct DisassociateMembersResponse: AWSShape {
+
+    }
+
+    public struct ListInvitationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Invitations", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The details of the invitations returned by the operation.
+        public let invitations: [Invitation]?
+        /// The token that is required for pagination.
+        public let nextToken: String?
+
+        public init(invitations: [Invitation]? = nil, nextToken: String? = nil) {
+            self.invitations = invitations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invitations = "Invitations"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public enum DateRangeUnit: String, CustomStringConvertible, Codable {
+        case days = "DAYS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThreatIntelIndicatorType: String, CustomStringConvertible, Codable {
+        case domain = "DOMAIN"
+        case emailAddress = "EMAIL_ADDRESS"
+        case hashMd5 = "HASH_MD5"
+        case hashSha1 = "HASH_SHA1"
+        case hashSha256 = "HASH_SHA256"
+        case hashSha512 = "HASH_SHA512"
+        case ipv4Address = "IPV4_ADDRESS"
+        case ipv6Address = "IPV6_ADDRESS"
+        case mutex = "MUTEX"
+        case process = "PROCESS"
+        case url = "URL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetMembersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountIds", required: true, type: .list)
+        ]
+        /// A list of account IDs for the Security Hub member accounts on which you want to return the details. 
+        public let accountIds: [String]
+
+        public init(accountIds: [String]) {
+            self.accountIds = accountIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "AccountIds"
+        }
+    }
+
+    public enum ComplianceStatus: String, CustomStringConvertible, Codable {
+        case passed = "PASSED"
+        case warning = "WARNING"
+        case failed = "FAILED"
+        case notAvailable = "NOT_AVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Invitation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MemberStatus", required: false, type: .string), 
+            AWSShapeMember(label: "InvitedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InvitationId", required: false, type: .string), 
+            AWSShapeMember(label: "AccountId", required: false, type: .string)
+        ]
+        /// The current relationship status between the inviter and invitee accounts.
+        public let memberStatus: String?
+        /// The timestamp of when the invitation was sent.
+        public let invitedAt: TimeStamp?
+        /// The ID of the invitation sent by the master Security Hub account.
+        public let invitationId: String?
+        /// The account ID of the master Security Hub account who sent the invitation. 
+        public let accountId: String?
+
+        public init(memberStatus: String? = nil, invitedAt: TimeStamp? = nil, invitationId: String? = nil, accountId: String? = nil) {
+            self.memberStatus = memberStatus
+            self.invitedAt = invitedAt
+            self.invitationId = invitationId
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memberStatus = "MemberStatus"
+            case invitedAt = "InvitedAt"
+            case invitationId = "InvitationId"
+            case accountId = "AccountId"
+        }
+    }
+
+    public struct NumberFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Gte", required: false, type: .double), 
+            AWSShapeMember(label: "Lte", required: false, type: .double), 
+            AWSShapeMember(label: "Eq", required: false, type: .double)
+        ]
+        /// Represents the "greater than equal" condition to be applied to a single field when querying for findings. 
+        public let gte: Double?
+        /// Represents the "less than equal" condition to be applied to a single field when querying for findings. 
+        public let lte: Double?
+        /// Represents the "equal to" condition to be applied to a single field when querying for findings.
+        public let eq: Double?
+
+        public init(gte: Double? = nil, lte: Double? = nil, eq: Double? = nil) {
+            self.gte = gte
+            self.lte = lte
+            self.eq = eq
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gte = "Gte"
+            case lte = "Lte"
+            case eq = "Eq"
+        }
+    }
+
+    public struct EnableImportFindingsForProductRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductArn", required: true, type: .string)
+        ]
+        /// The ARN of the product that generates findings that you want to import into Security Hub.
+        public let productArn: String
+
+        public init(productArn: String) {
+            self.productArn = productArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productArn = "ProductArn"
+        }
+    }
+
+    public struct GetEnabledStandardsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StandardsSubscriptionArns", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The list of standards subscription ARNS that you want to list and describe.
+        public let standardsSubscriptionArns: [String]?
+        /// Indicates the maximum number of items that you want in the response.
+        public let maxResults: Int32?
+        /// Paginates results. Set the value of this parameter to NULL on your first call to the GetEnabledStandards operation. For subsequent calls to the operation, fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
+        public let nextToken: String?
+
+        public init(standardsSubscriptionArns: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.standardsSubscriptionArns = standardsSubscriptionArns
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case standardsSubscriptionArns = "StandardsSubscriptionArns"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetMasterAccountResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Master", required: false, type: .structure)
+        ]
+        /// A list of details about the Security Hub master account for the current member account. 
+        public let master: Invitation?
+
+        public init(master: Invitation? = nil) {
+            self.master = master
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case master = "Master"
+        }
+    }
+
+    public struct ListInvitationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        /// Indicates the maximum number of items that you want in the response. 
+        public let maxResults: Int32?
+        /// Paginates results. Set the value of this parameter to NULL on your first call to the ListInvitations operation. For subsequent calls to the operation, fill nextToken in the request with the value of NextToken from the previous response to continue listing data. 
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DeleteInvitationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountIds", required: false, type: .list)
+        ]
+        /// A list of account IDs specifying accounts whose invitations to Security Hub you want to delete. 
+        public let accountIds: [String]?
+
+        public init(accountIds: [String]? = nil) {
+            self.accountIds = accountIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "AccountIds"
+        }
+    }
+
+    public struct MapFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Comparison", required: false, type: .enum)
+        ]
+        /// The key of the map filter.
+        public let key: String?
+        /// The value for the key in the map filter.
+        public let value: String?
+        /// Represents the condition to be applied to a key value when querying for findings with a map filter.
+        public let comparison: MapFilterComparison?
+
+        public init(key: String? = nil, value: String? = nil, comparison: MapFilterComparison? = nil) {
+            self.key = key
+            self.value = value
+            self.comparison = comparison
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+            case comparison = "Comparison"
+        }
+    }
+
+    public struct RelatedFinding: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "ProductArn", required: true, type: .string)
+        ]
+        /// The solution-generated identifier for a related finding.
+        public let id: String
+        /// The ARN of the solution that generated a related finding.
+        public let productArn: String
+
+        public init(id: String, productArn: String) {
+            self.id = id
+            self.productArn = productArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case productArn = "ProductArn"
+        }
+    }
+
+    public struct CreateMembersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountDetails", required: false, type: .list)
+        ]
+        /// A list of account ID and email address pairs of the accounts that you want to associate with the master Security Hub account.
+        public let accountDetails: [AccountDetails]?
+
+        public init(accountDetails: [AccountDetails]? = nil) {
+            self.accountDetails = accountDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountDetails = "AccountDetails"
+        }
+    }
+
+    public struct BatchEnableStandardsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StandardsSubscriptionRequests", required: true, type: .list)
+        ]
+        /// The list of standards that you want to enable.
+        public let standardsSubscriptionRequests: [StandardsSubscriptionRequest]
+
+        public init(standardsSubscriptionRequests: [StandardsSubscriptionRequest]) {
+            self.standardsSubscriptionRequests = standardsSubscriptionRequests
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case standardsSubscriptionRequests = "StandardsSubscriptionRequests"
+        }
+    }
+
+    public struct DisableImportFindingsForProductResponse: AWSShape {
+
+    }
+
+    public struct GetMembersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Members", required: false, type: .list), 
+            AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
+        ]
+        /// A list of details about the Security Hub member accounts.
+        public let members: [Member]?
+        /// A list of account ID and email address pairs of the AWS accounts that could not be processed.
+        public let unprocessedAccounts: [Result]?
+
+        public init(members: [Member]? = nil, unprocessedAccounts: [Result]? = nil) {
+            self.members = members
+            self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case members = "Members"
+            case unprocessedAccounts = "UnprocessedAccounts"
+        }
+    }
+
+    public struct GetInvitationsCountRequest: AWSShape {
+
+    }
+
+    public enum Partition: String, CustomStringConvertible, Codable {
+        case aws = "aws"
+        case awsCn = "aws-cn"
+        case awsUsGov = "aws-us-gov"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AcceptInvitationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InvitationId", required: false, type: .string), 
+            AWSShapeMember(label: "MasterId", required: false, type: .string)
+        ]
+        /// The ID of the invitation that is sent to the AWS account by the Security Hub master account. 
+        public let invitationId: String?
+        /// The account ID of the master Security Hub account whose invitation you're accepting. 
+        public let masterId: String?
+
+        public init(invitationId: String? = nil, masterId: String? = nil) {
+            self.invitationId = invitationId
+            self.masterId = masterId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invitationId = "InvitationId"
+            case masterId = "MasterId"
+        }
+    }
+
+    public struct DateRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .integer), 
+            AWSShapeMember(label: "Unit", required: false, type: .enum)
+        ]
+        /// A date range value for the date filter.
+        public let value: Int32?
+        /// A date range unit for the date filter.
+        public let unit: DateRangeUnit?
+
+        public init(value: Int32? = nil, unit: DateRangeUnit? = nil) {
+            self.value = value
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case unit = "Unit"
+        }
+    }
+
+    public struct UpdateFindingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Note", required: false, type: .structure), 
+            AWSShapeMember(label: "RecordState", required: false, type: .enum), 
+            AWSShapeMember(label: "Filters", required: true, type: .structure)
+        ]
+        /// The updated note for the finding.
+        public let note: NoteUpdate?
+        /// The updated record state for the finding.
+        public let recordState: RecordState?
+        /// A collection of attributes that specify what findings you want to update.
+        public let filters: AwsSecurityFindingFilters
+
+        public init(note: NoteUpdate? = nil, recordState: RecordState? = nil, filters: AwsSecurityFindingFilters) {
+            self.note = note
+            self.recordState = recordState
+            self.filters = filters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case note = "Note"
+            case recordState = "RecordState"
+            case filters = "Filters"
+        }
+    }
+
+    public struct DisableSecurityHubRequest: AWSShape {
 
     }
 
@@ -343,7 +1818,7 @@ extension SecurityHub {
         }
     }
 
-    public struct InviteMembersResponse: AWSShape {
+    public struct DeleteMembersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
         ]
@@ -359,30 +1834,95 @@ extension SecurityHub {
         }
     }
 
-    public struct CreateInsightRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: true, type: .structure), 
-            AWSShapeMember(label: "GroupByAttribute", required: true, type: .string)
-        ]
-        /// The user-defined name that identifies the insight that you want to create.
-        public let name: String
-        /// A collection of attributes that are applied to all active Security Hub-aggregated findings and that result in a subset of findings that are included in this insight.
-        public let filters: AwsSecurityFindingFilters
-        /// The attribute by which the insight's findings are grouped. This attribute is used as a findings aggregator for the purposes of viewing and managing multiple related findings under a single operand. 
-        public let groupByAttribute: String
+    public struct UpdateInsightResponse: AWSShape {
 
-        public init(name: String, filters: AwsSecurityFindingFilters, groupByAttribute: String) {
-            self.name = name
-            self.filters = filters
-            self.groupByAttribute = groupByAttribute
+    }
+
+    public struct Compliance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// Indicates the result of a compliance check.
+        public let status: ComplianceStatus?
+
+        public init(status: ComplianceStatus? = nil) {
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case filters = "Filters"
-            case groupByAttribute = "GroupByAttribute"
+            case status = "Status"
         }
+    }
+
+    public struct DeclineInvitationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
+        ]
+        /// A list of account ID and email address pairs of the AWS accounts that could not be processed. 
+        public let unprocessedAccounts: [Result]?
+
+        public init(unprocessedAccounts: [Result]? = nil) {
+            self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unprocessedAccounts = "UnprocessedAccounts"
+        }
+    }
+
+    public struct Note: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UpdatedAt", required: true, type: .string), 
+            AWSShapeMember(label: "UpdatedBy", required: true, type: .string), 
+            AWSShapeMember(label: "Text", required: true, type: .string)
+        ]
+        /// The timestamp of when the note was updated.
+        public let updatedAt: String
+        /// The principal that created a note.
+        public let updatedBy: String
+        /// The text of a note.
+        public let text: String
+
+        public init(updatedAt: String, updatedBy: String, text: String) {
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case updatedAt = "UpdatedAt"
+            case updatedBy = "UpdatedBy"
+            case text = "Text"
+        }
+    }
+
+    public struct AccountDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "Email", required: false, type: .string)
+        ]
+        /// The ID of an AWS account.
+        public let accountId: String?
+        /// The email of an AWS account.
+        public let email: String?
+
+        public init(accountId: String? = nil, email: String? = nil) {
+            self.accountId = accountId
+            self.email = email
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case email = "Email"
+        }
+    }
+
+    public enum VerificationState: String, CustomStringConvertible, Codable {
+        case unknown = "UNKNOWN"
+        case truePositive = "TRUE_POSITIVE"
+        case falsePositive = "FALSE_POSITIVE"
+        case benignPositive = "BENIGN_POSITIVE"
+        public var description: String { return self.rawValue }
     }
 
     public enum RecordState: String, CustomStringConvertible, Codable {
@@ -391,127 +1931,341 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
-    public struct GetMasterAccountResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Master", required: false, type: .structure)
-        ]
-        /// A list of details about the Security Hub master account for the current member account. 
-        public let master: Invitation?
-
-        public init(master: Invitation? = nil) {
-            self.master = master
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case master = "Master"
-        }
-    }
-
-    public struct BatchImportFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Findings", required: true, type: .list)
-        ]
-        /// A list of findings that you want to import. Must be submitted in the AWSSecurityFinding format.
-        public let findings: [AwsSecurityFinding]
-
-        public init(findings: [AwsSecurityFinding]) {
-            self.findings = findings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case findings = "Findings"
-        }
-    }
-
-    public struct DeleteInsightResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InsightArn", required: true, type: .string)
-        ]
-        /// The ARN of the insight that was deleted.
-        public let insightArn: String
-
-        public init(insightArn: String) {
-            self.insightArn = insightArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case insightArn = "InsightArn"
-        }
-    }
-
-    public enum StandardsStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case ready = "READY"
-        case failed = "FAILED"
-        case deleting = "DELETING"
+    public enum NetworkDirection: String, CustomStringConvertible, Codable {
+        case `in` = "IN"
+        case out = "OUT"
         public var description: String { return self.rawValue }
     }
 
-    public struct ResourceDetails: AWSShape {
+    public struct Remediation: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsS3Bucket", required: false, type: .structure), 
-            AWSShapeMember(label: "Container", required: false, type: .structure), 
-            AWSShapeMember(label: "AwsIamAccessKey", required: false, type: .structure), 
-            AWSShapeMember(label: "Other", required: false, type: .map), 
-            AWSShapeMember(label: "AwsEc2Instance", required: false, type: .structure)
+            AWSShapeMember(label: "Recommendation", required: false, type: .structure)
         ]
-        /// The details of an AWS S3 Bucket.
-        public let awsS3Bucket: AwsS3BucketDetails?
-        /// Container details related to a finding.
-        public let container: ContainerDetails?
-        /// AWS IAM access key details related to a finding.
-        public let awsIamAccessKey: AwsIamAccessKeyDetails?
-        /// The details of a resource that does not have a specific sub-field for the resource type defined.
-        public let other: [String: String]?
-        /// The details of an AWS EC2 instance.
-        public let awsEc2Instance: AwsEc2InstanceDetails?
+        /// Provides a recommendation on how to remediate the issue identified within a finding.
+        public let recommendation: Recommendation?
 
-        public init(awsS3Bucket: AwsS3BucketDetails? = nil, container: ContainerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, other: [String: String]? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil) {
-            self.awsS3Bucket = awsS3Bucket
-            self.container = container
-            self.awsIamAccessKey = awsIamAccessKey
-            self.other = other
-            self.awsEc2Instance = awsEc2Instance
+        public init(recommendation: Recommendation? = nil) {
+            self.recommendation = recommendation
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsS3Bucket = "AwsS3Bucket"
-            case container = "Container"
-            case awsIamAccessKey = "AwsIamAccessKey"
-            case other = "Other"
-            case awsEc2Instance = "AwsEc2Instance"
+            case recommendation = "Recommendation"
         }
     }
 
-    public struct BatchDisableStandardsResponse: AWSShape {
+    public struct Member: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StandardsSubscriptions", required: false, type: .list)
+            AWSShapeMember(label: "MemberStatus", required: false, type: .string), 
+            AWSShapeMember(label: "MasterId", required: false, type: .string), 
+            AWSShapeMember(label: "Email", required: false, type: .string), 
+            AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InvitedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AccountId", required: false, type: .string)
         ]
-        /// The details of the standards subscriptions that were disabled.
-        public let standardsSubscriptions: [StandardsSubscription]?
+        /// The status of the relationship between the member account and its master account. 
+        public let memberStatus: String?
+        /// The AWS account ID of the master Security Hub account to this member account.
+        public let masterId: String?
+        /// The email of a Security Hub member account.
+        public let email: String?
+        /// Time stamp at which this member account was updated.
+        public let updatedAt: TimeStamp?
+        /// Time stamp at which the member account was invited to Security Hub.
+        public let invitedAt: TimeStamp?
+        /// The AWS account ID of a Security Hub member account.
+        public let accountId: String?
 
-        public init(standardsSubscriptions: [StandardsSubscription]? = nil) {
-            self.standardsSubscriptions = standardsSubscriptions
+        public init(memberStatus: String? = nil, masterId: String? = nil, email: String? = nil, updatedAt: TimeStamp? = nil, invitedAt: TimeStamp? = nil, accountId: String? = nil) {
+            self.memberStatus = memberStatus
+            self.masterId = masterId
+            self.email = email
+            self.updatedAt = updatedAt
+            self.invitedAt = invitedAt
+            self.accountId = accountId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case standardsSubscriptions = "StandardsSubscriptions"
+            case memberStatus = "MemberStatus"
+            case masterId = "MasterId"
+            case email = "Email"
+            case updatedAt = "UpdatedAt"
+            case invitedAt = "InvitedAt"
+            case accountId = "AccountId"
         }
     }
 
-    public struct DeleteInsightRequest: AWSShape {
+    public enum WorkflowState: String, CustomStringConvertible, Codable {
+        case new = "NEW"
+        case assigned = "ASSIGNED"
+        case inProgress = "IN_PROGRESS"
+        case deferred = "DEFERRED"
+        case resolved = "RESOLVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateFindingsResponse: AWSShape {
+
+    }
+
+    public struct GetMasterAccountRequest: AWSShape {
+
+    }
+
+    public struct KeywordFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InsightArn", location: .uri(locationName: "InsightArn"), required: true, type: .string)
+            AWSShapeMember(label: "Value", required: false, type: .string)
         ]
-        /// The ARN of the insight that you want to delete.
+        /// A value for the keyword.
+        public let value: String?
+
+        public init(value: String? = nil) {
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+        }
+    }
+
+    public struct Resource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: true, type: .string), 
+            AWSShapeMember(label: "Details", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "Partition", required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+        /// Specifies the type of the resource for which details are provided.
+        public let `type`: String
+        /// Provides additional details about the resource.
+        public let details: ResourceDetails?
+        /// The canonical identifier for the given resource type.
+        public let id: String
+        /// The canonical AWS external region name where this resource is located.
+        public let region: String?
+        /// The canonical AWS partition name to which the region is assigned.
+        public let partition: Partition?
+        /// A list of AWS tags associated with a resource at the time the finding was processed.
+        public let tags: [String: String]?
+
+        public init(type: String, details: ResourceDetails? = nil, id: String, region: String? = nil, partition: Partition? = nil, tags: [String: String]? = nil) {
+            self.`type` = `type`
+            self.details = details
+            self.id = id
+            self.region = region
+            self.partition = partition
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case details = "Details"
+            case id = "Id"
+            case region = "Region"
+            case partition = "Partition"
+            case tags = "Tags"
+        }
+    }
+
+    public struct SortCriterion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "Field", required: false, type: .string)
+        ]
+        /// The order used for sorting findings.
+        public let sortOrder: SortOrder?
+        /// The finding attribute used for sorting findings.
+        public let field: String?
+
+        public init(sortOrder: SortOrder? = nil, field: String? = nil) {
+            self.sortOrder = sortOrder
+            self.field = field
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortOrder = "SortOrder"
+            case field = "Field"
+        }
+    }
+
+    public struct Recommendation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Url", required: false, type: .string), 
+            AWSShapeMember(label: "Text", required: false, type: .string)
+        ]
+        /// A URL to link to general remediation information for the finding type of a finding. 
+        public let url: String?
+        /// The recommendation of what to do about the issue described in a finding. 
+        public let text: String?
+
+        public init(url: String? = nil, text: String? = nil) {
+            self.url = url
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case url = "Url"
+            case text = "Text"
+        }
+    }
+
+    public struct UpdateInsightRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "InsightArn", location: .uri(locationName: "InsightArn"), required: true, type: .string), 
+            AWSShapeMember(label: "GroupByAttribute", required: false, type: .string)
+        ]
+        /// The updated name for the insight.
+        public let name: String?
+        /// The updated filters that define this insight.
+        public let filters: AwsSecurityFindingFilters?
+        /// The ARN of the insight that you want to update.
         public let insightArn: String
+        /// The updated GroupBy attribute that defines this insight.
+        public let groupByAttribute: String?
 
-        public init(insightArn: String) {
+        public init(name: String? = nil, filters: AwsSecurityFindingFilters? = nil, insightArn: String, groupByAttribute: String? = nil) {
+            self.name = name
+            self.filters = filters
             self.insightArn = insightArn
+            self.groupByAttribute = groupByAttribute
         }
 
         private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case filters = "Filters"
             case insightArn = "InsightArn"
+            case groupByAttribute = "GroupByAttribute"
+        }
+    }
+
+    public struct AwsEc2InstanceDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "IpV6Addresses", required: false, type: .list), 
+            AWSShapeMember(label: "IamInstanceProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "IpV4Addresses", required: false, type: .list), 
+            AWSShapeMember(label: "LaunchedAt", required: false, type: .string), 
+            AWSShapeMember(label: "KeyName", required: false, type: .string)
+        ]
+        /// The Amazon Machine Image (AMI) ID of the instance.
+        public let imageId: String?
+        /// The identifier of the VPC in which the instance was launched.
+        public let vpcId: String?
+        /// The identifier of the subnet in which the instance was launched.
+        public let subnetId: String?
+        /// The IPv6 addresses associated with the instance.
+        public let ipV6Addresses: [String]?
+        /// The IAM profile ARN of the instance.
+        public let iamInstanceProfileArn: String?
+        /// The instance type of the instance. 
+        public let `type`: String?
+        /// The IPv4 addresses associated with the instance.
+        public let ipV4Addresses: [String]?
+        /// The date/time the instance was launched.
+        public let launchedAt: String?
+        /// The key name associated with the instance.
+        public let keyName: String?
+
+        public init(imageId: String? = nil, vpcId: String? = nil, subnetId: String? = nil, ipV6Addresses: [String]? = nil, iamInstanceProfileArn: String? = nil, type: String? = nil, ipV4Addresses: [String]? = nil, launchedAt: String? = nil, keyName: String? = nil) {
+            self.imageId = imageId
+            self.vpcId = vpcId
+            self.subnetId = subnetId
+            self.ipV6Addresses = ipV6Addresses
+            self.iamInstanceProfileArn = iamInstanceProfileArn
+            self.`type` = `type`
+            self.ipV4Addresses = ipV4Addresses
+            self.launchedAt = launchedAt
+            self.keyName = keyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "ImageId"
+            case vpcId = "VpcId"
+            case subnetId = "SubnetId"
+            case ipV6Addresses = "IpV6Addresses"
+            case iamInstanceProfileArn = "IamInstanceProfileArn"
+            case `type` = "Type"
+            case ipV4Addresses = "IpV4Addresses"
+            case launchedAt = "LaunchedAt"
+            case keyName = "KeyName"
+        }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case asc = "asc"
+        case desc = "desc"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Network: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceDomain", required: false, type: .string), 
+            AWSShapeMember(label: "SourcePort", required: false, type: .integer), 
+            AWSShapeMember(label: "DestinationDomain", required: false, type: .string), 
+            AWSShapeMember(label: "SourceIpV4", required: false, type: .string), 
+            AWSShapeMember(label: "SourceIpV6", required: false, type: .string), 
+            AWSShapeMember(label: "SourceMac", required: false, type: .string), 
+            AWSShapeMember(label: "Direction", required: false, type: .enum), 
+            AWSShapeMember(label: "DestinationIpV4", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationIpV6", required: false, type: .string), 
+            AWSShapeMember(label: "Protocol", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationPort", required: false, type: .integer)
+        ]
+        /// The source domain of network-related information about a finding.
+        public let sourceDomain: String?
+        /// The source port of network-related information about a finding.
+        public let sourcePort: Int32?
+        /// The destination domain of network-related information about a finding.
+        public let destinationDomain: String?
+        /// The source IPv4 address of network-related information about a finding.
+        public let sourceIpV4: String?
+        /// The source IPv6 address of network-related information about a finding.
+        public let sourceIpV6: String?
+        /// The source media access control (MAC) address of network-related information about a finding.
+        public let sourceMac: String?
+        /// Indicates the direction of network traffic associated with a finding.
+        public let direction: NetworkDirection?
+        /// The destination IPv4 address of network-related information about a finding.
+        public let destinationIpV4: String?
+        /// The destination IPv6 address of network-related information about a finding.
+        public let destinationIpV6: String?
+        /// The protocol of network-related information about a finding.
+        public let `protocol`: String?
+        /// The destination port of network-related information about a finding.
+        public let destinationPort: Int32?
+
+        public init(sourceDomain: String? = nil, sourcePort: Int32? = nil, destinationDomain: String? = nil, sourceIpV4: String? = nil, sourceIpV6: String? = nil, sourceMac: String? = nil, direction: NetworkDirection? = nil, destinationIpV4: String? = nil, destinationIpV6: String? = nil, protocol: String? = nil, destinationPort: Int32? = nil) {
+            self.sourceDomain = sourceDomain
+            self.sourcePort = sourcePort
+            self.destinationDomain = destinationDomain
+            self.sourceIpV4 = sourceIpV4
+            self.sourceIpV6 = sourceIpV6
+            self.sourceMac = sourceMac
+            self.direction = direction
+            self.destinationIpV4 = destinationIpV4
+            self.destinationIpV6 = destinationIpV6
+            self.`protocol` = `protocol`
+            self.destinationPort = destinationPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceDomain = "SourceDomain"
+            case sourcePort = "SourcePort"
+            case destinationDomain = "DestinationDomain"
+            case sourceIpV4 = "SourceIpV4"
+            case sourceIpV6 = "SourceIpV6"
+            case sourceMac = "SourceMac"
+            case direction = "Direction"
+            case destinationIpV4 = "DestinationIpV4"
+            case destinationIpV6 = "DestinationIpV6"
+            case `protocol` = "Protocol"
+            case destinationPort = "DestinationPort"
         }
     }
 
@@ -536,509 +2290,6 @@ extension SecurityHub {
         }
     }
 
-    public struct ThreatIntelIndicator: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Source", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "LastObservedAt", required: false, type: .string), 
-            AWSShapeMember(label: "SourceUrl", required: false, type: .string), 
-            AWSShapeMember(label: "Category", required: false, type: .enum)
-        ]
-        /// The type of a threat intel indicator.
-        public let `type`: ThreatIntelIndicatorType?
-        /// The source of the threat intel.
-        public let source: String?
-        /// The value of a threat intel indicator.
-        public let value: String?
-        /// The date/time of the last observation of a threat intel indicator.
-        public let lastObservedAt: String?
-        /// The URL for more details from the source of the threat intel.
-        public let sourceUrl: String?
-        /// The category of a threat intel indicator.
-        public let category: ThreatIntelIndicatorCategory?
-
-        public init(type: ThreatIntelIndicatorType? = nil, source: String? = nil, value: String? = nil, lastObservedAt: String? = nil, sourceUrl: String? = nil, category: ThreatIntelIndicatorCategory? = nil) {
-            self.`type` = `type`
-            self.source = source
-            self.value = value
-            self.lastObservedAt = lastObservedAt
-            self.sourceUrl = sourceUrl
-            self.category = category
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case source = "Source"
-            case value = "Value"
-            case lastObservedAt = "LastObservedAt"
-            case sourceUrl = "SourceUrl"
-            case category = "Category"
-        }
-    }
-
-    public struct GetMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list), 
-            AWSShapeMember(label: "Members", required: false, type: .list)
-        ]
-        /// A list of account ID and email address pairs of the AWS accounts that could not be processed.
-        public let unprocessedAccounts: [Result]?
-        /// A list of details about the Security Hub member accounts.
-        public let members: [Member]?
-
-        public init(unprocessedAccounts: [Result]? = nil, members: [Member]? = nil) {
-            self.unprocessedAccounts = unprocessedAccounts
-            self.members = members
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts = "UnprocessedAccounts"
-            case members = "Members"
-        }
-    }
-
-    public struct Compliance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
-        /// Indicates the result of a compliance check.
-        public let status: ComplianceStatus?
-
-        public init(status: ComplianceStatus? = nil) {
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-        }
-    }
-
-    public struct ListMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OnlyAssociated", location: .querystring(locationName: "OnlyAssociated"), required: false, type: .boolean), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
-        ]
-        /// Specifies what member accounts the response includes based on their relationship status with the master account. The default value is TRUE. If onlyAssociated is set to TRUE, the response includes member accounts whose relationship status with the master is set to ENABLED or DISABLED. If onlyAssociated is set to FALSE, the response includes all existing member accounts. 
-        public let onlyAssociated: Bool?
-        /// Indicates the maximum number of items that you want in the response. 
-        public let maxResults: Int32?
-        /// Paginates results. Set the value of this parameter to NULL on your first call to the ListMembers operation. For subsequent calls to the operation, fill nextToken in the request with the value of NextToken from the previous response to continue listing data. 
-        public let nextToken: String?
-
-        public init(onlyAssociated: Bool? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.onlyAssociated = onlyAssociated
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case onlyAssociated = "OnlyAssociated"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct AwsSecurityFinding: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserDefinedFields", required: false, type: .map), 
-            AWSShapeMember(label: "Malware", required: false, type: .list), 
-            AWSShapeMember(label: "ProductArn", required: true, type: .string), 
-            AWSShapeMember(label: "UpdatedAt", required: true, type: .string), 
-            AWSShapeMember(label: "FirstObservedAt", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Confidence", required: false, type: .integer), 
-            AWSShapeMember(label: "Criticality", required: false, type: .integer), 
-            AWSShapeMember(label: "AwsAccountId", required: true, type: .string), 
-            AWSShapeMember(label: "Process", required: false, type: .structure), 
-            AWSShapeMember(label: "Types", required: true, type: .list), 
-            AWSShapeMember(label: "Resources", required: true, type: .list), 
-            AWSShapeMember(label: "SchemaVersion", required: true, type: .string), 
-            AWSShapeMember(label: "WorkflowState", required: false, type: .enum), 
-            AWSShapeMember(label: "CreatedAt", required: true, type: .string), 
-            AWSShapeMember(label: "GeneratorId", required: true, type: .string), 
-            AWSShapeMember(label: "Severity", required: true, type: .structure), 
-            AWSShapeMember(label: "Remediation", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SourceUrl", required: false, type: .string), 
-            AWSShapeMember(label: "ThreatIntelIndicators", required: false, type: .list), 
-            AWSShapeMember(label: "Network", required: false, type: .structure), 
-            AWSShapeMember(label: "LastObservedAt", required: false, type: .string), 
-            AWSShapeMember(label: "Title", required: false, type: .string), 
-            AWSShapeMember(label: "ProductFields", required: false, type: .map), 
-            AWSShapeMember(label: "RelatedFindings", required: false, type: .list), 
-            AWSShapeMember(label: "Compliance", required: false, type: .structure), 
-            AWSShapeMember(label: "Note", required: false, type: .structure), 
-            AWSShapeMember(label: "VerificationState", required: false, type: .enum), 
-            AWSShapeMember(label: "RecordState", required: false, type: .enum)
-        ]
-        /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding. 
-        public let userDefinedFields: [String: String]?
-        /// A list of malware related to a finding.
-        public let malware: [Malware]?
-        /// The ARN generated by Security Hub that uniquely identifies a third-party company (security findings provider) once this provider's product (solution that generates findings) is registered with Security Hub. 
-        public let productArn: String
-        /// An ISO8601-formatted timestamp that indicates when the finding record was last updated by the security findings provider. 
-        public let updatedAt: String
-        /// An ISO8601-formatted timestamp that indicates when the potential security issue captured by a finding was first observed by the security findings provider.
-        public let firstObservedAt: String?
-        /// The security findings provider-specific identifier for a finding.
-        public let id: String
-        /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale. 0 equates zero percent confidence and 100 equates to 100 percent confidence.
-        public let confidence: Int32?
-        /// The level of importance assigned to the resources associated with the finding. A score of 0 means the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
-        public let criticality: Int32?
-        /// The AWS account ID in which a finding is generated.
-        public let awsAccountId: String
-        /// The details of process-related information about a finding.
-        public let process: ProcessDetails?
-        /// One or more finding types in the format of 'namespace/category/classifier' that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications
-        public let types: [String]
-        /// A set of resource data types that describe the resources to which the finding refers.
-        public let resources: [Resource]
-        /// The schema version for which a finding is formatted.
-        public let schemaVersion: String
-        /// The workflow state of a finding. 
-        public let workflowState: WorkflowState?
-        /// An ISO8601-formatted timestamp that indicates when the potential security issue captured by a finding was created by the security findings provider.
-        public let createdAt: String
-        /// This is the identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security findings provider's solutions, this generator can be called a rule, a check, a detector, a plug-in, etc. 
-        public let generatorId: String
-        /// A finding's severity.
-        public let severity: Severity
-        /// An data type that describes the remediation options for a finding.
-        public let remediation: Remediation?
-        /// A finding's description.
-        public let description: String?
-        /// A URL that links to a page about the current finding in the security findings provider's solution.
-        public let sourceUrl: String?
-        /// Threat intel details related to a finding.
-        public let threatIntelIndicators: [ThreatIntelIndicator]?
-        /// The details of network-related information about a finding.
-        public let network: Network?
-        /// An ISO8601-formatted timestamp that indicates when the potential security issue captured by a finding was most recently observed by the security findings provider.
-        public let lastObservedAt: String?
-        /// A finding's title.
-        public let title: String?
-        /// A data type where security findings providers can include additional solution-specific details that are not part of the defined AwsSecurityFinding format.
-        public let productFields: [String: String]?
-        /// A list of related findings.
-        public let relatedFindings: [RelatedFinding]?
-        /// This data type is exclusive to findings that are generated as the result of a check run against a specific rule in a supported standard (for example, AWS CIS Foundations). Contains compliance-related finding details.
-        public let compliance: Compliance?
-        /// A user-defined note added to a finding.
-        public let note: Note?
-        /// Indicates the veracity of a finding. 
-        public let verificationState: VerificationState?
-        /// The record state of a finding.
-        public let recordState: RecordState?
-
-        public init(userDefinedFields: [String: String]? = nil, malware: [Malware]? = nil, productArn: String, updatedAt: String, firstObservedAt: String? = nil, id: String, confidence: Int32? = nil, criticality: Int32? = nil, awsAccountId: String, process: ProcessDetails? = nil, types: [String], resources: [Resource], schemaVersion: String, workflowState: WorkflowState? = nil, createdAt: String, generatorId: String, severity: Severity, remediation: Remediation? = nil, description: String? = nil, sourceUrl: String? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, network: Network? = nil, lastObservedAt: String? = nil, title: String? = nil, productFields: [String: String]? = nil, relatedFindings: [RelatedFinding]? = nil, compliance: Compliance? = nil, note: Note? = nil, verificationState: VerificationState? = nil, recordState: RecordState? = nil) {
-            self.userDefinedFields = userDefinedFields
-            self.malware = malware
-            self.productArn = productArn
-            self.updatedAt = updatedAt
-            self.firstObservedAt = firstObservedAt
-            self.id = id
-            self.confidence = confidence
-            self.criticality = criticality
-            self.awsAccountId = awsAccountId
-            self.process = process
-            self.types = types
-            self.resources = resources
-            self.schemaVersion = schemaVersion
-            self.workflowState = workflowState
-            self.createdAt = createdAt
-            self.generatorId = generatorId
-            self.severity = severity
-            self.remediation = remediation
-            self.description = description
-            self.sourceUrl = sourceUrl
-            self.threatIntelIndicators = threatIntelIndicators
-            self.network = network
-            self.lastObservedAt = lastObservedAt
-            self.title = title
-            self.productFields = productFields
-            self.relatedFindings = relatedFindings
-            self.compliance = compliance
-            self.note = note
-            self.verificationState = verificationState
-            self.recordState = recordState
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userDefinedFields = "UserDefinedFields"
-            case malware = "Malware"
-            case productArn = "ProductArn"
-            case updatedAt = "UpdatedAt"
-            case firstObservedAt = "FirstObservedAt"
-            case id = "Id"
-            case confidence = "Confidence"
-            case criticality = "Criticality"
-            case awsAccountId = "AwsAccountId"
-            case process = "Process"
-            case types = "Types"
-            case resources = "Resources"
-            case schemaVersion = "SchemaVersion"
-            case workflowState = "WorkflowState"
-            case createdAt = "CreatedAt"
-            case generatorId = "GeneratorId"
-            case severity = "Severity"
-            case remediation = "Remediation"
-            case description = "Description"
-            case sourceUrl = "SourceUrl"
-            case threatIntelIndicators = "ThreatIntelIndicators"
-            case network = "Network"
-            case lastObservedAt = "LastObservedAt"
-            case title = "Title"
-            case productFields = "ProductFields"
-            case relatedFindings = "RelatedFindings"
-            case compliance = "Compliance"
-            case note = "Note"
-            case verificationState = "VerificationState"
-            case recordState = "RecordState"
-        }
-    }
-
-    public enum MalwareType: String, CustomStringConvertible, Codable {
-        case adware = "ADWARE"
-        case blendedThreat = "BLENDED_THREAT"
-        case botnetAgent = "BOTNET_AGENT"
-        case coinMiner = "COIN_MINER"
-        case exploitKit = "EXPLOIT_KIT"
-        case keylogger = "KEYLOGGER"
-        case macro = "MACRO"
-        case potentiallyUnwanted = "POTENTIALLY_UNWANTED"
-        case spyware = "SPYWARE"
-        case ransomware = "RANSOMWARE"
-        case remoteAccess = "REMOTE_ACCESS"
-        case rootkit = "ROOTKIT"
-        case trojan = "TROJAN"
-        case virus = "VIRUS"
-        case worm = "WORM"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DisassociateFromMasterAccountRequest: AWSShape {
-
-    }
-
-    public struct UpdateInsightResponse: AWSShape {
-
-    }
-
-    public struct KeywordFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
-        /// A value for the keyword.
-        public let value: String?
-
-        public init(value: String? = nil) {
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-        }
-    }
-
-    public struct ContainerDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LaunchedAt", required: false, type: .string), 
-            AWSShapeMember(label: "ImageName", required: false, type: .string)
-        ]
-        /// The identifier of the image related to a finding.
-        public let imageId: String?
-        /// The name of the container related to a finding.
-        public let name: String?
-        /// The date/time that the container was started.
-        public let launchedAt: String?
-        /// The name of the image related to a finding.
-        public let imageName: String?
-
-        public init(imageId: String? = nil, name: String? = nil, launchedAt: String? = nil, imageName: String? = nil) {
-            self.imageId = imageId
-            self.name = name
-            self.launchedAt = launchedAt
-            self.imageName = imageName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case imageId = "ImageId"
-            case name = "Name"
-            case launchedAt = "LaunchedAt"
-            case imageName = "ImageName"
-        }
-    }
-
-    public struct Insight: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupByAttribute", required: true, type: .string), 
-            AWSShapeMember(label: "InsightArn", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: true, type: .structure)
-        ]
-        /// The attribute by which the insight's findings are grouped. This attribute is used as a findings aggregator for the purposes of viewing and managing multiple related findings under a single operand.
-        public let groupByAttribute: String
-        /// The ARN of a Security Hub insight.
-        public let insightArn: String
-        /// The name of a Security Hub insight.
-        public let name: String
-        /// A collection of attributes that are applied to all active Security Hub-aggregated findings and that result in a subset of findings that are included in this insight. 
-        public let filters: AwsSecurityFindingFilters
-
-        public init(groupByAttribute: String, insightArn: String, name: String, filters: AwsSecurityFindingFilters) {
-            self.groupByAttribute = groupByAttribute
-            self.insightArn = insightArn
-            self.name = name
-            self.filters = filters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupByAttribute = "GroupByAttribute"
-            case insightArn = "InsightArn"
-            case name = "Name"
-            case filters = "Filters"
-        }
-    }
-
-    public struct ListEnabledProductsForImportRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
-        ]
-        /// Indicates the maximum number of items that you want in the response.
-        public let maxResults: Int32?
-        /// Paginates results. Set the value of this parameter to NULL on your first call to the ListEnabledProductsForImport operation. For subsequent calls to the operation, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetFindingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Findings", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Findings details returned by the operation.
-        public let findings: [AwsSecurityFinding]
-        /// The token that is required for pagination.
-        public let nextToken: String?
-
-        public init(findings: [AwsSecurityFinding], nextToken: String? = nil) {
-            self.findings = findings
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case findings = "Findings"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct IpFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cidr", required: false, type: .string)
-        ]
-        /// Finding's CIDR value.
-        public let cidr: String?
-
-        public init(cidr: String? = nil) {
-            self.cidr = cidr
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cidr = "Cidr"
-        }
-    }
-
-    public enum WorkflowState: String, CustomStringConvertible, Codable {
-        case new = "NEW"
-        case assigned = "ASSIGNED"
-        case inProgress = "IN_PROGRESS"
-        case deferred = "DEFERRED"
-        case resolved = "RESOLVED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Network: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceIpV4", required: false, type: .string), 
-            AWSShapeMember(label: "SourcePort", required: false, type: .integer), 
-            AWSShapeMember(label: "DestinationPort", required: false, type: .integer), 
-            AWSShapeMember(label: "DestinationDomain", required: false, type: .string), 
-            AWSShapeMember(label: "Direction", required: false, type: .enum), 
-            AWSShapeMember(label: "SourceMac", required: false, type: .string), 
-            AWSShapeMember(label: "SourceDomain", required: false, type: .string), 
-            AWSShapeMember(label: "Protocol", required: false, type: .string), 
-            AWSShapeMember(label: "DestinationIpV4", required: false, type: .string), 
-            AWSShapeMember(label: "SourceIpV6", required: false, type: .string), 
-            AWSShapeMember(label: "DestinationIpV6", required: false, type: .string)
-        ]
-        /// The source IPv4 address of network-related information about a finding.
-        public let sourceIpV4: String?
-        /// The source port of network-related information about a finding.
-        public let sourcePort: Int32?
-        /// The destination port of network-related information about a finding.
-        public let destinationPort: Int32?
-        /// The destination domain of network-related information about a finding.
-        public let destinationDomain: String?
-        /// Indicates the direction of network traffic associated with a finding.
-        public let direction: NetworkDirection?
-        /// The source media access control (MAC) address of network-related information about a finding.
-        public let sourceMac: String?
-        /// The source domain of network-related information about a finding.
-        public let sourceDomain: String?
-        /// The protocol of network-related information about a finding.
-        public let `protocol`: String?
-        /// The destination IPv4 address of network-related information about a finding.
-        public let destinationIpV4: String?
-        /// The source IPv6 address of network-related information about a finding.
-        public let sourceIpV6: String?
-        /// The destination IPv6 address of network-related information about a finding.
-        public let destinationIpV6: String?
-
-        public init(sourceIpV4: String? = nil, sourcePort: Int32? = nil, destinationPort: Int32? = nil, destinationDomain: String? = nil, direction: NetworkDirection? = nil, sourceMac: String? = nil, sourceDomain: String? = nil, protocol: String? = nil, destinationIpV4: String? = nil, sourceIpV6: String? = nil, destinationIpV6: String? = nil) {
-            self.sourceIpV4 = sourceIpV4
-            self.sourcePort = sourcePort
-            self.destinationPort = destinationPort
-            self.destinationDomain = destinationDomain
-            self.direction = direction
-            self.sourceMac = sourceMac
-            self.sourceDomain = sourceDomain
-            self.`protocol` = `protocol`
-            self.destinationIpV4 = destinationIpV4
-            self.sourceIpV6 = sourceIpV6
-            self.destinationIpV6 = destinationIpV6
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceIpV4 = "SourceIpV4"
-            case sourcePort = "SourcePort"
-            case destinationPort = "DestinationPort"
-            case destinationDomain = "DestinationDomain"
-            case direction = "Direction"
-            case sourceMac = "SourceMac"
-            case sourceDomain = "SourceDomain"
-            case `protocol` = "Protocol"
-            case destinationIpV4 = "DestinationIpV4"
-            case sourceIpV6 = "SourceIpV6"
-            case destinationIpV6 = "DestinationIpV6"
-        }
-    }
-
     public struct CreateMembersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
@@ -1055,459 +2306,208 @@ extension SecurityHub {
         }
     }
 
-    public struct BatchEnableStandardsResponse: AWSShape {
+    public struct GetInsightResultsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StandardsSubscriptions", required: false, type: .list)
+            AWSShapeMember(label: "InsightArn", location: .uri(locationName: "InsightArn"), required: true, type: .string)
         ]
-        /// The details of the standards subscriptions that were enabled.
-        public let standardsSubscriptions: [StandardsSubscription]?
+        /// The ARN of the insight whose results you want to see.
+        public let insightArn: String
 
-        public init(standardsSubscriptions: [StandardsSubscription]? = nil) {
-            self.standardsSubscriptions = standardsSubscriptions
+        public init(insightArn: String) {
+            self.insightArn = insightArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case standardsSubscriptions = "StandardsSubscriptions"
+            case insightArn = "InsightArn"
         }
     }
 
-    public enum ThreatIntelIndicatorCategory: String, CustomStringConvertible, Codable {
-        case backdoor = "BACKDOOR"
-        case cardStealer = "CARD_STEALER"
-        case commandAndControl = "COMMAND_AND_CONTROL"
-        case dropSite = "DROP_SITE"
-        case exploitSite = "EXPLOIT_SITE"
-        case keylogger = "KEYLOGGER"
+    public struct InviteMembersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
+        ]
+        /// A list of account ID and email address pairs of the AWS accounts that could not be processed. 
+        public let unprocessedAccounts: [Result]?
+
+        public init(unprocessedAccounts: [Result]? = nil) {
+            self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unprocessedAccounts = "UnprocessedAccounts"
+        }
+    }
+
+    public struct AcceptInvitationResponse: AWSShape {
+
+    }
+
+    public struct EnableImportFindingsForProductResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductSubscriptionArn", required: false, type: .string)
+        ]
+        /// The ARN of a resource that represents your subscription to the product that generates the findings that you want to import into Security Hub.
+        public let productSubscriptionArn: String?
+
+        public init(productSubscriptionArn: String? = nil) {
+            self.productSubscriptionArn = productSubscriptionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productSubscriptionArn = "ProductSubscriptionArn"
+        }
+    }
+
+    public struct DeleteMembersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountIds", required: false, type: .list)
+        ]
+        /// A list of account IDs of the Security Hub member accounts that you want to delete. 
+        public let accountIds: [String]?
+
+        public init(accountIds: [String]? = nil) {
+            self.accountIds = accountIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "AccountIds"
+        }
+    }
+
+    public struct Result: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "ProcessingResult", required: false, type: .string)
+        ]
+        /// An ID of the AWS account that could not be processed. 
+        public let accountId: String?
+        /// The reason for why an account could not be processed.
+        public let processingResult: String?
+
+        public init(accountId: String? = nil, processingResult: String? = nil) {
+            self.accountId = accountId
+            self.processingResult = processingResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case processingResult = "ProcessingResult"
+        }
+    }
+
+    public struct ListMembersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "OnlyAssociated", location: .querystring(locationName: "OnlyAssociated"), required: false, type: .boolean), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        /// Indicates the maximum number of items that you want in the response. 
+        public let maxResults: Int32?
+        /// Specifies what member accounts the response includes based on their relationship status with the master account. The default value is TRUE. If onlyAssociated is set to TRUE, the response includes member accounts whose relationship status with the master is set to ENABLED or DISABLED. If onlyAssociated is set to FALSE, the response includes all existing member accounts. 
+        public let onlyAssociated: Bool?
+        /// Paginates results. Set the value of this parameter to NULL on your first call to the ListMembers operation. For subsequent calls to the operation, fill nextToken in the request with the value of NextToken from the previous response to continue listing data. 
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, onlyAssociated: Bool? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.onlyAssociated = onlyAssociated
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case onlyAssociated = "OnlyAssociated"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DisableSecurityHubResponse: AWSShape {
+
+    }
+
+    public enum MalwareState: String, CustomStringConvertible, Codable {
+        case observed = "OBSERVED"
+        case removalFailed = "REMOVAL_FAILED"
+        case removed = "REMOVED"
         public var description: String { return self.rawValue }
     }
 
-    public struct DisassociateMembersResponse: AWSShape {
-
-    }
-
-    public struct AwsSecurityFindingFilters: AWSShape {
+    public struct AwsS3BucketDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsIamAccessKeyStatus", required: false, type: .list), 
-            AWSShapeMember(label: "ThreatIntelIndicatorValue", required: false, type: .list), 
-            AWSShapeMember(label: "NoteUpdatedAt", required: false, type: .list), 
-            AWSShapeMember(label: "ProcessTerminatedAt", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkSourceIpV4", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsIamAccessKeyCreatedAt", required: false, type: .list), 
-            AWSShapeMember(label: "CompanyName", required: false, type: .list), 
-            AWSShapeMember(label: "ProcessPath", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceContainerLaunchedAt", required: false, type: .list), 
-            AWSShapeMember(label: "AwsAccountId", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceDetailsOther", required: false, type: .list), 
-            AWSShapeMember(label: "ThreatIntelIndicatorType", required: false, type: .list), 
-            AWSShapeMember(label: "ProcessName", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsEc2InstanceIpV4Addresses", required: false, type: .list), 
-            AWSShapeMember(label: "RelatedFindingsId", required: false, type: .list), 
-            AWSShapeMember(label: "WorkflowState", required: false, type: .list), 
-            AWSShapeMember(label: "NoteText", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsEc2InstanceSubnetId", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkDirection", required: false, type: .list), 
-            AWSShapeMember(label: "Id", required: false, type: .list), 
-            AWSShapeMember(label: "ProcessPid", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceRegion", required: false, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .list), 
-            AWSShapeMember(label: "ThreatIntelIndicatorSourceUrl", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsS3BucketOwnerId", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsIamAccessKeyUserName", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkProtocol", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsEc2InstanceLaunchedAt", required: false, type: .list), 
-            AWSShapeMember(label: "Criticality", required: false, type: .list), 
-            AWSShapeMember(label: "RelatedFindingsProductArn", required: false, type: .list), 
-            AWSShapeMember(label: "FirstObservedAt", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkDestinationPort", required: false, type: .list), 
-            AWSShapeMember(label: "ResourcePartition", required: false, type: .list), 
-            AWSShapeMember(label: "NoteUpdatedBy", required: false, type: .list), 
-            AWSShapeMember(label: "SeverityLabel", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceContainerImageName", required: false, type: .list), 
-            AWSShapeMember(label: "VerificationState", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkSourcePort", required: false, type: .list), 
-            AWSShapeMember(label: "SeverityNormalized", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkSourceDomain", required: false, type: .list), 
-            AWSShapeMember(label: "LastObservedAt", required: false, type: .list), 
-            AWSShapeMember(label: "ProductFields", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkSourceMac", required: false, type: .list), 
-            AWSShapeMember(label: "ProcessParentPid", required: false, type: .list), 
-            AWSShapeMember(label: "UserDefinedFields", required: false, type: .list), 
-            AWSShapeMember(label: "Type", required: false, type: .list), 
-            AWSShapeMember(label: "RecordState", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsEc2InstanceKeyName", required: false, type: .list), 
-            AWSShapeMember(label: "Title", required: false, type: .list), 
-            AWSShapeMember(label: "MalwareType", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceContainerImageId", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsEc2InstanceType", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkSourceIpV6", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsS3BucketOwnerName", required: false, type: .list), 
-            AWSShapeMember(label: "ThreatIntelIndicatorCategory", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkDestinationIpV6", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsEc2InstanceVpcId", required: false, type: .list), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsEc2InstanceIpV6Addresses", required: false, type: .list), 
-            AWSShapeMember(label: "SourceUrl", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkDestinationDomain", required: false, type: .list), 
-            AWSShapeMember(label: "SeverityProduct", required: false, type: .list), 
-            AWSShapeMember(label: "MalwareName", required: false, type: .list), 
-            AWSShapeMember(label: "MalwarePath", required: false, type: .list), 
-            AWSShapeMember(label: "ComplianceStatus", required: false, type: .list), 
-            AWSShapeMember(label: "ProductArn", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkDestinationIpV4", required: false, type: .list), 
-            AWSShapeMember(label: "Keyword", required: false, type: .list), 
-            AWSShapeMember(label: "ThreatIntelIndicatorSource", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceTags", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsEc2InstanceImageId", required: false, type: .list), 
-            AWSShapeMember(label: "MalwareState", required: false, type: .list), 
-            AWSShapeMember(label: "ThreatIntelIndicatorLastObservedAt", required: false, type: .list), 
-            AWSShapeMember(label: "Confidence", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceContainerName", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsEc2InstanceIamInstanceProfileArn", required: false, type: .list), 
-            AWSShapeMember(label: "ProcessLaunchedAt", required: false, type: .list), 
-            AWSShapeMember(label: "ProductName", required: false, type: .list), 
-            AWSShapeMember(label: "RecommendationText", required: false, type: .list), 
-            AWSShapeMember(label: "GeneratorId", required: false, type: .list)
+            AWSShapeMember(label: "OwnerName", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerId", required: false, type: .string)
         ]
-        /// An ISO8601-formatted timestamp that indicates when the finding record was last updated by the security findings provider. 
-        public let updatedAt: [DateFilter]?
-        /// The status of the IAM access key related to a finding.
-        public let resourceAwsIamAccessKeyStatus: [StringFilter]?
-        /// The value of a threat intel indicator.
-        public let threatIntelIndicatorValue: [StringFilter]?
-        /// The timestamp of when the note was updated.
-        public let noteUpdatedAt: [DateFilter]?
-        /// The date/time that the process was terminated.
-        public let processTerminatedAt: [DateFilter]?
-        /// The source IPv4 address of network-related information about a finding.
-        public let networkSourceIpV4: [IpFilter]?
-        /// Specifies the type of the resource for which details are provided.
-        public let resourceType: [StringFilter]?
-        /// The creation date/time of the IAM access key related to a finding.
-        public let resourceAwsIamAccessKeyCreatedAt: [DateFilter]?
-        /// The name of the findings provider (company) that owns the solution (product) that generates findings.
-        public let companyName: [StringFilter]?
-        /// The path to the process executable.
-        public let processPath: [StringFilter]?
-        /// The date/time that the container was started.
-        public let resourceContainerLaunchedAt: [DateFilter]?
-        /// The AWS account ID in which a finding is generated.
-        public let awsAccountId: [StringFilter]?
-        /// The details of a resource that does not have a specific sub-field for the resource type defined.
-        public let resourceDetailsOther: [MapFilter]?
-        /// The type of a threat intel indicator.
-        public let threatIntelIndicatorType: [StringFilter]?
-        /// The name of the process.
-        public let processName: [StringFilter]?
-        /// The IPv4 addresses associated with the instance.
-        public let resourceAwsEc2InstanceIpV4Addresses: [IpFilter]?
-        /// The solution-generated identifier for a related finding.
-        public let relatedFindingsId: [StringFilter]?
-        /// The workflow state of a finding.
-        public let workflowState: [StringFilter]?
-        /// The text of a note.
-        public let noteText: [StringFilter]?
-        /// The identifier of the subnet in which the instance was launched.
-        public let resourceAwsEc2InstanceSubnetId: [StringFilter]?
-        /// Indicates the direction of network traffic associated with a finding.
-        public let networkDirection: [StringFilter]?
-        /// The security findings provider-specific identifier for a finding.
-        public let id: [StringFilter]?
-        /// The process ID.
-        public let processPid: [NumberFilter]?
-        /// The canonical AWS external region name where this resource is located.
-        public let resourceRegion: [StringFilter]?
-        /// A finding's description.
-        public let description: [StringFilter]?
-        /// The URL for more details from the source of the threat intel.
-        public let threatIntelIndicatorSourceUrl: [StringFilter]?
-        /// The canonical user ID of the owner of the S3 bucket.
-        public let resourceAwsS3BucketOwnerId: [StringFilter]?
-        /// The user associated with the IAM access key related to a finding.
-        public let resourceAwsIamAccessKeyUserName: [StringFilter]?
-        /// The protocol of network-related information about a finding.
-        public let networkProtocol: [StringFilter]?
-        /// The date/time the instance was launched.
-        public let resourceAwsEc2InstanceLaunchedAt: [DateFilter]?
-        /// The level of importance assigned to the resources associated with the finding. A score of 0 means the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
-        public let criticality: [NumberFilter]?
-        /// The ARN of the solution that generated a related finding.
-        public let relatedFindingsProductArn: [StringFilter]?
-        /// An ISO8601-formatted timestamp that indicates when the potential security issue captured by a finding was first observed by the security findings provider.
-        public let firstObservedAt: [DateFilter]?
-        /// The destination port of network-related information about a finding.
-        public let networkDestinationPort: [NumberFilter]?
-        /// The canonical AWS partition name to which the region is assigned.
-        public let resourcePartition: [StringFilter]?
-        /// The principal that created a note.
-        public let noteUpdatedBy: [StringFilter]?
-        /// The label of a finding's severity.
-        public let severityLabel: [StringFilter]?
-        /// The name of the image related to a finding.
-        public let resourceContainerImageName: [StringFilter]?
-        /// Indicates the veracity of a finding. 
-        public let verificationState: [StringFilter]?
-        /// The source port of network-related information about a finding.
-        public let networkSourcePort: [NumberFilter]?
-        /// The normalized severity of a finding.
-        public let severityNormalized: [NumberFilter]?
-        /// The source domain of network-related information about a finding.
-        public let networkSourceDomain: [StringFilter]?
-        /// An ISO8601-formatted timestamp that indicates when the potential security issue captured by a finding was most recently observed by the security findings provider.
-        public let lastObservedAt: [DateFilter]?
-        /// A data type where security findings providers can include additional solution-specific details that are not part of the defined AwsSecurityFinding format.
-        public let productFields: [MapFilter]?
-        /// The source media access control (MAC) address of network-related information about a finding.
-        public let networkSourceMac: [StringFilter]?
-        /// The parent process ID.
-        public let processParentPid: [NumberFilter]?
-        /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding. 
-        public let userDefinedFields: [MapFilter]?
-        /// A finding type in the format of 'namespace/category/classifier' that classifies a finding.
-        public let `type`: [StringFilter]?
-        /// The updated record state for the finding.
-        public let recordState: [StringFilter]?
-        /// The key name associated with the instance.
-        public let resourceAwsEc2InstanceKeyName: [StringFilter]?
-        /// A finding's title.
-        public let title: [StringFilter]?
-        /// The type of the malware that was observed.
-        public let malwareType: [StringFilter]?
-        /// The identifier of the image related to a finding.
-        public let resourceContainerImageId: [StringFilter]?
-        /// The canonical identifier for the given resource type.
-        public let resourceId: [StringFilter]?
-        /// The instance type of the instance.
-        public let resourceAwsEc2InstanceType: [StringFilter]?
-        /// The source IPv6 address of network-related information about a finding.
-        public let networkSourceIpV6: [IpFilter]?
         /// The display name of the owner of the S3 bucket.
-        public let resourceAwsS3BucketOwnerName: [StringFilter]?
-        /// The category of a threat intel indicator.
-        public let threatIntelIndicatorCategory: [StringFilter]?
-        /// The destination IPv6 address of network-related information about a finding.
-        public let networkDestinationIpV6: [IpFilter]?
-        /// The identifier of the VPC in which the instance was launched.
-        public let resourceAwsEc2InstanceVpcId: [StringFilter]?
-        /// An ISO8601-formatted timestamp that indicates when the potential security issue captured by a finding was created by the security findings provider.
-        public let createdAt: [DateFilter]?
-        /// The IPv6 addresses associated with the instance.
-        public let resourceAwsEc2InstanceIpV6Addresses: [IpFilter]?
-        /// A URL that links to a page about the current finding in the security findings provider's solution.
-        public let sourceUrl: [StringFilter]?
-        /// The destination domain of network-related information about a finding.
-        public let networkDestinationDomain: [StringFilter]?
-        /// The native severity as defined by the security findings provider's solution that generated the finding.
-        public let severityProduct: [NumberFilter]?
-        /// The name of the malware that was observed.
-        public let malwareName: [StringFilter]?
-        /// The filesystem path of the malware that was observed.
-        public let malwarePath: [StringFilter]?
-        /// Exclusive to findings that are generated as the result of a check run against a specific rule in a supported standard (for example, AWS CIS Foundations). Contains compliance-related finding details.
-        public let complianceStatus: [StringFilter]?
-        /// The ARN generated by Security Hub that uniquely identifies a third-party company (security findings provider) once this provider's product (solution that generates findings) is registered with Security Hub.
-        public let productArn: [StringFilter]?
-        /// The destination IPv4 address of network-related information about a finding.
-        public let networkDestinationIpV4: [IpFilter]?
-        /// A keyword for a finding.
-        public let keyword: [KeywordFilter]?
-        /// The source of the threat intel.
-        public let threatIntelIndicatorSource: [StringFilter]?
-        /// A list of AWS tags associated with a resource at the time the finding was processed.
-        public let resourceTags: [MapFilter]?
-        /// The Amazon Machine Image (AMI) ID of the instance.
-        public let resourceAwsEc2InstanceImageId: [StringFilter]?
-        /// The state of the malware that was observed.
-        public let malwareState: [StringFilter]?
-        /// The date/time of the last observation of a threat intel indicator.
-        public let threatIntelIndicatorLastObservedAt: [DateFilter]?
-        /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale. 0 equates zero percent confidence and 100 equates to 100 percent confidence.
-        public let confidence: [NumberFilter]?
-        /// The name of the container related to a finding.
-        public let resourceContainerName: [StringFilter]?
-        /// The IAM profile ARN of the instance.
-        public let resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]?
-        /// The date/time that the process was launched.
-        public let processLaunchedAt: [DateFilter]?
-        /// The name of the solution (product) that generates findings.
-        public let productName: [StringFilter]?
-        /// The recommendation of what to do about the issue described in a finding.
-        public let recommendationText: [StringFilter]?
-        /// This is the identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security findings provider's solutions, this generator can be called a rule, a check, a detector, a plug-in, etc.
-        public let generatorId: [StringFilter]?
+        public let ownerName: String?
+        /// The canonical user ID of the owner of the S3 bucket.
+        public let ownerId: String?
 
-        public init(updatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, resourceType: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, companyName: [StringFilter]? = nil, processPath: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, awsAccountId: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, processName: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, noteText: [StringFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, networkDirection: [StringFilter]? = nil, id: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, resourceRegion: [StringFilter]? = nil, description: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsIamAccessKeyUserName: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, resourcePartition: [StringFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, severityLabel: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, verificationState: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, severityNormalized: [NumberFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, productFields: [MapFilter]? = nil, networkSourceMac: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, userDefinedFields: [MapFilter]? = nil, type: [StringFilter]? = nil, recordState: [StringFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, title: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, createdAt: [DateFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, sourceUrl: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, severityProduct: [NumberFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, productArn: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, keyword: [KeywordFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, confidence: [NumberFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, generatorId: [StringFilter]? = nil) {
-            self.updatedAt = updatedAt
-            self.resourceAwsIamAccessKeyStatus = resourceAwsIamAccessKeyStatus
-            self.threatIntelIndicatorValue = threatIntelIndicatorValue
-            self.noteUpdatedAt = noteUpdatedAt
-            self.processTerminatedAt = processTerminatedAt
-            self.networkSourceIpV4 = networkSourceIpV4
-            self.resourceType = resourceType
-            self.resourceAwsIamAccessKeyCreatedAt = resourceAwsIamAccessKeyCreatedAt
-            self.companyName = companyName
-            self.processPath = processPath
-            self.resourceContainerLaunchedAt = resourceContainerLaunchedAt
-            self.awsAccountId = awsAccountId
-            self.resourceDetailsOther = resourceDetailsOther
-            self.threatIntelIndicatorType = threatIntelIndicatorType
-            self.processName = processName
-            self.resourceAwsEc2InstanceIpV4Addresses = resourceAwsEc2InstanceIpV4Addresses
-            self.relatedFindingsId = relatedFindingsId
-            self.workflowState = workflowState
-            self.noteText = noteText
-            self.resourceAwsEc2InstanceSubnetId = resourceAwsEc2InstanceSubnetId
-            self.networkDirection = networkDirection
-            self.id = id
-            self.processPid = processPid
-            self.resourceRegion = resourceRegion
-            self.description = description
-            self.threatIntelIndicatorSourceUrl = threatIntelIndicatorSourceUrl
-            self.resourceAwsS3BucketOwnerId = resourceAwsS3BucketOwnerId
-            self.resourceAwsIamAccessKeyUserName = resourceAwsIamAccessKeyUserName
-            self.networkProtocol = networkProtocol
-            self.resourceAwsEc2InstanceLaunchedAt = resourceAwsEc2InstanceLaunchedAt
-            self.criticality = criticality
-            self.relatedFindingsProductArn = relatedFindingsProductArn
-            self.firstObservedAt = firstObservedAt
-            self.networkDestinationPort = networkDestinationPort
-            self.resourcePartition = resourcePartition
-            self.noteUpdatedBy = noteUpdatedBy
-            self.severityLabel = severityLabel
-            self.resourceContainerImageName = resourceContainerImageName
-            self.verificationState = verificationState
-            self.networkSourcePort = networkSourcePort
-            self.severityNormalized = severityNormalized
-            self.networkSourceDomain = networkSourceDomain
-            self.lastObservedAt = lastObservedAt
-            self.productFields = productFields
-            self.networkSourceMac = networkSourceMac
-            self.processParentPid = processParentPid
-            self.userDefinedFields = userDefinedFields
-            self.`type` = `type`
-            self.recordState = recordState
-            self.resourceAwsEc2InstanceKeyName = resourceAwsEc2InstanceKeyName
-            self.title = title
-            self.malwareType = malwareType
-            self.resourceContainerImageId = resourceContainerImageId
-            self.resourceId = resourceId
-            self.resourceAwsEc2InstanceType = resourceAwsEc2InstanceType
-            self.networkSourceIpV6 = networkSourceIpV6
-            self.resourceAwsS3BucketOwnerName = resourceAwsS3BucketOwnerName
-            self.threatIntelIndicatorCategory = threatIntelIndicatorCategory
-            self.networkDestinationIpV6 = networkDestinationIpV6
-            self.resourceAwsEc2InstanceVpcId = resourceAwsEc2InstanceVpcId
-            self.createdAt = createdAt
-            self.resourceAwsEc2InstanceIpV6Addresses = resourceAwsEc2InstanceIpV6Addresses
-            self.sourceUrl = sourceUrl
-            self.networkDestinationDomain = networkDestinationDomain
-            self.severityProduct = severityProduct
-            self.malwareName = malwareName
-            self.malwarePath = malwarePath
-            self.complianceStatus = complianceStatus
-            self.productArn = productArn
-            self.networkDestinationIpV4 = networkDestinationIpV4
-            self.keyword = keyword
-            self.threatIntelIndicatorSource = threatIntelIndicatorSource
-            self.resourceTags = resourceTags
-            self.resourceAwsEc2InstanceImageId = resourceAwsEc2InstanceImageId
-            self.malwareState = malwareState
-            self.threatIntelIndicatorLastObservedAt = threatIntelIndicatorLastObservedAt
-            self.confidence = confidence
-            self.resourceContainerName = resourceContainerName
-            self.resourceAwsEc2InstanceIamInstanceProfileArn = resourceAwsEc2InstanceIamInstanceProfileArn
-            self.processLaunchedAt = processLaunchedAt
-            self.productName = productName
-            self.recommendationText = recommendationText
-            self.generatorId = generatorId
+        public init(ownerName: String? = nil, ownerId: String? = nil) {
+            self.ownerName = ownerName
+            self.ownerId = ownerId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case updatedAt = "UpdatedAt"
-            case resourceAwsIamAccessKeyStatus = "ResourceAwsIamAccessKeyStatus"
-            case threatIntelIndicatorValue = "ThreatIntelIndicatorValue"
-            case noteUpdatedAt = "NoteUpdatedAt"
-            case processTerminatedAt = "ProcessTerminatedAt"
-            case networkSourceIpV4 = "NetworkSourceIpV4"
-            case resourceType = "ResourceType"
-            case resourceAwsIamAccessKeyCreatedAt = "ResourceAwsIamAccessKeyCreatedAt"
-            case companyName = "CompanyName"
-            case processPath = "ProcessPath"
-            case resourceContainerLaunchedAt = "ResourceContainerLaunchedAt"
-            case awsAccountId = "AwsAccountId"
-            case resourceDetailsOther = "ResourceDetailsOther"
-            case threatIntelIndicatorType = "ThreatIntelIndicatorType"
-            case processName = "ProcessName"
-            case resourceAwsEc2InstanceIpV4Addresses = "ResourceAwsEc2InstanceIpV4Addresses"
-            case relatedFindingsId = "RelatedFindingsId"
-            case workflowState = "WorkflowState"
-            case noteText = "NoteText"
-            case resourceAwsEc2InstanceSubnetId = "ResourceAwsEc2InstanceSubnetId"
-            case networkDirection = "NetworkDirection"
-            case id = "Id"
-            case processPid = "ProcessPid"
-            case resourceRegion = "ResourceRegion"
-            case description = "Description"
-            case threatIntelIndicatorSourceUrl = "ThreatIntelIndicatorSourceUrl"
-            case resourceAwsS3BucketOwnerId = "ResourceAwsS3BucketOwnerId"
-            case resourceAwsIamAccessKeyUserName = "ResourceAwsIamAccessKeyUserName"
-            case networkProtocol = "NetworkProtocol"
-            case resourceAwsEc2InstanceLaunchedAt = "ResourceAwsEc2InstanceLaunchedAt"
-            case criticality = "Criticality"
-            case relatedFindingsProductArn = "RelatedFindingsProductArn"
-            case firstObservedAt = "FirstObservedAt"
-            case networkDestinationPort = "NetworkDestinationPort"
-            case resourcePartition = "ResourcePartition"
-            case noteUpdatedBy = "NoteUpdatedBy"
-            case severityLabel = "SeverityLabel"
-            case resourceContainerImageName = "ResourceContainerImageName"
-            case verificationState = "VerificationState"
-            case networkSourcePort = "NetworkSourcePort"
-            case severityNormalized = "SeverityNormalized"
-            case networkSourceDomain = "NetworkSourceDomain"
-            case lastObservedAt = "LastObservedAt"
-            case productFields = "ProductFields"
-            case networkSourceMac = "NetworkSourceMac"
-            case processParentPid = "ProcessParentPid"
-            case userDefinedFields = "UserDefinedFields"
-            case `type` = "Type"
-            case recordState = "RecordState"
-            case resourceAwsEc2InstanceKeyName = "ResourceAwsEc2InstanceKeyName"
-            case title = "Title"
-            case malwareType = "MalwareType"
-            case resourceContainerImageId = "ResourceContainerImageId"
-            case resourceId = "ResourceId"
-            case resourceAwsEc2InstanceType = "ResourceAwsEc2InstanceType"
-            case networkSourceIpV6 = "NetworkSourceIpV6"
-            case resourceAwsS3BucketOwnerName = "ResourceAwsS3BucketOwnerName"
-            case threatIntelIndicatorCategory = "ThreatIntelIndicatorCategory"
-            case networkDestinationIpV6 = "NetworkDestinationIpV6"
-            case resourceAwsEc2InstanceVpcId = "ResourceAwsEc2InstanceVpcId"
-            case createdAt = "CreatedAt"
-            case resourceAwsEc2InstanceIpV6Addresses = "ResourceAwsEc2InstanceIpV6Addresses"
-            case sourceUrl = "SourceUrl"
-            case networkDestinationDomain = "NetworkDestinationDomain"
-            case severityProduct = "SeverityProduct"
-            case malwareName = "MalwareName"
-            case malwarePath = "MalwarePath"
-            case complianceStatus = "ComplianceStatus"
-            case productArn = "ProductArn"
-            case networkDestinationIpV4 = "NetworkDestinationIpV4"
-            case keyword = "Keyword"
-            case threatIntelIndicatorSource = "ThreatIntelIndicatorSource"
-            case resourceTags = "ResourceTags"
-            case resourceAwsEc2InstanceImageId = "ResourceAwsEc2InstanceImageId"
-            case malwareState = "MalwareState"
-            case threatIntelIndicatorLastObservedAt = "ThreatIntelIndicatorLastObservedAt"
-            case confidence = "Confidence"
-            case resourceContainerName = "ResourceContainerName"
-            case resourceAwsEc2InstanceIamInstanceProfileArn = "ResourceAwsEc2InstanceIamInstanceProfileArn"
-            case processLaunchedAt = "ProcessLaunchedAt"
-            case productName = "ProductName"
-            case recommendationText = "RecommendationText"
-            case generatorId = "GeneratorId"
+            case ownerName = "OwnerName"
+            case ownerId = "OwnerId"
+        }
+    }
+
+    public struct InsightResultValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupByAttributeValue", required: true, type: .string), 
+            AWSShapeMember(label: "Count", required: true, type: .integer)
+        ]
+        /// The value of the attribute by which the findings are grouped for the insight's whose results are returned by the GetInsightResults operation.
+        public let groupByAttributeValue: String
+        /// The number of findings returned for each GroupByAttributeValue.
+        public let count: Int32
+
+        public init(groupByAttributeValue: String, count: Int32) {
+            self.groupByAttributeValue = groupByAttributeValue
+            self.count = count
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupByAttributeValue = "GroupByAttributeValue"
+            case count = "Count"
+        }
+    }
+
+    public struct ListMembersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Members", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Member details returned by the operation.
+        public let members: [Member]?
+        /// The token that is required for pagination.
+        public let nextToken: String?
+
+        public init(members: [Member]? = nil, nextToken: String? = nil) {
+            self.members = members
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case members = "Members"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetInsightResultsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InsightResults", required: true, type: .structure)
+        ]
+        /// The insight results returned by the operation.
+        public let insightResults: InsightResults
+
+        public init(insightResults: InsightResults) {
+            self.insightResults = insightResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insightResults = "InsightResults"
         }
     }
 
@@ -1548,1064 +2548,64 @@ extension SecurityHub {
         }
     }
 
-    public struct Resource: AWSShape {
+    public struct StandardsSubscription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: true, type: .string), 
-            AWSShapeMember(label: "Partition", required: false, type: .enum), 
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Details", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
+            AWSShapeMember(label: "StandardsArn", required: true, type: .string), 
+            AWSShapeMember(label: "StandardsStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "StandardsInput", required: true, type: .map), 
+            AWSShapeMember(label: "StandardsSubscriptionArn", required: true, type: .string)
         ]
-        /// Specifies the type of the resource for which details are provided.
-        public let `type`: String
-        /// The canonical AWS partition name to which the region is assigned.
-        public let partition: Partition?
-        /// The canonical AWS external region name where this resource is located.
-        public let region: String?
-        /// The canonical identifier for the given resource type.
-        public let id: String
-        /// Provides additional details about the resource.
-        public let details: ResourceDetails?
-        /// A list of AWS tags associated with a resource at the time the finding was processed.
-        public let tags: [String: String]?
+        /// The ARN of a standard.
+        public let standardsArn: String
+        /// The standard's status.
+        public let standardsStatus: StandardsStatus
+        public let standardsInput: [String: String]
+        /// The ARN of a resource that represents your subscription to a supported standard.
+        public let standardsSubscriptionArn: String
 
-        public init(type: String, partition: Partition? = nil, region: String? = nil, id: String, details: ResourceDetails? = nil, tags: [String: String]? = nil) {
-            self.`type` = `type`
-            self.partition = partition
-            self.region = region
-            self.id = id
-            self.details = details
-            self.tags = tags
+        public init(standardsArn: String, standardsStatus: StandardsStatus, standardsInput: [String: String], standardsSubscriptionArn: String) {
+            self.standardsArn = standardsArn
+            self.standardsStatus = standardsStatus
+            self.standardsInput = standardsInput
+            self.standardsSubscriptionArn = standardsSubscriptionArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case partition = "Partition"
-            case region = "Region"
-            case id = "Id"
-            case details = "Details"
-            case tags = "Tags"
+            case standardsArn = "StandardsArn"
+            case standardsStatus = "StandardsStatus"
+            case standardsInput = "StandardsInput"
+            case standardsSubscriptionArn = "StandardsSubscriptionArn"
         }
     }
 
-    public struct DateFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Start", required: false, type: .string), 
-            AWSShapeMember(label: "End", required: false, type: .string), 
-            AWSShapeMember(label: "DateRange", required: false, type: .structure)
-        ]
-        /// A start date for the date filter.
-        public let start: String?
-        /// An end date for the date filter.
-        public let end: String?
-        /// A date range for the date filter.
-        public let dateRange: DateRange?
-
-        public init(start: String? = nil, end: String? = nil, dateRange: DateRange? = nil) {
-            self.start = start
-            self.end = end
-            self.dateRange = dateRange
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case start = "Start"
-            case end = "End"
-            case dateRange = "DateRange"
-        }
-    }
-
-    public struct DisassociateMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", required: false, type: .list)
-        ]
-        /// The account IDs of the member accounts that you want to disassociate from the master account.
-        public let accountIds: [String]?
-
-        public init(accountIds: [String]? = nil) {
-            self.accountIds = accountIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountIds = "AccountIds"
-        }
-    }
-
-    public struct GetInsightResultsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InsightArn", location: .uri(locationName: "InsightArn"), required: true, type: .string)
-        ]
-        /// The ARN of the insight whose results you want to see.
-        public let insightArn: String
-
-        public init(insightArn: String) {
-            self.insightArn = insightArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case insightArn = "InsightArn"
-        }
-    }
-
-    public struct UpdateFindingsResponse: AWSShape {
-
-    }
-
-    public struct DeleteMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", required: false, type: .list)
-        ]
-        /// A list of account IDs of the Security Hub member accounts that you want to delete. 
-        public let accountIds: [String]?
-
-        public init(accountIds: [String]? = nil) {
-            self.accountIds = accountIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountIds = "AccountIds"
-        }
-    }
-
-    public struct DisableImportFindingsForProductRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProductSubscriptionArn", location: .uri(locationName: "ProductSubscriptionArn"), required: true, type: .string)
-        ]
-        /// The ARN of a resource that represents your subscription to a supported product.
-        public let productSubscriptionArn: String
-
-        public init(productSubscriptionArn: String) {
-            self.productSubscriptionArn = productSubscriptionArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case productSubscriptionArn = "ProductSubscriptionArn"
-        }
-    }
-
-    public struct DeclineInvitationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", required: false, type: .list)
-        ]
-        /// A list of account IDs specifying accounts whose invitations to Security Hub you want to decline. 
-        public let accountIds: [String]?
-
-        public init(accountIds: [String]? = nil) {
-            self.accountIds = accountIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountIds = "AccountIds"
-        }
-    }
-
-    public struct EnableImportFindingsForProductResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProductSubscriptionArn", required: false, type: .string)
-        ]
-        /// The ARN of a resource that represents your subscription to the product that generates the findings that you want to import into Security Hub.
-        public let productSubscriptionArn: String?
-
-        public init(productSubscriptionArn: String? = nil) {
-            self.productSubscriptionArn = productSubscriptionArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case productSubscriptionArn = "ProductSubscriptionArn"
-        }
-    }
-
-    public struct BatchEnableStandardsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StandardsSubscriptionRequests", required: true, type: .list)
-        ]
-        /// The list of standards that you want to enable.
-        public let standardsSubscriptionRequests: [StandardsSubscriptionRequest]
-
-        public init(standardsSubscriptionRequests: [StandardsSubscriptionRequest]) {
-            self.standardsSubscriptionRequests = standardsSubscriptionRequests
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case standardsSubscriptionRequests = "StandardsSubscriptionRequests"
-        }
-    }
-
-    public struct Malware: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Path", required: false, type: .string)
-        ]
-        /// The type of the malware that was observed.
-        public let `type`: MalwareType?
-        /// The state of the malware that was observed.
-        public let state: MalwareState?
-        /// The name of the malware that was observed.
-        public let name: String
-        /// The filesystem path of the malware that was observed.
-        public let path: String?
-
-        public init(type: MalwareType? = nil, state: MalwareState? = nil, name: String, path: String? = nil) {
-            self.`type` = `type`
-            self.state = state
-            self.name = name
-            self.path = path
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case state = "State"
-            case name = "Name"
-            case path = "Path"
-        }
-    }
-
-    public struct Result: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "ProcessingResult", required: false, type: .string)
-        ]
-        /// An ID of the AWS account that could not be processed. 
-        public let accountId: String?
-        /// The reason for why an account could not be processed.
-        public let processingResult: String?
-
-        public init(accountId: String? = nil, processingResult: String? = nil) {
-            self.accountId = accountId
-            self.processingResult = processingResult
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "AccountId"
-            case processingResult = "ProcessingResult"
-        }
-    }
-
-    public struct GetInsightsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InsightArns", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The ARNS of the insights that you want to describe.
-        public let insightArns: [String]?
-        /// Indicates the maximum number of items that you want in the response.
-        public let maxResults: Int32?
-        /// Paginates results. Set the value of this parameter to NULL on your first call to the GetInsights operation. For subsequent calls to the operation, fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
-        public let nextToken: String?
-
-        public init(insightArns: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.insightArns = insightArns
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case insightArns = "InsightArns"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ImportFindingsError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: true, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: true, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string)
-        ]
-        /// The code of the error made during the BatchImportFindings operation. 
-        public let errorCode: String
-        /// The message of the error made during the BatchImportFindings operation. 
-        public let errorMessage: String
-        /// The id of the error made during the BatchImportFindings operation.
-        public let id: String
-
-        public init(errorCode: String, errorMessage: String, id: String) {
-            self.errorCode = errorCode
-            self.errorMessage = errorMessage
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case errorMessage = "ErrorMessage"
-            case id = "Id"
-        }
-    }
-
-    public struct DeleteMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
-        ]
-        /// A list of account ID and email address pairs of the AWS accounts that could not be processed. 
-        public let unprocessedAccounts: [Result]?
-
-        public init(unprocessedAccounts: [Result]? = nil) {
-            self.unprocessedAccounts = unprocessedAccounts
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts = "UnprocessedAccounts"
-        }
+    public enum MapFilterComparison: String, CustomStringConvertible, Codable {
+        case contains = "CONTAINS"
+        public var description: String { return self.rawValue }
     }
 
     public struct BatchImportFindingsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SuccessCount", required: true, type: .integer), 
             AWSShapeMember(label: "FailedCount", required: true, type: .integer), 
+            AWSShapeMember(label: "SuccessCount", required: true, type: .integer), 
             AWSShapeMember(label: "FailedFindings", required: false, type: .list)
         ]
-        /// The number of findings that were successfully imported
-        public let successCount: Int32
         /// The number of findings that cannot be imported.
         public let failedCount: Int32
+        /// The number of findings that were successfully imported
+        public let successCount: Int32
         /// The list of the findings that cannot be imported.
         public let failedFindings: [ImportFindingsError]?
 
-        public init(successCount: Int32, failedCount: Int32, failedFindings: [ImportFindingsError]? = nil) {
-            self.successCount = successCount
+        public init(failedCount: Int32, successCount: Int32, failedFindings: [ImportFindingsError]? = nil) {
             self.failedCount = failedCount
+            self.successCount = successCount
             self.failedFindings = failedFindings
         }
 
         private enum CodingKeys: String, CodingKey {
-            case successCount = "SuccessCount"
             case failedCount = "FailedCount"
+            case successCount = "SuccessCount"
             case failedFindings = "FailedFindings"
-        }
-    }
-
-    public struct DisassociateFromMasterAccountResponse: AWSShape {
-
-    }
-
-    public struct EnableSecurityHubRequest: AWSShape {
-
-    }
-
-    public struct EnableSecurityHubResponse: AWSShape {
-
-    }
-
-    public struct InsightResultValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupByAttributeValue", required: true, type: .string), 
-            AWSShapeMember(label: "Count", required: true, type: .integer)
-        ]
-        /// The value of the attribute by which the findings are grouped for the insight's whose results are returned by the GetInsightResults operation.
-        public let groupByAttributeValue: String
-        /// The number of findings returned for each GroupByAttributeValue.
-        public let count: Int32
-
-        public init(groupByAttributeValue: String, count: Int32) {
-            self.groupByAttributeValue = groupByAttributeValue
-            self.count = count
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupByAttributeValue = "GroupByAttributeValue"
-            case count = "Count"
-        }
-    }
-
-    public struct NumberFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Eq", required: false, type: .double), 
-            AWSShapeMember(label: "Gte", required: false, type: .double), 
-            AWSShapeMember(label: "Lte", required: false, type: .double)
-        ]
-        /// Represents the "equal to" condition to be applied to a single field when querying for findings.
-        public let eq: Double?
-        /// Represents the "greater than equal" condition to be applied to a single field when querying for findings. 
-        public let gte: Double?
-        /// Represents the "less than equal" condition to be applied to a single field when querying for findings. 
-        public let lte: Double?
-
-        public init(eq: Double? = nil, gte: Double? = nil, lte: Double? = nil) {
-            self.eq = eq
-            self.gte = gte
-            self.lte = lte
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eq = "Eq"
-            case gte = "Gte"
-            case lte = "Lte"
-        }
-    }
-
-    public struct ListInvitationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Invitations", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The details of the invitations returned by the operation.
-        public let invitations: [Invitation]?
-        /// The token that is required for pagination.
-        public let nextToken: String?
-
-        public init(invitations: [Invitation]? = nil, nextToken: String? = nil) {
-            self.invitations = invitations
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case invitations = "Invitations"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct StandardsSubscription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StandardsSubscriptionArn", required: true, type: .string), 
-            AWSShapeMember(label: "StandardsStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "StandardsArn", required: true, type: .string), 
-            AWSShapeMember(label: "StandardsInput", required: true, type: .map)
-        ]
-        /// The ARN of a resource that represents your subscription to a supported standard.
-        public let standardsSubscriptionArn: String
-        /// The standard's status.
-        public let standardsStatus: StandardsStatus
-        /// The ARN of a standard.
-        public let standardsArn: String
-        public let standardsInput: [String: String]
-
-        public init(standardsSubscriptionArn: String, standardsStatus: StandardsStatus, standardsArn: String, standardsInput: [String: String]) {
-            self.standardsSubscriptionArn = standardsSubscriptionArn
-            self.standardsStatus = standardsStatus
-            self.standardsArn = standardsArn
-            self.standardsInput = standardsInput
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case standardsSubscriptionArn = "StandardsSubscriptionArn"
-            case standardsStatus = "StandardsStatus"
-            case standardsArn = "StandardsArn"
-            case standardsInput = "StandardsInput"
-        }
-    }
-
-    public struct GetInsightsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Insights", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The insights returned by the operation.
-        public let insights: [Insight]
-        /// The token that is required for pagination.
-        public let nextToken: String?
-
-        public init(insights: [Insight], nextToken: String? = nil) {
-            self.insights = insights
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case insights = "Insights"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum MalwareState: String, CustomStringConvertible, Codable {
-        case observed = "OBSERVED"
-        case removalFailed = "REMOVAL_FAILED"
-        case removed = "REMOVED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "SortCriteria", required: false, type: .list), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure)
-        ]
-        /// Paginates results. Set the value of this parameter to NULL on your first call to the GetFindings operation. For subsequent calls to the operation, fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
-        public let nextToken: String?
-        /// Indicates the maximum number of items that you want in the response.
-        public let maxResults: Int32?
-        /// A collection of attributes used for sorting findings.
-        public let sortCriteria: [SortCriterion]?
-        /// A collection of attributes that is use for querying findings.
-        public let filters: AwsSecurityFindingFilters?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, sortCriteria: [SortCriterion]? = nil, filters: AwsSecurityFindingFilters? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.sortCriteria = sortCriteria
-            self.filters = filters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case sortCriteria = "SortCriteria"
-            case filters = "Filters"
-        }
-    }
-
-    public enum DateRangeUnit: String, CustomStringConvertible, Codable {
-        case days = "DAYS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetEnabledStandardsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "StandardsSubscriptionArns", required: false, type: .list)
-        ]
-        /// Paginates results. Set the value of this parameter to NULL on your first call to the GetEnabledStandards operation. For subsequent calls to the operation, fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
-        public let nextToken: String?
-        /// Indicates the maximum number of items that you want in the response.
-        public let maxResults: Int32?
-        /// The list of standards subscription ARNS that you want to list and describe.
-        public let standardsSubscriptionArns: [String]?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, standardsSubscriptionArns: [String]? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.standardsSubscriptionArns = standardsSubscriptionArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case standardsSubscriptionArns = "StandardsSubscriptionArns"
-        }
-    }
-
-    public struct Recommendation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Url", required: false, type: .string), 
-            AWSShapeMember(label: "Text", required: false, type: .string)
-        ]
-        /// A URL to link to general remediation information for the finding type of a finding. 
-        public let url: String?
-        /// The recommendation of what to do about the issue described in a finding. 
-        public let text: String?
-
-        public init(url: String? = nil, text: String? = nil) {
-            self.url = url
-            self.text = text
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case url = "Url"
-            case text = "Text"
-        }
-    }
-
-    public struct StandardsSubscriptionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StandardsInput", required: false, type: .map), 
-            AWSShapeMember(label: "StandardsArn", required: true, type: .string)
-        ]
-        public let standardsInput: [String: String]?
-        /// The ARN of the standard that you want to enable.
-        public let standardsArn: String
-
-        public init(standardsInput: [String: String]? = nil, standardsArn: String) {
-            self.standardsInput = standardsInput
-            self.standardsArn = standardsArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case standardsInput = "StandardsInput"
-            case standardsArn = "StandardsArn"
-        }
-    }
-
-    public struct NoteUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UpdatedBy", required: true, type: .string), 
-            AWSShapeMember(label: "Text", required: true, type: .string)
-        ]
-        /// The principal that updated the note.
-        public let updatedBy: String
-        /// The updated note text.
-        public let text: String
-
-        public init(updatedBy: String, text: String) {
-            self.updatedBy = updatedBy
-            self.text = text
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case updatedBy = "UpdatedBy"
-            case text = "Text"
-        }
-    }
-
-    public struct GetInvitationsCountRequest: AWSShape {
-
-    }
-
-    public struct AwsEc2InstanceDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyName", required: false, type: .string), 
-            AWSShapeMember(label: "IpV4Addresses", required: false, type: .list), 
-            AWSShapeMember(label: "IamInstanceProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "ImageId", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "IpV6Addresses", required: false, type: .list), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .string), 
-            AWSShapeMember(label: "LaunchedAt", required: false, type: .string)
-        ]
-        /// The key name associated with the instance.
-        public let keyName: String?
-        /// The IPv4 addresses associated with the instance.
-        public let ipV4Addresses: [String]?
-        /// The IAM profile ARN of the instance.
-        public let iamInstanceProfileArn: String?
-        /// The Amazon Machine Image (AMI) ID of the instance.
-        public let imageId: String?
-        /// The identifier of the subnet in which the instance was launched.
-        public let subnetId: String?
-        /// The IPv6 addresses associated with the instance.
-        public let ipV6Addresses: [String]?
-        /// The identifier of the VPC in which the instance was launched.
-        public let vpcId: String?
-        /// The instance type of the instance. 
-        public let `type`: String?
-        /// The date/time the instance was launched.
-        public let launchedAt: String?
-
-        public init(keyName: String? = nil, ipV4Addresses: [String]? = nil, iamInstanceProfileArn: String? = nil, imageId: String? = nil, subnetId: String? = nil, ipV6Addresses: [String]? = nil, vpcId: String? = nil, type: String? = nil, launchedAt: String? = nil) {
-            self.keyName = keyName
-            self.ipV4Addresses = ipV4Addresses
-            self.iamInstanceProfileArn = iamInstanceProfileArn
-            self.imageId = imageId
-            self.subnetId = subnetId
-            self.ipV6Addresses = ipV6Addresses
-            self.vpcId = vpcId
-            self.`type` = `type`
-            self.launchedAt = launchedAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyName = "KeyName"
-            case ipV4Addresses = "IpV4Addresses"
-            case iamInstanceProfileArn = "IamInstanceProfileArn"
-            case imageId = "ImageId"
-            case subnetId = "SubnetId"
-            case ipV6Addresses = "IpV6Addresses"
-            case vpcId = "VpcId"
-            case `type` = "Type"
-            case launchedAt = "LaunchedAt"
-        }
-    }
-
-    public enum AwsIamAccessKeyStatus: String, CustomStringConvertible, Codable {
-        case active = "Active"
-        case inactive = "Inactive"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DateRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .integer), 
-            AWSShapeMember(label: "Unit", required: false, type: .enum)
-        ]
-        /// A date range value for the date filter.
-        public let value: Int32?
-        /// A date range unit for the date filter.
-        public let unit: DateRangeUnit?
-
-        public init(value: Int32? = nil, unit: DateRangeUnit? = nil) {
-            self.value = value
-            self.unit = unit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case unit = "Unit"
-        }
-    }
-
-    public struct BatchDisableStandardsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StandardsSubscriptionArns", required: true, type: .list)
-        ]
-        /// The ARNS of the standards subscriptions that you want to disable.
-        public let standardsSubscriptionArns: [String]
-
-        public init(standardsSubscriptionArns: [String]) {
-            self.standardsSubscriptionArns = standardsSubscriptionArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case standardsSubscriptionArns = "StandardsSubscriptionArns"
-        }
-    }
-
-    public struct AcceptInvitationResponse: AWSShape {
-
-    }
-
-    public struct UpdateFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Note", required: false, type: .structure), 
-            AWSShapeMember(label: "RecordState", required: false, type: .enum), 
-            AWSShapeMember(label: "Filters", required: true, type: .structure)
-        ]
-        /// The updated note for the finding.
-        public let note: NoteUpdate?
-        /// The updated record state for the finding.
-        public let recordState: RecordState?
-        /// A collection of attributes that specify what findings you want to update.
-        public let filters: AwsSecurityFindingFilters
-
-        public init(note: NoteUpdate? = nil, recordState: RecordState? = nil, filters: AwsSecurityFindingFilters) {
-            self.note = note
-            self.recordState = recordState
-            self.filters = filters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case note = "Note"
-            case recordState = "RecordState"
-            case filters = "Filters"
-        }
-    }
-
-    public struct GetInsightResultsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InsightResults", required: true, type: .structure)
-        ]
-        /// The insight results returned by the operation.
-        public let insightResults: InsightResults
-
-        public init(insightResults: InsightResults) {
-            self.insightResults = insightResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case insightResults = "InsightResults"
-        }
-    }
-
-    public struct ListInvitationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
-        ]
-        /// Indicates the maximum number of items that you want in the response. 
-        public let maxResults: Int32?
-        /// Paginates results. Set the value of this parameter to NULL on your first call to the ListInvitations operation. For subsequent calls to the operation, fill nextToken in the request with the value of NextToken from the previous response to continue listing data. 
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct InviteMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", required: false, type: .list)
-        ]
-        /// A list of IDs of the AWS accounts that you want to invite to Security Hub as members. 
-        public let accountIds: [String]?
-
-        public init(accountIds: [String]? = nil) {
-            self.accountIds = accountIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountIds = "AccountIds"
-        }
-    }
-
-    public struct Severity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Normalized", required: true, type: .integer), 
-            AWSShapeMember(label: "Product", required: false, type: .double)
-        ]
-        /// The normalized severity of a finding.
-        public let normalized: Int32
-        /// The native severity as defined by the security findings provider's solution that generated the finding.
-        public let product: Double?
-
-        public init(normalized: Int32, product: Double? = nil) {
-            self.normalized = normalized
-            self.product = product
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case normalized = "Normalized"
-            case product = "Product"
-        }
-    }
-
-    public struct AcceptInvitationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MasterId", required: false, type: .string), 
-            AWSShapeMember(label: "InvitationId", required: false, type: .string)
-        ]
-        /// The account ID of the master Security Hub account whose invitation you're accepting. 
-        public let masterId: String?
-        /// The ID of the invitation that is sent to the AWS account by the Security Hub master account. 
-        public let invitationId: String?
-
-        public init(masterId: String? = nil, invitationId: String? = nil) {
-            self.masterId = masterId
-            self.invitationId = invitationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case masterId = "MasterId"
-            case invitationId = "InvitationId"
-        }
-    }
-
-    public struct Invitation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberStatus", required: false, type: .string), 
-            AWSShapeMember(label: "InvitedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InvitationId", required: false, type: .string), 
-            AWSShapeMember(label: "AccountId", required: false, type: .string)
-        ]
-        /// The current relationship status between the inviter and invitee accounts.
-        public let memberStatus: String?
-        /// The timestamp of when the invitation was sent.
-        public let invitedAt: TimeStamp?
-        /// The ID of the invitation sent by the master Security Hub account.
-        public let invitationId: String?
-        /// The account ID of the master Security Hub account who sent the invitation. 
-        public let accountId: String?
-
-        public init(memberStatus: String? = nil, invitedAt: TimeStamp? = nil, invitationId: String? = nil, accountId: String? = nil) {
-            self.memberStatus = memberStatus
-            self.invitedAt = invitedAt
-            self.invitationId = invitationId
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case memberStatus = "MemberStatus"
-            case invitedAt = "InvitedAt"
-            case invitationId = "InvitationId"
-            case accountId = "AccountId"
-        }
-    }
-
-    public struct GetMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", required: true, type: .list)
-        ]
-        /// A list of account IDs for the Security Hub member accounts on which you want to return the details. 
-        public let accountIds: [String]
-
-        public init(accountIds: [String]) {
-            self.accountIds = accountIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountIds = "AccountIds"
-        }
-    }
-
-    public struct EnableImportFindingsForProductRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProductArn", required: true, type: .string)
-        ]
-        /// The ARN of the product that generates findings that you want to import into Security Hub.
-        public let productArn: String
-
-        public init(productArn: String) {
-            self.productArn = productArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case productArn = "ProductArn"
-        }
-    }
-
-    public struct CreateMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountDetails", required: false, type: .list)
-        ]
-        /// A list of account ID and email address pairs of the accounts that you want to associate with the master Security Hub account.
-        public let accountDetails: [AccountDetails]?
-
-        public init(accountDetails: [AccountDetails]? = nil) {
-            self.accountDetails = accountDetails
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountDetails = "AccountDetails"
-        }
-    }
-
-    public struct DisableSecurityHubResponse: AWSShape {
-
-    }
-
-    public struct AwsIamAccessKeyDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string)
-        ]
-        /// The status of the IAM access key related to a finding.
-        public let status: AwsIamAccessKeyStatus?
-        /// The creation date/time of the IAM access key related to a finding.
-        public let createdAt: String?
-        /// The user associated with the IAM access key related to a finding.
-        public let userName: String?
-
-        public init(status: AwsIamAccessKeyStatus? = nil, createdAt: String? = nil, userName: String? = nil) {
-            self.status = status
-            self.createdAt = createdAt
-            self.userName = userName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case createdAt = "CreatedAt"
-            case userName = "UserName"
-        }
-    }
-
-    public struct SortCriterion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Field", required: false, type: .string), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
-        ]
-        /// The finding attribute used for sorting findings.
-        public let field: String?
-        /// The order used for sorting findings.
-        public let sortOrder: SortOrder?
-
-        public init(field: String? = nil, sortOrder: SortOrder? = nil) {
-            self.field = field
-            self.sortOrder = sortOrder
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case field = "Field"
-            case sortOrder = "SortOrder"
-        }
-    }
-
-    public enum Partition: String, CustomStringConvertible, Codable {
-        case aws = "aws"
-        case awsCn = "aws-cn"
-        case awsUsGov = "aws-us-gov"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateInsightRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupByAttribute", required: false, type: .string), 
-            AWSShapeMember(label: "InsightArn", location: .uri(locationName: "InsightArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure)
-        ]
-        /// The updated GroupBy attribute that defines this insight.
-        public let groupByAttribute: String?
-        /// The ARN of the insight that you want to update.
-        public let insightArn: String
-        /// The updated name for the insight.
-        public let name: String?
-        /// The updated filters that define this insight.
-        public let filters: AwsSecurityFindingFilters?
-
-        public init(groupByAttribute: String? = nil, insightArn: String, name: String? = nil, filters: AwsSecurityFindingFilters? = nil) {
-            self.groupByAttribute = groupByAttribute
-            self.insightArn = insightArn
-            self.name = name
-            self.filters = filters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupByAttribute = "GroupByAttribute"
-            case insightArn = "InsightArn"
-            case name = "Name"
-            case filters = "Filters"
-        }
-    }
-
-    public struct DeleteInvitationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", required: false, type: .list)
-        ]
-        /// A list of account IDs specifying accounts whose invitations to Security Hub you want to delete. 
-        public let accountIds: [String]?
-
-        public init(accountIds: [String]? = nil) {
-            self.accountIds = accountIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountIds = "AccountIds"
-        }
-    }
-
-    public struct CreateInsightResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InsightArn", required: true, type: .string)
-        ]
-        /// The ARN Of the created insight.
-        public let insightArn: String
-
-        public init(insightArn: String) {
-            self.insightArn = insightArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case insightArn = "InsightArn"
-        }
-    }
-
-    public struct AwsS3BucketDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerName", required: false, type: .string)
-        ]
-        /// The canonical user ID of the owner of the S3 bucket.
-        public let ownerId: String?
-        /// The display name of the owner of the S3 bucket.
-        public let ownerName: String?
-
-        public init(ownerId: String? = nil, ownerName: String? = nil) {
-            self.ownerId = ownerId
-            self.ownerName = ownerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ownerId = "OwnerId"
-            case ownerName = "OwnerName"
-        }
-    }
-
-    public struct ListMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Members", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Member details returned by the operation.
-        public let members: [Member]?
-        /// The token that is required for pagination.
-        public let nextToken: String?
-
-        public init(members: [Member]? = nil, nextToken: String? = nil) {
-            self.members = members
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case members = "Members"
-            case nextToken = "NextToken"
         }
     }
 

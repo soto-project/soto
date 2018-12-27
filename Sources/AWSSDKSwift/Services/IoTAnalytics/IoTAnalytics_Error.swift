@@ -8,8 +8,8 @@ public enum IoTAnalyticsErrorType: AWSErrorType {
     case internalFailureException(message: String?)
     case serviceUnavailableException(message: String?)
     case throttlingException(message: String?)
-    case limitExceededException(message: String?)
     case resourceNotFoundException(message: String?)
+    case limitExceededException(message: String?)
     case resourceAlreadyExistsException(message: String?)
 }
 
@@ -28,10 +28,10 @@ extension IoTAnalyticsErrorType {
             self = .serviceUnavailableException(message: message)
         case "ThrottlingException":
             self = .throttlingException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         case "ResourceAlreadyExistsException":
             self = .resourceAlreadyExistsException(message: message)
         default:

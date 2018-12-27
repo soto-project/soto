@@ -5,1237 +5,176 @@ import AWSSDKSwiftCore
 
 extension ServiceCatalog {
 
-    public struct DeleteTagOptionInput: AWSShape {
+    public struct TagOptionSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string)
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
         ]
-        /// The TagOption identifier.
-        public let id: String
+        /// The TagOption key.
+        public let key: String?
+        /// The TagOption value.
+        public let values: [String]?
 
-        public init(id: String) {
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
-    }
-
-    public struct AccessLevelFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .enum)
-        ]
-        /// The user to which the access level applies. The only supported value is Self.
-        public let value: String?
-        /// The access level.    Account - Filter results based on the account.    Role - Filter results based on the federated role of the specified user.    User - Filter results based on the specified user.  
-        public let key: AccessLevelFilterKey?
-
-        public init(value: String? = nil, key: AccessLevelFilterKey? = nil) {
-            self.value = value
+        public init(key: String? = nil, values: [String]? = nil) {
             self.key = key
+            self.values = values
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value = "Value"
             case key = "Key"
+            case values = "Values"
         }
     }
 
-    public struct BatchDisassociateServiceActionFromProvisioningArtifactInput: AWSShape {
+    public struct ResourceDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceActionAssociations", required: true, type: .list), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// One or more associations, each consisting of the Action ID, the Product ID, and the Provisioning Artifact ID.
-        public let serviceActionAssociations: [ServiceActionAssociation]
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-
-        public init(serviceActionAssociations: [ServiceActionAssociation], acceptLanguage: String? = nil) {
-            self.serviceActionAssociations = serviceActionAssociations
-            self.acceptLanguage = acceptLanguage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceActionAssociations = "ServiceActionAssociations"
-            case acceptLanguage = "AcceptLanguage"
-        }
-    }
-
-    public struct TerminateProvisionedProductOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
-        ]
-        /// Information about the result of this request.
-        public let recordDetail: RecordDetail?
-
-        public init(recordDetail: RecordDetail? = nil) {
-            self.recordDetail = recordDetail
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recordDetail = "RecordDetail"
-        }
-    }
-
-    public struct ProvisionedProductAttribute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "LastRecordId", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .string), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: false, type: .string), 
-            AWSShapeMember(label: "UserArn", required: false, type: .string), 
-            AWSShapeMember(label: "UserArnSession", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "PhysicalId", required: false, type: .string)
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ARN", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp)
         ]
-        /// The identifier of the provisioning artifact.
-        public let provisioningArtifactId: String?
-        /// The ARN of the provisioned product.
-        public let arn: String?
-        /// The UTC time stamp of the creation time.
-        public let createdTime: TimeStamp?
-        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
-        public let idempotencyToken: String?
-        /// One or more tags.
-        public let tags: [Tag]?
-        /// The record identifier of the last request performed on this provisioned product.
-        public let lastRecordId: String?
-        /// The identifier of the provisioned product.
-        public let id: String?
-        /// The type of provisioned product. The supported values are CFN_STACK and CFN_STACKSET.
-        public let `type`: String?
-        /// The current status message of the provisioned product.
-        public let statusMessage: String?
-        /// The product identifier.
-        public let productId: String?
-        /// The Amazon Resource Name (ARN) of the IAM user.
-        public let userArn: String?
-        /// The ARN of the IAM user in the session. This ARN might contain a session ID.
-        public let userArnSession: String?
-        /// The current status of the provisioned product.    AVAILABLE - Stable state, ready to perform any operation. The most recent operation succeeded and completed.    UNDER_CHANGE - Transitive state, operations performed might not have valid results. Wait for an AVAILABLE status before performing operations.    TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.    ERROR - An unexpected error occurred, the provisioned product exists but the stack is not running. For example, CloudFormation received a parameter value that was not valid and could not launch the stack.  
-        public let status: ProvisionedProductStatus?
-        /// The user-friendly name of the provisioned product.
+        /// The name of the resource.
         public let name: String?
-        /// The assigned identifier for the resource, such as an EC2 instance ID or an S3 bucket name.
-        public let physicalId: String?
+        /// The identifier of the resource.
+        public let id: String?
+        /// The description of the resource.
+        public let description: String?
+        /// The ARN of the resource.
+        public let arn: String?
+        /// The creation time of the resource.
+        public let createdTime: TimeStamp?
 
-        public init(provisioningArtifactId: String? = nil, arn: String? = nil, createdTime: TimeStamp? = nil, idempotencyToken: String? = nil, tags: [Tag]? = nil, lastRecordId: String? = nil, id: String? = nil, type: String? = nil, statusMessage: String? = nil, productId: String? = nil, userArn: String? = nil, userArnSession: String? = nil, status: ProvisionedProductStatus? = nil, name: String? = nil, physicalId: String? = nil) {
-            self.provisioningArtifactId = provisioningArtifactId
+        public init(name: String? = nil, id: String? = nil, description: String? = nil, arn: String? = nil, createdTime: TimeStamp? = nil) {
+            self.name = name
+            self.id = id
+            self.description = description
             self.arn = arn
             self.createdTime = createdTime
-            self.idempotencyToken = idempotencyToken
-            self.tags = tags
-            self.lastRecordId = lastRecordId
-            self.id = id
-            self.`type` = `type`
-            self.statusMessage = statusMessage
-            self.productId = productId
-            self.userArn = userArn
-            self.userArnSession = userArnSession
-            self.status = status
-            self.name = name
-            self.physicalId = physicalId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case provisioningArtifactId = "ProvisioningArtifactId"
-            case arn = "Arn"
-            case createdTime = "CreatedTime"
-            case idempotencyToken = "IdempotencyToken"
-            case tags = "Tags"
-            case lastRecordId = "LastRecordId"
-            case id = "Id"
-            case `type` = "Type"
-            case statusMessage = "StatusMessage"
-            case productId = "ProductId"
-            case userArn = "UserArn"
-            case userArnSession = "UserArnSession"
-            case status = "Status"
             case name = "Name"
-            case physicalId = "PhysicalId"
+            case id = "Id"
+            case description = "Description"
+            case arn = "ARN"
+            case createdTime = "CreatedTime"
         }
     }
 
-    public struct DeleteProductOutput: AWSShape {
+    public struct DeletePortfolioOutput: AWSShape {
 
     }
 
-    public enum ServiceActionDefinitionType: String, CustomStringConvertible, Codable {
-        case ssmAutomation = "SSM_AUTOMATION"
-        public var description: String { return self.rawValue }
+    public struct GetAWSOrganizationsAccessStatusInput: AWSShape {
+
     }
 
-    public struct DescribeRecordOutput: AWSShape {
+    public struct CopyProductInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordDetail", required: false, type: .structure), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "RecordOutputs", required: false, type: .list)
-        ]
-        /// Information about the product.
-        public let recordDetail: RecordDetail?
-        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
-        public let nextPageToken: String?
-        /// Information about the product created as the result of a request. For example, the output for a CloudFormation-backed product that creates an S3 bucket would include the S3 bucket URL.
-        public let recordOutputs: [RecordOutput]?
-
-        public init(recordDetail: RecordDetail? = nil, nextPageToken: String? = nil, recordOutputs: [RecordOutput]? = nil) {
-            self.recordDetail = recordDetail
-            self.nextPageToken = nextPageToken
-            self.recordOutputs = recordOutputs
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recordDetail = "RecordDetail"
-            case nextPageToken = "NextPageToken"
-            case recordOutputs = "RecordOutputs"
-        }
-    }
-
-    public struct DescribeCopyProductStatusInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CopyProductToken", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// The token for the copy product operation. This token is returned by CopyProduct.
-        public let copyProductToken: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-
-        public init(copyProductToken: String, acceptLanguage: String? = nil) {
-            self.copyProductToken = copyProductToken
-            self.acceptLanguage = acceptLanguage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case copyProductToken = "CopyProductToken"
-            case acceptLanguage = "AcceptLanguage"
-        }
-    }
-
-    public struct DescribeProvisioningArtifactInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
+            AWSShapeMember(label: "CopyOptions", required: false, type: .list), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: true, type: .string), 
-            AWSShapeMember(label: "Verbose", required: false, type: .boolean), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string)
+            AWSShapeMember(label: "SourceProvisioningArtifactIdentifiers", required: false, type: .list), 
+            AWSShapeMember(label: "SourceProductArn", required: true, type: .string), 
+            AWSShapeMember(label: "TargetProductName", required: false, type: .string), 
+            AWSShapeMember(label: "TargetProductId", required: false, type: .string)
         ]
+        ///  A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request. 
+        public let idempotencyToken: String
+        /// The copy options. If the value is CopyTags, the tags from the source product are copied to the target product.
+        public let copyOptions: [CopyOption]?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The product identifier.
-        public let productId: String
-        /// Indicates whether a verbose level of detail is enabled.
-        public let verbose: Bool?
-        /// The identifier of the provisioning artifact.
-        public let provisioningArtifactId: String
+        /// The identifiers of the provisioning artifacts (also known as versions) of the product to copy. By default, all provisioning artifacts are copied.
+        public let sourceProvisioningArtifactIdentifiers: [[ProvisioningArtifactPropertyName: String]]?
+        /// The Amazon Resource Name (ARN) of the source product.
+        public let sourceProductArn: String
+        /// A name for the target product. The default is the name of the source product.
+        public let targetProductName: String?
+        /// The identifier of the target product. By default, a new product is created.
+        public let targetProductId: String?
 
-        public init(acceptLanguage: String? = nil, productId: String, verbose: Bool? = nil, provisioningArtifactId: String) {
+        public init(idempotencyToken: String, copyOptions: [CopyOption]? = nil, acceptLanguage: String? = nil, sourceProvisioningArtifactIdentifiers: [[ProvisioningArtifactPropertyName: String]]? = nil, sourceProductArn: String, targetProductName: String? = nil, targetProductId: String? = nil) {
+            self.idempotencyToken = idempotencyToken
+            self.copyOptions = copyOptions
             self.acceptLanguage = acceptLanguage
-            self.productId = productId
-            self.verbose = verbose
-            self.provisioningArtifactId = provisioningArtifactId
+            self.sourceProvisioningArtifactIdentifiers = sourceProvisioningArtifactIdentifiers
+            self.sourceProductArn = sourceProductArn
+            self.targetProductName = targetProductName
+            self.targetProductId = targetProductId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case idempotencyToken = "IdempotencyToken"
+            case copyOptions = "CopyOptions"
             case acceptLanguage = "AcceptLanguage"
-            case productId = "ProductId"
-            case verbose = "Verbose"
-            case provisioningArtifactId = "ProvisioningArtifactId"
+            case sourceProvisioningArtifactIdentifiers = "SourceProvisioningArtifactIdentifiers"
+            case sourceProductArn = "SourceProductArn"
+            case targetProductName = "TargetProductName"
+            case targetProductId = "TargetProductId"
         }
     }
 
-    public struct ProvisioningPreferences: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackSetMaxConcurrencyPercentage", required: false, type: .integer), 
-            AWSShapeMember(label: "StackSetFailureToleranceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "StackSetFailureTolerancePercentage", required: false, type: .integer), 
-            AWSShapeMember(label: "StackSetRegions", required: false, type: .list), 
-            AWSShapeMember(label: "StackSetAccounts", required: false, type: .list), 
-            AWSShapeMember(label: "StackSetMaxConcurrencyCount", required: false, type: .integer)
-        ]
-        /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, AWS Service Catalog rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, AWS Service Catalog sets the number as 1 instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage, but not both.
-        public let stackSetMaxConcurrencyPercentage: Int32?
-        /// The number of accounts, per region, for which this operation can fail before AWS Service Catalog stops the operation in that region. If the operation is stopped in a region, AWS Service Catalog doesn't attempt the operation in any subsequent regions. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both. The default value is 0 if no value is specified.
-        public let stackSetFailureToleranceCount: Int32?
-        /// The percentage of accounts, per region, for which this stack operation can fail before AWS Service Catalog stops the operation in that region. If the operation is stopped in a region, AWS Service Catalog doesn't attempt the operation in any subsequent regions. When calculating the number of accounts based on the specified percentage, AWS Service Catalog rounds down to the next whole number. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both.
-        public let stackSetFailureTolerancePercentage: Int32?
-        /// One or more AWS Regions where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified regions should be within the list of regions from the STACKSET constraint. To get the list of regions in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all regions from the STACKSET constraint.
-        public let stackSetRegions: [String]?
-        /// One or more AWS accounts that will have access to the provisioned product. Applicable only to a CFN_STACKSET provisioned product type. The AWS accounts specified should be within the list of accounts in the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all accounts from the STACKSET constraint.
-        public let stackSetAccounts: [String]?
-        /// The maximum number of accounts in which to perform this operation at one time. This is dependent on the value of StackSetFailureToleranceCount. StackSetMaxConcurrentCount is at most one more than the StackSetFailureToleranceCount. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage, but not both.
-        public let stackSetMaxConcurrencyCount: Int32?
+    public struct AssociateProductWithPortfolioOutput: AWSShape {
 
-        public init(stackSetMaxConcurrencyPercentage: Int32? = nil, stackSetFailureToleranceCount: Int32? = nil, stackSetFailureTolerancePercentage: Int32? = nil, stackSetRegions: [String]? = nil, stackSetAccounts: [String]? = nil, stackSetMaxConcurrencyCount: Int32? = nil) {
-            self.stackSetMaxConcurrencyPercentage = stackSetMaxConcurrencyPercentage
-            self.stackSetFailureToleranceCount = stackSetFailureToleranceCount
-            self.stackSetFailureTolerancePercentage = stackSetFailureTolerancePercentage
-            self.stackSetRegions = stackSetRegions
-            self.stackSetAccounts = stackSetAccounts
-            self.stackSetMaxConcurrencyCount = stackSetMaxConcurrencyCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackSetMaxConcurrencyPercentage = "StackSetMaxConcurrencyPercentage"
-            case stackSetFailureToleranceCount = "StackSetFailureToleranceCount"
-            case stackSetFailureTolerancePercentage = "StackSetFailureTolerancePercentage"
-            case stackSetRegions = "StackSetRegions"
-            case stackSetAccounts = "StackSetAccounts"
-            case stackSetMaxConcurrencyCount = "StackSetMaxConcurrencyCount"
-        }
-    }
-
-    public enum RequiresRecreation: String, CustomStringConvertible, Codable {
-        case never = "NEVER"
-        case conditionally = "CONDITIONALLY"
-        case always = "ALWAYS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListConstraintsForPortfolioInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: false, type: .string), 
-            AWSShapeMember(label: "PageToken", required: false, type: .string), 
-            AWSShapeMember(label: "PortfolioId", required: true, type: .string)
-        ]
-        /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The product identifier.
-        public let productId: String?
-        /// The page token for the next set of results. To retrieve the first set of results, use null.
-        public let pageToken: String?
-        /// The portfolio identifier.
-        public let portfolioId: String
-
-        public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, productId: String? = nil, pageToken: String? = nil, portfolioId: String) {
-            self.pageSize = pageSize
-            self.acceptLanguage = acceptLanguage
-            self.productId = productId
-            self.pageToken = pageToken
-            self.portfolioId = portfolioId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "PageSize"
-            case acceptLanguage = "AcceptLanguage"
-            case productId = "ProductId"
-            case pageToken = "PageToken"
-            case portfolioId = "PortfolioId"
-        }
-    }
-
-    public struct ExecuteProvisionedProductPlanOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
-        ]
-        /// Information about the result of provisioning the product.
-        public let recordDetail: RecordDetail?
-
-        public init(recordDetail: RecordDetail? = nil) {
-            self.recordDetail = recordDetail
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recordDetail = "RecordDetail"
-        }
-    }
-
-    public struct ProvisionedProductPlanSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProvisionProductId", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisionProductName", required: false, type: .string), 
-            AWSShapeMember(label: "PlanId", required: false, type: .string), 
-            AWSShapeMember(label: "PlanName", required: false, type: .string), 
-            AWSShapeMember(label: "PlanType", required: false, type: .enum), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string)
-        ]
-        /// The product identifier.
-        public let provisionProductId: String?
-        /// The user-friendly name of the provisioned product.
-        public let provisionProductName: String?
-        /// The plan identifier.
-        public let planId: String?
-        /// The name of the plan.
-        public let planName: String?
-        /// The plan type.
-        public let planType: ProvisionedProductPlanType?
-        /// The identifier of the provisioning artifact.
-        public let provisioningArtifactId: String?
-
-        public init(provisionProductId: String? = nil, provisionProductName: String? = nil, planId: String? = nil, planName: String? = nil, planType: ProvisionedProductPlanType? = nil, provisioningArtifactId: String? = nil) {
-            self.provisionProductId = provisionProductId
-            self.provisionProductName = provisionProductName
-            self.planId = planId
-            self.planName = planName
-            self.planType = planType
-            self.provisioningArtifactId = provisioningArtifactId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case provisionProductId = "ProvisionProductId"
-            case provisionProductName = "ProvisionProductName"
-            case planId = "PlanId"
-            case planName = "PlanName"
-            case planType = "PlanType"
-            case provisioningArtifactId = "ProvisioningArtifactId"
-        }
-    }
-
-    public enum Replacement: String, CustomStringConvertible, Codable {
-        case `true` = "TRUE"
-        case `false` = "FALSE"
-        case conditional = "CONDITIONAL"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListAcceptedPortfolioSharesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PortfolioDetails", required: false, type: .list), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "PortfolioDetails", required: false, type: .list)
         ]
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
         /// Information about the portfolios.
         public let portfolioDetails: [PortfolioDetail]?
-        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
-        public let nextPageToken: String?
 
-        public init(portfolioDetails: [PortfolioDetail]? = nil, nextPageToken: String? = nil) {
+        public init(nextPageToken: String? = nil, portfolioDetails: [PortfolioDetail]? = nil) {
+            self.nextPageToken = nextPageToken
             self.portfolioDetails = portfolioDetails
-            self.nextPageToken = nextPageToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "NextPageToken"
             case portfolioDetails = "PortfolioDetails"
-            case nextPageToken = "NextPageToken"
-        }
-    }
-
-    public struct ServiceActionDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceActionSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "Definition", required: false, type: .map)
-        ]
-        /// Summary information about the self-service action.
-        public let serviceActionSummary: ServiceActionSummary?
-        /// A map that defines the self-service action.
-        public let definition: [ServiceActionDefinitionKey: String]?
-
-        public init(serviceActionSummary: ServiceActionSummary? = nil, definition: [ServiceActionDefinitionKey: String]? = nil) {
-            self.serviceActionSummary = serviceActionSummary
-            self.definition = definition
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceActionSummary = "ServiceActionSummary"
-            case definition = "Definition"
-        }
-    }
-
-    public struct DeletePortfolioShareInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationNode", required: false, type: .structure), 
-            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeMember(label: "AccountId", required: false, type: .string)
-        ]
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The organization node to whom you are going to stop sharing.
-        public let organizationNode: OrganizationNode?
-        /// The portfolio identifier.
-        public let portfolioId: String
-        /// The AWS account ID.
-        public let accountId: String?
-
-        public init(acceptLanguage: String? = nil, organizationNode: OrganizationNode? = nil, portfolioId: String, accountId: String? = nil) {
-            self.acceptLanguage = acceptLanguage
-            self.organizationNode = organizationNode
-            self.portfolioId = portfolioId
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case acceptLanguage = "AcceptLanguage"
-            case organizationNode = "OrganizationNode"
-            case portfolioId = "PortfolioId"
-            case accountId = "AccountId"
-        }
-    }
-
-    public struct ListServiceActionsForProvisioningArtifactInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "PageToken", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string)
-        ]
-        /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
-        /// The page token for the next set of results. To retrieve the first set of results, use null.
-        public let pageToken: String?
-        /// The product identifier. For example, prod-abcdzk7xy33qa.
-        public let productId: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne.
-        public let provisioningArtifactId: String
-
-        public init(pageSize: Int32? = nil, pageToken: String? = nil, productId: String, acceptLanguage: String? = nil, provisioningArtifactId: String) {
-            self.pageSize = pageSize
-            self.pageToken = pageToken
-            self.productId = productId
-            self.acceptLanguage = acceptLanguage
-            self.provisioningArtifactId = provisioningArtifactId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "PageSize"
-            case pageToken = "PageToken"
-            case productId = "ProductId"
-            case acceptLanguage = "AcceptLanguage"
-            case provisioningArtifactId = "ProvisioningArtifactId"
-        }
-    }
-
-    public struct CreateServiceActionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceActionDetail", required: false, type: .structure)
-        ]
-        /// An object containing information about the self-service action.
-        public let serviceActionDetail: ServiceActionDetail?
-
-        public init(serviceActionDetail: ServiceActionDetail? = nil) {
-            self.serviceActionDetail = serviceActionDetail
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceActionDetail = "ServiceActionDetail"
-        }
-    }
-
-    public struct AssociateTagOptionWithResourceOutput: AWSShape {
-
-    }
-
-    public struct ListPortfoliosForProductInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: true, type: .string), 
-            AWSShapeMember(label: "PageToken", required: false, type: .string)
-        ]
-        /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The product identifier.
-        public let productId: String
-        /// The page token for the next set of results. To retrieve the first set of results, use null.
-        public let pageToken: String?
-
-        public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, productId: String, pageToken: String? = nil) {
-            self.pageSize = pageSize
-            self.acceptLanguage = acceptLanguage
-            self.productId = productId
-            self.pageToken = pageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "PageSize"
-            case acceptLanguage = "AcceptLanguage"
-            case productId = "ProductId"
-            case pageToken = "PageToken"
-        }
-    }
-
-    public struct CreateProvisioningArtifactOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Info", required: false, type: .map), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "ProvisioningArtifactDetail", required: false, type: .structure)
-        ]
-        /// The URL of the CloudFormation template in Amazon S3, in JSON format.
-        public let info: [String: String]?
-        /// The status of the current request.
-        public let status: Status?
-        /// Information about the provisioning artifact.
-        public let provisioningArtifactDetail: ProvisioningArtifactDetail?
-
-        public init(info: [String: String]? = nil, status: Status? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil) {
-            self.info = info
-            self.status = status
-            self.provisioningArtifactDetail = provisioningArtifactDetail
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case info = "Info"
-            case status = "Status"
-            case provisioningArtifactDetail = "ProvisioningArtifactDetail"
-        }
-    }
-
-    public struct ExecuteProvisionedProductPlanInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
-            AWSShapeMember(label: "PlanId", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
-        public let idempotencyToken: String
-        /// The plan identifier.
-        public let planId: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-
-        public init(idempotencyToken: String, planId: String, acceptLanguage: String? = nil) {
-            self.idempotencyToken = idempotencyToken
-            self.planId = planId
-            self.acceptLanguage = acceptLanguage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case idempotencyToken = "IdempotencyToken"
-            case planId = "PlanId"
-            case acceptLanguage = "AcceptLanguage"
-        }
-    }
-
-    public enum ProvisionedProductPlanType: String, CustomStringConvertible, Codable {
-        case cloudformation = "CLOUDFORMATION"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeProductAsAdminInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// The product identifier.
-        public let id: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-
-        public init(id: String, acceptLanguage: String? = nil) {
-            self.id = id
-            self.acceptLanguage = acceptLanguage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case acceptLanguage = "AcceptLanguage"
-        }
-    }
-
-    public struct RecordDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordId", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
-            AWSShapeMember(label: "PathId", required: false, type: .string), 
-            AWSShapeMember(label: "RecordErrors", required: false, type: .list), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ProvisionedProductName", required: false, type: .string), 
-            AWSShapeMember(label: "RecordTags", required: false, type: .list), 
-            AWSShapeMember(label: "ProvisionedProductId", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisionedProductType", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "RecordType", required: false, type: .string), 
-            AWSShapeMember(label: "UpdatedTime", required: false, type: .timestamp)
-        ]
-        /// The identifier of the record.
-        public let recordId: String?
-        /// The identifier of the provisioning artifact.
-        public let provisioningArtifactId: String?
-        /// The path identifier.
-        public let pathId: String?
-        /// The errors that occurred.
-        public let recordErrors: [RecordError]?
-        /// The UTC time stamp of the creation time.
-        public let createdTime: TimeStamp?
-        /// The user-friendly name of the provisioned product.
-        public let provisionedProductName: String?
-        /// One or more tags.
-        public let recordTags: [RecordTag]?
-        /// The identifier of the provisioned product.
-        public let provisionedProductId: String?
-        /// The product identifier.
-        public let productId: String?
-        /// The type of provisioned product. The supported values are CFN_STACK and CFN_STACKSET.
-        public let provisionedProductType: String?
-        /// The status of the provisioned product.    CREATED - The request was created but the operation has not started.    IN_PROGRESS - The requested operation is in progress.    IN_PROGRESS_IN_ERROR - The provisioned product is under change but the requested operation failed and some remediation is occurring. For example, a rollback.    SUCCEEDED - The requested operation has successfully completed.    FAILED - The requested operation has unsuccessfully completed. Investigate using the error messages returned.  
-        public let status: RecordStatus?
-        /// The record type.    PROVISION_PRODUCT     UPDATE_PROVISIONED_PRODUCT     TERMINATE_PROVISIONED_PRODUCT   
-        public let recordType: String?
-        /// The time when the record was last updated.
-        public let updatedTime: TimeStamp?
-
-        public init(recordId: String? = nil, provisioningArtifactId: String? = nil, pathId: String? = nil, recordErrors: [RecordError]? = nil, createdTime: TimeStamp? = nil, provisionedProductName: String? = nil, recordTags: [RecordTag]? = nil, provisionedProductId: String? = nil, productId: String? = nil, provisionedProductType: String? = nil, status: RecordStatus? = nil, recordType: String? = nil, updatedTime: TimeStamp? = nil) {
-            self.recordId = recordId
-            self.provisioningArtifactId = provisioningArtifactId
-            self.pathId = pathId
-            self.recordErrors = recordErrors
-            self.createdTime = createdTime
-            self.provisionedProductName = provisionedProductName
-            self.recordTags = recordTags
-            self.provisionedProductId = provisionedProductId
-            self.productId = productId
-            self.provisionedProductType = provisionedProductType
-            self.status = status
-            self.recordType = recordType
-            self.updatedTime = updatedTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recordId = "RecordId"
-            case provisioningArtifactId = "ProvisioningArtifactId"
-            case pathId = "PathId"
-            case recordErrors = "RecordErrors"
-            case createdTime = "CreatedTime"
-            case provisionedProductName = "ProvisionedProductName"
-            case recordTags = "RecordTags"
-            case provisionedProductId = "ProvisionedProductId"
-            case productId = "ProductId"
-            case provisionedProductType = "ProvisionedProductType"
-            case status = "Status"
-            case recordType = "RecordType"
-            case updatedTime = "UpdatedTime"
-        }
-    }
-
-    public struct ListProvisioningArtifactsForServiceActionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "PageToken", required: false, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceActionId", required: true, type: .string)
-        ]
-        /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
-        /// The page token for the next set of results. To retrieve the first set of results, use null.
-        public let pageToken: String?
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The self-service action identifier. For example, act-fs7abcd89wxyz.
-        public let serviceActionId: String
-
-        public init(pageSize: Int32? = nil, pageToken: String? = nil, acceptLanguage: String? = nil, serviceActionId: String) {
-            self.pageSize = pageSize
-            self.pageToken = pageToken
-            self.acceptLanguage = acceptLanguage
-            self.serviceActionId = serviceActionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "PageSize"
-            case pageToken = "PageToken"
-            case acceptLanguage = "AcceptLanguage"
-            case serviceActionId = "ServiceActionId"
-        }
-    }
-
-    public struct AssociatePrincipalWithPortfolioInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PrincipalARN", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeMember(label: "PrincipalType", required: true, type: .enum)
-        ]
-        /// The ARN of the principal (IAM user, role, or group).
-        public let principalARN: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The portfolio identifier.
-        public let portfolioId: String
-        /// The principal type. The supported value is IAM.
-        public let principalType: PrincipalType
-
-        public init(principalARN: String, acceptLanguage: String? = nil, portfolioId: String, principalType: PrincipalType) {
-            self.principalARN = principalARN
-            self.acceptLanguage = acceptLanguage
-            self.portfolioId = portfolioId
-            self.principalType = principalType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case principalARN = "PrincipalARN"
-            case acceptLanguage = "AcceptLanguage"
-            case portfolioId = "PortfolioId"
-            case principalType = "PrincipalType"
-        }
-    }
-
-    public struct SearchProductsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProductViewSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "ProductViewAggregations", required: false, type: .map)
-        ]
-        /// Information about the product views.
-        public let productViewSummaries: [ProductViewSummary]?
-        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
-        public let nextPageToken: String?
-        /// The product view aggregations.
-        public let productViewAggregations: [String: [ProductViewAggregationValue]]?
-
-        public init(productViewSummaries: [ProductViewSummary]? = nil, nextPageToken: String? = nil, productViewAggregations: [String: [ProductViewAggregationValue]]? = nil) {
-            self.productViewSummaries = productViewSummaries
-            self.nextPageToken = nextPageToken
-            self.productViewAggregations = productViewAggregations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case productViewSummaries = "ProductViewSummaries"
-            case nextPageToken = "NextPageToken"
-            case productViewAggregations = "ProductViewAggregations"
         }
     }
 
     public struct DescribePortfolioOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "PortfolioDetail", required: false, type: .structure), 
             AWSShapeMember(label: "TagOptions", required: false, type: .list), 
-            AWSShapeMember(label: "PortfolioDetail", required: false, type: .structure)
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
-        /// Information about the tags associated with the portfolio.
-        public let tags: [Tag]?
-        /// Information about the TagOptions associated with the portfolio.
-        public let tagOptions: [TagOptionDetail]?
         /// Information about the portfolio.
         public let portfolioDetail: PortfolioDetail?
+        /// Information about the TagOptions associated with the portfolio.
+        public let tagOptions: [TagOptionDetail]?
+        /// Information about the tags associated with the portfolio.
+        public let tags: [Tag]?
 
-        public init(tags: [Tag]? = nil, tagOptions: [TagOptionDetail]? = nil, portfolioDetail: PortfolioDetail? = nil) {
-            self.tags = tags
-            self.tagOptions = tagOptions
+        public init(portfolioDetail: PortfolioDetail? = nil, tagOptions: [TagOptionDetail]? = nil, tags: [Tag]? = nil) {
             self.portfolioDetail = portfolioDetail
+            self.tagOptions = tagOptions
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case tagOptions = "TagOptions"
             case portfolioDetail = "PortfolioDetail"
+            case tagOptions = "TagOptions"
+            case tags = "Tags"
         }
     }
 
-    public enum RecordStatus: String, CustomStringConvertible, Codable {
-        case created = "CREATED"
-        case inProgress = "IN_PROGRESS"
-        case inProgressInError = "IN_PROGRESS_IN_ERROR"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
+    public enum ResourceAttribute: String, CustomStringConvertible, Codable {
+        case properties = "PROPERTIES"
+        case metadata = "METADATA"
+        case creationpolicy = "CREATIONPOLICY"
+        case updatepolicy = "UPDATEPOLICY"
+        case deletionpolicy = "DELETIONPOLICY"
+        case tags = "TAGS"
         public var description: String { return self.rawValue }
-    }
-
-    public struct Principal: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PrincipalARN", required: false, type: .string), 
-            AWSShapeMember(label: "PrincipalType", required: false, type: .enum)
-        ]
-        /// The ARN of the principal (IAM user, role, or group).
-        public let principalARN: String?
-        /// The principal type. The supported value is IAM.
-        public let principalType: PrincipalType?
-
-        public init(principalARN: String? = nil, principalType: PrincipalType? = nil) {
-            self.principalARN = principalARN
-            self.principalType = principalType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case principalARN = "PrincipalARN"
-            case principalType = "PrincipalType"
-        }
-    }
-
-    public struct ProvisionedProductDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "LastRecordId", required: false, type: .string), 
-            AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ProductId", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The ARN of the provisioned product.
-        public let arn: String?
-        /// The current status message of the provisioned product.
-        public let statusMessage: String?
-        /// The identifier of the provisioned product.
-        public let id: String?
-        /// The current status of the provisioned product.    AVAILABLE - Stable state, ready to perform any operation. The most recent operation succeeded and completed.    UNDER_CHANGE - Transitive state, operations performed might not have valid results. Wait for an AVAILABLE status before performing operations.    TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.    ERROR - An unexpected error occurred, the provisioned product exists but the stack is not running. For example, CloudFormation received a parameter value that was not valid and could not launch the stack.  
-        public let status: ProvisionedProductStatus?
-        /// The record identifier of the last request performed on this provisioned product.
-        public let lastRecordId: String?
-        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
-        public let idempotencyToken: String?
-        /// The UTC time stamp of the creation time.
-        public let createdTime: TimeStamp?
-        /// The product identifier. For example, prod-abcdzk7xy33qa.
-        public let productId: String?
-        /// The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne.
-        public let provisioningArtifactId: String?
-        /// The type of provisioned product. The supported values are CFN_STACK and CFN_STACKSET.
-        public let `type`: String?
-        /// The user-friendly name of the provisioned product.
-        public let name: String?
-
-        public init(arn: String? = nil, statusMessage: String? = nil, id: String? = nil, status: ProvisionedProductStatus? = nil, lastRecordId: String? = nil, idempotencyToken: String? = nil, createdTime: TimeStamp? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, type: String? = nil, name: String? = nil) {
-            self.arn = arn
-            self.statusMessage = statusMessage
-            self.id = id
-            self.status = status
-            self.lastRecordId = lastRecordId
-            self.idempotencyToken = idempotencyToken
-            self.createdTime = createdTime
-            self.productId = productId
-            self.provisioningArtifactId = provisioningArtifactId
-            self.`type` = `type`
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case statusMessage = "StatusMessage"
-            case id = "Id"
-            case status = "Status"
-            case lastRecordId = "LastRecordId"
-            case idempotencyToken = "IdempotencyToken"
-            case createdTime = "CreatedTime"
-            case productId = "ProductId"
-            case provisioningArtifactId = "ProvisioningArtifactId"
-            case `type` = "Type"
-            case name = "Name"
-        }
-    }
-
-    public struct ProductViewAggregationValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "ApproximateCount", required: false, type: .integer)
-        ]
-        /// The value of the product view aggregation.
-        public let value: String?
-        /// An approximate count of the products that match the value.
-        public let approximateCount: Int32?
-
-        public init(value: String? = nil, approximateCount: Int32? = nil) {
-            self.value = value
-            self.approximateCount = approximateCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case approximateCount = "ApproximateCount"
-        }
-    }
-
-    public struct ResourceChangeDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Target", required: false, type: .structure), 
-            AWSShapeMember(label: "Evaluation", required: false, type: .enum), 
-            AWSShapeMember(label: "CausingEntity", required: false, type: .string)
-        ]
-        /// Information about the resource attribute to be modified.
-        public let target: ResourceTargetDefinition?
-        /// For static evaluations, the value of the resource attribute will change and the new value is known. For dynamic evaluations, the value might change, and any new value will be determined when the plan is updated.
-        public let evaluation: EvaluationType?
-        /// The ID of the entity that caused the change.
-        public let causingEntity: String?
-
-        public init(target: ResourceTargetDefinition? = nil, evaluation: EvaluationType? = nil, causingEntity: String? = nil) {
-            self.target = target
-            self.evaluation = evaluation
-            self.causingEntity = causingEntity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case target = "Target"
-            case evaluation = "Evaluation"
-            case causingEntity = "CausingEntity"
-        }
-    }
-
-    public struct GetAWSOrganizationsAccessStatusOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessStatus", required: false, type: .enum)
-        ]
-        /// The status of the portfolio share feature.
-        public let accessStatus: AccessStatus?
-
-        public init(accessStatus: AccessStatus? = nil) {
-            self.accessStatus = accessStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accessStatus = "AccessStatus"
-        }
-    }
-
-    public struct ShareError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Error", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Accounts", required: false, type: .list)
-        ]
-        /// Error type that happened when processing the operation.
-        public let error: String?
-        /// Information about the error.
-        public let message: String?
-        /// List of accounts impacted by the error.
-        public let accounts: [String]?
-
-        public init(error: String? = nil, message: String? = nil, accounts: [String]? = nil) {
-            self.error = error
-            self.message = message
-            self.accounts = accounts
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case error = "Error"
-            case message = "Message"
-            case accounts = "Accounts"
-        }
-    }
-
-    public struct DescribeServiceActionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceActionDetail", required: false, type: .structure)
-        ]
-        /// Detailed information about the self-service action.
-        public let serviceActionDetail: ServiceActionDetail?
-
-        public init(serviceActionDetail: ServiceActionDetail? = nil) {
-            self.serviceActionDetail = serviceActionDetail
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceActionDetail = "ServiceActionDetail"
-        }
-    }
-
-    public struct ListConstraintsForPortfolioOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "ConstraintDetails", required: false, type: .list)
-        ]
-        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
-        public let nextPageToken: String?
-        /// Information about the constraints.
-        public let constraintDetails: [ConstraintDetail]?
-
-        public init(nextPageToken: String? = nil, constraintDetails: [ConstraintDetail]? = nil) {
-            self.nextPageToken = nextPageToken
-            self.constraintDetails = constraintDetails
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextPageToken = "NextPageToken"
-            case constraintDetails = "ConstraintDetails"
-        }
-    }
-
-    public enum SortOrder: String, CustomStringConvertible, Codable {
-        case ascending = "ASCENDING"
-        case descending = "DESCENDING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateTagOptionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Active", required: false, type: .boolean)
-        ]
-        /// The updated value.
-        public let value: String?
-        /// The TagOption identifier.
-        public let id: String
-        /// The updated active state.
-        public let active: Bool?
-
-        public init(value: String? = nil, id: String, active: Bool? = nil) {
-            self.value = value
-            self.id = id
-            self.active = active
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case id = "Id"
-            case active = "Active"
-        }
-    }
-
-    public struct DisassociatePrincipalFromPortfolioInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PrincipalARN", required: true, type: .string), 
-            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// The ARN of the principal (IAM user, role, or group).
-        public let principalARN: String
-        /// The portfolio identifier.
-        public let portfolioId: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-
-        public init(principalARN: String, portfolioId: String, acceptLanguage: String? = nil) {
-            self.principalARN = principalARN
-            self.portfolioId = portfolioId
-            self.acceptLanguage = acceptLanguage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case principalARN = "PrincipalARN"
-            case portfolioId = "PortfolioId"
-            case acceptLanguage = "AcceptLanguage"
-        }
-    }
-
-    public struct ProvisioningArtifactSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProvisioningArtifactMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp)
-        ]
-        /// The metadata for the provisioning artifact. This is used with AWS Marketplace products.
-        public let provisioningArtifactMetadata: [String: String]?
-        /// The identifier of the provisioning artifact.
-        public let id: String?
-        /// The name of the provisioning artifact.
-        public let name: String?
-        /// The description of the provisioning artifact.
-        public let description: String?
-        /// The UTC time stamp of the creation time.
-        public let createdTime: TimeStamp?
-
-        public init(provisioningArtifactMetadata: [String: String]? = nil, id: String? = nil, name: String? = nil, description: String? = nil, createdTime: TimeStamp? = nil) {
-            self.provisioningArtifactMetadata = provisioningArtifactMetadata
-            self.id = id
-            self.name = name
-            self.description = description
-            self.createdTime = createdTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case provisioningArtifactMetadata = "ProvisioningArtifactMetadata"
-            case id = "Id"
-            case name = "Name"
-            case description = "Description"
-            case createdTime = "CreatedTime"
-        }
-    }
-
-    public struct ListPortfolioAccessInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// The portfolio identifier.
-        public let portfolioId: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-
-        public init(portfolioId: String, acceptLanguage: String? = nil) {
-            self.portfolioId = portfolioId
-            self.acceptLanguage = acceptLanguage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case portfolioId = "PortfolioId"
-            case acceptLanguage = "AcceptLanguage"
-        }
-    }
-
-    public struct FailedServiceActionAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceActionId", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .enum)
-        ]
-        /// A text description of the error.
-        public let errorMessage: String?
-        /// The product identifier. For example, prod-abcdzk7xy33qa.
-        public let productId: String?
-        /// The self-service action identifier. For example, act-fs7abcd89wxyz.
-        public let serviceActionId: String?
-        /// The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne.
-        public let provisioningArtifactId: String?
-        /// The error code. Valid values are listed below.
-        public let errorCode: ServiceActionAssociationErrorCode?
-
-        public init(errorMessage: String? = nil, productId: String? = nil, serviceActionId: String? = nil, provisioningArtifactId: String? = nil, errorCode: ServiceActionAssociationErrorCode? = nil) {
-            self.errorMessage = errorMessage
-            self.productId = productId
-            self.serviceActionId = serviceActionId
-            self.provisioningArtifactId = provisioningArtifactId
-            self.errorCode = errorCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorMessage = "ErrorMessage"
-            case productId = "ProductId"
-            case serviceActionId = "ServiceActionId"
-            case provisioningArtifactId = "ProvisioningArtifactId"
-            case errorCode = "ErrorCode"
-        }
-    }
-
-    public struct ListProvisioningArtifactsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: true, type: .string)
-        ]
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The product identifier.
-        public let productId: String
-
-        public init(acceptLanguage: String? = nil, productId: String) {
-            self.acceptLanguage = acceptLanguage
-            self.productId = productId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case acceptLanguage = "AcceptLanguage"
-            case productId = "ProductId"
-        }
-    }
-
-    public struct UpdateProvisionedProductOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
-        ]
-        /// Information about the result of the request.
-        public let recordDetail: RecordDetail?
-
-        public init(recordDetail: RecordDetail? = nil) {
-            self.recordDetail = recordDetail
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recordDetail = "RecordDetail"
-        }
     }
 
     public struct ProvisioningArtifactView: AWSShape {
@@ -1259,648 +198,126 @@ extension ServiceCatalog {
         }
     }
 
-    public enum ProvisioningArtifactPropertyName: String, CustomStringConvertible, Codable {
-        case id = "Id"
+    public enum ProvisioningArtifactType: String, CustomStringConvertible, Codable {
+        case cloudFormationTemplate = "CLOUD_FORMATION_TEMPLATE"
+        case marketplaceAmi = "MARKETPLACE_AMI"
+        case marketplaceCar = "MARKETPLACE_CAR"
         public var description: String { return self.rawValue }
     }
 
-    public struct CopyProductInput: AWSShape {
+    public struct DescribeProvisioningArtifactOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceProductArn", required: true, type: .string), 
-            AWSShapeMember(label: "TargetProductId", required: false, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "CopyOptions", required: false, type: .list), 
-            AWSShapeMember(label: "SourceProvisioningArtifactIdentifiers", required: false, type: .list), 
-            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
-            AWSShapeMember(label: "TargetProductName", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the source product.
-        public let sourceProductArn: String
-        /// The identifier of the target product. By default, a new product is created.
-        public let targetProductId: String?
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The copy options. If the value is CopyTags, the tags from the source product are copied to the target product.
-        public let copyOptions: [CopyOption]?
-        /// The identifiers of the provisioning artifacts (also known as versions) of the product to copy. By default, all provisioning artifacts are copied.
-        public let sourceProvisioningArtifactIdentifiers: [[ProvisioningArtifactPropertyName: String]]?
-        ///  A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request. 
-        public let idempotencyToken: String
-        /// A name for the target product. The default is the name of the source product.
-        public let targetProductName: String?
-
-        public init(sourceProductArn: String, targetProductId: String? = nil, acceptLanguage: String? = nil, copyOptions: [CopyOption]? = nil, sourceProvisioningArtifactIdentifiers: [[ProvisioningArtifactPropertyName: String]]? = nil, idempotencyToken: String, targetProductName: String? = nil) {
-            self.sourceProductArn = sourceProductArn
-            self.targetProductId = targetProductId
-            self.acceptLanguage = acceptLanguage
-            self.copyOptions = copyOptions
-            self.sourceProvisioningArtifactIdentifiers = sourceProvisioningArtifactIdentifiers
-            self.idempotencyToken = idempotencyToken
-            self.targetProductName = targetProductName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceProductArn = "SourceProductArn"
-            case targetProductId = "TargetProductId"
-            case acceptLanguage = "AcceptLanguage"
-            case copyOptions = "CopyOptions"
-            case sourceProvisioningArtifactIdentifiers = "SourceProvisioningArtifactIdentifiers"
-            case idempotencyToken = "IdempotencyToken"
-            case targetProductName = "TargetProductName"
-        }
-    }
-
-    public enum PrincipalType: String, CustomStringConvertible, Codable {
-        case iam = "IAM"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ProvisioningArtifactParameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterType", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
-            AWSShapeMember(label: "IsNoEcho", required: false, type: .boolean), 
-            AWSShapeMember(label: "ParameterConstraints", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ParameterKey", required: false, type: .string)
-        ]
-        /// The parameter type.
-        public let parameterType: String?
-        /// The default value.
-        public let defaultValue: String?
-        /// If this value is true, the value for this parameter is obfuscated from view when the parameter is retrieved. This parameter is used to hide sensitive information.
-        public let isNoEcho: Bool?
-        /// Constraints that the administrator has put on a parameter.
-        public let parameterConstraints: ParameterConstraints?
-        /// The description of the parameter.
-        public let description: String?
-        /// The parameter key.
-        public let parameterKey: String?
-
-        public init(parameterType: String? = nil, defaultValue: String? = nil, isNoEcho: Bool? = nil, parameterConstraints: ParameterConstraints? = nil, description: String? = nil, parameterKey: String? = nil) {
-            self.parameterType = parameterType
-            self.defaultValue = defaultValue
-            self.isNoEcho = isNoEcho
-            self.parameterConstraints = parameterConstraints
-            self.description = description
-            self.parameterKey = parameterKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case parameterType = "ParameterType"
-            case defaultValue = "DefaultValue"
-            case isNoEcho = "IsNoEcho"
-            case parameterConstraints = "ParameterConstraints"
-            case description = "Description"
-            case parameterKey = "ParameterKey"
-        }
-    }
-
-    public struct SearchProvisionedProductsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "TotalResultsCount", required: false, type: .integer), 
-            AWSShapeMember(label: "ProvisionedProducts", required: false, type: .list)
-        ]
-        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
-        public let nextPageToken: String?
-        /// The number of provisioned products found.
-        public let totalResultsCount: Int32?
-        /// Information about the provisioned products.
-        public let provisionedProducts: [ProvisionedProductAttribute]?
-
-        public init(nextPageToken: String? = nil, totalResultsCount: Int32? = nil, provisionedProducts: [ProvisionedProductAttribute]? = nil) {
-            self.nextPageToken = nextPageToken
-            self.totalResultsCount = totalResultsCount
-            self.provisionedProducts = provisionedProducts
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextPageToken = "NextPageToken"
-            case totalResultsCount = "TotalResultsCount"
-            case provisionedProducts = "ProvisionedProducts"
-        }
-    }
-
-    public struct ListServiceActionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "PageToken", required: false, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
-        /// The page token for the next set of results. To retrieve the first set of results, use null.
-        public let pageToken: String?
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-
-        public init(pageSize: Int32? = nil, pageToken: String? = nil, acceptLanguage: String? = nil) {
-            self.pageSize = pageSize
-            self.pageToken = pageToken
-            self.acceptLanguage = acceptLanguage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "PageSize"
-            case pageToken = "PageToken"
-            case acceptLanguage = "AcceptLanguage"
-        }
-    }
-
-    public struct DescribeProvisionedProductInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// The provisioned product identifier.
-        public let id: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-
-        public init(id: String, acceptLanguage: String? = nil) {
-            self.id = id
-            self.acceptLanguage = acceptLanguage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case acceptLanguage = "AcceptLanguage"
-        }
-    }
-
-    public struct ParameterConstraints: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedValues", required: false, type: .list)
-        ]
-        /// The values that the administrator has allowed for the parameter.
-        public let allowedValues: [String]?
-
-        public init(allowedValues: [String]? = nil) {
-            self.allowedValues = allowedValues
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case allowedValues = "AllowedValues"
-        }
-    }
-
-    public struct UpdatePortfolioInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RemoveTags", required: false, type: .list), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ProviderName", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "AddTags", required: false, type: .list)
-        ]
-        /// The tags to remove.
-        public let removeTags: [String]?
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The updated name of the portfolio provider.
-        public let providerName: String?
-        /// The portfolio identifier.
-        public let id: String
-        /// The updated description of the portfolio.
-        public let description: String?
-        /// The name to use for display purposes.
-        public let displayName: String?
-        /// The tags to add.
-        public let addTags: [Tag]?
-
-        public init(removeTags: [String]? = nil, acceptLanguage: String? = nil, providerName: String? = nil, id: String, description: String? = nil, displayName: String? = nil, addTags: [Tag]? = nil) {
-            self.removeTags = removeTags
-            self.acceptLanguage = acceptLanguage
-            self.providerName = providerName
-            self.id = id
-            self.description = description
-            self.displayName = displayName
-            self.addTags = addTags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case removeTags = "RemoveTags"
-            case acceptLanguage = "AcceptLanguage"
-            case providerName = "ProviderName"
-            case id = "Id"
-            case description = "Description"
-            case displayName = "DisplayName"
-            case addTags = "AddTags"
-        }
-    }
-
-    public struct AcceptPortfolioShareOutput: AWSShape {
-
-    }
-
-    public struct AssociateProductWithPortfolioOutput: AWSShape {
-
-    }
-
-    public struct ServiceActionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefinitionType", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string)
-        ]
-        /// The self-service action definition type. For example, SSM_AUTOMATION.
-        public let definitionType: ServiceActionDefinitionType?
-        /// The self-service action name.
-        public let name: String?
-        /// The self-service action description.
-        public let description: String?
-        /// The self-service action identifier.
-        public let id: String?
-
-        public init(definitionType: ServiceActionDefinitionType? = nil, name: String? = nil, description: String? = nil, id: String? = nil) {
-            self.definitionType = definitionType
-            self.name = name
-            self.description = description
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case definitionType = "DefinitionType"
-            case name = "Name"
-            case description = "Description"
-            case id = "Id"
-        }
-    }
-
-    public struct PortfolioDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "ProviderName", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string)
-        ]
-        /// The ARN assigned to the portfolio.
-        public let arn: String?
-        /// The name of the portfolio provider.
-        public let providerName: String?
-        /// The portfolio identifier.
-        public let id: String?
-        /// The description of the portfolio.
-        public let description: String?
-        /// The UTC time stamp of the creation time.
-        public let createdTime: TimeStamp?
-        /// The name to use for display purposes.
-        public let displayName: String?
-
-        public init(arn: String? = nil, providerName: String? = nil, id: String? = nil, description: String? = nil, createdTime: TimeStamp? = nil, displayName: String? = nil) {
-            self.arn = arn
-            self.providerName = providerName
-            self.id = id
-            self.description = description
-            self.createdTime = createdTime
-            self.displayName = displayName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "ARN"
-            case providerName = "ProviderName"
-            case id = "Id"
-            case description = "Description"
-            case createdTime = "CreatedTime"
-            case displayName = "DisplayName"
-        }
-    }
-
-    public struct DescribeProductOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProductViewSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "ProvisioningArtifacts", required: false, type: .list)
-        ]
-        /// Summary information about the product view.
-        public let productViewSummary: ProductViewSummary?
-        /// Information about the provisioning artifacts for the specified product.
-        public let provisioningArtifacts: [ProvisioningArtifact]?
-
-        public init(productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
-            self.productViewSummary = productViewSummary
-            self.provisioningArtifacts = provisioningArtifacts
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case productViewSummary = "ProductViewSummary"
-            case provisioningArtifacts = "ProvisioningArtifacts"
-        }
-    }
-
-    public struct AssociatePrincipalWithPortfolioOutput: AWSShape {
-
-    }
-
-    public struct ListTagOptionsFilters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Active", required: false, type: .boolean)
-        ]
-        /// The TagOption key.
-        public let key: String?
-        /// The TagOption value.
-        public let value: String?
-        /// The active state.
-        public let active: Bool?
-
-        public init(key: String? = nil, value: String? = nil, active: Bool? = nil) {
-            self.key = key
-            self.value = value
-            self.active = active
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case value = "Value"
-            case active = "Active"
-        }
-    }
-
-    public struct CreatePortfolioInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisplayName", required: true, type: .string), 
-            AWSShapeMember(label: "ProviderName", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
-        /// The name to use for display purposes.
-        public let displayName: String
-        /// The name of the portfolio provider.
-        public let providerName: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The description of the portfolio.
-        public let description: String?
-        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
-        public let idempotencyToken: String
-        /// One or more tags.
-        public let tags: [Tag]?
-
-        public init(displayName: String, providerName: String, acceptLanguage: String? = nil, description: String? = nil, idempotencyToken: String, tags: [Tag]? = nil) {
-            self.displayName = displayName
-            self.providerName = providerName
-            self.acceptLanguage = acceptLanguage
-            self.description = description
-            self.idempotencyToken = idempotencyToken
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case displayName = "DisplayName"
-            case providerName = "ProviderName"
-            case acceptLanguage = "AcceptLanguage"
-            case description = "Description"
-            case idempotencyToken = "IdempotencyToken"
-            case tags = "Tags"
-        }
-    }
-
-    public enum EvaluationType: String, CustomStringConvertible, Codable {
-        case `static` = "STATIC"
-        case dynamic = "DYNAMIC"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListProvisionedProductPlansOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProvisionedProductPlans", required: false, type: .list), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
-        ]
-        /// Information about the plans.
-        public let provisionedProductPlans: [ProvisionedProductPlanSummary]?
-        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
-        public let nextPageToken: String?
-
-        public init(provisionedProductPlans: [ProvisionedProductPlanSummary]? = nil, nextPageToken: String? = nil) {
-            self.provisionedProductPlans = provisionedProductPlans
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case provisionedProductPlans = "ProvisionedProductPlans"
-            case nextPageToken = "NextPageToken"
-        }
-    }
-
-    public struct AssociateServiceActionWithProvisioningArtifactOutput: AWSShape {
-
-    }
-
-    public struct DescribePortfolioInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// The portfolio identifier.
-        public let id: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-
-        public init(id: String, acceptLanguage: String? = nil) {
-            self.id = id
-            self.acceptLanguage = acceptLanguage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case acceptLanguage = "AcceptLanguage"
-        }
-    }
-
-    public struct ProductViewSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SupportEmail", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Owner", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: false, type: .string), 
-            AWSShapeMember(label: "HasDefaultPath", required: false, type: .boolean), 
-            AWSShapeMember(label: "SupportDescription", required: false, type: .string), 
-            AWSShapeMember(label: "Distributor", required: false, type: .string), 
-            AWSShapeMember(label: "ShortDescription", required: false, type: .string), 
-            AWSShapeMember(label: "SupportUrl", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The email contact information to obtain support for this Product.
-        public let supportEmail: String?
-        /// The product view identifier.
-        public let id: String?
-        /// The owner of the product. Contact the product administrator for the significance of this value.
-        public let owner: String?
-        /// The product identifier.
-        public let productId: String?
-        /// Indicates whether the product has a default path. If the product does not have a default path, call ListLaunchPaths to disambiguate between paths. Otherwise, ListLaunchPaths is not required, and the output of ProductViewSummary can be used directly with DescribeProvisioningParameters.
-        public let hasDefaultPath: Bool?
-        /// The description of the support for this Product.
-        public let supportDescription: String?
-        /// The distributor of the product. Contact the product administrator for the significance of this value.
-        public let distributor: String?
-        /// Short description of the product.
-        public let shortDescription: String?
-        /// The URL information to obtain support for this Product.
-        public let supportUrl: String?
-        /// The product type. Contact the product administrator for the significance of this value. If this value is MARKETPLACE, the product was created by AWS Marketplace.
-        public let `type`: ProductType?
-        /// The name of the product.
-        public let name: String?
-
-        public init(supportEmail: String? = nil, id: String? = nil, owner: String? = nil, productId: String? = nil, hasDefaultPath: Bool? = nil, supportDescription: String? = nil, distributor: String? = nil, shortDescription: String? = nil, supportUrl: String? = nil, type: ProductType? = nil, name: String? = nil) {
-            self.supportEmail = supportEmail
-            self.id = id
-            self.owner = owner
-            self.productId = productId
-            self.hasDefaultPath = hasDefaultPath
-            self.supportDescription = supportDescription
-            self.distributor = distributor
-            self.shortDescription = shortDescription
-            self.supportUrl = supportUrl
-            self.`type` = `type`
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case supportEmail = "SupportEmail"
-            case id = "Id"
-            case owner = "Owner"
-            case productId = "ProductId"
-            case hasDefaultPath = "HasDefaultPath"
-            case supportDescription = "SupportDescription"
-            case distributor = "Distributor"
-            case shortDescription = "ShortDescription"
-            case supportUrl = "SupportUrl"
-            case `type` = "Type"
-            case name = "Name"
-        }
-    }
-
-    public enum ProvisionedProductPlanStatus: String, CustomStringConvertible, Codable {
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case createSuccess = "CREATE_SUCCESS"
-        case createFailed = "CREATE_FAILED"
-        case executeInProgress = "EXECUTE_IN_PROGRESS"
-        case executeSuccess = "EXECUTE_SUCCESS"
-        case executeFailed = "EXECUTE_FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateProvisioningParameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "UsePreviousValue", required: false, type: .boolean), 
-            AWSShapeMember(label: "Key", required: false, type: .string)
-        ]
-        /// The parameter value.
-        public let value: String?
-        /// If set to true, Value is ignored and the previous parameter value is kept.
-        public let usePreviousValue: Bool?
-        /// The parameter key.
-        public let key: String?
-
-        public init(value: String? = nil, usePreviousValue: Bool? = nil, key: String? = nil) {
-            self.value = value
-            self.usePreviousValue = usePreviousValue
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case usePreviousValue = "UsePreviousValue"
-            case key = "Key"
-        }
-    }
-
-    public struct ProvisionedProductPlanDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProvisionProductId", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
-            AWSShapeMember(label: "PlanName", required: false, type: .string), 
-            AWSShapeMember(label: "PathId", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisioningParameters", required: false, type: .list), 
-            AWSShapeMember(label: "PlanId", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "NotificationArns", required: false, type: .list), 
-            AWSShapeMember(label: "ProvisionProductName", required: false, type: .string), 
-            AWSShapeMember(label: "UpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "PlanType", required: false, type: .enum)
+            AWSShapeMember(label: "ProvisioningArtifactDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "Info", required: false, type: .map)
         ]
-        /// The product identifier.
-        public let provisionProductId: String?
-        /// The identifier of the provisioning artifact.
-        public let provisioningArtifactId: String?
-        /// The name of the plan.
-        public let planName: String?
-        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths.
-        public let pathId: String?
-        /// Parameters specified by the administrator that are required for provisioning the product.
-        public let provisioningParameters: [UpdateProvisioningParameter]?
-        /// The plan identifier.
-        public let planId: String?
-        /// The UTC time stamp of the creation time.
-        public let createdTime: TimeStamp?
-        /// One or more tags.
-        public let tags: [Tag]?
-        /// The status message.
-        public let statusMessage: String?
-        /// The product identifier.
-        public let productId: String?
-        /// The status.
-        public let status: ProvisionedProductPlanStatus?
-        /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
-        public let notificationArns: [String]?
-        /// The user-friendly name of the provisioned product.
-        public let provisionProductName: String?
-        /// The time when the plan was last updated.
-        public let updatedTime: TimeStamp?
-        /// The plan type.
-        public let planType: ProvisionedProductPlanType?
+        /// The status of the current request.
+        public let status: Status?
+        /// Information about the provisioning artifact.
+        public let provisioningArtifactDetail: ProvisioningArtifactDetail?
+        /// The URL of the CloudFormation template in Amazon S3.
+        public let info: [String: String]?
 
-        public init(provisionProductId: String? = nil, provisioningArtifactId: String? = nil, planName: String? = nil, pathId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, planId: String? = nil, createdTime: TimeStamp? = nil, tags: [Tag]? = nil, statusMessage: String? = nil, productId: String? = nil, status: ProvisionedProductPlanStatus? = nil, notificationArns: [String]? = nil, provisionProductName: String? = nil, updatedTime: TimeStamp? = nil, planType: ProvisionedProductPlanType? = nil) {
-            self.provisionProductId = provisionProductId
-            self.provisioningArtifactId = provisioningArtifactId
-            self.planName = planName
-            self.pathId = pathId
-            self.provisioningParameters = provisioningParameters
-            self.planId = planId
-            self.createdTime = createdTime
-            self.tags = tags
-            self.statusMessage = statusMessage
-            self.productId = productId
+        public init(status: Status? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, info: [String: String]? = nil) {
             self.status = status
-            self.notificationArns = notificationArns
-            self.provisionProductName = provisionProductName
-            self.updatedTime = updatedTime
-            self.planType = planType
+            self.provisioningArtifactDetail = provisioningArtifactDetail
+            self.info = info
         }
 
         private enum CodingKeys: String, CodingKey {
-            case provisionProductId = "ProvisionProductId"
-            case provisioningArtifactId = "ProvisioningArtifactId"
-            case planName = "PlanName"
-            case pathId = "PathId"
-            case provisioningParameters = "ProvisioningParameters"
-            case planId = "PlanId"
-            case createdTime = "CreatedTime"
-            case tags = "Tags"
-            case statusMessage = "StatusMessage"
-            case productId = "ProductId"
             case status = "Status"
-            case notificationArns = "NotificationArns"
-            case provisionProductName = "ProvisionProductName"
-            case updatedTime = "UpdatedTime"
-            case planType = "PlanType"
+            case provisioningArtifactDetail = "ProvisioningArtifactDetail"
+            case info = "Info"
         }
+    }
+
+    public struct CreateProvisioningArtifactOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ProvisioningArtifactDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "Info", required: false, type: .map)
+        ]
+        /// The status of the current request.
+        public let status: Status?
+        /// Information about the provisioning artifact.
+        public let provisioningArtifactDetail: ProvisioningArtifactDetail?
+        /// The URL of the CloudFormation template in Amazon S3, in JSON format.
+        public let info: [String: String]?
+
+        public init(status: Status? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, info: [String: String]? = nil) {
+            self.status = status
+            self.provisioningArtifactDetail = provisioningArtifactDetail
+            self.info = info
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case provisioningArtifactDetail = "ProvisioningArtifactDetail"
+            case info = "Info"
+        }
+    }
+
+    public enum ServiceActionAssociationErrorCode: String, CustomStringConvertible, Codable {
+        case duplicateResource = "DUPLICATE_RESOURCE"
+        case internalFailure = "INTERNAL_FAILURE"
+        case limitExceeded = "LIMIT_EXCEEDED"
+        case resourceNotFound = "RESOURCE_NOT_FOUND"
+        case throttling = "THROTTLING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DisassociateProductFromPortfolioOutput: AWSShape {
+
+    }
+
+    public struct UpdateProvisioningArtifactInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Active", required: false, type: .boolean), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
+        ]
+        /// The updated name of the provisioning artifact.
+        public let name: String?
+        /// Indicates whether the product version is active.
+        public let active: Bool?
+        /// The product identifier.
+        public let productId: String
+        /// The identifier of the provisioning artifact.
+        public let provisioningArtifactId: String
+        /// The updated description of the provisioning artifact.
+        public let description: String?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+
+        public init(name: String? = nil, active: Bool? = nil, productId: String, provisioningArtifactId: String, description: String? = nil, acceptLanguage: String? = nil) {
+            self.name = name
+            self.active = active
+            self.productId = productId
+            self.provisioningArtifactId = provisioningArtifactId
+            self.description = description
+            self.acceptLanguage = acceptLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case active = "Active"
+            case productId = "ProductId"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case description = "Description"
+            case acceptLanguage = "AcceptLanguage"
+        }
+    }
+
+    public struct DisassociateTagOptionFromResourceOutput: AWSShape {
+
+    }
+
+    public enum CopyOption: String, CustomStringConvertible, Codable {
+        case copytags = "CopyTags"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeProvisionedProductPlanOutput: AWSShape {
@@ -1929,188 +346,648 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListOrganizationPortfolioAccessInput: AWSShape {
+    public struct AssociateTagOptionWithResourceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "PageToken", required: false, type: .string), 
-            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationNodeType", required: true, type: .enum)
+            AWSShapeMember(label: "TagOptionId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string)
         ]
-        /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        /// The TagOption identifier.
+        public let tagOptionId: String
+        /// The resource identifier.
+        public let resourceId: String
+
+        public init(tagOptionId: String, resourceId: String) {
+            self.tagOptionId = tagOptionId
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagOptionId = "TagOptionId"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct AcceptPortfolioShareInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeMember(label: "PortfolioShareType", required: false, type: .enum)
+        ]
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The page token for the next set of results. To retrieve the first set of results, use null.
-        public let pageToken: String?
-        /// The portfolio identifier. For example, port-2abcdext3y5fk.
+        /// The portfolio identifier.
         public let portfolioId: String
-        /// The organization node type that will be returned in the output.    ORGANIZATION - Organization that has access to the portfolio.     ORGANIZATIONAL_UNIT - Organizational unit that has access to the portfolio within your organization.    ACCOUNT - Account that has access to the portfolio within your organization.  
-        public let organizationNodeType: OrganizationNodeType
+        /// The type of shared portfolios to accept. The default is to accept imported portfolios.    AWS_ORGANIZATIONS - Accept portfolios shared by the master account of your organization.    IMPORTED - Accept imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog accept-portfolio-share --portfolio-id "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS 
+        public let portfolioShareType: PortfolioShareType?
 
-        public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, pageToken: String? = nil, portfolioId: String, organizationNodeType: OrganizationNodeType) {
-            self.pageSize = pageSize
+        public init(acceptLanguage: String? = nil, portfolioId: String, portfolioShareType: PortfolioShareType? = nil) {
             self.acceptLanguage = acceptLanguage
-            self.pageToken = pageToken
             self.portfolioId = portfolioId
-            self.organizationNodeType = organizationNodeType
+            self.portfolioShareType = portfolioShareType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageSize = "PageSize"
             case acceptLanguage = "AcceptLanguage"
-            case pageToken = "PageToken"
             case portfolioId = "PortfolioId"
-            case organizationNodeType = "OrganizationNodeType"
+            case portfolioShareType = "PortfolioShareType"
         }
     }
 
-    public struct UpdateProvisioningArtifactOutput: AWSShape {
+    public struct DisassociateProductFromPortfolioInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Info", required: false, type: .map), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "ProvisioningArtifactDetail", required: false, type: .structure)
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string)
         ]
-        /// The URL of the CloudFormation template in Amazon S3.
-        public let info: [String: String]?
-        /// The status of the current request.
-        public let status: Status?
-        /// Information about the provisioning artifact.
-        public let provisioningArtifactDetail: ProvisioningArtifactDetail?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The product identifier.
+        public let productId: String
+        /// The portfolio identifier.
+        public let portfolioId: String
 
-        public init(info: [String: String]? = nil, status: Status? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil) {
-            self.info = info
-            self.status = status
-            self.provisioningArtifactDetail = provisioningArtifactDetail
+        public init(acceptLanguage: String? = nil, productId: String, portfolioId: String) {
+            self.acceptLanguage = acceptLanguage
+            self.productId = productId
+            self.portfolioId = portfolioId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case info = "Info"
-            case status = "Status"
-            case provisioningArtifactDetail = "ProvisioningArtifactDetail"
+            case acceptLanguage = "AcceptLanguage"
+            case productId = "ProductId"
+            case portfolioId = "PortfolioId"
         }
     }
 
-    public enum ProductType: String, CustomStringConvertible, Codable {
-        case cloudFormationTemplate = "CLOUD_FORMATION_TEMPLATE"
-        case marketplace = "MARKETPLACE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProvisionedProductStatus: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case underChange = "UNDER_CHANGE"
-        case tainted = "TAINTED"
-        case error = "ERROR"
-        case planInProgress = "PLAN_IN_PROGRESS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateTagOptionInput: AWSShape {
+    public struct UpdateProvisioningParameter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .string), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "UsePreviousValue", required: false, type: .boolean)
         ]
-        /// The TagOption value.
-        public let value: String
-        /// The TagOption key.
-        public let key: String
+        /// The parameter key.
+        public let key: String?
+        /// The parameter value.
+        public let value: String?
+        /// If set to true, Value is ignored and the previous parameter value is kept.
+        public let usePreviousValue: Bool?
 
-        public init(value: String, key: String) {
-            self.value = value
+        public init(key: String? = nil, value: String? = nil, usePreviousValue: Bool? = nil) {
             self.key = key
+            self.value = value
+            self.usePreviousValue = usePreviousValue
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value = "Value"
             case key = "Key"
+            case value = "Value"
+            case usePreviousValue = "UsePreviousValue"
         }
     }
 
-    public struct DeleteServiceActionOutput: AWSShape {
-
-    }
-
-    public enum ResourceAttribute: String, CustomStringConvertible, Codable {
-        case properties = "PROPERTIES"
-        case metadata = "METADATA"
-        case creationpolicy = "CREATIONPOLICY"
-        case updatepolicy = "UPDATEPOLICY"
-        case deletionpolicy = "DELETIONPOLICY"
-        case tags = "TAGS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteConstraintInput: AWSShape {
+    public struct ServiceActionSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DefinitionType", required: false, type: .enum)
         ]
+        /// The self-service action name.
+        public let name: String?
+        /// The self-service action identifier.
+        public let id: String?
+        /// The self-service action description.
+        public let description: String?
+        /// The self-service action definition type. For example, SSM_AUTOMATION.
+        public let definitionType: ServiceActionDefinitionType?
+
+        public init(name: String? = nil, id: String? = nil, description: String? = nil, definitionType: ServiceActionDefinitionType? = nil) {
+            self.name = name
+            self.id = id
+            self.description = description
+            self.definitionType = definitionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case id = "Id"
+            case description = "Description"
+            case definitionType = "DefinitionType"
+        }
+    }
+
+    public struct CreateProvisionedProductPlanOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlanId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductName", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
+            AWSShapeMember(label: "PlanName", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionProductId", required: false, type: .string)
+        ]
+        /// The plan identifier.
+        public let planId: String?
+        /// The user-friendly name of the provisioned product.
+        public let provisionedProductName: String?
+        /// The identifier of the provisioning artifact.
+        public let provisioningArtifactId: String?
+        /// The name of the plan.
+        public let planName: String?
+        /// The product identifier.
+        public let provisionProductId: String?
+
+        public init(planId: String? = nil, provisionedProductName: String? = nil, provisioningArtifactId: String? = nil, planName: String? = nil, provisionProductId: String? = nil) {
+            self.planId = planId
+            self.provisionedProductName = provisionedProductName
+            self.provisioningArtifactId = provisioningArtifactId
+            self.planName = planName
+            self.provisionProductId = provisionProductId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case planId = "PlanId"
+            case provisionedProductName = "ProvisionedProductName"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case planName = "PlanName"
+            case provisionProductId = "ProvisionProductId"
+        }
+    }
+
+    public struct UpdateConstraintInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
+        ]
+        /// The updated description of the constraint.
+        public let description: String?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
         /// The identifier of the constraint.
         public let id: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
 
-        public init(id: String, acceptLanguage: String? = nil) {
-            self.id = id
+        public init(description: String? = nil, acceptLanguage: String? = nil, id: String) {
+            self.description = description
             self.acceptLanguage = acceptLanguage
+            self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
+            case description = "Description"
             case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
+        }
+    }
+
+    public struct ListPortfolioAccessInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The portfolio identifier.
+        public let portfolioId: String
+
+        public init(acceptLanguage: String? = nil, portfolioId: String) {
+            self.acceptLanguage = acceptLanguage
+            self.portfolioId = portfolioId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case portfolioId = "PortfolioId"
+        }
+    }
+
+    public struct DeleteTagOptionOutput: AWSShape {
+
+    }
+
+    public struct ListPortfoliosForProductOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "PortfolioDetails", required: false, type: .list)
+        ]
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+        /// Information about the portfolios.
+        public let portfolioDetails: [PortfolioDetail]?
+
+        public init(nextPageToken: String? = nil, portfolioDetails: [PortfolioDetail]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.portfolioDetails = portfolioDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "NextPageToken"
+            case portfolioDetails = "PortfolioDetails"
+        }
+    }
+
+    public struct DescribeProductAsAdminOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductViewDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "ProvisioningArtifactSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "TagOptions", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// Information about the product view.
+        public let productViewDetail: ProductViewDetail?
+        /// Information about the provisioning artifacts (also known as versions) for the specified product.
+        public let provisioningArtifactSummaries: [ProvisioningArtifactSummary]?
+        /// Information about the TagOptions associated with the product.
+        public let tagOptions: [TagOptionDetail]?
+        /// Information about the tags associated with the product.
+        public let tags: [Tag]?
+
+        public init(productViewDetail: ProductViewDetail? = nil, provisioningArtifactSummaries: [ProvisioningArtifactSummary]? = nil, tagOptions: [TagOptionDetail]? = nil, tags: [Tag]? = nil) {
+            self.productViewDetail = productViewDetail
+            self.provisioningArtifactSummaries = provisioningArtifactSummaries
+            self.tagOptions = tagOptions
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productViewDetail = "ProductViewDetail"
+            case provisioningArtifactSummaries = "ProvisioningArtifactSummaries"
+            case tagOptions = "TagOptions"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ListProvisionedProductPlansOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisionedProductPlans", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
+        ]
+        /// Information about the plans.
+        public let provisionedProductPlans: [ProvisionedProductPlanSummary]?
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+
+        public init(provisionedProductPlans: [ProvisionedProductPlanSummary]? = nil, nextPageToken: String? = nil) {
+            self.provisionedProductPlans = provisionedProductPlans
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisionedProductPlans = "ProvisionedProductPlans"
+            case nextPageToken = "NextPageToken"
         }
     }
 
     public struct ProvisioningParameter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string)
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
         ]
-        /// The parameter value.
-        public let value: String?
         /// The parameter key.
         public let key: String?
+        /// The parameter value.
+        public let value: String?
 
-        public init(value: String? = nil, key: String? = nil) {
-            self.value = value
+        public init(key: String? = nil, value: String? = nil) {
             self.key = key
+            self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value = "Value"
             case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct DescribeRecordInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The record identifier of the provisioned product. This identifier is returned by the request operation.
+        public let id: String
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+
+        public init(acceptLanguage: String? = nil, id: String, pageToken: String? = nil, pageSize: Int32? = nil) {
+            self.acceptLanguage = acceptLanguage
+            self.id = id
+            self.pageToken = pageToken
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
+            case pageToken = "PageToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct LaunchPathSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "ConstraintSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// The name of the portfolio to which the user was assigned.
+        public let name: String?
+        /// The identifier of the product path.
+        public let id: String?
+        /// The constraints on the portfolio-product relationship.
+        public let constraintSummaries: [ConstraintSummary]?
+        /// The tags associated with this product path.
+        public let tags: [Tag]?
+
+        public init(name: String? = nil, id: String? = nil, constraintSummaries: [ConstraintSummary]? = nil, tags: [Tag]? = nil) {
+            self.name = name
+            self.id = id
+            self.constraintSummaries = constraintSummaries
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case id = "Id"
+            case constraintSummaries = "ConstraintSummaries"
+            case tags = "Tags"
+        }
+    }
+
+    public struct AssociatePrincipalWithPortfolioOutput: AWSShape {
+
+    }
+
+    public enum RecordStatus: String, CustomStringConvertible, Codable {
+        case created = "CREATED"
+        case inProgress = "IN_PROGRESS"
+        case inProgressInError = "IN_PROGRESS_IN_ERROR"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateConstraintOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ConstraintDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "ConstraintParameters", required: false, type: .string)
+        ]
+        /// The status of the current request.
+        public let status: Status?
+        /// Information about the constraint.
+        public let constraintDetail: ConstraintDetail?
+        /// The constraint parameters.
+        public let constraintParameters: String?
+
+        public init(status: Status? = nil, constraintDetail: ConstraintDetail? = nil, constraintParameters: String? = nil) {
+            self.status = status
+            self.constraintDetail = constraintDetail
+            self.constraintParameters = constraintParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case constraintDetail = "ConstraintDetail"
+            case constraintParameters = "ConstraintParameters"
+        }
+    }
+
+    public struct ProvisioningPreferences: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackSetMaxConcurrencyPercentage", required: false, type: .integer), 
+            AWSShapeMember(label: "StackSetRegions", required: false, type: .list), 
+            AWSShapeMember(label: "StackSetMaxConcurrencyCount", required: false, type: .integer), 
+            AWSShapeMember(label: "StackSetFailureToleranceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "StackSetAccounts", required: false, type: .list), 
+            AWSShapeMember(label: "StackSetFailureTolerancePercentage", required: false, type: .integer)
+        ]
+        /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, AWS Service Catalog rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, AWS Service Catalog sets the number as 1 instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage, but not both.
+        public let stackSetMaxConcurrencyPercentage: Int32?
+        /// One or more AWS Regions where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified regions should be within the list of regions from the STACKSET constraint. To get the list of regions in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all regions from the STACKSET constraint.
+        public let stackSetRegions: [String]?
+        /// The maximum number of accounts in which to perform this operation at one time. This is dependent on the value of StackSetFailureToleranceCount. StackSetMaxConcurrentCount is at most one more than the StackSetFailureToleranceCount. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage, but not both.
+        public let stackSetMaxConcurrencyCount: Int32?
+        /// The number of accounts, per region, for which this operation can fail before AWS Service Catalog stops the operation in that region. If the operation is stopped in a region, AWS Service Catalog doesn't attempt the operation in any subsequent regions. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both. The default value is 0 if no value is specified.
+        public let stackSetFailureToleranceCount: Int32?
+        /// One or more AWS accounts that will have access to the provisioned product. Applicable only to a CFN_STACKSET provisioned product type. The AWS accounts specified should be within the list of accounts in the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all accounts from the STACKSET constraint.
+        public let stackSetAccounts: [String]?
+        /// The percentage of accounts, per region, for which this stack operation can fail before AWS Service Catalog stops the operation in that region. If the operation is stopped in a region, AWS Service Catalog doesn't attempt the operation in any subsequent regions. When calculating the number of accounts based on the specified percentage, AWS Service Catalog rounds down to the next whole number. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both.
+        public let stackSetFailureTolerancePercentage: Int32?
+
+        public init(stackSetMaxConcurrencyPercentage: Int32? = nil, stackSetRegions: [String]? = nil, stackSetMaxConcurrencyCount: Int32? = nil, stackSetFailureToleranceCount: Int32? = nil, stackSetAccounts: [String]? = nil, stackSetFailureTolerancePercentage: Int32? = nil) {
+            self.stackSetMaxConcurrencyPercentage = stackSetMaxConcurrencyPercentage
+            self.stackSetRegions = stackSetRegions
+            self.stackSetMaxConcurrencyCount = stackSetMaxConcurrencyCount
+            self.stackSetFailureToleranceCount = stackSetFailureToleranceCount
+            self.stackSetAccounts = stackSetAccounts
+            self.stackSetFailureTolerancePercentage = stackSetFailureTolerancePercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackSetMaxConcurrencyPercentage = "StackSetMaxConcurrencyPercentage"
+            case stackSetRegions = "StackSetRegions"
+            case stackSetMaxConcurrencyCount = "StackSetMaxConcurrencyCount"
+            case stackSetFailureToleranceCount = "StackSetFailureToleranceCount"
+            case stackSetAccounts = "StackSetAccounts"
+            case stackSetFailureTolerancePercentage = "StackSetFailureTolerancePercentage"
+        }
+    }
+
+    public struct ListProvisioningArtifactsForServiceActionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactViews", required: false, type: .list)
+        ]
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+        /// An array of objects with information about product views and provisioning artifacts.
+        public let provisioningArtifactViews: [ProvisioningArtifactView]?
+
+        public init(nextPageToken: String? = nil, provisioningArtifactViews: [ProvisioningArtifactView]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.provisioningArtifactViews = provisioningArtifactViews
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "NextPageToken"
+            case provisioningArtifactViews = "ProvisioningArtifactViews"
+        }
+    }
+
+    public enum ProvisionedProductViewFilterBy: String, CustomStringConvertible, Codable {
+        case searchquery = "SearchQuery"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TerminateProvisionedProductInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisionedProductName", required: false, type: .string), 
+            AWSShapeMember(label: "TerminateToken", required: true, type: .string), 
+            AWSShapeMember(label: "IgnoreErrors", required: false, type: .boolean), 
+            AWSShapeMember(label: "ProvisionedProductId", required: false, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
+        ]
+        /// The name of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
+        public let provisionedProductName: String?
+        /// An idempotency token that uniquely identifies the termination request. This token is only valid during the termination process. After the provisioned product is terminated, subsequent requests to terminate the same provisioned product always return ResourceNotFound.
+        public let terminateToken: String
+        /// If set to true, AWS Service Catalog stops managing the specified provisioned product even if it cannot delete the underlying resources.
+        public let ignoreErrors: Bool?
+        /// The identifier of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
+        public let provisionedProductId: String?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+
+        public init(provisionedProductName: String? = nil, terminateToken: String, ignoreErrors: Bool? = nil, provisionedProductId: String? = nil, acceptLanguage: String? = nil) {
+            self.provisionedProductName = provisionedProductName
+            self.terminateToken = terminateToken
+            self.ignoreErrors = ignoreErrors
+            self.provisionedProductId = provisionedProductId
+            self.acceptLanguage = acceptLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisionedProductName = "ProvisionedProductName"
+            case terminateToken = "TerminateToken"
+            case ignoreErrors = "IgnoreErrors"
+            case provisionedProductId = "ProvisionedProductId"
+            case acceptLanguage = "AcceptLanguage"
+        }
+    }
+
+    public struct DescribeProductInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The product identifier.
+        public let id: String
+
+        public init(acceptLanguage: String? = nil, id: String) {
+            self.acceptLanguage = acceptLanguage
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
+        }
+    }
+
+    public struct ServiceActionAssociation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceActionId", required: true, type: .string)
+        ]
+        /// The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne.
+        public let provisioningArtifactId: String
+        /// The product identifier. For example, prod-abcdzk7xy33qa.
+        public let productId: String
+        /// The self-service action identifier. For example, act-fs7abcd89wxyz.
+        public let serviceActionId: String
+
+        public init(provisioningArtifactId: String, productId: String, serviceActionId: String) {
+            self.provisioningArtifactId = provisioningArtifactId
+            self.productId = productId
+            self.serviceActionId = serviceActionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case productId = "ProductId"
+            case serviceActionId = "ServiceActionId"
+        }
+    }
+
+    public struct ListProvisioningArtifactsForServiceActionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "ServiceActionId", required: true, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
+        ]
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+        /// The self-service action identifier. For example, act-fs7abcd89wxyz.
+        public let serviceActionId: String
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+
+        public init(pageSize: Int32? = nil, serviceActionId: String, pageToken: String? = nil, acceptLanguage: String? = nil) {
+            self.pageSize = pageSize
+            self.serviceActionId = serviceActionId
+            self.pageToken = pageToken
+            self.acceptLanguage = acceptLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case serviceActionId = "ServiceActionId"
+            case pageToken = "PageToken"
+            case acceptLanguage = "AcceptLanguage"
+        }
+    }
+
+    public struct ScanProvisionedProductsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisionedProducts", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
+        ]
+        /// Information about the provisioned products.
+        public let provisionedProducts: [ProvisionedProductDetail]?
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+
+        public init(provisionedProducts: [ProvisionedProductDetail]? = nil, nextPageToken: String? = nil) {
+            self.provisionedProducts = provisionedProducts
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisionedProducts = "ProvisionedProducts"
+            case nextPageToken = "NextPageToken"
         }
     }
 
     public struct ExecuteProvisionedProductServiceActionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProvisionedProductId", required: true, type: .string), 
             AWSShapeMember(label: "ExecuteToken", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceActionId", required: true, type: .string)
+            AWSShapeMember(label: "ServiceActionId", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
-        /// The identifier of the provisioned product.
-        public let provisionedProductId: String
         /// An idempotency token that uniquely identifies the execute request.
         public let executeToken: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
         /// The self-service action identifier. For example, act-fs7abcd89wxyz.
         public let serviceActionId: String
+        /// The identifier of the provisioned product.
+        public let provisionedProductId: String
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
 
-        public init(provisionedProductId: String, executeToken: String, acceptLanguage: String? = nil, serviceActionId: String) {
-            self.provisionedProductId = provisionedProductId
+        public init(executeToken: String, serviceActionId: String, provisionedProductId: String, acceptLanguage: String? = nil) {
             self.executeToken = executeToken
-            self.acceptLanguage = acceptLanguage
             self.serviceActionId = serviceActionId
+            self.provisionedProductId = provisionedProductId
+            self.acceptLanguage = acceptLanguage
         }
 
         private enum CodingKeys: String, CodingKey {
-            case provisionedProductId = "ProvisionedProductId"
             case executeToken = "ExecuteToken"
-            case acceptLanguage = "AcceptLanguage"
             case serviceActionId = "ServiceActionId"
+            case provisionedProductId = "ProvisionedProductId"
+            case acceptLanguage = "AcceptLanguage"
         }
     }
 
@@ -2121,12 +998,1877 @@ extension ServiceCatalog {
         public var description: String { return self.rawValue }
     }
 
+    public struct RecordDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
+            AWSShapeMember(label: "RecordType", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductType", required: false, type: .string), 
+            AWSShapeMember(label: "RecordTags", required: false, type: .list), 
+            AWSShapeMember(label: "PathId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductName", required: false, type: .string), 
+            AWSShapeMember(label: "RecordErrors", required: false, type: .list), 
+            AWSShapeMember(label: "RecordId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "UpdatedTime", required: false, type: .timestamp)
+        ]
+        /// The product identifier.
+        public let productId: String?
+        /// The identifier of the provisioning artifact.
+        public let provisioningArtifactId: String?
+        /// The record type.    PROVISION_PRODUCT     UPDATE_PROVISIONED_PRODUCT     TERMINATE_PROVISIONED_PRODUCT   
+        public let recordType: String?
+        /// The identifier of the provisioned product.
+        public let provisionedProductId: String?
+        /// The type of provisioned product. The supported values are CFN_STACK and CFN_STACKSET.
+        public let provisionedProductType: String?
+        /// One or more tags.
+        public let recordTags: [RecordTag]?
+        /// The path identifier.
+        public let pathId: String?
+        /// The user-friendly name of the provisioned product.
+        public let provisionedProductName: String?
+        /// The errors that occurred.
+        public let recordErrors: [RecordError]?
+        /// The identifier of the record.
+        public let recordId: String?
+        /// The UTC time stamp of the creation time.
+        public let createdTime: TimeStamp?
+        /// The status of the provisioned product.    CREATED - The request was created but the operation has not started.    IN_PROGRESS - The requested operation is in progress.    IN_PROGRESS_IN_ERROR - The provisioned product is under change but the requested operation failed and some remediation is occurring. For example, a rollback.    SUCCEEDED - The requested operation has successfully completed.    FAILED - The requested operation has unsuccessfully completed. Investigate using the error messages returned.  
+        public let status: RecordStatus?
+        /// The time when the record was last updated.
+        public let updatedTime: TimeStamp?
+
+        public init(productId: String? = nil, provisioningArtifactId: String? = nil, recordType: String? = nil, provisionedProductId: String? = nil, provisionedProductType: String? = nil, recordTags: [RecordTag]? = nil, pathId: String? = nil, provisionedProductName: String? = nil, recordErrors: [RecordError]? = nil, recordId: String? = nil, createdTime: TimeStamp? = nil, status: RecordStatus? = nil, updatedTime: TimeStamp? = nil) {
+            self.productId = productId
+            self.provisioningArtifactId = provisioningArtifactId
+            self.recordType = recordType
+            self.provisionedProductId = provisionedProductId
+            self.provisionedProductType = provisionedProductType
+            self.recordTags = recordTags
+            self.pathId = pathId
+            self.provisionedProductName = provisionedProductName
+            self.recordErrors = recordErrors
+            self.recordId = recordId
+            self.createdTime = createdTime
+            self.status = status
+            self.updatedTime = updatedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productId = "ProductId"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case recordType = "RecordType"
+            case provisionedProductId = "ProvisionedProductId"
+            case provisionedProductType = "ProvisionedProductType"
+            case recordTags = "RecordTags"
+            case pathId = "PathId"
+            case provisionedProductName = "ProvisionedProductName"
+            case recordErrors = "RecordErrors"
+            case recordId = "RecordId"
+            case createdTime = "CreatedTime"
+            case status = "Status"
+            case updatedTime = "UpdatedTime"
+        }
+    }
+
+    public struct ListServiceActionsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceActionSummaries", required: false, type: .list)
+        ]
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+        /// An object containing information about the service actions associated with the provisioning artifact.
+        public let serviceActionSummaries: [ServiceActionSummary]?
+
+        public init(nextPageToken: String? = nil, serviceActionSummaries: [ServiceActionSummary]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.serviceActionSummaries = serviceActionSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "NextPageToken"
+            case serviceActionSummaries = "ServiceActionSummaries"
+        }
+    }
+
+    public enum RequiresRecreation: String, CustomStringConvertible, Codable {
+        case never = "NEVER"
+        case conditionally = "CONDITIONALLY"
+        case always = "ALWAYS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SearchProductsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "ProductViewSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "ProductViewAggregations", required: false, type: .map)
+        ]
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+        /// Information about the product views.
+        public let productViewSummaries: [ProductViewSummary]?
+        /// The product view aggregations.
+        public let productViewAggregations: [String: [ProductViewAggregationValue]]?
+
+        public init(nextPageToken: String? = nil, productViewSummaries: [ProductViewSummary]? = nil, productViewAggregations: [String: [ProductViewAggregationValue]]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.productViewSummaries = productViewSummaries
+            self.productViewAggregations = productViewAggregations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "NextPageToken"
+            case productViewSummaries = "ProductViewSummaries"
+            case productViewAggregations = "ProductViewAggregations"
+        }
+    }
+
+    public struct UpdateProvisioningArtifactOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ProvisioningArtifactDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "Info", required: false, type: .map)
+        ]
+        /// The status of the current request.
+        public let status: Status?
+        /// Information about the provisioning artifact.
+        public let provisioningArtifactDetail: ProvisioningArtifactDetail?
+        /// The URL of the CloudFormation template in Amazon S3.
+        public let info: [String: String]?
+
+        public init(status: Status? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, info: [String: String]? = nil) {
+            self.status = status
+            self.provisioningArtifactDetail = provisioningArtifactDetail
+            self.info = info
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case provisioningArtifactDetail = "ProvisioningArtifactDetail"
+            case info = "Info"
+        }
+    }
+
+    public struct ListPrincipalsForPortfolioInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The portfolio identifier.
+        public let portfolioId: String
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+
+        public init(acceptLanguage: String? = nil, portfolioId: String, pageToken: String? = nil, pageSize: Int32? = nil) {
+            self.acceptLanguage = acceptLanguage
+            self.portfolioId = portfolioId
+            self.pageToken = pageToken
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case portfolioId = "PortfolioId"
+            case pageToken = "PageToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct DisassociatePrincipalFromPortfolioInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PrincipalARN", required: true, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The ARN of the principal (IAM user, role, or group).
+        public let principalARN: String
+        /// The portfolio identifier.
+        public let portfolioId: String
+
+        public init(acceptLanguage: String? = nil, principalARN: String, portfolioId: String) {
+            self.acceptLanguage = acceptLanguage
+            self.principalARN = principalARN
+            self.portfolioId = portfolioId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case principalARN = "PrincipalARN"
+            case portfolioId = "PortfolioId"
+        }
+    }
+
+    public struct ProvisionedProductPlanSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisionProductId", required: false, type: .string), 
+            AWSShapeMember(label: "PlanType", required: false, type: .enum), 
+            AWSShapeMember(label: "ProvisionProductName", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
+            AWSShapeMember(label: "PlanName", required: false, type: .string), 
+            AWSShapeMember(label: "PlanId", required: false, type: .string)
+        ]
+        /// The product identifier.
+        public let provisionProductId: String?
+        /// The plan type.
+        public let planType: ProvisionedProductPlanType?
+        /// The user-friendly name of the provisioned product.
+        public let provisionProductName: String?
+        /// The identifier of the provisioning artifact.
+        public let provisioningArtifactId: String?
+        /// The name of the plan.
+        public let planName: String?
+        /// The plan identifier.
+        public let planId: String?
+
+        public init(provisionProductId: String? = nil, planType: ProvisionedProductPlanType? = nil, provisionProductName: String? = nil, provisioningArtifactId: String? = nil, planName: String? = nil, planId: String? = nil) {
+            self.provisionProductId = provisionProductId
+            self.planType = planType
+            self.provisionProductName = provisionProductName
+            self.provisioningArtifactId = provisioningArtifactId
+            self.planName = planName
+            self.planId = planId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisionProductId = "ProvisionProductId"
+            case planType = "PlanType"
+            case provisionProductName = "ProvisionProductName"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case planName = "PlanName"
+            case planId = "PlanId"
+        }
+    }
+
+    public struct UpdateServiceActionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "Definition", required: false, type: .map), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
+        ]
+        /// The self-service action name.
+        public let name: String?
+        /// The self-service action identifier.
+        public let id: String
+        /// A map that defines the self-service action.
+        public let definition: [ServiceActionDefinitionKey: String]?
+        /// The self-service action description.
+        public let description: String?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+
+        public init(name: String? = nil, id: String, definition: [ServiceActionDefinitionKey: String]? = nil, description: String? = nil, acceptLanguage: String? = nil) {
+            self.name = name
+            self.id = id
+            self.definition = definition
+            self.description = description
+            self.acceptLanguage = acceptLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case id = "Id"
+            case definition = "Definition"
+            case description = "Description"
+            case acceptLanguage = "AcceptLanguage"
+        }
+    }
+
+    public struct SearchProductsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .map), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer)
+        ]
+        /// The search filters. If no search filters are specified, the output includes all products to which the caller has access.
+        public let filters: [ProductViewFilterBy: [String]]?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The sort order. If no value is specified, the results are not sorted.
+        public let sortOrder: SortOrder?
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The sort field. If no value is specified, the results are not sorted.
+        public let sortBy: ProductViewSortBy?
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+
+        public init(filters: [ProductViewFilterBy: [String]]? = nil, acceptLanguage: String? = nil, sortOrder: SortOrder? = nil, pageToken: String? = nil, sortBy: ProductViewSortBy? = nil, pageSize: Int32? = nil) {
+            self.filters = filters
+            self.acceptLanguage = acceptLanguage
+            self.sortOrder = sortOrder
+            self.pageToken = pageToken
+            self.sortBy = sortBy
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case acceptLanguage = "AcceptLanguage"
+            case sortOrder = "SortOrder"
+            case pageToken = "PageToken"
+            case sortBy = "SortBy"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct DeleteProvisionedProductPlanInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IgnoreErrors", required: false, type: .boolean), 
+            AWSShapeMember(label: "PlanId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
+        ]
+        /// If set to true, AWS Service Catalog stops managing the specified provisioned product even if it cannot delete the underlying resources.
+        public let ignoreErrors: Bool?
+        /// The plan identifier.
+        public let planId: String
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+
+        public init(ignoreErrors: Bool? = nil, planId: String, acceptLanguage: String? = nil) {
+            self.ignoreErrors = ignoreErrors
+            self.planId = planId
+            self.acceptLanguage = acceptLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ignoreErrors = "IgnoreErrors"
+            case planId = "PlanId"
+            case acceptLanguage = "AcceptLanguage"
+        }
+    }
+
+    public struct DeleteServiceActionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The self-service action identifier. For example, act-fs7abcd89wxyz.
+        public let id: String
+
+        public init(acceptLanguage: String? = nil, id: String) {
+            self.acceptLanguage = acceptLanguage
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
+        }
+    }
+
+    public struct GetAWSOrganizationsAccessStatusOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessStatus", required: false, type: .enum)
+        ]
+        /// The status of the portfolio share feature.
+        public let accessStatus: AccessStatus?
+
+        public init(accessStatus: AccessStatus? = nil) {
+            self.accessStatus = accessStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessStatus = "AccessStatus"
+        }
+    }
+
+    public struct DisassociateServiceActionFromProvisioningArtifactInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceActionId", required: true, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
+        ]
+        /// The self-service action identifier. For example, act-fs7abcd89wxyz.
+        public let serviceActionId: String
+        /// The product identifier. For example, prod-abcdzk7xy33qa.
+        public let productId: String
+        /// The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne.
+        public let provisioningArtifactId: String
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+
+        public init(serviceActionId: String, productId: String, provisioningArtifactId: String, acceptLanguage: String? = nil) {
+            self.serviceActionId = serviceActionId
+            self.productId = productId
+            self.provisioningArtifactId = provisioningArtifactId
+            self.acceptLanguage = acceptLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceActionId = "ServiceActionId"
+            case productId = "ProductId"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case acceptLanguage = "AcceptLanguage"
+        }
+    }
+
+    public struct BatchDisassociateServiceActionFromProvisioningArtifactInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceActionAssociations", required: true, type: .list)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// One or more associations, each consisting of the Action ID, the Product ID, and the Provisioning Artifact ID.
+        public let serviceActionAssociations: [ServiceActionAssociation]
+
+        public init(acceptLanguage: String? = nil, serviceActionAssociations: [ServiceActionAssociation]) {
+            self.acceptLanguage = acceptLanguage
+            self.serviceActionAssociations = serviceActionAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case serviceActionAssociations = "ServiceActionAssociations"
+        }
+    }
+
+    public struct DescribeCopyProductStatusInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CopyProductToken", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
+        ]
+        /// The token for the copy product operation. This token is returned by CopyProduct.
+        public let copyProductToken: String
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+
+        public init(copyProductToken: String, acceptLanguage: String? = nil) {
+            self.copyProductToken = copyProductToken
+            self.acceptLanguage = acceptLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case copyProductToken = "CopyProductToken"
+            case acceptLanguage = "AcceptLanguage"
+        }
+    }
+
+    public struct ListPortfoliosOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "PortfolioDetails", required: false, type: .list)
+        ]
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+        /// Information about the portfolios.
+        public let portfolioDetails: [PortfolioDetail]?
+
+        public init(nextPageToken: String? = nil, portfolioDetails: [PortfolioDetail]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.portfolioDetails = portfolioDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "NextPageToken"
+            case portfolioDetails = "PortfolioDetails"
+        }
+    }
+
+    public struct ShareError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Accounts", required: false, type: .list), 
+            AWSShapeMember(label: "Error", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
+        ]
+        /// List of accounts impacted by the error.
+        public let accounts: [String]?
+        /// Error type that happened when processing the operation.
+        public let error: String?
+        /// Information about the error.
+        public let message: String?
+
+        public init(accounts: [String]? = nil, error: String? = nil, message: String? = nil) {
+            self.accounts = accounts
+            self.error = error
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accounts = "Accounts"
+            case error = "Error"
+            case message = "Message"
+        }
+    }
+
+    public struct SearchProductsAsAdminInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .map), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "ProductSource", required: false, type: .enum), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer)
+        ]
+        /// The sort field. If no value is specified, the results are not sorted.
+        public let sortBy: ProductViewSortBy?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The portfolio identifier.
+        public let portfolioId: String?
+        /// The search filters. If no search filters are specified, the output includes all products to which the administrator has access.
+        public let filters: [ProductViewFilterBy: [String]]?
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The sort order. If no value is specified, the results are not sorted.
+        public let sortOrder: SortOrder?
+        /// Access level of the source of the product.
+        public let productSource: ProductSource?
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+
+        public init(sortBy: ProductViewSortBy? = nil, acceptLanguage: String? = nil, portfolioId: String? = nil, filters: [ProductViewFilterBy: [String]]? = nil, pageToken: String? = nil, sortOrder: SortOrder? = nil, productSource: ProductSource? = nil, pageSize: Int32? = nil) {
+            self.sortBy = sortBy
+            self.acceptLanguage = acceptLanguage
+            self.portfolioId = portfolioId
+            self.filters = filters
+            self.pageToken = pageToken
+            self.sortOrder = sortOrder
+            self.productSource = productSource
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case acceptLanguage = "AcceptLanguage"
+            case portfolioId = "PortfolioId"
+            case filters = "Filters"
+            case pageToken = "PageToken"
+            case sortOrder = "SortOrder"
+            case productSource = "ProductSource"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct UpdateProductOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductViewDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// Information about the product view.
+        public let productViewDetail: ProductViewDetail?
+        /// Information about the tags associated with the product.
+        public let tags: [Tag]?
+
+        public init(productViewDetail: ProductViewDetail? = nil, tags: [Tag]? = nil) {
+            self.productViewDetail = productViewDetail
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productViewDetail = "ProductViewDetail"
+            case tags = "Tags"
+        }
+    }
+
+    public struct SearchProductsAsAdminOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductViewDetails", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
+        ]
+        /// Information about the product views.
+        public let productViewDetails: [ProductViewDetail]?
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+
+        public init(productViewDetails: [ProductViewDetail]? = nil, nextPageToken: String? = nil) {
+            self.productViewDetails = productViewDetails
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productViewDetails = "ProductViewDetails"
+            case nextPageToken = "NextPageToken"
+        }
+    }
+
+    public struct AssociateServiceActionWithProvisioningArtifactInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceActionId", required: true, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
+        ]
+        /// The self-service action identifier. For example, act-fs7abcd89wxyz.
+        public let serviceActionId: String
+        /// The product identifier. For example, prod-abcdzk7xy33qa.
+        public let productId: String
+        /// The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne.
+        public let provisioningArtifactId: String
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+
+        public init(serviceActionId: String, productId: String, provisioningArtifactId: String, acceptLanguage: String? = nil) {
+            self.serviceActionId = serviceActionId
+            self.productId = productId
+            self.provisioningArtifactId = provisioningArtifactId
+            self.acceptLanguage = acceptLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceActionId = "ServiceActionId"
+            case productId = "ProductId"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case acceptLanguage = "AcceptLanguage"
+        }
+    }
+
+    public struct ProvisioningArtifact: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp)
+        ]
+        /// The name of the provisioning artifact.
+        public let name: String?
+        /// The identifier of the provisioning artifact.
+        public let id: String?
+        /// The description of the provisioning artifact.
+        public let description: String?
+        /// The UTC time stamp of the creation time.
+        public let createdTime: TimeStamp?
+
+        public init(name: String? = nil, id: String? = nil, description: String? = nil, createdTime: TimeStamp? = nil) {
+            self.name = name
+            self.id = id
+            self.description = description
+            self.createdTime = createdTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case id = "Id"
+            case description = "Description"
+            case createdTime = "CreatedTime"
+        }
+    }
+
+    public struct ProvisionedProductPlanDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotificationArns", required: false, type: .list), 
+            AWSShapeMember(label: "ProductId", required: false, type: .string), 
+            AWSShapeMember(label: "PlanName", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningParameters", required: false, type: .list), 
+            AWSShapeMember(label: "PathId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionProductId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionProductName", required: false, type: .string), 
+            AWSShapeMember(label: "PlanId", required: false, type: .string), 
+            AWSShapeMember(label: "PlanType", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "UpdatedTime", required: false, type: .timestamp)
+        ]
+        /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
+        public let notificationArns: [String]?
+        /// The product identifier.
+        public let productId: String?
+        /// The name of the plan.
+        public let planName: String?
+        /// The identifier of the provisioning artifact.
+        public let provisioningArtifactId: String?
+        /// Parameters specified by the administrator that are required for provisioning the product.
+        public let provisioningParameters: [UpdateProvisioningParameter]?
+        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths.
+        public let pathId: String?
+        /// The product identifier.
+        public let provisionProductId: String?
+        /// The user-friendly name of the provisioned product.
+        public let provisionProductName: String?
+        /// The plan identifier.
+        public let planId: String?
+        /// The plan type.
+        public let planType: ProvisionedProductPlanType?
+        /// The status message.
+        public let statusMessage: String?
+        /// The UTC time stamp of the creation time.
+        public let createdTime: TimeStamp?
+        /// One or more tags.
+        public let tags: [Tag]?
+        /// The status.
+        public let status: ProvisionedProductPlanStatus?
+        /// The time when the plan was last updated.
+        public let updatedTime: TimeStamp?
+
+        public init(notificationArns: [String]? = nil, productId: String? = nil, planName: String? = nil, provisioningArtifactId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, pathId: String? = nil, provisionProductId: String? = nil, provisionProductName: String? = nil, planId: String? = nil, planType: ProvisionedProductPlanType? = nil, statusMessage: String? = nil, createdTime: TimeStamp? = nil, tags: [Tag]? = nil, status: ProvisionedProductPlanStatus? = nil, updatedTime: TimeStamp? = nil) {
+            self.notificationArns = notificationArns
+            self.productId = productId
+            self.planName = planName
+            self.provisioningArtifactId = provisioningArtifactId
+            self.provisioningParameters = provisioningParameters
+            self.pathId = pathId
+            self.provisionProductId = provisionProductId
+            self.provisionProductName = provisionProductName
+            self.planId = planId
+            self.planType = planType
+            self.statusMessage = statusMessage
+            self.createdTime = createdTime
+            self.tags = tags
+            self.status = status
+            self.updatedTime = updatedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notificationArns = "NotificationArns"
+            case productId = "ProductId"
+            case planName = "PlanName"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case provisioningParameters = "ProvisioningParameters"
+            case pathId = "PathId"
+            case provisionProductId = "ProvisionProductId"
+            case provisionProductName = "ProvisionProductName"
+            case planId = "PlanId"
+            case planType = "PlanType"
+            case statusMessage = "StatusMessage"
+            case createdTime = "CreatedTime"
+            case tags = "Tags"
+            case status = "Status"
+            case updatedTime = "UpdatedTime"
+        }
+    }
+
+    public struct ExecuteProvisionedProductPlanOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
+        ]
+        /// Information about the result of provisioning the product.
+        public let recordDetail: RecordDetail?
+
+        public init(recordDetail: RecordDetail? = nil) {
+            self.recordDetail = recordDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordDetail = "RecordDetail"
+        }
+    }
+
+    public struct UsageInstruction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The usage instruction type for the value.
+        public let `type`: String?
+        /// The usage instruction value for this type.
+        public let value: String?
+
+        public init(type: String? = nil, value: String? = nil) {
+            self.`type` = `type`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case value = "Value"
+        }
+    }
+
+    public struct DescribeTagOptionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string)
+        ]
+        /// The TagOption identifier.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct ListResourcesForTagOptionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
+            AWSShapeMember(label: "TagOptionId", required: true, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer)
+        ]
+        /// The resource type.    Portfolio     Product   
+        public let resourceType: String?
+        /// The TagOption identifier.
+        public let tagOptionId: String
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+
+        public init(resourceType: String? = nil, tagOptionId: String, pageToken: String? = nil, pageSize: Int32? = nil) {
+            self.resourceType = resourceType
+            self.tagOptionId = tagOptionId
+            self.pageToken = pageToken
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "ResourceType"
+            case tagOptionId = "TagOptionId"
+            case pageToken = "PageToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct DescribeProductViewOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisioningArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "ProductViewSummary", required: false, type: .structure)
+        ]
+        /// Information about the provisioning artifacts for the product.
+        public let provisioningArtifacts: [ProvisioningArtifact]?
+        /// Summary information about the product.
+        public let productViewSummary: ProductViewSummary?
+
+        public init(provisioningArtifacts: [ProvisioningArtifact]? = nil, productViewSummary: ProductViewSummary? = nil) {
+            self.provisioningArtifacts = provisioningArtifacts
+            self.productViewSummary = productViewSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisioningArtifacts = "ProvisioningArtifacts"
+            case productViewSummary = "ProductViewSummary"
+        }
+    }
+
+    public struct UpdateTagOptionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagOptionDetail", required: false, type: .structure)
+        ]
+        /// Information about the TagOption.
+        public let tagOptionDetail: TagOptionDetail?
+
+        public init(tagOptionDetail: TagOptionDetail? = nil) {
+            self.tagOptionDetail = tagOptionDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagOptionDetail = "TagOptionDetail"
+        }
+    }
+
+    public struct ProvisionedProductDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "ProductId", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "LastRecordId", required: false, type: .string), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
+        ]
+        /// The user-friendly name of the provisioned product.
+        public let name: String?
+        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
+        public let idempotencyToken: String?
+        /// The current status of the provisioned product.    AVAILABLE - Stable state, ready to perform any operation. The most recent operation succeeded and completed.    UNDER_CHANGE - Transitive state, operations performed might not have valid results. Wait for an AVAILABLE status before performing operations.    TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.    ERROR - An unexpected error occurred, the provisioned product exists but the stack is not running. For example, CloudFormation received a parameter value that was not valid and could not launch the stack.  
+        public let status: ProvisionedProductStatus?
+        /// The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne.
+        public let provisioningArtifactId: String?
+        /// The UTC time stamp of the creation time.
+        public let createdTime: TimeStamp?
+        /// The type of provisioned product. The supported values are CFN_STACK and CFN_STACKSET.
+        public let `type`: String?
+        /// The product identifier. For example, prod-abcdzk7xy33qa.
+        public let productId: String?
+        /// The identifier of the provisioned product.
+        public let id: String?
+        /// The ARN of the provisioned product.
+        public let arn: String?
+        /// The record identifier of the last request performed on this provisioned product.
+        public let lastRecordId: String?
+        /// The current status message of the provisioned product.
+        public let statusMessage: String?
+
+        public init(name: String? = nil, idempotencyToken: String? = nil, status: ProvisionedProductStatus? = nil, provisioningArtifactId: String? = nil, createdTime: TimeStamp? = nil, type: String? = nil, productId: String? = nil, id: String? = nil, arn: String? = nil, lastRecordId: String? = nil, statusMessage: String? = nil) {
+            self.name = name
+            self.idempotencyToken = idempotencyToken
+            self.status = status
+            self.provisioningArtifactId = provisioningArtifactId
+            self.createdTime = createdTime
+            self.`type` = `type`
+            self.productId = productId
+            self.id = id
+            self.arn = arn
+            self.lastRecordId = lastRecordId
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case idempotencyToken = "IdempotencyToken"
+            case status = "Status"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case createdTime = "CreatedTime"
+            case `type` = "Type"
+            case productId = "ProductId"
+            case id = "Id"
+            case arn = "Arn"
+            case lastRecordId = "LastRecordId"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct ProvisioningArtifactSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactMetadata", required: false, type: .map), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp)
+        ]
+        /// The name of the provisioning artifact.
+        public let name: String?
+        /// The identifier of the provisioning artifact.
+        public let id: String?
+        /// The description of the provisioning artifact.
+        public let description: String?
+        /// The metadata for the provisioning artifact. This is used with AWS Marketplace products.
+        public let provisioningArtifactMetadata: [String: String]?
+        /// The UTC time stamp of the creation time.
+        public let createdTime: TimeStamp?
+
+        public init(name: String? = nil, id: String? = nil, description: String? = nil, provisioningArtifactMetadata: [String: String]? = nil, createdTime: TimeStamp? = nil) {
+            self.name = name
+            self.id = id
+            self.description = description
+            self.provisioningArtifactMetadata = provisioningArtifactMetadata
+            self.createdTime = createdTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case id = "Id"
+            case description = "Description"
+            case provisioningArtifactMetadata = "ProvisioningArtifactMetadata"
+            case createdTime = "CreatedTime"
+        }
+    }
+
     public struct DisableAWSOrganizationsAccessOutput: AWSShape {
 
     }
 
-    public struct DeletePortfolioOutput: AWSShape {
+    public struct CopyProductOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CopyProductToken", required: false, type: .string)
+        ]
+        /// The token to use to track the progress of the operation.
+        public let copyProductToken: String?
 
+        public init(copyProductToken: String? = nil) {
+            self.copyProductToken = copyProductToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case copyProductToken = "CopyProductToken"
+        }
+    }
+
+    public struct ProductViewAggregationValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApproximateCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// An approximate count of the products that match the value.
+        public let approximateCount: Int32?
+        /// The value of the product view aggregation.
+        public let value: String?
+
+        public init(approximateCount: Int32? = nil, value: String? = nil) {
+            self.approximateCount = approximateCount
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approximateCount = "ApproximateCount"
+            case value = "Value"
+        }
+    }
+
+    public struct UpdatePortfolioInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "ProviderName", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "AddTags", required: false, type: .list), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "RemoveTags", required: false, type: .list)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The updated name of the portfolio provider.
+        public let providerName: String?
+        /// The portfolio identifier.
+        public let id: String
+        /// The tags to add.
+        public let addTags: [Tag]?
+        /// The name to use for display purposes.
+        public let displayName: String?
+        /// The updated description of the portfolio.
+        public let description: String?
+        /// The tags to remove.
+        public let removeTags: [String]?
+
+        public init(acceptLanguage: String? = nil, providerName: String? = nil, id: String, addTags: [Tag]? = nil, displayName: String? = nil, description: String? = nil, removeTags: [String]? = nil) {
+            self.acceptLanguage = acceptLanguage
+            self.providerName = providerName
+            self.id = id
+            self.addTags = addTags
+            self.displayName = displayName
+            self.description = description
+            self.removeTags = removeTags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case providerName = "ProviderName"
+            case id = "Id"
+            case addTags = "AddTags"
+            case displayName = "DisplayName"
+            case description = "Description"
+            case removeTags = "RemoveTags"
+        }
+    }
+
+    public enum ShareStatus: String, CustomStringConvertible, Codable {
+        case notStarted = "NOT_STARTED"
+        case inProgress = "IN_PROGRESS"
+        case completed = "COMPLETED"
+        case completedWithErrors = "COMPLETED_WITH_ERRORS"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PortfolioShareType: String, CustomStringConvertible, Codable {
+        case imported = "IMPORTED"
+        case awsServicecatalog = "AWS_SERVICECATALOG"
+        case awsOrganizations = "AWS_ORGANIZATIONS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct FailedServiceActionAssociation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceActionId", required: false, type: .string), 
+            AWSShapeMember(label: "ProductId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
+        ]
+        /// The self-service action identifier. For example, act-fs7abcd89wxyz.
+        public let serviceActionId: String?
+        /// The product identifier. For example, prod-abcdzk7xy33qa.
+        public let productId: String?
+        /// The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne.
+        public let provisioningArtifactId: String?
+        /// The error code. Valid values are listed below.
+        public let errorCode: ServiceActionAssociationErrorCode?
+        /// A text description of the error.
+        public let errorMessage: String?
+
+        public init(serviceActionId: String? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, errorCode: ServiceActionAssociationErrorCode? = nil, errorMessage: String? = nil) {
+            self.serviceActionId = serviceActionId
+            self.productId = productId
+            self.provisioningArtifactId = provisioningArtifactId
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceActionId = "ServiceActionId"
+            case productId = "ProductId"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+        }
+    }
+
+    public struct CreatePortfolioShareOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PortfolioShareToken", required: false, type: .string)
+        ]
+        /// The portfolio share unique identifier. This will only be returned if portfolio is shared to an organization node.
+        public let portfolioShareToken: String?
+
+        public init(portfolioShareToken: String? = nil) {
+            self.portfolioShareToken = portfolioShareToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case portfolioShareToken = "PortfolioShareToken"
+        }
+    }
+
+    public struct DeletePortfolioInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The portfolio identifier.
+        public let id: String
+
+        public init(acceptLanguage: String? = nil, id: String) {
+            self.acceptLanguage = acceptLanguage
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
+        }
+    }
+
+    public struct ScanProvisionedProductsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "AccessLevelFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The access level to use to obtain results. The default is User.
+        public let accessLevelFilter: AccessLevelFilter?
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+
+        public init(acceptLanguage: String? = nil, pageToken: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, pageSize: Int32? = nil) {
+            self.acceptLanguage = acceptLanguage
+            self.pageToken = pageToken
+            self.accessLevelFilter = accessLevelFilter
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case pageToken = "PageToken"
+            case accessLevelFilter = "AccessLevelFilter"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct CreateServiceActionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceActionDetail", required: false, type: .structure)
+        ]
+        /// An object containing information about the self-service action.
+        public let serviceActionDetail: ServiceActionDetail?
+
+        public init(serviceActionDetail: ServiceActionDetail? = nil) {
+            self.serviceActionDetail = serviceActionDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceActionDetail = "ServiceActionDetail"
+        }
+    }
+
+    public enum ProvisionedProductPlanStatus: String, CustomStringConvertible, Codable {
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createSuccess = "CREATE_SUCCESS"
+        case createFailed = "CREATE_FAILED"
+        case executeInProgress = "EXECUTE_IN_PROGRESS"
+        case executeSuccess = "EXECUTE_SUCCESS"
+        case executeFailed = "EXECUTE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AssociatePrincipalWithPortfolioInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PrincipalARN", required: true, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeMember(label: "PrincipalType", required: true, type: .enum), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
+        ]
+        /// The ARN of the principal (IAM user, role, or group).
+        public let principalARN: String
+        /// The portfolio identifier.
+        public let portfolioId: String
+        /// The principal type. The supported value is IAM.
+        public let principalType: PrincipalType
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+
+        public init(principalARN: String, portfolioId: String, principalType: PrincipalType, acceptLanguage: String? = nil) {
+            self.principalARN = principalARN
+            self.portfolioId = portfolioId
+            self.principalType = principalType
+            self.acceptLanguage = acceptLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principalARN = "PrincipalARN"
+            case portfolioId = "PortfolioId"
+            case principalType = "PrincipalType"
+            case acceptLanguage = "AcceptLanguage"
+        }
+    }
+
+    public struct DescribeProvisionedProductOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisionedProductDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "CloudWatchDashboards", required: false, type: .list)
+        ]
+        /// Information about the provisioned product.
+        public let provisionedProductDetail: ProvisionedProductDetail?
+        /// Any CloudWatch dashboards that were created when provisioning the product.
+        public let cloudWatchDashboards: [CloudWatchDashboard]?
+
+        public init(provisionedProductDetail: ProvisionedProductDetail? = nil, cloudWatchDashboards: [CloudWatchDashboard]? = nil) {
+            self.provisionedProductDetail = provisionedProductDetail
+            self.cloudWatchDashboards = cloudWatchDashboards
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisionedProductDetail = "ProvisionedProductDetail"
+            case cloudWatchDashboards = "CloudWatchDashboards"
+        }
+    }
+
+    public struct DescribeProvisionedProductInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The provisioned product identifier.
+        public let id: String
+
+        public init(acceptLanguage: String? = nil, id: String) {
+            self.acceptLanguage = acceptLanguage
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
+        }
+    }
+
+    public struct CreatePortfolioShareInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationNode", required: false, type: .structure), 
+            AWSShapeMember(label: "AccountId", required: false, type: .string)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The portfolio identifier.
+        public let portfolioId: String
+        /// The organization node to whom you are going to share. If OrganizationNode is passed in, PortfolioShare will be created for the node and its children (when applies), and a PortfolioShareToken will be returned in the output in order for the administrator to monitor the status of the PortfolioShare creation process.
+        public let organizationNode: OrganizationNode?
+        /// The AWS account ID. For example, 123456789012.
+        public let accountId: String?
+
+        public init(acceptLanguage: String? = nil, portfolioId: String, organizationNode: OrganizationNode? = nil, accountId: String? = nil) {
+            self.acceptLanguage = acceptLanguage
+            self.portfolioId = portfolioId
+            self.organizationNode = organizationNode
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case portfolioId = "PortfolioId"
+            case organizationNode = "OrganizationNode"
+            case accountId = "AccountId"
+        }
+    }
+
+    public struct ListPrincipalsForPortfolioOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "Principals", required: false, type: .list)
+        ]
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+        /// The IAM principals (users or roles) associated with the portfolio.
+        public let principals: [Principal]?
+
+        public init(nextPageToken: String? = nil, principals: [Principal]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.principals = principals
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "NextPageToken"
+            case principals = "Principals"
+        }
+    }
+
+    public struct ListRecordHistoryInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessLevelFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "SearchFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer)
+        ]
+        /// The access level to use to obtain results. The default is User.
+        public let accessLevelFilter: AccessLevelFilter?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The search filter to scope the results.
+        public let searchFilter: ListRecordHistorySearchFilter?
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+
+        public init(accessLevelFilter: AccessLevelFilter? = nil, acceptLanguage: String? = nil, pageToken: String? = nil, searchFilter: ListRecordHistorySearchFilter? = nil, pageSize: Int32? = nil) {
+            self.accessLevelFilter = accessLevelFilter
+            self.acceptLanguage = acceptLanguage
+            self.pageToken = pageToken
+            self.searchFilter = searchFilter
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessLevelFilter = "AccessLevelFilter"
+            case acceptLanguage = "AcceptLanguage"
+            case pageToken = "PageToken"
+            case searchFilter = "SearchFilter"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribePortfolioShareStatusInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PortfolioShareToken", required: true, type: .string)
+        ]
+        /// The token for the portfolio share operation. This token is returned either by CreatePortfolioShare or by DeletePortfolioShare.
+        public let portfolioShareToken: String
+
+        public init(portfolioShareToken: String) {
+            self.portfolioShareToken = portfolioShareToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case portfolioShareToken = "PortfolioShareToken"
+        }
+    }
+
+    public struct ListServiceActionsForProvisioningArtifactInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
+        ]
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+        /// The product identifier. For example, prod-abcdzk7xy33qa.
+        public let productId: String
+        /// The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne.
+        public let provisioningArtifactId: String
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+
+        public init(pageSize: Int32? = nil, productId: String, provisioningArtifactId: String, pageToken: String? = nil, acceptLanguage: String? = nil) {
+            self.pageSize = pageSize
+            self.productId = productId
+            self.provisioningArtifactId = provisioningArtifactId
+            self.pageToken = pageToken
+            self.acceptLanguage = acceptLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case productId = "ProductId"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case pageToken = "PageToken"
+            case acceptLanguage = "AcceptLanguage"
+        }
+    }
+
+    public struct DescribeServiceActionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceActionDetail", required: false, type: .structure)
+        ]
+        /// Detailed information about the self-service action.
+        public let serviceActionDetail: ServiceActionDetail?
+
+        public init(serviceActionDetail: ServiceActionDetail? = nil) {
+            self.serviceActionDetail = serviceActionDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceActionDetail = "ServiceActionDetail"
+        }
+    }
+
+    public struct TerminateProvisionedProductOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
+        ]
+        /// Information about the result of this request.
+        public let recordDetail: RecordDetail?
+
+        public init(recordDetail: RecordDetail? = nil) {
+            self.recordDetail = recordDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordDetail = "RecordDetail"
+        }
+    }
+
+    public struct BatchAssociateServiceActionWithProvisioningArtifactOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedServiceActionAssociations", required: false, type: .list)
+        ]
+        /// An object that contains a list of errors, along with information to help you identify the self-service action.
+        public let failedServiceActionAssociations: [FailedServiceActionAssociation]?
+
+        public init(failedServiceActionAssociations: [FailedServiceActionAssociation]? = nil) {
+            self.failedServiceActionAssociations = failedServiceActionAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedServiceActionAssociations = "FailedServiceActionAssociations"
+        }
+    }
+
+    public struct CreateProvisionedProductPlanInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisionedProductName", required: true, type: .string), 
+            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationArns", required: false, type: .list), 
+            AWSShapeMember(label: "PlanType", required: true, type: .enum), 
+            AWSShapeMember(label: "ProvisioningParameters", required: false, type: .list), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "PlanName", required: true, type: .string), 
+            AWSShapeMember(label: "PathId", required: false, type: .string)
+        ]
+        /// A user-friendly name for the provisioned product. This value must be unique for the AWS account and cannot be updated after the product is provisioned.
+        public let provisionedProductName: String
+        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
+        public let idempotencyToken: String
+        /// One or more tags.
+        public let tags: [Tag]?
+        /// The identifier of the provisioning artifact.
+        public let provisioningArtifactId: String
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
+        public let notificationArns: [String]?
+        /// The plan type.
+        public let planType: ProvisionedProductPlanType
+        /// Parameters specified by the administrator that are required for provisioning the product.
+        public let provisioningParameters: [UpdateProvisioningParameter]?
+        /// The product identifier.
+        public let productId: String
+        /// The name of the plan.
+        public let planName: String
+        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths.
+        public let pathId: String?
+
+        public init(provisionedProductName: String, idempotencyToken: String, tags: [Tag]? = nil, provisioningArtifactId: String, acceptLanguage: String? = nil, notificationArns: [String]? = nil, planType: ProvisionedProductPlanType, provisioningParameters: [UpdateProvisioningParameter]? = nil, productId: String, planName: String, pathId: String? = nil) {
+            self.provisionedProductName = provisionedProductName
+            self.idempotencyToken = idempotencyToken
+            self.tags = tags
+            self.provisioningArtifactId = provisioningArtifactId
+            self.acceptLanguage = acceptLanguage
+            self.notificationArns = notificationArns
+            self.planType = planType
+            self.provisioningParameters = provisioningParameters
+            self.productId = productId
+            self.planName = planName
+            self.pathId = pathId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisionedProductName = "ProvisionedProductName"
+            case idempotencyToken = "IdempotencyToken"
+            case tags = "Tags"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case acceptLanguage = "AcceptLanguage"
+            case notificationArns = "NotificationArns"
+            case planType = "PlanType"
+            case provisioningParameters = "ProvisioningParameters"
+            case productId = "ProductId"
+            case planName = "PlanName"
+            case pathId = "PathId"
+        }
+    }
+
+    public struct DeletePortfolioShareInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationNode", required: false, type: .structure), 
+            AWSShapeMember(label: "AccountId", required: false, type: .string)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The portfolio identifier.
+        public let portfolioId: String
+        /// The organization node to whom you are going to stop sharing.
+        public let organizationNode: OrganizationNode?
+        /// The AWS account ID.
+        public let accountId: String?
+
+        public init(acceptLanguage: String? = nil, portfolioId: String, organizationNode: OrganizationNode? = nil, accountId: String? = nil) {
+            self.acceptLanguage = acceptLanguage
+            self.portfolioId = portfolioId
+            self.organizationNode = organizationNode
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case portfolioId = "PortfolioId"
+            case organizationNode = "OrganizationNode"
+            case accountId = "AccountId"
+        }
+    }
+
+    public enum ChangeAction: String, CustomStringConvertible, Codable {
+        case add = "ADD"
+        case modify = "MODIFY"
+        case remove = "REMOVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListLaunchPathsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LaunchPathSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
+        ]
+        /// Information about the launch path.
+        public let launchPathSummaries: [LaunchPathSummary]?
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+
+        public init(launchPathSummaries: [LaunchPathSummary]? = nil, nextPageToken: String? = nil) {
+            self.launchPathSummaries = launchPathSummaries
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case launchPathSummaries = "LaunchPathSummaries"
+            case nextPageToken = "NextPageToken"
+        }
+    }
+
+    public struct ListConstraintsForPortfolioOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConstraintDetails", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
+        ]
+        /// Information about the constraints.
+        public let constraintDetails: [ConstraintDetail]?
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+
+        public init(constraintDetails: [ConstraintDetail]? = nil, nextPageToken: String? = nil) {
+            self.constraintDetails = constraintDetails
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constraintDetails = "ConstraintDetails"
+            case nextPageToken = "NextPageToken"
+        }
+    }
+
+    public struct CreateServiceActionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
+            AWSShapeMember(label: "Definition", required: true, type: .map), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DefinitionType", required: true, type: .enum), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
+        ]
+        /// The self-service action name.
+        public let name: String
+        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
+        public let idempotencyToken: String
+        /// The self-service action definition. Can be one of the following:  Name  The name of the AWS Systems Manager Document. For example, AWS-RestartEC2Instance.  Version  The AWS Systems Manager automation document version. For example, "Version": "1"   AssumeRole  The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole". To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE".  Parameters  The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}].  
+        public let definition: [ServiceActionDefinitionKey: String]
+        /// The self-service action description.
+        public let description: String?
+        /// The service action definition type. For example, SSM_AUTOMATION.
+        public let definitionType: ServiceActionDefinitionType
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+
+        public init(name: String, idempotencyToken: String, definition: [ServiceActionDefinitionKey: String], description: String? = nil, definitionType: ServiceActionDefinitionType, acceptLanguage: String? = nil) {
+            self.name = name
+            self.idempotencyToken = idempotencyToken
+            self.definition = definition
+            self.description = description
+            self.definitionType = definitionType
+            self.acceptLanguage = acceptLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case idempotencyToken = "IdempotencyToken"
+            case definition = "Definition"
+            case description = "Description"
+            case definitionType = "DefinitionType"
+            case acceptLanguage = "AcceptLanguage"
+        }
+    }
+
+    public struct DescribePortfolioShareStatusOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PortfolioId", required: false, type: .string), 
+            AWSShapeMember(label: "ShareDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "PortfolioShareToken", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationNodeValue", required: false, type: .string)
+        ]
+        /// The portfolio identifier.
+        public let portfolioId: String?
+        /// Information about the portfolio share operation.
+        public let shareDetails: ShareDetails?
+        /// Status of the portfolio share operation.
+        public let status: ShareStatus?
+        /// The token for the portfolio share operation. For example, share-6v24abcdefghi.
+        public let portfolioShareToken: String?
+        /// Organization node identifier. It can be either account id, organizational unit id or organization id.
+        public let organizationNodeValue: String?
+
+        public init(portfolioId: String? = nil, shareDetails: ShareDetails? = nil, status: ShareStatus? = nil, portfolioShareToken: String? = nil, organizationNodeValue: String? = nil) {
+            self.portfolioId = portfolioId
+            self.shareDetails = shareDetails
+            self.status = status
+            self.portfolioShareToken = portfolioShareToken
+            self.organizationNodeValue = organizationNodeValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case portfolioId = "PortfolioId"
+            case shareDetails = "ShareDetails"
+            case status = "Status"
+            case portfolioShareToken = "PortfolioShareToken"
+            case organizationNodeValue = "OrganizationNodeValue"
+        }
+    }
+
+    public struct ShareDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SuccessfulShares", required: false, type: .list), 
+            AWSShapeMember(label: "ShareErrors", required: false, type: .list)
+        ]
+        /// List of accounts for whom the operation succeeded.
+        public let successfulShares: [String]?
+        /// List of errors.
+        public let shareErrors: [ShareError]?
+
+        public init(successfulShares: [String]? = nil, shareErrors: [ShareError]? = nil) {
+            self.successfulShares = successfulShares
+            self.shareErrors = shareErrors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case successfulShares = "SuccessfulShares"
+            case shareErrors = "ShareErrors"
+        }
+    }
+
+    public struct ResourceChange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogicalResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "Replacement", required: false, type: .enum), 
+            AWSShapeMember(label: "Action", required: false, type: .enum), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
+            AWSShapeMember(label: "Details", required: false, type: .list), 
+            AWSShapeMember(label: "Scope", required: false, type: .list), 
+            AWSShapeMember(label: "PhysicalResourceId", required: false, type: .string)
+        ]
+        /// The ID of the resource, as defined in the CloudFormation template.
+        public let logicalResourceId: String?
+        /// If the change type is Modify, indicates whether the existing resource is deleted and replaced with a new one.
+        public let replacement: Replacement?
+        /// The change action.
+        public let action: ChangeAction?
+        /// The type of resource.
+        public let resourceType: String?
+        /// Information about the resource changes.
+        public let details: [ResourceChangeDetail]?
+        /// The change scope.
+        public let scope: [ResourceAttribute]?
+        /// The ID of the resource, if it was already created.
+        public let physicalResourceId: String?
+
+        public init(logicalResourceId: String? = nil, replacement: Replacement? = nil, action: ChangeAction? = nil, resourceType: String? = nil, details: [ResourceChangeDetail]? = nil, scope: [ResourceAttribute]? = nil, physicalResourceId: String? = nil) {
+            self.logicalResourceId = logicalResourceId
+            self.replacement = replacement
+            self.action = action
+            self.resourceType = resourceType
+            self.details = details
+            self.scope = scope
+            self.physicalResourceId = physicalResourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logicalResourceId = "LogicalResourceId"
+            case replacement = "Replacement"
+            case action = "Action"
+            case resourceType = "ResourceType"
+            case details = "Details"
+            case scope = "Scope"
+            case physicalResourceId = "PhysicalResourceId"
+        }
+    }
+
+    public struct DescribePortfolioInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The portfolio identifier.
+        public let id: String
+
+        public init(acceptLanguage: String? = nil, id: String) {
+            self.acceptLanguage = acceptLanguage
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
+        }
+    }
+
+    public struct ProvisionProductOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
+        ]
+        /// Information about the result of provisioning the product.
+        public let recordDetail: RecordDetail?
+
+        public init(recordDetail: RecordDetail? = nil) {
+            self.recordDetail = recordDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordDetail = "RecordDetail"
+        }
+    }
+
+    public struct CloudWatchDashboard: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The name of the CloudWatch dashboard.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct ListProvisioningArtifactsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The product identifier.
+        public let productId: String
+
+        public init(acceptLanguage: String? = nil, productId: String) {
+            self.acceptLanguage = acceptLanguage
+            self.productId = productId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case productId = "ProductId"
+        }
+    }
+
+    public struct ListAcceptedPortfolioSharesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PortfolioShareType", required: false, type: .enum), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The type of shared portfolios to list. The default is to list imported portfolios.    AWS_ORGANIZATIONS - List portfolios shared by the master account of your organization    AWS_SERVICECATALOG - List default portfolios    IMPORTED - List imported portfolios  
+        public let portfolioShareType: PortfolioShareType?
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+
+        public init(acceptLanguage: String? = nil, portfolioShareType: PortfolioShareType? = nil, pageToken: String? = nil, pageSize: Int32? = nil) {
+            self.acceptLanguage = acceptLanguage
+            self.portfolioShareType = portfolioShareType
+            self.pageToken = pageToken
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case portfolioShareType = "PortfolioShareType"
+            case pageToken = "PageToken"
+            case pageSize = "PageSize"
+        }
     }
 
     public struct ListResourcesForTagOptionOutput: AWSShape {
@@ -2150,7 +2892,38 @@ extension ServiceCatalog {
         }
     }
 
-    public struct BatchAssociateServiceActionWithProvisioningArtifactOutput: AWSShape {
+    public enum ServiceActionDefinitionType: String, CustomStringConvertible, Codable {
+        case ssmAutomation = "SSM_AUTOMATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListPortfoliosInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+
+        public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil) {
+            self.acceptLanguage = acceptLanguage
+            self.pageSize = pageSize
+            self.pageToken = pageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case pageSize = "PageSize"
+            case pageToken = "PageToken"
+        }
+    }
+
+    public struct BatchDisassociateServiceActionFromProvisioningArtifactOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FailedServiceActionAssociations", required: false, type: .list)
         ]
@@ -2168,136 +2941,547 @@ extension ServiceCatalog {
 
     public struct ResourceTargetDefinition: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "RequiresRecreation", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Attribute", required: false, type: .enum)
         ]
-        /// If the attribute is Properties, the value is the name of the property. Otherwise, the value is null.
-        public let name: String?
         /// If the attribute is Properties, indicates whether a change to this property causes the resource to be re-created.
         public let requiresRecreation: RequiresRecreation?
+        /// If the attribute is Properties, the value is the name of the property. Otherwise, the value is null.
+        public let name: String?
         /// The attribute to be changed.
         public let attribute: ResourceAttribute?
 
-        public init(name: String? = nil, requiresRecreation: RequiresRecreation? = nil, attribute: ResourceAttribute? = nil) {
-            self.name = name
+        public init(requiresRecreation: RequiresRecreation? = nil, name: String? = nil, attribute: ResourceAttribute? = nil) {
             self.requiresRecreation = requiresRecreation
+            self.name = name
             self.attribute = attribute
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "Name"
             case requiresRecreation = "RequiresRecreation"
+            case name = "Name"
             case attribute = "Attribute"
         }
     }
 
-    public struct DescribePortfolioShareStatusOutput: AWSShape {
+    public struct ListProvisioningArtifactsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationNodeValue", required: false, type: .string), 
-            AWSShapeMember(label: "PortfolioShareToken", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "PortfolioId", required: false, type: .string), 
-            AWSShapeMember(label: "ShareDetails", required: false, type: .structure)
+            AWSShapeMember(label: "ProvisioningArtifactDetails", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
-        /// Organization node identifier. It can be either account id, organizational unit id or organization id.
-        public let organizationNodeValue: String?
-        /// The token for the portfolio share operation. For example, share-6v24abcdefghi.
-        public let portfolioShareToken: String?
-        /// Status of the portfolio share operation.
-        public let status: ShareStatus?
-        /// The portfolio identifier.
-        public let portfolioId: String?
-        /// Information about the portfolio share operation.
-        public let shareDetails: ShareDetails?
+        /// Information about the provisioning artifacts.
+        public let provisioningArtifactDetails: [ProvisioningArtifactDetail]?
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
 
-        public init(organizationNodeValue: String? = nil, portfolioShareToken: String? = nil, status: ShareStatus? = nil, portfolioId: String? = nil, shareDetails: ShareDetails? = nil) {
-            self.organizationNodeValue = organizationNodeValue
-            self.portfolioShareToken = portfolioShareToken
-            self.status = status
-            self.portfolioId = portfolioId
-            self.shareDetails = shareDetails
+        public init(provisioningArtifactDetails: [ProvisioningArtifactDetail]? = nil, nextPageToken: String? = nil) {
+            self.provisioningArtifactDetails = provisioningArtifactDetails
+            self.nextPageToken = nextPageToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case organizationNodeValue = "OrganizationNodeValue"
-            case portfolioShareToken = "PortfolioShareToken"
-            case status = "Status"
-            case portfolioId = "PortfolioId"
-            case shareDetails = "ShareDetails"
+            case provisioningArtifactDetails = "ProvisioningArtifactDetails"
+            case nextPageToken = "NextPageToken"
         }
     }
 
-    public struct CreatePortfolioShareInput: AWSShape {
+    public struct DescribeProvisioningArtifactInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationNode", required: false, type: .structure), 
-            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeMember(label: "AccountId", required: false, type: .string)
-        ]
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The organization node to whom you are going to share. If OrganizationNode is passed in, PortfolioShare will be created for the node and its children (when applies), and a PortfolioShareToken will be returned in the output in order for the administrator to monitor the status of the PortfolioShare creation process.
-        public let organizationNode: OrganizationNode?
-        /// The portfolio identifier.
-        public let portfolioId: String
-        /// The AWS account ID. For example, 123456789012.
-        public let accountId: String?
-
-        public init(acceptLanguage: String? = nil, organizationNode: OrganizationNode? = nil, portfolioId: String, accountId: String? = nil) {
-            self.acceptLanguage = acceptLanguage
-            self.organizationNode = organizationNode
-            self.portfolioId = portfolioId
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case acceptLanguage = "AcceptLanguage"
-            case organizationNode = "OrganizationNode"
-            case portfolioId = "PortfolioId"
-            case accountId = "AccountId"
-        }
-    }
-
-    public struct DeletePortfolioInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeMember(label: "Verbose", required: false, type: .boolean), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
-        /// The portfolio identifier.
-        public let id: String
+        /// The product identifier.
+        public let productId: String
+        /// The identifier of the provisioning artifact.
+        public let provisioningArtifactId: String
+        /// Indicates whether a verbose level of detail is enabled.
+        public let verbose: Bool?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
 
-        public init(id: String, acceptLanguage: String? = nil) {
-            self.id = id
+        public init(productId: String, provisioningArtifactId: String, verbose: Bool? = nil, acceptLanguage: String? = nil) {
+            self.productId = productId
+            self.provisioningArtifactId = provisioningArtifactId
+            self.verbose = verbose
             self.acceptLanguage = acceptLanguage
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
+            case productId = "ProductId"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case verbose = "Verbose"
             case acceptLanguage = "AcceptLanguage"
         }
+    }
+
+    public struct ProductViewSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Owner", required: false, type: .string), 
+            AWSShapeMember(label: "SupportUrl", required: false, type: .string), 
+            AWSShapeMember(label: "HasDefaultPath", required: false, type: .boolean), 
+            AWSShapeMember(label: "ProductId", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "ShortDescription", required: false, type: .string), 
+            AWSShapeMember(label: "SupportDescription", required: false, type: .string), 
+            AWSShapeMember(label: "Distributor", required: false, type: .string), 
+            AWSShapeMember(label: "SupportEmail", required: false, type: .string)
+        ]
+        /// The name of the product.
+        public let name: String?
+        /// The owner of the product. Contact the product administrator for the significance of this value.
+        public let owner: String?
+        /// The URL information to obtain support for this Product.
+        public let supportUrl: String?
+        /// Indicates whether the product has a default path. If the product does not have a default path, call ListLaunchPaths to disambiguate between paths. Otherwise, ListLaunchPaths is not required, and the output of ProductViewSummary can be used directly with DescribeProvisioningParameters.
+        public let hasDefaultPath: Bool?
+        /// The product identifier.
+        public let productId: String?
+        /// The product view identifier.
+        public let id: String?
+        /// The product type. Contact the product administrator for the significance of this value. If this value is MARKETPLACE, the product was created by AWS Marketplace.
+        public let `type`: ProductType?
+        /// Short description of the product.
+        public let shortDescription: String?
+        /// The description of the support for this Product.
+        public let supportDescription: String?
+        /// The distributor of the product. Contact the product administrator for the significance of this value.
+        public let distributor: String?
+        /// The email contact information to obtain support for this Product.
+        public let supportEmail: String?
+
+        public init(name: String? = nil, owner: String? = nil, supportUrl: String? = nil, hasDefaultPath: Bool? = nil, productId: String? = nil, id: String? = nil, type: ProductType? = nil, shortDescription: String? = nil, supportDescription: String? = nil, distributor: String? = nil, supportEmail: String? = nil) {
+            self.name = name
+            self.owner = owner
+            self.supportUrl = supportUrl
+            self.hasDefaultPath = hasDefaultPath
+            self.productId = productId
+            self.id = id
+            self.`type` = `type`
+            self.shortDescription = shortDescription
+            self.supportDescription = supportDescription
+            self.distributor = distributor
+            self.supportEmail = supportEmail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case owner = "Owner"
+            case supportUrl = "SupportUrl"
+            case hasDefaultPath = "HasDefaultPath"
+            case productId = "ProductId"
+            case id = "Id"
+            case `type` = "Type"
+            case shortDescription = "ShortDescription"
+            case supportDescription = "SupportDescription"
+            case distributor = "Distributor"
+            case supportEmail = "SupportEmail"
+        }
+    }
+
+    public struct DeleteProvisionedProductPlanOutput: AWSShape {
+
+    }
+
+    public enum StackSetOperationType: String, CustomStringConvertible, Codable {
+        case create = "CREATE"
+        case update = "UPDATE"
+        case delete = "DELETE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct BatchAssociateServiceActionWithProvisioningArtifactInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceActionAssociations", required: true, type: .list)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// One or more associations, each consisting of the Action ID, the Product ID, and the Provisioning Artifact ID.
+        public let serviceActionAssociations: [ServiceActionAssociation]
+
+        public init(acceptLanguage: String? = nil, serviceActionAssociations: [ServiceActionAssociation]) {
+            self.acceptLanguage = acceptLanguage
+            self.serviceActionAssociations = serviceActionAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case serviceActionAssociations = "ServiceActionAssociations"
+        }
+    }
+
+    public struct DeleteServiceActionOutput: AWSShape {
+
+    }
+
+    public enum ProductViewSortBy: String, CustomStringConvertible, Codable {
+        case title = "Title"
+        case versioncount = "VersionCount"
+        case creationdate = "CreationDate"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreatePortfolioInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DisplayName", required: true, type: .string), 
+            AWSShapeMember(label: "ProviderName", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// The name to use for display purposes.
+        public let displayName: String
+        /// The name of the portfolio provider.
+        public let providerName: String
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
+        public let idempotencyToken: String
+        /// The description of the portfolio.
+        public let description: String?
+        /// One or more tags.
+        public let tags: [Tag]?
+
+        public init(displayName: String, providerName: String, acceptLanguage: String? = nil, idempotencyToken: String, description: String? = nil, tags: [Tag]? = nil) {
+            self.displayName = displayName
+            self.providerName = providerName
+            self.acceptLanguage = acceptLanguage
+            self.idempotencyToken = idempotencyToken
+            self.description = description
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "DisplayName"
+            case providerName = "ProviderName"
+            case acceptLanguage = "AcceptLanguage"
+            case idempotencyToken = "IdempotencyToken"
+            case description = "Description"
+            case tags = "Tags"
+        }
+    }
+
+    public struct DisassociateTagOptionFromResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagOptionId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string)
+        ]
+        /// The TagOption identifier.
+        public let tagOptionId: String
+        /// The resource identifier.
+        public let resourceId: String
+
+        public init(tagOptionId: String, resourceId: String) {
+            self.tagOptionId = tagOptionId
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagOptionId = "TagOptionId"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public enum AccessStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case underChange = "UNDER_CHANGE"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RejectPortfolioShareOutput: AWSShape {
+
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+        /// The tag key.
+        public let key: String
+        /// The value for this key.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct CreatePortfolioOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PortfolioDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// Information about the portfolio.
+        public let portfolioDetail: PortfolioDetail?
+        /// Information about the tags associated with the portfolio.
+        public let tags: [Tag]?
+
+        public init(portfolioDetail: PortfolioDetail? = nil, tags: [Tag]? = nil) {
+            self.portfolioDetail = portfolioDetail
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case portfolioDetail = "PortfolioDetail"
+            case tags = "Tags"
+        }
+    }
+
+    public struct DescribeTagOptionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagOptionDetail", required: false, type: .structure)
+        ]
+        /// Information about the TagOption.
+        public let tagOptionDetail: TagOptionDetail?
+
+        public init(tagOptionDetail: TagOptionDetail? = nil) {
+            self.tagOptionDetail = tagOptionDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagOptionDetail = "TagOptionDetail"
+        }
+    }
+
+    public struct ProvisionedProductAttribute: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
+            AWSShapeMember(label: "LastRecordId", required: false, type: .string), 
+            AWSShapeMember(label: "UserArnSession", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
+            AWSShapeMember(label: "PhysicalId", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "UserArn", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// The product identifier.
+        public let productId: String?
+        /// The identifier of the provisioning artifact.
+        public let provisioningArtifactId: String?
+        /// The record identifier of the last request performed on this provisioned product.
+        public let lastRecordId: String?
+        /// The ARN of the IAM user in the session. This ARN might contain a session ID.
+        public let userArnSession: String?
+        /// The ARN of the provisioned product.
+        public let arn: String?
+        /// The user-friendly name of the provisioned product.
+        public let name: String?
+        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
+        public let idempotencyToken: String?
+        /// The assigned identifier for the resource, such as an EC2 instance ID or an S3 bucket name.
+        public let physicalId: String?
+        /// The type of provisioned product. The supported values are CFN_STACK and CFN_STACKSET.
+        public let `type`: String?
+        /// The current status message of the provisioned product.
+        public let statusMessage: String?
+        /// The identifier of the provisioned product.
+        public let id: String?
+        /// The UTC time stamp of the creation time.
+        public let createdTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the IAM user.
+        public let userArn: String?
+        /// One or more tags.
+        public let tags: [Tag]?
+        /// The current status of the provisioned product.    AVAILABLE - Stable state, ready to perform any operation. The most recent operation succeeded and completed.    UNDER_CHANGE - Transitive state, operations performed might not have valid results. Wait for an AVAILABLE status before performing operations.    TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.    ERROR - An unexpected error occurred, the provisioned product exists but the stack is not running. For example, CloudFormation received a parameter value that was not valid and could not launch the stack.  
+        public let status: ProvisionedProductStatus?
+
+        public init(productId: String? = nil, provisioningArtifactId: String? = nil, lastRecordId: String? = nil, userArnSession: String? = nil, arn: String? = nil, name: String? = nil, idempotencyToken: String? = nil, physicalId: String? = nil, type: String? = nil, statusMessage: String? = nil, id: String? = nil, createdTime: TimeStamp? = nil, userArn: String? = nil, tags: [Tag]? = nil, status: ProvisionedProductStatus? = nil) {
+            self.productId = productId
+            self.provisioningArtifactId = provisioningArtifactId
+            self.lastRecordId = lastRecordId
+            self.userArnSession = userArnSession
+            self.arn = arn
+            self.name = name
+            self.idempotencyToken = idempotencyToken
+            self.physicalId = physicalId
+            self.`type` = `type`
+            self.statusMessage = statusMessage
+            self.id = id
+            self.createdTime = createdTime
+            self.userArn = userArn
+            self.tags = tags
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productId = "ProductId"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case lastRecordId = "LastRecordId"
+            case userArnSession = "UserArnSession"
+            case arn = "Arn"
+            case name = "Name"
+            case idempotencyToken = "IdempotencyToken"
+            case physicalId = "PhysicalId"
+            case `type` = "Type"
+            case statusMessage = "StatusMessage"
+            case id = "Id"
+            case createdTime = "CreatedTime"
+            case userArn = "UserArn"
+            case tags = "Tags"
+            case status = "Status"
+        }
+    }
+
+    public struct CreateTagOptionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+        /// The TagOption key.
+        public let key: String
+        /// The TagOption value.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct DeleteProvisioningArtifactInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
+        ]
+        /// The identifier of the provisioning artifact.
+        public let provisioningArtifactId: String
+        /// The product identifier.
+        public let productId: String
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+
+        public init(provisioningArtifactId: String, productId: String, acceptLanguage: String? = nil) {
+            self.provisioningArtifactId = provisioningArtifactId
+            self.productId = productId
+            self.acceptLanguage = acceptLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case productId = "ProductId"
+            case acceptLanguage = "AcceptLanguage"
+        }
+    }
+
+    public struct ProvisioningArtifactPreferences: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackSetRegions", required: false, type: .list), 
+            AWSShapeMember(label: "StackSetAccounts", required: false, type: .list)
+        ]
+        /// One or more AWS Regions where stack instances are deployed from the stack set. These regions can be scoped in ProvisioningPreferences$StackSetRegions and UpdateProvisioningPreferences$StackSetRegions. Applicable only to a CFN_STACKSET provisioned product type.
+        public let stackSetRegions: [String]?
+        /// One or more AWS accounts where stack instances are deployed from the stack set. These accounts can be scoped in ProvisioningPreferences$StackSetAccounts and UpdateProvisioningPreferences$StackSetAccounts. Applicable only to a CFN_STACKSET provisioned product type.
+        public let stackSetAccounts: [String]?
+
+        public init(stackSetRegions: [String]? = nil, stackSetAccounts: [String]? = nil) {
+            self.stackSetRegions = stackSetRegions
+            self.stackSetAccounts = stackSetAccounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackSetRegions = "StackSetRegions"
+            case stackSetAccounts = "StackSetAccounts"
+        }
+    }
+
+    public struct EnableAWSOrganizationsAccessInput: AWSShape {
+
+    }
+
+    public struct ProvisioningArtifactDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Active", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp)
+        ]
+        /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - AWS CloudFormation template    MARKETPLACE_AMI - AWS Marketplace AMI    MARKETPLACE_CAR - AWS Marketplace Clusters and AWS Resources  
+        public let `type`: ProvisioningArtifactType?
+        /// Indicates whether the product version is active.
+        public let active: Bool?
+        /// The name of the provisioning artifact.
+        public let name: String?
+        /// The identifier of the provisioning artifact.
+        public let id: String?
+        /// The description of the provisioning artifact.
+        public let description: String?
+        /// The UTC time stamp of the creation time.
+        public let createdTime: TimeStamp?
+
+        public init(type: ProvisioningArtifactType? = nil, active: Bool? = nil, name: String? = nil, id: String? = nil, description: String? = nil, createdTime: TimeStamp? = nil) {
+            self.`type` = `type`
+            self.active = active
+            self.name = name
+            self.id = id
+            self.description = description
+            self.createdTime = createdTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case active = "Active"
+            case name = "Name"
+            case id = "Id"
+            case description = "Description"
+            case createdTime = "CreatedTime"
+        }
+    }
+
+    public struct DeleteProvisioningArtifactOutput: AWSShape {
+
+    }
+
+    public struct AssociateTagOptionWithResourceOutput: AWSShape {
+
     }
 
     public struct RecordError: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Code", required: false, type: .string)
         ]
-        /// The numeric value of the error.
-        public let code: String?
         /// The description of the error.
         public let description: String?
+        /// The numeric value of the error.
+        public let code: String?
 
-        public init(code: String? = nil, description: String? = nil) {
-            self.code = code
+        public init(description: String? = nil, code: String? = nil) {
             self.description = description
+            self.code = code
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code = "Code"
             case description = "Description"
+            case code = "Code"
         }
     }
 
@@ -2305,49 +3489,143 @@ extension ServiceCatalog {
 
     }
 
-    public struct ResourceChange: AWSShape {
+    public struct DeleteConstraintInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", required: false, type: .enum), 
-            AWSShapeMember(label: "Details", required: false, type: .list), 
-            AWSShapeMember(label: "Replacement", required: false, type: .enum), 
-            AWSShapeMember(label: "PhysicalResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "Scope", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "LogicalResourceId", required: false, type: .string)
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The change action.
-        public let action: ChangeAction?
-        /// Information about the resource changes.
-        public let details: [ResourceChangeDetail]?
-        /// If the change type is Modify, indicates whether the existing resource is deleted and replaced with a new one.
-        public let replacement: Replacement?
-        /// The ID of the resource, if it was already created.
-        public let physicalResourceId: String?
-        /// The change scope.
-        public let scope: [ResourceAttribute]?
-        /// The type of resource.
-        public let resourceType: String?
-        /// The ID of the resource, as defined in the CloudFormation template.
-        public let logicalResourceId: String?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The identifier of the constraint.
+        public let id: String
 
-        public init(action: ChangeAction? = nil, details: [ResourceChangeDetail]? = nil, replacement: Replacement? = nil, physicalResourceId: String? = nil, scope: [ResourceAttribute]? = nil, resourceType: String? = nil, logicalResourceId: String? = nil) {
-            self.action = action
-            self.details = details
-            self.replacement = replacement
-            self.physicalResourceId = physicalResourceId
-            self.scope = scope
-            self.resourceType = resourceType
-            self.logicalResourceId = logicalResourceId
+        public init(acceptLanguage: String? = nil, id: String) {
+            self.acceptLanguage = acceptLanguage
+            self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action = "Action"
-            case details = "Details"
-            case replacement = "Replacement"
-            case physicalResourceId = "PhysicalResourceId"
-            case scope = "Scope"
-            case resourceType = "ResourceType"
-            case logicalResourceId = "LogicalResourceId"
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
+        }
+    }
+
+    public struct ListServiceActionsForProvisioningArtifactOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceActionSummaries", required: false, type: .list)
+        ]
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+        /// An object containing information about the self-service actions associated with the provisioning artifact.
+        public let serviceActionSummaries: [ServiceActionSummary]?
+
+        public init(nextPageToken: String? = nil, serviceActionSummaries: [ServiceActionSummary]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.serviceActionSummaries = serviceActionSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "NextPageToken"
+            case serviceActionSummaries = "ServiceActionSummaries"
+        }
+    }
+
+    public struct AssociateProductWithPortfolioInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "SourcePortfolioId", required: false, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
+        ]
+        /// The portfolio identifier.
+        public let portfolioId: String
+        /// The product identifier.
+        public let productId: String
+        /// The identifier of the source portfolio.
+        public let sourcePortfolioId: String?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+
+        public init(portfolioId: String, productId: String, sourcePortfolioId: String? = nil, acceptLanguage: String? = nil) {
+            self.portfolioId = portfolioId
+            self.productId = productId
+            self.sourcePortfolioId = sourcePortfolioId
+            self.acceptLanguage = acceptLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case portfolioId = "PortfolioId"
+            case productId = "ProductId"
+            case sourcePortfolioId = "SourcePortfolioId"
+            case acceptLanguage = "AcceptLanguage"
+        }
+    }
+
+    public enum ProductSource: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RecordTag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The key for this tag.
+        public let key: String?
+        /// The value for this tag.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct ProvisioningArtifactParameter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsNoEcho", required: false, type: .boolean), 
+            AWSShapeMember(label: "ParameterKey", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterConstraints", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterType", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string)
+        ]
+        /// If this value is true, the value for this parameter is obfuscated from view when the parameter is retrieved. This parameter is used to hide sensitive information.
+        public let isNoEcho: Bool?
+        /// The parameter key.
+        public let parameterKey: String?
+        /// Constraints that the administrator has put on a parameter.
+        public let parameterConstraints: ParameterConstraints?
+        /// The description of the parameter.
+        public let description: String?
+        /// The parameter type.
+        public let parameterType: String?
+        /// The default value.
+        public let defaultValue: String?
+
+        public init(isNoEcho: Bool? = nil, parameterKey: String? = nil, parameterConstraints: ParameterConstraints? = nil, description: String? = nil, parameterType: String? = nil, defaultValue: String? = nil) {
+            self.isNoEcho = isNoEcho
+            self.parameterKey = parameterKey
+            self.parameterConstraints = parameterConstraints
+            self.description = description
+            self.parameterType = parameterType
+            self.defaultValue = defaultValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isNoEcho = "IsNoEcho"
+            case parameterKey = "ParameterKey"
+            case parameterConstraints = "ParameterConstraints"
+            case description = "Description"
+            case parameterType = "ParameterType"
+            case defaultValue = "DefaultValue"
         }
     }
 
@@ -2355,29 +3633,503 @@ extension ServiceCatalog {
 
     }
 
-    public struct UpdateConstraintInput: AWSShape {
+    public struct DescribeConstraintInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The identifier of the constraint.
-        public let id: String
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The updated description of the constraint.
-        public let description: String?
+        /// The identifier of the constraint.
+        public let id: String
 
-        public init(id: String, acceptLanguage: String? = nil, description: String? = nil) {
-            self.id = id
+        public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
-            self.description = description
+            self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
             case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
+        }
+    }
+
+    public struct PortfolioDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProviderName", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ARN", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp)
+        ]
+        /// The name of the portfolio provider.
+        public let providerName: String?
+        /// The portfolio identifier.
+        public let id: String?
+        /// The name to use for display purposes.
+        public let displayName: String?
+        /// The description of the portfolio.
+        public let description: String?
+        /// The ARN assigned to the portfolio.
+        public let arn: String?
+        /// The UTC time stamp of the creation time.
+        public let createdTime: TimeStamp?
+
+        public init(providerName: String? = nil, id: String? = nil, displayName: String? = nil, description: String? = nil, arn: String? = nil, createdTime: TimeStamp? = nil) {
+            self.providerName = providerName
+            self.id = id
+            self.displayName = displayName
+            self.description = description
+            self.arn = arn
+            self.createdTime = createdTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case providerName = "ProviderName"
+            case id = "Id"
+            case displayName = "DisplayName"
             case description = "Description"
+            case arn = "ARN"
+            case createdTime = "CreatedTime"
+        }
+    }
+
+    public struct ProductViewDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductARN", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ProductViewSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp)
+        ]
+        /// The ARN of the product.
+        public let productARN: String?
+        /// The status of the product.    AVAILABLE - The product is ready for use.    CREATING - Product creation has started; the product is not ready for use.    FAILED - An action failed.  
+        public let status: Status?
+        /// Summary information about the product view.
+        public let productViewSummary: ProductViewSummary?
+        /// The UTC time stamp of the creation time.
+        public let createdTime: TimeStamp?
+
+        public init(productARN: String? = nil, status: Status? = nil, productViewSummary: ProductViewSummary? = nil, createdTime: TimeStamp? = nil) {
+            self.productARN = productARN
+            self.status = status
+            self.productViewSummary = productViewSummary
+            self.createdTime = createdTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productARN = "ProductARN"
+            case status = "Status"
+            case productViewSummary = "ProductViewSummary"
+            case createdTime = "CreatedTime"
+        }
+    }
+
+    public struct DescribeServiceActionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The self-service action identifier.
+        public let id: String
+
+        public init(acceptLanguage: String? = nil, id: String) {
+            self.acceptLanguage = acceptLanguage
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
+        }
+    }
+
+    public struct OrganizationNode: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        public let `type`: OrganizationNodeType?
+        public let value: String?
+
+        public init(type: OrganizationNodeType? = nil, value: String? = nil) {
+            self.`type` = `type`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case value = "Value"
+        }
+    }
+
+    public struct ListLaunchPathsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The product identifier.
+        public let productId: String
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+
+        public init(acceptLanguage: String? = nil, productId: String, pageToken: String? = nil, pageSize: Int32? = nil) {
+            self.acceptLanguage = acceptLanguage
+            self.productId = productId
+            self.pageToken = pageToken
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case productId = "ProductId"
+            case pageToken = "PageToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public enum ProvisionedProductStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case underChange = "UNDER_CHANGE"
+        case tainted = "TAINTED"
+        case error = "ERROR"
+        case planInProgress = "PLAN_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AcceptPortfolioShareOutput: AWSShape {
+
+    }
+
+    public struct RecordOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OutputValue", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "OutputKey", required: false, type: .string)
+        ]
+        /// The output value.
+        public let outputValue: String?
+        /// The description of the output.
+        public let description: String?
+        /// The output key.
+        public let outputKey: String?
+
+        public init(outputValue: String? = nil, description: String? = nil, outputKey: String? = nil) {
+            self.outputValue = outputValue
+            self.description = description
+            self.outputKey = outputKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputValue = "OutputValue"
+            case description = "Description"
+            case outputKey = "OutputKey"
+        }
+    }
+
+    public struct CreateConstraintOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ConstraintDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "ConstraintParameters", required: false, type: .string)
+        ]
+        /// The status of the current request.
+        public let status: Status?
+        /// Information about the constraint.
+        public let constraintDetail: ConstraintDetail?
+        /// The constraint parameters.
+        public let constraintParameters: String?
+
+        public init(status: Status? = nil, constraintDetail: ConstraintDetail? = nil, constraintParameters: String? = nil) {
+            self.status = status
+            self.constraintDetail = constraintDetail
+            self.constraintParameters = constraintParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case constraintDetail = "ConstraintDetail"
+            case constraintParameters = "ConstraintParameters"
+        }
+    }
+
+    public enum ProvisionedProductPlanType: String, CustomStringConvertible, Codable {
+        case cloudformation = "CLOUDFORMATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeProductOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisioningArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "ProductViewSummary", required: false, type: .structure)
+        ]
+        /// Information about the provisioning artifacts for the specified product.
+        public let provisioningArtifacts: [ProvisioningArtifact]?
+        /// Summary information about the product view.
+        public let productViewSummary: ProductViewSummary?
+
+        public init(provisioningArtifacts: [ProvisioningArtifact]? = nil, productViewSummary: ProductViewSummary? = nil) {
+            self.provisioningArtifacts = provisioningArtifacts
+            self.productViewSummary = productViewSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisioningArtifacts = "ProvisioningArtifacts"
+            case productViewSummary = "ProductViewSummary"
+        }
+    }
+
+    public struct ListPortfoliosForProductInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The product identifier.
+        public let productId: String
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+
+        public init(acceptLanguage: String? = nil, productId: String, pageToken: String? = nil, pageSize: Int32? = nil) {
+            self.acceptLanguage = acceptLanguage
+            self.productId = productId
+            self.pageToken = pageToken
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case productId = "ProductId"
+            case pageToken = "PageToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct SearchProvisionedProductsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SortBy", required: false, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .map), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "AccessLevelFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer)
+        ]
+        /// The sort field. If no value is specified, the results are not sorted. The valid values are arn, id, name, and lastRecordId.
+        public let sortBy: String?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The search filters. When the key is SearchQuery, the searchable fields are arn, createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId, provisioningArtifact, type, status, tags, userArn, and userArnSession. Example: "SearchQuery":["status:AVAILABLE"] 
+        public let filters: [ProvisionedProductViewFilterBy: [String]]?
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The sort order. If no value is specified, the results are not sorted.
+        public let sortOrder: SortOrder?
+        /// The access level to use to obtain results. The default is User.
+        public let accessLevelFilter: AccessLevelFilter?
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+
+        public init(sortBy: String? = nil, acceptLanguage: String? = nil, filters: [ProvisionedProductViewFilterBy: [String]]? = nil, pageToken: String? = nil, sortOrder: SortOrder? = nil, accessLevelFilter: AccessLevelFilter? = nil, pageSize: Int32? = nil) {
+            self.sortBy = sortBy
+            self.acceptLanguage = acceptLanguage
+            self.filters = filters
+            self.pageToken = pageToken
+            self.sortOrder = sortOrder
+            self.accessLevelFilter = accessLevelFilter
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case acceptLanguage = "AcceptLanguage"
+            case filters = "Filters"
+            case pageToken = "PageToken"
+            case sortOrder = "SortOrder"
+            case accessLevelFilter = "AccessLevelFilter"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct DisassociateServiceActionFromProvisioningArtifactOutput: AWSShape {
+
+    }
+
+    public struct ListServiceActionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+
+        public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil) {
+            self.acceptLanguage = acceptLanguage
+            self.pageSize = pageSize
+            self.pageToken = pageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case pageSize = "PageSize"
+            case pageToken = "PageToken"
+        }
+    }
+
+    public struct ListConstraintsForPortfolioInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeMember(label: "ProductId", required: false, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The portfolio identifier.
+        public let portfolioId: String
+        /// The product identifier.
+        public let productId: String?
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+
+        public init(acceptLanguage: String? = nil, portfolioId: String, productId: String? = nil, pageToken: String? = nil, pageSize: Int32? = nil) {
+            self.acceptLanguage = acceptLanguage
+            self.portfolioId = portfolioId
+            self.productId = productId
+            self.pageToken = pageToken
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case portfolioId = "PortfolioId"
+            case productId = "ProductId"
+            case pageToken = "PageToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct CreateProvisioningArtifactInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "Parameters", required: true, type: .structure), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
+        ]
+        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
+        public let idempotencyToken: String
+        /// The product identifier.
+        public let productId: String
+        /// The configuration for the provisioning artifact.
+        public let parameters: ProvisioningArtifactProperties
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+
+        public init(idempotencyToken: String, productId: String, parameters: ProvisioningArtifactProperties, acceptLanguage: String? = nil) {
+            self.idempotencyToken = idempotencyToken
+            self.productId = productId
+            self.parameters = parameters
+            self.acceptLanguage = acceptLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idempotencyToken = "IdempotencyToken"
+            case productId = "ProductId"
+            case parameters = "Parameters"
+            case acceptLanguage = "AcceptLanguage"
+        }
+    }
+
+    public struct CreateProductInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductType", required: true, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
+            AWSShapeMember(label: "Owner", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "ProvisioningArtifactParameters", required: true, type: .structure), 
+            AWSShapeMember(label: "SupportUrl", required: false, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "SupportDescription", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Distributor", required: false, type: .string), 
+            AWSShapeMember(label: "SupportEmail", required: false, type: .string)
+        ]
+        /// The type of product.
+        public let productType: ProductType
+        /// The name of the product.
+        public let name: String
+        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
+        public let idempotencyToken: String
+        /// The owner of the product.
+        public let owner: String
+        /// One or more tags.
+        public let tags: [Tag]?
+        /// The configuration of the provisioning artifact.
+        public let provisioningArtifactParameters: ProvisioningArtifactProperties
+        /// The contact URL for product support.
+        public let supportUrl: String?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The support information about the product.
+        public let supportDescription: String?
+        /// The description of the product.
+        public let description: String?
+        /// The distributor of the product.
+        public let distributor: String?
+        /// The contact email for product support.
+        public let supportEmail: String?
+
+        public init(productType: ProductType, name: String, idempotencyToken: String, owner: String, tags: [Tag]? = nil, provisioningArtifactParameters: ProvisioningArtifactProperties, supportUrl: String? = nil, acceptLanguage: String? = nil, supportDescription: String? = nil, description: String? = nil, distributor: String? = nil, supportEmail: String? = nil) {
+            self.productType = productType
+            self.name = name
+            self.idempotencyToken = idempotencyToken
+            self.owner = owner
+            self.tags = tags
+            self.provisioningArtifactParameters = provisioningArtifactParameters
+            self.supportUrl = supportUrl
+            self.acceptLanguage = acceptLanguage
+            self.supportDescription = supportDescription
+            self.description = description
+            self.distributor = distributor
+            self.supportEmail = supportEmail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productType = "ProductType"
+            case name = "Name"
+            case idempotencyToken = "IdempotencyToken"
+            case owner = "Owner"
+            case tags = "Tags"
+            case provisioningArtifactParameters = "ProvisioningArtifactParameters"
+            case supportUrl = "SupportUrl"
+            case acceptLanguage = "AcceptLanguage"
+            case supportDescription = "SupportDescription"
+            case description = "Description"
+            case distributor = "Distributor"
+            case supportEmail = "SupportEmail"
         }
     }
 
@@ -2407,307 +4159,148 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeRecordInput: AWSShape {
+    public struct ListRecordHistorySearchFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "PageToken", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string)
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
         ]
-        /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The page token for the next set of results. To retrieve the first set of results, use null.
-        public let pageToken: String?
-        /// The record identifier of the provisioned product. This identifier is returned by the request operation.
-        public let id: String
+        /// The filter key.    product - Filter results based on the specified product identifier.    provisionedproduct - Filter results based on the provisioned product identifier.  
+        public let key: String?
+        /// The filter value.
+        public let value: String?
 
-        public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, pageToken: String? = nil, id: String) {
-            self.pageSize = pageSize
-            self.acceptLanguage = acceptLanguage
-            self.pageToken = pageToken
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "PageSize"
-            case acceptLanguage = "AcceptLanguage"
-            case pageToken = "PageToken"
-            case id = "Id"
-        }
-    }
-
-    public struct DescribeProvisionedProductOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProvisionedProductDetail", required: false, type: .structure), 
-            AWSShapeMember(label: "CloudWatchDashboards", required: false, type: .list)
-        ]
-        /// Information about the provisioned product.
-        public let provisionedProductDetail: ProvisionedProductDetail?
-        /// Any CloudWatch dashboards that were created when provisioning the product.
-        public let cloudWatchDashboards: [CloudWatchDashboard]?
-
-        public init(provisionedProductDetail: ProvisionedProductDetail? = nil, cloudWatchDashboards: [CloudWatchDashboard]? = nil) {
-            self.provisionedProductDetail = provisionedProductDetail
-            self.cloudWatchDashboards = cloudWatchDashboards
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case provisionedProductDetail = "ProvisionedProductDetail"
-            case cloudWatchDashboards = "CloudWatchDashboards"
-        }
-    }
-
-    public enum ProvisioningArtifactType: String, CustomStringConvertible, Codable {
-        case cloudFormationTemplate = "CLOUD_FORMATION_TEMPLATE"
-        case marketplaceAmi = "MARKETPLACE_AMI"
-        case marketplaceCar = "MARKETPLACE_CAR"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .string), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
-        ]
-        /// The value for this key.
-        public let value: String
-        /// The tag key.
-        public let key: String
-
-        public init(value: String, key: String) {
-            self.value = value
+        public init(key: String? = nil, value: String? = nil) {
             self.key = key
+            self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value = "Value"
             case key = "Key"
+            case value = "Value"
         }
     }
 
-    public enum ChangeAction: String, CustomStringConvertible, Codable {
-        case add = "ADD"
-        case modify = "MODIFY"
-        case remove = "REMOVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateProductOutput: AWSShape {
+    public struct UpdateProvisionedProductOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "ProductViewDetail", required: false, type: .structure), 
-            AWSShapeMember(label: "ProvisioningArtifactDetail", required: false, type: .structure)
+            AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
         ]
-        /// Information about the tags associated with the product.
-        public let tags: [Tag]?
-        /// Information about the product view.
-        public let productViewDetail: ProductViewDetail?
-        /// Information about the provisioning artifact.
-        public let provisioningArtifactDetail: ProvisioningArtifactDetail?
+        /// Information about the result of the request.
+        public let recordDetail: RecordDetail?
 
-        public init(tags: [Tag]? = nil, productViewDetail: ProductViewDetail? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil) {
-            self.tags = tags
-            self.productViewDetail = productViewDetail
-            self.provisioningArtifactDetail = provisioningArtifactDetail
+        public init(recordDetail: RecordDetail? = nil) {
+            self.recordDetail = recordDetail
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case productViewDetail = "ProductViewDetail"
-            case provisioningArtifactDetail = "ProvisioningArtifactDetail"
+            case recordDetail = "RecordDetail"
         }
-    }
-
-    public enum ProductSource: String, CustomStringConvertible, Codable {
-        case account = "ACCOUNT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteProvisioningArtifactOutput: AWSShape {
-
-    }
-
-    public enum ShareStatus: String, CustomStringConvertible, Codable {
-        case notStarted = "NOT_STARTED"
-        case inProgress = "IN_PROGRESS"
-        case completed = "COMPLETED"
-        case completedWithErrors = "COMPLETED_WITH_ERRORS"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DisassociateTagOptionFromResourceOutput: AWSShape {
-
     }
 
     public struct UpdateProvisionedProductInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProvisionedProductName", required: false, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisioningParameters", required: false, type: .list), 
-            AWSShapeMember(label: "PathId", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: false, type: .string), 
-            AWSShapeMember(label: "UpdateToken", required: true, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
             AWSShapeMember(label: "ProvisionedProductId", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisioningPreferences", required: false, type: .structure)
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningPreferences", required: false, type: .structure), 
+            AWSShapeMember(label: "ProvisioningParameters", required: false, type: .list), 
+            AWSShapeMember(label: "ProductId", required: false, type: .string), 
+            AWSShapeMember(label: "PathId", required: false, type: .string), 
+            AWSShapeMember(label: "UpdateToken", required: true, type: .string)
         ]
         /// The updated name of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
         public let provisionedProductName: String?
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The new parameters.
-        public let provisioningParameters: [UpdateProvisioningParameter]?
-        /// The new path identifier. This value is optional if the product has a default path, and required if the product has more than one path.
-        public let pathId: String?
-        /// The identifier of the product.
-        public let productId: String?
-        /// The idempotency token that uniquely identifies the provisioning update request.
-        public let updateToken: String
-        /// The identifier of the provisioning artifact.
-        public let provisioningArtifactId: String?
         /// The identifier of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
         public let provisionedProductId: String?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The identifier of the provisioning artifact.
+        public let provisioningArtifactId: String?
         /// An object that contains information about the provisioning preferences for a stack set.
         public let provisioningPreferences: UpdateProvisioningPreferences?
+        /// The new parameters.
+        public let provisioningParameters: [UpdateProvisioningParameter]?
+        /// The identifier of the product.
+        public let productId: String?
+        /// The new path identifier. This value is optional if the product has a default path, and required if the product has more than one path.
+        public let pathId: String?
+        /// The idempotency token that uniquely identifies the provisioning update request.
+        public let updateToken: String
 
-        public init(provisionedProductName: String? = nil, acceptLanguage: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, pathId: String? = nil, productId: String? = nil, updateToken: String, provisioningArtifactId: String? = nil, provisionedProductId: String? = nil, provisioningPreferences: UpdateProvisioningPreferences? = nil) {
+        public init(provisionedProductName: String? = nil, provisionedProductId: String? = nil, acceptLanguage: String? = nil, provisioningArtifactId: String? = nil, provisioningPreferences: UpdateProvisioningPreferences? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, productId: String? = nil, pathId: String? = nil, updateToken: String) {
             self.provisionedProductName = provisionedProductName
-            self.acceptLanguage = acceptLanguage
-            self.provisioningParameters = provisioningParameters
-            self.pathId = pathId
-            self.productId = productId
-            self.updateToken = updateToken
-            self.provisioningArtifactId = provisioningArtifactId
             self.provisionedProductId = provisionedProductId
+            self.acceptLanguage = acceptLanguage
+            self.provisioningArtifactId = provisioningArtifactId
             self.provisioningPreferences = provisioningPreferences
+            self.provisioningParameters = provisioningParameters
+            self.productId = productId
+            self.pathId = pathId
+            self.updateToken = updateToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case provisionedProductName = "ProvisionedProductName"
-            case acceptLanguage = "AcceptLanguage"
-            case provisioningParameters = "ProvisioningParameters"
-            case pathId = "PathId"
-            case productId = "ProductId"
-            case updateToken = "UpdateToken"
-            case provisioningArtifactId = "ProvisioningArtifactId"
             case provisionedProductId = "ProvisionedProductId"
-            case provisioningPreferences = "ProvisioningPreferences"
-        }
-    }
-
-    public enum OrganizationNodeType: String, CustomStringConvertible, Codable {
-        case organization = "ORGANIZATION"
-        case organizationalUnit = "ORGANIZATIONAL_UNIT"
-        case account = "ACCOUNT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteProvisionedProductPlanOutput: AWSShape {
-
-    }
-
-    public struct CreateProvisioningArtifactInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: true, type: .structure), 
-            AWSShapeMember(label: "ProductId", required: true, type: .string), 
-            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string)
-        ]
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The configuration for the provisioning artifact.
-        public let parameters: ProvisioningArtifactProperties
-        /// The product identifier.
-        public let productId: String
-        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
-        public let idempotencyToken: String
-
-        public init(acceptLanguage: String? = nil, parameters: ProvisioningArtifactProperties, productId: String, idempotencyToken: String) {
-            self.acceptLanguage = acceptLanguage
-            self.parameters = parameters
-            self.productId = productId
-            self.idempotencyToken = idempotencyToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
-            case parameters = "Parameters"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case provisioningPreferences = "ProvisioningPreferences"
+            case provisioningParameters = "ProvisioningParameters"
             case productId = "ProductId"
-            case idempotencyToken = "IdempotencyToken"
+            case pathId = "PathId"
+            case updateToken = "UpdateToken"
         }
     }
 
-    public struct CreateTagOptionOutput: AWSShape {
+    public struct SearchProvisionedProductsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagOptionDetail", required: false, type: .structure)
+            AWSShapeMember(label: "TotalResultsCount", required: false, type: .integer), 
+            AWSShapeMember(label: "ProvisionedProducts", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
-        /// Information about the TagOption.
-        public let tagOptionDetail: TagOptionDetail?
-
-        public init(tagOptionDetail: TagOptionDetail? = nil) {
-            self.tagOptionDetail = tagOptionDetail
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagOptionDetail = "TagOptionDetail"
-        }
-    }
-
-    public struct DisassociatePrincipalFromPortfolioOutput: AWSShape {
-
-    }
-
-    public struct DescribeProductViewOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProductViewSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "ProvisioningArtifacts", required: false, type: .list)
-        ]
-        /// Summary information about the product.
-        public let productViewSummary: ProductViewSummary?
-        /// Information about the provisioning artifacts for the product.
-        public let provisioningArtifacts: [ProvisioningArtifact]?
-
-        public init(productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
-            self.productViewSummary = productViewSummary
-            self.provisioningArtifacts = provisioningArtifacts
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case productViewSummary = "ProductViewSummary"
-            case provisioningArtifacts = "ProvisioningArtifacts"
-        }
-    }
-
-    public struct ListProvisioningArtifactsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactDetails", required: false, type: .list)
-        ]
+        /// The number of provisioned products found.
+        public let totalResultsCount: Int32?
+        /// Information about the provisioned products.
+        public let provisionedProducts: [ProvisionedProductAttribute]?
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
-        /// Information about the provisioning artifacts.
-        public let provisioningArtifactDetails: [ProvisioningArtifactDetail]?
 
-        public init(nextPageToken: String? = nil, provisioningArtifactDetails: [ProvisioningArtifactDetail]? = nil) {
+        public init(totalResultsCount: Int32? = nil, provisionedProducts: [ProvisionedProductAttribute]? = nil, nextPageToken: String? = nil) {
+            self.totalResultsCount = totalResultsCount
+            self.provisionedProducts = provisionedProducts
             self.nextPageToken = nextPageToken
-            self.provisioningArtifactDetails = provisioningArtifactDetails
         }
 
         private enum CodingKeys: String, CodingKey {
+            case totalResultsCount = "TotalResultsCount"
+            case provisionedProducts = "ProvisionedProducts"
             case nextPageToken = "NextPageToken"
-            case provisioningArtifactDetails = "ProvisioningArtifactDetails"
         }
     }
 
-    public enum ServiceActionDefinitionKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case version = "Version"
-        case assumerole = "AssumeRole"
-        case parameters = "Parameters"
-        public var description: String { return self.rawValue }
+    public struct AssociateServiceActionWithProvisioningArtifactOutput: AWSShape {
+
+    }
+
+    public struct Principal: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PrincipalARN", required: false, type: .string), 
+            AWSShapeMember(label: "PrincipalType", required: false, type: .enum)
+        ]
+        /// The ARN of the principal (IAM user, role, or group).
+        public let principalARN: String?
+        /// The principal type. The supported value is IAM.
+        public let principalType: PrincipalType?
+
+        public init(principalARN: String? = nil, principalType: PrincipalType? = nil) {
+            self.principalARN = principalARN
+            self.principalType = principalType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principalARN = "PrincipalARN"
+            case principalType = "PrincipalType"
+        }
     }
 
     public struct ListTagOptionsOutput: AWSShape {
@@ -2731,320 +4324,49 @@ extension ServiceCatalog {
         }
     }
 
-    public struct OrganizationNode: AWSShape {
+    public struct TagOptionDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
+            AWSShapeMember(label: "Active", required: false, type: .boolean), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
         ]
-        public let value: String?
-        public let `type`: OrganizationNodeType?
-
-        public init(value: String? = nil, type: OrganizationNodeType? = nil) {
-            self.value = value
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case `type` = "Type"
-        }
-    }
-
-    public struct ShareDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShareErrors", required: false, type: .list), 
-            AWSShapeMember(label: "SuccessfulShares", required: false, type: .list)
-        ]
-        /// List of errors.
-        public let shareErrors: [ShareError]?
-        /// List of accounts for whom the operation succeeded.
-        public let successfulShares: [String]?
-
-        public init(shareErrors: [ShareError]? = nil, successfulShares: [String]? = nil) {
-            self.shareErrors = shareErrors
-            self.successfulShares = successfulShares
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case shareErrors = "ShareErrors"
-            case successfulShares = "SuccessfulShares"
-        }
-    }
-
-    public enum ServiceActionAssociationErrorCode: String, CustomStringConvertible, Codable {
-        case duplicateResource = "DUPLICATE_RESOURCE"
-        case internalFailure = "INTERNAL_FAILURE"
-        case limitExceeded = "LIMIT_EXCEEDED"
-        case resourceNotFound = "RESOURCE_NOT_FOUND"
-        case throttling = "THROTTLING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ProvisionProductOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
-        ]
-        /// Information about the result of provisioning the product.
-        public let recordDetail: RecordDetail?
-
-        public init(recordDetail: RecordDetail? = nil) {
-            self.recordDetail = recordDetail
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recordDetail = "RecordDetail"
-        }
-    }
-
-    public struct DescribeServiceActionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// The self-service action identifier.
-        public let id: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-
-        public init(id: String, acceptLanguage: String? = nil) {
-            self.id = id
-            self.acceptLanguage = acceptLanguage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case acceptLanguage = "AcceptLanguage"
-        }
-    }
-
-    public struct SearchProductsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "PageToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "Filters", required: false, type: .map)
-        ]
-        /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The page token for the next set of results. To retrieve the first set of results, use null.
-        public let pageToken: String?
-        /// The sort order. If no value is specified, the results are not sorted.
-        public let sortOrder: SortOrder?
-        /// The sort field. If no value is specified, the results are not sorted.
-        public let sortBy: ProductViewSortBy?
-        /// The search filters. If no search filters are specified, the output includes all products to which the caller has access.
-        public let filters: [ProductViewFilterBy: [String]]?
-
-        public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, pageToken: String? = nil, sortOrder: SortOrder? = nil, sortBy: ProductViewSortBy? = nil, filters: [ProductViewFilterBy: [String]]? = nil) {
-            self.pageSize = pageSize
-            self.acceptLanguage = acceptLanguage
-            self.pageToken = pageToken
-            self.sortOrder = sortOrder
-            self.sortBy = sortBy
-            self.filters = filters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "PageSize"
-            case acceptLanguage = "AcceptLanguage"
-            case pageToken = "PageToken"
-            case sortOrder = "SortOrder"
-            case sortBy = "SortBy"
-            case filters = "Filters"
-        }
-    }
-
-    public struct ConstraintDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .string), 
-            AWSShapeMember(label: "ConstraintId", required: false, type: .string), 
-            AWSShapeMember(label: "Owner", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The type of constraint.    LAUNCH     NOTIFICATION    STACKSET    TEMPLATE   
-        public let `type`: String?
-        /// The identifier of the constraint.
-        public let constraintId: String?
-        /// The owner of the constraint.
-        public let owner: String?
-        /// The description of the constraint.
-        public let description: String?
-
-        public init(type: String? = nil, constraintId: String? = nil, owner: String? = nil, description: String? = nil) {
-            self.`type` = `type`
-            self.constraintId = constraintId
-            self.owner = owner
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case constraintId = "ConstraintId"
-            case owner = "Owner"
-            case description = "Description"
-        }
-    }
-
-    public struct ListResourcesForTagOptionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "TagOptionId", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "PageToken", required: false, type: .string)
-        ]
-        /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        /// The TagOption active state.
+        public let active: Bool?
         /// The TagOption identifier.
-        public let tagOptionId: String
-        /// The resource type.    Portfolio     Product   
-        public let resourceType: String?
-        /// The page token for the next set of results. To retrieve the first set of results, use null.
-        public let pageToken: String?
+        public let id: String?
+        /// The TagOption key.
+        public let key: String?
+        /// The TagOption value.
+        public let value: String?
 
-        public init(pageSize: Int32? = nil, tagOptionId: String, resourceType: String? = nil, pageToken: String? = nil) {
-            self.pageSize = pageSize
-            self.tagOptionId = tagOptionId
-            self.resourceType = resourceType
-            self.pageToken = pageToken
+        public init(active: Bool? = nil, id: String? = nil, key: String? = nil, value: String? = nil) {
+            self.active = active
+            self.id = id
+            self.key = key
+            self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageSize = "PageSize"
-            case tagOptionId = "TagOptionId"
-            case resourceType = "ResourceType"
-            case pageToken = "PageToken"
+            case active = "Active"
+            case id = "Id"
+            case key = "Key"
+            case value = "Value"
         }
     }
 
-    public struct AcceptPortfolioShareInput: AWSShape {
+    public struct DeleteTagOptionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PortfolioShareType", required: false, type: .enum), 
-            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// The type of shared portfolios to accept. The default is to accept imported portfolios.    AWS_ORGANIZATIONS - Accept portfolios shared by the master account of your organization.    IMPORTED - Accept imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog accept-portfolio-share --portfolio-id "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS 
-        public let portfolioShareType: PortfolioShareType?
-        /// The portfolio identifier.
-        public let portfolioId: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-
-        public init(portfolioShareType: PortfolioShareType? = nil, portfolioId: String, acceptLanguage: String? = nil) {
-            self.portfolioShareType = portfolioShareType
-            self.portfolioId = portfolioId
-            self.acceptLanguage = acceptLanguage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case portfolioShareType = "PortfolioShareType"
-            case portfolioId = "PortfolioId"
-            case acceptLanguage = "AcceptLanguage"
-        }
-    }
-
-    public struct ProvisioningArtifactProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Info", required: true, type: .map), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - AWS CloudFormation template    MARKETPLACE_AMI - AWS Marketplace AMI    MARKETPLACE_CAR - AWS Marketplace Clusters and AWS Resources  
-        public let `type`: ProvisioningArtifactType?
-        /// The URL of the CloudFormation template in Amazon S3. Specify the URL in JSON format as follows:  "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..." 
-        public let info: [String: String]
-        /// The name of the provisioning artifact (for example, v1 v2beta). No spaces are allowed.
-        public let name: String?
-        /// The description of the provisioning artifact, including how it differs from the previous provisioning artifact.
-        public let description: String?
-
-        public init(type: ProvisioningArtifactType? = nil, info: [String: String], name: String? = nil, description: String? = nil) {
-            self.`type` = `type`
-            self.info = info
-            self.name = name
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case info = "Info"
-            case name = "Name"
-            case description = "Description"
-        }
-    }
-
-    public struct ScanProvisionedProductsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "PageToken", required: false, type: .string), 
-            AWSShapeMember(label: "AccessLevelFilter", required: false, type: .structure)
-        ]
-        /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The page token for the next set of results. To retrieve the first set of results, use null.
-        public let pageToken: String?
-        /// The access level to use to obtain results. The default is User.
-        public let accessLevelFilter: AccessLevelFilter?
-
-        public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, pageToken: String? = nil, accessLevelFilter: AccessLevelFilter? = nil) {
-            self.pageSize = pageSize
-            self.acceptLanguage = acceptLanguage
-            self.pageToken = pageToken
-            self.accessLevelFilter = accessLevelFilter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "PageSize"
-            case acceptLanguage = "AcceptLanguage"
-            case pageToken = "PageToken"
-            case accessLevelFilter = "AccessLevelFilter"
-        }
-    }
-
-    public enum ProvisionedProductViewFilterBy: String, CustomStringConvertible, Codable {
-        case searchquery = "SearchQuery"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateServiceActionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Definition", required: false, type: .map), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The self-service action name.
-        public let name: String?
-        /// A map that defines the self-service action.
-        public let definition: [ServiceActionDefinitionKey: String]?
-        /// The self-service action description.
-        public let description: String?
-        /// The self-service action identifier.
+        /// The TagOption identifier.
         public let id: String
 
-        public init(acceptLanguage: String? = nil, name: String? = nil, definition: [ServiceActionDefinitionKey: String]? = nil, description: String? = nil, id: String) {
-            self.acceptLanguage = acceptLanguage
-            self.name = name
-            self.definition = definition
-            self.description = description
+        public init(id: String) {
             self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acceptLanguage = "AcceptLanguage"
-            case name = "Name"
-            case definition = "Definition"
-            case description = "Description"
             case id = "Id"
         }
     }
@@ -3075,249 +4397,301 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CopyProductOutput: AWSShape {
+    public struct DescribeProductViewInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CopyProductToken", required: false, type: .string)
-        ]
-        /// The token to use to track the progress of the operation.
-        public let copyProductToken: String?
-
-        public init(copyProductToken: String? = nil) {
-            self.copyProductToken = copyProductToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case copyProductToken = "CopyProductToken"
-        }
-    }
-
-    public struct UpdateProductInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SupportEmail", required: false, type: .string), 
-            AWSShapeMember(label: "RemoveTags", required: false, type: .list), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Owner", required: false, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SupportDescription", required: false, type: .string), 
-            AWSShapeMember(label: "Distributor", required: false, type: .string), 
-            AWSShapeMember(label: "AddTags", required: false, type: .list), 
-            AWSShapeMember(label: "SupportUrl", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The updated support email for the product.
-        public let supportEmail: String?
-        /// The tags to remove from the product.
-        public let removeTags: [String]?
-        /// The product identifier.
-        public let id: String
-        /// The updated owner of the product.
-        public let owner: String?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The updated description of the product.
-        public let description: String?
-        /// The updated support description for the product.
-        public let supportDescription: String?
-        /// The updated distributor of the product.
-        public let distributor: String?
-        /// The tags to add to the product.
-        public let addTags: [Tag]?
-        /// The updated support URL for the product.
-        public let supportUrl: String?
-        /// The updated product name.
-        public let name: String?
+        /// The product view identifier.
+        public let id: String
 
-        public init(supportEmail: String? = nil, removeTags: [String]? = nil, id: String, owner: String? = nil, acceptLanguage: String? = nil, description: String? = nil, supportDescription: String? = nil, distributor: String? = nil, addTags: [Tag]? = nil, supportUrl: String? = nil, name: String? = nil) {
-            self.supportEmail = supportEmail
-            self.removeTags = removeTags
-            self.id = id
-            self.owner = owner
+        public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
-            self.description = description
-            self.supportDescription = supportDescription
-            self.distributor = distributor
-            self.addTags = addTags
-            self.supportUrl = supportUrl
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case supportEmail = "SupportEmail"
-            case removeTags = "RemoveTags"
-            case id = "Id"
-            case owner = "Owner"
-            case acceptLanguage = "AcceptLanguage"
-            case description = "Description"
-            case supportDescription = "SupportDescription"
-            case distributor = "Distributor"
-            case addTags = "AddTags"
-            case supportUrl = "SupportUrl"
-            case name = "Name"
-        }
-    }
-
-    public struct ProvisioningArtifactDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Active", required: false, type: .boolean)
-        ]
-        /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - AWS CloudFormation template    MARKETPLACE_AMI - AWS Marketplace AMI    MARKETPLACE_CAR - AWS Marketplace Clusters and AWS Resources  
-        public let `type`: ProvisioningArtifactType?
-        /// The identifier of the provisioning artifact.
-        public let id: String?
-        /// The name of the provisioning artifact.
-        public let name: String?
-        /// The description of the provisioning artifact.
-        public let description: String?
-        /// The UTC time stamp of the creation time.
-        public let createdTime: TimeStamp?
-        /// Indicates whether the product version is active.
-        public let active: Bool?
-
-        public init(type: ProvisioningArtifactType? = nil, id: String? = nil, name: String? = nil, description: String? = nil, createdTime: TimeStamp? = nil, active: Bool? = nil) {
-            self.`type` = `type`
             self.id = id
-            self.name = name
-            self.description = description
-            self.createdTime = createdTime
-            self.active = active
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case acceptLanguage = "AcceptLanguage"
             case id = "Id"
-            case name = "Name"
-            case description = "Description"
-            case createdTime = "CreatedTime"
-            case active = "Active"
         }
     }
 
-    public enum AccessStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case underChange = "UNDER_CHANGE"
-        case disabled = "DISABLED"
+    public enum Status: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
-    public struct ProvisionProductInput: AWSShape {
+    public struct UpdateProvisioningPreferences: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProvisionedProductName", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisioningParameters", required: false, type: .list), 
-            AWSShapeMember(label: "PathId", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: true, type: .string), 
-            AWSShapeMember(label: "ProvisionToken", required: true, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
-            AWSShapeMember(label: "ProvisioningPreferences", required: false, type: .structure), 
-            AWSShapeMember(label: "NotificationArns", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
+            AWSShapeMember(label: "StackSetRegions", required: false, type: .list), 
+            AWSShapeMember(label: "StackSetOperationType", required: false, type: .enum), 
+            AWSShapeMember(label: "StackSetFailureTolerancePercentage", required: false, type: .integer), 
+            AWSShapeMember(label: "StackSetMaxConcurrencyCount", required: false, type: .integer), 
+            AWSShapeMember(label: "StackSetMaxConcurrencyPercentage", required: false, type: .integer), 
+            AWSShapeMember(label: "StackSetFailureToleranceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "StackSetAccounts", required: false, type: .list)
         ]
-        /// A user-friendly name for the provisioned product. This value must be unique for the AWS account and cannot be updated after the product is provisioned.
-        public let provisionedProductName: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// Parameters specified by the administrator that are required for provisioning the product.
-        public let provisioningParameters: [ProvisioningParameter]?
-        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths.
-        public let pathId: String?
-        /// The product identifier.
-        public let productId: String
-        /// An idempotency token that uniquely identifies the provisioning request.
-        public let provisionToken: String
-        /// The identifier of the provisioning artifact.
-        public let provisioningArtifactId: String
-        /// An object that contains information about the provisioning preferences for a stack set.
-        public let provisioningPreferences: ProvisioningPreferences?
-        /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
-        public let notificationArns: [String]?
-        /// One or more tags.
-        public let tags: [Tag]?
+        /// One or more AWS Regions where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified regions should be within the list of regions from the STACKSET constraint. To get the list of regions in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all regions from the STACKSET constraint.
+        public let stackSetRegions: [String]?
+        /// Determines what action AWS Service Catalog performs to a stack set or a stack instance represented by the provisioned product. The default value is UPDATE if nothing is specified. Applicable only to a CFN_STACKSET provisioned product type.  CREATE  Creates a new stack instance in the stack set represented by the provisioned product. In this case, only new stack instances are created based on accounts and regions; if new ProductId or ProvisioningArtifactID are passed, they will be ignored.  UPDATE  Updates the stack set represented by the provisioned product and also its stack instances.  DELETE  Deletes a stack instance in the stack set represented by the provisioned product.  
+        public let stackSetOperationType: StackSetOperationType?
+        /// The percentage of accounts, per region, for which this stack operation can fail before AWS Service Catalog stops the operation in that region. If the operation is stopped in a region, AWS Service Catalog doesn't attempt the operation in any subsequent regions. When calculating the number of accounts based on the specified percentage, AWS Service Catalog rounds down to the next whole number. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both.
+        public let stackSetFailureTolerancePercentage: Int32?
+        /// The maximum number of accounts in which to perform this operation at one time. This is dependent on the value of StackSetFailureToleranceCount. StackSetMaxConcurrentCount is at most one more than the StackSetFailureToleranceCount. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage, but not both.
+        public let stackSetMaxConcurrencyCount: Int32?
+        /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, AWS Service Catalog rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, AWS Service Catalog sets the number as 1 instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage, but not both.
+        public let stackSetMaxConcurrencyPercentage: Int32?
+        /// The number of accounts, per region, for which this operation can fail before AWS Service Catalog stops the operation in that region. If the operation is stopped in a region, AWS Service Catalog doesn't attempt the operation in any subsequent regions. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both. The default value is 0 if no value is specified.
+        public let stackSetFailureToleranceCount: Int32?
+        /// One or more AWS accounts that will have access to the provisioned product. Applicable only to a CFN_STACKSET provisioned product type. The AWS accounts specified should be within the list of accounts in the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all accounts from the STACKSET constraint.
+        public let stackSetAccounts: [String]?
 
-        public init(provisionedProductName: String, acceptLanguage: String? = nil, provisioningParameters: [ProvisioningParameter]? = nil, pathId: String? = nil, productId: String, provisionToken: String, provisioningArtifactId: String, provisioningPreferences: ProvisioningPreferences? = nil, notificationArns: [String]? = nil, tags: [Tag]? = nil) {
-            self.provisionedProductName = provisionedProductName
-            self.acceptLanguage = acceptLanguage
-            self.provisioningParameters = provisioningParameters
-            self.pathId = pathId
-            self.productId = productId
-            self.provisionToken = provisionToken
-            self.provisioningArtifactId = provisioningArtifactId
-            self.provisioningPreferences = provisioningPreferences
-            self.notificationArns = notificationArns
-            self.tags = tags
+        public init(stackSetRegions: [String]? = nil, stackSetOperationType: StackSetOperationType? = nil, stackSetFailureTolerancePercentage: Int32? = nil, stackSetMaxConcurrencyCount: Int32? = nil, stackSetMaxConcurrencyPercentage: Int32? = nil, stackSetFailureToleranceCount: Int32? = nil, stackSetAccounts: [String]? = nil) {
+            self.stackSetRegions = stackSetRegions
+            self.stackSetOperationType = stackSetOperationType
+            self.stackSetFailureTolerancePercentage = stackSetFailureTolerancePercentage
+            self.stackSetMaxConcurrencyCount = stackSetMaxConcurrencyCount
+            self.stackSetMaxConcurrencyPercentage = stackSetMaxConcurrencyPercentage
+            self.stackSetFailureToleranceCount = stackSetFailureToleranceCount
+            self.stackSetAccounts = stackSetAccounts
         }
 
         private enum CodingKeys: String, CodingKey {
-            case provisionedProductName = "ProvisionedProductName"
-            case acceptLanguage = "AcceptLanguage"
-            case provisioningParameters = "ProvisioningParameters"
-            case pathId = "PathId"
-            case productId = "ProductId"
-            case provisionToken = "ProvisionToken"
-            case provisioningArtifactId = "ProvisioningArtifactId"
-            case provisioningPreferences = "ProvisioningPreferences"
-            case notificationArns = "NotificationArns"
-            case tags = "Tags"
+            case stackSetRegions = "StackSetRegions"
+            case stackSetOperationType = "StackSetOperationType"
+            case stackSetFailureTolerancePercentage = "StackSetFailureTolerancePercentage"
+            case stackSetMaxConcurrencyCount = "StackSetMaxConcurrencyCount"
+            case stackSetMaxConcurrencyPercentage = "StackSetMaxConcurrencyPercentage"
+            case stackSetFailureToleranceCount = "StackSetFailureToleranceCount"
+            case stackSetAccounts = "StackSetAccounts"
+        }
+    }
+
+    public struct ResourceChangeDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Target", required: false, type: .structure), 
+            AWSShapeMember(label: "CausingEntity", required: false, type: .string), 
+            AWSShapeMember(label: "Evaluation", required: false, type: .enum)
+        ]
+        /// Information about the resource attribute to be modified.
+        public let target: ResourceTargetDefinition?
+        /// The ID of the entity that caused the change.
+        public let causingEntity: String?
+        /// For static evaluations, the value of the resource attribute will change and the new value is known. For dynamic evaluations, the value might change, and any new value will be determined when the plan is updated.
+        public let evaluation: EvaluationType?
+
+        public init(target: ResourceTargetDefinition? = nil, causingEntity: String? = nil, evaluation: EvaluationType? = nil) {
+            self.target = target
+            self.causingEntity = causingEntity
+            self.evaluation = evaluation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case target = "Target"
+            case causingEntity = "CausingEntity"
+            case evaluation = "Evaluation"
         }
     }
 
     public struct DescribeProvisioningParametersInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "PathId", required: false, type: .string), 
             AWSShapeMember(label: "ProductId", required: true, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string)
+            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeMember(label: "PathId", required: false, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths.
-        public let pathId: String?
         /// The product identifier.
         public let productId: String
         /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String
+        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths.
+        public let pathId: String?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
 
-        public init(acceptLanguage: String? = nil, pathId: String? = nil, productId: String, provisioningArtifactId: String) {
-            self.acceptLanguage = acceptLanguage
-            self.pathId = pathId
+        public init(productId: String, provisioningArtifactId: String, pathId: String? = nil, acceptLanguage: String? = nil) {
             self.productId = productId
             self.provisioningArtifactId = provisioningArtifactId
+            self.pathId = pathId
+            self.acceptLanguage = acceptLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productId = "ProductId"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case pathId = "PathId"
+            case acceptLanguage = "AcceptLanguage"
+        }
+    }
+
+    public struct UpdateTagOptionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Active", required: false, type: .boolean), 
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
+        ]
+        /// The updated active state.
+        public let active: Bool?
+        /// The updated value.
+        public let value: String?
+        /// The TagOption identifier.
+        public let id: String
+
+        public init(active: Bool? = nil, value: String? = nil, id: String) {
+            self.active = active
+            self.value = value
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case active = "Active"
+            case value = "Value"
+            case id = "Id"
+        }
+    }
+
+    public struct CreateTagOptionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagOptionDetail", required: false, type: .structure)
+        ]
+        /// Information about the TagOption.
+        public let tagOptionDetail: TagOptionDetail?
+
+        public init(tagOptionDetail: TagOptionDetail? = nil) {
+            self.tagOptionDetail = tagOptionDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagOptionDetail = "TagOptionDetail"
+        }
+    }
+
+    public struct DescribeProvisionedProductPlanInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "PlanId", required: true, type: .string)
+        ]
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The plan identifier.
+        public let planId: String
+
+        public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, pageToken: String? = nil, planId: String) {
+            self.pageSize = pageSize
+            self.acceptLanguage = acceptLanguage
+            self.pageToken = pageToken
+            self.planId = planId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case acceptLanguage = "AcceptLanguage"
+            case pageToken = "PageToken"
+            case planId = "PlanId"
+        }
+    }
+
+    public struct DescribeProductAsAdminInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The product identifier.
+        public let id: String
+
+        public init(acceptLanguage: String? = nil, id: String) {
+            self.acceptLanguage = acceptLanguage
+            self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
-            case pathId = "PathId"
-            case productId = "ProductId"
-            case provisioningArtifactId = "ProvisioningArtifactId"
+            case id = "Id"
         }
     }
 
-    public struct ExecuteProvisionedProductServiceActionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
-        ]
-        /// An object containing detailed information about the result of provisioning the product.
-        public let recordDetail: RecordDetail?
+    public enum Replacement: String, CustomStringConvertible, Codable {
+        case `true` = "TRUE"
+        case `false` = "FALSE"
+        case conditional = "CONDITIONAL"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(recordDetail: RecordDetail? = nil) {
-            self.recordDetail = recordDetail
+    public struct DeleteProductInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The product identifier.
+        public let id: String
+
+        public init(acceptLanguage: String? = nil, id: String) {
+            self.acceptLanguage = acceptLanguage
+            self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recordDetail = "RecordDetail"
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
         }
     }
 
-    public struct CreatePortfolioShareOutput: AWSShape {
+    public struct DeleteProductOutput: AWSShape {
+
+    }
+
+    public struct CreateProductOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "ProductViewDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "ProvisioningArtifactDetail", required: false, type: .structure)
+        ]
+        /// Information about the tags associated with the product.
+        public let tags: [Tag]?
+        /// Information about the product view.
+        public let productViewDetail: ProductViewDetail?
+        /// Information about the provisioning artifact.
+        public let provisioningArtifactDetail: ProvisioningArtifactDetail?
+
+        public init(tags: [Tag]? = nil, productViewDetail: ProductViewDetail? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil) {
+            self.tags = tags
+            self.productViewDetail = productViewDetail
+            self.provisioningArtifactDetail = provisioningArtifactDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case productViewDetail = "ProductViewDetail"
+            case provisioningArtifactDetail = "ProvisioningArtifactDetail"
+        }
+    }
+
+    public enum OrganizationNodeType: String, CustomStringConvertible, Codable {
+        case organization = "ORGANIZATION"
+        case organizationalUnit = "ORGANIZATIONAL_UNIT"
+        case account = "ACCOUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeletePortfolioShareOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PortfolioShareToken", required: false, type: .string)
         ]
-        /// The portfolio share unique identifier. This will only be returned if portfolio is shared to an organization node.
+        /// The portfolio share unique identifier. This will only be returned if delete is made to an organization node.
         public let portfolioShareToken: String?
 
         public init(portfolioShareToken: String? = nil) {
@@ -3329,95 +4703,30 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UpdateProvisioningPreferences: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackSetFailureToleranceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "StackSetMaxConcurrencyCount", required: false, type: .integer), 
-            AWSShapeMember(label: "StackSetFailureTolerancePercentage", required: false, type: .integer), 
-            AWSShapeMember(label: "StackSetAccounts", required: false, type: .list), 
-            AWSShapeMember(label: "StackSetRegions", required: false, type: .list), 
-            AWSShapeMember(label: "StackSetMaxConcurrencyPercentage", required: false, type: .integer), 
-            AWSShapeMember(label: "StackSetOperationType", required: false, type: .enum)
-        ]
-        /// The number of accounts, per region, for which this operation can fail before AWS Service Catalog stops the operation in that region. If the operation is stopped in a region, AWS Service Catalog doesn't attempt the operation in any subsequent regions. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both. The default value is 0 if no value is specified.
-        public let stackSetFailureToleranceCount: Int32?
-        /// The maximum number of accounts in which to perform this operation at one time. This is dependent on the value of StackSetFailureToleranceCount. StackSetMaxConcurrentCount is at most one more than the StackSetFailureToleranceCount. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage, but not both.
-        public let stackSetMaxConcurrencyCount: Int32?
-        /// The percentage of accounts, per region, for which this stack operation can fail before AWS Service Catalog stops the operation in that region. If the operation is stopped in a region, AWS Service Catalog doesn't attempt the operation in any subsequent regions. When calculating the number of accounts based on the specified percentage, AWS Service Catalog rounds down to the next whole number. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both.
-        public let stackSetFailureTolerancePercentage: Int32?
-        /// One or more AWS accounts that will have access to the provisioned product. Applicable only to a CFN_STACKSET provisioned product type. The AWS accounts specified should be within the list of accounts in the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all accounts from the STACKSET constraint.
-        public let stackSetAccounts: [String]?
-        /// One or more AWS Regions where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified regions should be within the list of regions from the STACKSET constraint. To get the list of regions in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all regions from the STACKSET constraint.
-        public let stackSetRegions: [String]?
-        /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, AWS Service Catalog rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, AWS Service Catalog sets the number as 1 instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage, but not both.
-        public let stackSetMaxConcurrencyPercentage: Int32?
-        /// Determines what action AWS Service Catalog performs to a stack set or a stack instance represented by the provisioned product. The default value is UPDATE if nothing is specified. Applicable only to a CFN_STACKSET provisioned product type.  CREATE  Creates a new stack instance in the stack set represented by the provisioned product. In this case, only new stack instances are created based on accounts and regions; if new ProductId or ProvisioningArtifactID are passed, they will be ignored.  UPDATE  Updates the stack set represented by the provisioned product and also its stack instances.  DELETE  Deletes a stack instance in the stack set represented by the provisioned product.  
-        public let stackSetOperationType: StackSetOperationType?
-
-        public init(stackSetFailureToleranceCount: Int32? = nil, stackSetMaxConcurrencyCount: Int32? = nil, stackSetFailureTolerancePercentage: Int32? = nil, stackSetAccounts: [String]? = nil, stackSetRegions: [String]? = nil, stackSetMaxConcurrencyPercentage: Int32? = nil, stackSetOperationType: StackSetOperationType? = nil) {
-            self.stackSetFailureToleranceCount = stackSetFailureToleranceCount
-            self.stackSetMaxConcurrencyCount = stackSetMaxConcurrencyCount
-            self.stackSetFailureTolerancePercentage = stackSetFailureTolerancePercentage
-            self.stackSetAccounts = stackSetAccounts
-            self.stackSetRegions = stackSetRegions
-            self.stackSetMaxConcurrencyPercentage = stackSetMaxConcurrencyPercentage
-            self.stackSetOperationType = stackSetOperationType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackSetFailureToleranceCount = "StackSetFailureToleranceCount"
-            case stackSetMaxConcurrencyCount = "StackSetMaxConcurrencyCount"
-            case stackSetFailureTolerancePercentage = "StackSetFailureTolerancePercentage"
-            case stackSetAccounts = "StackSetAccounts"
-            case stackSetRegions = "StackSetRegions"
-            case stackSetMaxConcurrencyPercentage = "StackSetMaxConcurrencyPercentage"
-            case stackSetOperationType = "StackSetOperationType"
-        }
+    public enum EvaluationType: String, CustomStringConvertible, Codable {
+        case `static` = "STATIC"
+        case dynamic = "DYNAMIC"
+        public var description: String { return self.rawValue }
     }
 
-    public struct CreateConstraintInput: AWSShape {
+    public struct ConstraintSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: true, type: .string), 
-            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .string), 
-            AWSShapeMember(label: "Parameters", required: true, type: .string)
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
-        public let idempotencyToken: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The product identifier.
-        public let productId: String
-        /// The portfolio identifier.
-        public let portfolioId: String
+        /// The type of constraint.    LAUNCH     NOTIFICATION    STACKSET    TEMPLATE   
+        public let `type`: String?
         /// The description of the constraint.
         public let description: String?
-        /// The type of constraint.    LAUNCH     NOTIFICATION     STACKSET     TEMPLATE   
-        public let `type`: String
-        /// The constraint parameters, in JSON format. The syntax depends on the constraint type as follows:  LAUNCH  Specify the RoleArn property as follows:  {"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio.  NOTIFICATION  Specify the NotificationArns property as follows:  {"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]}   STACKSET  Specify the Parameters property as follows:  {"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole": "String"}}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an AWS CloudFormation stack set.  TEMPLATE  Specify the Rules property. For more information, see Template Constraint Rules.  
-        public let parameters: String
 
-        public init(idempotencyToken: String, acceptLanguage: String? = nil, productId: String, portfolioId: String, description: String? = nil, type: String, parameters: String) {
-            self.idempotencyToken = idempotencyToken
-            self.acceptLanguage = acceptLanguage
-            self.productId = productId
-            self.portfolioId = portfolioId
-            self.description = description
+        public init(type: String? = nil, description: String? = nil) {
             self.`type` = `type`
-            self.parameters = parameters
+            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case idempotencyToken = "IdempotencyToken"
-            case acceptLanguage = "AcceptLanguage"
-            case productId = "ProductId"
-            case portfolioId = "PortfolioId"
-            case description = "Description"
             case `type` = "Type"
-            case parameters = "Parameters"
+            case description = "Description"
         }
     }
 
@@ -3442,1192 +4751,98 @@ extension ServiceCatalog {
         }
     }
 
-    public struct RejectPortfolioShareOutput: AWSShape {
-
-    }
-
-    public enum Status: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case creating = "CREATING"
-        case failed = "FAILED"
+    public enum ProductType: String, CustomStringConvertible, Codable {
+        case cloudFormationTemplate = "CLOUD_FORMATION_TEMPLATE"
+        case marketplace = "MARKETPLACE"
         public var description: String { return self.rawValue }
     }
 
-    public struct DisassociateTagOptionFromResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "TagOptionId", required: true, type: .string)
-        ]
-        /// The resource identifier.
-        public let resourceId: String
-        /// The TagOption identifier.
-        public let tagOptionId: String
-
-        public init(resourceId: String, tagOptionId: String) {
-            self.resourceId = resourceId
-            self.tagOptionId = tagOptionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case tagOptionId = "TagOptionId"
-        }
-    }
-
-    public struct DeletePortfolioShareOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PortfolioShareToken", required: false, type: .string)
-        ]
-        /// The portfolio share unique identifier. This will only be returned if delete is made to an organization node.
-        public let portfolioShareToken: String?
-
-        public init(portfolioShareToken: String? = nil) {
-            self.portfolioShareToken = portfolioShareToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case portfolioShareToken = "PortfolioShareToken"
-        }
-    }
-
-    public struct ListServiceActionsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceActionSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
-        ]
-        /// An object containing information about the service actions associated with the provisioning artifact.
-        public let serviceActionSummaries: [ServiceActionSummary]?
-        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
-        public let nextPageToken: String?
-
-        public init(serviceActionSummaries: [ServiceActionSummary]? = nil, nextPageToken: String? = nil) {
-            self.serviceActionSummaries = serviceActionSummaries
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceActionSummaries = "ServiceActionSummaries"
-            case nextPageToken = "NextPageToken"
-        }
-    }
-
-    public struct DescribeProductAsAdminOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProvisioningArtifactSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "TagOptions", required: false, type: .list), 
-            AWSShapeMember(label: "ProductViewDetail", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
-        /// Information about the provisioning artifacts (also known as versions) for the specified product.
-        public let provisioningArtifactSummaries: [ProvisioningArtifactSummary]?
-        /// Information about the TagOptions associated with the product.
-        public let tagOptions: [TagOptionDetail]?
-        /// Information about the product view.
-        public let productViewDetail: ProductViewDetail?
-        /// Information about the tags associated with the product.
-        public let tags: [Tag]?
-
-        public init(provisioningArtifactSummaries: [ProvisioningArtifactSummary]? = nil, tagOptions: [TagOptionDetail]? = nil, productViewDetail: ProductViewDetail? = nil, tags: [Tag]? = nil) {
-            self.provisioningArtifactSummaries = provisioningArtifactSummaries
-            self.tagOptions = tagOptions
-            self.productViewDetail = productViewDetail
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case provisioningArtifactSummaries = "ProvisioningArtifactSummaries"
-            case tagOptions = "TagOptions"
-            case productViewDetail = "ProductViewDetail"
-            case tags = "Tags"
-        }
-    }
-
-    public struct ListRecordHistoryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "SearchFilter", required: false, type: .structure), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "PageToken", required: false, type: .string), 
-            AWSShapeMember(label: "AccessLevelFilter", required: false, type: .structure)
-        ]
-        /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
-        /// The search filter to scope the results.
-        public let searchFilter: ListRecordHistorySearchFilter?
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The page token for the next set of results. To retrieve the first set of results, use null.
-        public let pageToken: String?
-        /// The access level to use to obtain results. The default is User.
-        public let accessLevelFilter: AccessLevelFilter?
-
-        public init(pageSize: Int32? = nil, searchFilter: ListRecordHistorySearchFilter? = nil, acceptLanguage: String? = nil, pageToken: String? = nil, accessLevelFilter: AccessLevelFilter? = nil) {
-            self.pageSize = pageSize
-            self.searchFilter = searchFilter
-            self.acceptLanguage = acceptLanguage
-            self.pageToken = pageToken
-            self.accessLevelFilter = accessLevelFilter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "PageSize"
-            case searchFilter = "SearchFilter"
-            case acceptLanguage = "AcceptLanguage"
-            case pageToken = "PageToken"
-            case accessLevelFilter = "AccessLevelFilter"
-        }
-    }
-
-    public struct DeleteTagOptionOutput: AWSShape {
-
-    }
-
-    public enum ProductViewSortBy: String, CustomStringConvertible, Codable {
-        case title = "Title"
-        case versioncount = "VersionCount"
-        case creationdate = "CreationDate"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DisassociateProductFromPortfolioOutput: AWSShape {
-
-    }
-
-    public struct ListRecordHistorySearchFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string)
-        ]
-        /// The filter value.
-        public let value: String?
-        /// The filter key.    product - Filter results based on the specified product identifier.    provisionedproduct - Filter results based on the provisioned product identifier.  
-        public let key: String?
-
-        public init(value: String? = nil, key: String? = nil) {
-            self.value = value
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
-        }
-    }
-
-    public struct ListPrincipalsForPortfolioInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "PageToken", required: false, type: .string), 
-            AWSShapeMember(label: "PortfolioId", required: true, type: .string)
-        ]
-        /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The page token for the next set of results. To retrieve the first set of results, use null.
-        public let pageToken: String?
-        /// The portfolio identifier.
-        public let portfolioId: String
-
-        public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, pageToken: String? = nil, portfolioId: String) {
-            self.pageSize = pageSize
-            self.acceptLanguage = acceptLanguage
-            self.pageToken = pageToken
-            self.portfolioId = portfolioId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "PageSize"
-            case acceptLanguage = "AcceptLanguage"
-            case pageToken = "PageToken"
-            case portfolioId = "PortfolioId"
-        }
-    }
-
-    public struct UsageInstruction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .string)
-        ]
-        /// The usage instruction value for this type.
-        public let value: String?
-        /// The usage instruction type for the value.
-        public let `type`: String?
-
-        public init(value: String? = nil, type: String? = nil) {
-            self.value = value
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case `type` = "Type"
-        }
-    }
-
-    public struct DeleteProvisionedProductPlanInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IgnoreErrors", required: false, type: .boolean), 
-            AWSShapeMember(label: "PlanId", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// If set to true, AWS Service Catalog stops managing the specified provisioned product even if it cannot delete the underlying resources.
-        public let ignoreErrors: Bool?
-        /// The plan identifier.
-        public let planId: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-
-        public init(ignoreErrors: Bool? = nil, planId: String, acceptLanguage: String? = nil) {
-            self.ignoreErrors = ignoreErrors
-            self.planId = planId
-            self.acceptLanguage = acceptLanguage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ignoreErrors = "IgnoreErrors"
-            case planId = "PlanId"
-            case acceptLanguage = "AcceptLanguage"
-        }
-    }
-
-    public struct RejectPortfolioShareInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PortfolioShareType", required: false, type: .enum), 
-            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// The type of shared portfolios to reject. The default is to reject imported portfolios.    AWS_ORGANIZATIONS - Reject portfolios shared by the master account of your organization.    IMPORTED - Reject imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog reject-portfolio-share --portfolio-id "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS 
-        public let portfolioShareType: PortfolioShareType?
-        /// The portfolio identifier.
-        public let portfolioId: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-
-        public init(portfolioShareType: PortfolioShareType? = nil, portfolioId: String, acceptLanguage: String? = nil) {
-            self.portfolioShareType = portfolioShareType
-            self.portfolioId = portfolioId
-            self.acceptLanguage = acceptLanguage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case portfolioShareType = "PortfolioShareType"
-            case portfolioId = "PortfolioId"
-            case acceptLanguage = "AcceptLanguage"
-        }
-    }
-
-    public struct AssociateServiceActionWithProvisioningArtifactInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: true, type: .string), 
-            AWSShapeMember(label: "ServiceActionId", required: true, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string)
-        ]
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The product identifier. For example, prod-abcdzk7xy33qa.
-        public let productId: String
-        /// The self-service action identifier. For example, act-fs7abcd89wxyz.
-        public let serviceActionId: String
-        /// The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne.
-        public let provisioningArtifactId: String
-
-        public init(acceptLanguage: String? = nil, productId: String, serviceActionId: String, provisioningArtifactId: String) {
-            self.acceptLanguage = acceptLanguage
-            self.productId = productId
-            self.serviceActionId = serviceActionId
-            self.provisioningArtifactId = provisioningArtifactId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case acceptLanguage = "AcceptLanguage"
-            case productId = "ProductId"
-            case serviceActionId = "ServiceActionId"
-            case provisioningArtifactId = "ProvisioningArtifactId"
-        }
-    }
-
-    public struct ListRecordHistoryOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordDetails", required: false, type: .list), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
-        ]
-        /// The records, in reverse chronological order.
-        public let recordDetails: [RecordDetail]?
-        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
-        public let nextPageToken: String?
-
-        public init(recordDetails: [RecordDetail]? = nil, nextPageToken: String? = nil) {
-            self.recordDetails = recordDetails
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recordDetails = "RecordDetails"
-            case nextPageToken = "NextPageToken"
-        }
-    }
-
-    public enum PortfolioShareType: String, CustomStringConvertible, Codable {
-        case imported = "IMPORTED"
-        case awsServicecatalog = "AWS_SERVICECATALOG"
-        case awsOrganizations = "AWS_ORGANIZATIONS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteServiceActionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// The self-service action identifier. For example, act-fs7abcd89wxyz.
-        public let id: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-
-        public init(id: String, acceptLanguage: String? = nil) {
-            self.id = id
-            self.acceptLanguage = acceptLanguage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case acceptLanguage = "AcceptLanguage"
-        }
-    }
-
-    public struct DescribeConstraintOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConstraintDetail", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "ConstraintParameters", required: false, type: .string)
-        ]
-        /// Information about the constraint.
-        public let constraintDetail: ConstraintDetail?
-        /// The status of the current request.
-        public let status: Status?
-        /// The constraint parameters.
-        public let constraintParameters: String?
-
-        public init(constraintDetail: ConstraintDetail? = nil, status: Status? = nil, constraintParameters: String? = nil) {
-            self.constraintDetail = constraintDetail
-            self.status = status
-            self.constraintParameters = constraintParameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case constraintDetail = "ConstraintDetail"
-            case status = "Status"
-            case constraintParameters = "ConstraintParameters"
-        }
-    }
-
-    public struct ScanProvisionedProductsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisionedProducts", required: false, type: .list)
-        ]
-        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
-        public let nextPageToken: String?
-        /// Information about the provisioned products.
-        public let provisionedProducts: [ProvisionedProductDetail]?
-
-        public init(nextPageToken: String? = nil, provisionedProducts: [ProvisionedProductDetail]? = nil) {
-            self.nextPageToken = nextPageToken
-            self.provisionedProducts = provisionedProducts
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextPageToken = "NextPageToken"
-            case provisionedProducts = "ProvisionedProducts"
-        }
-    }
-
-    public struct RecordTag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string)
-        ]
-        /// The value for this tag.
-        public let value: String?
-        /// The key for this tag.
-        public let key: String?
-
-        public init(value: String? = nil, key: String? = nil) {
-            self.value = value
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
-        }
-    }
-
-    public struct ResourceDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp)
-        ]
-        /// The ARN of the resource.
-        public let arn: String?
-        /// The identifier of the resource.
-        public let id: String?
-        /// The name of the resource.
-        public let name: String?
-        /// The description of the resource.
-        public let description: String?
-        /// The creation time of the resource.
-        public let createdTime: TimeStamp?
-
-        public init(arn: String? = nil, id: String? = nil, name: String? = nil, description: String? = nil, createdTime: TimeStamp? = nil) {
-            self.arn = arn
-            self.id = id
-            self.name = name
-            self.description = description
-            self.createdTime = createdTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "ARN"
-            case id = "Id"
-            case name = "Name"
-            case description = "Description"
-            case createdTime = "CreatedTime"
-        }
-    }
-
-    public struct ServiceActionAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceActionId", required: true, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
-            AWSShapeMember(label: "ProductId", required: true, type: .string)
-        ]
-        /// The self-service action identifier. For example, act-fs7abcd89wxyz.
-        public let serviceActionId: String
-        /// The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne.
-        public let provisioningArtifactId: String
-        /// The product identifier. For example, prod-abcdzk7xy33qa.
-        public let productId: String
-
-        public init(serviceActionId: String, provisioningArtifactId: String, productId: String) {
-            self.serviceActionId = serviceActionId
-            self.provisioningArtifactId = provisioningArtifactId
-            self.productId = productId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceActionId = "ServiceActionId"
-            case provisioningArtifactId = "ProvisioningArtifactId"
-            case productId = "ProductId"
-        }
-    }
-
-    public struct TagOptionDetail: AWSShape {
+    public struct ListTagOptionsFilters: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Active", required: false, type: .boolean)
+            AWSShapeMember(label: "Active", required: false, type: .boolean), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
         ]
         /// The TagOption key.
         public let key: String?
+        /// The active state.
+        public let active: Bool?
         /// The TagOption value.
         public let value: String?
-        /// The TagOption identifier.
-        public let id: String?
-        /// The TagOption active state.
-        public let active: Bool?
 
-        public init(key: String? = nil, value: String? = nil, id: String? = nil, active: Bool? = nil) {
+        public init(key: String? = nil, active: Bool? = nil, value: String? = nil) {
             self.key = key
+            self.active = active
             self.value = value
-            self.id = id
-            self.active = active
         }
 
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
+            case active = "Active"
             case value = "Value"
-            case id = "Id"
-            case active = "Active"
         }
     }
 
-    public struct GetAWSOrganizationsAccessStatusInput: AWSShape {
-
+    public enum ProvisioningArtifactPropertyName: String, CustomStringConvertible, Codable {
+        case id = "Id"
+        public var description: String { return self.rawValue }
     }
 
-    public struct DeleteConstraintOutput: AWSShape {
-
+    public enum AccessLevelFilterKey: String, CustomStringConvertible, Codable {
+        case account = "Account"
+        case role = "Role"
+        case user = "User"
+        public var description: String { return self.rawValue }
     }
 
-    public struct DisassociateServiceActionFromProvisioningArtifactOutput: AWSShape {
-
-    }
-
-    public struct UpdateConstraintOutput: AWSShape {
+    public struct CreateConstraintInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConstraintDetail", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "ConstraintParameters", required: false, type: .string)
-        ]
-        /// Information about the constraint.
-        public let constraintDetail: ConstraintDetail?
-        /// The status of the current request.
-        public let status: Status?
-        /// The constraint parameters.
-        public let constraintParameters: String?
-
-        public init(constraintDetail: ConstraintDetail? = nil, status: Status? = nil, constraintParameters: String? = nil) {
-            self.constraintDetail = constraintDetail
-            self.status = status
-            self.constraintParameters = constraintParameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case constraintDetail = "ConstraintDetail"
-            case status = "Status"
-            case constraintParameters = "ConstraintParameters"
-        }
-    }
-
-    public struct AssociateTagOptionWithResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "TagOptionId", required: true, type: .string)
-        ]
-        /// The resource identifier.
-        public let resourceId: String
-        /// The TagOption identifier.
-        public let tagOptionId: String
-
-        public init(resourceId: String, tagOptionId: String) {
-            self.resourceId = resourceId
-            self.tagOptionId = tagOptionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case tagOptionId = "TagOptionId"
-        }
-    }
-
-    public struct DeleteProvisioningArtifactInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProductId", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string)
-        ]
-        /// The product identifier.
-        public let productId: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The identifier of the provisioning artifact.
-        public let provisioningArtifactId: String
-
-        public init(productId: String, acceptLanguage: String? = nil, provisioningArtifactId: String) {
-            self.productId = productId
-            self.acceptLanguage = acceptLanguage
-            self.provisioningArtifactId = provisioningArtifactId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case productId = "ProductId"
-            case acceptLanguage = "AcceptLanguage"
-            case provisioningArtifactId = "ProvisioningArtifactId"
-        }
-    }
-
-    public struct UpdateServiceActionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceActionDetail", required: false, type: .structure)
-        ]
-        /// Detailed information about the self-service action.
-        public let serviceActionDetail: ServiceActionDetail?
-
-        public init(serviceActionDetail: ServiceActionDetail? = nil) {
-            self.serviceActionDetail = serviceActionDetail
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceActionDetail = "ServiceActionDetail"
-        }
-    }
-
-    public struct BatchAssociateServiceActionWithProvisioningArtifactInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceActionAssociations", required: true, type: .list), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// One or more associations, each consisting of the Action ID, the Product ID, and the Provisioning Artifact ID.
-        public let serviceActionAssociations: [ServiceActionAssociation]
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-
-        public init(serviceActionAssociations: [ServiceActionAssociation], acceptLanguage: String? = nil) {
-            self.serviceActionAssociations = serviceActionAssociations
-            self.acceptLanguage = acceptLanguage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceActionAssociations = "ServiceActionAssociations"
-            case acceptLanguage = "AcceptLanguage"
-        }
-    }
-
-    public struct ListPortfolioAccessOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "AccountIds", required: false, type: .list)
-        ]
-        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
-        public let nextPageToken: String?
-        /// Information about the AWS accounts with access to the portfolio.
-        public let accountIds: [String]?
-
-        public init(nextPageToken: String? = nil, accountIds: [String]? = nil) {
-            self.nextPageToken = nextPageToken
-            self.accountIds = accountIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextPageToken = "NextPageToken"
-            case accountIds = "AccountIds"
-        }
-    }
-
-    public struct DescribePortfolioShareStatusInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PortfolioShareToken", required: true, type: .string)
-        ]
-        /// The token for the portfolio share operation. This token is returned either by CreatePortfolioShare or by DeletePortfolioShare.
-        public let portfolioShareToken: String
-
-        public init(portfolioShareToken: String) {
-            self.portfolioShareToken = portfolioShareToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case portfolioShareToken = "PortfolioShareToken"
-        }
-    }
-
-    public struct DisassociateServiceActionFromProvisioningArtifactInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: true, type: .string), 
-            AWSShapeMember(label: "ServiceActionId", required: true, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string)
-        ]
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The product identifier. For example, prod-abcdzk7xy33qa.
-        public let productId: String
-        /// The self-service action identifier. For example, act-fs7abcd89wxyz.
-        public let serviceActionId: String
-        /// The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne.
-        public let provisioningArtifactId: String
-
-        public init(acceptLanguage: String? = nil, productId: String, serviceActionId: String, provisioningArtifactId: String) {
-            self.acceptLanguage = acceptLanguage
-            self.productId = productId
-            self.serviceActionId = serviceActionId
-            self.provisioningArtifactId = provisioningArtifactId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case acceptLanguage = "AcceptLanguage"
-            case productId = "ProductId"
-            case serviceActionId = "ServiceActionId"
-            case provisioningArtifactId = "ProvisioningArtifactId"
-        }
-    }
-
-    public struct CreatePortfolioOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "PortfolioDetail", required: false, type: .structure)
-        ]
-        /// Information about the tags associated with the portfolio.
-        public let tags: [Tag]?
-        /// Information about the portfolio.
-        public let portfolioDetail: PortfolioDetail?
-
-        public init(tags: [Tag]? = nil, portfolioDetail: PortfolioDetail? = nil) {
-            self.tags = tags
-            self.portfolioDetail = portfolioDetail
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case portfolioDetail = "PortfolioDetail"
-        }
-    }
-
-    public struct LaunchPathSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConstraintSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
-        /// The constraints on the portfolio-product relationship.
-        public let constraintSummaries: [ConstraintSummary]?
-        /// The identifier of the product path.
-        public let id: String?
-        /// The name of the portfolio to which the user was assigned.
-        public let name: String?
-        /// The tags associated with this product path.
-        public let tags: [Tag]?
-
-        public init(constraintSummaries: [ConstraintSummary]? = nil, id: String? = nil, name: String? = nil, tags: [Tag]? = nil) {
-            self.constraintSummaries = constraintSummaries
-            self.id = id
-            self.name = name
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case constraintSummaries = "ConstraintSummaries"
-            case id = "Id"
-            case name = "Name"
-            case tags = "Tags"
-        }
-    }
-
-    public struct UpdateProvisioningArtifactInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
-            AWSShapeMember(label: "Active", required: false, type: .boolean)
-        ]
-        /// The updated description of the provisioning artifact.
-        public let description: String?
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The product identifier.
-        public let productId: String
-        /// The updated name of the provisioning artifact.
-        public let name: String?
-        /// The identifier of the provisioning artifact.
-        public let provisioningArtifactId: String
-        /// Indicates whether the product version is active.
-        public let active: Bool?
-
-        public init(description: String? = nil, acceptLanguage: String? = nil, productId: String, name: String? = nil, provisioningArtifactId: String, active: Bool? = nil) {
-            self.description = description
-            self.acceptLanguage = acceptLanguage
-            self.productId = productId
-            self.name = name
-            self.provisioningArtifactId = provisioningArtifactId
-            self.active = active
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "Description"
-            case acceptLanguage = "AcceptLanguage"
-            case productId = "ProductId"
-            case name = "Name"
-            case provisioningArtifactId = "ProvisioningArtifactId"
-            case active = "Active"
-        }
-    }
-
-    public struct ProductViewDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProductARN", required: false, type: .string), 
-            AWSShapeMember(label: "ProductViewSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp)
-        ]
-        /// The ARN of the product.
-        public let productARN: String?
-        /// Summary information about the product view.
-        public let productViewSummary: ProductViewSummary?
-        /// The status of the product.    AVAILABLE - The product is ready for use.    CREATING - Product creation has started; the product is not ready for use.    FAILED - An action failed.  
-        public let status: Status?
-        /// The UTC time stamp of the creation time.
-        public let createdTime: TimeStamp?
-
-        public init(productARN: String? = nil, productViewSummary: ProductViewSummary? = nil, status: Status? = nil, createdTime: TimeStamp? = nil) {
-            self.productARN = productARN
-            self.productViewSummary = productViewSummary
-            self.status = status
-            self.createdTime = createdTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case productARN = "ProductARN"
-            case productViewSummary = "ProductViewSummary"
-            case status = "Status"
-            case createdTime = "CreatedTime"
-        }
-    }
-
-    public struct AssociateProductWithPortfolioInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: true, type: .string), 
-            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeMember(label: "SourcePortfolioId", required: false, type: .string)
-        ]
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The product identifier.
-        public let productId: String
-        /// The portfolio identifier.
-        public let portfolioId: String
-        /// The identifier of the source portfolio.
-        public let sourcePortfolioId: String?
-
-        public init(acceptLanguage: String? = nil, productId: String, portfolioId: String, sourcePortfolioId: String? = nil) {
-            self.acceptLanguage = acceptLanguage
-            self.productId = productId
-            self.portfolioId = portfolioId
-            self.sourcePortfolioId = sourcePortfolioId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case acceptLanguage = "AcceptLanguage"
-            case productId = "ProductId"
-            case portfolioId = "PortfolioId"
-            case sourcePortfolioId = "SourcePortfolioId"
-        }
-    }
-
-    public struct TagOptionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
-        /// The TagOption key.
-        public let key: String?
-        /// The TagOption value.
-        public let values: [String]?
-
-        public init(key: String? = nil, values: [String]? = nil) {
-            self.key = key
-            self.values = values
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case values = "Values"
-        }
-    }
-
-    public struct ListPortfoliosInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "PageToken", required: false, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
-        /// The page token for the next set of results. To retrieve the first set of results, use null.
-        public let pageToken: String?
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-
-        public init(pageSize: Int32? = nil, pageToken: String? = nil, acceptLanguage: String? = nil) {
-            self.pageSize = pageSize
-            self.pageToken = pageToken
-            self.acceptLanguage = acceptLanguage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "PageSize"
-            case pageToken = "PageToken"
-            case acceptLanguage = "AcceptLanguage"
-        }
-    }
-
-    public struct ConstraintSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .string)
-        ]
-        /// The description of the constraint.
-        public let description: String?
-        /// The type of constraint.    LAUNCH     NOTIFICATION    STACKSET    TEMPLATE   
-        public let `type`: String?
-
-        public init(description: String? = nil, type: String? = nil) {
-            self.description = description
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "Description"
-            case `type` = "Type"
-        }
-    }
-
-    public struct DescribeProductViewInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// The product view identifier.
-        public let id: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-
-        public init(id: String, acceptLanguage: String? = nil) {
-            self.id = id
-            self.acceptLanguage = acceptLanguage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case acceptLanguage = "AcceptLanguage"
-        }
-    }
-
-    public struct CreateProvisionedProductPlanOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlanId", required: false, type: .string), 
-            AWSShapeMember(label: "PlanName", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisionedProductName", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisionProductId", required: false, type: .string)
-        ]
-        /// The plan identifier.
-        public let planId: String?
-        /// The name of the plan.
-        public let planName: String?
-        /// The user-friendly name of the provisioned product.
-        public let provisionedProductName: String?
-        /// The identifier of the provisioning artifact.
-        public let provisioningArtifactId: String?
-        /// The product identifier.
-        public let provisionProductId: String?
-
-        public init(planId: String? = nil, planName: String? = nil, provisionedProductName: String? = nil, provisioningArtifactId: String? = nil, provisionProductId: String? = nil) {
-            self.planId = planId
-            self.planName = planName
-            self.provisionedProductName = provisionedProductName
-            self.provisioningArtifactId = provisioningArtifactId
-            self.provisionProductId = provisionProductId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case planId = "PlanId"
-            case planName = "PlanName"
-            case provisionedProductName = "ProvisionedProductName"
-            case provisioningArtifactId = "ProvisioningArtifactId"
-            case provisionProductId = "ProvisionProductId"
-        }
-    }
-
-    public struct ListLaunchPathsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchPathSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
-        ]
-        /// Information about the launch path.
-        public let launchPathSummaries: [LaunchPathSummary]?
-        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
-        public let nextPageToken: String?
-
-        public init(launchPathSummaries: [LaunchPathSummary]? = nil, nextPageToken: String? = nil) {
-            self.launchPathSummaries = launchPathSummaries
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case launchPathSummaries = "LaunchPathSummaries"
-            case nextPageToken = "NextPageToken"
-        }
-    }
-
-    public struct SearchProductsAsAdminOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "ProductViewDetails", required: false, type: .list)
-        ]
-        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
-        public let nextPageToken: String?
-        /// Information about the product views.
-        public let productViewDetails: [ProductViewDetail]?
-
-        public init(nextPageToken: String? = nil, productViewDetails: [ProductViewDetail]? = nil) {
-            self.nextPageToken = nextPageToken
-            self.productViewDetails = productViewDetails
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextPageToken = "NextPageToken"
-            case productViewDetails = "ProductViewDetails"
-        }
-    }
-
-    public struct DisassociateProductFromPortfolioInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: true, type: .string)
-        ]
-        /// The portfolio identifier.
-        public let portfolioId: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The product identifier.
-        public let productId: String
-
-        public init(portfolioId: String, acceptLanguage: String? = nil, productId: String) {
-            self.portfolioId = portfolioId
-            self.acceptLanguage = acceptLanguage
-            self.productId = productId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case portfolioId = "PortfolioId"
-            case acceptLanguage = "AcceptLanguage"
-            case productId = "ProductId"
-        }
-    }
-
-    public struct UpdateProductOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "ProductViewDetail", required: false, type: .structure)
-        ]
-        /// Information about the tags associated with the product.
-        public let tags: [Tag]?
-        /// Information about the product view.
-        public let productViewDetail: ProductViewDetail?
-
-        public init(tags: [Tag]? = nil, productViewDetail: ProductViewDetail? = nil) {
-            self.tags = tags
-            self.productViewDetail = productViewDetail
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case productViewDetail = "ProductViewDetail"
-        }
-    }
-
-    public struct CreateProvisionedProductPlanInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProvisionedProductName", required: true, type: .string), 
             AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisioningParameters", required: false, type: .list), 
-            AWSShapeMember(label: "PathId", required: false, type: .string), 
-            AWSShapeMember(label: "PlanType", required: true, type: .enum), 
+            AWSShapeMember(label: "Type", required: true, type: .string), 
             AWSShapeMember(label: "ProductId", required: true, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
-            AWSShapeMember(label: "PlanName", required: true, type: .string), 
-            AWSShapeMember(label: "NotificationArns", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
+            AWSShapeMember(label: "Parameters", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string)
         ]
-        /// A user-friendly name for the provisioned product. This value must be unique for the AWS account and cannot be updated after the product is provisioned.
-        public let provisionedProductName: String
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// Parameters specified by the administrator that are required for provisioning the product.
-        public let provisioningParameters: [UpdateProvisioningParameter]?
-        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths.
-        public let pathId: String?
-        /// The plan type.
-        public let planType: ProvisionedProductPlanType
+        /// The type of constraint.    LAUNCH     NOTIFICATION     STACKSET     TEMPLATE   
+        public let `type`: String
         /// The product identifier.
         public let productId: String
-        /// The identifier of the provisioning artifact.
-        public let provisioningArtifactId: String
-        /// The name of the plan.
-        public let planName: String
-        /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
-        public let notificationArns: [String]?
-        /// One or more tags.
-        public let tags: [Tag]?
+        /// The constraint parameters, in JSON format. The syntax depends on the constraint type as follows:  LAUNCH  Specify the RoleArn property as follows:  {"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio.  NOTIFICATION  Specify the NotificationArns property as follows:  {"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]}   STACKSET  Specify the Parameters property as follows:  {"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole": "String"}}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an AWS CloudFormation stack set.  TEMPLATE  Specify the Rules property. For more information, see Template Constraint Rules.  
+        public let parameters: String
+        /// The description of the constraint.
+        public let description: String?
+        /// The portfolio identifier.
+        public let portfolioId: String
 
-        public init(provisionedProductName: String, idempotencyToken: String, acceptLanguage: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, pathId: String? = nil, planType: ProvisionedProductPlanType, productId: String, provisioningArtifactId: String, planName: String, notificationArns: [String]? = nil, tags: [Tag]? = nil) {
-            self.provisionedProductName = provisionedProductName
+        public init(idempotencyToken: String, acceptLanguage: String? = nil, type: String, productId: String, parameters: String, description: String? = nil, portfolioId: String) {
             self.idempotencyToken = idempotencyToken
             self.acceptLanguage = acceptLanguage
-            self.provisioningParameters = provisioningParameters
-            self.pathId = pathId
-            self.planType = planType
+            self.`type` = `type`
             self.productId = productId
-            self.provisioningArtifactId = provisioningArtifactId
-            self.planName = planName
-            self.notificationArns = notificationArns
-            self.tags = tags
+            self.parameters = parameters
+            self.description = description
+            self.portfolioId = portfolioId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case provisionedProductName = "ProvisionedProductName"
             case idempotencyToken = "IdempotencyToken"
             case acceptLanguage = "AcceptLanguage"
-            case provisioningParameters = "ProvisioningParameters"
-            case pathId = "PathId"
-            case planType = "PlanType"
+            case `type` = "Type"
             case productId = "ProductId"
-            case provisioningArtifactId = "ProvisioningArtifactId"
-            case planName = "PlanName"
-            case notificationArns = "NotificationArns"
-            case tags = "Tags"
+            case parameters = "Parameters"
+            case description = "Description"
+            case portfolioId = "PortfolioId"
         }
     }
 
-    public struct SearchProvisionedProductsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "AccessLevelFilter", required: false, type: .structure), 
-            AWSShapeMember(label: "SortBy", required: false, type: .string), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "PageToken", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .map), 
-            AWSShapeMember(label: "PageSize", required: false, type: .integer)
-        ]
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The access level to use to obtain results. The default is User.
-        public let accessLevelFilter: AccessLevelFilter?
-        /// The sort field. If no value is specified, the results are not sorted. The valid values are arn, id, name, and lastRecordId.
-        public let sortBy: String?
-        /// The sort order. If no value is specified, the results are not sorted.
-        public let sortOrder: SortOrder?
-        /// The page token for the next set of results. To retrieve the first set of results, use null.
-        public let pageToken: String?
-        /// The search filters. When the key is SearchQuery, the searchable fields are arn, createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId, provisioningArtifact, type, status, tags, userArn, and userArnSession. Example: "SearchQuery":["status:AVAILABLE"] 
-        public let filters: [ProvisionedProductViewFilterBy: [String]]?
-        /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+    public struct DisassociatePrincipalFromPortfolioOutput: AWSShape {
 
-        public init(acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, sortBy: String? = nil, sortOrder: SortOrder? = nil, pageToken: String? = nil, filters: [ProvisionedProductViewFilterBy: [String]]? = nil, pageSize: Int32? = nil) {
-            self.acceptLanguage = acceptLanguage
-            self.accessLevelFilter = accessLevelFilter
-            self.sortBy = sortBy
-            self.sortOrder = sortOrder
-            self.pageToken = pageToken
-            self.filters = filters
-            self.pageSize = pageSize
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case acceptLanguage = "AcceptLanguage"
-            case accessLevelFilter = "AccessLevelFilter"
-            case sortBy = "SortBy"
-            case sortOrder = "SortOrder"
-            case pageToken = "PageToken"
-            case filters = "Filters"
-            case pageSize = "PageSize"
-        }
     }
 
     public struct ListProvisionedProductPlansInput: AWSShape {
@@ -4666,210 +4881,418 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeTagOptionOutput: AWSShape {
+    public struct ConstraintDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagOptionDetail", required: false, type: .structure)
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ConstraintId", required: false, type: .string), 
+            AWSShapeMember(label: "Owner", required: false, type: .string)
         ]
-        /// Information about the TagOption.
-        public let tagOptionDetail: TagOptionDetail?
+        /// The type of constraint.    LAUNCH     NOTIFICATION    STACKSET    TEMPLATE   
+        public let `type`: String?
+        /// The description of the constraint.
+        public let description: String?
+        /// The identifier of the constraint.
+        public let constraintId: String?
+        /// The owner of the constraint.
+        public let owner: String?
 
-        public init(tagOptionDetail: TagOptionDetail? = nil) {
-            self.tagOptionDetail = tagOptionDetail
+        public init(type: String? = nil, description: String? = nil, constraintId: String? = nil, owner: String? = nil) {
+            self.`type` = `type`
+            self.description = description
+            self.constraintId = constraintId
+            self.owner = owner
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagOptionDetail = "TagOptionDetail"
+            case `type` = "Type"
+            case description = "Description"
+            case constraintId = "ConstraintId"
+            case owner = "Owner"
         }
     }
 
-    public enum AccessLevelFilterKey: String, CustomStringConvertible, Codable {
-        case account = "Account"
-        case role = "Role"
-        case user = "User"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct EnableAWSOrganizationsAccessInput: AWSShape {
-
-    }
-
-    public struct UpdateTagOptionOutput: AWSShape {
+    public struct AccessLevelFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagOptionDetail", required: false, type: .structure)
+            AWSShapeMember(label: "Key", required: false, type: .enum), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
         ]
-        /// Information about the TagOption.
-        public let tagOptionDetail: TagOptionDetail?
+        /// The access level.    Account - Filter results based on the account.    Role - Filter results based on the federated role of the specified user.    User - Filter results based on the specified user.  
+        public let key: AccessLevelFilterKey?
+        /// The user to which the access level applies. The only supported value is Self.
+        public let value: String?
 
-        public init(tagOptionDetail: TagOptionDetail? = nil) {
-            self.tagOptionDetail = tagOptionDetail
+        public init(key: AccessLevelFilterKey? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagOptionDetail = "TagOptionDetail"
+            case key = "Key"
+            case value = "Value"
         }
     }
 
-    public struct CreateConstraintOutput: AWSShape {
+    public struct RejectPortfolioShareInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConstraintDetail", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "ConstraintParameters", required: false, type: .string)
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeMember(label: "PortfolioShareType", required: false, type: .enum)
         ]
-        /// Information about the constraint.
-        public let constraintDetail: ConstraintDetail?
-        /// The status of the current request.
-        public let status: Status?
-        /// The constraint parameters.
-        public let constraintParameters: String?
-
-        public init(constraintDetail: ConstraintDetail? = nil, status: Status? = nil, constraintParameters: String? = nil) {
-            self.constraintDetail = constraintDetail
-            self.status = status
-            self.constraintParameters = constraintParameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case constraintDetail = "ConstraintDetail"
-            case status = "Status"
-            case constraintParameters = "ConstraintParameters"
-        }
-    }
-
-    public enum StackSetOperationType: String, CustomStringConvertible, Codable {
-        case create = "CREATE"
-        case update = "UPDATE"
-        case delete = "DELETE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CopyOption: String, CustomStringConvertible, Codable {
-        case copytags = "CopyTags"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeProductInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// The product identifier.
-        public let id: String
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
+        /// The portfolio identifier.
+        public let portfolioId: String
+        /// The type of shared portfolios to reject. The default is to reject imported portfolios.    AWS_ORGANIZATIONS - Reject portfolios shared by the master account of your organization.    IMPORTED - Reject imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog reject-portfolio-share --portfolio-id "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS 
+        public let portfolioShareType: PortfolioShareType?
 
-        public init(id: String, acceptLanguage: String? = nil) {
-            self.id = id
+        public init(acceptLanguage: String? = nil, portfolioId: String, portfolioShareType: PortfolioShareType? = nil) {
             self.acceptLanguage = acceptLanguage
+            self.portfolioId = portfolioId
+            self.portfolioShareType = portfolioShareType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
             case acceptLanguage = "AcceptLanguage"
+            case portfolioId = "PortfolioId"
+            case portfolioShareType = "PortfolioShareType"
         }
     }
 
-    public struct DescribeTagOptionInput: AWSShape {
+    public struct ProvisionProductInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string)
+            AWSShapeMember(label: "ProvisionedProductName", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisioningParameters", required: false, type: .list), 
+            AWSShapeMember(label: "NotificationArns", required: false, type: .list), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisionToken", required: true, type: .string), 
+            AWSShapeMember(label: "PathId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningPreferences", required: false, type: .structure)
         ]
-        /// The TagOption identifier.
-        public let id: String
+        /// A user-friendly name for the provisioned product. This value must be unique for the AWS account and cannot be updated after the product is provisioned.
+        public let provisionedProductName: String
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// One or more tags.
+        public let tags: [Tag]?
+        /// The identifier of the provisioning artifact.
+        public let provisioningArtifactId: String
+        /// Parameters specified by the administrator that are required for provisioning the product.
+        public let provisioningParameters: [ProvisioningParameter]?
+        /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
+        public let notificationArns: [String]?
+        /// The product identifier.
+        public let productId: String
+        /// An idempotency token that uniquely identifies the provisioning request.
+        public let provisionToken: String
+        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths.
+        public let pathId: String?
+        /// An object that contains information about the provisioning preferences for a stack set.
+        public let provisioningPreferences: ProvisioningPreferences?
 
-        public init(id: String) {
-            self.id = id
+        public init(provisionedProductName: String, acceptLanguage: String? = nil, tags: [Tag]? = nil, provisioningArtifactId: String, provisioningParameters: [ProvisioningParameter]? = nil, notificationArns: [String]? = nil, productId: String, provisionToken: String, pathId: String? = nil, provisioningPreferences: ProvisioningPreferences? = nil) {
+            self.provisionedProductName = provisionedProductName
+            self.acceptLanguage = acceptLanguage
+            self.tags = tags
+            self.provisioningArtifactId = provisioningArtifactId
+            self.provisioningParameters = provisioningParameters
+            self.notificationArns = notificationArns
+            self.productId = productId
+            self.provisionToken = provisionToken
+            self.pathId = pathId
+            self.provisioningPreferences = provisioningPreferences
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
-    }
-
-    public struct DescribeProvisioningArtifactOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Info", required: false, type: .map), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "ProvisioningArtifactDetail", required: false, type: .structure)
-        ]
-        /// The URL of the CloudFormation template in Amazon S3.
-        public let info: [String: String]?
-        /// The status of the current request.
-        public let status: Status?
-        /// Information about the provisioning artifact.
-        public let provisioningArtifactDetail: ProvisioningArtifactDetail?
-
-        public init(info: [String: String]? = nil, status: Status? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil) {
-            self.info = info
-            self.status = status
-            self.provisioningArtifactDetail = provisioningArtifactDetail
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case info = "Info"
-            case status = "Status"
-            case provisioningArtifactDetail = "ProvisioningArtifactDetail"
+            case provisionedProductName = "ProvisionedProductName"
+            case acceptLanguage = "AcceptLanguage"
+            case tags = "Tags"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case provisioningParameters = "ProvisioningParameters"
+            case notificationArns = "NotificationArns"
+            case productId = "ProductId"
+            case provisionToken = "ProvisionToken"
+            case pathId = "PathId"
+            case provisioningPreferences = "ProvisioningPreferences"
         }
     }
 
     public struct UpdatePortfolioOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "PortfolioDetail", required: false, type: .structure)
+            AWSShapeMember(label: "PortfolioDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
-        /// Information about the tags associated with the portfolio.
-        public let tags: [Tag]?
         /// Information about the portfolio.
         public let portfolioDetail: PortfolioDetail?
+        /// Information about the tags associated with the portfolio.
+        public let tags: [Tag]?
 
-        public init(tags: [Tag]? = nil, portfolioDetail: PortfolioDetail? = nil) {
-            self.tags = tags
+        public init(portfolioDetail: PortfolioDetail? = nil, tags: [Tag]? = nil) {
             self.portfolioDetail = portfolioDetail
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
             case portfolioDetail = "PortfolioDetail"
+            case tags = "Tags"
         }
     }
 
-    public struct ListPortfoliosForProductOutput: AWSShape {
+    public struct DescribeRecordOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PortfolioDetails", required: false, type: .list), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
+            AWSShapeMember(label: "RecordDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "RecordOutputs", required: false, type: .list)
         ]
-        /// Information about the portfolios.
-        public let portfolioDetails: [PortfolioDetail]?
+        /// Information about the product.
+        public let recordDetail: RecordDetail?
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
+        /// Information about the product created as the result of a request. For example, the output for a CloudFormation-backed product that creates an S3 bucket would include the S3 bucket URL.
+        public let recordOutputs: [RecordOutput]?
 
-        public init(portfolioDetails: [PortfolioDetail]? = nil, nextPageToken: String? = nil) {
-            self.portfolioDetails = portfolioDetails
+        public init(recordDetail: RecordDetail? = nil, nextPageToken: String? = nil, recordOutputs: [RecordOutput]? = nil) {
+            self.recordDetail = recordDetail
             self.nextPageToken = nextPageToken
+            self.recordOutputs = recordOutputs
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portfolioDetails = "PortfolioDetails"
+            case recordDetail = "RecordDetail"
             case nextPageToken = "NextPageToken"
+            case recordOutputs = "RecordOutputs"
         }
     }
 
-    public struct DeleteProductInput: AWSShape {
+    public struct DeleteConstraintOutput: AWSShape {
+
+    }
+
+    public struct UpdateProductInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Owner", required: false, type: .string), 
+            AWSShapeMember(label: "SupportUrl", required: false, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Distributor", required: false, type: .string), 
+            AWSShapeMember(label: "SupportEmail", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
+            AWSShapeMember(label: "AddTags", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "SupportDescription", required: false, type: .string), 
+            AWSShapeMember(label: "RemoveTags", required: false, type: .list)
         ]
-        /// The product identifier.
-        public let id: String
+        /// The updated product name.
+        public let name: String?
+        /// The updated owner of the product.
+        public let owner: String?
+        /// The updated support URL for the product.
+        public let supportUrl: String?
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
+        /// The updated distributor of the product.
+        public let distributor: String?
+        /// The updated support email for the product.
+        public let supportEmail: String?
+        /// The product identifier.
+        public let id: String
+        /// The tags to add to the product.
+        public let addTags: [Tag]?
+        /// The updated description of the product.
+        public let description: String?
+        /// The updated support description for the product.
+        public let supportDescription: String?
+        /// The tags to remove from the product.
+        public let removeTags: [String]?
 
-        public init(id: String, acceptLanguage: String? = nil) {
-            self.id = id
+        public init(name: String? = nil, owner: String? = nil, supportUrl: String? = nil, acceptLanguage: String? = nil, distributor: String? = nil, supportEmail: String? = nil, id: String, addTags: [Tag]? = nil, description: String? = nil, supportDescription: String? = nil, removeTags: [String]? = nil) {
+            self.name = name
+            self.owner = owner
+            self.supportUrl = supportUrl
             self.acceptLanguage = acceptLanguage
+            self.distributor = distributor
+            self.supportEmail = supportEmail
+            self.id = id
+            self.addTags = addTags
+            self.description = description
+            self.supportDescription = supportDescription
+            self.removeTags = removeTags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
+            case name = "Name"
+            case owner = "Owner"
+            case supportUrl = "SupportUrl"
             case acceptLanguage = "AcceptLanguage"
+            case distributor = "Distributor"
+            case supportEmail = "SupportEmail"
+            case id = "Id"
+            case addTags = "AddTags"
+            case description = "Description"
+            case supportDescription = "SupportDescription"
+            case removeTags = "RemoveTags"
+        }
+    }
+
+    public struct DescribeProvisioningParametersOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UsageInstructions", required: false, type: .list), 
+            AWSShapeMember(label: "ProvisioningArtifactPreferences", required: false, type: .structure), 
+            AWSShapeMember(label: "ConstraintSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "ProvisioningArtifactParameters", required: false, type: .list), 
+            AWSShapeMember(label: "TagOptions", required: false, type: .list)
+        ]
+        /// Any additional metadata specifically related to the provisioning of the product. For example, see the Version field of the CloudFormation template.
+        public let usageInstructions: [UsageInstruction]?
+        /// An object that contains information about preferences, such as regions and accounts, for the provisioning artifact.
+        public let provisioningArtifactPreferences: ProvisioningArtifactPreferences?
+        /// Information about the constraints used to provision the product.
+        public let constraintSummaries: [ConstraintSummary]?
+        /// Information about the parameters used to provision the product.
+        public let provisioningArtifactParameters: [ProvisioningArtifactParameter]?
+        /// Information about the TagOptions associated with the resource.
+        public let tagOptions: [TagOptionSummary]?
+
+        public init(usageInstructions: [UsageInstruction]? = nil, provisioningArtifactPreferences: ProvisioningArtifactPreferences? = nil, constraintSummaries: [ConstraintSummary]? = nil, provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil, tagOptions: [TagOptionSummary]? = nil) {
+            self.usageInstructions = usageInstructions
+            self.provisioningArtifactPreferences = provisioningArtifactPreferences
+            self.constraintSummaries = constraintSummaries
+            self.provisioningArtifactParameters = provisioningArtifactParameters
+            self.tagOptions = tagOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case usageInstructions = "UsageInstructions"
+            case provisioningArtifactPreferences = "ProvisioningArtifactPreferences"
+            case constraintSummaries = "ConstraintSummaries"
+            case provisioningArtifactParameters = "ProvisioningArtifactParameters"
+            case tagOptions = "TagOptions"
+        }
+    }
+
+    public enum PrincipalType: String, CustomStringConvertible, Codable {
+        case iam = "IAM"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListPortfolioAccessOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "AccountIds", required: false, type: .list)
+        ]
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+        /// Information about the AWS accounts with access to the portfolio.
+        public let accountIds: [String]?
+
+        public init(nextPageToken: String? = nil, accountIds: [String]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.accountIds = accountIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "NextPageToken"
+            case accountIds = "AccountIds"
+        }
+    }
+
+    public enum ServiceActionDefinitionKey: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case version = "Version"
+        case assumerole = "AssumeRole"
+        case parameters = "Parameters"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListRecordHistoryOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "RecordDetails", required: false, type: .list)
+        ]
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+        /// The records, in reverse chronological order.
+        public let recordDetails: [RecordDetail]?
+
+        public init(nextPageToken: String? = nil, recordDetails: [RecordDetail]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.recordDetails = recordDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "NextPageToken"
+            case recordDetails = "RecordDetails"
+        }
+    }
+
+    public struct ServiceActionDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceActionSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "Definition", required: false, type: .map)
+        ]
+        /// Summary information about the self-service action.
+        public let serviceActionSummary: ServiceActionSummary?
+        /// A map that defines the self-service action.
+        public let definition: [ServiceActionDefinitionKey: String]?
+
+        public init(serviceActionSummary: ServiceActionSummary? = nil, definition: [ServiceActionDefinitionKey: String]? = nil) {
+            self.serviceActionSummary = serviceActionSummary
+            self.definition = definition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceActionSummary = "ServiceActionSummary"
+            case definition = "Definition"
+        }
+    }
+
+    public struct ProvisioningArtifactProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Info", required: true, type: .map), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - AWS CloudFormation template    MARKETPLACE_AMI - AWS Marketplace AMI    MARKETPLACE_CAR - AWS Marketplace Clusters and AWS Resources  
+        public let `type`: ProvisioningArtifactType?
+        /// The name of the provisioning artifact (for example, v1 v2beta). No spaces are allowed.
+        public let name: String?
+        /// The URL of the CloudFormation template in Amazon S3. Specify the URL in JSON format as follows:  "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..." 
+        public let info: [String: String]
+        /// The description of the provisioning artifact, including how it differs from the previous provisioning artifact.
+        public let description: String?
+
+        public init(type: ProvisioningArtifactType? = nil, name: String? = nil, info: [String: String], description: String? = nil) {
+            self.`type` = `type`
+            self.name = name
+            self.info = info
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case name = "Name"
+            case info = "Info"
+            case description = "Description"
+        }
+    }
+
+    public struct ParameterConstraints: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowedValues", required: false, type: .list)
+        ]
+        /// The values that the administrator has allowed for the parameter.
+        public let allowedValues: [String]?
+
+        public init(allowedValues: [String]? = nil) {
+            self.allowedValues = allowedValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedValues = "AllowedValues"
         }
     }
 
@@ -4881,546 +5304,123 @@ extension ServiceCatalog {
         public var description: String { return self.rawValue }
     }
 
-    public struct ListProvisioningArtifactsForServiceActionOutput: AWSShape {
+    public struct ListOrganizationPortfolioAccessInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisioningArtifactViews", required: false, type: .list)
-        ]
-        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
-        public let nextPageToken: String?
-        /// An array of objects with information about product views and provisioning artifacts.
-        public let provisioningArtifactViews: [ProvisioningArtifactView]?
-
-        public init(nextPageToken: String? = nil, provisioningArtifactViews: [ProvisioningArtifactView]? = nil) {
-            self.nextPageToken = nextPageToken
-            self.provisioningArtifactViews = provisioningArtifactViews
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextPageToken = "NextPageToken"
-            case provisioningArtifactViews = "ProvisioningArtifactViews"
-        }
-    }
-
-    public struct SearchProductsAsAdminInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProductSource", required: false, type: .enum), 
+            AWSShapeMember(label: "OrganizationNodeType", required: true, type: .enum), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "PortfolioId", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
             AWSShapeMember(label: "PageToken", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .map), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer)
         ]
-        /// Access level of the source of the product.
-        public let productSource: ProductSource?
+        /// The organization node type that will be returned in the output.    ORGANIZATION - Organization that has access to the portfolio.     ORGANIZATIONAL_UNIT - Organizational unit that has access to the portfolio within your organization.    ACCOUNT - Account that has access to the portfolio within your organization.  
+        public let organizationNodeType: OrganizationNodeType
+        /// The portfolio identifier. For example, port-2abcdext3y5fk.
+        public let portfolioId: String
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The portfolio identifier.
-        public let portfolioId: String?
-        /// The sort field. If no value is specified, the results are not sorted.
-        public let sortBy: ProductViewSortBy?
-        /// The sort order. If no value is specified, the results are not sorted.
-        public let sortOrder: SortOrder?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
-        /// The search filters. If no search filters are specified, the output includes all products to which the administrator has access.
-        public let filters: [ProductViewFilterBy: [String]]?
         /// The maximum number of items to return with this call.
         public let pageSize: Int32?
 
-        public init(productSource: ProductSource? = nil, acceptLanguage: String? = nil, portfolioId: String? = nil, sortBy: ProductViewSortBy? = nil, sortOrder: SortOrder? = nil, pageToken: String? = nil, filters: [ProductViewFilterBy: [String]]? = nil, pageSize: Int32? = nil) {
-            self.productSource = productSource
-            self.acceptLanguage = acceptLanguage
+        public init(organizationNodeType: OrganizationNodeType, portfolioId: String, acceptLanguage: String? = nil, pageToken: String? = nil, pageSize: Int32? = nil) {
+            self.organizationNodeType = organizationNodeType
             self.portfolioId = portfolioId
-            self.sortBy = sortBy
-            self.sortOrder = sortOrder
+            self.acceptLanguage = acceptLanguage
             self.pageToken = pageToken
-            self.filters = filters
             self.pageSize = pageSize
         }
 
         private enum CodingKeys: String, CodingKey {
-            case productSource = "ProductSource"
-            case acceptLanguage = "AcceptLanguage"
+            case organizationNodeType = "OrganizationNodeType"
             case portfolioId = "PortfolioId"
-            case sortBy = "SortBy"
-            case sortOrder = "SortOrder"
+            case acceptLanguage = "AcceptLanguage"
             case pageToken = "PageToken"
-            case filters = "Filters"
             case pageSize = "PageSize"
         }
     }
 
-    public struct DescribeConstraintInput: AWSShape {
+    public struct DescribeConstraintOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ConstraintDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "ConstraintParameters", required: false, type: .string)
         ]
-        /// The identifier of the constraint.
-        public let id: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
+        /// The status of the current request.
+        public let status: Status?
+        /// Information about the constraint.
+        public let constraintDetail: ConstraintDetail?
+        /// The constraint parameters.
+        public let constraintParameters: String?
 
-        public init(id: String, acceptLanguage: String? = nil) {
-            self.id = id
-            self.acceptLanguage = acceptLanguage
+        public init(status: Status? = nil, constraintDetail: ConstraintDetail? = nil, constraintParameters: String? = nil) {
+            self.status = status
+            self.constraintDetail = constraintDetail
+            self.constraintParameters = constraintParameters
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case acceptLanguage = "AcceptLanguage"
+            case status = "Status"
+            case constraintDetail = "ConstraintDetail"
+            case constraintParameters = "ConstraintParameters"
         }
     }
 
-    public struct ListLaunchPathsInput: AWSShape {
+    public struct ExecuteProvisionedProductServiceActionOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: true, type: .string), 
-            AWSShapeMember(label: "PageToken", required: false, type: .string)
+            AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
         ]
-        /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The product identifier.
-        public let productId: String
-        /// The page token for the next set of results. To retrieve the first set of results, use null.
-        public let pageToken: String?
+        /// An object containing detailed information about the result of provisioning the product.
+        public let recordDetail: RecordDetail?
 
-        public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, productId: String, pageToken: String? = nil) {
-            self.pageSize = pageSize
-            self.acceptLanguage = acceptLanguage
-            self.productId = productId
-            self.pageToken = pageToken
+        public init(recordDetail: RecordDetail? = nil) {
+            self.recordDetail = recordDetail
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageSize = "PageSize"
-            case acceptLanguage = "AcceptLanguage"
-            case productId = "ProductId"
-            case pageToken = "PageToken"
+            case recordDetail = "RecordDetail"
         }
     }
 
-    public struct RecordOutput: AWSShape {
+    public struct ExecuteProvisionedProductPlanInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutputValue", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "OutputKey", required: false, type: .string)
-        ]
-        /// The output value.
-        public let outputValue: String?
-        /// The description of the output.
-        public let description: String?
-        /// The output key.
-        public let outputKey: String?
-
-        public init(outputValue: String? = nil, description: String? = nil, outputKey: String? = nil) {
-            self.outputValue = outputValue
-            self.description = description
-            self.outputKey = outputKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case outputValue = "OutputValue"
-            case description = "Description"
-            case outputKey = "OutputKey"
-        }
-    }
-
-    public struct ProvisioningArtifact: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp)
-        ]
-        /// The identifier of the provisioning artifact.
-        public let id: String?
-        /// The name of the provisioning artifact.
-        public let name: String?
-        /// The description of the provisioning artifact.
-        public let description: String?
-        /// The UTC time stamp of the creation time.
-        public let createdTime: TimeStamp?
-
-        public init(id: String? = nil, name: String? = nil, description: String? = nil, createdTime: TimeStamp? = nil) {
-            self.id = id
-            self.name = name
-            self.description = description
-            self.createdTime = createdTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case name = "Name"
-            case description = "Description"
-            case createdTime = "CreatedTime"
-        }
-    }
-
-    public struct DescribeProvisionedProductPlanInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "PlanId", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "PageToken", required: false, type: .string)
+            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string)
         ]
-        /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
         /// The plan identifier.
         public let planId: String
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The page token for the next set of results. To retrieve the first set of results, use null.
-        public let pageToken: String?
+        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
+        public let idempotencyToken: String
 
-        public init(pageSize: Int32? = nil, planId: String, acceptLanguage: String? = nil, pageToken: String? = nil) {
-            self.pageSize = pageSize
+        public init(planId: String, acceptLanguage: String? = nil, idempotencyToken: String) {
             self.planId = planId
             self.acceptLanguage = acceptLanguage
-            self.pageToken = pageToken
+            self.idempotencyToken = idempotencyToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageSize = "PageSize"
             case planId = "PlanId"
             case acceptLanguage = "AcceptLanguage"
-            case pageToken = "PageToken"
-        }
-    }
-
-    public struct ListPrincipalsForPortfolioOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Principals", required: false, type: .list), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
-        ]
-        /// The IAM principals (users or roles) associated with the portfolio.
-        public let principals: [Principal]?
-        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
-        public let nextPageToken: String?
-
-        public init(principals: [Principal]? = nil, nextPageToken: String? = nil) {
-            self.principals = principals
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case principals = "Principals"
-            case nextPageToken = "NextPageToken"
-        }
-    }
-
-    public struct ListAcceptedPortfolioSharesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "PageToken", required: false, type: .string), 
-            AWSShapeMember(label: "PortfolioShareType", required: false, type: .enum)
-        ]
-        /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The page token for the next set of results. To retrieve the first set of results, use null.
-        public let pageToken: String?
-        /// The type of shared portfolios to list. The default is to list imported portfolios.    AWS_ORGANIZATIONS - List portfolios shared by the master account of your organization    AWS_SERVICECATALOG - List default portfolios    IMPORTED - List imported portfolios  
-        public let portfolioShareType: PortfolioShareType?
-
-        public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, pageToken: String? = nil, portfolioShareType: PortfolioShareType? = nil) {
-            self.pageSize = pageSize
-            self.acceptLanguage = acceptLanguage
-            self.pageToken = pageToken
-            self.portfolioShareType = portfolioShareType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "PageSize"
-            case acceptLanguage = "AcceptLanguage"
-            case pageToken = "PageToken"
-            case portfolioShareType = "PortfolioShareType"
-        }
-    }
-
-    public struct CreateProductInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SupportEmail", required: false, type: .string), 
-            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
-            AWSShapeMember(label: "Owner", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SupportDescription", required: false, type: .string), 
-            AWSShapeMember(label: "Distributor", required: false, type: .string), 
-            AWSShapeMember(label: "ProductType", required: true, type: .enum), 
-            AWSShapeMember(label: "ProvisioningArtifactParameters", required: true, type: .structure), 
-            AWSShapeMember(label: "SupportUrl", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
-        /// The contact email for product support.
-        public let supportEmail: String?
-        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
-        public let idempotencyToken: String
-        /// The owner of the product.
-        public let owner: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The description of the product.
-        public let description: String?
-        /// The support information about the product.
-        public let supportDescription: String?
-        /// The distributor of the product.
-        public let distributor: String?
-        /// The type of product.
-        public let productType: ProductType
-        /// The configuration of the provisioning artifact.
-        public let provisioningArtifactParameters: ProvisioningArtifactProperties
-        /// The contact URL for product support.
-        public let supportUrl: String?
-        /// The name of the product.
-        public let name: String
-        /// One or more tags.
-        public let tags: [Tag]?
-
-        public init(supportEmail: String? = nil, idempotencyToken: String, owner: String, acceptLanguage: String? = nil, description: String? = nil, supportDescription: String? = nil, distributor: String? = nil, productType: ProductType, provisioningArtifactParameters: ProvisioningArtifactProperties, supportUrl: String? = nil, name: String, tags: [Tag]? = nil) {
-            self.supportEmail = supportEmail
-            self.idempotencyToken = idempotencyToken
-            self.owner = owner
-            self.acceptLanguage = acceptLanguage
-            self.description = description
-            self.supportDescription = supportDescription
-            self.distributor = distributor
-            self.productType = productType
-            self.provisioningArtifactParameters = provisioningArtifactParameters
-            self.supportUrl = supportUrl
-            self.name = name
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case supportEmail = "SupportEmail"
             case idempotencyToken = "IdempotencyToken"
-            case owner = "Owner"
-            case acceptLanguage = "AcceptLanguage"
-            case description = "Description"
-            case supportDescription = "SupportDescription"
-            case distributor = "Distributor"
-            case productType = "ProductType"
-            case provisioningArtifactParameters = "ProvisioningArtifactParameters"
-            case supportUrl = "SupportUrl"
-            case name = "Name"
-            case tags = "Tags"
         }
     }
 
-    public struct TerminateProvisionedProductInput: AWSShape {
+    public struct UpdateServiceActionOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProvisionedProductId", required: false, type: .string), 
-            AWSShapeMember(label: "IgnoreErrors", required: false, type: .boolean), 
-            AWSShapeMember(label: "TerminateToken", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisionedProductName", required: false, type: .string)
+            AWSShapeMember(label: "ServiceActionDetail", required: false, type: .structure)
         ]
-        /// The identifier of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
-        public let provisionedProductId: String?
-        /// If set to true, AWS Service Catalog stops managing the specified provisioned product even if it cannot delete the underlying resources.
-        public let ignoreErrors: Bool?
-        /// An idempotency token that uniquely identifies the termination request. This token is only valid during the termination process. After the provisioned product is terminated, subsequent requests to terminate the same provisioned product always return ResourceNotFound.
-        public let terminateToken: String
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The name of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
-        public let provisionedProductName: String?
+        /// Detailed information about the self-service action.
+        public let serviceActionDetail: ServiceActionDetail?
 
-        public init(provisionedProductId: String? = nil, ignoreErrors: Bool? = nil, terminateToken: String, acceptLanguage: String? = nil, provisionedProductName: String? = nil) {
-            self.provisionedProductId = provisionedProductId
-            self.ignoreErrors = ignoreErrors
-            self.terminateToken = terminateToken
-            self.acceptLanguage = acceptLanguage
-            self.provisionedProductName = provisionedProductName
+        public init(serviceActionDetail: ServiceActionDetail? = nil) {
+            self.serviceActionDetail = serviceActionDetail
         }
 
         private enum CodingKeys: String, CodingKey {
-            case provisionedProductId = "ProvisionedProductId"
-            case ignoreErrors = "IgnoreErrors"
-            case terminateToken = "TerminateToken"
-            case acceptLanguage = "AcceptLanguage"
-            case provisionedProductName = "ProvisionedProductName"
-        }
-    }
-
-    public struct CreateServiceActionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
-            AWSShapeMember(label: "Definition", required: true, type: .map), 
-            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "DefinitionType", required: true, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
-        public let idempotencyToken: String
-        /// The self-service action definition. Can be one of the following:  Name  The name of the AWS Systems Manager Document. For example, AWS-RestartEC2Instance.  Version  The AWS Systems Manager automation document version. For example, "Version": "1"   AssumeRole  The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole". To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE".  Parameters  The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}].  
-        public let definition: [ServiceActionDefinitionKey: String]
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-        public let acceptLanguage: String?
-        /// The service action definition type. For example, SSM_AUTOMATION.
-        public let definitionType: ServiceActionDefinitionType
-        /// The self-service action name.
-        public let name: String
-        /// The self-service action description.
-        public let description: String?
-
-        public init(idempotencyToken: String, definition: [ServiceActionDefinitionKey: String], acceptLanguage: String? = nil, definitionType: ServiceActionDefinitionType, name: String, description: String? = nil) {
-            self.idempotencyToken = idempotencyToken
-            self.definition = definition
-            self.acceptLanguage = acceptLanguage
-            self.definitionType = definitionType
-            self.name = name
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case idempotencyToken = "IdempotencyToken"
-            case definition = "Definition"
-            case acceptLanguage = "AcceptLanguage"
-            case definitionType = "DefinitionType"
-            case name = "Name"
-            case description = "Description"
-        }
-    }
-
-    public struct BatchDisassociateServiceActionFromProvisioningArtifactOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedServiceActionAssociations", required: false, type: .list)
-        ]
-        /// An object that contains a list of errors, along with information to help you identify the self-service action.
-        public let failedServiceActionAssociations: [FailedServiceActionAssociation]?
-
-        public init(failedServiceActionAssociations: [FailedServiceActionAssociation]? = nil) {
-            self.failedServiceActionAssociations = failedServiceActionAssociations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failedServiceActionAssociations = "FailedServiceActionAssociations"
-        }
-    }
-
-    public struct CloudWatchDashboard: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The name of the CloudWatch dashboard.
-        public let name: String?
-
-        public init(name: String? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct ListPortfoliosOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PortfolioDetails", required: false, type: .list), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
-        ]
-        /// Information about the portfolios.
-        public let portfolioDetails: [PortfolioDetail]?
-        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
-        public let nextPageToken: String?
-
-        public init(portfolioDetails: [PortfolioDetail]? = nil, nextPageToken: String? = nil) {
-            self.portfolioDetails = portfolioDetails
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case portfolioDetails = "PortfolioDetails"
-            case nextPageToken = "NextPageToken"
-        }
-    }
-
-    public struct ProvisioningArtifactPreferences: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackSetAccounts", required: false, type: .list), 
-            AWSShapeMember(label: "StackSetRegions", required: false, type: .list)
-        ]
-        /// One or more AWS accounts where stack instances are deployed from the stack set. These accounts can be scoped in ProvisioningPreferences$StackSetAccounts and UpdateProvisioningPreferences$StackSetAccounts. Applicable only to a CFN_STACKSET provisioned product type.
-        public let stackSetAccounts: [String]?
-        /// One or more AWS Regions where stack instances are deployed from the stack set. These regions can be scoped in ProvisioningPreferences$StackSetRegions and UpdateProvisioningPreferences$StackSetRegions. Applicable only to a CFN_STACKSET provisioned product type.
-        public let stackSetRegions: [String]?
-
-        public init(stackSetAccounts: [String]? = nil, stackSetRegions: [String]? = nil) {
-            self.stackSetAccounts = stackSetAccounts
-            self.stackSetRegions = stackSetRegions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackSetAccounts = "StackSetAccounts"
-            case stackSetRegions = "StackSetRegions"
-        }
-    }
-
-    public struct DescribeProvisioningParametersOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProvisioningArtifactPreferences", required: false, type: .structure), 
-            AWSShapeMember(label: "ConstraintSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "TagOptions", required: false, type: .list), 
-            AWSShapeMember(label: "UsageInstructions", required: false, type: .list), 
-            AWSShapeMember(label: "ProvisioningArtifactParameters", required: false, type: .list)
-        ]
-        /// An object that contains information about preferences, such as regions and accounts, for the provisioning artifact.
-        public let provisioningArtifactPreferences: ProvisioningArtifactPreferences?
-        /// Information about the constraints used to provision the product.
-        public let constraintSummaries: [ConstraintSummary]?
-        /// Information about the TagOptions associated with the resource.
-        public let tagOptions: [TagOptionSummary]?
-        /// Any additional metadata specifically related to the provisioning of the product. For example, see the Version field of the CloudFormation template.
-        public let usageInstructions: [UsageInstruction]?
-        /// Information about the parameters used to provision the product.
-        public let provisioningArtifactParameters: [ProvisioningArtifactParameter]?
-
-        public init(provisioningArtifactPreferences: ProvisioningArtifactPreferences? = nil, constraintSummaries: [ConstraintSummary]? = nil, tagOptions: [TagOptionSummary]? = nil, usageInstructions: [UsageInstruction]? = nil, provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil) {
-            self.provisioningArtifactPreferences = provisioningArtifactPreferences
-            self.constraintSummaries = constraintSummaries
-            self.tagOptions = tagOptions
-            self.usageInstructions = usageInstructions
-            self.provisioningArtifactParameters = provisioningArtifactParameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case provisioningArtifactPreferences = "ProvisioningArtifactPreferences"
-            case constraintSummaries = "ConstraintSummaries"
-            case tagOptions = "TagOptions"
-            case usageInstructions = "UsageInstructions"
-            case provisioningArtifactParameters = "ProvisioningArtifactParameters"
-        }
-    }
-
-    public struct ListServiceActionsForProvisioningArtifactOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceActionSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
-        ]
-        /// An object containing information about the self-service actions associated with the provisioning artifact.
-        public let serviceActionSummaries: [ServiceActionSummary]?
-        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
-        public let nextPageToken: String?
-
-        public init(serviceActionSummaries: [ServiceActionSummary]? = nil, nextPageToken: String? = nil) {
-            self.serviceActionSummaries = serviceActionSummaries
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceActionSummaries = "ServiceActionSummaries"
-            case nextPageToken = "NextPageToken"
+            case serviceActionDetail = "ServiceActionDetail"
         }
     }
 

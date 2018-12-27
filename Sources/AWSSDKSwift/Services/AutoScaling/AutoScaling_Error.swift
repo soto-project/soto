@@ -8,8 +8,8 @@ public enum AutoScalingErrorType: AWSErrorType {
     case serviceLinkedRoleFailure(message: String?)
     case alreadyExistsFault(message: String?)
     case limitExceededFault(message: String?)
-    case resourceInUseFault(message: String?)
     case invalidNextToken(message: String?)
+    case resourceInUseFault(message: String?)
     case scalingActivityInProgressFault(message: String?)
 }
 
@@ -28,10 +28,10 @@ extension AutoScalingErrorType {
             self = .alreadyExistsFault(message: message)
         case "LimitExceededFault":
             self = .limitExceededFault(message: message)
-        case "ResourceInUseFault":
-            self = .resourceInUseFault(message: message)
         case "InvalidNextToken":
             self = .invalidNextToken(message: message)
+        case "ResourceInUseFault":
+            self = .resourceInUseFault(message: message)
         case "ScalingActivityInProgressFault":
             self = .scalingActivityInProgressFault(message: message)
         default:

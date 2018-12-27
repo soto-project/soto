@@ -8,9 +8,7 @@ public enum LambdaErrorType: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case invalidParameterValueException(message: String?)
     case tooManyRequestsException(message: String?)
-    case resourceConflictException(message: String?)
     case invalidRequestContentException(message: String?)
-    case invalidRuntimeException(message: String?)
     case requestTooLargeException(message: String?)
     case unsupportedMediaTypeException(message: String?)
     case eC2UnexpectedException(message: String?)
@@ -25,9 +23,11 @@ public enum LambdaErrorType: AWSErrorType {
     case kMSInvalidStateException(message: String?)
     case kMSAccessDeniedException(message: String?)
     case kMSNotFoundException(message: String?)
+    case invalidRuntimeException(message: String?)
     case codeStorageExceededException(message: String?)
     case preconditionFailedException(message: String?)
     case resourceInUseException(message: String?)
+    case resourceConflictException(message: String?)
     case policyLengthExceededException(message: String?)
 }
 
@@ -46,12 +46,8 @@ extension LambdaErrorType {
             self = .invalidParameterValueException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
-        case "ResourceConflictException":
-            self = .resourceConflictException(message: message)
         case "InvalidRequestContentException":
             self = .invalidRequestContentException(message: message)
-        case "InvalidRuntimeException":
-            self = .invalidRuntimeException(message: message)
         case "RequestTooLargeException":
             self = .requestTooLargeException(message: message)
         case "UnsupportedMediaTypeException":
@@ -80,12 +76,16 @@ extension LambdaErrorType {
             self = .kMSAccessDeniedException(message: message)
         case "KMSNotFoundException":
             self = .kMSNotFoundException(message: message)
+        case "InvalidRuntimeException":
+            self = .invalidRuntimeException(message: message)
         case "CodeStorageExceededException":
             self = .codeStorageExceededException(message: message)
         case "PreconditionFailedException":
             self = .preconditionFailedException(message: message)
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)
+        case "ResourceConflictException":
+            self = .resourceConflictException(message: message)
         case "PolicyLengthExceededException":
             self = .policyLengthExceededException(message: message)
         default:

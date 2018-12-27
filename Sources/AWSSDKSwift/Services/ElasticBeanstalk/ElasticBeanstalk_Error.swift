@@ -5,24 +5,24 @@ import AWSSDKSwiftCore
 /// Error enum for ElasticBeanstalk
 public enum ElasticBeanstalkErrorType: AWSErrorType {
     case insufficientPrivilegesException(message: String?)
-    case elasticBeanstalkServiceException(message: String?)
-    case tooManyEnvironmentsException(message: String?)
     case tooManyBucketsException(message: String?)
-    case invalidRequestException(message: String?)
-    case operationInProgressException(message: String?)
-    case platformVersionStillReferencedException(message: String?)
-    case managedActionInvalidStateException(message: String?)
+    case elasticBeanstalkServiceException(message: String?)
     case tooManyConfigurationTemplatesException(message: String?)
     case tooManyPlatformsException(message: String?)
     case tooManyApplicationsException(message: String?)
     case tooManyApplicationVersionsException(message: String?)
     case s3LocationNotInServiceRegionException(message: String?)
     case codeBuildNotInServiceRegionException(message: String?)
-    case sourceBundleDeletionException(message: String?)
+    case operationInProgressException(message: String?)
+    case tooManyTagsException(message: String?)
     case resourceNotFoundException(message: String?)
     case resourceTypeNotSupportedException(message: String?)
-    case tooManyTagsException(message: String?)
+    case invalidRequestException(message: String?)
+    case tooManyEnvironmentsException(message: String?)
+    case sourceBundleDeletionException(message: String?)
+    case managedActionInvalidStateException(message: String?)
     case s3SubscriptionRequiredException(message: String?)
+    case platformVersionStillReferencedException(message: String?)
 }
 
 extension ElasticBeanstalkErrorType {
@@ -34,20 +34,10 @@ extension ElasticBeanstalkErrorType {
         switch errorCode {
         case "InsufficientPrivilegesException":
             self = .insufficientPrivilegesException(message: message)
-        case "ElasticBeanstalkServiceException":
-            self = .elasticBeanstalkServiceException(message: message)
-        case "TooManyEnvironmentsException":
-            self = .tooManyEnvironmentsException(message: message)
         case "TooManyBucketsException":
             self = .tooManyBucketsException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "OperationInProgressException":
-            self = .operationInProgressException(message: message)
-        case "PlatformVersionStillReferencedException":
-            self = .platformVersionStillReferencedException(message: message)
-        case "ManagedActionInvalidStateException":
-            self = .managedActionInvalidStateException(message: message)
+        case "ElasticBeanstalkServiceException":
+            self = .elasticBeanstalkServiceException(message: message)
         case "TooManyConfigurationTemplatesException":
             self = .tooManyConfigurationTemplatesException(message: message)
         case "TooManyPlatformsException":
@@ -60,16 +50,26 @@ extension ElasticBeanstalkErrorType {
             self = .s3LocationNotInServiceRegionException(message: message)
         case "CodeBuildNotInServiceRegionException":
             self = .codeBuildNotInServiceRegionException(message: message)
-        case "SourceBundleDeletionException":
-            self = .sourceBundleDeletionException(message: message)
+        case "OperationInProgressException":
+            self = .operationInProgressException(message: message)
+        case "TooManyTagsException":
+            self = .tooManyTagsException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
         case "ResourceTypeNotSupportedException":
             self = .resourceTypeNotSupportedException(message: message)
-        case "TooManyTagsException":
-            self = .tooManyTagsException(message: message)
+        case "InvalidRequestException":
+            self = .invalidRequestException(message: message)
+        case "TooManyEnvironmentsException":
+            self = .tooManyEnvironmentsException(message: message)
+        case "SourceBundleDeletionException":
+            self = .sourceBundleDeletionException(message: message)
+        case "ManagedActionInvalidStateException":
+            self = .managedActionInvalidStateException(message: message)
         case "S3SubscriptionRequiredException":
             self = .s3SubscriptionRequiredException(message: message)
+        case "PlatformVersionStillReferencedException":
+            self = .platformVersionStillReferencedException(message: message)
         default:
             return nil
         }

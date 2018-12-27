@@ -5,122 +5,60 @@ import AWSSDKSwiftCore
 
 extension Pricing {
 
-    public struct DescribeServicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Services", required: false, type: .list), 
-            AWSShapeMember(label: "FormatVersion", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The service metadata for the service or services in the response.
-        public let services: [Service]?
-        /// The format version of the response. For example, aws_v1.
-        public let formatVersion: String?
-        /// The pagination token for the next set of retreivable results.
-        public let nextToken: String?
-
-        public init(services: [Service]? = nil, formatVersion: String? = nil, nextToken: String? = nil) {
-            self.services = services
-            self.formatVersion = formatVersion
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case services = "Services"
-            case formatVersion = "FormatVersion"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DescribeServicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceCode", required: false, type: .string), 
-            AWSShapeMember(label: "FormatVersion", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The pagination token that indicates the next set of results that you want to retrieve.
-        public let nextToken: String?
-        /// The code for the service whose information you want to retrieve, such as AmazonEC2. You can use the ServiceCode to filter the results in a GetProducts call. To retrieve a list of all services, leave this blank.
-        public let serviceCode: String?
-        /// The format version that you want the response to be in. Valid values are: aws_v1 
-        public let formatVersion: String?
-        /// The maximum number of results that you want returned in the response.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, serviceCode: String? = nil, formatVersion: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.serviceCode = serviceCode
-            self.formatVersion = formatVersion
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case serviceCode = "ServiceCode"
-            case formatVersion = "FormatVersion"
-            case maxResults = "MaxResults"
-        }
-    }
-
     public struct GetProductsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "FormatVersion", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ServiceCode", required: false, type: .string), 
-            AWSShapeMember(label: "FormatVersion", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .list)
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
+        /// The list of filters that limit the returned products. only products that match all filters are returned.
+        public let filters: [Filter]?
+        /// The format version that you want the response to be in. Valid values are: aws_v1 
+        public let formatVersion: String?
         /// The pagination token that indicates the next set of results that you want to retrieve.
         public let nextToken: String?
         /// The code for the service whose products you want to retrieve. 
         public let serviceCode: String?
-        /// The format version that you want the response to be in. Valid values are: aws_v1 
-        public let formatVersion: String?
         /// The maximum number of results to return in the response.
         public let maxResults: Int32?
-        /// The list of filters that limit the returned products. only products that match all filters are returned.
-        public let filters: [Filter]?
 
-        public init(nextToken: String? = nil, serviceCode: String? = nil, formatVersion: String? = nil, maxResults: Int32? = nil, filters: [Filter]? = nil) {
+        public init(filters: [Filter]? = nil, formatVersion: String? = nil, nextToken: String? = nil, serviceCode: String? = nil, maxResults: Int32? = nil) {
+            self.filters = filters
+            self.formatVersion = formatVersion
             self.nextToken = nextToken
             self.serviceCode = serviceCode
-            self.formatVersion = formatVersion
             self.maxResults = maxResults
-            self.filters = filters
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case formatVersion = "FormatVersion"
             case nextToken = "NextToken"
             case serviceCode = "ServiceCode"
-            case formatVersion = "FormatVersion"
             case maxResults = "MaxResults"
-            case filters = "Filters"
         }
     }
 
-    public struct Filter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Field", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
-        /// The product metadata field that you want to filter on. You can filter by just the service code to see all products for a specific service, filter by just the attribute name to see a specific attribute for multiple services, or use both a service code and an attribute name to retrieve only products that match both fields. Valid values include: ServiceCode, and all attribute names For example, you can filter by the AmazonEC2 service code and the volumeType attribute name to get the prices for only Amazon EC2 volumes.
-        public let field: String
-        /// The service code or attribute value that you want to filter by. If you are filtering by service code this is the actual service code, such as AmazonEC2. If you are filtering by attribute name, this is the attribute value that you want the returned products to match, such as a Provisioned IOPS volume.
-        public let value: String
-        /// The type of filter that you want to use. Valid values are: TERM_MATCH. TERM_MATCH returns only products that match both the given filter field and the given value.
-        public let `type`: FilterType
+    public enum FilterType: String, CustomStringConvertible, Codable {
+        case termMatch = "TERM_MATCH"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(field: String, value: String, type: FilterType) {
-            self.field = field
+    public struct AttributeValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The specific value of an attributeName.
+        public let value: String?
+
+        public init(value: String? = nil) {
             self.value = value
-            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
-            case field = "Field"
             case value = "Value"
-            case `type` = "Type"
         }
     }
 
@@ -145,25 +83,144 @@ extension Pricing {
         }
     }
 
-    public struct AttributeValue: AWSShape {
+    public struct GetAttributeValuesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceCode", required: true, type: .string)
         ]
-        /// The specific value of an attributeName.
-        public let value: String?
+        /// The maximum number of results to return in response.
+        public let maxResults: Int32?
+        /// The pagination token that indicates the next set of results that you want to retrieve.
+        public let nextToken: String?
+        /// The name of the attribute that you want to retrieve the values for, such as volumeType.
+        public let attributeName: String
+        /// The service code for the service whose attributes you want to retrieve. For example, if you want the retrieve an EC2 attribute, use AmazonEC2.
+        public let serviceCode: String
 
-        public init(value: String? = nil) {
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, attributeName: String, serviceCode: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.attributeName = attributeName
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case attributeName = "AttributeName"
+            case serviceCode = "ServiceCode"
+        }
+    }
+
+    public struct DescribeServicesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "FormatVersion", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceCode", required: false, type: .string)
+        ]
+        /// The maximum number of results that you want returned in the response.
+        public let maxResults: Int32?
+        /// The format version that you want the response to be in. Valid values are: aws_v1 
+        public let formatVersion: String?
+        /// The pagination token that indicates the next set of results that you want to retrieve.
+        public let nextToken: String?
+        /// The code for the service whose information you want to retrieve, such as AmazonEC2. You can use the ServiceCode to filter the results in a GetProducts call. To retrieve a list of all services, leave this blank.
+        public let serviceCode: String?
+
+        public init(maxResults: Int32? = nil, formatVersion: String? = nil, nextToken: String? = nil, serviceCode: String? = nil) {
+            self.maxResults = maxResults
+            self.formatVersion = formatVersion
+            self.nextToken = nextToken
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case formatVersion = "FormatVersion"
+            case nextToken = "NextToken"
+            case serviceCode = "ServiceCode"
+        }
+    }
+
+    public struct GetProductsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FormatVersion", required: false, type: .string), 
+            AWSShapeMember(label: "PriceList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The format version of the response. For example, aws_v1.
+        public let formatVersion: String?
+        /// The list of products that match your filters. The list contains both the product metadata and the price information.
+        public let priceList: [String]?
+        /// The pagination token that indicates the next set of results to retrieve.
+        public let nextToken: String?
+
+        public init(formatVersion: String? = nil, priceList: [String]? = nil, nextToken: String? = nil) {
+            self.formatVersion = formatVersion
+            self.priceList = priceList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formatVersion = "FormatVersion"
+            case priceList = "PriceList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct Filter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "Field", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+        /// The type of filter that you want to use. Valid values are: TERM_MATCH. TERM_MATCH returns only products that match both the given filter field and the given value.
+        public let `type`: FilterType
+        /// The product metadata field that you want to filter on. You can filter by just the service code to see all products for a specific service, filter by just the attribute name to see a specific attribute for multiple services, or use both a service code and an attribute name to retrieve only products that match both fields. Valid values include: ServiceCode, and all attribute names For example, you can filter by the AmazonEC2 service code and the volumeType attribute name to get the prices for only Amazon EC2 volumes.
+        public let field: String
+        /// The service code or attribute value that you want to filter by. If you are filtering by service code this is the actual service code, such as AmazonEC2. If you are filtering by attribute name, this is the attribute value that you want the returned products to match, such as a Provisioned IOPS volume.
+        public let value: String
+
+        public init(type: FilterType, field: String, value: String) {
+            self.`type` = `type`
+            self.field = field
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case field = "Field"
             case value = "Value"
         }
     }
 
-    public enum FilterType: String, CustomStringConvertible, Codable {
-        case termMatch = "TERM_MATCH"
-        public var description: String { return self.rawValue }
+    public struct DescribeServicesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FormatVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Services", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The format version of the response. For example, aws_v1.
+        public let formatVersion: String?
+        /// The service metadata for the service or services in the response.
+        public let services: [Service]?
+        /// The pagination token for the next set of retreivable results.
+        public let nextToken: String?
+
+        public init(formatVersion: String? = nil, services: [Service]? = nil, nextToken: String? = nil) {
+            self.formatVersion = formatVersion
+            self.services = services
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formatVersion = "FormatVersion"
+            case services = "Services"
+            case nextToken = "NextToken"
+        }
     }
 
     public struct Service: AWSShape {
@@ -184,63 +241,6 @@ extension Pricing {
         private enum CodingKeys: String, CodingKey {
             case attributeNames = "AttributeNames"
             case serviceCode = "ServiceCode"
-        }
-    }
-
-    public struct GetAttributeValuesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceCode", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "AttributeName", required: true, type: .string)
-        ]
-        /// The pagination token that indicates the next set of results that you want to retrieve.
-        public let nextToken: String?
-        /// The service code for the service whose attributes you want to retrieve. For example, if you want the retrieve an EC2 attribute, use AmazonEC2.
-        public let serviceCode: String
-        /// The maximum number of results to return in response.
-        public let maxResults: Int32?
-        /// The name of the attribute that you want to retrieve the values for, such as volumeType.
-        public let attributeName: String
-
-        public init(nextToken: String? = nil, serviceCode: String, maxResults: Int32? = nil, attributeName: String) {
-            self.nextToken = nextToken
-            self.serviceCode = serviceCode
-            self.maxResults = maxResults
-            self.attributeName = attributeName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case serviceCode = "ServiceCode"
-            case maxResults = "MaxResults"
-            case attributeName = "AttributeName"
-        }
-    }
-
-    public struct GetProductsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PriceList", required: false, type: .list), 
-            AWSShapeMember(label: "FormatVersion", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The list of products that match your filters. The list contains both the product metadata and the price information.
-        public let priceList: [String]?
-        /// The format version of the response. For example, aws_v1.
-        public let formatVersion: String?
-        /// The pagination token that indicates the next set of results to retrieve.
-        public let nextToken: String?
-
-        public init(priceList: [String]? = nil, formatVersion: String? = nil, nextToken: String? = nil) {
-            self.priceList = priceList
-            self.formatVersion = formatVersion
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case priceList = "PriceList"
-            case formatVersion = "FormatVersion"
-            case nextToken = "NextToken"
         }
     }
 

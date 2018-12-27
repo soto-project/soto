@@ -7,10 +7,10 @@ public enum IoT1ClickDevicesServiceErrorType: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case invalidRequestException(message: String?)
     case internalFailureException(message: String?)
-    case preconditionFailedException(message: String?)
-    case resourceConflictException(message: String?)
-    case forbiddenException(message: String?)
     case rangeNotSatisfiableException(message: String?)
+    case resourceConflictException(message: String?)
+    case preconditionFailedException(message: String?)
+    case forbiddenException(message: String?)
 }
 
 extension IoT1ClickDevicesServiceErrorType {
@@ -26,14 +26,14 @@ extension IoT1ClickDevicesServiceErrorType {
             self = .invalidRequestException(message: message)
         case "InternalFailureException":
             self = .internalFailureException(message: message)
-        case "PreconditionFailedException":
-            self = .preconditionFailedException(message: message)
-        case "ResourceConflictException":
-            self = .resourceConflictException(message: message)
-        case "ForbiddenException":
-            self = .forbiddenException(message: message)
         case "RangeNotSatisfiableException":
             self = .rangeNotSatisfiableException(message: message)
+        case "ResourceConflictException":
+            self = .resourceConflictException(message: message)
+        case "PreconditionFailedException":
+            self = .preconditionFailedException(message: message)
+        case "ForbiddenException":
+            self = .forbiddenException(message: message)
         default:
             return nil
         }

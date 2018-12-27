@@ -5,13 +5,13 @@ import AWSSDKSwiftCore
 /// Error enum for CloudWatchLogs
 public enum CloudWatchLogsErrorType: AWSErrorType {
     case invalidParameterException(message: String?)
-    case resourceNotFoundException(message: String?)
     case serviceUnavailableException(message: String?)
+    case resourceAlreadyExistsException(message: String?)
     case limitExceededException(message: String?)
     case operationAbortedException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case invalidOperationException(message: String?)
+    case resourceNotFoundException(message: String?)
     case malformedQueryException(message: String?)
+    case invalidOperationException(message: String?)
     case invalidSequenceTokenException(message: String?)
     case dataAlreadyAcceptedException(message: String?)
     case unrecognizedClientException(message: String?)
@@ -26,20 +26,20 @@ extension CloudWatchLogsErrorType {
         switch errorCode {
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
+        case "ResourceAlreadyExistsException":
+            self = .resourceAlreadyExistsException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "OperationAbortedException":
             self = .operationAbortedException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "InvalidOperationException":
-            self = .invalidOperationException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "MalformedQueryException":
             self = .malformedQueryException(message: message)
+        case "InvalidOperationException":
+            self = .invalidOperationException(message: message)
         case "InvalidSequenceTokenException":
             self = .invalidSequenceTokenException(message: message)
         case "DataAlreadyAcceptedException":

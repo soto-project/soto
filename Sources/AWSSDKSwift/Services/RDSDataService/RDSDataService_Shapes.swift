@@ -5,6 +5,140 @@ import AWSSDKSwiftCore
 
 extension RDSDataService {
 
+    public struct SqlStatementResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resultFrame", required: false, type: .structure), 
+            AWSShapeMember(label: "numberOfRecordsUpdated", required: false, type: .long)
+        ]
+        /// ResultFrame returned by executing the sql statement
+        public let resultFrame: ResultFrame?
+        /// Number of rows updated.
+        public let numberOfRecordsUpdated: Int64?
+
+        public init(resultFrame: ResultFrame? = nil, numberOfRecordsUpdated: Int64? = nil) {
+            self.resultFrame = resultFrame
+            self.numberOfRecordsUpdated = numberOfRecordsUpdated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resultFrame = "resultFrame"
+            case numberOfRecordsUpdated = "numberOfRecordsUpdated"
+        }
+    }
+
+    public struct Record: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "values", required: false, type: .list)
+        ]
+        /// Record
+        public let values: [Value]?
+
+        public init(values: [Value]? = nil) {
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case values = "values"
+        }
+    }
+
+    public struct ExecuteSqlResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sqlStatementResults", required: true, type: .list)
+        ]
+        /// Results returned by executing the sql statement(s)
+        public let sqlStatementResults: [SqlStatementResult]
+
+        public init(sqlStatementResults: [SqlStatementResult]) {
+            self.sqlStatementResults = sqlStatementResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sqlStatementResults = "sqlStatementResults"
+        }
+    }
+
+    public struct ColumnMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "isAutoIncrement", required: false, type: .boolean), 
+            AWSShapeMember(label: "schemaName", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "isCurrency", required: false, type: .boolean), 
+            AWSShapeMember(label: "tableName", required: false, type: .string), 
+            AWSShapeMember(label: "arrayBaseColumnType", required: false, type: .integer), 
+            AWSShapeMember(label: "type", required: false, type: .integer), 
+            AWSShapeMember(label: "typeName", required: false, type: .string), 
+            AWSShapeMember(label: "precision", required: false, type: .integer), 
+            AWSShapeMember(label: "scale", required: false, type: .integer), 
+            AWSShapeMember(label: "label", required: false, type: .string), 
+            AWSShapeMember(label: "isCaseSensitive", required: false, type: .boolean), 
+            AWSShapeMember(label: "nullable", required: false, type: .integer), 
+            AWSShapeMember(label: "isSigned", required: false, type: .boolean)
+        ]
+        /// Whether the designated column is automatically numbered
+        public let isAutoIncrement: Bool?
+        /// Designated column's table's schema
+        public let schemaName: String?
+        /// Name of the column.
+        public let name: String?
+        /// Whether values in the designated column is a cash value
+        public let isCurrency: Bool?
+        /// Designated column's table name
+        public let tableName: String?
+        /// Homogenous array base SQL type from java.sql.Types.
+        public let arrayBaseColumnType: Int32?
+        /// SQL type from java.sql.Types.
+        public let `type`: Int32?
+        /// Database-specific type name.
+        public let typeName: String?
+        /// Get the designated column's specified column size.For numeric data, this is the maximum precision.  For character data, this is the length in characters. For datetime datatypes, this is the length in characters of the String representation (assuming the maximum allowed precision of the fractional seconds component). For binary data, this is the length in bytes.  For the ROWID datatype, this is the length in bytes. 0 is returned for data types where the column size is not applicable.
+        public let precision: Int32?
+        /// Designated column's number of digits to right of the decimal point. 0 is returned for data types where the scale is not applicable.
+        public let scale: Int32?
+        /// Usually specified by the SQL AS. If not specified, return column name.
+        public let label: String?
+        /// Whether values in the designated column's case matters
+        public let isCaseSensitive: Bool?
+        /// Indicates the nullability of values in the designated column. One of columnNoNulls (0), columnNullable (1), columnNullableUnknown (2)
+        public let nullable: Int32?
+        /// Whether values in the designated column are signed numbers
+        public let isSigned: Bool?
+
+        public init(isAutoIncrement: Bool? = nil, schemaName: String? = nil, name: String? = nil, isCurrency: Bool? = nil, tableName: String? = nil, arrayBaseColumnType: Int32? = nil, type: Int32? = nil, typeName: String? = nil, precision: Int32? = nil, scale: Int32? = nil, label: String? = nil, isCaseSensitive: Bool? = nil, nullable: Int32? = nil, isSigned: Bool? = nil) {
+            self.isAutoIncrement = isAutoIncrement
+            self.schemaName = schemaName
+            self.name = name
+            self.isCurrency = isCurrency
+            self.tableName = tableName
+            self.arrayBaseColumnType = arrayBaseColumnType
+            self.`type` = `type`
+            self.typeName = typeName
+            self.precision = precision
+            self.scale = scale
+            self.label = label
+            self.isCaseSensitive = isCaseSensitive
+            self.nullable = nullable
+            self.isSigned = isSigned
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isAutoIncrement = "isAutoIncrement"
+            case schemaName = "schemaName"
+            case name = "name"
+            case isCurrency = "isCurrency"
+            case tableName = "tableName"
+            case arrayBaseColumnType = "arrayBaseColumnType"
+            case `type` = "type"
+            case typeName = "typeName"
+            case precision = "precision"
+            case scale = "scale"
+            case label = "label"
+            case isCaseSensitive = "isCaseSensitive"
+            case nullable = "nullable"
+            case isSigned = "isSigned"
+        }
+    }
+
     public struct ResultFrame: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "records", required: false, type: .list), 
@@ -23,6 +157,42 @@ extension RDSDataService {
         private enum CodingKeys: String, CodingKey {
             case records = "records"
             case resultSetMetadata = "resultSetMetadata"
+        }
+    }
+
+    public struct ExecuteSqlRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "awsSecretStoreArn", required: true, type: .string), 
+            AWSShapeMember(label: "database", required: false, type: .string), 
+            AWSShapeMember(label: "sqlStatements", required: true, type: .string), 
+            AWSShapeMember(label: "schema", required: false, type: .string), 
+            AWSShapeMember(label: "dbClusterOrInstanceArn", required: true, type: .string)
+        ]
+        /// ARN of the db credentials in AWS Secret Store or the friendly secret name
+        public let awsSecretStoreArn: String
+        /// Target DB name
+        public let database: String?
+        /// SQL statement(s) to be executed. Statements can be chained by using semicolons
+        public let sqlStatements: String
+        /// Target Schema name
+        public let schema: String?
+        /// ARN of the target db cluster or instance
+        public let dbClusterOrInstanceArn: String
+
+        public init(awsSecretStoreArn: String, database: String? = nil, sqlStatements: String, schema: String? = nil, dbClusterOrInstanceArn: String) {
+            self.awsSecretStoreArn = awsSecretStoreArn
+            self.database = database
+            self.sqlStatements = sqlStatements
+            self.schema = schema
+            self.dbClusterOrInstanceArn = dbClusterOrInstanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsSecretStoreArn = "awsSecretStoreArn"
+            case database = "database"
+            case sqlStatements = "sqlStatements"
+            case schema = "schema"
+            case dbClusterOrInstanceArn = "dbClusterOrInstanceArn"
         }
     }
 
@@ -47,74 +217,6 @@ extension RDSDataService {
         }
     }
 
-    public struct ExecuteSqlResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sqlStatementResults", required: true, type: .list)
-        ]
-        /// Results returned by executing the sql statement(s)
-        public let sqlStatementResults: [SqlStatementResult]
-
-        public init(sqlStatementResults: [SqlStatementResult]) {
-            self.sqlStatementResults = sqlStatementResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sqlStatementResults = "sqlStatementResults"
-        }
-    }
-
-    public struct ExecuteSqlRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sqlStatements", required: true, type: .string), 
-            AWSShapeMember(label: "awsSecretStoreArn", required: true, type: .string), 
-            AWSShapeMember(label: "schema", required: false, type: .string), 
-            AWSShapeMember(label: "database", required: false, type: .string), 
-            AWSShapeMember(label: "dbClusterOrInstanceArn", required: true, type: .string)
-        ]
-        /// SQL statement(s) to be executed. Statements can be chained by using semicolons
-        public let sqlStatements: String
-        /// ARN of the db credentials in AWS Secret Store or the friendly secret name
-        public let awsSecretStoreArn: String
-        /// Target Schema name
-        public let schema: String?
-        /// Target DB name
-        public let database: String?
-        /// ARN of the target db cluster or instance
-        public let dbClusterOrInstanceArn: String
-
-        public init(sqlStatements: String, awsSecretStoreArn: String, schema: String? = nil, database: String? = nil, dbClusterOrInstanceArn: String) {
-            self.sqlStatements = sqlStatements
-            self.awsSecretStoreArn = awsSecretStoreArn
-            self.schema = schema
-            self.database = database
-            self.dbClusterOrInstanceArn = dbClusterOrInstanceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sqlStatements = "sqlStatements"
-            case awsSecretStoreArn = "awsSecretStoreArn"
-            case schema = "schema"
-            case database = "database"
-            case dbClusterOrInstanceArn = "dbClusterOrInstanceArn"
-        }
-    }
-
-    public struct Record: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "values", required: false, type: .list)
-        ]
-        /// Record
-        public let values: [Value]?
-
-        public init(values: [Value]? = nil) {
-            self.values = values
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case values = "values"
-        }
-    }
-
     public struct StructValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attributes", required: false, type: .list)
@@ -131,166 +233,64 @@ extension RDSDataService {
         }
     }
 
-    public struct SqlStatementResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "numberOfRecordsUpdated", required: false, type: .long), 
-            AWSShapeMember(label: "resultFrame", required: false, type: .structure)
-        ]
-        /// Number of rows updated.
-        public let numberOfRecordsUpdated: Int64?
-        /// ResultFrame returned by executing the sql statement
-        public let resultFrame: ResultFrame?
-
-        public init(numberOfRecordsUpdated: Int64? = nil, resultFrame: ResultFrame? = nil) {
-            self.numberOfRecordsUpdated = numberOfRecordsUpdated
-            self.resultFrame = resultFrame
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case numberOfRecordsUpdated = "numberOfRecordsUpdated"
-            case resultFrame = "resultFrame"
-        }
-    }
-
-    public struct ColumnMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "precision", required: false, type: .integer), 
-            AWSShapeMember(label: "scale", required: false, type: .integer), 
-            AWSShapeMember(label: "isSigned", required: false, type: .boolean), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "tableName", required: false, type: .string), 
-            AWSShapeMember(label: "arrayBaseColumnType", required: false, type: .integer), 
-            AWSShapeMember(label: "isCurrency", required: false, type: .boolean), 
-            AWSShapeMember(label: "label", required: false, type: .string), 
-            AWSShapeMember(label: "nullable", required: false, type: .integer), 
-            AWSShapeMember(label: "type", required: false, type: .integer), 
-            AWSShapeMember(label: "isAutoIncrement", required: false, type: .boolean), 
-            AWSShapeMember(label: "typeName", required: false, type: .string), 
-            AWSShapeMember(label: "isCaseSensitive", required: false, type: .boolean), 
-            AWSShapeMember(label: "schemaName", required: false, type: .string)
-        ]
-        /// Get the designated column's specified column size.For numeric data, this is the maximum precision.  For character data, this is the length in characters. For datetime datatypes, this is the length in characters of the String representation (assuming the maximum allowed precision of the fractional seconds component). For binary data, this is the length in bytes.  For the ROWID datatype, this is the length in bytes. 0 is returned for data types where the column size is not applicable.
-        public let precision: Int32?
-        /// Designated column's number of digits to right of the decimal point. 0 is returned for data types where the scale is not applicable.
-        public let scale: Int32?
-        /// Whether values in the designated column are signed numbers
-        public let isSigned: Bool?
-        /// Name of the column.
-        public let name: String?
-        /// Designated column's table name
-        public let tableName: String?
-        /// Homogenous array base SQL type from java.sql.Types.
-        public let arrayBaseColumnType: Int32?
-        /// Whether values in the designated column is a cash value
-        public let isCurrency: Bool?
-        /// Usually specified by the SQL AS. If not specified, return column name.
-        public let label: String?
-        /// Indicates the nullability of values in the designated column. One of columnNoNulls (0), columnNullable (1), columnNullableUnknown (2)
-        public let nullable: Int32?
-        /// SQL type from java.sql.Types.
-        public let `type`: Int32?
-        /// Whether the designated column is automatically numbered
-        public let isAutoIncrement: Bool?
-        /// Database-specific type name.
-        public let typeName: String?
-        /// Whether values in the designated column's case matters
-        public let isCaseSensitive: Bool?
-        /// Designated column's table's schema
-        public let schemaName: String?
-
-        public init(precision: Int32? = nil, scale: Int32? = nil, isSigned: Bool? = nil, name: String? = nil, tableName: String? = nil, arrayBaseColumnType: Int32? = nil, isCurrency: Bool? = nil, label: String? = nil, nullable: Int32? = nil, type: Int32? = nil, isAutoIncrement: Bool? = nil, typeName: String? = nil, isCaseSensitive: Bool? = nil, schemaName: String? = nil) {
-            self.precision = precision
-            self.scale = scale
-            self.isSigned = isSigned
-            self.name = name
-            self.tableName = tableName
-            self.arrayBaseColumnType = arrayBaseColumnType
-            self.isCurrency = isCurrency
-            self.label = label
-            self.nullable = nullable
-            self.`type` = `type`
-            self.isAutoIncrement = isAutoIncrement
-            self.typeName = typeName
-            self.isCaseSensitive = isCaseSensitive
-            self.schemaName = schemaName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case precision = "precision"
-            case scale = "scale"
-            case isSigned = "isSigned"
-            case name = "name"
-            case tableName = "tableName"
-            case arrayBaseColumnType = "arrayBaseColumnType"
-            case isCurrency = "isCurrency"
-            case label = "label"
-            case nullable = "nullable"
-            case `type` = "type"
-            case isAutoIncrement = "isAutoIncrement"
-            case typeName = "typeName"
-            case isCaseSensitive = "isCaseSensitive"
-            case schemaName = "schemaName"
-        }
-    }
-
     public class Value: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "isNull", required: false, type: .boolean), 
-            AWSShapeMember(label: "intValue", required: false, type: .integer), 
-            AWSShapeMember(label: "doubleValue", required: false, type: .double), 
-            AWSShapeMember(label: "realValue", required: false, type: .float), 
-            AWSShapeMember(label: "blobValue", required: false, type: .blob), 
-            AWSShapeMember(label: "bigIntValue", required: false, type: .long), 
-            AWSShapeMember(label: "arrayValues", required: false, type: .list), 
             AWSShapeMember(label: "bitValue", required: false, type: .boolean), 
             AWSShapeMember(label: "stringValue", required: false, type: .string), 
-            AWSShapeMember(label: "structValue", required: false, type: .structure)
+            AWSShapeMember(label: "bigIntValue", required: false, type: .long), 
+            AWSShapeMember(label: "structValue", required: false, type: .structure), 
+            AWSShapeMember(label: "realValue", required: false, type: .float), 
+            AWSShapeMember(label: "isNull", required: false, type: .boolean), 
+            AWSShapeMember(label: "arrayValues", required: false, type: .list), 
+            AWSShapeMember(label: "intValue", required: false, type: .integer), 
+            AWSShapeMember(label: "blobValue", required: false, type: .blob), 
+            AWSShapeMember(label: "doubleValue", required: false, type: .double)
         ]
-        /// Is column null
-        public let isNull: Bool?
-        /// Integer value
-        public let intValue: Int32?
-        /// Double value
-        public let doubleValue: Double?
-        /// Float value
-        public let realValue: Float?
-        /// Blob value
-        public let blobValue: Data?
-        /// Long value
-        public let bigIntValue: Int64?
-        /// Arbitrarily nested arrays
-        public let arrayValues: [Value]?
         /// Bit value
         public let bitValue: Bool?
         /// String value
         public let stringValue: String?
+        /// Long value
+        public let bigIntValue: Int64?
         /// Struct or UDT
         public let structValue: StructValue?
+        /// Float value
+        public let realValue: Float?
+        /// Is column null
+        public let isNull: Bool?
+        /// Arbitrarily nested arrays
+        public let arrayValues: [Value]?
+        /// Integer value
+        public let intValue: Int32?
+        /// Blob value
+        public let blobValue: Data?
+        /// Double value
+        public let doubleValue: Double?
 
-        public init(isNull: Bool? = nil, intValue: Int32? = nil, doubleValue: Double? = nil, realValue: Float? = nil, blobValue: Data? = nil, bigIntValue: Int64? = nil, arrayValues: [Value]? = nil, bitValue: Bool? = nil, stringValue: String? = nil, structValue: StructValue? = nil) {
-            self.isNull = isNull
-            self.intValue = intValue
-            self.doubleValue = doubleValue
-            self.realValue = realValue
-            self.blobValue = blobValue
-            self.bigIntValue = bigIntValue
-            self.arrayValues = arrayValues
+        public init(bitValue: Bool? = nil, stringValue: String? = nil, bigIntValue: Int64? = nil, structValue: StructValue? = nil, realValue: Float? = nil, isNull: Bool? = nil, arrayValues: [Value]? = nil, intValue: Int32? = nil, blobValue: Data? = nil, doubleValue: Double? = nil) {
             self.bitValue = bitValue
             self.stringValue = stringValue
+            self.bigIntValue = bigIntValue
             self.structValue = structValue
+            self.realValue = realValue
+            self.isNull = isNull
+            self.arrayValues = arrayValues
+            self.intValue = intValue
+            self.blobValue = blobValue
+            self.doubleValue = doubleValue
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isNull = "isNull"
-            case intValue = "intValue"
-            case doubleValue = "doubleValue"
-            case realValue = "realValue"
-            case blobValue = "blobValue"
-            case bigIntValue = "bigIntValue"
-            case arrayValues = "arrayValues"
             case bitValue = "bitValue"
             case stringValue = "stringValue"
+            case bigIntValue = "bigIntValue"
             case structValue = "structValue"
+            case realValue = "realValue"
+            case isNull = "isNull"
+            case arrayValues = "arrayValues"
+            case intValue = "intValue"
+            case blobValue = "blobValue"
+            case doubleValue = "doubleValue"
         }
     }
 

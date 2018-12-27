@@ -4,65 +4,65 @@ import AWSSDKSwiftCore
 
 /// Error enum for Neptune
 public enum NeptuneErrorType: AWSErrorType {
-    case dBClusterSnapshotNotFoundFault(message: String?)
-    case invalidDBClusterSnapshotStateFault(message: String?)
-    case sharedSnapshotQuotaExceededFault(message: String?)
     case dBClusterNotFoundFault(message: String?)
+    case dBClusterRoleNotFoundFault(message: String?)
     case invalidDBClusterStateFault(message: String?)
-    case storageQuotaExceededFault(message: String?)
-    case dBSubnetGroupNotFoundFault(message: String?)
-    case invalidVPCNetworkStateFault(message: String?)
-    case invalidDBSubnetGroupStateFault(message: String?)
-    case invalidSubnet(message: String?)
-    case dBClusterParameterGroupNotFoundFault(message: String?)
-    case invalidDBSecurityGroupStateFault(message: String?)
-    case invalidDBInstanceStateFault(message: String?)
-    case dBClusterAlreadyExistsFault(message: String?)
-    case dBInstanceNotFoundFault(message: String?)
-    case dBSnapshotNotFoundFault(message: String?)
+    case dBParameterGroupNotFoundFault(message: String?)
+    case invalidDBParameterGroupStateFault(message: String?)
     case dBClusterRoleAlreadyExistsFault(message: String?)
     case dBClusterRoleQuotaExceededFault(message: String?)
-    case dBParameterGroupNotFoundFault(message: String?)
-    case dBParameterGroupAlreadyExistsFault(message: String?)
     case dBParameterGroupQuotaExceededFault(message: String?)
-    case dBClusterSnapshotAlreadyExistsFault(message: String?)
-    case snapshotQuotaExceededFault(message: String?)
+    case dBParameterGroupAlreadyExistsFault(message: String?)
+    case dBClusterAlreadyExistsFault(message: String?)
+    case dBClusterQuotaExceededFault(message: String?)
+    case dBClusterSnapshotNotFoundFault(message: String?)
+    case dBSubnetGroupNotFoundFault(message: String?)
+    case insufficientDBClusterCapacityFault(message: String?)
+    case insufficientStorageClusterCapacityFault(message: String?)
+    case invalidDBClusterSnapshotStateFault(message: String?)
+    case invalidDBSnapshotStateFault(message: String?)
+    case invalidRestoreFault(message: String?)
+    case invalidSubnet(message: String?)
+    case invalidVPCNetworkStateFault(message: String?)
     case kMSKeyNotAccessibleFault(message: String?)
-    case invalidDBParameterGroupStateFault(message: String?)
-    case dBInstanceAlreadyExistsFault(message: String?)
-    case dBSecurityGroupNotFoundFault(message: String?)
-    case insufficientDBInstanceCapacityFault(message: String?)
-    case provisionedIopsNotAvailableInAZFault(message: String?)
     case optionGroupNotFoundFault(message: String?)
-    case dBUpgradeDependencyFailureFault(message: String?)
+    case storageQuotaExceededFault(message: String?)
+    case dBInstanceNotFoundFault(message: String?)
+    case dBSnapshotNotFoundFault(message: String?)
+    case dBInstanceAlreadyExistsFault(message: String?)
+    case insufficientDBInstanceCapacityFault(message: String?)
+    case dBSecurityGroupNotFoundFault(message: String?)
+    case instanceQuotaExceededFault(message: String?)
+    case dBSubnetGroupDoesNotCoverEnoughAZs(message: String?)
+    case provisionedIopsNotAvailableInAZFault(message: String?)
     case storageTypeNotSupportedFault(message: String?)
     case authorizationNotFoundFault(message: String?)
-    case certificateNotFoundFault(message: String?)
     case domainNotFoundFault(message: String?)
     case subscriptionNotFoundFault(message: String?)
     case sourceNotFoundFault(message: String?)
-    case dBClusterQuotaExceededFault(message: String?)
-    case insufficientDBClusterCapacityFault(message: String?)
-    case insufficientStorageClusterCapacityFault(message: String?)
-    case invalidDBSnapshotStateFault(message: String?)
-    case invalidRestoreFault(message: String?)
+    case invalidEventSubscriptionStateFault(message: String?)
+    case resourceNotFoundFault(message: String?)
+    case dBClusterSnapshotAlreadyExistsFault(message: String?)
+    case snapshotQuotaExceededFault(message: String?)
+    case invalidDBSubnetGroupStateFault(message: String?)
+    case dBClusterParameterGroupNotFoundFault(message: String?)
+    case invalidDBSecurityGroupStateFault(message: String?)
+    case invalidDBInstanceStateFault(message: String?)
+    case sharedSnapshotQuotaExceededFault(message: String?)
+    case dBSubnetQuotaExceededFault(message: String?)
+    case subnetAlreadyInUse(message: String?)
     case eventSubscriptionQuotaExceededFault(message: String?)
     case sNSInvalidTopicFault(message: String?)
     case sNSNoAuthorizationFault(message: String?)
     case sNSTopicArnNotFoundFault(message: String?)
     case subscriptionCategoryNotFoundFault(message: String?)
-    case instanceQuotaExceededFault(message: String?)
-    case dBSubnetGroupDoesNotCoverEnoughAZs(message: String?)
-    case invalidEventSubscriptionStateFault(message: String?)
-    case invalidDBSubnetStateFault(message: String?)
-    case dBClusterRoleNotFoundFault(message: String?)
-    case resourceNotFoundFault(message: String?)
-    case dBSnapshotAlreadyExistsFault(message: String?)
-    case dBSubnetQuotaExceededFault(message: String?)
-    case subnetAlreadyInUse(message: String?)
+    case subscriptionAlreadyExistFault(message: String?)
     case dBSubnetGroupAlreadyExistsFault(message: String?)
     case dBSubnetGroupQuotaExceededFault(message: String?)
-    case subscriptionAlreadyExistFault(message: String?)
+    case dBUpgradeDependencyFailureFault(message: String?)
+    case certificateNotFoundFault(message: String?)
+    case invalidDBSubnetStateFault(message: String?)
+    case dBSnapshotAlreadyExistsFault(message: String?)
 }
 
 extension NeptuneErrorType {
@@ -72,90 +72,100 @@ extension NeptuneErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "DBClusterSnapshotNotFoundFault":
-            self = .dBClusterSnapshotNotFoundFault(message: message)
-        case "InvalidDBClusterSnapshotStateFault":
-            self = .invalidDBClusterSnapshotStateFault(message: message)
-        case "SharedSnapshotQuotaExceededFault":
-            self = .sharedSnapshotQuotaExceededFault(message: message)
         case "DBClusterNotFoundFault":
             self = .dBClusterNotFoundFault(message: message)
+        case "DBClusterRoleNotFoundFault":
+            self = .dBClusterRoleNotFoundFault(message: message)
         case "InvalidDBClusterStateFault":
             self = .invalidDBClusterStateFault(message: message)
-        case "StorageQuotaExceededFault":
-            self = .storageQuotaExceededFault(message: message)
-        case "DBSubnetGroupNotFoundFault":
-            self = .dBSubnetGroupNotFoundFault(message: message)
-        case "InvalidVPCNetworkStateFault":
-            self = .invalidVPCNetworkStateFault(message: message)
-        case "InvalidDBSubnetGroupStateFault":
-            self = .invalidDBSubnetGroupStateFault(message: message)
-        case "InvalidSubnet":
-            self = .invalidSubnet(message: message)
-        case "DBClusterParameterGroupNotFoundFault":
-            self = .dBClusterParameterGroupNotFoundFault(message: message)
-        case "InvalidDBSecurityGroupStateFault":
-            self = .invalidDBSecurityGroupStateFault(message: message)
-        case "InvalidDBInstanceStateFault":
-            self = .invalidDBInstanceStateFault(message: message)
-        case "DBClusterAlreadyExistsFault":
-            self = .dBClusterAlreadyExistsFault(message: message)
-        case "DBInstanceNotFoundFault":
-            self = .dBInstanceNotFoundFault(message: message)
-        case "DBSnapshotNotFoundFault":
-            self = .dBSnapshotNotFoundFault(message: message)
+        case "DBParameterGroupNotFoundFault":
+            self = .dBParameterGroupNotFoundFault(message: message)
+        case "InvalidDBParameterGroupStateFault":
+            self = .invalidDBParameterGroupStateFault(message: message)
         case "DBClusterRoleAlreadyExistsFault":
             self = .dBClusterRoleAlreadyExistsFault(message: message)
         case "DBClusterRoleQuotaExceededFault":
             self = .dBClusterRoleQuotaExceededFault(message: message)
-        case "DBParameterGroupNotFoundFault":
-            self = .dBParameterGroupNotFoundFault(message: message)
-        case "DBParameterGroupAlreadyExistsFault":
-            self = .dBParameterGroupAlreadyExistsFault(message: message)
         case "DBParameterGroupQuotaExceededFault":
             self = .dBParameterGroupQuotaExceededFault(message: message)
-        case "DBClusterSnapshotAlreadyExistsFault":
-            self = .dBClusterSnapshotAlreadyExistsFault(message: message)
-        case "SnapshotQuotaExceededFault":
-            self = .snapshotQuotaExceededFault(message: message)
+        case "DBParameterGroupAlreadyExistsFault":
+            self = .dBParameterGroupAlreadyExistsFault(message: message)
+        case "DBClusterAlreadyExistsFault":
+            self = .dBClusterAlreadyExistsFault(message: message)
+        case "DBClusterQuotaExceededFault":
+            self = .dBClusterQuotaExceededFault(message: message)
+        case "DBClusterSnapshotNotFoundFault":
+            self = .dBClusterSnapshotNotFoundFault(message: message)
+        case "DBSubnetGroupNotFoundFault":
+            self = .dBSubnetGroupNotFoundFault(message: message)
+        case "InsufficientDBClusterCapacityFault":
+            self = .insufficientDBClusterCapacityFault(message: message)
+        case "InsufficientStorageClusterCapacityFault":
+            self = .insufficientStorageClusterCapacityFault(message: message)
+        case "InvalidDBClusterSnapshotStateFault":
+            self = .invalidDBClusterSnapshotStateFault(message: message)
+        case "InvalidDBSnapshotStateFault":
+            self = .invalidDBSnapshotStateFault(message: message)
+        case "InvalidRestoreFault":
+            self = .invalidRestoreFault(message: message)
+        case "InvalidSubnet":
+            self = .invalidSubnet(message: message)
+        case "InvalidVPCNetworkStateFault":
+            self = .invalidVPCNetworkStateFault(message: message)
         case "KMSKeyNotAccessibleFault":
             self = .kMSKeyNotAccessibleFault(message: message)
-        case "InvalidDBParameterGroupStateFault":
-            self = .invalidDBParameterGroupStateFault(message: message)
-        case "DBInstanceAlreadyExistsFault":
-            self = .dBInstanceAlreadyExistsFault(message: message)
-        case "DBSecurityGroupNotFoundFault":
-            self = .dBSecurityGroupNotFoundFault(message: message)
-        case "InsufficientDBInstanceCapacityFault":
-            self = .insufficientDBInstanceCapacityFault(message: message)
-        case "ProvisionedIopsNotAvailableInAZFault":
-            self = .provisionedIopsNotAvailableInAZFault(message: message)
         case "OptionGroupNotFoundFault":
             self = .optionGroupNotFoundFault(message: message)
-        case "DBUpgradeDependencyFailureFault":
-            self = .dBUpgradeDependencyFailureFault(message: message)
+        case "StorageQuotaExceededFault":
+            self = .storageQuotaExceededFault(message: message)
+        case "DBInstanceNotFoundFault":
+            self = .dBInstanceNotFoundFault(message: message)
+        case "DBSnapshotNotFoundFault":
+            self = .dBSnapshotNotFoundFault(message: message)
+        case "DBInstanceAlreadyExistsFault":
+            self = .dBInstanceAlreadyExistsFault(message: message)
+        case "InsufficientDBInstanceCapacityFault":
+            self = .insufficientDBInstanceCapacityFault(message: message)
+        case "DBSecurityGroupNotFoundFault":
+            self = .dBSecurityGroupNotFoundFault(message: message)
+        case "InstanceQuotaExceededFault":
+            self = .instanceQuotaExceededFault(message: message)
+        case "DBSubnetGroupDoesNotCoverEnoughAZs":
+            self = .dBSubnetGroupDoesNotCoverEnoughAZs(message: message)
+        case "ProvisionedIopsNotAvailableInAZFault":
+            self = .provisionedIopsNotAvailableInAZFault(message: message)
         case "StorageTypeNotSupportedFault":
             self = .storageTypeNotSupportedFault(message: message)
         case "AuthorizationNotFoundFault":
             self = .authorizationNotFoundFault(message: message)
-        case "CertificateNotFoundFault":
-            self = .certificateNotFoundFault(message: message)
         case "DomainNotFoundFault":
             self = .domainNotFoundFault(message: message)
         case "SubscriptionNotFoundFault":
             self = .subscriptionNotFoundFault(message: message)
         case "SourceNotFoundFault":
             self = .sourceNotFoundFault(message: message)
-        case "DBClusterQuotaExceededFault":
-            self = .dBClusterQuotaExceededFault(message: message)
-        case "InsufficientDBClusterCapacityFault":
-            self = .insufficientDBClusterCapacityFault(message: message)
-        case "InsufficientStorageClusterCapacityFault":
-            self = .insufficientStorageClusterCapacityFault(message: message)
-        case "InvalidDBSnapshotStateFault":
-            self = .invalidDBSnapshotStateFault(message: message)
-        case "InvalidRestoreFault":
-            self = .invalidRestoreFault(message: message)
+        case "InvalidEventSubscriptionStateFault":
+            self = .invalidEventSubscriptionStateFault(message: message)
+        case "ResourceNotFoundFault":
+            self = .resourceNotFoundFault(message: message)
+        case "DBClusterSnapshotAlreadyExistsFault":
+            self = .dBClusterSnapshotAlreadyExistsFault(message: message)
+        case "SnapshotQuotaExceededFault":
+            self = .snapshotQuotaExceededFault(message: message)
+        case "InvalidDBSubnetGroupStateFault":
+            self = .invalidDBSubnetGroupStateFault(message: message)
+        case "DBClusterParameterGroupNotFoundFault":
+            self = .dBClusterParameterGroupNotFoundFault(message: message)
+        case "InvalidDBSecurityGroupStateFault":
+            self = .invalidDBSecurityGroupStateFault(message: message)
+        case "InvalidDBInstanceStateFault":
+            self = .invalidDBInstanceStateFault(message: message)
+        case "SharedSnapshotQuotaExceededFault":
+            self = .sharedSnapshotQuotaExceededFault(message: message)
+        case "DBSubnetQuotaExceededFault":
+            self = .dBSubnetQuotaExceededFault(message: message)
+        case "SubnetAlreadyInUse":
+            self = .subnetAlreadyInUse(message: message)
         case "EventSubscriptionQuotaExceededFault":
             self = .eventSubscriptionQuotaExceededFault(message: message)
         case "SNSInvalidTopicFault":
@@ -166,30 +176,20 @@ extension NeptuneErrorType {
             self = .sNSTopicArnNotFoundFault(message: message)
         case "SubscriptionCategoryNotFoundFault":
             self = .subscriptionCategoryNotFoundFault(message: message)
-        case "InstanceQuotaExceededFault":
-            self = .instanceQuotaExceededFault(message: message)
-        case "DBSubnetGroupDoesNotCoverEnoughAZs":
-            self = .dBSubnetGroupDoesNotCoverEnoughAZs(message: message)
-        case "InvalidEventSubscriptionStateFault":
-            self = .invalidEventSubscriptionStateFault(message: message)
-        case "InvalidDBSubnetStateFault":
-            self = .invalidDBSubnetStateFault(message: message)
-        case "DBClusterRoleNotFoundFault":
-            self = .dBClusterRoleNotFoundFault(message: message)
-        case "ResourceNotFoundFault":
-            self = .resourceNotFoundFault(message: message)
-        case "DBSnapshotAlreadyExistsFault":
-            self = .dBSnapshotAlreadyExistsFault(message: message)
-        case "DBSubnetQuotaExceededFault":
-            self = .dBSubnetQuotaExceededFault(message: message)
-        case "SubnetAlreadyInUse":
-            self = .subnetAlreadyInUse(message: message)
+        case "SubscriptionAlreadyExistFault":
+            self = .subscriptionAlreadyExistFault(message: message)
         case "DBSubnetGroupAlreadyExistsFault":
             self = .dBSubnetGroupAlreadyExistsFault(message: message)
         case "DBSubnetGroupQuotaExceededFault":
             self = .dBSubnetGroupQuotaExceededFault(message: message)
-        case "SubscriptionAlreadyExistFault":
-            self = .subscriptionAlreadyExistFault(message: message)
+        case "DBUpgradeDependencyFailureFault":
+            self = .dBUpgradeDependencyFailureFault(message: message)
+        case "CertificateNotFoundFault":
+            self = .certificateNotFoundFault(message: message)
+        case "InvalidDBSubnetStateFault":
+            self = .invalidDBSubnetStateFault(message: message)
+        case "DBSnapshotAlreadyExistsFault":
+            self = .dBSnapshotAlreadyExistsFault(message: message)
         default:
             return nil
         }

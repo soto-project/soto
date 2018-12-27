@@ -5,649 +5,6 @@ import AWSSDKSwiftCore
 
 extension Budgets {
 
-    public struct Budget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CalculatedSpend", required: false, type: .structure), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
-            AWSShapeMember(label: "CostTypes", required: false, type: .structure), 
-            AWSShapeMember(label: "BudgetType", required: true, type: .enum), 
-            AWSShapeMember(label: "BudgetLimit", required: false, type: .structure), 
-            AWSShapeMember(label: "CostFilters", required: false, type: .map), 
-            AWSShapeMember(label: "TimeUnit", required: true, type: .enum), 
-            AWSShapeMember(label: "TimePeriod", required: false, type: .structure)
-        ]
-        /// The actual and forecasted cost or usage that the budget tracks.
-        public let calculatedSpend: CalculatedSpend?
-        /// The last time that you updated this budget.
-        public let lastUpdatedTime: TimeStamp?
-        /// The name of a budget. The name must be unique within accounts. The : and \ characters aren't allowed in BudgetName.
-        public let budgetName: String
-        /// The types of costs that are included in this COST budget.  USAGE, RI_UTILIZATION, and RI_COVERAGE budgets do not have CostTypes.
-        public let costTypes: CostTypes?
-        /// Whether this budget tracks monetary costs, usage, RI utilization, or RI coverage.
-        public let budgetType: BudgetType
-        /// The total amount of cost, usage, RI utilization, or RI coverage that you want to track with your budget.  BudgetLimit is required for cost or usage budgets, but optional for RI utilization or coverage budgets. RI utilization or coverage budgets default to 100, which is the only valid value for RI utilization or coverage budgets.
-        public let budgetLimit: Spend?
-        /// The cost filters, such as service or region, that are applied to a budget. AWS Budgets supports the following services as a filter for RI budgets:   Amazon Elastic Compute Cloud - Compute   Amazon Redshift   Amazon Relational Database Service   Amazon ElastiCache   Amazon Elasticsearch Service  
-        public let costFilters: [String: [String]]?
-        /// The length of time until a budget resets the actual and forecasted spend. DAILY is available only for RI_UTILIZATION and RI_COVERAGE budgets.
-        public let timeUnit: TimeUnit
-        /// The period of time that is covered by a budget. The period has a start date and an end date. The start date must come before the end date. The end date must come before 06/15/87 00:00 UTC.  If you create your budget and don't specify a start date, AWS defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, or ANNUALLY). For example, if you created your budget on January 24, 2018, chose DAILY, and didn't set a start date, AWS set your start date to 01/24/18 00:00 UTC. If you chose MONTHLY, AWS set your start date to 01/01/18 00:00 UTC. If you didn't specify an end date, AWS set your end date to 06/15/87 00:00 UTC. The defaults are the same for the AWS Billing and Cost Management console and the API.  You can change either date with the UpdateBudget operation. After the end date, AWS deletes the budget and all associated notifications and subscribers.
-        public let timePeriod: TimePeriod?
-
-        public init(calculatedSpend: CalculatedSpend? = nil, lastUpdatedTime: TimeStamp? = nil, budgetName: String, costTypes: CostTypes? = nil, budgetType: BudgetType, budgetLimit: Spend? = nil, costFilters: [String: [String]]? = nil, timeUnit: TimeUnit, timePeriod: TimePeriod? = nil) {
-            self.calculatedSpend = calculatedSpend
-            self.lastUpdatedTime = lastUpdatedTime
-            self.budgetName = budgetName
-            self.costTypes = costTypes
-            self.budgetType = budgetType
-            self.budgetLimit = budgetLimit
-            self.costFilters = costFilters
-            self.timeUnit = timeUnit
-            self.timePeriod = timePeriod
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case calculatedSpend = "CalculatedSpend"
-            case lastUpdatedTime = "LastUpdatedTime"
-            case budgetName = "BudgetName"
-            case costTypes = "CostTypes"
-            case budgetType = "BudgetType"
-            case budgetLimit = "BudgetLimit"
-            case costFilters = "CostFilters"
-            case timeUnit = "TimeUnit"
-            case timePeriod = "TimePeriod"
-        }
-    }
-
-    public enum NotificationState: String, CustomStringConvertible, Codable {
-        case ok = "OK"
-        case alarm = "ALARM"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NotificationType: String, CustomStringConvertible, Codable {
-        case actual = "ACTUAL"
-        case forecasted = "FORECASTED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteNotificationResponse: AWSShape {
-
-    }
-
-    public struct UpdateNotificationResponse: AWSShape {
-
-    }
-
-    public struct DescribeBudgetPerformanceHistoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
-            AWSShapeMember(label: "AccountId", required: true, type: .string)
-        ]
-        public let nextToken: String?
-        /// Retrieves how often the budget went into an ALARM state for the specified time period.
-        public let timePeriod: TimePeriod?
-        public let maxResults: Int32?
-        public let budgetName: String
-        public let accountId: String
-
-        public init(nextToken: String? = nil, timePeriod: TimePeriod? = nil, maxResults: Int32? = nil, budgetName: String, accountId: String) {
-            self.nextToken = nextToken
-            self.timePeriod = timePeriod
-            self.maxResults = maxResults
-            self.budgetName = budgetName
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case timePeriod = "TimePeriod"
-            case maxResults = "MaxResults"
-            case budgetName = "BudgetName"
-            case accountId = "AccountId"
-        }
-    }
-
-    public struct BudgetPerformanceHistory: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CostTypes", required: false, type: .structure), 
-            AWSShapeMember(label: "TimeUnit", required: false, type: .enum), 
-            AWSShapeMember(label: "CostFilters", required: false, type: .map), 
-            AWSShapeMember(label: "BudgetedAndActualAmountsList", required: false, type: .list), 
-            AWSShapeMember(label: "BudgetType", required: false, type: .enum), 
-            AWSShapeMember(label: "BudgetName", required: false, type: .string)
-        ]
-        /// The history of the cost types for a budget during the specified time period.
-        public let costTypes: CostTypes?
-        public let timeUnit: TimeUnit?
-        /// The history of the cost filters for a budget during the specified time period.
-        public let costFilters: [String: [String]]?
-        /// A list of amounts of cost or usage that you created budgets for, compared to your actual costs or usage.
-        public let budgetedAndActualAmountsList: [BudgetedAndActualAmounts]?
-        public let budgetType: BudgetType?
-        public let budgetName: String?
-
-        public init(costTypes: CostTypes? = nil, timeUnit: TimeUnit? = nil, costFilters: [String: [String]]? = nil, budgetedAndActualAmountsList: [BudgetedAndActualAmounts]? = nil, budgetType: BudgetType? = nil, budgetName: String? = nil) {
-            self.costTypes = costTypes
-            self.timeUnit = timeUnit
-            self.costFilters = costFilters
-            self.budgetedAndActualAmountsList = budgetedAndActualAmountsList
-            self.budgetType = budgetType
-            self.budgetName = budgetName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case costTypes = "CostTypes"
-            case timeUnit = "TimeUnit"
-            case costFilters = "CostFilters"
-            case budgetedAndActualAmountsList = "BudgetedAndActualAmountsList"
-            case budgetType = "BudgetType"
-            case budgetName = "BudgetName"
-        }
-    }
-
-    public struct CostTypes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IncludeOtherSubscription", required: false, type: .boolean), 
-            AWSShapeMember(label: "UseAmortized", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludeSupport", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludeCredit", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludeUpfront", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludeRefund", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludeTax", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludeRecurring", required: false, type: .boolean), 
-            AWSShapeMember(label: "UseBlended", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludeDiscount", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludeSubscription", required: false, type: .boolean)
-        ]
-        /// Specifies whether a budget includes non-RI subscription costs. The default value is true.
-        public let includeOtherSubscription: Bool?
-        /// Specifies whether a budget uses the amortized rate. The default value is false.
-        public let useAmortized: Bool?
-        /// Specifies whether a budget includes support subscription fees. The default value is true.
-        public let includeSupport: Bool?
-        /// Specifies whether a budget includes credits. The default value is true.
-        public let includeCredit: Bool?
-        /// Specifies whether a budget includes upfront RI costs. The default value is true.
-        public let includeUpfront: Bool?
-        /// Specifies whether a budget includes refunds. The default value is true.
-        public let includeRefund: Bool?
-        /// Specifies whether a budget includes taxes. The default value is true.
-        public let includeTax: Bool?
-        /// Specifies whether a budget includes recurring fees such as monthly RI fees. The default value is true.
-        public let includeRecurring: Bool?
-        /// Specifies whether a budget uses a blended rate. The default value is false.
-        public let useBlended: Bool?
-        /// Specifies whether a budget includes discounts. The default value is true.
-        public let includeDiscount: Bool?
-        /// Specifies whether a budget includes subscriptions. The default value is true.
-        public let includeSubscription: Bool?
-
-        public init(includeOtherSubscription: Bool? = nil, useAmortized: Bool? = nil, includeSupport: Bool? = nil, includeCredit: Bool? = nil, includeUpfront: Bool? = nil, includeRefund: Bool? = nil, includeTax: Bool? = nil, includeRecurring: Bool? = nil, useBlended: Bool? = nil, includeDiscount: Bool? = nil, includeSubscription: Bool? = nil) {
-            self.includeOtherSubscription = includeOtherSubscription
-            self.useAmortized = useAmortized
-            self.includeSupport = includeSupport
-            self.includeCredit = includeCredit
-            self.includeUpfront = includeUpfront
-            self.includeRefund = includeRefund
-            self.includeTax = includeTax
-            self.includeRecurring = includeRecurring
-            self.useBlended = useBlended
-            self.includeDiscount = includeDiscount
-            self.includeSubscription = includeSubscription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case includeOtherSubscription = "IncludeOtherSubscription"
-            case useAmortized = "UseAmortized"
-            case includeSupport = "IncludeSupport"
-            case includeCredit = "IncludeCredit"
-            case includeUpfront = "IncludeUpfront"
-            case includeRefund = "IncludeRefund"
-            case includeTax = "IncludeTax"
-            case includeRecurring = "IncludeRecurring"
-            case useBlended = "UseBlended"
-            case includeDiscount = "IncludeDiscount"
-            case includeSubscription = "IncludeSubscription"
-        }
-    }
-
-    public struct CalculatedSpend: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActualSpend", required: true, type: .structure), 
-            AWSShapeMember(label: "ForecastedSpend", required: false, type: .structure)
-        ]
-        /// The amount of cost, usage, or RI units that you have used.
-        public let actualSpend: Spend
-        /// The amount of cost, usage, or RI units that you are forecasted to use.
-        public let forecastedSpend: Spend?
-
-        public init(actualSpend: Spend, forecastedSpend: Spend? = nil) {
-            self.actualSpend = actualSpend
-            self.forecastedSpend = forecastedSpend
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case actualSpend = "ActualSpend"
-            case forecastedSpend = "ForecastedSpend"
-        }
-    }
-
-    public struct DescribeSubscribersForNotificationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Subscribers", required: false, type: .list)
-        ]
-        /// The pagination token in the service response that indicates the next set of results that you can retrieve.
-        public let nextToken: String?
-        /// A list of subscribers that are associated with a notification.
-        public let subscribers: [Subscriber]?
-
-        public init(nextToken: String? = nil, subscribers: [Subscriber]? = nil) {
-            self.nextToken = nextToken
-            self.subscribers = subscribers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case subscribers = "Subscribers"
-        }
-    }
-
-    public struct DescribeBudgetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Budgets", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of budgets.
-        public let budgets: [Budget]?
-        /// The pagination token in the service response that indicates the next set of results that you can retrieve.
-        public let nextToken: String?
-
-        public init(budgets: [Budget]? = nil, nextToken: String? = nil) {
-            self.budgets = budgets
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case budgets = "Budgets"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeleteBudgetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: true, type: .string), 
-            AWSShapeMember(label: "BudgetName", required: true, type: .string)
-        ]
-        /// The accountId that is associated with the budget that you want to delete.
-        public let accountId: String
-        /// The name of the budget that you want to delete.
-        public let budgetName: String
-
-        public init(accountId: String, budgetName: String) {
-            self.accountId = accountId
-            self.budgetName = budgetName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "AccountId"
-            case budgetName = "BudgetName"
-        }
-    }
-
-    public struct Spend: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Amount", required: true, type: .string), 
-            AWSShapeMember(label: "Unit", required: true, type: .string)
-        ]
-        /// The cost or usage amount that is associated with a budget forecast, actual spend, or budget threshold.
-        public let amount: String
-        /// The unit of measurement that is used for the budget forecast, actual spend, or budget threshold, such as dollars or GB.
-        public let unit: String
-
-        public init(amount: String, unit: String) {
-            self.amount = amount
-            self.unit = unit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case amount = "Amount"
-            case unit = "Unit"
-        }
-    }
-
-    public struct DeleteNotificationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Notification", required: true, type: .structure), 
-            AWSShapeMember(label: "AccountId", required: true, type: .string), 
-            AWSShapeMember(label: "BudgetName", required: true, type: .string)
-        ]
-        /// The notification that you want to delete.
-        public let notification: Notification
-        /// The accountId that is associated with the budget whose notification you want to delete.
-        public let accountId: String
-        /// The name of the budget whose notification you want to delete.
-        public let budgetName: String
-
-        public init(notification: Notification, accountId: String, budgetName: String) {
-            self.notification = notification
-            self.accountId = accountId
-            self.budgetName = budgetName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notification = "Notification"
-            case accountId = "AccountId"
-            case budgetName = "BudgetName"
-        }
-    }
-
-    public struct DeleteSubscriberRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subscriber", required: true, type: .structure), 
-            AWSShapeMember(label: "Notification", required: true, type: .structure), 
-            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
-            AWSShapeMember(label: "AccountId", required: true, type: .string)
-        ]
-        /// The subscriber that you want to delete.
-        public let subscriber: Subscriber
-        /// The notification whose subscriber you want to delete.
-        public let notification: Notification
-        /// The name of the budget whose subscriber you want to delete.
-        public let budgetName: String
-        /// The accountId that is associated with the budget whose subscriber you want to delete.
-        public let accountId: String
-
-        public init(subscriber: Subscriber, notification: Notification, budgetName: String, accountId: String) {
-            self.subscriber = subscriber
-            self.notification = notification
-            self.budgetName = budgetName
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subscriber = "Subscriber"
-            case notification = "Notification"
-            case budgetName = "BudgetName"
-            case accountId = "AccountId"
-        }
-    }
-
-    public struct UpdateBudgetResponse: AWSShape {
-
-    }
-
-    public struct Notification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
-            AWSShapeMember(label: "Threshold", required: true, type: .double), 
-            AWSShapeMember(label: "NotificationType", required: true, type: .enum), 
-            AWSShapeMember(label: "NotificationState", required: false, type: .enum), 
-            AWSShapeMember(label: "ThresholdType", required: false, type: .enum)
-        ]
-        /// The comparison that is used for this notification.
-        public let comparisonOperator: ComparisonOperator
-        /// The threshold that is associated with a notification. Thresholds are always a percentage.
-        public let threshold: Double
-        /// Whether the notification is for how much you have spent (ACTUAL) or for how much you're forecasted to spend (FORECASTED).
-        public let notificationType: NotificationType
-        /// Whether this notification is in alarm. If a budget notification is in the ALARM state, you have passed the set threshold for the budget.
-        public let notificationState: NotificationState?
-        /// The type of threshold for a notification. For ABSOLUTE_VALUE thresholds, AWS notifies you when you go over or are forecasted to go over your total cost threshold. For PERCENTAGE thresholds, AWS notifies you when you go over or are forecasted to go over a certain percentage of your forecasted spend. For example, if you have a budget for 200 dollars and you have a PERCENTAGE threshold of 80%, AWS notifies you when you go over 160 dollars.
-        public let thresholdType: ThresholdType?
-
-        public init(comparisonOperator: ComparisonOperator, threshold: Double, notificationType: NotificationType, notificationState: NotificationState? = nil, thresholdType: ThresholdType? = nil) {
-            self.comparisonOperator = comparisonOperator
-            self.threshold = threshold
-            self.notificationType = notificationType
-            self.notificationState = notificationState
-            self.thresholdType = thresholdType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case comparisonOperator = "ComparisonOperator"
-            case threshold = "Threshold"
-            case notificationType = "NotificationType"
-            case notificationState = "NotificationState"
-            case thresholdType = "ThresholdType"
-        }
-    }
-
-    public struct CreateBudgetResponse: AWSShape {
-
-    }
-
-    public enum SubscriptionType: String, CustomStringConvertible, Codable {
-        case sns = "SNS"
-        case email = "EMAIL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteSubscriberResponse: AWSShape {
-
-    }
-
-    public struct DescribeNotificationsForBudgetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Notifications", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of notifications that are associated with a budget.
-        public let notifications: [Notification]?
-        /// The pagination token in the service response that indicates the next set of results that you can retrieve.
-        public let nextToken: String?
-
-        public init(notifications: [Notification]? = nil, nextToken: String? = nil) {
-            self.notifications = notifications
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notifications = "Notifications"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct UpdateSubscriberResponse: AWSShape {
-
-    }
-
-    public struct CreateNotificationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subscribers", required: true, type: .list), 
-            AWSShapeMember(label: "Notification", required: true, type: .structure), 
-            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
-            AWSShapeMember(label: "AccountId", required: true, type: .string)
-        ]
-        /// A list of subscribers that you want to associate with the notification. Each notification can have one SNS subscriber and up to 10 email subscribers.
-        public let subscribers: [Subscriber]
-        /// The notification that you want to create.
-        public let notification: Notification
-        /// The name of the budget that you want AWS to notify you about. Budget names must be unique within an account.
-        public let budgetName: String
-        /// The accountId that is associated with the budget that you want to create a notification for.
-        public let accountId: String
-
-        public init(subscribers: [Subscriber], notification: Notification, budgetName: String, accountId: String) {
-            self.subscribers = subscribers
-            self.notification = notification
-            self.budgetName = budgetName
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subscribers = "Subscribers"
-            case notification = "Notification"
-            case budgetName = "BudgetName"
-            case accountId = "AccountId"
-        }
-    }
-
-    public enum BudgetType: String, CustomStringConvertible, Codable {
-        case usage = "USAGE"
-        case cost = "COST"
-        case riUtilization = "RI_UTILIZATION"
-        case riCoverage = "RI_COVERAGE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeNotificationsForBudgetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
-            AWSShapeMember(label: "AccountId", required: true, type: .string)
-        ]
-        /// The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
-        public let nextToken: String?
-        /// An optional integer that represents how many entries a paginated response contains. The maximum is 100.
-        public let maxResults: Int32?
-        /// The name of the budget whose notifications you want descriptions of.
-        public let budgetName: String
-        /// The accountId that is associated with the budget whose notifications you want descriptions of.
-        public let accountId: String
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, budgetName: String, accountId: String) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.budgetName = budgetName
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case budgetName = "BudgetName"
-            case accountId = "AccountId"
-        }
-    }
-
-    public struct UpdateSubscriberRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: true, type: .string), 
-            AWSShapeMember(label: "NewSubscriber", required: true, type: .structure), 
-            AWSShapeMember(label: "Notification", required: true, type: .structure), 
-            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
-            AWSShapeMember(label: "OldSubscriber", required: true, type: .structure)
-        ]
-        /// The accountId that is associated with the budget whose subscriber you want to update.
-        public let accountId: String
-        /// The updated subscriber that is associated with a budget notification.
-        public let newSubscriber: Subscriber
-        /// The notification whose subscriber you want to update.
-        public let notification: Notification
-        /// The name of the budget whose subscriber you want to update.
-        public let budgetName: String
-        /// The previous subscriber that is associated with a budget notification.
-        public let oldSubscriber: Subscriber
-
-        public init(accountId: String, newSubscriber: Subscriber, notification: Notification, budgetName: String, oldSubscriber: Subscriber) {
-            self.accountId = accountId
-            self.newSubscriber = newSubscriber
-            self.notification = notification
-            self.budgetName = budgetName
-            self.oldSubscriber = oldSubscriber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "AccountId"
-            case newSubscriber = "NewSubscriber"
-            case notification = "Notification"
-            case budgetName = "BudgetName"
-            case oldSubscriber = "OldSubscriber"
-        }
-    }
-
-    public struct UpdateNotificationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NewNotification", required: true, type: .structure), 
-            AWSShapeMember(label: "AccountId", required: true, type: .string), 
-            AWSShapeMember(label: "OldNotification", required: true, type: .structure), 
-            AWSShapeMember(label: "BudgetName", required: true, type: .string)
-        ]
-        /// The updated notification to be associated with a budget.
-        public let newNotification: Notification
-        /// The accountId that is associated with the budget whose notification you want to update.
-        public let accountId: String
-        /// The previous notification that is associated with a budget.
-        public let oldNotification: Notification
-        /// The name of the budget whose notification you want to update.
-        public let budgetName: String
-
-        public init(newNotification: Notification, accountId: String, oldNotification: Notification, budgetName: String) {
-            self.newNotification = newNotification
-            self.accountId = accountId
-            self.oldNotification = oldNotification
-            self.budgetName = budgetName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case newNotification = "NewNotification"
-            case accountId = "AccountId"
-            case oldNotification = "OldNotification"
-            case budgetName = "BudgetName"
-        }
-    }
-
-    public struct NotificationWithSubscribers: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Notification", required: true, type: .structure), 
-            AWSShapeMember(label: "Subscribers", required: true, type: .list)
-        ]
-        /// The notification that is associated with a budget.
-        public let notification: Notification
-        /// A list of subscribers who are subscribed to this notification.
-        public let subscribers: [Subscriber]
-
-        public init(notification: Notification, subscribers: [Subscriber]) {
-            self.notification = notification
-            self.subscribers = subscribers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notification = "Notification"
-            case subscribers = "Subscribers"
-        }
-    }
-
-    public struct DeleteBudgetResponse: AWSShape {
-
-    }
-
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
-        case greaterThan = "GREATER_THAN"
-        case lessThan = "LESS_THAN"
-        case equalTo = "EQUAL_TO"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct TimePeriod: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Start", required: false, type: .timestamp), 
-            AWSShapeMember(label: "End", required: false, type: .timestamp)
-        ]
-        /// The start date for a budget. If you created your budget and didn't specify a start date, AWS defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, or ANNUALLY). For example, if you created your budget on January 24, 2018, chose DAILY, and didn't set a start date, AWS set your start date to 01/24/18 00:00 UTC. If you chose MONTHLY, AWS set your start date to 01/01/18 00:00 UTC. The defaults are the same for the AWS Billing and Cost Management console and the API. You can change your start date with the UpdateBudget operation.
-        public let start: TimeStamp?
-        /// The end date for a budget. If you didn't specify an end date, AWS set your end date to 06/15/87 00:00 UTC. The defaults are the same for the AWS Billing and Cost Management console and the API. After the end date, AWS deletes the budget and all associated notifications and subscribers. You can change your end date with the UpdateBudget operation.
-        public let end: TimeStamp?
-
-        public init(start: TimeStamp? = nil, end: TimeStamp? = nil) {
-            self.start = start
-            self.end = end
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case start = "Start"
-            case end = "End"
-        }
-    }
-
     public struct CreateBudgetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotificationsWithSubscribers", required: false, type: .list), 
@@ -674,90 +31,314 @@ extension Budgets {
         }
     }
 
-    public struct DescribeBudgetRequest: AWSShape {
+    public struct UpdateNotificationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: true, type: .string), 
-            AWSShapeMember(label: "BudgetName", required: true, type: .string)
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "NewNotification", required: true, type: .structure), 
+            AWSShapeMember(label: "OldNotification", required: true, type: .structure), 
+            AWSShapeMember(label: "AccountId", required: true, type: .string)
         ]
-        /// The accountId that is associated with the budget that you want a description of.
-        public let accountId: String
-        /// The name of the budget that you want a description of.
+        /// The name of the budget whose notification you want to update.
         public let budgetName: String
+        /// The updated notification to be associated with a budget.
+        public let newNotification: Notification
+        /// The previous notification that is associated with a budget.
+        public let oldNotification: Notification
+        /// The accountId that is associated with the budget whose notification you want to update.
+        public let accountId: String
 
-        public init(accountId: String, budgetName: String) {
-            self.accountId = accountId
+        public init(budgetName: String, newNotification: Notification, oldNotification: Notification, accountId: String) {
             self.budgetName = budgetName
+            self.newNotification = newNotification
+            self.oldNotification = oldNotification
+            self.accountId = accountId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "AccountId"
             case budgetName = "BudgetName"
+            case newNotification = "NewNotification"
+            case oldNotification = "OldNotification"
+            case accountId = "AccountId"
         }
     }
 
-    public enum TimeUnit: String, CustomStringConvertible, Codable {
-        case daily = "DAILY"
-        case monthly = "MONTHLY"
-        case quarterly = "QUARTERLY"
-        case annually = "ANNUALLY"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct BudgetedAndActualAmounts: AWSShape {
+    public struct BudgetPerformanceHistory: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BudgetedAmount", required: false, type: .structure), 
-            AWSShapeMember(label: "ActualAmount", required: false, type: .structure), 
-            AWSShapeMember(label: "TimePeriod", required: false, type: .structure)
+            AWSShapeMember(label: "CostFilters", required: false, type: .map), 
+            AWSShapeMember(label: "BudgetName", required: false, type: .string), 
+            AWSShapeMember(label: "CostTypes", required: false, type: .structure), 
+            AWSShapeMember(label: "TimeUnit", required: false, type: .enum), 
+            AWSShapeMember(label: "BudgetType", required: false, type: .enum), 
+            AWSShapeMember(label: "BudgetedAndActualAmountsList", required: false, type: .list)
         ]
-        /// The amount of cost or usage that you created the budget for.
-        public let budgetedAmount: Spend?
-        /// Your actual costs or usage for a budget period.
-        public let actualAmount: Spend?
-        /// The time period covered by this budget comparison.
-        public let timePeriod: TimePeriod?
+        /// The history of the cost filters for a budget during the specified time period.
+        public let costFilters: [String: [String]]?
+        public let budgetName: String?
+        /// The history of the cost types for a budget during the specified time period.
+        public let costTypes: CostTypes?
+        public let timeUnit: TimeUnit?
+        public let budgetType: BudgetType?
+        /// A list of amounts of cost or usage that you created budgets for, compared to your actual costs or usage.
+        public let budgetedAndActualAmountsList: [BudgetedAndActualAmounts]?
 
-        public init(budgetedAmount: Spend? = nil, actualAmount: Spend? = nil, timePeriod: TimePeriod? = nil) {
-            self.budgetedAmount = budgetedAmount
-            self.actualAmount = actualAmount
-            self.timePeriod = timePeriod
+        public init(costFilters: [String: [String]]? = nil, budgetName: String? = nil, costTypes: CostTypes? = nil, timeUnit: TimeUnit? = nil, budgetType: BudgetType? = nil, budgetedAndActualAmountsList: [BudgetedAndActualAmounts]? = nil) {
+            self.costFilters = costFilters
+            self.budgetName = budgetName
+            self.costTypes = costTypes
+            self.timeUnit = timeUnit
+            self.budgetType = budgetType
+            self.budgetedAndActualAmountsList = budgetedAndActualAmountsList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case budgetedAmount = "BudgetedAmount"
-            case actualAmount = "ActualAmount"
-            case timePeriod = "TimePeriod"
+            case costFilters = "CostFilters"
+            case budgetName = "BudgetName"
+            case costTypes = "CostTypes"
+            case timeUnit = "TimeUnit"
+            case budgetType = "BudgetType"
+            case budgetedAndActualAmountsList = "BudgetedAndActualAmountsList"
+        }
+    }
+
+    public struct DescribeNotificationsForBudgetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AccountId", required: true, type: .string)
+        ]
+        /// An optional integer that represents how many entries a paginated response contains. The maximum is 100.
+        public let maxResults: Int32?
+        /// The name of the budget whose notifications you want descriptions of.
+        public let budgetName: String
+        /// The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
+        public let nextToken: String?
+        /// The accountId that is associated with the budget whose notifications you want descriptions of.
+        public let accountId: String
+
+        public init(maxResults: Int32? = nil, budgetName: String, nextToken: String? = nil, accountId: String) {
+            self.maxResults = maxResults
+            self.budgetName = budgetName
+            self.nextToken = nextToken
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case budgetName = "BudgetName"
+            case nextToken = "NextToken"
+            case accountId = "AccountId"
         }
     }
 
     public struct CreateSubscriberRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
             AWSShapeMember(label: "Subscriber", required: true, type: .structure), 
             AWSShapeMember(label: "Notification", required: true, type: .structure), 
-            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
             AWSShapeMember(label: "AccountId", required: true, type: .string)
         ]
+        /// The name of the budget that you want to subscribe to. Budget names must be unique within an account.
+        public let budgetName: String
         /// The subscriber that you want to associate with a budget notification.
         public let subscriber: Subscriber
         /// The notification that you want to create a subscriber for.
         public let notification: Notification
-        /// The name of the budget that you want to subscribe to. Budget names must be unique within an account.
-        public let budgetName: String
         /// The accountId that is associated with the budget that you want to create a subscriber for.
         public let accountId: String
 
-        public init(subscriber: Subscriber, notification: Notification, budgetName: String, accountId: String) {
+        public init(budgetName: String, subscriber: Subscriber, notification: Notification, accountId: String) {
+            self.budgetName = budgetName
             self.subscriber = subscriber
             self.notification = notification
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case budgetName = "BudgetName"
+            case subscriber = "Subscriber"
+            case notification = "Notification"
+            case accountId = "AccountId"
+        }
+    }
+
+    public struct UpdateNotificationResponse: AWSShape {
+
+    }
+
+    public struct DeleteBudgetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "AccountId", required: true, type: .string)
+        ]
+        /// The name of the budget that you want to delete.
+        public let budgetName: String
+        /// The accountId that is associated with the budget that you want to delete.
+        public let accountId: String
+
+        public init(budgetName: String, accountId: String) {
             self.budgetName = budgetName
             self.accountId = accountId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subscriber = "Subscriber"
-            case notification = "Notification"
             case budgetName = "BudgetName"
             case accountId = "AccountId"
         }
+    }
+
+    public struct UpdateBudgetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NewBudget", required: true, type: .structure), 
+            AWSShapeMember(label: "AccountId", required: true, type: .string)
+        ]
+        /// The budget that you want to update your budget to.
+        public let newBudget: Budget
+        /// The accountId that is associated with the budget that you want to update.
+        public let accountId: String
+
+        public init(newBudget: Budget, accountId: String) {
+            self.newBudget = newBudget
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case newBudget = "NewBudget"
+            case accountId = "AccountId"
+        }
+    }
+
+    public enum SubscriptionType: String, CustomStringConvertible, Codable {
+        case sns = "SNS"
+        case email = "EMAIL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CostTypes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IncludeOtherSubscription", required: false, type: .boolean), 
+            AWSShapeMember(label: "IncludeTax", required: false, type: .boolean), 
+            AWSShapeMember(label: "IncludeSubscription", required: false, type: .boolean), 
+            AWSShapeMember(label: "IncludeDiscount", required: false, type: .boolean), 
+            AWSShapeMember(label: "IncludeSupport", required: false, type: .boolean), 
+            AWSShapeMember(label: "UseAmortized", required: false, type: .boolean), 
+            AWSShapeMember(label: "IncludeRecurring", required: false, type: .boolean), 
+            AWSShapeMember(label: "UseBlended", required: false, type: .boolean), 
+            AWSShapeMember(label: "IncludeCredit", required: false, type: .boolean), 
+            AWSShapeMember(label: "IncludeRefund", required: false, type: .boolean), 
+            AWSShapeMember(label: "IncludeUpfront", required: false, type: .boolean)
+        ]
+        /// Specifies whether a budget includes non-RI subscription costs. The default value is true.
+        public let includeOtherSubscription: Bool?
+        /// Specifies whether a budget includes taxes. The default value is true.
+        public let includeTax: Bool?
+        /// Specifies whether a budget includes subscriptions. The default value is true.
+        public let includeSubscription: Bool?
+        /// Specifies whether a budget includes discounts. The default value is true.
+        public let includeDiscount: Bool?
+        /// Specifies whether a budget includes support subscription fees. The default value is true.
+        public let includeSupport: Bool?
+        /// Specifies whether a budget uses the amortized rate. The default value is false.
+        public let useAmortized: Bool?
+        /// Specifies whether a budget includes recurring fees such as monthly RI fees. The default value is true.
+        public let includeRecurring: Bool?
+        /// Specifies whether a budget uses a blended rate. The default value is false.
+        public let useBlended: Bool?
+        /// Specifies whether a budget includes credits. The default value is true.
+        public let includeCredit: Bool?
+        /// Specifies whether a budget includes refunds. The default value is true.
+        public let includeRefund: Bool?
+        /// Specifies whether a budget includes upfront RI costs. The default value is true.
+        public let includeUpfront: Bool?
+
+        public init(includeOtherSubscription: Bool? = nil, includeTax: Bool? = nil, includeSubscription: Bool? = nil, includeDiscount: Bool? = nil, includeSupport: Bool? = nil, useAmortized: Bool? = nil, includeRecurring: Bool? = nil, useBlended: Bool? = nil, includeCredit: Bool? = nil, includeRefund: Bool? = nil, includeUpfront: Bool? = nil) {
+            self.includeOtherSubscription = includeOtherSubscription
+            self.includeTax = includeTax
+            self.includeSubscription = includeSubscription
+            self.includeDiscount = includeDiscount
+            self.includeSupport = includeSupport
+            self.useAmortized = useAmortized
+            self.includeRecurring = includeRecurring
+            self.useBlended = useBlended
+            self.includeCredit = includeCredit
+            self.includeRefund = includeRefund
+            self.includeUpfront = includeUpfront
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeOtherSubscription = "IncludeOtherSubscription"
+            case includeTax = "IncludeTax"
+            case includeSubscription = "IncludeSubscription"
+            case includeDiscount = "IncludeDiscount"
+            case includeSupport = "IncludeSupport"
+            case useAmortized = "UseAmortized"
+            case includeRecurring = "IncludeRecurring"
+            case useBlended = "UseBlended"
+            case includeCredit = "IncludeCredit"
+            case includeRefund = "IncludeRefund"
+            case includeUpfront = "IncludeUpfront"
+        }
+    }
+
+    public struct CalculatedSpend: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ForecastedSpend", required: false, type: .structure), 
+            AWSShapeMember(label: "ActualSpend", required: true, type: .structure)
+        ]
+        /// The amount of cost, usage, or RI units that you are forecasted to use.
+        public let forecastedSpend: Spend?
+        /// The amount of cost, usage, or RI units that you have used.
+        public let actualSpend: Spend
+
+        public init(forecastedSpend: Spend? = nil, actualSpend: Spend) {
+            self.forecastedSpend = forecastedSpend
+            self.actualSpend = actualSpend
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forecastedSpend = "ForecastedSpend"
+            case actualSpend = "ActualSpend"
+        }
+    }
+
+    public struct DescribeSubscribersForNotificationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "Notification", required: true, type: .structure), 
+            AWSShapeMember(label: "AccountId", required: true, type: .string)
+        ]
+        /// The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
+        public let nextToken: String?
+        /// The name of the budget whose subscribers you want descriptions of.
+        public let budgetName: String
+        /// An optional integer that represents how many entries a paginated response contains. The maximum is 100.
+        public let maxResults: Int32?
+        /// The notification whose subscribers you want to list.
+        public let notification: Notification
+        /// The accountId that is associated with the budget whose subscribers you want descriptions of.
+        public let accountId: String
+
+        public init(nextToken: String? = nil, budgetName: String, maxResults: Int32? = nil, notification: Notification, accountId: String) {
+            self.nextToken = nextToken
+            self.budgetName = budgetName
+            self.maxResults = maxResults
+            self.notification = notification
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case budgetName = "BudgetName"
+            case maxResults = "MaxResults"
+            case notification = "Notification"
+            case accountId = "AccountId"
+        }
+    }
+
+    public struct CreateSubscriberResponse: AWSShape {
+
     }
 
     public enum ThresholdType: String, CustomStringConvertible, Codable {
@@ -766,68 +347,177 @@ extension Budgets {
         public var description: String { return self.rawValue }
     }
 
-    public struct CreateSubscriberResponse: AWSShape {
-
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
+        case greaterThan = "GREATER_THAN"
+        case lessThan = "LESS_THAN"
+        case equalTo = "EQUAL_TO"
+        public var description: String { return self.rawValue }
     }
 
-    public struct DescribeSubscribersForNotificationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "AccountId", required: true, type: .string), 
-            AWSShapeMember(label: "Notification", required: true, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "BudgetName", required: true, type: .string)
-        ]
-        /// The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
-        public let nextToken: String?
-        /// The accountId that is associated with the budget whose subscribers you want descriptions of.
-        public let accountId: String
-        /// The notification whose subscribers you want to list.
-        public let notification: Notification
-        /// An optional integer that represents how many entries a paginated response contains. The maximum is 100.
-        public let maxResults: Int32?
-        /// The name of the budget whose subscribers you want descriptions of.
-        public let budgetName: String
+    public struct DeleteSubscriberResponse: AWSShape {
 
-        public init(nextToken: String? = nil, accountId: String, notification: Notification, maxResults: Int32? = nil, budgetName: String) {
-            self.nextToken = nextToken
-            self.accountId = accountId
-            self.notification = notification
-            self.maxResults = maxResults
-            self.budgetName = budgetName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case accountId = "AccountId"
-            case notification = "Notification"
-            case maxResults = "MaxResults"
-            case budgetName = "BudgetName"
-        }
     }
 
     public struct CreateNotificationResponse: AWSShape {
 
     }
 
-    public struct Subscriber: AWSShape {
+    public struct Budget: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Address", required: true, type: .string), 
-            AWSShapeMember(label: "SubscriptionType", required: true, type: .enum)
+            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "BudgetLimit", required: false, type: .structure), 
+            AWSShapeMember(label: "BudgetType", required: true, type: .enum), 
+            AWSShapeMember(label: "TimeUnit", required: true, type: .enum), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "CostFilters", required: false, type: .map), 
+            AWSShapeMember(label: "CostTypes", required: false, type: .structure), 
+            AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
+            AWSShapeMember(label: "CalculatedSpend", required: false, type: .structure)
         ]
-        /// The address that AWS sends budget notifications to, either an SNS topic or an email.
-        public let address: String
-        /// The type of notification that AWS sends to a subscriber.
-        public let subscriptionType: SubscriptionType
+        /// The last time that you updated this budget.
+        public let lastUpdatedTime: TimeStamp?
+        /// The total amount of cost, usage, RI utilization, or RI coverage that you want to track with your budget.  BudgetLimit is required for cost or usage budgets, but optional for RI utilization or coverage budgets. RI utilization or coverage budgets default to 100, which is the only valid value for RI utilization or coverage budgets.
+        public let budgetLimit: Spend?
+        /// Whether this budget tracks monetary costs, usage, RI utilization, or RI coverage.
+        public let budgetType: BudgetType
+        /// The length of time until a budget resets the actual and forecasted spend. DAILY is available only for RI_UTILIZATION and RI_COVERAGE budgets.
+        public let timeUnit: TimeUnit
+        /// The name of a budget. The name must be unique within accounts. The : and \ characters aren't allowed in BudgetName.
+        public let budgetName: String
+        /// The cost filters, such as service or region, that are applied to a budget. AWS Budgets supports the following services as a filter for RI budgets:   Amazon Elastic Compute Cloud - Compute   Amazon Redshift   Amazon Relational Database Service   Amazon ElastiCache   Amazon Elasticsearch Service  
+        public let costFilters: [String: [String]]?
+        /// The types of costs that are included in this COST budget.  USAGE, RI_UTILIZATION, and RI_COVERAGE budgets do not have CostTypes.
+        public let costTypes: CostTypes?
+        /// The period of time that is covered by a budget. The period has a start date and an end date. The start date must come before the end date. The end date must come before 06/15/87 00:00 UTC.  If you create your budget and don't specify a start date, AWS defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, or ANNUALLY). For example, if you created your budget on January 24, 2018, chose DAILY, and didn't set a start date, AWS set your start date to 01/24/18 00:00 UTC. If you chose MONTHLY, AWS set your start date to 01/01/18 00:00 UTC. If you didn't specify an end date, AWS set your end date to 06/15/87 00:00 UTC. The defaults are the same for the AWS Billing and Cost Management console and the API.  You can change either date with the UpdateBudget operation. After the end date, AWS deletes the budget and all associated notifications and subscribers.
+        public let timePeriod: TimePeriod?
+        /// The actual and forecasted cost or usage that the budget tracks.
+        public let calculatedSpend: CalculatedSpend?
 
-        public init(address: String, subscriptionType: SubscriptionType) {
-            self.address = address
-            self.subscriptionType = subscriptionType
+        public init(lastUpdatedTime: TimeStamp? = nil, budgetLimit: Spend? = nil, budgetType: BudgetType, timeUnit: TimeUnit, budgetName: String, costFilters: [String: [String]]? = nil, costTypes: CostTypes? = nil, timePeriod: TimePeriod? = nil, calculatedSpend: CalculatedSpend? = nil) {
+            self.lastUpdatedTime = lastUpdatedTime
+            self.budgetLimit = budgetLimit
+            self.budgetType = budgetType
+            self.timeUnit = timeUnit
+            self.budgetName = budgetName
+            self.costFilters = costFilters
+            self.costTypes = costTypes
+            self.timePeriod = timePeriod
+            self.calculatedSpend = calculatedSpend
         }
 
         private enum CodingKeys: String, CodingKey {
-            case address = "Address"
-            case subscriptionType = "SubscriptionType"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case budgetLimit = "BudgetLimit"
+            case budgetType = "BudgetType"
+            case timeUnit = "TimeUnit"
+            case budgetName = "BudgetName"
+            case costFilters = "CostFilters"
+            case costTypes = "CostTypes"
+            case timePeriod = "TimePeriod"
+            case calculatedSpend = "CalculatedSpend"
+        }
+    }
+
+    public struct DescribeBudgetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Budget", required: false, type: .structure)
+        ]
+        /// The description of the budget.
+        public let budget: Budget?
+
+        public init(budget: Budget? = nil) {
+            self.budget = budget
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case budget = "Budget"
+        }
+    }
+
+    public struct CreateBudgetResponse: AWSShape {
+
+    }
+
+    public struct DeleteNotificationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "Notification", required: true, type: .structure)
+        ]
+        /// The name of the budget whose notification you want to delete.
+        public let budgetName: String
+        /// The accountId that is associated with the budget whose notification you want to delete.
+        public let accountId: String
+        /// The notification that you want to delete.
+        public let notification: Notification
+
+        public init(budgetName: String, accountId: String, notification: Notification) {
+            self.budgetName = budgetName
+            self.accountId = accountId
+            self.notification = notification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case budgetName = "BudgetName"
+            case accountId = "AccountId"
+            case notification = "Notification"
+        }
+    }
+
+    public struct DescribeBudgetPerformanceHistoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
+            AWSShapeMember(label: "AccountId", required: true, type: .string)
+        ]
+        public let nextToken: String?
+        public let budgetName: String
+        public let maxResults: Int32?
+        /// Retrieves how often the budget went into an ALARM state for the specified time period.
+        public let timePeriod: TimePeriod?
+        public let accountId: String
+
+        public init(nextToken: String? = nil, budgetName: String, maxResults: Int32? = nil, timePeriod: TimePeriod? = nil, accountId: String) {
+            self.nextToken = nextToken
+            self.budgetName = budgetName
+            self.maxResults = maxResults
+            self.timePeriod = timePeriod
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case budgetName = "BudgetName"
+            case maxResults = "MaxResults"
+            case timePeriod = "TimePeriod"
+            case accountId = "AccountId"
+        }
+    }
+
+    public struct DeleteNotificationResponse: AWSShape {
+
+    }
+
+    public struct NotificationWithSubscribers: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subscribers", required: true, type: .list), 
+            AWSShapeMember(label: "Notification", required: true, type: .structure)
+        ]
+        /// A list of subscribers who are subscribed to this notification.
+        public let subscribers: [Subscriber]
+        /// The notification that is associated with a budget.
+        public let notification: Notification
+
+        public init(subscribers: [Subscriber], notification: Notification) {
+            self.subscribers = subscribers
+            self.notification = notification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscribers = "Subscribers"
+            case notification = "Notification"
         }
     }
 
@@ -851,66 +541,376 @@ extension Budgets {
         }
     }
 
-    public struct DescribeBudgetsRequest: AWSShape {
+    public struct DescribeBudgetsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "Budgets", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The accountId that is associated with the budgets that you want descriptions of.
-        public let accountId: String
-        /// An optional integer that represents how many entries a paginated response contains. The maximum is 100.
-        public let maxResults: Int32?
-        /// The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
+        /// A list of budgets.
+        public let budgets: [Budget]?
+        /// The pagination token in the service response that indicates the next set of results that you can retrieve.
         public let nextToken: String?
 
-        public init(accountId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.accountId = accountId
-            self.maxResults = maxResults
+        public init(budgets: [Budget]? = nil, nextToken: String? = nil) {
+            self.budgets = budgets
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "AccountId"
-            case maxResults = "MaxResults"
+            case budgets = "Budgets"
             case nextToken = "NextToken"
         }
     }
 
-    public struct DescribeBudgetResponse: AWSShape {
+    public struct DescribeBudgetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Budget", required: false, type: .structure)
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "AccountId", required: true, type: .string)
         ]
-        /// The description of the budget.
-        public let budget: Budget?
+        /// The name of the budget that you want a description of.
+        public let budgetName: String
+        /// The accountId that is associated with the budget that you want a description of.
+        public let accountId: String
 
-        public init(budget: Budget? = nil) {
-            self.budget = budget
+        public init(budgetName: String, accountId: String) {
+            self.budgetName = budgetName
+            self.accountId = accountId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case budget = "Budget"
+            case budgetName = "BudgetName"
+            case accountId = "AccountId"
         }
     }
 
-    public struct UpdateBudgetRequest: AWSShape {
+    public struct DeleteSubscriberRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: true, type: .string), 
-            AWSShapeMember(label: "NewBudget", required: true, type: .structure)
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "Subscriber", required: true, type: .structure), 
+            AWSShapeMember(label: "Notification", required: true, type: .structure), 
+            AWSShapeMember(label: "AccountId", required: true, type: .string)
         ]
-        /// The accountId that is associated with the budget that you want to update.
+        /// The name of the budget whose subscriber you want to delete.
+        public let budgetName: String
+        /// The subscriber that you want to delete.
+        public let subscriber: Subscriber
+        /// The notification whose subscriber you want to delete.
+        public let notification: Notification
+        /// The accountId that is associated with the budget whose subscriber you want to delete.
         public let accountId: String
-        /// The budget that you want to update your budget to.
-        public let newBudget: Budget
 
-        public init(accountId: String, newBudget: Budget) {
+        public init(budgetName: String, subscriber: Subscriber, notification: Notification, accountId: String) {
+            self.budgetName = budgetName
+            self.subscriber = subscriber
+            self.notification = notification
             self.accountId = accountId
-            self.newBudget = newBudget
         }
 
         private enum CodingKeys: String, CodingKey {
+            case budgetName = "BudgetName"
+            case subscriber = "Subscriber"
+            case notification = "Notification"
             case accountId = "AccountId"
-            case newBudget = "NewBudget"
+        }
+    }
+
+    public struct DescribeNotificationsForBudgetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Notifications", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of notifications that are associated with a budget.
+        public let notifications: [Notification]?
+        /// The pagination token in the service response that indicates the next set of results that you can retrieve.
+        public let nextToken: String?
+
+        public init(notifications: [Notification]? = nil, nextToken: String? = nil) {
+            self.notifications = notifications
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notifications = "Notifications"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct Subscriber: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Address", required: true, type: .string), 
+            AWSShapeMember(label: "SubscriptionType", required: true, type: .enum)
+        ]
+        /// The address that AWS sends budget notifications to, either an SNS topic or an email.
+        public let address: String
+        /// The type of notification that AWS sends to a subscriber.
+        public let subscriptionType: SubscriptionType
+
+        public init(address: String, subscriptionType: SubscriptionType) {
+            self.address = address
+            self.subscriptionType = subscriptionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case subscriptionType = "SubscriptionType"
+        }
+    }
+
+    public struct Spend: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Unit", required: true, type: .string), 
+            AWSShapeMember(label: "Amount", required: true, type: .string)
+        ]
+        /// The unit of measurement that is used for the budget forecast, actual spend, or budget threshold, such as dollars or GB.
+        public let unit: String
+        /// The cost or usage amount that is associated with a budget forecast, actual spend, or budget threshold.
+        public let amount: String
+
+        public init(unit: String, amount: String) {
+            self.unit = unit
+            self.amount = amount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unit = "Unit"
+            case amount = "Amount"
+        }
+    }
+
+    public struct UpdateSubscriberResponse: AWSShape {
+
+    }
+
+    public struct UpdateBudgetResponse: AWSShape {
+
+    }
+
+    public struct BudgetedAndActualAmounts: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
+            AWSShapeMember(label: "BudgetedAmount", required: false, type: .structure), 
+            AWSShapeMember(label: "ActualAmount", required: false, type: .structure)
+        ]
+        /// The time period covered by this budget comparison.
+        public let timePeriod: TimePeriod?
+        /// The amount of cost or usage that you created the budget for.
+        public let budgetedAmount: Spend?
+        /// Your actual costs or usage for a budget period.
+        public let actualAmount: Spend?
+
+        public init(timePeriod: TimePeriod? = nil, budgetedAmount: Spend? = nil, actualAmount: Spend? = nil) {
+            self.timePeriod = timePeriod
+            self.budgetedAmount = budgetedAmount
+            self.actualAmount = actualAmount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timePeriod = "TimePeriod"
+            case budgetedAmount = "BudgetedAmount"
+            case actualAmount = "ActualAmount"
+        }
+    }
+
+    public enum BudgetType: String, CustomStringConvertible, Codable {
+        case usage = "USAGE"
+        case cost = "COST"
+        case riUtilization = "RI_UTILIZATION"
+        case riCoverage = "RI_COVERAGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotificationState: String, CustomStringConvertible, Codable {
+        case ok = "OK"
+        case alarm = "ALARM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotificationType: String, CustomStringConvertible, Codable {
+        case actual = "ACTUAL"
+        case forecasted = "FORECASTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateSubscriberRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "OldSubscriber", required: true, type: .structure), 
+            AWSShapeMember(label: "NewSubscriber", required: true, type: .structure), 
+            AWSShapeMember(label: "Notification", required: true, type: .structure), 
+            AWSShapeMember(label: "AccountId", required: true, type: .string)
+        ]
+        /// The name of the budget whose subscriber you want to update.
+        public let budgetName: String
+        /// The previous subscriber that is associated with a budget notification.
+        public let oldSubscriber: Subscriber
+        /// The updated subscriber that is associated with a budget notification.
+        public let newSubscriber: Subscriber
+        /// The notification whose subscriber you want to update.
+        public let notification: Notification
+        /// The accountId that is associated with the budget whose subscriber you want to update.
+        public let accountId: String
+
+        public init(budgetName: String, oldSubscriber: Subscriber, newSubscriber: Subscriber, notification: Notification, accountId: String) {
+            self.budgetName = budgetName
+            self.oldSubscriber = oldSubscriber
+            self.newSubscriber = newSubscriber
+            self.notification = notification
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case budgetName = "BudgetName"
+            case oldSubscriber = "OldSubscriber"
+            case newSubscriber = "NewSubscriber"
+            case notification = "Notification"
+            case accountId = "AccountId"
+        }
+    }
+
+    public enum TimeUnit: String, CustomStringConvertible, Codable {
+        case daily = "DAILY"
+        case monthly = "MONTHLY"
+        case quarterly = "QUARTERLY"
+        case annually = "ANNUALLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TimePeriod: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "End", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Start", required: false, type: .timestamp)
+        ]
+        /// The end date for a budget. If you didn't specify an end date, AWS set your end date to 06/15/87 00:00 UTC. The defaults are the same for the AWS Billing and Cost Management console and the API. After the end date, AWS deletes the budget and all associated notifications and subscribers. You can change your end date with the UpdateBudget operation.
+        public let end: TimeStamp?
+        /// The start date for a budget. If you created your budget and didn't specify a start date, AWS defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, or ANNUALLY). For example, if you created your budget on January 24, 2018, chose DAILY, and didn't set a start date, AWS set your start date to 01/24/18 00:00 UTC. If you chose MONTHLY, AWS set your start date to 01/01/18 00:00 UTC. The defaults are the same for the AWS Billing and Cost Management console and the API. You can change your start date with the UpdateBudget operation.
+        public let start: TimeStamp?
+
+        public init(end: TimeStamp? = nil, start: TimeStamp? = nil) {
+            self.end = end
+            self.start = start
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case end = "End"
+            case start = "Start"
+        }
+    }
+
+    public struct DescribeSubscribersForNotificationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subscribers", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of subscribers that are associated with a notification.
+        public let subscribers: [Subscriber]?
+        /// The pagination token in the service response that indicates the next set of results that you can retrieve.
+        public let nextToken: String?
+
+        public init(subscribers: [Subscriber]? = nil, nextToken: String? = nil) {
+            self.subscribers = subscribers
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscribers = "Subscribers"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DeleteBudgetResponse: AWSShape {
+
+    }
+
+    public struct DescribeBudgetsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// An optional integer that represents how many entries a paginated response contains. The maximum is 100.
+        public let maxResults: Int32?
+        /// The accountId that is associated with the budgets that you want descriptions of.
+        public let accountId: String
+        /// The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, accountId: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.accountId = accountId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case accountId = "AccountId"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct Notification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
+            AWSShapeMember(label: "ThresholdType", required: false, type: .enum), 
+            AWSShapeMember(label: "NotificationType", required: true, type: .enum), 
+            AWSShapeMember(label: "Threshold", required: true, type: .double), 
+            AWSShapeMember(label: "NotificationState", required: false, type: .enum)
+        ]
+        /// The comparison that is used for this notification.
+        public let comparisonOperator: ComparisonOperator
+        /// The type of threshold for a notification. For ABSOLUTE_VALUE thresholds, AWS notifies you when you go over or are forecasted to go over your total cost threshold. For PERCENTAGE thresholds, AWS notifies you when you go over or are forecasted to go over a certain percentage of your forecasted spend. For example, if you have a budget for 200 dollars and you have a PERCENTAGE threshold of 80%, AWS notifies you when you go over 160 dollars.
+        public let thresholdType: ThresholdType?
+        /// Whether the notification is for how much you have spent (ACTUAL) or for how much you're forecasted to spend (FORECASTED).
+        public let notificationType: NotificationType
+        /// The threshold that is associated with a notification. Thresholds are always a percentage.
+        public let threshold: Double
+        /// Whether this notification is in alarm. If a budget notification is in the ALARM state, you have passed the set threshold for the budget.
+        public let notificationState: NotificationState?
+
+        public init(comparisonOperator: ComparisonOperator, thresholdType: ThresholdType? = nil, notificationType: NotificationType, threshold: Double, notificationState: NotificationState? = nil) {
+            self.comparisonOperator = comparisonOperator
+            self.thresholdType = thresholdType
+            self.notificationType = notificationType
+            self.threshold = threshold
+            self.notificationState = notificationState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonOperator = "ComparisonOperator"
+            case thresholdType = "ThresholdType"
+            case notificationType = "NotificationType"
+            case threshold = "Threshold"
+            case notificationState = "NotificationState"
+        }
+    }
+
+    public struct CreateNotificationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "Subscribers", required: true, type: .list), 
+            AWSShapeMember(label: "Notification", required: true, type: .structure), 
+            AWSShapeMember(label: "AccountId", required: true, type: .string)
+        ]
+        /// The name of the budget that you want AWS to notify you about. Budget names must be unique within an account.
+        public let budgetName: String
+        /// A list of subscribers that you want to associate with the notification. Each notification can have one SNS subscriber and up to 10 email subscribers.
+        public let subscribers: [Subscriber]
+        /// The notification that you want to create.
+        public let notification: Notification
+        /// The accountId that is associated with the budget that you want to create a notification for.
+        public let accountId: String
+
+        public init(budgetName: String, subscribers: [Subscriber], notification: Notification, accountId: String) {
+            self.budgetName = budgetName
+            self.subscribers = subscribers
+            self.notification = notification
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case budgetName = "BudgetName"
+            case subscribers = "Subscribers"
+            case notification = "Notification"
+            case accountId = "AccountId"
         }
     }
 

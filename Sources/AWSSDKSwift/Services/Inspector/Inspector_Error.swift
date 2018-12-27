@@ -8,13 +8,13 @@ public enum InspectorErrorType: AWSErrorType {
     case invalidInputException(message: String?)
     case accessDeniedException(message: String?)
     case noSuchEntityException(message: String?)
-    case invalidCrossAccountRoleException(message: String?)
-    case serviceTemporarilyUnavailableException(message: String?)
     case limitExceededException(message: String?)
+    case serviceTemporarilyUnavailableException(message: String?)
+    case invalidCrossAccountRoleException(message: String?)
+    case agentsAlreadyRunningAssessmentException(message: String?)
     case assessmentRunInProgressException(message: String?)
     case unsupportedFeatureException(message: String?)
     case previewGenerationInProgressException(message: String?)
-    case agentsAlreadyRunningAssessmentException(message: String?)
 }
 
 extension InspectorErrorType {
@@ -32,20 +32,20 @@ extension InspectorErrorType {
             self = .accessDeniedException(message: message)
         case "NoSuchEntityException":
             self = .noSuchEntityException(message: message)
-        case "InvalidCrossAccountRoleException":
-            self = .invalidCrossAccountRoleException(message: message)
-        case "ServiceTemporarilyUnavailableException":
-            self = .serviceTemporarilyUnavailableException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "ServiceTemporarilyUnavailableException":
+            self = .serviceTemporarilyUnavailableException(message: message)
+        case "InvalidCrossAccountRoleException":
+            self = .invalidCrossAccountRoleException(message: message)
+        case "AgentsAlreadyRunningAssessmentException":
+            self = .agentsAlreadyRunningAssessmentException(message: message)
         case "AssessmentRunInProgressException":
             self = .assessmentRunInProgressException(message: message)
         case "UnsupportedFeatureException":
             self = .unsupportedFeatureException(message: message)
         case "PreviewGenerationInProgressException":
             self = .previewGenerationInProgressException(message: message)
-        case "AgentsAlreadyRunningAssessmentException":
-            self = .agentsAlreadyRunningAssessmentException(message: message)
         default:
             return nil
         }

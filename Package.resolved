@@ -5,9 +5,9 @@
         "package": "AWSSDKSwiftCore",
         "repositoryURL": "https://github.com/swift-aws/aws-sdk-swift-core.git",
         "state": {
-          "branch": null,
-          "revision": "2cf186bb18742cb2869e2f08726372b5ac783f46",
-          "version": "2.0.0-rc.2"
+          "branch": "invokeAsync",
+          "revision": "0a7c79c1b8827964d0dd4adfa0bafa2c54771e14",
+          "version": null
         }
       },
       {
@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/apple/swift-nio.git",
         "state": {
           "branch": null,
-          "revision": "035962e6b6e03c8721a91a9b96dc084289795cb4",
-          "version": "1.11.0"
+          "revision": "a20e129c22ad00a51c902dca54a5456f90664780",
+          "version": "1.12.0"
         }
       },
       {
@@ -69,8 +69,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/SwiftyJSON.git",
         "state": {
           "branch": null,
-          "revision": "693d2d28fe2f91aedf02c3754baade625fd97c46",
-          "version": "17.0.2"
+          "revision": "f2612ea3ac29996ae9601bdcb00cc1c29e26f104",
+          "version": "17.0.4"
         }
       }
     ]

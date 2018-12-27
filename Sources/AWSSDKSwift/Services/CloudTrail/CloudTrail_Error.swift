@@ -6,10 +6,9 @@ import AWSSDKSwiftCore
 public enum CloudTrailErrorType: AWSErrorType {
     case trailNotFoundException(message: String?)
     case invalidTrailNameException(message: String?)
+    case invalidHomeRegionException(message: String?)
     case unsupportedOperationException(message: String?)
     case operationNotPermittedException(message: String?)
-    case invalidHomeRegionException(message: String?)
-    case invalidEventSelectorsException(message: String?)
     case notOrganizationMasterAccountException(message: String?)
     case insufficientDependencyServiceAccessPermissionException(message: String?)
     case s3BucketDoesNotExistException(message: String?)
@@ -34,15 +33,16 @@ public enum CloudTrailErrorType: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case cloudTrailARNInvalidException(message: String?)
     case resourceTypeNotSupportedException(message: String?)
-    case tagsLimitExceededException(message: String?)
-    case invalidTagParameterException(message: String?)
-    case invalidLookupAttributesException(message: String?)
+    case invalidTokenException(message: String?)
     case invalidTimeRangeException(message: String?)
-    case invalidMaxResultsException(message: String?)
-    case invalidNextTokenException(message: String?)
     case maximumNumberOfTrailsExceededException(message: String?)
     case trailAlreadyExistsException(message: String?)
-    case invalidTokenException(message: String?)
+    case tagsLimitExceededException(message: String?)
+    case invalidTagParameterException(message: String?)
+    case invalidEventSelectorsException(message: String?)
+    case invalidLookupAttributesException(message: String?)
+    case invalidMaxResultsException(message: String?)
+    case invalidNextTokenException(message: String?)
 }
 
 extension CloudTrailErrorType {
@@ -56,14 +56,12 @@ extension CloudTrailErrorType {
             self = .trailNotFoundException(message: message)
         case "InvalidTrailNameException":
             self = .invalidTrailNameException(message: message)
+        case "InvalidHomeRegionException":
+            self = .invalidHomeRegionException(message: message)
         case "UnsupportedOperationException":
             self = .unsupportedOperationException(message: message)
         case "OperationNotPermittedException":
             self = .operationNotPermittedException(message: message)
-        case "InvalidHomeRegionException":
-            self = .invalidHomeRegionException(message: message)
-        case "InvalidEventSelectorsException":
-            self = .invalidEventSelectorsException(message: message)
         case "NotOrganizationMasterAccountException":
             self = .notOrganizationMasterAccountException(message: message)
         case "InsufficientDependencyServiceAccessPermissionException":
@@ -112,24 +110,26 @@ extension CloudTrailErrorType {
             self = .cloudTrailARNInvalidException(message: message)
         case "ResourceTypeNotSupportedException":
             self = .resourceTypeNotSupportedException(message: message)
-        case "TagsLimitExceededException":
-            self = .tagsLimitExceededException(message: message)
-        case "InvalidTagParameterException":
-            self = .invalidTagParameterException(message: message)
-        case "InvalidLookupAttributesException":
-            self = .invalidLookupAttributesException(message: message)
+        case "InvalidTokenException":
+            self = .invalidTokenException(message: message)
         case "InvalidTimeRangeException":
             self = .invalidTimeRangeException(message: message)
-        case "InvalidMaxResultsException":
-            self = .invalidMaxResultsException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
         case "MaximumNumberOfTrailsExceededException":
             self = .maximumNumberOfTrailsExceededException(message: message)
         case "TrailAlreadyExistsException":
             self = .trailAlreadyExistsException(message: message)
-        case "InvalidTokenException":
-            self = .invalidTokenException(message: message)
+        case "TagsLimitExceededException":
+            self = .tagsLimitExceededException(message: message)
+        case "InvalidTagParameterException":
+            self = .invalidTagParameterException(message: message)
+        case "InvalidEventSelectorsException":
+            self = .invalidEventSelectorsException(message: message)
+        case "InvalidLookupAttributesException":
+            self = .invalidLookupAttributesException(message: message)
+        case "InvalidMaxResultsException":
+            self = .invalidMaxResultsException(message: message)
+        case "InvalidNextTokenException":
+            self = .invalidNextTokenException(message: message)
         default:
             return nil
         }

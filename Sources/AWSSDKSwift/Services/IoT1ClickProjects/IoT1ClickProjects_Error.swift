@@ -6,9 +6,9 @@ import AWSSDKSwiftCore
 public enum IoT1ClickProjectsErrorType: AWSErrorType {
     case internalFailureException(message: String?)
     case invalidRequestException(message: String?)
+    case resourceConflictException(message: String?)
     case resourceNotFoundException(message: String?)
     case tooManyRequestsException(message: String?)
-    case resourceConflictException(message: String?)
 }
 
 extension IoT1ClickProjectsErrorType {
@@ -22,12 +22,12 @@ extension IoT1ClickProjectsErrorType {
             self = .internalFailureException(message: message)
         case "InvalidRequestException":
             self = .invalidRequestException(message: message)
+        case "ResourceConflictException":
+            self = .resourceConflictException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
-        case "ResourceConflictException":
-            self = .resourceConflictException(message: message)
         default:
             return nil
         }

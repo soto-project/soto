@@ -7,14 +7,14 @@ public enum GlobalAcceleratorErrorType: AWSErrorType {
     case acceleratorNotFoundException(message: String?)
     case internalServiceErrorException(message: String?)
     case invalidArgumentException(message: String?)
-    case acceleratorNotDisabledException(message: String?)
-    case associatedListenerFoundException(message: String?)
-    case limitExceededException(message: String?)
     case endpointGroupNotFoundException(message: String?)
+    case endpointGroupAlreadyExistsException(message: String?)
     case listenerNotFoundException(message: String?)
+    case limitExceededException(message: String?)
     case invalidNextTokenException(message: String?)
     case invalidPortRangeException(message: String?)
-    case endpointGroupAlreadyExistsException(message: String?)
+    case acceleratorNotDisabledException(message: String?)
+    case associatedListenerFoundException(message: String?)
     case associatedEndpointGroupFoundException(message: String?)
 }
 
@@ -31,22 +31,22 @@ extension GlobalAcceleratorErrorType {
             self = .internalServiceErrorException(message: message)
         case "InvalidArgumentException":
             self = .invalidArgumentException(message: message)
-        case "AcceleratorNotDisabledException":
-            self = .acceleratorNotDisabledException(message: message)
-        case "AssociatedListenerFoundException":
-            self = .associatedListenerFoundException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
         case "EndpointGroupNotFoundException":
             self = .endpointGroupNotFoundException(message: message)
+        case "EndpointGroupAlreadyExistsException":
+            self = .endpointGroupAlreadyExistsException(message: message)
         case "ListenerNotFoundException":
             self = .listenerNotFoundException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         case "InvalidNextTokenException":
             self = .invalidNextTokenException(message: message)
         case "InvalidPortRangeException":
             self = .invalidPortRangeException(message: message)
-        case "EndpointGroupAlreadyExistsException":
-            self = .endpointGroupAlreadyExistsException(message: message)
+        case "AcceleratorNotDisabledException":
+            self = .acceleratorNotDisabledException(message: message)
+        case "AssociatedListenerFoundException":
+            self = .associatedListenerFoundException(message: message)
         case "AssociatedEndpointGroupFoundException":
             self = .associatedEndpointGroupFoundException(message: message)
         default:

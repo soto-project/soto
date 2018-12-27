@@ -5,10 +5,10 @@ import AWSSDKSwiftCore
 /// Error enum for Signer
 public enum SignerErrorType: AWSErrorType {
     case validationException(message: String?)
+    case resourceNotFoundException(message: String?)
     case accessDeniedException(message: String?)
     case throttlingException(message: String?)
     case internalServiceErrorException(message: String?)
-    case resourceNotFoundException(message: String?)
 }
 
 extension SignerErrorType {
@@ -20,14 +20,14 @@ extension SignerErrorType {
         switch errorCode {
         case "ValidationException":
             self = .validationException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "AccessDeniedException":
             self = .accessDeniedException(message: message)
         case "ThrottlingException":
             self = .throttlingException(message: message)
         case "InternalServiceErrorException":
             self = .internalServiceErrorException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
         default:
             return nil
         }

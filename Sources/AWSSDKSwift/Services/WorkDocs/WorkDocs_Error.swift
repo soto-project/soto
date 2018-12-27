@@ -4,31 +4,31 @@ import AWSSDKSwiftCore
 
 /// Error enum for WorkDocs
 public enum WorkDocsErrorType: AWSErrorType {
+    case entityNotExistsException(message: String?)
     case unauthorizedOperationException(message: String?)
     case unauthorizedResourceAccessException(message: String?)
-    case invalidArgumentException(message: String?)
     case failedDependencyException(message: String?)
     case serviceUnavailableException(message: String?)
-    case entityNotExistsException(message: String?)
     case prohibitedStateException(message: String?)
-    case conflictingOperationException(message: String?)
-    case concurrentModificationException(message: String?)
-    case entityAlreadyExistsException(message: String?)
-    case limitExceededException(message: String?)
-    case tooManyLabelsException(message: String?)
-    case invalidOperationException(message: String?)
-    case requestedEntityTooLargeException(message: String?)
-    case invalidPasswordException(message: String?)
     case documentLockedForCommentsException(message: String?)
     case invalidCommentOperationException(message: String?)
+    case invalidArgumentException(message: String?)
+    case conflictingOperationException(message: String?)
+    case concurrentModificationException(message: String?)
     case customMetadataLimitExceededException(message: String?)
-    case tooManySubscriptionsException(message: String?)
+    case entityAlreadyExistsException(message: String?)
+    case limitExceededException(message: String?)
+    case invalidOperationException(message: String?)
     case storageLimitExceededException(message: String?)
     case storageLimitWillExceedException(message: String?)
     case draftUploadOutOfSyncException(message: String?)
     case resourceAlreadyCheckedOutException(message: String?)
+    case invalidPasswordException(message: String?)
     case illegalUserStateException(message: String?)
     case deactivatingLastSystemUserException(message: String?)
+    case requestedEntityTooLargeException(message: String?)
+    case tooManySubscriptionsException(message: String?)
+    case tooManyLabelsException(message: String?)
 }
 
 extension WorkDocsErrorType {
@@ -38,44 +38,36 @@ extension WorkDocsErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "EntityNotExistsException":
+            self = .entityNotExistsException(message: message)
         case "UnauthorizedOperationException":
             self = .unauthorizedOperationException(message: message)
         case "UnauthorizedResourceAccessException":
             self = .unauthorizedResourceAccessException(message: message)
-        case "InvalidArgumentException":
-            self = .invalidArgumentException(message: message)
         case "FailedDependencyException":
             self = .failedDependencyException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
-        case "EntityNotExistsException":
-            self = .entityNotExistsException(message: message)
         case "ProhibitedStateException":
             self = .prohibitedStateException(message: message)
-        case "ConflictingOperationException":
-            self = .conflictingOperationException(message: message)
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "EntityAlreadyExistsException":
-            self = .entityAlreadyExistsException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "TooManyLabelsException":
-            self = .tooManyLabelsException(message: message)
-        case "InvalidOperationException":
-            self = .invalidOperationException(message: message)
-        case "RequestedEntityTooLargeException":
-            self = .requestedEntityTooLargeException(message: message)
-        case "InvalidPasswordException":
-            self = .invalidPasswordException(message: message)
         case "DocumentLockedForCommentsException":
             self = .documentLockedForCommentsException(message: message)
         case "InvalidCommentOperationException":
             self = .invalidCommentOperationException(message: message)
+        case "InvalidArgumentException":
+            self = .invalidArgumentException(message: message)
+        case "ConflictingOperationException":
+            self = .conflictingOperationException(message: message)
+        case "ConcurrentModificationException":
+            self = .concurrentModificationException(message: message)
         case "CustomMetadataLimitExceededException":
             self = .customMetadataLimitExceededException(message: message)
-        case "TooManySubscriptionsException":
-            self = .tooManySubscriptionsException(message: message)
+        case "EntityAlreadyExistsException":
+            self = .entityAlreadyExistsException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "InvalidOperationException":
+            self = .invalidOperationException(message: message)
         case "StorageLimitExceededException":
             self = .storageLimitExceededException(message: message)
         case "StorageLimitWillExceedException":
@@ -84,10 +76,18 @@ extension WorkDocsErrorType {
             self = .draftUploadOutOfSyncException(message: message)
         case "ResourceAlreadyCheckedOutException":
             self = .resourceAlreadyCheckedOutException(message: message)
+        case "InvalidPasswordException":
+            self = .invalidPasswordException(message: message)
         case "IllegalUserStateException":
             self = .illegalUserStateException(message: message)
         case "DeactivatingLastSystemUserException":
             self = .deactivatingLastSystemUserException(message: message)
+        case "RequestedEntityTooLargeException":
+            self = .requestedEntityTooLargeException(message: message)
+        case "TooManySubscriptionsException":
+            self = .tooManySubscriptionsException(message: message)
+        case "TooManyLabelsException":
+            self = .tooManyLabelsException(message: message)
         default:
             return nil
         }

@@ -4,20 +4,20 @@ import AWSSDKSwiftCore
 
 /// Error enum for WorkMail
 public enum WorkMailErrorType: AWSErrorType {
+    case entityNotFoundException(message: String?)
+    case entityStateException(message: String?)
     case invalidParameterException(message: String?)
     case organizationNotFoundException(message: String?)
     case organizationStateException(message: String?)
+    case directoryServiceAuthenticationFailedException(message: String?)
     case directoryUnavailableException(message: String?)
-    case entityNotFoundException(message: String?)
-    case entityStateException(message: String?)
+    case nameAvailabilityException(message: String?)
+    case reservedNameException(message: String?)
+    case unsupportedOperationException(message: String?)
     case invalidConfigurationException(message: String?)
     case emailAddressInUseException(message: String?)
     case mailDomainNotFoundException(message: String?)
     case mailDomainStateException(message: String?)
-    case nameAvailabilityException(message: String?)
-    case directoryServiceAuthenticationFailedException(message: String?)
-    case reservedNameException(message: String?)
-    case unsupportedOperationException(message: String?)
     case entityAlreadyRegisteredException(message: String?)
     case invalidPasswordException(message: String?)
 }
@@ -29,18 +29,26 @@ extension WorkMailErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "EntityNotFoundException":
+            self = .entityNotFoundException(message: message)
+        case "EntityStateException":
+            self = .entityStateException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
         case "OrganizationNotFoundException":
             self = .organizationNotFoundException(message: message)
         case "OrganizationStateException":
             self = .organizationStateException(message: message)
+        case "DirectoryServiceAuthenticationFailedException":
+            self = .directoryServiceAuthenticationFailedException(message: message)
         case "DirectoryUnavailableException":
             self = .directoryUnavailableException(message: message)
-        case "EntityNotFoundException":
-            self = .entityNotFoundException(message: message)
-        case "EntityStateException":
-            self = .entityStateException(message: message)
+        case "NameAvailabilityException":
+            self = .nameAvailabilityException(message: message)
+        case "ReservedNameException":
+            self = .reservedNameException(message: message)
+        case "UnsupportedOperationException":
+            self = .unsupportedOperationException(message: message)
         case "InvalidConfigurationException":
             self = .invalidConfigurationException(message: message)
         case "EmailAddressInUseException":
@@ -49,14 +57,6 @@ extension WorkMailErrorType {
             self = .mailDomainNotFoundException(message: message)
         case "MailDomainStateException":
             self = .mailDomainStateException(message: message)
-        case "NameAvailabilityException":
-            self = .nameAvailabilityException(message: message)
-        case "DirectoryServiceAuthenticationFailedException":
-            self = .directoryServiceAuthenticationFailedException(message: message)
-        case "ReservedNameException":
-            self = .reservedNameException(message: message)
-        case "UnsupportedOperationException":
-            self = .unsupportedOperationException(message: message)
         case "EntityAlreadyRegisteredException":
             self = .entityAlreadyRegisteredException(message: message)
         case "InvalidPasswordException":

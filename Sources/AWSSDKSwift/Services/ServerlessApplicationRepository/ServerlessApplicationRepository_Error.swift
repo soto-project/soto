@@ -4,11 +4,11 @@ import AWSSDKSwiftCore
 
 /// Error enum for ServerlessApplicationRepository
 public enum ServerlessApplicationRepositoryErrorType: AWSErrorType {
-    case notFoundException(message: String?)
-    case tooManyRequestsException(message: String?)
     case badRequestException(message: String?)
     case internalServerErrorException(message: String?)
     case forbiddenException(message: String?)
+    case notFoundException(message: String?)
+    case tooManyRequestsException(message: String?)
     case conflictException(message: String?)
 }
 
@@ -19,16 +19,16 @@ extension ServerlessApplicationRepositoryErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
         case "BadRequestException":
             self = .badRequestException(message: message)
         case "InternalServerErrorException":
             self = .internalServerErrorException(message: message)
         case "ForbiddenException":
             self = .forbiddenException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
+        case "TooManyRequestsException":
+            self = .tooManyRequestsException(message: message)
         case "ConflictException":
             self = .conflictException(message: message)
         default:

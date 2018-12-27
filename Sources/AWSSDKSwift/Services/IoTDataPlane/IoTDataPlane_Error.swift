@@ -8,12 +8,12 @@ public enum IoTDataPlaneErrorType: AWSErrorType {
     case invalidRequestException(message: String?)
     case unauthorizedException(message: String?)
     case methodNotAllowedException(message: String?)
-    case resourceNotFoundException(message: String?)
+    case conflictException(message: String?)
+    case requestEntityTooLargeException(message: String?)
     case throttlingException(message: String?)
     case serviceUnavailableException(message: String?)
     case unsupportedDocumentEncodingException(message: String?)
-    case conflictException(message: String?)
-    case requestEntityTooLargeException(message: String?)
+    case resourceNotFoundException(message: String?)
 }
 
 extension IoTDataPlaneErrorType {
@@ -31,18 +31,18 @@ extension IoTDataPlaneErrorType {
             self = .unauthorizedException(message: message)
         case "MethodNotAllowedException":
             self = .methodNotAllowedException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
+        case "ConflictException":
+            self = .conflictException(message: message)
+        case "RequestEntityTooLargeException":
+            self = .requestEntityTooLargeException(message: message)
         case "ThrottlingException":
             self = .throttlingException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
         case "UnsupportedDocumentEncodingException":
             self = .unsupportedDocumentEncodingException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "RequestEntityTooLargeException":
-            self = .requestEntityTooLargeException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         default:
             return nil
         }

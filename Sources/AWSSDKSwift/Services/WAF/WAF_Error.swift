@@ -7,17 +7,17 @@ public enum WAFErrorType: AWSErrorType {
     case wAFInternalErrorException(message: String?)
     case wAFInvalidAccountException(message: String?)
     case wAFNonexistentItemException(message: String?)
-    case wAFStaleDataException(message: String?)
-    case wAFDisallowedNameException(message: String?)
     case wAFInvalidParameterException(message: String?)
-    case wAFLimitsExceededException(message: String?)
     case wAFReferencedItemException(message: String?)
+    case wAFStaleDataException(message: String?)
     case wAFNonEmptyEntityException(message: String?)
+    case wAFDisallowedNameException(message: String?)
+    case wAFLimitsExceededException(message: String?)
     case wAFInvalidOperationException(message: String?)
     case wAFNonexistentContainerException(message: String?)
     case wAFSubscriptionNotFoundException(message: String?)
-    case wAFInvalidRegexPatternException(message: String?)
     case wAFInvalidPermissionPolicyException(message: String?)
+    case wAFInvalidRegexPatternException(message: String?)
 }
 
 extension WAFErrorType {
@@ -33,28 +33,28 @@ extension WAFErrorType {
             self = .wAFInvalidAccountException(message: message)
         case "WAFNonexistentItemException":
             self = .wAFNonexistentItemException(message: message)
-        case "WAFStaleDataException":
-            self = .wAFStaleDataException(message: message)
-        case "WAFDisallowedNameException":
-            self = .wAFDisallowedNameException(message: message)
         case "WAFInvalidParameterException":
             self = .wAFInvalidParameterException(message: message)
-        case "WAFLimitsExceededException":
-            self = .wAFLimitsExceededException(message: message)
         case "WAFReferencedItemException":
             self = .wAFReferencedItemException(message: message)
+        case "WAFStaleDataException":
+            self = .wAFStaleDataException(message: message)
         case "WAFNonEmptyEntityException":
             self = .wAFNonEmptyEntityException(message: message)
+        case "WAFDisallowedNameException":
+            self = .wAFDisallowedNameException(message: message)
+        case "WAFLimitsExceededException":
+            self = .wAFLimitsExceededException(message: message)
         case "WAFInvalidOperationException":
             self = .wAFInvalidOperationException(message: message)
         case "WAFNonexistentContainerException":
             self = .wAFNonexistentContainerException(message: message)
         case "WAFSubscriptionNotFoundException":
             self = .wAFSubscriptionNotFoundException(message: message)
-        case "WAFInvalidRegexPatternException":
-            self = .wAFInvalidRegexPatternException(message: message)
         case "WAFInvalidPermissionPolicyException":
             self = .wAFInvalidPermissionPolicyException(message: message)
+        case "WAFInvalidRegexPatternException":
+            self = .wAFInvalidRegexPatternException(message: message)
         default:
             return nil
         }

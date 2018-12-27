@@ -5,28 +5,28 @@ import AWSSDKSwiftCore
 /// Error enum for DirectoryService
 public enum DirectoryServiceErrorType: AWSErrorType {
     case entityDoesNotExistException(message: String?)
-    case directoryUnavailableException(message: String?)
     case invalidParameterException(message: String?)
-    case unsupportedOperationException(message: String?)
     case clientException(message: String?)
     case serviceException(message: String?)
     case invalidNextTokenException(message: String?)
     case entityAlreadyExistsException(message: String?)
-    case tagLimitExceededException(message: String?)
+    case unsupportedOperationException(message: String?)
+    case directoryLimitExceededException(message: String?)
+    case directoryUnavailableException(message: String?)
     case invalidTargetException(message: String?)
     case directoryNotSharedException(message: String?)
+    case directoryAlreadySharedException(message: String?)
     case ipRouteLimitExceededException(message: String?)
-    case snapshotLimitExceededException(message: String?)
     case insufficientPermissionsException(message: String?)
     case authenticationFailedException(message: String?)
     case userDoesNotExistException(message: String?)
     case invalidPasswordException(message: String?)
-    case directoryAlreadySharedException(message: String?)
+    case domainControllerLimitExceededException(message: String?)
     case shareLimitExceededException(message: String?)
     case organizationsException(message: String?)
     case accessDeniedException(message: String?)
-    case directoryLimitExceededException(message: String?)
-    case domainControllerLimitExceededException(message: String?)
+    case snapshotLimitExceededException(message: String?)
+    case tagLimitExceededException(message: String?)
 }
 
 extension DirectoryServiceErrorType {
@@ -38,12 +38,8 @@ extension DirectoryServiceErrorType {
         switch errorCode {
         case "EntityDoesNotExistException":
             self = .entityDoesNotExistException(message: message)
-        case "DirectoryUnavailableException":
-            self = .directoryUnavailableException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
-        case "UnsupportedOperationException":
-            self = .unsupportedOperationException(message: message)
         case "ClientException":
             self = .clientException(message: message)
         case "ServiceException":
@@ -52,16 +48,20 @@ extension DirectoryServiceErrorType {
             self = .invalidNextTokenException(message: message)
         case "EntityAlreadyExistsException":
             self = .entityAlreadyExistsException(message: message)
-        case "TagLimitExceededException":
-            self = .tagLimitExceededException(message: message)
+        case "UnsupportedOperationException":
+            self = .unsupportedOperationException(message: message)
+        case "DirectoryLimitExceededException":
+            self = .directoryLimitExceededException(message: message)
+        case "DirectoryUnavailableException":
+            self = .directoryUnavailableException(message: message)
         case "InvalidTargetException":
             self = .invalidTargetException(message: message)
         case "DirectoryNotSharedException":
             self = .directoryNotSharedException(message: message)
+        case "DirectoryAlreadySharedException":
+            self = .directoryAlreadySharedException(message: message)
         case "IpRouteLimitExceededException":
             self = .ipRouteLimitExceededException(message: message)
-        case "SnapshotLimitExceededException":
-            self = .snapshotLimitExceededException(message: message)
         case "InsufficientPermissionsException":
             self = .insufficientPermissionsException(message: message)
         case "AuthenticationFailedException":
@@ -70,18 +70,18 @@ extension DirectoryServiceErrorType {
             self = .userDoesNotExistException(message: message)
         case "InvalidPasswordException":
             self = .invalidPasswordException(message: message)
-        case "DirectoryAlreadySharedException":
-            self = .directoryAlreadySharedException(message: message)
+        case "DomainControllerLimitExceededException":
+            self = .domainControllerLimitExceededException(message: message)
         case "ShareLimitExceededException":
             self = .shareLimitExceededException(message: message)
         case "OrganizationsException":
             self = .organizationsException(message: message)
         case "AccessDeniedException":
             self = .accessDeniedException(message: message)
-        case "DirectoryLimitExceededException":
-            self = .directoryLimitExceededException(message: message)
-        case "DomainControllerLimitExceededException":
-            self = .domainControllerLimitExceededException(message: message)
+        case "SnapshotLimitExceededException":
+            self = .snapshotLimitExceededException(message: message)
+        case "TagLimitExceededException":
+            self = .tagLimitExceededException(message: message)
         default:
             return nil
         }

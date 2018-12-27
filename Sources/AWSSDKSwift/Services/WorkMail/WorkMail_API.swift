@@ -2,6 +2,7 @@
 
 import Foundation
 import AWSSDKSwiftCore
+import NIO
 
 /**
 Amazon WorkMail is a secure, managed business email and calendaring service with support for existing desktop and mobile email clients. You can access your email, contacts, and calendars using Microsoft Outlook, your browser, or their native iOS and Android email applications. You can integrate Amazon WorkMail with your existing corporate directory and control both the keys that encrypt your data and the location in which your data is stored. The Amazon WorkMail API is designed for the following scenarios:   Listing and describing organizations     Managing users     Managing groups     Managing resources   All Amazon WorkMail API actions are Amazon-authenticated and certificate-signed. They not only require the use of the AWS SDK, but also allow for the exclusive use of IAM users and roles to help facilitate access, trust, and permission policies. By creating a role and allowing an IAM user to access the Amazon WorkMail site, the IAM user gains full administrative visibility into the entire Amazon WorkMail organization (or as set in the IAM policy). This includes, but is not limited to, the ability to create, update, and delete users, groups, and resources. This allows developers to perform the scenarios listed above, as well as give users the ability to grant access on a selective basis using the IAM model.
@@ -25,159 +26,159 @@ public struct WorkMail {
         )
     }
 
-    ///  Provides more information regarding a given organization based on its identifier.
-    public func describeOrganization(_ input: DescribeOrganizationRequest) throws -> DescribeOrganizationResponse {
-        return try client.send(operation: "DescribeOrganization", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns summaries of the organization's resources.
-    public func listResources(_ input: ListResourcesRequest) throws -> ListResourcesResponse {
-        return try client.send(operation: "ListResources", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates data for the resource. It must be preceded by a describe call in order to have the latest information. The dataset in the request should be the one expected when performing another describe call.
-    public func updateResource(_ input: UpdateResourceRequest) throws -> UpdateResourceResponse {
-        return try client.send(operation: "UpdateResource", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists the delegates associated with a resource. Users and groups can be resource delegates and answer requests on behalf of the resource.
-    public func listResourceDelegates(_ input: ListResourceDelegatesRequest) throws -> ListResourceDelegatesResponse {
-        return try client.send(operation: "ListResourceDelegates", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a group that can be used in Amazon WorkMail by calling the RegisterToWorkMail operation.
-    public func createGroup(_ input: CreateGroupRequest) throws -> CreateGroupResponse {
-        return try client.send(operation: "CreateGroup", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns summaries of the organization's users.
-    public func listUsers(_ input: ListUsersRequest) throws -> ListUsersResponse {
-        return try client.send(operation: "ListUsers", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Registers an existing and disabled user, group, or resource/entity for Amazon WorkMail use by associating a mailbox and calendaring capabilities. It performs no change if the entity is enabled and fails if the entity is deleted. This operation results in the accumulation of costs. For more information, see Pricing. The equivalent console functionality for this operation is Enable. Users can either be created by calling the CreateUser API or they can be synchronized from your directory. For more information, see DeregisterFromWorkMail.
-    public func registerToWorkMail(_ input: RegisterToWorkMailRequest) throws -> RegisterToWorkMailResponse {
-        return try client.send(operation: "RegisterToWorkMail", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a new Amazon WorkMail resource. The available types are equipment and room.
-    public func createResource(_ input: CreateResourceRequest) throws -> CreateResourceResponse {
-        return try client.send(operation: "CreateResource", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Adds an alias to the set of a given member of Amazon WorkMail.
-    public func createAlias(_ input: CreateAliasRequest) throws -> CreateAliasResponse {
-        return try client.send(operation: "CreateAlias", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns an overview of the members of a group.
-    public func listGroupMembers(_ input: ListGroupMembersRequest) throws -> ListGroupMembersResponse {
-        return try client.send(operation: "ListGroupMembers", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Adds a member to the group's set.
-    public func associateMemberToGroup(_ input: AssociateMemberToGroupRequest) throws -> AssociateMemberToGroupResponse {
-        return try client.send(operation: "AssociateMemberToGroup", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns summaries of the organization's groups.
-    public func listGroups(_ input: ListGroupsRequest) throws -> ListGroupsResponse {
-        return try client.send(operation: "ListGroups", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Deletes permissions granted to a user or group.
-    public func deleteMailboxPermissions(_ input: DeleteMailboxPermissionsRequest) throws -> DeleteMailboxPermissionsResponse {
+    public func deleteMailboxPermissions(_ input: DeleteMailboxPermissionsRequest) throws -> EventLoopFuture<DeleteMailboxPermissionsResponse> {
         return try client.send(operation: "DeleteMailboxPermissions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sets permissions for a user or group. This replaces any pre-existing permissions set for the entity.
-    public func putMailboxPermissions(_ input: PutMailboxPermissionsRequest) throws -> PutMailboxPermissionsResponse {
-        return try client.send(operation: "PutMailboxPermissions", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Adds a member to the resource's set of delegates.
-    public func associateDelegateToResource(_ input: AssociateDelegateToResourceRequest) throws -> AssociateDelegateToResourceResponse {
-        return try client.send(operation: "AssociateDelegateToResource", path: "/", httpMethod: "POST", input: input)
+    ///  Returns summaries of the organization's groups.
+    public func listGroups(_ input: ListGroupsRequest) throws -> EventLoopFuture<ListGroupsResponse> {
+        return try client.send(operation: "ListGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes a member from the resource's set of delegates.
-    public func disassociateDelegateFromResource(_ input: DisassociateDelegateFromResourceRequest) throws -> DisassociateDelegateFromResourceResponse {
+    public func disassociateDelegateFromResource(_ input: DisassociateDelegateFromResourceRequest) throws -> EventLoopFuture<DisassociateDelegateFromResourceResponse> {
         return try client.send(operation: "DisassociateDelegateFromResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a user who can be used in Amazon WorkMail by calling the RegisterToWorkMail operation.
-    public func createUser(_ input: CreateUserRequest) throws -> CreateUserResponse {
-        return try client.send(operation: "CreateUser", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Returns the data available for the resource.
-    public func describeResource(_ input: DescribeResourceRequest) throws -> DescribeResourceResponse {
+    public func describeResource(_ input: DescribeResourceRequest) throws -> EventLoopFuture<DescribeResourceResponse> {
         return try client.send(operation: "DescribeResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Allows the administrator to reset the password for a user.
-    public func resetPassword(_ input: ResetPasswordRequest) throws -> ResetPasswordResponse {
-        return try client.send(operation: "ResetPassword", path: "/", httpMethod: "POST", input: input)
+    ///  Returns summaries of the organization's users.
+    public func listUsers(_ input: ListUsersRequest) throws -> EventLoopFuture<ListUsersResponse> {
+        return try client.send(operation: "ListUsers", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a group that can be used in Amazon WorkMail by calling the RegisterToWorkMail operation.
+    public func createGroup(_ input: CreateGroupRequest) throws -> EventLoopFuture<CreateGroupResponse> {
+        return try client.send(operation: "CreateGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Provides information regarding the user.
-    public func describeUser(_ input: DescribeUserRequest) throws -> DescribeUserResponse {
+    public func describeUser(_ input: DescribeUserRequest) throws -> EventLoopFuture<DescribeUserResponse> {
         return try client.send(operation: "DescribeUser", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified resource. 
-    public func deleteResource(_ input: DeleteResourceRequest) throws -> DeleteResourceResponse {
-        return try client.send(operation: "DeleteResource", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates the primary email for an entity. The current email is moved into the list of aliases (or swapped between an existing alias and the current primary email) and the email provided in the input is promoted as the primary.
-    public func updatePrimaryEmailAddress(_ input: UpdatePrimaryEmailAddressRequest) throws -> UpdatePrimaryEmailAddressResponse {
-        return try client.send(operation: "UpdatePrimaryEmailAddress", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Mark a user, group, or resource as no longer used in Amazon WorkMail. This action disassociates the mailbox and schedules it for clean-up. Amazon WorkMail keeps mailboxes for 30 days before they are permanently removed. The functionality in the console is Disable.
-    public func deregisterFromWorkMail(_ input: DeregisterFromWorkMailRequest) throws -> DeregisterFromWorkMailResponse {
-        return try client.send(operation: "DeregisterFromWorkMail", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns summaries of the customer's non-deleted organizations.
-    public func listOrganizations(_ input: ListOrganizationsRequest) throws -> ListOrganizationsResponse {
-        return try client.send(operation: "ListOrganizations", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a paginated call to list the aliases associated with a given entity.
-    public func listAliases(_ input: ListAliasesRequest) throws -> ListAliasesResponse {
-        return try client.send(operation: "ListAliases", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists the mailbox permissions associated with a mailbox.
-    public func listMailboxPermissions(_ input: ListMailboxPermissionsRequest) throws -> ListMailboxPermissionsResponse {
-        return try client.send(operation: "ListMailboxPermissions", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Removes a member from a group.
-    public func disassociateMemberFromGroup(_ input: DisassociateMemberFromGroupRequest) throws -> DisassociateMemberFromGroupResponse {
-        return try client.send(operation: "DisassociateMemberFromGroup", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a group from Amazon WorkMail.
-    public func deleteGroup(_ input: DeleteGroupRequest) throws -> DeleteGroupResponse {
-        return try client.send(operation: "DeleteGroup", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Remove the alias from a set of aliases for a given user.
-    public func deleteAlias(_ input: DeleteAliasRequest) throws -> DeleteAliasResponse {
+    public func deleteAlias(_ input: DeleteAliasRequest) throws -> EventLoopFuture<DeleteAliasResponse> {
         return try client.send(operation: "DeleteAlias", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the specified resource. 
+    public func deleteResource(_ input: DeleteResourceRequest) throws -> EventLoopFuture<DeleteResourceResponse> {
+        return try client.send(operation: "DeleteResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates data for the resource. It must be preceded by a describe call in order to have the latest information. The dataset in the request should be the one expected when performing another describe call.
+    public func updateResource(_ input: UpdateResourceRequest) throws -> EventLoopFuture<UpdateResourceResponse> {
+        return try client.send(operation: "UpdateResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds a member to the resource's set of delegates.
+    public func associateDelegateToResource(_ input: AssociateDelegateToResourceRequest) throws -> EventLoopFuture<AssociateDelegateToResourceResponse> {
+        return try client.send(operation: "AssociateDelegateToResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds an alias to the set of a given member of Amazon WorkMail.
+    public func createAlias(_ input: CreateAliasRequest) throws -> EventLoopFuture<CreateAliasResponse> {
+        return try client.send(operation: "CreateAlias", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a group from Amazon WorkMail.
+    public func deleteGroup(_ input: DeleteGroupRequest) throws -> EventLoopFuture<DeleteGroupResponse> {
+        return try client.send(operation: "DeleteGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a new Amazon WorkMail resource. The available types are equipment and room.
+    public func createResource(_ input: CreateResourceRequest) throws -> EventLoopFuture<CreateResourceResponse> {
+        return try client.send(operation: "CreateResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns summaries of the customer's non-deleted organizations.
+    public func listOrganizations(_ input: ListOrganizationsRequest) throws -> EventLoopFuture<ListOrganizationsResponse> {
+        return try client.send(operation: "ListOrganizations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds a member to the group's set.
+    public func associateMemberToGroup(_ input: AssociateMemberToGroupRequest) throws -> EventLoopFuture<AssociateMemberToGroupResponse> {
+        return try client.send(operation: "AssociateMemberToGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Registers an existing and disabled user, group, or resource/entity for Amazon WorkMail use by associating a mailbox and calendaring capabilities. It performs no change if the entity is enabled and fails if the entity is deleted. This operation results in the accumulation of costs. For more information, see Pricing. The equivalent console functionality for this operation is Enable. Users can either be created by calling the CreateUser API or they can be synchronized from your directory. For more information, see DeregisterFromWorkMail.
+    public func registerToWorkMail(_ input: RegisterToWorkMailRequest) throws -> EventLoopFuture<RegisterToWorkMailResponse> {
+        return try client.send(operation: "RegisterToWorkMail", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Provides more information regarding a given organization based on its identifier.
+    public func describeOrganization(_ input: DescribeOrganizationRequest) throws -> EventLoopFuture<DescribeOrganizationResponse> {
+        return try client.send(operation: "DescribeOrganization", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Sets permissions for a user or group. This replaces any pre-existing permissions set for the entity.
+    public func putMailboxPermissions(_ input: PutMailboxPermissionsRequest) throws -> EventLoopFuture<PutMailboxPermissionsResponse> {
+        return try client.send(operation: "PutMailboxPermissions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the mailbox permissions associated with a mailbox.
+    public func listMailboxPermissions(_ input: ListMailboxPermissionsRequest) throws -> EventLoopFuture<ListMailboxPermissionsResponse> {
+        return try client.send(operation: "ListMailboxPermissions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the primary email for an entity. The current email is moved into the list of aliases (or swapped between an existing alias and the current primary email) and the email provided in the input is promoted as the primary.
+    public func updatePrimaryEmailAddress(_ input: UpdatePrimaryEmailAddressRequest) throws -> EventLoopFuture<UpdatePrimaryEmailAddressResponse> {
+        return try client.send(operation: "UpdatePrimaryEmailAddress", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes a member from a group.
+    public func disassociateMemberFromGroup(_ input: DisassociateMemberFromGroupRequest) throws -> EventLoopFuture<DisassociateMemberFromGroupResponse> {
+        return try client.send(operation: "DisassociateMemberFromGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a user who can be used in Amazon WorkMail by calling the RegisterToWorkMail operation.
+    public func createUser(_ input: CreateUserRequest) throws -> EventLoopFuture<CreateUserResponse> {
+        return try client.send(operation: "CreateUser", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the delegates associated with a resource. Users and groups can be resource delegates and answer requests on behalf of the resource.
+    public func listResourceDelegates(_ input: ListResourceDelegatesRequest) throws -> EventLoopFuture<ListResourceDelegatesResponse> {
+        return try client.send(operation: "ListResourceDelegates", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Allows the administrator to reset the password for a user.
+    public func resetPassword(_ input: ResetPasswordRequest) throws -> EventLoopFuture<ResetPasswordResponse> {
+        return try client.send(operation: "ResetPassword", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes a user from Amazon WorkMail and all subsequent systems. The action can't be undone. The mailbox is kept as-is for a minimum of 30 days, without any means to restore it. 
-    public func deleteUser(_ input: DeleteUserRequest) throws -> DeleteUserResponse {
+    public func deleteUser(_ input: DeleteUserRequest) throws -> EventLoopFuture<DeleteUserResponse> {
         return try client.send(operation: "DeleteUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the data available for the group.
-    public func describeGroup(_ input: DescribeGroupRequest) throws -> DescribeGroupResponse {
+    public func describeGroup(_ input: DescribeGroupRequest) throws -> EventLoopFuture<DescribeGroupResponse> {
         return try client.send(operation: "DescribeGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a paginated call to list the aliases associated with a given entity.
+    public func listAliases(_ input: ListAliasesRequest) throws -> EventLoopFuture<ListAliasesResponse> {
+        return try client.send(operation: "ListAliases", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns an overview of the members of a group.
+    public func listGroupMembers(_ input: ListGroupMembersRequest) throws -> EventLoopFuture<ListGroupMembersResponse> {
+        return try client.send(operation: "ListGroupMembers", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns summaries of the organization's resources.
+    public func listResources(_ input: ListResourcesRequest) throws -> EventLoopFuture<ListResourcesResponse> {
+        return try client.send(operation: "ListResources", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Mark a user, group, or resource as no longer used in Amazon WorkMail. This action disassociates the mailbox and schedules it for clean-up. Amazon WorkMail keeps mailboxes for 30 days before they are permanently removed. The functionality in the console is Disable.
+    public func deregisterFromWorkMail(_ input: DeregisterFromWorkMailRequest) throws -> EventLoopFuture<DeregisterFromWorkMailResponse> {
+        return try client.send(operation: "DeregisterFromWorkMail", path: "/", httpMethod: "POST", input: input)
     }
 
 
